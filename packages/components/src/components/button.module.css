@@ -1,0 +1,108 @@
+@reference "tailwindcss";
+
+@layer components {
+  .button {
+    --background: var(--accent-500);
+    --foreground: var(--accent-50);
+    --border: var(--accent-500);
+    --background-hover: var(--accent-600);
+    --border-hover: var(--accent-600);
+    --background-active: var(--accent-700);
+    --border-active: var(--accent-700);
+
+    @apply px-3 py-1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    user-select: none;
+    cursor: pointer;
+    background-color: var(--background);
+    color: var(--foreground);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-md);
+
+    &:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background-color: var(--background-hover);
+        border-color: var(--border-hover);
+      }
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--background-active);
+      border-color: var(--border-active);
+    }
+  }
+}
+
+/* Variants - only set CSS custom properties, not direct properties */
+
+.button.primary {
+  --background: var(--accent-500);
+  --foreground: var(--accent-50);
+  --border: var(--accent-500);
+  --background-hover: var(--accent-600);
+  --border-hover: var(--accent-600);
+  --background-active: var(--accent-700);
+  --border-active: var(--accent-700);
+}
+
+.button.secondary {
+  --background: var(--background-800);
+  --foreground: var(--foreground-50);
+  --border: var(--background-700);
+  --background-hover: var(--background-700);
+  --border-hover: var(--background-700);
+  --background-active: var(--background-600);
+  --border-active: var(--background-600);
+}
+
+.outline {
+  --background: transparent;
+  --foreground: var(--foreground-50);
+  --border: var(--background-700);
+  --background-hover: var(--background-800);
+  --border-hover: var(--background-700);
+  --background-active: var(--background-700);
+  --border-active: var(--background-600);
+}
+
+.button.ghost {
+  --background: transparent;
+  --foreground: var(--foreground-50);
+  --border: transparent;
+  --background-hover: var(--background-800);
+  --border-hover: transparent;
+  --background-active: var(--background-700);
+  --border-active: transparent;
+}
+
+/* Sizes */
+.button.sm {
+  @apply px-2.5 py-1 text-sm;
+  font-size: var(--text-sm);
+}
+
+.button.md {
+  @apply px-3 py-1.5;
+  font-size: var(--text-base);
+}
+
+.button.lg {
+  @apply px-4 py-2 text-lg;
+  font-size: var(--text-lg);
+}
