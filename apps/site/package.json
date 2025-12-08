@@ -1,0 +1,52 @@
+{
+  "name": "@ui-lab/site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "gen:highlights": "node scripts/generate-code-highlights.mjs",
+    "dev": "next dev",
+    "build": "pnpm gen:highlights && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/karla": "^5.2.8",
+    "@fontsource/geist-mono": "^5.2.7",
+    "@fontsource/geist-sans": "^5.2.5",
+    "@fontsource/karla": "^5.2.8",
+    "@gsap/react": "^2.1.2",
+    "@radix-ui/react-context-menu": "^2.2.16",
+    "@radix-ui/react-id": "^1.1.1",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slider": "^1.3.6",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@ui-lab/components": "file:.yalc/@ui-lab/components",
+    "@ui-lab/registry": "file:.yalc/@ui-lab/registry",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "gsap": "^3.12.2",
+    "iconify-icon": "^2.1.0",
+    "lucide-react": "^0.555.0",
+    "next": "16.0.8",
+    "prettier": "^3.7.3",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "react-icons": "^5.5.0",
+    "shiki": "^3.17.1",
+    "use-debounce": "^10.0.6",
+    "zoom": "^0.0.3"
+  },
+  "devDependencies": {
+    "@iconify/react": "^6.0.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

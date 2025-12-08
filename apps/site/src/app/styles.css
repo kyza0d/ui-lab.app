@@ -1,0 +1,21 @@
+@reference "tailwindcss";
+
+.button.primary {
+  /* --background: red */
+}
+
+/* .button.destructive { */
+/*   --background: var(--color-red-500); */
+/*   --foreground: white; */
+/*   --border: var(--color-red-500); */
+/*   --background-hover: var(--color-red-600); */
+/*   --background-active: var(--color-red-700); */
+/* } */
+
+.button.outline {
+  --background: blue;
+}
+
+.button.secondary {
+  --background: purple
+}
