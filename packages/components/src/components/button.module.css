@@ -49,8 +49,6 @@
   }
 }
 
-/* Variants - only set CSS custom properties, not direct properties */
-
 .button.primary {
   --background: var(--accent-500);
   --foreground: var(--accent-50);
@@ -91,7 +89,6 @@
   --border-active: transparent;
 }
 
-/* Sizes */
 .button.sm {
   @apply px-2.5 py-1 text-sm;
   font-size: var(--text-sm);
