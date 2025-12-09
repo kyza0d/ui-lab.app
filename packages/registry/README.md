@@ -1,4 +1,4 @@
-# @ui-lab/registry
+# ui-lab-registry
 
 A centralized, framework-agnostic component registry for the UI Lab ecosystem.
 
@@ -14,9 +14,9 @@ This package serves as the single source of truth for:
 ## Installation
 
 ```bash
-npm install @ui-lab/registry
+npm install ui-lab-registry
 # or
-pnpm add @ui-lab/registry
+pnpm add ui-lab-registry
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ import {
   getComponentById,
   getComponentsByCategory,
   categories
-} from '@ui-lab/registry';
+} from 'ui-lab-registry';
 
 // Get a single component
 const button = getComponentById('button');
@@ -50,7 +50,7 @@ import {
   getComponentsGroupedByCategory,
   getAllComponentIds,
   getComponentCount
-} from '@ui-lab/registry';
+} from 'ui-lab-registry';
 
 // Search components by name, description, or tags
 const results = searchComponents('button');
@@ -71,7 +71,7 @@ const count = getComponentCount(); // 23
 ### Starter Presets
 
 ```typescript
-import { starterPresets, getStarterComponents } from '@ui-lab/registry';
+import { starterPresets, getStarterComponents } from 'ui-lab-registry';
 
 // Get components for a specific starter template
 const nextComponents = getStarterComponents('next');
@@ -90,7 +90,7 @@ import type {
   ComponentSource,
   CategoryDefinition,
   StarterPreset
-} from '@ui-lab/registry';
+} from 'ui-lab-registry';
 
 function processComponent(comp: ComponentMetadata): void {
   console.log(comp.name, comp.category);

@@ -2,9 +2,7 @@
 import type { Metadata } from "next";
 
 import "ui-lab-components/styles.css"
-
 import "./globals.css";
-import "./styles.css";
 
 import "@fontsource-variable/karla";
 import "@fontsource/geist-mono";
