@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, createContext, useContext } from "react";
-import { CommandPalette } from "@ui-lab/components";
+import { CommandPalette } from "ui-lab-components";
 import { useCommandPalette } from "@/hooks/use-command-palette";
 
 interface CommandPaletteContextType {

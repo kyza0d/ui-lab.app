@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@ui-lab/components';
+import { Tabs, TabsList, TabsTrigger } from 'ui-lab-components';
 import { FaNpm, FaYarn, FaBox } from 'react-icons/fa6';
 
 type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { FaChevronRight, FaMagnifyingGlass } from "react-icons/fa6";
-import { Input } from "@ui-lab/components";
+import { Input } from "ui-lab-components";
 import { useCommandPaletteControl } from "./CommandPaletteProvider";
 
 export interface BreadcrumbItem {

@@ -1,14 +1,14 @@
 "use client"
 
 import Link from "next/link";
-import { Badge } from "@ui-lab/components";
+import { Badge } from "ui-lab-components";
 import {
   SiReact,
   SiTailwindcss,
   SiGreensock
 } from "react-icons/si";
-import { Toaster } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Toaster } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export default function Home() {
   return (

@@ -1,22 +1,22 @@
 {
   "install-npm": {
-    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">npm</span><span style=\"color:#B56959\"> install</span><span style=\"color:#B56959\"> @ui-lab/components</span></span></code></pre>",
-    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">npm</span><span style=\"color:#C98A7D\"> install</span><span style=\"color:#C98A7D\"> @ui-lab/components</span></span></code></pre>",
+    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">npm</span><span style=\"color:#B56959\"> install</span><span style=\"color:#B56959\"> ui-lab-components</span></span></code></pre>",
+    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">npm</span><span style=\"color:#C98A7D\"> install</span><span style=\"color:#C98A7D\"> ui-lab-components</span></span></code></pre>",
     "language": "bash"
   },
   "install-pnpm": {
-    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">pnpm</span><span style=\"color:#B56959\"> add</span><span style=\"color:#B56959\"> @ui-lab/components</span></span></code></pre>",
-    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">pnpm</span><span style=\"color:#C98A7D\"> add</span><span style=\"color:#C98A7D\"> @ui-lab/components</span></span></code></pre>",
+    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">pnpm</span><span style=\"color:#B56959\"> add</span><span style=\"color:#B56959\"> ui-lab-components</span></span></code></pre>",
+    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">pnpm</span><span style=\"color:#C98A7D\"> add</span><span style=\"color:#C98A7D\"> ui-lab-components</span></span></code></pre>",
     "language": "bash"
   },
   "install-yarn": {
-    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">yarn</span><span style=\"color:#B56959\"> add</span><span style=\"color:#B56959\"> @ui-lab/components</span></span></code></pre>",
-    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">yarn</span><span style=\"color:#C98A7D\"> add</span><span style=\"color:#C98A7D\"> @ui-lab/components</span></span></code></pre>",
+    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">yarn</span><span style=\"color:#B56959\"> add</span><span style=\"color:#B56959\"> ui-lab-components</span></span></code></pre>",
+    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">yarn</span><span style=\"color:#C98A7D\"> add</span><span style=\"color:#C98A7D\"> ui-lab-components</span></span></code></pre>",
     "language": "bash"
   },
   "install-bun": {
-    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">bun</span><span style=\"color:#B56959\"> add</span><span style=\"color:#B56959\"> @ui-lab/components</span></span></code></pre>",
-    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">bun</span><span style=\"color:#C98A7D\"> add</span><span style=\"color:#C98A7D\"> @ui-lab/components</span></span></code></pre>",
+    "light": "<pre class=\"shiki vitesse-light\" style=\"background-color:#ffffff;color:#393a34\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#59873A\">bun</span><span style=\"color:#B56959\"> add</span><span style=\"color:#B56959\"> ui-lab-components</span></span></code></pre>",
+    "dark": "<pre class=\"shiki vitesse-dark\" style=\"background-color:#121212;color:#dbd7caee\" tabindex=\"0\"><code style=\"display: block; padding: 1rem;\"><span class=\"line\"><span style=\"color:#80A665\">bun</span><span style=\"color:#C98A7D\"> add</span><span style=\"color:#C98A7D\"> ui-lab-components</span></span></code></pre>",
     "language": "bash"
   },
   "docs-theme-css": {

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { CodeBlock } from "@/components/CodeBlock";
 import { CodeBlockWithPackageManager } from "@/components/CodeBlockWithPackageManager";
 import { TableOfContents } from "@/components/TableOfContents";
-import { Card, Badge, ButtonGroup, ButtonGroupItem, Button } from "@ui-lab/components";
+import { Card, Badge, ButtonGroup, ButtonGroupItem, Button } from "ui-lab-components";
 
 type Framework = "nextjs" | "vite" | "remix" | "tauri";
 type Manager = "npm" | "pnpm" | "yarn" | "bun";
@@ -66,7 +66,7 @@ export default function InstallationPage() {
     tauri: <TauriSvg />,
   };
 
-  const installCmd = `${managerCommands[manager]} @ui-lab/components`;
+  const installCmd = `${managerCommands[manager]} ui-lab-components`;
 
   const tocItems = [
     { id: "target-framework", title: "Target framework" },
@@ -175,7 +175,7 @@ export default function InstallationPage() {
               />
 
               <div className="text-sm text-foreground-400 space-y-2">
-                <div>• Installs <code className="text-foreground-300">@ui-lab/components</code> and peer dependencies</div>
+                <div>• Installs <code className="text-foreground-300">ui-lab-components</code> and peer dependencies</div>
                 <div>• Detects Tailwind v4 and injects required content paths</div>
                 <div>• Adds <code className="text-foreground-300">@theme</code> defaults to your root stylesheet</div>
                 <div>• Optional interactive component selection</div>
@@ -208,7 +208,7 @@ export default function InstallationPage() {
                     {`export default {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@ui-lab/components/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/ui-lab-components/**/*.{js,ts,jsx,tsx}",
   ],
   // ...existing config
 }`}
@@ -219,7 +219,7 @@ export default function InstallationPage() {
                 <div>
                   <div className="mb-2 text-foreground-200">3. Add root theme (globals.css or equivalent)</div>
                   <CodeBlock language="css" heading="app/globals.css">
-                    {`@import "@ui-lab/components/styles/base.css";
+                    {`@import "ui-lab-components/styles/base.css";
 
 @theme {
   --background-50:  oklch(99%  0.001 240);
@@ -253,7 +253,7 @@ export default function InstallationPage() {
             <div className="leading-6">
               Start your dev server and render a test component:
             </div>
-            <CodeBlock language="typescript">{`import { Button } from "@ui-lab/components";
+            <CodeBlock language="typescript">{`import { Button } from "ui-lab-components";
 
 export default function Home() {
   return <Button>UI Lab ready</Button>;

@@ -4,14 +4,14 @@ import { useEffect, useState, useMemo } from "react";
 import { codeToHtml } from "shiki";
 import { cn } from "@/lib/utils";
 import { FaCheck, FaCopy } from "react-icons/fa6";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 import {
   generateThemePalettes,

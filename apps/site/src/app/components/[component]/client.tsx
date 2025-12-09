@@ -5,7 +5,7 @@ import { getComponentById } from "@/lib/component-registry";
 import { Sidebar } from "@/components/Sidebar";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { TableOfContents } from "@/components/TableOfContents";
-import { Toaster } from "@ui-lab/components";
+import { Toaster } from "ui-lab-components";
 
 export function ComponentDetailClient({ componentId }: { componentId: string }) {
   const component = getComponentById(componentId);

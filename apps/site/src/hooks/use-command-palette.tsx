@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/toast/use-toast";
-import type { Command } from "@ui-lab/components";
+import type { Command } from "ui-lab-components";
 import { componentRegistry } from "@/lib/component-registry";
 import {
   FaCompass,

@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { LandingThemeToggle } from "./landing/theme-toggle";
 import { SettingsPanel } from "./landing/settings-panel";
 import { Logo } from "./ui/logo";
-import { Button, Divider } from "@ui-lab/components";
+import { Button, Divider } from "ui-lab-components";
 import { useHeader } from "@/lib/header-context";
 import { cn } from "@/lib/utils";
 import { getComponentsGroupedByCategory } from "@/lib/component-registry";
