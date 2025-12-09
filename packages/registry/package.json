@@ -1,10 +1,27 @@
 {
   "name": "@ui-lab/registry",
   "version": "0.1.0",
+  "description": "Component registry and metadata management for @ui-lab/components",
   "private": false,
   "type": "module",
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "keywords": [
+    "react",
+    "components",
+    "registry",
+    "metadata",
+    "ui-lab"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyza0d/ui-lab.app"
+  },
+  "homepage": "https://github.com/kyza0d/ui-lab.app#readme",
+  "bugs": {
+    "url": "https://github.com/kyza0d/ui-lab.app/issues"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
