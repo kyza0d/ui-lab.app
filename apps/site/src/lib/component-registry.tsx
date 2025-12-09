@@ -1,6 +1,6 @@
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 import { buttonDetail } from "./components-data/button";
-import { ButtonGroup, ButtonGroupItem } from "@ui-lab/components";
+import { ButtonGroup, ButtonGroupItem } from "ui-lab-components";
 import { buttonGroupDetail } from "./components-data/button-group";
 import { Table } from "@/components/table";
 import { tableDetail } from "./components-data/table";
@@ -10,46 +10,46 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 import { selectDetail } from "./components-data/select";
-import { Input } from "@ui-lab/components";
+import { Input } from "ui-lab-components";
 import { inputDetail } from "./components-data/input";
-import { Label } from "@ui-lab/components";
+import { Label } from "ui-lab-components";
 import { labelDetail } from "./components-data/label";
-import { TextArea } from "@ui-lab/components";
+import { TextArea } from "ui-lab-components";
 import { textareaDetail } from "./components-data/textarea";
-import { Checkbox } from "@ui-lab/components";
+import { Checkbox } from "ui-lab-components";
 import { checkboxDetail } from "./components-data/checkbox";
-import { Radio } from "@ui-lab/components";
+import { Radio } from "ui-lab-components";
 import { radioDetail } from "./components-data/radio";
-import { Badge } from "@ui-lab/components";
+import { Badge } from "ui-lab-components";
 import { badgeDetail } from "./components-data/badge";
-import { Tooltip } from "@ui-lab/components";
+import { Tooltip } from "ui-lab-components";
 import { tooltipDetail } from "./components-data/tooltip";
-import { Popover } from "@ui-lab/components";
+import { Popover } from "ui-lab-components";
 import { popoverDetail } from "./components-data/popover";
 import { formWrapperDetail } from "./components-data/form-wrapper";
 import { toastDetail } from "./components-data/toast";
 import { modalDetail } from "./components-data/modal";
-import { Slider } from "@ui-lab/components";
+import { Slider } from "ui-lab-components";
 import { sliderDetail } from "./components-data/slider";
-import { Tabs, TabsList, TabsTrigger } from "@ui-lab/components";
+import { Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { tabsDetail } from "./components-data/tabs";
 import {
   ContextMenu,
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 import { contextMenuDetail } from "./components-data/context-menu";
-import { Switch } from "@ui-lab/components";
+import { Switch } from "ui-lab-components";
 import { switchDetail } from "./components-data/switch";
-import { Progress } from "@ui-lab/components";
+import { Progress } from "ui-lab-components";
 import { progressDetail } from "./components-data/progress";
 import { cardDetail } from "./components-data/card";
 import { commandPaletteDetail } from "./components-data/command-palette";
 import { confirmationComponentDetail } from "./components-data/confirmation";
-import { Divider } from "@ui-lab/components";
+import { Divider } from "ui-lab-components";
 import { dividerDetail } from "./components-data/divider";
 import { pageDetail } from "./components-data/page";
 import { ComponentDetail } from "@/types/component";
@@ -256,7 +256,7 @@ export const componentRegistry: ComponentMetadata[] = Object.entries(registryDat
     description: pageDetail.description,
     category: 'container' as ComponentCategory,
     source: {
-      packageName: '@ui-lab/components' as const,
+      packageName: 'ui-lab-components' as const,
       exportName: 'Page',
       packagePath: 'dist/index.d.ts',
     },
@@ -269,7 +269,7 @@ export const componentRegistry: ComponentMetadata[] = Object.entries(registryDat
     description: tableDetail.description,
     category: 'data' as ComponentCategory,
     source: {
-      packageName: '@ui-lab/components' as const,
+      packageName: 'ui-lab-components' as const,
       exportName: 'Table',
       packagePath: 'src/components/table.tsx',
     },

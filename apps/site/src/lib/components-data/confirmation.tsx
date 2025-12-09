@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Confirmation } from "@ui-lab/components"
+import { Confirmation } from "ui-lab-components"
 import { ComponentDetail } from "@/types/component"
 import { ControlDef } from "@/components/component-configurator"
 
@@ -31,7 +31,7 @@ const confirmationControls: ControlDef[] = [
 ]
 
 // Example code snippets
-const basicInlineCode = `import { Confirmation } from "@ui-lab/components";
+const basicInlineCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -45,7 +45,7 @@ export function Example() {
   );
 }`
 
-const basicDialogCode = `import { Confirmation } from "@ui-lab/components";
+const basicDialogCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -61,7 +61,7 @@ export function Example() {
   );
 }`
 
-const severityLevelsCode = `import { Confirmation } from "@ui-lab/components";
+const severityLevelsCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -99,7 +99,7 @@ export function Example() {
   );
 }`
 
-const countdownCode = `import { Confirmation } from "@ui-lab/components";
+const countdownCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -116,7 +116,7 @@ export function Example() {
   );
 }`
 
-const confirmationTextCode = `import { Confirmation } from "@ui-lab/components";
+const confirmationTextCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -133,7 +133,7 @@ export function Example() {
   );
 }`
 
-const customIconsCode = `import { Confirmation } from "@ui-lab/components";
+const customIconsCode = `import { Confirmation } from "ui-lab-components";
 import { MdWarning, MdError } from "react-icons/md";
 
 export function Example() {
@@ -161,7 +161,7 @@ export function Example() {
   );
 }`
 
-const asyncActionCode = `import { Confirmation } from "@ui-lab/components";
+const asyncActionCode = `import { Confirmation } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -193,7 +193,7 @@ export function Example() {
   );
 }`
 
-const errorHandlingCode = `import { Confirmation } from "@ui-lab/components";
+const errorHandlingCode = `import { Confirmation } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -215,7 +215,7 @@ export function Example() {
   );
 }`
 
-const autoResetCode = `import { Confirmation } from "@ui-lab/components";
+const autoResetCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -231,7 +231,7 @@ export function Example() {
   );
 }`
 
-const disabledStateCode = `import { Confirmation } from "@ui-lab/components";
+const disabledStateCode = `import { Confirmation } from "ui-lab-components";
 
 export function Example() {
   return (

@@ -1,4 +1,4 @@
-import { Slider } from "@ui-lab/components";
+import { Slider } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 import { useState } from "react";
@@ -42,7 +42,7 @@ const sliderControls: ControlDef[] = [
   },
 ];
 
-const sliderBasicCode = `import * as Slider from "@ui-lab/components";
+const sliderBasicCode = `import * as Slider from "ui-lab-components";
 
 export function Example() {
   return (
@@ -52,7 +52,7 @@ export function Example() {
   );
 }`;
 
-const sliderVolumeCode = `import * as Slider from "@ui-lab/components";
+const sliderVolumeCode = `import * as Slider from "ui-lab-components";
 import { useState } from "react";
 import { FaVolumeHigh, FaVolumeMute } from "react-icons/fa6";
 
@@ -79,7 +79,7 @@ export function Example() {
   );
 }`;
 
-const sliderRangeCode = `import * as Slider from "@ui-lab/components";
+const sliderRangeCode = `import * as Slider from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -104,7 +104,7 @@ export function Example() {
   );
 }`;
 
-const sliderSizesCode = `import * as Slider from "@ui-lab/components";
+const sliderSizesCode = `import * as Slider from "ui-lab-components";
 
 export function Example() {
   return (

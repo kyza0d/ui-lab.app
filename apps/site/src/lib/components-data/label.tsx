@@ -1,8 +1,8 @@
-import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 // Control definitions for the label configurator
 const labelControls: ControlDef[] = [
@@ -37,14 +37,14 @@ const labelControls: ControlDef[] = [
   },
 ];
 
-const labelBasicCode = `import { Label } from "@ui-lab/components";
+const labelBasicCode = `import { Label } from "ui-lab-components";
 
 export function Example() {
   return <Label htmlFor="name">Name</Label>;
 }`;
 
-const labelWithInputCode = `import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+const labelWithInputCode = `import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -55,8 +55,8 @@ export function Example() {
   );
 }`;
 
-const labelRequiredCode = `import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+const labelRequiredCode = `import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -69,8 +69,8 @@ export function Example() {
   );
 }`;
 
-const labelWithHelperCode = `import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+const labelWithHelperCode = `import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -83,7 +83,7 @@ export function Example() {
   );
 }`;
 
-const labelSizesCode = `import { Label } from "@ui-lab/components";
+const labelSizesCode = `import { Label } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -95,8 +95,8 @@ export function Example() {
   );
 }`;
 
-const labelStatesCode = `import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+const labelStatesCode = `import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -122,8 +122,8 @@ export function Example() {
   );
 }`;
 
-const labelErrorWithHelperCode = `import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+const labelErrorWithHelperCode = `import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -142,9 +142,9 @@ export function Example() {
   );
 }`;
 
-const labelFormCode = `import { Label } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const labelFormCode = `import { Label } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (

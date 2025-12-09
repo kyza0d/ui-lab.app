@@ -1,7 +1,7 @@
-import { Checkbox } from "@ui-lab/components";
+import { Checkbox } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 // Control definitions for the checkbox configurator
 const checkboxControls: ControlDef[] = [
@@ -48,13 +48,13 @@ const checkboxControls: ControlDef[] = [
   },
 ];
 
-const checkboxBasicCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxBasicCode = `import { Checkbox } from "ui-lab-components";
 
 export function Example() {
   return <Checkbox label="Accept terms and conditions" />;
 }`;
 
-const checkboxStatesCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxStatesCode = `import { Checkbox } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -67,7 +67,7 @@ export function Example() {
   );
 }`;
 
-const checkboxIndeterminateCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxIndeterminateCode = `import { Checkbox } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -82,7 +82,7 @@ export function Example() {
   );
 }`;
 
-const checkboxSizesCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxSizesCode = `import { Checkbox } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -94,7 +94,7 @@ export function Example() {
   );
 }`;
 
-const checkboxErrorCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxErrorCode = `import { Checkbox } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -107,7 +107,7 @@ export function Example() {
   );
 }`;
 
-const checkboxGroupCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxGroupCode = `import { Checkbox } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -142,7 +142,7 @@ export function Example() {
   );
 }`;
 
-const checkboxHelperTextCode = `import { Checkbox } from "@ui-lab/components";
+const checkboxHelperTextCode = `import { Checkbox } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -160,8 +160,8 @@ export function Example() {
   );
 }`;
 
-const checkboxFormCode = `import { Checkbox } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const checkboxFormCode = `import { Checkbox } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { ButtonGroup, ButtonGroupItem } from "@ui-lab/components"
+import { ButtonGroup, ButtonGroupItem } from "ui-lab-components"
 import { ComponentDetail } from "@/types/component"
 import { ControlDef } from "@/components/component-configurator"
 import {

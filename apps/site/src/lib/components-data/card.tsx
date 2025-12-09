@@ -1,11 +1,11 @@
 import React from "react";
-import { Card } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Card } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
-import { Badge } from "@ui-lab/components";
+import { Badge } from "ui-lab-components";
 import { FaHeart, FaShare } from "react-icons/fa6";
 
-const basicCardCode = `import { Card } from "@ui-lab/components";
+const basicCardCode = `import { Card } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -22,7 +22,7 @@ export function Example() {
   );
 }`;
 
-const cardWithFooterCode = `import { Card } from "@ui-lab/components";
+const cardWithFooterCode = `import { Card } from "ui-lab-components";
 import { Button } from "@/components/ui/button";
 
 export function Example() {
@@ -50,7 +50,7 @@ export function Example() {
   );
 }`;
 
-const cardProductCode = `import { Card } from "@ui-lab/components";
+const cardProductCode = `import { Card } from "ui-lab-components";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 

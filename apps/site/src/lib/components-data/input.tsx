@@ -1,8 +1,8 @@
-import { Input } from "@ui-lab/components";
+import { Input } from "ui-lab-components";
 import { FaEnvelope, FaLock, FaMagnifyingGlass, FaCheck, FaUser } from "react-icons/fa6";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 // Control definitions for the input configurator
 const inputControls: ControlDef[] = [
@@ -49,13 +49,13 @@ const inputControls: ControlDef[] = [
   },
 ];
 
-const inputBasicCode = `import { Input } from "@ui-lab/components";
+const inputBasicCode = `import { Input } from "ui-lab-components";
 
 export function Example() {
   return <Input placeholder="Enter your name..." />;
 }`;
 
-const inputTypesCode = `import { Input } from "@ui-lab/components";
+const inputTypesCode = `import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -68,7 +68,7 @@ export function Example() {
   );
 }`;
 
-const inputSizesCode = `import { Input } from "@ui-lab/components";
+const inputSizesCode = `import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -80,7 +80,7 @@ export function Example() {
   );
 }`;
 
-const inputStatesCode = `import { Input } from "@ui-lab/components";
+const inputStatesCode = `import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -92,7 +92,7 @@ export function Example() {
   );
 }`;
 
-const inputWithIconsCode = `import { Input } from "@ui-lab/components";
+const inputWithIconsCode = `import { Input } from "ui-lab-components";
 import { FaEnvelope, FaMagnifyingGlass, FaCheckCircle } from "react-icons/fa6";
 
 export function Example() {
@@ -115,7 +115,7 @@ export function Example() {
   );
 }`;
 
-const inputPasswordCode = `import { Input } from "@ui-lab/components";
+const inputPasswordCode = `import { Input } from "ui-lab-components";
 import { FaLock } from "react-icons/fa6";
 
 export function Example() {
@@ -128,8 +128,8 @@ export function Example() {
   );
 }`;
 
-const inputFormCode = `import { Input } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const inputFormCode = `import { Input } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { FaUser, FaEnvelope } from "react-icons/fa6";
 
 export function Example() {
@@ -160,7 +160,7 @@ export function Example() {
   );
 }`;
 
-const inputErrorCode = `import { Input } from "@ui-lab/components";
+const inputErrorCode = `import { Input } from "ui-lab-components";
 
 export function Example() {
   return (

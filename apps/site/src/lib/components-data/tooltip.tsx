@@ -1,7 +1,7 @@
-import { Tooltip } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+import { Tooltip } from "ui-lab-components";
+import { Button } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 import {
@@ -39,8 +39,8 @@ const tooltipControls: ControlDef[] = [
   },
 ];
 
-const tooltipBasicCode = `import { Tooltip } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const tooltipBasicCode = `import { Tooltip } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -50,8 +50,8 @@ export function Example() {
   );
 }`;
 
-const tooltipPositionsCode = `import { Tooltip } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const tooltipPositionsCode = `import { Tooltip } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -72,7 +72,7 @@ export function Example() {
   );
 }`;
 
-const tooltipWithIconsCode = `import { Tooltip } from "@ui-lab/components";
+const tooltipWithIconsCode = `import { Tooltip } from "ui-lab-components";
 import { FaHeart, FaStar, FaDownload } from "react-icons/fa6";
 
 export function Example() {
@@ -97,8 +97,8 @@ export function Example() {
   );
 }`;
 
-const tooltipWithBadgeCode = `import { Tooltip } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
+const tooltipWithBadgeCode = `import { Tooltip } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -116,8 +116,8 @@ export function Example() {
   );
 }`;
 
-const tooltipWithInputCode = `import { Tooltip } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
+const tooltipWithInputCode = `import { Tooltip } from "ui-lab-components";
+import { Input } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -135,8 +135,8 @@ export function Example() {
   );
 }`;
 
-const tooltipRichContentCode = `import { Tooltip } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const tooltipRichContentCode = `import { Tooltip } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -167,7 +167,7 @@ export function Example() {
   );
 }`;
 
-const tooltipOnIconsCode = `import { Tooltip } from "@ui-lab/components";
+const tooltipOnIconsCode = `import { Tooltip } from "ui-lab-components";
 import { FaQuestion, FaInfo, FaGear } from "react-icons/fa6";
 
 export function Example() {

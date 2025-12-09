@@ -1,4 +1,4 @@
-import { Radio } from "@ui-lab/components";
+import { Radio } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 import { useState } from "react";
@@ -42,13 +42,13 @@ const radioControls: ControlDef[] = [
   },
 ];
 
-const radioBasicCode = `import { Radio } from "@ui-lab/components";
+const radioBasicCode = `import { Radio } from "ui-lab-components";
 
 export function Example() {
   return <Radio label="Option 1" />;
 }`;
 
-const radioStatesCode = `import { Radio } from "@ui-lab/components";
+const radioStatesCode = `import { Radio } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -61,7 +61,7 @@ export function Example() {
   );
 }`;
 
-const radioGroupCode = `import { Radio } from "@ui-lab/components";
+const radioGroupCode = `import { Radio } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -92,7 +92,7 @@ export function Example() {
   );
 }`;
 
-const radioDescriptionCode = `import { Radio } from "@ui-lab/components";
+const radioDescriptionCode = `import { Radio } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -136,7 +136,7 @@ export function Example() {
   );
 }`;
 
-const radioSizesCode = `import { Radio } from "@ui-lab/components";
+const radioSizesCode = `import { Radio } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -148,7 +148,7 @@ export function Example() {
   );
 }`;
 
-const radioDisabledCode = `import { Radio } from "@ui-lab/components";
+const radioDisabledCode = `import { Radio } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -163,7 +163,7 @@ export function Example() {
   );
 }`;
 
-const radioErrorCode = `import { Radio } from "@ui-lab/components";
+const radioErrorCode = `import { Radio } from "ui-lab-components";
 
 export function Example() {
   return (

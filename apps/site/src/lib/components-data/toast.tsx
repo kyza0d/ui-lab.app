@@ -1,10 +1,10 @@
 "use client";
 
-import { toast } from "@ui-lab/components";
+import { toast } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { Button } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
 import { FaCircleCheck, FaCircleExclamation, FaCircleInfo, FaTriangleExclamation, FaCloudArrowUp } from "react-icons/fa6";
 
 const toastControls: ControlDef[] = [
@@ -60,7 +60,7 @@ const toastControls: ControlDef[] = [
 ];
 
 const toastBasicCode = `import { toast } from "@/components/ui/toast/use-toast";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -79,7 +79,7 @@ export function Example() {
 }`;
 
 const toastVariantsCode = `import { toast } from "@/components/ui/toast/use-toast";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -143,7 +143,7 @@ export function Example() {
 }`;
 
 const toastDurationCode = `import { toast } from "@/components/ui/toast/use-toast";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -186,7 +186,7 @@ export function Example() {
 }`;
 
 const toastPositionCode = `import { toast } from "@/components/ui/toast/use-toast";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -256,7 +256,7 @@ export function Example() {
 }`;
 
 const toastCustomCode = `import { toast } from "@/components/ui/toast/use-toast";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -285,8 +285,8 @@ export function Example() {
 }`;
 
 const toastRichCode = `import { toast } from "@/components/ui/toast/use-toast";
-import { Button } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
 
 export function Example() {
   return (

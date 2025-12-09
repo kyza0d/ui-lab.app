@@ -1,4 +1,4 @@
-import { Progress } from "@ui-lab/components";
+import { Progress } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 
@@ -53,13 +53,13 @@ const progressControls: ControlDef[] = [
   },
 ];
 
-const progressBasicCode = `import { Progress } from "@ui-lab/components";
+const progressBasicCode = `import { Progress } from "ui-lab-components";
 
 export function Example() {
   return <Progress value={60} />;
 }`;
 
-const progressSizesCode = `import { Progress } from "@ui-lab/components";
+const progressSizesCode = `import { Progress } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -71,7 +71,7 @@ export function Example() {
   );
 }`;
 
-const progressVariantsCode = `import { Progress } from "@ui-lab/components";
+const progressVariantsCode = `import { Progress } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -84,13 +84,13 @@ export function Example() {
   );
 }`;
 
-const progressIndeterminateCode = `import { Progress } from "@ui-lab/components";
+const progressIndeterminateCode = `import { Progress } from "ui-lab-components";
 
 export function Example() {
   return <Progress indeterminate />;
 }`;
 
-const progressWithLabelCode = `import { Progress } from "@ui-lab/components";
+const progressWithLabelCode = `import { Progress } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -102,7 +102,7 @@ export function Example() {
   );
 }`;
 
-const progressAnimatedCode = `import { Progress } from "@ui-lab/components";
+const progressAnimatedCode = `import { Progress } from "ui-lab-components";
 
 export function Example() {
   return (

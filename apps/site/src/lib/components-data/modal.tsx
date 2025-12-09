@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Modal } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Label } from "@ui-lab/components";
+import { Modal } from "ui-lab-components";
+import { Button } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Label } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 
@@ -308,8 +308,8 @@ const modalControls: ControlDef[] = [
 ];
 
 const basicModalCode = `import { useState } from "react";
-import { Modal } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Modal } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   const [isOpen, setIsOpen] = useState(false);
@@ -334,8 +334,8 @@ export function Example() {
 }`;
 
 const confirmationModalCode = `import { useState } from "react";
-import { Modal } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Modal } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   const [isOpen, setIsOpen] = useState(false);
@@ -373,10 +373,10 @@ export function Example() {
 }`;
 
 const formModalCode = `import { useState } from "react";
-import { Modal } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Label } from "@ui-lab/components";
+import { Modal } from "ui-lab-components";
+import { Button } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Label } from "ui-lab-components";
 
 export function Example() {
   const [isOpen, setIsOpen] = useState(false);
@@ -452,8 +452,8 @@ export function Example() {
 }`;
 
 const alertModalCode = `import { useState } from "react";
-import { Modal } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Modal } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   const [isOpen, setIsOpen] = useState(false);
@@ -522,8 +522,8 @@ export function Example() {
 }`;
 
 const sizedModalsCode = `import { useState } from "react";
-import { Modal } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Modal } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   const [openSize, setOpenSize] = useState<"sm" | "md" | "lg" | "xl" | null>(null);

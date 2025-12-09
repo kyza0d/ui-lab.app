@@ -2,8 +2,8 @@
 
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { CommandPalette, Command } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { CommandPalette, Command } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { toast } from "@/components/ui/toast/use-toast";
 import { useState } from "react";
 import {
@@ -52,8 +52,8 @@ const commandPaletteControls: ControlDef[] = [
   },
 ];
 
-const basicCode = `import { CommandPalette } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const basicCode = `import { CommandPalette } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -137,8 +137,8 @@ function BasicPreview(props: any) {
   );
 }
 
-const navigationCode = `import { CommandPalette } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const navigationCode = `import { CommandPalette } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { toast } from "@/components/ui/toast/use-toast";
 import {
   FaHouse,
@@ -306,8 +306,8 @@ function NavigationPreview() {
   );
 }
 
-const themeCode = `import { CommandPalette } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const themeCode = `import { CommandPalette } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { toast } from "@/components/ui/toast/use-toast";
 import { FaMoon, FaSun, FaDesktop } from "react-icons/fa6";
 import { useState } from "react";
@@ -486,8 +486,8 @@ function ThemePreview() {
   );
 }
 
-const multiCategoryCode = `import { CommandPalette } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const multiCategoryCode = `import { CommandPalette } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { toast } from "@/components/ui/toast/use-toast";
 import {
   FaHouse,
@@ -749,8 +749,8 @@ function MultiCategoryPreview() {
   );
 }
 
-const customCode = `import { CommandPalette } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const customCode = `import { CommandPalette } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { toast } from "@/components/ui/toast/use-toast";
 import {
   FaEye,

@@ -1,8 +1,8 @@
-import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Label } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
+import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Label } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 import { FaGear, FaBell, FaEllipsis, FaUser, FaBookmark, FaRightFromBracket } from "react-icons/fa6";
@@ -23,8 +23,8 @@ const popoverControls: ControlDef[] = [
   },
 ];
 
-const popoverBasicCode = `import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const popoverBasicCode = `import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -34,8 +34,8 @@ export function Example() {
   );
 }`;
 
-const popoverPositionsCode = `import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const popoverPositionsCode = `import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -56,10 +56,10 @@ export function Example() {
   );
 }`;
 
-const popoverWithFormCode = `import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Label } from "@ui-lab/components";
+const popoverWithFormCode = `import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Label } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -87,8 +87,8 @@ export function Example() {
   );
 }`;
 
-const popoverWithIconsCode = `import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const popoverWithIconsCode = `import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { FaBell, FaGear, FaEllipsis } from "react-icons/fa6";
 
 export function Example() {
@@ -113,9 +113,9 @@ export function Example() {
   );
 }`;
 
-const popoverRichContentCode = `import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
+const popoverRichContentCode = `import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -140,8 +140,8 @@ export function Example() {
   );
 }`;
 
-const popoverWithListCode = `import { Popover } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const popoverWithListCode = `import { Popover } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { FaUser, FaGear, FaBookmark, FaSignOutAlt } from "react-icons/fa6";
 
 const menuItems = [

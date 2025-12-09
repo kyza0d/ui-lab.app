@@ -11,7 +11,7 @@ import {
   ContextMenuCheckboxItem,
   ContextMenuRadioItem,
   ContextMenuRadioGroup,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { Copy, Edit, Trash2, Share2, Eye } from "lucide-react";
 
@@ -20,7 +20,7 @@ const contextMenuBasicCode = `import {
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   return (
@@ -46,7 +46,7 @@ const contextMenuSubmenuCode = `import {
   ContextMenuSub,
   ContextMenuSubTrigger,
   ContextMenuSubContent,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   return (

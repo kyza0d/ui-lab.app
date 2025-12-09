@@ -1,4 +1,4 @@
-import { Divider } from "@ui-lab/components";
+import { Divider } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 
@@ -177,13 +177,13 @@ const dividerControls: ControlDef[] = [
   },
 ];
 
-const basicDividerCode = `import { Divider } from "@ui-lab/components";
+const basicDividerCode = `import { Divider } from "ui-lab-components";
 
 export function Example() {
   return <Divider />;
 }`;
 
-const variantsDividerCode = `import { Divider } from "@ui-lab/components";
+const variantsDividerCode = `import { Divider } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -204,7 +204,7 @@ export function Example() {
   );
 }`;
 
-const spacingDividerCode = `import { Divider } from "@ui-lab/components";
+const spacingDividerCode = `import { Divider } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -216,7 +216,7 @@ export function Example() {
   );
 }`;
 
-const verticalDividerCode = `import { Divider } from "@ui-lab/components";
+const verticalDividerCode = `import { Divider } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -228,7 +228,7 @@ export function Example() {
   );
 }`;
 
-const colorsDividerCode = `import { Divider } from "@ui-lab/components";
+const colorsDividerCode = `import { Divider } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -240,7 +240,7 @@ export function Example() {
   );
 }`;
 
-const sizesDividerCode = `import { Divider } from "@ui-lab/components";
+const sizesDividerCode = `import { Divider } from "ui-lab-components";
 
 export function Example() {
   return (

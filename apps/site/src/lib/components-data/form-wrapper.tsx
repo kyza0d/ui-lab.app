@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { TextArea } from "@ui-lab/components";
-import { FormWrapper, FormField, useFormContext } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { TextArea } from "ui-lab-components";
+import { FormWrapper, FormField, useFormContext } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const basicFormCode = `import { FormWrapper, FormField, useFormContext } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const basicFormCode = `import { FormWrapper, FormField, useFormContext } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 function LoginForm() {
   return (
@@ -106,9 +106,9 @@ function BasicSubmitBtn() {
   );
 }
 
-const validationFormCode = `import { FormWrapper, FormField, useFormContext } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const validationFormCode = `import { FormWrapper, FormField, useFormContext } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 const validationRules = {
   email: {
@@ -256,10 +256,10 @@ function ValidSubmitBtn() {
   );
 }
 
-const multiStepFormCode = `import { FormWrapper, FormField, useFormContext } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { TextArea } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const multiStepFormCode = `import { FormWrapper, FormField, useFormContext } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { TextArea } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { useState } from "react";
 
 function ContactWizard() {
@@ -408,9 +408,9 @@ function MultiStepStep2Btn({ onPrevious }: { onPrevious: () => void }) {
   );
 }
 
-const resetFormCode = `import { FormWrapper, FormField, useFormContext } from "@ui-lab/components";
-import { Input } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const resetFormCode = `import { FormWrapper, FormField, useFormContext } from "ui-lab-components";
+import { Input } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 function ProfileForm() {
   return (

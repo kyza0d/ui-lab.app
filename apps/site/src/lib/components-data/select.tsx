@@ -6,8 +6,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+} from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 
@@ -53,7 +53,7 @@ const selectBasicCode = `import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   return (
@@ -76,7 +76,7 @@ const selectWithDefaultCode = `import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   return (
@@ -99,7 +99,7 @@ const selectDisabledCode = `import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   return (
@@ -136,7 +136,7 @@ const selectGroupsCode = `import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   return (
@@ -169,7 +169,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   const [value, setValue] = useState("");
@@ -211,14 +211,14 @@ export function Example() {
 const selectFormIntegrationCode = `"use client";
 
 import { useState } from "react";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@ui-lab/components";
+} from "ui-lab-components";
 
 export function Example() {
   const [formData, setFormData] = useState({

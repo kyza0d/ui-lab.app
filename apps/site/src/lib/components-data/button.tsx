@@ -1,5 +1,5 @@
-// import { Button } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+// import { Button } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { FaDownload, FaTrash, FaCheck, FaHeart, FaStar, FaShare, FaEllipsis, FaRocket, FaMinus, FaPlus } from "react-icons/fa6";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
@@ -37,13 +37,13 @@ const buttonControls: ControlDef[] = [
   },
 ];
 
-const buttonBasicCode = `import { Button } from "@ui-lab/components";
+const buttonBasicCode = `import { Button } from "ui-lab-components";
 
 export function Example() {
   return <Button>Click me</Button>;
 }`;
 
-const buttonVariantsCode = `import { Button } from "@ui-lab/components";
+const buttonVariantsCode = `import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -56,7 +56,7 @@ export function Example() {
   );
 }`;
 
-const buttonSizesCode = `import { Button } from "@ui-lab/components";
+const buttonSizesCode = `import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -68,7 +68,7 @@ export function Example() {
   );
 }`;
 
-const buttonDisabledCode = `import { Button } from "@ui-lab/components";
+const buttonDisabledCode = `import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -81,7 +81,7 @@ export function Example() {
   );
 }`;
 
-const buttonLoadingCode = `import { Button } from "@ui-lab/components";
+const buttonLoadingCode = `import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -91,7 +91,7 @@ export function Example() {
   );
 }`;
 
-const buttonWithIconCode = `import { Button } from "@ui-lab/components";
+const buttonWithIconCode = `import { Button } from "ui-lab-components";
 import { FaDownload, FaTrash } from "react-icons/fa6";
 
 export function Example() {
@@ -108,7 +108,7 @@ export function Example() {
   );
 }`;
 
-const buttonFormCode = `import { Button } from "@ui-lab/components";
+const buttonFormCode = `import { Button } from "ui-lab-components";
 import { FaCheck } from "react-icons/fa6";
 
 export function Example() {
@@ -125,7 +125,7 @@ export function Example() {
   );
 }`;
 
-const buttonIconOnlyCode = `import { Button } from "@ui-lab/components";
+const buttonIconOnlyCode = `import { Button } from "ui-lab-components";
 import { FaHeart, FaStar, FaShare, FaEllipsis } from "react-icons/fa6";
 
 export function Example() {
@@ -147,7 +147,7 @@ export function Example() {
   );
 }`;
 
-const buttonCtaCode = `import { Button } from "@ui-lab/components";
+const buttonCtaCode = `import { Button } from "ui-lab-components";
 import { FaRocket } from "react-icons/fa6";
 
 export function Example() {
@@ -164,7 +164,7 @@ export function Example() {
   );
 }`;
 
-const buttonCompactCode = `import { Button } from "@ui-lab/components";
+const buttonCompactCode = `import { Button } from "ui-lab-components";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 export function Example() {

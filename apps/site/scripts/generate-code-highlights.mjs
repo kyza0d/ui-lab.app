@@ -33,22 +33,22 @@ export async function generateHighlightsMap() {
   const codeSnippets = [
     {
       id: 'install-npm',
-      code: 'npm install @ui-lab/components',
+      code: 'npm install ui-lab-components',
       language: 'bash',
     },
     {
       id: 'install-pnpm',
-      code: 'pnpm add @ui-lab/components',
+      code: 'pnpm add ui-lab-components',
       language: 'bash',
     },
     {
       id: 'install-yarn',
-      code: 'yarn add @ui-lab/components',
+      code: 'yarn add ui-lab-components',
       language: 'bash',
     },
     {
       id: 'install-bun',
-      code: 'bun add @ui-lab/components',
+      code: 'bun add ui-lab-components',
       language: 'bash',
     },
     {

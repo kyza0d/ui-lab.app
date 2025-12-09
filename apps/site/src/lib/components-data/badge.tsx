@@ -1,4 +1,4 @@
-import { Badge } from "@ui-lab/components";
+import { Badge } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 import { FaCheck, FaExclamation, FaTimeline, FaInfo, FaStar } from "react-icons/fa6";
@@ -36,13 +36,13 @@ const badgeControls: ControlDef[] = [
   },
 ];
 
-const badgeBasicCode = `import { Badge } from "@ui-lab/components";
+const badgeBasicCode = `import { Badge } from "ui-lab-components";
 
 export function Example() {
   return <Badge>Default</Badge>;
 }`;
 
-const badgeVariantsCode = `import { Badge } from "@ui-lab/components";
+const badgeVariantsCode = `import { Badge } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -56,7 +56,7 @@ export function Example() {
   );
 }`;
 
-const badgeSizesCode = `import { Badge } from "@ui-lab/components";
+const badgeSizesCode = `import { Badge } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -68,7 +68,7 @@ export function Example() {
   );
 }`;
 
-const badgeWithIconCode = `import { Badge } from "@ui-lab/components";
+const badgeWithIconCode = `import { Badge } from "ui-lab-components";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa6";
 
 export function Example() {
@@ -84,7 +84,7 @@ export function Example() {
   );
 }`;
 
-const badgeDismissibleCode = `import { Badge } from "@ui-lab/components";
+const badgeDismissibleCode = `import { Badge } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {

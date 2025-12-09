@@ -3,7 +3,7 @@ import { Page } from "@/components/page";
 import { ComponentDetail } from "@/types/component";
 import { FaGraduationCap, FaCode } from "react-icons/fa6";
 
-const basicPageCode = `import { Page } from "@ui-lab/components";
+const basicPageCode = `import { Page } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -20,7 +20,7 @@ export function Example() {
   );
 }`;
 
-const sidebarLeftCode = `import { Page } from "@ui-lab/components";
+const sidebarLeftCode = `import { Page } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -50,7 +50,7 @@ export function Example() {
   );
 }`;
 
-const fullLayoutCode = `import { Page } from "@ui-lab/components";
+const fullLayoutCode = `import { Page } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -81,7 +81,7 @@ export function Example() {
   );
 }`;
 
-const compactSidebarCode = `import { Page } from "@ui-lab/components";
+const compactSidebarCode = `import { Page } from "ui-lab-components";
 
 export function Example() {
   return (

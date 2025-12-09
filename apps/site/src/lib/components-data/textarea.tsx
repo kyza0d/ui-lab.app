@@ -1,7 +1,7 @@
-import { TextArea } from "@ui-lab/components";
+import { TextArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { Button } from "@ui-lab/components";
+import { Button } from "ui-lab-components";
 
 // Control definitions for the textarea configurator
 const textareaControls: ControlDef[] = [
@@ -48,13 +48,13 @@ const textareaControls: ControlDef[] = [
   },
 ];
 
-const textareaBasicCode = `import { TextArea } from "@ui-lab/components";
+const textareaBasicCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return <TextArea placeholder="Enter your message..." />;
 }`;
 
-const textareaSizesCode = `import { TextArea } from "@ui-lab/components";
+const textareaSizesCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -66,7 +66,7 @@ export function Example() {
   );
 }`;
 
-const textareaStatesCode = `import { TextArea } from "@ui-lab/components";
+const textareaStatesCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -78,7 +78,7 @@ export function Example() {
   );
 }`;
 
-const textareaResizableCode = `import { TextArea } from "@ui-lab/components";
+const textareaResizableCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -95,7 +95,7 @@ export function Example() {
   );
 }`;
 
-const textareaCharacterCountCode = `import { TextArea } from "@ui-lab/components";
+const textareaCharacterCountCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -123,8 +123,8 @@ export function Example() {
   );
 }`;
 
-const textareaFormCode = `import { TextArea } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+const textareaFormCode = `import { TextArea } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -151,7 +151,7 @@ export function Example() {
   );
 }`;
 
-const textareaWithLabelCode = `import { TextArea } from "@ui-lab/components";
+const textareaWithLabelCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -168,7 +168,7 @@ export function Example() {
   );
 }`;
 
-const textareaErrorStateCode = `import { TextArea } from "@ui-lab/components";
+const textareaErrorStateCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
   return (

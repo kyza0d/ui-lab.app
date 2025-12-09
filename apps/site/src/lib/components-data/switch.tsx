@@ -1,4 +1,4 @@
-import { Switch } from "@ui-lab/components";
+import { Switch } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 
@@ -35,7 +35,7 @@ const switchControls: ControlDef[] = [
   },
 ];
 
-const switchBasicCode = `import { Switch } from "@ui-lab/components";
+const switchBasicCode = `import { Switch } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -49,7 +49,7 @@ export function Example() {
   );
 }`;
 
-const switchSizesCode = `import { Switch } from "@ui-lab/components";
+const switchSizesCode = `import { Switch } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -78,7 +78,7 @@ export function Example() {
   );
 }`;
 
-const switchDisabledCode = `import { Switch } from "@ui-lab/components";
+const switchDisabledCode = `import { Switch } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -90,7 +90,7 @@ export function Example() {
   );
 }`;
 
-const switchFormCode = `import { Switch } from "@ui-lab/components";
+const switchFormCode = `import { Switch } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -125,7 +125,7 @@ export function Example() {
   );
 }`;
 
-const switchStatesCode = `import { Switch } from "@ui-lab/components";
+const switchStatesCode = `import { Switch } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -150,7 +150,7 @@ export function Example() {
   );
 }`;
 
-const switchPillCode = `import { Switch } from "@ui-lab/components";
+const switchPillCode = `import { Switch } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {

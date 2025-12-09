@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
-import { Badge } from "@ui-lab/components";
-import { Button } from "@ui-lab/components";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
+import { Badge } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 import { FaUser, FaGear, FaBell, FaBook, FaCode, FaDatabase, FaWrench, FaLock } from "react-icons/fa6";
@@ -26,7 +26,7 @@ const tabsControls: ControlDef[] = [
   },
 ];
 
-const tabsBasicCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
+const tabsBasicCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -49,7 +49,7 @@ export function Example() {
   );
 }`;
 
-const tabsWithIconsCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
+const tabsWithIconsCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 import { FaUser, FaGear, FaBell } from "react-icons/fa6";
 
 export function Example() {
@@ -79,7 +79,7 @@ export function Example() {
   );
 }`;
 
-const tabsUnderlineCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
+const tabsUnderlineCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -108,7 +108,7 @@ export function Example() {
   );
 }`;
 
-const tabsDisabledCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
+const tabsDisabledCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -133,7 +133,7 @@ export function Example() {
   );
 }`;
 
-const tabsDocumentationCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
+const tabsDocumentationCode = `import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 import { FaBook, FaCode, FaDatabase } from "react-icons/fa6";
 
 export function Example() {
