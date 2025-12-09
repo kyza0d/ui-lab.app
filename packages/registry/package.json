@@ -1,7 +1,7 @@
 {
-  "name": "@ui-lab/registry",
+  "name": "ui-lab-registry",
   "version": "0.1.0",
-  "description": "Component registry and metadata management for @ui-lab/components",
+  "description": "Component registry and metadata management for ui-lab-component",
   "private": false,
   "type": "module",
   "license": "MIT",

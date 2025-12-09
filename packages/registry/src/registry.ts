@@ -7,7 +7,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A clickable element that triggers an action.',
     category: 'action',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Button',
       packagePath: 'dist/index.d.ts',
     },
@@ -25,7 +25,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A group of related buttons displayed together.',
     category: 'action',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'ButtonGroup',
       packagePath: 'dist/index.d.ts',
     },
@@ -43,7 +43,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'Text input field for capturing user data.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Input',
       packagePath: 'dist/index.d.ts',
     },
@@ -61,7 +61,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'Text label for form elements.',
     category: 'display',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Label',
       packagePath: 'dist/index.d.ts',
     },
@@ -79,7 +79,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'Dropdown select component for choosing from multiple options.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Select',
       packagePath: 'dist/index.d.ts',
     },
@@ -97,7 +97,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'Multi-line text input field for longer user input.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'TextArea',
       packagePath: 'dist/index.d.ts',
     },
@@ -115,7 +115,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A checkbox input for selecting one or multiple options.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Checkbox',
       packagePath: 'dist/index.d.ts',
     },
@@ -133,7 +133,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A radio button for selecting one option from a group.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Radio',
       packagePath: 'dist/index.d.ts',
     },
@@ -151,7 +151,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A small badge component for displaying labels or status.',
     category: 'display',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Badge',
       packagePath: 'dist/index.d.ts',
     },
@@ -169,7 +169,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'Displays additional information on hover or focus.',
     category: 'display',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Tooltip',
       packagePath: 'dist/index.d.ts',
     },
@@ -187,7 +187,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A popover component for displaying content on demand.',
     category: 'feedback',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Popover',
       packagePath: 'dist/index.d.ts',
     },
@@ -205,7 +205,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A wrapper component for organizing form elements.',
     category: 'composition',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'FormWrapper',
       packagePath: 'dist/index.d.ts',
     },
@@ -223,7 +223,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A notification component for displaying temporary messages.',
     category: 'feedback',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Toast',
       packagePath: 'dist/index.d.ts',
     },
@@ -241,7 +241,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A modal dialog for focusing user attention on important content.',
     category: 'container',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Modal',
       packagePath: 'dist/index.d.ts',
     },
@@ -259,7 +259,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A tabbed interface for organizing content into sections.',
     category: 'navigation',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Tabs',
       packagePath: 'dist/index.d.ts',
     },
@@ -277,7 +277,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A context menu for right-click actions.',
     category: 'navigation',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'ContextMenu',
       packagePath: 'dist/index.d.ts',
     },
@@ -295,7 +295,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A toggle switch for boolean input.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Switch',
       packagePath: 'dist/index.d.ts',
     },
@@ -313,7 +313,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A slider component for selecting a value from a range.',
     category: 'input',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Slider',
       packagePath: 'dist/index.d.ts',
     },
@@ -331,7 +331,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A progress bar component for showing completion status.',
     category: 'feedback',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Progress',
       packagePath: 'dist/index.d.ts',
     },
@@ -349,7 +349,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A card component for grouping related content.',
     category: 'container',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Card',
       packagePath: 'dist/index.d.ts',
     },
@@ -367,7 +367,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A searchable command palette for quick access to actions.',
     category: 'action',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'CommandPalette',
       packagePath: 'dist/index.d.ts',
     },
@@ -385,7 +385,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A confirmation dialog for critical user actions.',
     category: 'action',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Confirmation',
       packagePath: 'dist/index.d.ts',
     },
@@ -403,7 +403,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A horizontal or vertical divider for separating content.',
     category: 'layout',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Divider',
       packagePath: 'dist/index.d.ts',
     },
@@ -421,7 +421,7 @@ export const componentRegistry: ComponentRegistry = {
     description: 'A table component for displaying and organizing tabular data.',
     category: 'data',
     source: {
-      packageName: '@ui-lab/components',
+      packageName: 'ui-lab-component',
       exportName: 'Table',
       packagePath: 'dist/index.d.ts',
     },
