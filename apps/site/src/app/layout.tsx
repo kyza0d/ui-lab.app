@@ -1,7 +1,7 @@
 
 import type { Metadata } from "next";
 
-import "@ui-lab/components/styles.css";
+import "ui-lab-components/styles.css"
 
 import "./globals.css";
 import "./styles.css";
@@ -12,7 +12,7 @@ import "@fontsource/geist-mono";
 import Header from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
-// imoprt {Header, Footer} from "@ui-lab/components/layout"
+// imoprt {Header, Footer} from "ui-lab-components/layout"
 
 import { HeaderProvider } from "@/lib/header-context";
 import { CommandPaletteProvider } from "@/components/CommandPaletteProvider";

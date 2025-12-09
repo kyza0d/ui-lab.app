@@ -9,8 +9,8 @@ import { type OklchColor, type SemanticColorType, type HueRange } from "@/lib/co
 import { getScaleName } from "@/lib/config-generator";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
 import { useThemeConfiguration } from "@/hooks/use-theme-configuration";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@ui-lab/components";
-import { Slider } from "@ui-lab/components";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
+import { Slider } from "ui-lab-components";
 
 type ConfigTab = "colors" | "typography" | "layout";
 
