@@ -10,7 +10,7 @@ export type ComponentCategory =
   | 'data';
 
 export interface ComponentSource {
-  packageName: 'ui-lab-component';
+  packageName: 'ui-lab-components';
   exportName: string;
   packagePath: string;
 }
