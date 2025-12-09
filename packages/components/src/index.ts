@@ -97,7 +97,7 @@ export { Divider, dividerVariants } from "./components/divider";
 export type { DividerProps } from "./components/divider";
 
 export { CommandPalette } from "./components/command-palette";
-export type { CommandPaletteProps } from "./components/command-palette";
+export type { CommandPaletteProps, Command } from "./components/command-palette";
 
 export { Confirmation } from "./components/confirmation";
 export type { ConfirmationProps } from "./components/confirmation";

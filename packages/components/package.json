@@ -1,6 +1,6 @@
 {
   "name": "ui-lab-components",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "description": "A collection of beautiful, accessible React components built with Radix UI and Tailwind CSS",
   "private": false,
   "type": "module",
