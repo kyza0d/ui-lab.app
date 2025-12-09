@@ -1,5 +1,5 @@
 {
-  "name": "@ui-lab/components",
+  "name": "ui-lab-components",
   "version": "0.1.0",
   "description": "A collection of beautiful, accessible React components built with Radix UI and Tailwind CSS",
   "private": false,

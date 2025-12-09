@@ -6,10 +6,13 @@
       "file": true,
       "replaced": "workspace:*"
     },
-    "@ui-lab/components": {
-      "signature": "7912713bf7694a38c73b9eebc7a66fb7",
-      "file": true,
-      "replaced": "workspace:*"
+    "ui-lab-components/components": {
+      "signature": "f41bfd0295b6eff10939768979292ae1",
+      "file": true
+    },
+    "ui-lab-components": {
+      "signature": "9518442ef3a486e57e8b802d72df889b",
+      "file": true
     }
   }
 }

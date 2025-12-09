@@ -2,7 +2,7 @@
   "name": "ui-lab-monorepo",
   "version": "0.1.0",
   "private": true,
-  "description": "UI Lab - A modern component library and canvas editor",
+  "description": "UI Lab - A modern component library",
   "scripts": {
     "dev": "pnpm --filter ./apps/* run dev",
     "dev:site": "pnpm --filter @ui-lab/site run dev",
