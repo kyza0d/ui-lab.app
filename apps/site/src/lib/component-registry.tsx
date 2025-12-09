@@ -62,10 +62,10 @@ import {
   categoryMap,
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
-} from "@ui-lab/registry";
+} from "ui-lab-registry";
 
-export type { ComponentCategory } from "@ui-lab/registry";
-export { categories, categoryMap, categoryOrder } from "@ui-lab/registry";
+export type { ComponentCategory } from "ui-lab-registry";
+export { categories, categoryMap, categoryOrder } from "ui-lab-registry";
 
 export interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
