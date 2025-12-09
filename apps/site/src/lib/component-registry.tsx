@@ -58,8 +58,6 @@ import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
   categories,
-  categoryOrder,
-  categoryMap,
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
 } from "ui-lab-registry";
@@ -244,39 +242,40 @@ const previews: Record<string, React.ReactNode> = {
   ),
 };
 
-export const componentRegistry: ComponentMetadata[] = Object.entries(registryData).map(
-  ([id, metadata]) => ({
-    ...metadata,
-    preview: previews[id] || <div />,
-  })
-).concat(
-  !registryData.page ? ([{
+export const componentRegistry: ComponentMetadata[] = [
+  ...Object.entries(registryData).map(
+    ([id, metadata]) => ({
+      ...metadata,
+      preview: previews[id] || <div />,
+    })
+  ),
+  ...(!registryData.page ? [{
     id: "page",
     name: pageDetail.name,
     description: pageDetail.description,
     category: 'container' as const,
     source: {
-      packageName: 'ui-lab-component' as const,
+      packageName: 'ui-lab-components' as const,
       exportName: 'Page',
       packagePath: 'dist/index.d.ts',
     },
     relatedComponents: ['card', 'modal'],
     preview: previews.page || <div />,
-  }] as unknown as ComponentMetadata[]) : [],
-  !registryData.table ? ([{
+  }] : []),
+  ...(!registryData.table ? [{
     id: "table",
     name: tableDetail.name,
     description: tableDetail.description,
     category: 'data' as const,
     source: {
-      packageName: 'ui-lab-component' as const,
+      packageName: 'ui-lab-components' as const,
       exportName: 'Table',
       packagePath: 'src/components/table.tsx',
     },
     relatedComponents: ['card'],
     preview: previews.table || <div />,
-  }] as unknown as ComponentMetadata[]) : []
-);
+  }] : [])
+];
 
 export function getComponentsByCategory(category: ComponentCategory): ComponentMetadata[] {
   return componentRegistry.filter(c => c.category === category)
