@@ -140,7 +140,8 @@ export function generateColorPalette(
 }
 
 export type SemanticColorType = 'success' | 'danger' | 'warning' | 'info';
-export interface SemanticColorConfig { light: { color: OklchColor; chromaLimit?: number }; dark: { color: OklchColor; chromaLimit?: number }; hueRange?: { min: number; max: number; label: string } }
+export interface HueRange { min: number; max: number; label: string }
+export interface SemanticColorConfig { light: { color: OklchColor; chromaLimit?: number }; dark: { color: OklchColor; chromaLimit?: number }; hueRange?: HueRange }
 export type SemanticColors = Record<SemanticColorType, SemanticColorConfig>;
 export type SemanticPalettes = Record<SemanticColorType, ColorPalette>;
 

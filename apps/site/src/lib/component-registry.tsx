@@ -250,32 +250,32 @@ export const componentRegistry: ComponentMetadata[] = Object.entries(registryDat
     preview: previews[id] || <div />,
   })
 ).concat(
-  !registryData.page ? [{
+  !registryData.page ? ([{
     id: "page",
     name: pageDetail.name,
     description: pageDetail.description,
-    category: 'container' as ComponentCategory,
+    category: 'container' as const,
     source: {
-      packageName: 'ui-lab-components' as const,
+      packageName: 'ui-lab-component' as const,
       exportName: 'Page',
       packagePath: 'dist/index.d.ts',
     },
     relatedComponents: ['card', 'modal'],
     preview: previews.page || <div />,
-  }] : [],
-  !registryData.table ? [{
+  }] as unknown as ComponentMetadata[]) : [],
+  !registryData.table ? ([{
     id: "table",
     name: tableDetail.name,
     description: tableDetail.description,
-    category: 'data' as ComponentCategory,
+    category: 'data' as const,
     source: {
-      packageName: 'ui-lab-components' as const,
+      packageName: 'ui-lab-component' as const,
       exportName: 'Table',
       packagePath: 'src/components/table.tsx',
     },
     relatedComponents: ['card'],
     preview: previews.table || <div />,
-  }] : []
+  }] as unknown as ComponentMetadata[]) : []
 );
 
 export function getComponentsByCategory(category: ComponentCategory): ComponentMetadata[] {
