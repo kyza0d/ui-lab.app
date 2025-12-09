@@ -292,7 +292,7 @@ export function Example() {
       <div className="flex gap-3">
         <Button
           type="submit"
-          variant="default"
+          variant="primary"
           className="flex-1"
           disabled={!formData.department || !formData.priority}
         >
@@ -543,7 +543,7 @@ export const selectDetail: ComponentDetail = {
           </div>
 
           <div className="flex gap-3">
-            <Button variant="default" className="flex-1">
+            <Button variant="primary" className="flex-1">
               Create Task
             </Button>
             <Button variant="outline">
@@ -623,7 +623,7 @@ export const selectDetail: ComponentDetail = {
             <div className="flex gap-3">
               <Button
                 type="submit"
-                variant="default"
+                variant="primary"
                 className="flex-1"
                 disabled={!formData.department || !formData.priority}
               >

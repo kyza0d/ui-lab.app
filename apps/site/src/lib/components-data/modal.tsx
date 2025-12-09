@@ -51,7 +51,7 @@ function ConfirmationModalPreview(props: any) {
         footer={
           <div className="flex gap-3">
             <Button
-              variant="default"
+              variant="primary"
               onClick={handleConfirm}
               className="flex-1"
             >
@@ -111,7 +111,7 @@ function FormModalPreview(props: any) {
         footer={
           <div className="flex gap-3">
             <Button
-              variant="default"
+              variant="primary"
               onClick={handleSubmit}
               className="flex-1"
             >
@@ -217,7 +217,7 @@ function AlertModalPreview(props: any) {
         </div>
         <div className="mt-4">
           <Button
-            variant="default"
+            variant="primary"
             onClick={() => setIsOpen(false)}
             className="w-full"
           >
@@ -404,7 +404,7 @@ export function Example() {
         footer={
           <div className="flex gap-3">
             <Button
-              variant="default"
+              variant="primary"
               onClick={handleSubmit}
               className="flex-1"
             >
@@ -509,7 +509,7 @@ export function Example() {
         </div>
         <div className="mt-4">
           <Button
-            variant="default"
+            variant="primary"
             onClick={() => setIsOpen(false)}
             className="w-full"
           >

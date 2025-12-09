@@ -132,7 +132,7 @@ export const cardDetail: ComponentDetail = {
           </Card.Body>
           <Card.Footer>
             <div className="flex gap-3">
-              <Button variant="default">
+              <Button variant="primary">
                 Action
               </Button>
               <Button variant="outline">
