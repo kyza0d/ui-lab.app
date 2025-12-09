@@ -55,7 +55,7 @@ export const LandingThemeToggle = () => {
 
     // Apply CSS variables
     Object.entries(allColorVars).forEach(([varName, value]) => {
-      document.documentElement.style.setProperty(varName, value);
+      document.documentElement.style.setProperty(varName, value as string);
     });
 
     // Cache the palette for instant load on refresh

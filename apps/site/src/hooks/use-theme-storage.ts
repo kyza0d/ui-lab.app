@@ -98,7 +98,7 @@ export function useThemeStorage(options: ThemeStorageOptions) {
 
       // Apply to DOM synchronously
       Object.entries(allColorVars).forEach(([varName, value]) => {
-        document.documentElement.style.setProperty(varName, value);
+        document.documentElement.style.setProperty(varName, value as string);
       });
 
       // Cache the palette for next page load
