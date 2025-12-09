@@ -255,7 +255,7 @@ export const componentRegistry: ComponentMetadata[] = [
     description: pageDetail.description,
     category: 'container' as const,
     source: {
-      packageName: 'ui-lab-components' as const,
+      packageName: 'ui-lab-component' as const,
       exportName: 'Page',
       packagePath: 'dist/index.d.ts',
     },
@@ -268,7 +268,7 @@ export const componentRegistry: ComponentMetadata[] = [
     description: tableDetail.description,
     category: 'data' as const,
     source: {
-      packageName: 'ui-lab-components' as const,
+      packageName: 'ui-lab-component' as const,
       exportName: 'Table',
       packagePath: 'src/components/table.tsx',
     },
