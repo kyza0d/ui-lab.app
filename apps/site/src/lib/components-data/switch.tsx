@@ -210,6 +210,7 @@ export const switchDetail: ComponentDetail = {
         <Switch
           size={props.size as any}
           checked={props.checked}
+          onCheckedChange={(value) => props.handleControlChange('checked', value)}
           disabled={props.disabled}
           {...(props.pill && { pill: true })}
         />

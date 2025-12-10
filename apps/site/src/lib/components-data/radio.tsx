@@ -17,12 +17,6 @@ const radioControls: ControlDef[] = [
     defaultValue: "md",
   },
   {
-    name: "checked",
-    label: "Checked",
-    type: "toggle",
-    defaultValue: false,
-  },
-  {
     name: "disabled",
     label: "Disabled",
     type: "toggle",
@@ -48,47 +42,34 @@ export function Example() {
   return <Radio label="Option 1" />;
 }`;
 
-const radioStatesCode = `import { Radio } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-4">
-      <Radio label="Unchecked" />
-      <Radio label="Checked" checked />
-      <Radio label="Disabled" disabled />
-      <Radio label="Disabled and Checked" disabled checked />
-    </div>
-  );
-}`;
-
 const radioGroupCode = `import { Radio } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
   const [selected, setSelected] = useState<string>("email");
 
-  const options = [
-    { id: "email", label: "Email notification" },
-    { id: "sms", label: "SMS notification" },
-    { id: "push", label: "Push notification" },
-  ];
-
   return (
-    <div className="space-y-3">
+    <Radio.Group
+      value={selected}
+      onValueChange={setSelected}
+      className="space-y-3"
+    >
       <h3 className="text-sm font-medium text-foreground-300 mb-2">
         Notification Method
       </h3>
-      {options.map((option) => (
-        <Radio
-          key={option.id}
-          label={option.label}
-          name="notification"
-          value={option.id}
-          checked={selected === option.id}
-          onChange={(e) => setSelected(e.target.value)}
-        />
-      ))}
-    </div>
+      <Radio.Item
+        value="email"
+        label="Email notification"
+      />
+      <Radio.Item
+        value="sms"
+        label="SMS notification"
+      />
+      <Radio.Item
+        value="push"
+        label="Push notification"
+      />
+    </Radio.Group>
   );
 }`;
 
@@ -98,70 +79,34 @@ import { useState } from "react";
 export function Example() {
   const [selected, setSelected] = useState<string>("standard");
 
-  const options = [
-    {
-      id: "standard",
-      label: "Standard Plan",
-      description: "Perfect for individuals",
-    },
-    {
-      id: "pro",
-      label: "Pro Plan",
-      description: "Best for small teams",
-    },
-    {
-      id: "enterprise",
-      label: "Enterprise Plan",
-      description: "Custom solutions for large organizations",
-    },
-  ];
-
   return (
-    <div className="space-y-3">
+    <Radio.Group
+      value={selected}
+      onValueChange={setSelected}
+      className="space-y-3"
+    >
       <h3 className="text-sm font-medium text-foreground-300 mb-2">
         Select Plan
       </h3>
-      {options.map((option) => (
-        <Radio
-          key={option.id}
-          label={option.label}
-          description={option.description}
-          name="plan"
-          value={option.id}
-          checked={selected === option.id}
-          onChange={(e) => setSelected(e.target.value)}
-        />
-      ))}
-    </div>
+      <Radio.Item
+        value="standard"
+        label="Standard Plan"
+        description="Perfect for individuals"
+      />
+      <Radio.Item
+        value="pro"
+        label="Pro Plan"
+        description="Best for small teams"
+      />
+      <Radio.Item
+        value="enterprise"
+        label="Enterprise Plan"
+        description="Custom solutions for large organizations"
+      />
+    </Radio.Group>
   );
 }`;
 
-const radioSizesCode = `import { Radio } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-4">
-      <Radio size="sm" label="Small radio" />
-      <Radio size="md" label="Medium radio" />
-      <Radio size="lg" label="Large radio" />
-    </div>
-  );
-}`;
-
-const radioDisabledCode = `import { Radio } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-medium text-foreground-300 mb-2">
-        Select an option
-      </h3>
-      <Radio label="Available option" />
-      <Radio label="Disabled option" disabled />
-      <Radio label="Disabled and checked" disabled checked />
-    </div>
-  );
-}`;
 
 const radioErrorCode = `import { Radio } from "ui-lab-components";
 
@@ -186,7 +131,7 @@ export const radioDetail: ComponentDetail = {
         The Radio component is a form control for capturing a single choice from a set of mutually exclusive options. Radio buttons are ideal when users need to select one option from a group.
       </p>
       <p>
-        The component supports labels, descriptions, helper text, and various visual states including checked, unchecked, disabled, and error states. When grouped together with the same <code className="text-accent-500 bg-background-900 px-1.5 py-0.5 rounded text-xs">name</code> attribute, only one radio button can be selected at a time.
+        The component supports labels, descriptions, helper text, and various visual states including checked, unchecked, disabled, and error states. Use the compound component pattern with <code className="text-accent-500 bg-background-900 px-1.5 py-0.5 rounded text-xs">Radio.Group</code> and <code className="text-accent-500 bg-background-900 px-1.5 py-0.5 rounded text-xs">Radio.Item</code> for automatic group management, or use individual <code className="text-accent-500 bg-background-900 px-1.5 py-0.5 rounded text-xs">Radio</code> components for standalone use.
       </p>
     </div>
   ),
@@ -200,117 +145,39 @@ export const radioDetail: ComponentDetail = {
       preview: <Radio label="Option 1" />,
       controls: radioControls,
       renderPreview: (props: any) => (
-        <Radio
-          size={props.size as any}
-          checked={props.checked}
-          disabled={props.disabled}
-          error={props.error}
-          label={props.label}
-        />
-      ),
-    },
-    {
-      id: "states",
-      title: "Radio States",
-      description: "Different states of a radio button: unchecked, checked, and disabled.",
-      code: radioStatesCode,
-      preview: (
-        <div className="space-y-4 w-full max-w-sm">
-          <Radio label="Unchecked" />
-          <Radio label="Checked" checked />
-          <Radio label="Disabled" disabled />
-          <Radio label="Disabled and Checked" disabled checked />
-        </div>
+        <Radio.Group defaultValue="option1" className="space-y-3">
+          <Radio.Item
+            value="option1"
+            size={props.size as any}
+            disabled={props.disabled}
+            error={props.error}
+            label={props.label}
+          />
+          <Radio.Item
+            value="option2"
+            size={props.size as any}
+            disabled={props.disabled}
+            label="Option 2"
+          />
+        </Radio.Group>
       ),
     },
     {
       id: "group",
-      title: "Radio Group",
-      description: "Multiple radio buttons grouped for mutually exclusive selection.",
+      title: "Radio Group (Compound Pattern)",
+      description: "Multiple radio buttons grouped using the compound component pattern with automatic state management.",
       code: radioGroupCode,
       preview: (
-        <div className="space-y-3 w-full max-w-sm">
-          <h3 className="text-sm font-medium text-foreground-300 mb-2">
-            Notification Method
-          </h3>
-          <Radio
-            label="Email notification"
-            name="notification"
-            value="email"
-            defaultChecked
-          />
-          <Radio
-            label="SMS notification"
-            name="notification"
-            value="sms"
-          />
-          <Radio
-            label="Push notification"
-            name="notification"
-            value="push"
-          />
-        </div>
+        <RadioGroupExample />
       ),
     },
     {
       id: "description",
       title: "With Description",
-      description: "Radio buttons with descriptions for additional context.",
+      description: "Radio items with descriptions for additional context.",
       code: radioDescriptionCode,
       preview: (
-        <div className="space-y-3 w-full max-w-sm">
-          <h3 className="text-sm font-medium text-foreground-300 mb-2">
-            Select Plan
-          </h3>
-          <Radio
-            label="Standard Plan"
-            description="Perfect for individuals"
-            name="plan"
-            value="standard"
-            defaultChecked
-          />
-          <Radio
-            label="Pro Plan"
-            description="Best for small teams"
-            name="plan"
-            value="pro"
-          />
-          <Radio
-            label="Enterprise Plan"
-            description="Custom solutions for large organizations"
-            name="plan"
-            value="enterprise"
-          />
-        </div>
-      ),
-    },
-    {
-      id: "sizes",
-      title: "Radio Sizes",
-      description: "Choose from three size options: small, medium, and large.",
-      code: radioSizesCode,
-      preview: (
-        <div className="space-y-4 w-full max-w-sm">
-          <Radio size="sm" label="Small radio" />
-          <Radio size="md" label="Medium radio" />
-          <Radio size="lg" label="Large radio" />
-        </div>
-      ),
-    },
-    {
-      id: "disabled",
-      title: "Disabled State",
-      description: "Radio buttons in disabled state preventing interaction.",
-      code: radioDisabledCode,
-      preview: (
-        <div className="space-y-3 w-full max-w-sm">
-          <h3 className="text-sm font-medium text-foreground-300 mb-2">
-            Select an option
-          </h3>
-          <Radio label="Available option" />
-          <Radio label="Disabled option" disabled />
-          <Radio label="Disabled and checked" disabled checked />
-        </div>
+        <RadioDescriptionExample />
       ),
     },
     {
@@ -362,3 +229,67 @@ export const radioDetail: ComponentDetail = {
     },
   ],
 };
+
+// Helper components for preview examples
+function RadioGroupExample() {
+  const [selected, setSelected] = useState<string>("email");
+
+  return (
+    <div className="w-full max-w-sm">
+      <Radio.Group
+        value={selected}
+        onValueChange={setSelected}
+        className="space-y-3"
+      >
+        <h3 className="text-sm font-medium text-foreground-300 mb-2">
+          Notification Method
+        </h3>
+        <Radio.Item
+          value="email"
+          label="Email notification"
+        />
+        <Radio.Item
+          value="sms"
+          label="SMS notification"
+        />
+        <Radio.Item
+          value="push"
+          label="Push notification"
+        />
+      </Radio.Group>
+    </div>
+  );
+}
+
+function RadioDescriptionExample() {
+  const [selected, setSelected] = useState<string>("standard");
+
+  return (
+    <div className="w-full max-w-sm">
+      <Radio.Group
+        value={selected}
+        onValueChange={setSelected}
+        className="space-y-3"
+      >
+        <h3 className="text-sm font-medium text-foreground-300 mb-2">
+          Select Plan
+        </h3>
+        <Radio.Item
+          value="standard"
+          label="Standard Plan"
+          description="Perfect for individuals"
+        />
+        <Radio.Item
+          value="pro"
+          label="Pro Plan"
+          description="Best for small teams"
+        />
+        <Radio.Item
+          value="enterprise"
+          label="Enterprise Plan"
+          description="Custom solutions for large organizations"
+        />
+      </Radio.Group>
+    </div>
+  );
+}

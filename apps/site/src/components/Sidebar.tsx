@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { getComponentsGroupedByCategory, categoryMap, type ComponentCategory } from "@/lib/component-registry";
+import { FaBook, FaShapes, FaPaintbrush } from "react-icons/fa6";
 
 type MainNavItem = "documentation" | "components" | "customization";
 
@@ -142,17 +143,27 @@ export function Sidebar() {
                   : "/components";
             const isActive = activeNav === nav.id;
 
+            const iconMap = {
+              documentation: FaBook,
+              components: FaShapes,
+              customization: FaPaintbrush,
+            };
+            const Icon = iconMap[nav.id as keyof typeof iconMap];
+
             return (
               <Link
                 key={nav.id}
                 href={href}
                 className={cn(
-                  "flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md",
+                  "flex items-center gap-4 px-1 py-2 text-sm font-medium rounded-md",
                   isActive
                     ? "text-foreground-50 bg-background-800"
                     : "text-foreground-400 hover:text-foreground-300 hover:bg-background-900"
                 )}
               >
+                <div className="w-7 h-7 bg-background-700/80 flex items-center justify-center rounded-md">
+                  <Icon className="w-4 h-4 flex-shrink-0" />
+                </div>
                 <span>{nav.label}</span>
               </Link>
             );

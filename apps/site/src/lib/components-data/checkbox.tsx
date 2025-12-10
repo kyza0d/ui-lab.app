@@ -23,12 +23,6 @@ const checkboxControls: ControlDef[] = [
     defaultValue: false,
   },
   {
-    name: "indeterminate",
-    label: "Indeterminate",
-    type: "toggle",
-    defaultValue: false,
-  },
-  {
     name: "disabled",
     label: "Disabled",
     type: "toggle",
@@ -60,24 +54,9 @@ export function Example() {
   return (
     <div className="space-y-4">
       <Checkbox label="Unchecked" />
-      <Checkbox label="Checked" checked />
+      <Checkbox label="Checked" defaultChecked />
       <Checkbox label="Disabled" disabled />
-      <Checkbox label="Disabled and Checked" disabled checked />
-    </div>
-  );
-}`;
-
-const checkboxIndeterminateCode = `import { Checkbox } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-4">
-      <Checkbox label="Select All" indeterminate />
-      <div className="ml-6 space-y-2">
-        <Checkbox label="Option 1" checked />
-        <Checkbox label="Option 2" checked />
-        <Checkbox label="Option 3" />
-      </div>
+      <Checkbox label="Disabled and Checked" disabled defaultChecked />
     </div>
   );
 }`;
@@ -192,14 +171,14 @@ export function Example() {
 export const checkboxDetail: ComponentDetail = {
   id: "checkbox",
   name: "Checkbox",
-  description: "A flexible checkbox component supporting single and grouped selections with multiple states including checked, unchecked, indeterminate, and disabled.",
+  description: "A flexible checkbox component supporting single and grouped selections with multiple states including checked, unchecked, disabled, and error.",
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
         The Checkbox component is a versatile form control for capturing boolean choices or selections. It supports individual checkboxes as well as checkbox groups for multiple selections.
       </p>
       <p>
-        With built-in support for labels, helper text, and various visual states (checked, unchecked, indeterminate, disabled, and error), the Checkbox component handles all common use cases. The indeterminate state is useful when displaying parent-child relationships, such as a "Select All" option with dependent checkboxes.
+        With built-in support for labels, helper text, and various visual states (checked, unchecked, disabled, and error), the Checkbox component handles all common use cases.
       </p>
     </div>
   ),
@@ -215,8 +194,8 @@ export const checkboxDetail: ComponentDetail = {
       renderPreview: (props: any) => (
         <Checkbox
           size={props.size as any}
-          checked={props.checked}
-          indeterminate={props.indeterminate}
+          checked={props.checked ?? false}
+          onChange={(e) => props.handleControlChange('checked', e.target.checked)}
           disabled={props.disabled}
           error={props.error}
           label={props.label}
@@ -231,25 +210,9 @@ export const checkboxDetail: ComponentDetail = {
       preview: (
         <div className="space-y-4 w-full max-w-sm">
           <Checkbox label="Unchecked" />
-          <Checkbox label="Checked" checked />
+          <Checkbox label="Checked" defaultChecked />
           <Checkbox label="Disabled" disabled />
-          <Checkbox label="Disabled and Checked" disabled checked />
-        </div>
-      ),
-    },
-    {
-      id: "indeterminate",
-      title: "Indeterminate State",
-      description: "Useful for representing parent-child relationships in grouped selections.",
-      code: checkboxIndeterminateCode,
-      preview: (
-        <div className="space-y-4 w-full max-w-sm">
-          <Checkbox label="Select All" indeterminate />
-          <div className="ml-6 space-y-2">
-            <Checkbox label="Option 1" checked />
-            <Checkbox label="Option 2" checked />
-            <Checkbox label="Option 3" />
-          </div>
+          <Checkbox label="Disabled and Checked" disabled defaultChecked />
         </div>
       ),
     },
@@ -340,8 +303,8 @@ export const checkboxDetail: ComponentDetail = {
       id: "checked",
       name: "Checked",
       description: "Checkbox in checked state.",
-      code: `<Checkbox label="Checked checkbox" checked />`,
-      preview: <Checkbox label="Checked checkbox" checked />,
+      code: `<Checkbox label="Checked checkbox" defaultChecked />`,
+      preview: <Checkbox label="Checked checkbox" defaultChecked />,
     },
     {
       id: "unchecked",
@@ -349,13 +312,6 @@ export const checkboxDetail: ComponentDetail = {
       description: "Checkbox in unchecked state.",
       code: `<Checkbox label="Unchecked checkbox" />`,
       preview: <Checkbox label="Unchecked checkbox" />,
-    },
-    {
-      id: "indeterminate",
-      name: "Indeterminate",
-      description: "Checkbox in indeterminate state.",
-      code: `<Checkbox label="Indeterminate checkbox" indeterminate />`,
-      preview: <Checkbox label="Indeterminate checkbox" indeterminate />,
     },
     {
       id: "disabled",

@@ -268,13 +268,14 @@ export default function Header() {
       />
       <header
         className={cn(
-          "mx-auto  max-w-[1400px] fixed top-0 left-1/2 -translate-x-1/2 right-0 z-50 w-full h-15 flex items-center justify-between px-4"
+          "mx-auto fixed top-0 left-1/2 -translate-x-1/2 right-0 z-50 w-full h-15 flex items-center justify-between px-4"
         )}
       >
         <div className="flex items-center space-x-4 md:space-x-6 ">
           <Link href="/" className="mr-6 mb-1 flex-shrink-0 transition-opacity hover:opacity-80">
             <Logo />
           </Link>
+          {/* <Button className="text-md!">Hello</Button> */}
 
           <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
             {navigationData.map((item) => {

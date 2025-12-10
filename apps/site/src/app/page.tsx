@@ -59,7 +59,6 @@ export default function Home() {
                 </Badge>
               </div>
 
-              <Button className="destructive">Hello</Button>
               <h1 className="mb-4 text-foreground-50">The Most Expressive <br />UI Library For Modern Web</h1>
               <p className="mb-8">A modern, beautifully crafted component library — pixel-perfect, <br /> fully accessible, and developer-friendly out of the box.</p>
               <div className="flex gap-4">

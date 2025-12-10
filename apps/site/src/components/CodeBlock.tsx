@@ -93,7 +93,7 @@ export function CodeBlock({
 
     const highlight = async () => {
       try {
-        const theme = shikiTheme || (currentThemeMode === "light" ? "vitesse-light" : "vitesse-dark");
+        const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(children, {
           lang: language as any,
           theme,

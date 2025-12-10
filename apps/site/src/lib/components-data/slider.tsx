@@ -52,33 +52,6 @@ export function Example() {
   );
 }`;
 
-const sliderVolumeCode = `import * as Slider from "ui-lab-components";
-import { useState } from "react";
-import { FaVolumeHigh, FaVolumeMute } from "react-icons/fa6";
-
-export function Example() {
-  const [volume, setVolume] = useState([70]);
-
-  return (
-    <div className="flex items-center gap-3 w-64">
-      {volume[0] === 0 ? (
-        <FaVolumeMute className="w-4 h-4 text-foreground-400" />
-      ) : (
-        <FaVolumeHigh className="w-4 h-4 text-foreground-400" />
-      )}
-      <Slider.Root
-        min={0}
-        max={100}
-        value={volume}
-        onValueChange={setVolume}
-      >
-        <Slider.Thumb />
-      </Slider.Root>
-      <span className="text-sm text-foreground-400 w-8">{volume[0]}%</span>
-    </div>
-  );
-}`;
-
 const sliderRangeCode = `import * as Slider from "ui-lab-components";
 import { useState } from "react";
 
@@ -162,9 +135,9 @@ export const sliderDetail: ComponentDetail = {
       renderPreview: (props: any) => (
         <Slider.Root
           size={props.size as any}
-          min={Number(props.min)}
-          max={Number(props.max)}
-          step={Number(props.step)}
+          min={Number(props.min || '0')}
+          max={Number(props.max || '100')}
+          step={Number(props.step || '1')}
           defaultValue={[50]}
           disabled={props.disabled}
         >

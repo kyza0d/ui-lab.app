@@ -27,7 +27,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
   return (
     <nav
       className={cn(
-        "grid grid-cols-[1fr_20%]",
+        "grid grid-cols-[1fr_auto]",
         "sticky top-15 px-8 py-4 bg-background-950 border-b border-background-800 z-40",
         className
       )}
@@ -57,6 +57,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
       <Input
         placeholder="Search documentation"
         prefixIcon={<FaMagnifyingGlass />}
+        className="w-[240]"
         size="sm"
         onClick={handleInputClick}
         readOnly

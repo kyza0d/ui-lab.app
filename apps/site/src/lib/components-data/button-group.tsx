@@ -721,7 +721,6 @@ export const buttonGroupDetail: ComponentDetail = {
       code: textAlignmentCode,
       preview: <TextAlignmentPreview />,
       renderPreview: () => <TextAlignmentPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "media-controls",
@@ -731,7 +730,6 @@ export const buttonGroupDetail: ComponentDetail = {
       code: mediaControlsCode,
       preview: <MediaControlsPreview />,
       renderPreview: () => <MediaControlsPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "view-mode-switcher",
@@ -741,7 +739,6 @@ export const buttonGroupDetail: ComponentDetail = {
       code: viewModeSwitcherCode,
       preview: <ViewModeSwitcherPreview />,
       renderPreview: () => <ViewModeSwitcherPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "direction-controls",
@@ -751,19 +748,6 @@ export const buttonGroupDetail: ComponentDetail = {
       code: verticalOrientationCode,
       preview: <DirectionControlsPreview />,
       renderPreview: () => <DirectionControlsPreview />,
-      controls: [
-        ...buttonGroupControls,
-        {
-          name: "orientation",
-          label: "Orientation",
-          type: "select",
-          options: [
-            { label: "Horizontal", value: "horizontal" },
-            { label: "Vertical", value: "vertical" },
-          ],
-          defaultValue: "horizontal",
-        },
-      ],
     },
     {
       id: "drawing-tools",
@@ -795,7 +779,6 @@ export function Example() {
 }`,
       preview: <DrawingToolsPreview />,
       renderPreview: () => <DrawingToolsPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "zoom-controls",
@@ -831,7 +814,6 @@ export function Example() {
 }`,
       preview: <ZoomControlsPreview />,
       renderPreview: () => <ZoomControlsPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "star-rating",
@@ -841,7 +823,6 @@ export function Example() {
       code: starRatingCode,
       preview: <StarRatingPreview />,
       renderPreview: () => <StarRatingPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "with-labels",
@@ -873,7 +854,6 @@ export function Example() {
           </ButtonGroup>
         </div>
       ),
-      controls: buttonGroupControls,
     },
     {
       id: "actions-group",
@@ -905,7 +885,6 @@ export function Example() {
 }`,
       preview: <ActionsGroupPreview />,
       renderPreview: () => <ActionsGroupPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "vertical-options",
@@ -944,7 +923,6 @@ export function Example() {
 }`,
       preview: <VerticalButtonGroupPreview />,
       renderPreview: () => <VerticalButtonGroupPreview />,
-      controls: buttonGroupControls,
     },
     {
       id: "vertical-toolbar",
@@ -984,7 +962,6 @@ export function Example() {
 }`,
       preview: <VerticalIconGroupPreview />,
       renderPreview: () => <VerticalIconGroupPreview />,
-      controls: buttonGroupControls,
     },
   ],
   variants: [

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="relative border-x max-w-[1400px] mx-auto border-t border-background-700 pb-10 pt-10 overflow-hidden">
+    <footer className="relative border-x mx-auto border-t border-background-700 pb-10 pt-10 overflow-hidden">
       <video
         autoPlay
         muted

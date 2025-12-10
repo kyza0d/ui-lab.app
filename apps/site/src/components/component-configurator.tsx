@@ -286,7 +286,7 @@ export function ComponentConfigurator({
                 />
               ) : (
                 <div className="p-8 flex items-center justify-center min-h-40">
-                  {renderPreview ? renderPreview(controlValues) : children}
+                  {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
                 </div>
               )}
             </div>
