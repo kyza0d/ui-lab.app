@@ -5,12 +5,13 @@ import Link from "next/link";
 import { useHeader } from "@/lib/header-context";
 import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush } from "react-icons/fa6";
 import { themes } from "@/constants/themes";
-import { type OklchColor, type SemanticColorType, type HueRange } from "@/lib/color-utils";
+import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange } from "@/lib/color-utils";
 import { getScaleName } from "@/lib/config-generator";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
-import { useThemeConfiguration } from "@/hooks/use-theme-configuration";
+import { getSemanticColorSafely, getSemanticChromaLimit } from "@/lib/semantic-color-utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 import { Slider } from "ui-lab-components";
+import { Divider } from "ui-lab-components";
 
 type ConfigTab = "colors" | "typography" | "layout";
 
@@ -48,7 +49,7 @@ interface ColorPickerProps {
 }
 
 const MICRO_LABEL = "text-[14px] font-semibold text-foreground-500";
-const VALUE_LABEL = "text-[14px] text-foreground-300";
+const VALUE_LABEL = "text-[12px] text-foreground-300";
 
 export const SettingsPanel = () => {
   const {
@@ -99,35 +100,30 @@ export const SettingsPanel = () => {
       currentThemeMode,
     });
 
-  useThemeConfiguration({
-    typography: { fontSizeScale, fontWeightScale, typeSizeRatio },
-    layout: { radius, borderWidth, spacingScale },
-  });
-
   const handleColorChange = (type: string, newColor: OklchColor) => {
     const updated = { ...localColors };
-    if (["background", "foreground", "accent"].includes(type)) {
-      (updated as any)[type] = newColor;
+    if (type === "background") {
+      updated.background = newColor;
+    } else if (type === "foreground") {
+      updated.foreground = newColor;
+    } else if (type === "accent") {
+      updated.accent = newColor;
     } else {
-      if (!updated.semantic) updated.semantic = {} as any;
-      const existing = (updated.semantic as any)[type] || { light: {}, dark: {} };
-      (updated.semantic as any)[type] = {
-        ...existing,
-        light: {
-          ...existing.light,
-          color: newColor,
-          // Preserve chromaLimit from existing config (fallback to 0.25 for semantic colors)
-          chromaLimit: existing.light?.chromaLimit ?? 0.25,
-        },
-        dark: {
-          ...existing.dark,
-          color: newColor,
-          // Preserve chromaLimit from existing config (fallback to 0.25 for semantic colors)
-          chromaLimit: existing.dark?.chromaLimit ?? 0.25,
-        },
-        // Preserve hueRange if it exists
-        ...(existing.hueRange && { hueRange: existing.hueRange }),
+      const semanticType = type as SemanticColorType;
+      const semantic = (updated.semantic ?? {}) as Record<SemanticColorType, SemanticColorConfig>;
+      const existing = semantic[semanticType] ?? {
+        light: { color: newColor, chromaLimit: 0.25 },
+        dark: { color: newColor, chromaLimit: 0.25 }
       };
+      semantic[semanticType] = {
+        ...existing,
+        [currentThemeMode]: {
+          ...existing[currentThemeMode],
+          color: newColor,
+          chromaLimit: existing[currentThemeMode]?.chromaLimit ?? 0.25,
+        },
+      };
+      updated.semantic = semantic;
     }
     setLocalColors(updated);
     applyAndPersistColors(updated);
@@ -135,13 +131,15 @@ export const SettingsPanel = () => {
 
   const handleChromaLimitChange = (type: SemanticColorType, chromaLimit: number) => {
     const updated = { ...localColors };
-    if (!updated.semantic) updated.semantic = {} as any;
-    const existing = (updated.semantic as any)[type] || { light: {}, dark: {} };
-    (updated.semantic as any)[type] = {
-      ...existing,
-      light: { ...existing.light, chromaLimit },
-      dark: { ...existing.dark, chromaLimit },
-    };
+    const semantic = (updated.semantic ?? {}) as Record<SemanticColorType, SemanticColorConfig>;
+    const existing = semantic[type];
+    if (existing) {
+      semantic[type] = {
+        ...existing,
+        [currentThemeMode]: { ...existing[currentThemeMode], chromaLimit },
+      };
+      updated.semantic = semantic;
+    }
     setLocalColors(updated);
     applyAndPersistColors(updated);
   };
@@ -181,7 +179,7 @@ export const SettingsPanel = () => {
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as ConfigTab)}>
-          <TabsContent value="colors" className="px-[6px] m-0 space-y-2">
+          <TabsContent value="colors" className="m-0 space-y-[8px]">
             {(["background", "foreground", "accent"] as const).map((colorType) => (
               <ColorRow
                 key={colorType}
@@ -197,22 +195,31 @@ export const SettingsPanel = () => {
               <div className={`${MICRO_LABEL} px-2 mb-2 opacity-70`}>Semantic Layer</div>
               <div className="space-y-2">
                 {(["success", "danger", "warning", "info"] as const).map((colorType) => {
-                  const semanticConfig = localColors.semantic?.[colorType];
-                  const modeConfig = currentThemeMode === "light" ? semanticConfig?.light : semanticConfig?.dark;
+                  const semanticColor = getSemanticColorSafely(
+                    localColors.semantic,
+                    colorType,
+                    currentThemeMode
+                  );
+                  const chromaLimit = getSemanticChromaLimit(
+                    localColors.semantic,
+                    colorType,
+                    currentThemeMode
+                  );
+                  const hueRange = localColors.semantic?.[colorType]?.hueRange;
 
-                  if (!modeConfig?.color) return null;
+                  if (!semanticColor) return null;
 
                   return (
                     <ColorRow
                       key={colorType}
                       type={colorType}
-                      color={modeConfig.color}
+                      color={semanticColor}
                       isExpanded={expandedColor === colorType}
                       onToggle={() => setExpandedColor(expandedColor === colorType ? null : colorType)}
                       onChange={(c: OklchColor) => handleColorChange(colorType, c)}
-                      chromaLimit={modeConfig.chromaLimit ?? 0.025}
+                      chromaLimit={chromaLimit}
                       onChromaLimitChange={(limit) => handleChromaLimitChange(colorType, limit)}
-                      hueRange={semanticConfig?.hueRange}
+                      hueRange={hueRange}
                     />
                   );
                 })}
@@ -300,41 +307,41 @@ export const SettingsPanel = () => {
 
 const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }: ColorRowProps) => {
   return (
-    <div className={`rounded-[12px] ${isExpanded ? "bg-background-700/40 border border-background-700" : "hover:bg-background-700/40 border border-transparent hover:border-background-700 active:bg-background-800/50"} transition-all duration-300 overflow-hidden group`}>
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center gap-3 p-[6px] text-left outline-none"
-      >
-        <div className="relative">
-          <div
-            className="w-8 h-8 rounded-[8px]"
-            style={{ backgroundColor: `oklch(${color.l} ${color.c} ${color.h})` }}
-          />
-        </div>
-
-        <div className="flex-1 min-w-0 flex flex-col justify-center">
-          <div className="text-[14px] font-medium text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
-            {type}
+    <div>
+      <div className={`mx-[6px] rounded-[12px] ${isExpanded ? "bg-background-700/40 border border-background-700" : "hover:bg-background-700/40 border border-transparent hover:border-background-700 active:bg-background-800/50"} mb-[8px] transition-all duration-300 overflow-hidden group`}>
+        <button
+          onClick={onToggle}
+          className="cursor-pointer w-full flex items-center gap-3 py-[10px] px-[10px] text-left outline-none"
+        >
+          <div className="relative">
+            <div
+              className="w-7 h-7 rounded-[8px]"
+              style={{ backgroundColor: `oklch(${color.l} ${color.c} ${color.h})` }}
+            />
           </div>
-          <div className={`${VALUE_LABEL} opacity-60`}>
-            {Math.round(color.l * 100)}% / {color.c.toFixed(3)}
+
+          <div className="flex-1 min-w-0 flex flex-col justify-center">
+            <div className="text-[14px] font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
+              {type}
+            </div>
           </div>
-        </div>
 
-        <div className={`text-foreground-500 text-[10px] transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
-          <FaChevronDown size={13} />
-        </div>
-      </button>
+          <div className={`mr-3 text-foreground-500 text-[10px] transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
+            <FaChevronDown size={13} />
+          </div>
+        </button>
 
-      {/* Animated Content Expansion */}
-      <div
-        className={`transition-all border-t border-background-700 duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden ${isExpanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}
-      >
-        <div className="px-3 pb-3 pt-0 space-y-4">
-          <div className="h-px w-full bg-background-700/30 mb-3" />
-          <ColorPicker color={color} onChange={onChange} hueRange={hueRange} />
+        {/* Animated Content Expansion */}
+        <div
+          className={`transition-all border-t border-background-700 duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden ${isExpanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}
+        >
+          <div className="px-3 pb-3 pt-0 space-y-4">
+            <div className="h-px w-full bg-background-700/30 mb-3" />
+            <ColorPicker color={color} onChange={onChange} hueRange={hueRange} />
+          </div>
         </div>
       </div>
+      <Divider />
     </div>
   );
 });

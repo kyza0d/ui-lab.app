@@ -78,8 +78,9 @@ export function applyPaletteFromCache(): boolean {
   if (!cached) return false;
 
   try {
+    const root = document.documentElement;
     Object.entries(cached.cssVariables).forEach(([varName, value]) => {
-      document.documentElement.style.setProperty(varName, value);
+      root.style.setProperty(varName, value);
     });
     return true;
   } catch {

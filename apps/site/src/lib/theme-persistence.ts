@@ -92,6 +92,9 @@ export function loadThemePreferences(): ThemePreferences | null {
 export function applyThemePreferences(prefs: ThemePreferences): void {
   const root = document.documentElement;
 
+  // Apply theme mode
+  root.setAttribute('data-theme', prefs.mode);
+
   // Apply colors
   applyColorsToDom(prefs.colors);
 
