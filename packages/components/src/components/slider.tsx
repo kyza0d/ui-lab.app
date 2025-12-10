@@ -1,72 +1,117 @@
-'use client';
+"use client"
 
 import * as React from 'react';
-import * as SliderPrimitive from '@radix-ui/react-slider';
-
+import { Slider, SliderTrack, SliderThumb as AriaSliderThumb } from 'react-aria-components';
 import { cn } from '@/lib/utils';
-
-const SLIDER_ROOT_NAME = 'SliderRoot';
-const SLIDER_THUMB_NAME = 'SliderThumb';
+import styles from './slider.module.css';
 
 type SliderSize = 'sm' | 'md' | 'lg';
 
+interface SliderRootProps extends Omit<React.ComponentPropsWithoutRef<typeof Slider>, 'children' | 'min' | 'max' | 'onChange'> {
+  size?: SliderSize;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  min?: number;
+  max?: number;
+  onValueChange?: (value: number | number[]) => void;
+}
+
+const SliderContext = React.createContext<{
+  size: SliderSize;
+  disabled?: boolean;
+} | null>(null);
+
 const Root = React.forwardRef<
-  React.ComponentRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & { disabled?: boolean; size?: SliderSize }
->(({ className, children, disabled, size = 'md', ...rest }, forwardedRef) => {
-  const sizeClasses: Record<SliderSize, string> = {
-    sm: 'h-3',
-    md: 'h-4',
-    lg: 'h-5',
-  };
+  React.ElementRef<typeof Slider>,
+  SliderRootProps
+>(
+  (
+    {
+      className,
+      size = 'md',
+      disabled,
+      style,
+      defaultValue,
+      value,
+      onValueChange,
+      min: _min,
+      max: _max,
+      step,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const minValue = _min ?? 0;
+    const maxValue = _max ?? 100;
+    const stepValue = step ?? 1;
 
-  const trackSizeClasses: Record<SliderSize, string> = {
-    sm: 'h-1',
-    md: 'h-1.5',
-    lg: 'h-2',
-  };
+    return (
+      <SliderContext.Provider value={{ size, disabled }}>
+        <Slider
+          ref={ref}
+          isDisabled={disabled}
+          defaultValue={defaultValue}
+          value={value}
+          onChange={onValueChange}
+          minValue={minValue}
+          maxValue={maxValue}
+          step={stepValue}
+          data-size={size}
+          data-disabled={disabled}
+          style={style}
+          className={cn('slider', styles.slider, className)}
+          {...props}
+        >
+          <SliderTrack className={cn('slider track', styles.track)}>
+            {({ state }) => (
+              <>
+                <div
+                  className={cn('slider range', styles.range)}
+                  style={{
+                    left: `${state.values.length === 1 ? 0 : state.getThumbPercent(0) * 100}%`,
+                    right: `${state.values.length === 1 ? 100 - state.getThumbPercent(0) * 100 : 100 - state.getThumbPercent(state.values.length - 1) * 100}%`,
+                  }}
+                />
+                {state.values.map((_, index) => (
+                  <AriaSliderThumb
+                    key={index}
+                    index={index}
+                    className={cn('slider thumb', styles.thumb)}
+                  />
+                ))}
+              </>
+            )}
+          </SliderTrack>
+        </Slider>
+      </SliderContext.Provider>
+    );
+  }
+);
+Root.displayName = 'SliderRoot';
 
-  return (
-    <SliderPrimitive.Root
-      ref={forwardedRef}
-      className={cn(
-        'relative flex w-full touch-none select-none items-center',
-        sizeClasses[size as SliderSize],
-        disabled && 'opacity-50 cursor-not-allowed',
-        className,
-      )}
-      disabled={disabled}
-      {...rest}
-    >
-      <SliderPrimitive.Track className={cn('relative w-full overflow-hidden rounded-full', trackSizeClasses[size as SliderSize], disabled ? 'bg-background-500' : 'bg-background-600')}>
-        <SliderPrimitive.Range className={cn('absolute h-full', disabled ? 'bg-background-600' : 'bg-accent-500')} />
-      </SliderPrimitive.Track>
-      {children}
-    </SliderPrimitive.Root>
-  );
-});
-Root.displayName = SLIDER_ROOT_NAME;
+interface ThumbProps extends React.ComponentPropsWithoutRef<typeof AriaSliderThumb> {
+  index?: number;
+}
 
-const Thumb = React.forwardRef<
-  React.ComponentRef<typeof SliderPrimitive.Thumb>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Thumb>
->(({ className, ...rest }, forwardedRef) => {
-  return (
-    <SliderPrimitive.Thumb
-      ref={forwardedRef}
-      className={cn(
-        [
-          // base
-          'box-content block size-3 shrink-0 cursor-pointer rounded-full border-0 bg-accent-500 shadow-none outline-none',
-          // focus
-          'focus:outline-none',
-        ],
-        className,
-      )}
-      {...rest}
-    />
-  );
-});
-Thumb.displayName = SLIDER_THUMB_NAME;
+const Thumb = React.forwardRef<HTMLDivElement, ThumbProps>(
+  ({ index: _index, style, className, ...props }, ref) => {
+    const context = React.useContext(SliderContext);
+    if (!context) {
+      console.warn('Thumb must be used within Slider.Root');
+      return null;
+    }
+
+    return (
+      <AriaSliderThumb
+        ref={ref}
+        style={style}
+        className={cn('slider thumb', styles.thumb, className)}
+        {...props}
+      />
+    );
+  }
+);
+Thumb.displayName = 'SliderThumb';
 
 export { Root, Thumb };

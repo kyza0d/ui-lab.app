@@ -1,0 +1,179 @@
+@reference "tailwindcss";
+
+@layer components {
+  .buttonGroup {
+    --background: var(--background-950);
+    --border: var(--background-700);
+
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .buttonGroup.horizontal {
+    flex-direction: row;
+  }
+
+  .buttonGroup.vertical {
+    flex-direction: column;
+  }
+
+  .buttonGroup.tight {
+    gap: 0;
+  }
+
+  .buttonGroup.normal {
+    gap: var(--spacing-1);
+  }
+
+  .buttonGroup.relaxed {
+    gap: var(--spacing-2);
+  }
+
+  .buttonGroup.ghost {
+    --background: transparent;
+    --border: transparent;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .buttonItem {
+    --background: transparent;
+    --foreground: var(--foreground-50);
+    --background-hover: var(--background-800);
+    --background-active: var(--background-700);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: var(--text-sm);
+    background-color: var(--background);
+    color: var(--foreground);
+    border: none;
+    border-radius: var(--radius-lg);
+
+    &:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background-color: var(--background-hover);
+      }
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--background-active);
+    }
+  }
+
+  .buttonItem.secondary {
+    --background: var(--background-800);
+    --background-hover: var(--background-700);
+    --background-active: var(--background-600);
+  }
+
+  .buttonItem.outline {
+    --background: transparent;
+    --border: var(--background-700);
+    --background-hover: var(--background-800);
+    --border-active: var(--background-600);
+
+    border: var(--border-width-base) solid var(--border);
+
+    &:active:not(:disabled) {
+      border-color: var(--border-active);
+    }
+  }
+
+  .buttonItem.ghost {
+    --background: transparent;
+    --background-hover: transparent;
+    --background-active: transparent;
+  }
+
+  .buttonItem.sm {
+    @apply h-6 px-3;
+    font-size: var(--text-sm);
+  }
+
+  .buttonItem.md {
+    @apply h-8 px-4;
+    font-size: var(--text-sm);
+  }
+
+  .buttonItem.lg {
+    @apply h-9 px-6;
+    font-size: var(--text-md);
+  }
+
+  .buttonItem.icon {
+    @apply h-9 w-10 p-0;
+  }
+
+  .buttonItem.icon.ghost {
+    height: auto;
+    width: auto;
+    border-radius: 0;
+  }
+
+  .buttonItem.selected {
+    --background: var(--background-800);
+  }
+
+  .buttonItem.secondary.selected {
+    --background: var(--background-700);
+  }
+
+  .buttonItem.outline.selected {
+    --background: color-mix(in srgb, var(--accent-500) 10%, transparent);
+    --foreground: var(--accent-500);
+    --border: var(--accent-500);
+
+    border-color: var(--border);
+  }
+
+  .buttonItem.ghost.selected {
+    --background: transparent;
+  }
+
+  .itemWrapper {
+    @apply mx-1;
+  }
+
+  .itemWrapper.horizontal {
+    @apply my-1;
+  }
+
+  .itemWrapper.vertical {
+    @apply mx-1;
+  }
+
+  .itemWrapper.first.horizontal {
+    @apply ml-1;
+  }
+
+  .itemWrapper.last.horizontal {
+    @apply mr-1;
+  }
+
+  .itemWrapper.first.vertical {
+    @apply mt-1;
+  }
+
+  .itemWrapper.last.vertical {
+    @apply mb-1;
+  }
+}

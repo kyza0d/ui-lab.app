@@ -1,0 +1,121 @@
+@reference "tailwindcss";
+
+@layer components {
+  .switch {
+    --track-background-unchecked: var(--background-700);
+    --track-background-checked: var(--accent-500);
+    --track-background-disabled: var(--background-800);
+    --thumb-background-unchecked: var(--background-500);
+    --thumb-background-checked: var(--accent-50);
+    --border: var(--background-700);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition-interactions), border-color var(--transition-interactions);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .switch-track {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: background-color var(--transition-interactions);
+    background-color: var(--track-background-unchecked);
+    border-radius: var(--radius-md)
+  }
+
+  .switch-thumb {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    transition: left var(--transition-interactions), background-color var(--transition-interactions);
+    background-color: var(--thumb-background-unchecked);
+  }
+
+  .switch[data-checked="true"] .switch-track {
+    background-color: var(--track-background-checked);
+  }
+
+  .switch[data-checked="true"] .switch-thumb {
+    background-color: var(--thumb-background-checked);
+  }
+
+  .switch[data-checked="true"] {
+    --border: var(--accent-500);
+  }
+}
+
+.switch.sm {
+  width: 2.5rem;
+  height: 1.5rem;
+}
+
+.switch.md {
+  width: 3rem;
+  height: 1.75rem;
+}
+
+.switch.lg {
+  width: 3.5rem;
+  height: 2rem;
+}
+
+.switch-thumb.sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.switch-thumb.md {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.switch-thumb.lg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.switch.sm.pill,
+.switch-track.sm.pill {
+  border-radius: 9999px;
+}
+
+.switch.md.pill,
+.switch-track.md.pill {
+  border-radius: 9999px;
+}
+
+.switch.lg.pill,
+.switch-track.lg.pill {
+  border-radius: 9999px;
+}
+
+.switch.sm.round,
+.switch-track.sm.round {
+  border-radius: 0.375rem;
+}
+
+.switch.md.round,
+.switch-track.md.round {
+  border-radius: 0.375rem;
+}
+
+.switch.lg.round,
+.switch-track.lg.round {
+  border-radius: 0.375rem;
+}
+
+.switch-thumb.pill {
+  border-radius: 9999px;
+}
+
+.switch-thumb.round {
+  border-radius: 0.375rem;
+}

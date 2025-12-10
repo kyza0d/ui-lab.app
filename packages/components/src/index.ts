@@ -1,16 +1,16 @@
 export { Button } from "./components/button";
 export type { ButtonProps } from "./components/button";
 
-export { Badge, badgeVariants } from "./components/badge";
+export { Badge } from "./components/badge";
 export type { BadgeProps } from "./components/badge";
 
-export { ButtonGroup, ButtonGroupItem, buttonGroupVariants, buttonItemVariants } from "./components/button-group";
-export type { ButtonGroupProps } from "./components/button-group";
+export { ButtonGroup, ButtonGroupItem } from "./components/button-group";
+export type { ButtonGroupProps, ButtonGroupItemProps } from "./components/button-group";
 
 export { Card, CardHeader, CardBody, CardFooter } from "./components/card";
 export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from "./components/card";
 
-export { Checkbox, checkboxVariants } from "./components/checkbox";
+export { Checkbox } from "./components/checkbox";
 export type { CheckboxProps } from "./components/checkbox";
 
 export {
@@ -25,7 +25,7 @@ export {
   SelectScrollDownButton,
 } from "./components/select";
 
-export { Input, inputVariants } from "./components/input";
+export { Input } from "./components/input";
 export type { InputProps } from "./components/input";
 
 export { Label, labelVariants } from "./components/label";
@@ -34,8 +34,8 @@ export type { LabelProps } from "./components/label";
 export { TextArea, textareaVariants } from "./components/textarea";
 export type { TextAreaProps } from "./components/textarea";
 
-export { Radio, radioVariants } from "./components/radio";
-export type { RadioProps } from "./components/radio";
+export { Radio } from "./components/radio";
+export type { RadioProps, RadioGroupProps, RadioItemProps } from "./components/radio";
 
 export { Tooltip } from "./components/tooltip";
 export type { TooltipProps } from "./components/tooltip";
@@ -65,7 +65,7 @@ export type { ToastProps, ToastVariant, ToastPosition } from "./components/toast
 export { Modal } from "./components/modal";
 export type { ModalProps } from "./components/modal";
 
-export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants, tabsTriggerVariants } from "./components/tabs";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
 
 export {
   ContextMenu,
@@ -85,7 +85,7 @@ export {
   ContextMenuSubTrigger,
 } from "./components/context-menu";
 
-export { Switch, switchVariants, switchTrackVariants, switchThumbVariants } from "./components/switch";
+export { Switch } from "./components/switch";
 export type { SwitchProps } from "./components/switch";
 
 export { Progress, progressVariants, progressFillVariants } from "./components/progress";

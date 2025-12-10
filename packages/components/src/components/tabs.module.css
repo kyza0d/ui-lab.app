@@ -1,0 +1,109 @@
+@reference "tailwindcss";
+
+@layer components {
+  .tabsList {
+    --background: var(--background-800);
+    --border: var(--background-700);
+    --indicator-background: var(--background-700);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-lg);
+    @apply p-1;
+  }
+
+  .tabsListUnderline {
+    --background: transparent;
+    --border: var(--background-700);
+    --indicator-background: var(--accent-500);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-bottom: var(--border-width-base) solid var(--border);
+    border-radius: 0;
+    @apply p-0;
+  }
+
+  .indicator {
+    position: absolute;
+    pointer-events: none;
+    transition: all 300ms ease-out;
+    background-color: var(--indicator-background);
+  }
+
+  .indicatorDefault {
+    border-radius: var(--radius-md);
+  }
+
+  .indicatorUnderline {
+    bottom: 0;
+    height: 0.125rem;
+  }
+
+  .tabsTrigger {
+    --foreground: var(--foreground-400);
+    --foreground-hover: var(--foreground-200);
+    --foreground-active: var(--foreground-50);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: var(--text-md);
+    line-height: var(--leading-snug);
+    @apply gap-2 px-3 py-1.5 whitespace-nowrap;
+
+    color: var(--foreground);
+    user-select: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-500);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        color: var(--foreground-hover);
+      }
+    }
+
+    &:active:not(:disabled) {
+      color: var(--foreground-active);
+    }
+  }
+
+  .tabsTrigger[data-state="active"] {
+    color: var(--foreground-active);
+  }
+
+  .tabsContent {
+    margin-top: 0.5rem;
+    outline: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--accent-500);
+      outline-offset: 2px;
+    }
+  }
+}
