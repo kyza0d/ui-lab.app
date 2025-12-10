@@ -6,8 +6,8 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const themes = {
-  light: 'vitesse-light',
-  dark: 'vitesse-dark',
+  light: 'github-light',
+  dark: 'github-dark',
 };
 
 export async function generateCodeHighlight(code, language = 'ts', themeMode = 'dark') {
