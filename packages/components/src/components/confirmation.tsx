@@ -163,7 +163,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
           {!isConfirming ? (
             <Button
               onClick={handleTrigger}
-              disabled={disabled || isLoading}
+              isDisabled={disabled || isLoading}
               variant={config.buttonVariant as any}
             >
               {triggerLabel}
@@ -182,7 +182,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                     size="sm"
                     variant="primary"
                     onClick={handleConfirm}
-                    disabled={!canConfirm || !confirmationValid || isLoading}
+                    isDisabled={!canConfirm || !confirmationValid || isLoading}
                   >
                     {isLoading ? "..." : confirmLabel}
                   </Button>
@@ -190,7 +190,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                     size="sm"
                     variant="outline"
                     onClick={handleCancel}
-                    disabled={isLoading}
+                    isDisabled={isLoading}
                   >
                     {cancelLabel}
                   </Button>
@@ -262,7 +262,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                     size="sm"
                     variant="outline"
                     onClick={handleCancel}
-                    disabled={isLoading}
+                    isDisabled={isLoading}
                   >
                     {cancelLabel}
                   </Button>
@@ -270,7 +270,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                     size="sm"
                     variant="primary"
                     onClick={handleConfirm}
-                    disabled={!canConfirm || !confirmationValid || isLoading}
+                    isDisabled={!canConfirm || !confirmationValid || isLoading}
                   >
                     {isLoading ? "..." : confirmLabel}
                   </Button>
@@ -286,7 +286,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
       <div ref={ref}>
         <Button
           onClick={handleTrigger}
-          disabled={disabled || isLoading}
+          isDisabled={disabled || isLoading}
           variant={config.buttonVariant as any}
         >
           {triggerLabel}

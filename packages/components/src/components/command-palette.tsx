@@ -6,7 +6,6 @@ import { Command } from "cmdk";
 import { cn } from "@/lib/utils";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Card } from "./card";
-import { inputVariants } from "./input";
 import { Badge } from "./badge";
 import { Divider } from "./divider";
 
@@ -195,47 +194,6 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
     );
 
     /**
-     * Calculate match score for better search relevance
-     */
-    const getMatchScore = useCallback((command: Command, searchQuery: string): number => {
-      if (!searchQuery.trim()) return 0;
-
-      const query = searchQuery.toLowerCase().trim();
-      const label = command.label.toLowerCase();
-      const description = (command.description || "").toLowerCase();
-      const id = command.id.toLowerCase();
-
-      let score = 0;
-
-      // Exact match on label (highest priority)
-      if (label === query) return 1000;
-
-      // Label starts with query
-      if (label.startsWith(query)) return 900;
-
-      // Exact word match in label
-      if (label.split(/\s+/).some((word: string) => word === query)) return 800;
-
-      // Partial match in label (substring)
-      const labelIndex = label.indexOf(query);
-      if (labelIndex >= 0) {
-        // Earlier matches are better
-        score += 700 - labelIndex * 10;
-      }
-
-      // Exact word match in description
-      if (description.split(/\s+/).some((word: string) => word === query)) score += 300;
-
-      // Partial match in description
-      if (description.includes(query)) score += 200;
-
-      // Partial match in ID
-      if (id.includes(query)) score += 100;
-
-      return score;
-    }, []);
-
-    /**
      * Filter and sort commands based on search query with intelligent ranking
      */
     const filteredAndGroupedCommands = useMemo(() => {
@@ -360,12 +318,13 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
                 <Command.Input
                   ref={inputRef}
                   placeholder={placeholder}
-                  className={cn(
-                    inputVariants({ size: "md", variant: "ghost" }),
-                    "pl-10"
-                  )}
                   autoFocus
                   onValueChange={setSearchQuery}
+                  className={cn(
+                    "w-full bg-transparent border-none text-foreground-50 placeholder:text-foreground-500",
+                    "focus:outline-none focus:ring-0",
+                    "pl-8 py-2 text-sm font-family-inherit"
+                  )}
                 />
               </div>
             </div>

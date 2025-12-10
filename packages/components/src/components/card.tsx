@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import styles from "./card.module.css";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -15,10 +16,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        "bg-background-800 border border-background-700 rounded-lg overflow-hidden",
-        className
-      )}
+      className={cn(styles.card, className)}
       {...props}
     />
   )
@@ -29,10 +27,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        "p-4 border-b border-background-700",
-        className
-      )}
+      className={cn(styles.header, className)}
       {...props}
     />
   )
@@ -43,10 +38,7 @@ const CardBody = React.forwardRef<HTMLDivElement, CardBodyProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        "px-4 py-2",
-        className
-      )}
+      className={cn(styles.body, className)}
       {...props}
     />
   )
@@ -57,10 +49,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        "px-2 py-2 border-t border-background-700 bg-background-900/50",
-        className
-      )}
+      className={cn(styles.footer, className)}
       {...props}
     />
   )

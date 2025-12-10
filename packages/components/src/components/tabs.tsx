@@ -3,28 +3,17 @@
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 import { cn } from "@/lib/utils"
-import { cva, type VariantProps } from "class-variance-authority"
+import styles from "./tabs.module.css"
 
 const Tabs = TabsPrimitive.Root
 
-const tabsListVariants = cva(
-  "inline-flex items-center justify-center relative",
-  {
-    variants: {
-      variant: {
-        default: "rounded-lg bg-background-800 p-1 border border-background-700",
-        underline: "border-b border-background-700",
-      },
-    },
-    defaultVariants: { variant: "default" },
-  }
-)
+type TabsListVariant = "default" | "underline"
 
 interface TabsListProps
-  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
-  VariantProps<typeof tabsListVariants> {
-  className?: string;
-  children?: React.ReactNode;
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> {
+  variant?: TabsListVariant
+  className?: string
+  children?: React.ReactNode
 }
 
 const TabsList = React.forwardRef<
@@ -56,7 +45,6 @@ const TabsList = React.forwardRef<
     }
   }, [])
 
-  // Update on mount, tab change, and resize
   React.useEffect(() => {
     updateIndicator()
 
@@ -81,26 +69,24 @@ const TabsList = React.forwardRef<
     }
   }, [updateIndicator])
 
+  const variantClass = variant === "underline" ? styles.tabsListUnderline : styles.tabsList
+
   return (
     <TabsPrimitive.List
       ref={(node: HTMLDivElement | null) => {
         if (typeof ref === "function") ref(node)
         listRef.current = node
       }}
-      className={cn(
-        "inline-flex items-center justify-center relative overflow-hidden",
-        tabsListVariants({ variant, className })
-      )}
-      suppressHydrationWarning
+      className={cn(variantClass, className)}
       {...props}
     >
       {children}
-      {(variant === "default" || variant === "underline") && indicator.width > 0 && (
+      {indicator.width > 0 && (
         <div
           className={cn(
-            "absolute pointer-events-none",
-            variant === "default" && "bg-background-700 rounded-md",
-            variant === "underline" && "bottom-0 h-0.5 bg-accent-500"
+            styles.indicator,
+            variant === "default" && styles.indicatorDefault,
+            variant === "underline" && styles.indicatorUnderline
           )}
           style={{
             left: variant === "underline" ? 0 : indicator.left,
@@ -118,35 +104,18 @@ const TabsList = React.forwardRef<
 })
 TabsList.displayName = "TabsList"
 
-const tabsTriggerVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 transition-colors z-10", // z-10 to stay above background
-  {
-    variants: {
-      variant: {
-        default:
-          "px-3 py-1.5 rounded-md text-foreground-400 data-[state=active]:text-foreground-50 hover:text-foreground-200",
-        underline:
-          "px-2 py-2 rounded-none border-b-2 border-transparent data-[state=active]:border-transparent data-[state=active]:text-foreground-50 data-[state=inactive]:text-foreground-400 hover:text-foreground-200",
-      },
-    },
-    defaultVariants: { variant: "default" },
-  }
-)
-
 interface TabsTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>,
-  VariantProps<typeof tabsTriggerVariants> {
-  icon?: React.ReactNode;
-  className?: string;
-  children?: React.ReactNode;
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+  icon?: React.ReactNode
+  className?: string
+  children?: React.ReactNode
 }
 
 const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
-  ({ className, variant, icon, children, ...props }, ref) => (
+  ({ className, icon, children, ...props }, ref) => (
     <TabsPrimitive.Trigger
       ref={ref}
-      className={cn(tabsTriggerVariants({ variant, className }))}
-      suppressHydrationWarning
+      className={cn(styles.tabsTrigger, className)}
       {...props}
     >
       {icon && <span className="flex items-center">{icon}</span>}
@@ -160,10 +129,7 @@ const TabsContent = React.forwardRef<HTMLDivElement, React.ComponentPropsWithout
   ({ className, ...props }, ref) => (
     <TabsPrimitive.Content
       ref={ref}
-      className={cn(
-        "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2",
-        className
-      )}
+      className={cn(styles.tabsContent, className)}
       {...props}
     />
   )
@@ -175,6 +141,4 @@ export {
   TabsList,
   TabsTrigger,
   TabsContent,
-  tabsListVariants,
-  tabsTriggerVariants,
 }

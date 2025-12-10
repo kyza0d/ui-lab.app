@@ -1,0 +1,118 @@
+@reference "tailwindcss";
+
+@layer components {
+  .slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .slider[data-size="sm"] {
+    @apply h-6;
+  }
+
+  .slider[data-size="md"] {
+    @apply h-8;
+  }
+
+  .slider[data-size="lg"] {
+    @apply h-10;
+  }
+
+  .slider[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .track {
+    --track-height-sm: 0.25rem;
+    --track-height-md: 0.375rem;
+    --track-height-lg: 0.5rem;
+    --background: var(--background-600);
+    --background-disabled: var(--background-500);
+
+    position: relative;
+    flex-grow: 1;
+    overflow: visible;
+    border-radius: 9999px;
+    background-color: var(--background);
+    display: flex;
+    align-items: center;
+  }
+
+  .slider[data-disabled] .track {
+    background-color: var(--background-disabled);
+  }
+
+  .slider[data-size="sm"] .track {
+    height: var(--track-height-sm);
+  }
+
+  .slider[data-size="md"] .track {
+    height: var(--track-height-md);
+  }
+
+  .slider[data-size="lg"] .track {
+    height: var(--track-height-lg);
+  }
+
+  .range {
+    --background: var(--accent-500);
+    --background-disabled: var(--background-600);
+
+    position: absolute;
+    height: 100%;
+    background-color: var(--background);
+    transition: background-color 200ms;
+  }
+
+  .slider[data-disabled] .range {
+    background-color: var(--background-disabled);
+  }
+
+  .thumb {
+    --thumb-size-sm: 0.75rem;
+    --thumb-size-md: 1rem;
+    --thumb-size-lg: 1.25rem;
+    --background: var(--accent-500);
+    --background-focus: var(--accent-400);
+
+    display: block;
+    background-color: var(--background);
+    border-radius: 9999px;
+    cursor: grab;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+    outline: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .slider[data-size="sm"] .thumb {
+    width: var(--thumb-size-sm);
+    height: var(--thumb-size-sm);
+  }
+
+  .slider[data-size="md"] .thumb {
+    width: var(--thumb-size-md);
+    height: var(--thumb-size-md);
+  }
+
+  .slider[data-size="lg"] .thumb {
+    width: var(--thumb-size-lg);
+    height: var(--thumb-size-lg);
+  }
+
+  .thumb:focus-visible {
+    background-color: var(--background-focus);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-500) 30%, transparent);
+  }
+
+  .thumb:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+  }
+}
