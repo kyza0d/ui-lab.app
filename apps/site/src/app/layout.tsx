@@ -5,7 +5,7 @@ import "ui-lab-components/styles.css"
 import "./globals.css";
 
 import "@fontsource-variable/karla";
-import "@fontsource/geist-mono";
+import "@fontsource-variable/jetbrains-mono";
 
 import Header from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -30,96 +30,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const root = document.documentElement;
-                try {
-                  const cached = localStorage.getItem('uilab_palette_cache');
-                  if (cached) {
-                    const parsed = JSON.parse(cached);
-                    console.debug('[Theme] Loaded palette cache:', { themeMode: parsed.themeMode, varCount: Object.keys(parsed.cssVariables || {}).length });
-                    if (parsed.themeMode) {
-                      root.setAttribute('data-theme', parsed.themeMode);
-                    }
-                    if (parsed.cssVariables && typeof parsed.cssVariables === 'object') {
-                      Object.entries(parsed.cssVariables).forEach(([varName, value]) => {
-                        root.style.setProperty(varName, value);
-                      });
-                    }
-                  } else {
-                    console.debug('[Theme] No palette cache found');
-                  }
-
-                  const prefs = localStorage.getItem('theme-preferences');
-                  if (prefs) {
-                    const p = JSON.parse(prefs);
-                    const t = p.typography || {};
-                    const l = p.layout || {};
-                    console.debug('[Theme] Loaded preferences:', { mode: p.mode, typographyScale: t.fontSizeScale, layoutRadius: l.radius });
-
-                    const typeSizeRatio = t.typeSizeRatio !== undefined ? t.typeSizeRatio : 1.2;
-                    const fontSizeScale = t.fontSizeScale !== undefined ? t.fontSizeScale : 1;
-                    const fontWeightScale = t.fontWeightScale !== undefined ? t.fontWeightScale : 1;
-
-                    root.style.setProperty('--font-size-scale', String(fontSizeScale));
-                    root.style.setProperty('--font-weight-scale', String(fontWeightScale));
-
-                    const minConstraints = {xs: 0.625, sm: 0.75, md: 0.875, base: 1.0, lg: 1.125, xl: 1.25, '2xl': 1.5, '3xl': 1.75, '4xl': 2.0, '5xl': 2.5};
-                    const names = ['xs', 'sm', 'md', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl'];
-                    const baseIndex = 3;
-
-                    names.forEach((name, i) => {
-                      let size = 1;
-                      if (i > baseIndex) {
-                        size = Math.pow(typeSizeRatio, i - baseIndex);
-                      } else if (i < baseIndex) {
-                        size = 1 / Math.pow(typeSizeRatio, baseIndex - i);
-                      }
-                      const minConstraint = minConstraints[name] || 1;
-                      const scaledSize = size * fontSizeScale;
-                      const minSize = Math.max(scaledSize * 0.8, minConstraint);
-                      const maxSize = scaledSize * 1.25;
-                      const fluidVw = scaledSize * 2.2;
-                      const clamp = 'clamp(' + minSize.toFixed(3) + 'rem, ' + fluidVw.toFixed(2) + 'vw, ' + maxSize.toFixed(3) + 'rem)';
-                      root.style.setProperty('--text-' + name, clamp);
-                    });
-
-                    const baseWeights = [[100, 'thin'], [200, 'extralight'], [300, 'light'], [400, 'normal'], [500, 'medium'], [600, 'semibold'], [700, 'bold'], [800, 'extrabold'], [900, 'black']];
-                    const baseWeightRef = 400;
-                    baseWeights.forEach(([v, n]) => {
-                      const offset = v - baseWeightRef;
-                      const scaled = baseWeightRef + offset * fontWeightScale;
-                      const clamped = Math.max(100, Math.min(900, Math.round(scaled)));
-                      root.style.setProperty('--font-weight-' + n, clamped.toString());
-                    });
-
-                    if (l.spacingScale !== undefined) root.style.setProperty('--spacing-scale', l.spacingScale);
-                    if (l.radius !== undefined) {
-                      const radiusScale = l.radius / 0.2;
-                      const radii = [[0.05, 'xs'], [0.1, 'sm'], [0.2, 'base'], [0.3, 'md'], [0.5, 'lg'], [0.75, 'xl'], [1, '2xl']];
-                      radii.forEach(([v, n]) => {
-                        const scaled = v * radiusScale;
-                        root.style.setProperty('--radius-' + n, (scaled > 100 ? '9999px' : (scaled.toFixed(3) + 'rem')));
-                      });
-                      root.style.setProperty('--radius-full', '9999px');
-                    }
-
-                    if (l.borderWidth !== undefined) {
-                      const borderScale = l.borderWidth / 1;
-                      const borders = [[0, 'none'], [1, 'thin'], [1, 'base'], [2, '2'], [4, '4'], [8, '8']];
-                      borders.forEach(([v, n]) => {
-                        const scaled = v * borderScale;
-                        root.style.setProperty('--border-width-' + n, (scaled.toFixed(1) + 'px'));
-                      });
-                    }
-                  } else {
-                    console.debug('[Theme] No preferences found');
-                  }
-                } catch (e) {
-                  console.warn('[Theme] Error applying theme:', e);
-                }
-              })();
-            `,
+            __html: `(function(){var r=document.documentElement;try{var c=localStorage.getItem('uilab_theme_complete');if(!c)return;var d=JSON.parse(c);if(!d||typeof d!=='object')throw new Error('Invalid cache format');if(d.themeMode!=='light'&&d.themeMode!=='dark')throw new Error('Invalid themeMode');if(!d.cssVariables||typeof d.cssVariables!=='object')throw new Error('Missing cssVariables');var req=['--spacing-base','--background-50','--text-base'];for(var i=0;i<req.length;i++)if(!(req[i] in d.cssVariables))throw new Error('Missing: '+req[i]);r.setAttribute('data-theme',d.themeMode);Object.entries(d.cssVariables).forEach(function(e){r.style.setProperty(e[0],e[1])});}catch(e){console.warn('[Theme] Cache invalid, using defaults:',e.message);}})();`,
           }}
         />
       </head>
@@ -127,7 +38,7 @@ export default function RootLayout({
         <HeaderProvider>
           <CommandPaletteProvider>
             <Header />
-            <main className="flex-1 max-w-[1400px] border-x border-background-700 mx-auto">
+            <main className="flex-1 border-x border-background-700 mx-auto">
               {children}
             </main>
           </CommandPaletteProvider>

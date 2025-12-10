@@ -3,7 +3,7 @@
 @theme {
   /* Font Families */
   --font-sans: "Karla", system-ui, sans-serif;
-  --font-mono: "Geist Mono", monospace;
+  --font-mono: "JetBrains Mono Variable", monospace;
 
   --text-xs: clamp(0.581rem, 1.5vw, 0.635rem);
   --text-sm: clamp(0.681rem, 2vw, 0.762rem);
@@ -406,15 +406,24 @@ strong {
 code,
 pre {
   font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 400;
   line-height: 1.5;
-  letter-spacing: 0.006em;
+  letter-spacing: 0.010em;
 }
 
 .text-sm {
   @apply font-semibold
 }
 
-@keyframes progress-indeterminate {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(400%); }
+
+/*
+.slider.thumb {
+  --background: var(--accent-900);
 }
+
+.button.primary {
+  --background: red
+}
+*/
+
