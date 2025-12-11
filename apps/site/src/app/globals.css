@@ -275,6 +275,31 @@
     border-width: var(--border-width-8);
   }
 
+  .border-x {
+    border-left-width: var(--border-width-base);
+    border-right-width: var(--border-width-base);
+  }
+
+  .border-x-0 {
+    border-left-width: var(--border-width-none);
+    border-right-width: var(--border-width-none);
+  }
+
+  .border-x-2 {
+    border-left-width: var(--border-width-2);
+    border-right-width: var(--border-width-2);
+  }
+
+  .border-x-4 {
+    border-left-width: var(--border-width-4);
+    border-right-width: var(--border-width-4);
+  }
+
+  .border-x-8 {
+    border-left-width: var(--border-width-8);
+    border-right-width: var(--border-width-8);
+  }
+
   .border-t {
     border-top-width: var(--border-width-base);
   }
@@ -398,15 +423,16 @@ a {
 
 /* Emphasis Styles */
 strong {
-  font-weight: var(--font-weight-medium);
-  color: var(--color-foreground-50);
+  font-size: var(--text-sm);
+  color: var(--color-foreground-100);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Code and Pre Styles */
 code,
 pre {
   font-family: var(--font-mono);
-  font-size: var(--text-md);
+  font-size: var(--text-sm);
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0.010em;
@@ -418,12 +444,17 @@ pre {
 
 
 /*
-.slider.thumb {
-  --background: var(--accent-900);
+.button.primary {
+  background: linear-gradient(to bottom, var(--accent-500), var(--accent-400)) padding-box, linear-gradient(to bottom, var(--accent-100), var(--accent-400)) border-box;
+  box-shadow: 0 0 0 2px var(--accent-400), 0 4px 4px 0 rgba(0, 10, 31, 0.2);
+  border: 0;
+  color: var(--accent-50)
 }
 
-.button.primary {
-  --background: red
+.slider.thumb {
+  --background: var(--accent-50);
 }
+
 */
+
 

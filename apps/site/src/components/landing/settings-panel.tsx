@@ -154,8 +154,8 @@ export const SettingsPanel = () => {
       {/* Header */}
       <div className="pr-[8px] py-[2px] flex items-center justify-between border-b border-background-700">
         {/* Segmented Sliding Tabs */}
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as ConfigTab)}>
-          <TabsList variant="underline" className="h-[44px] border-none -mb-0.5">
+        <Tabs variant="underline" value={activeTab} onValueChange={(value) => setActiveTab(value as ConfigTab)}>
+          <TabsList className="h-[44px] border-none -mb-0.5">
             <TabsTrigger className="text-[14px] w-[100px]" value="colors" icon={<FaBrush size={14} />}>
               Theme
             </TabsTrigger>
@@ -358,7 +358,7 @@ const SliderControl = memo(({ label, value, min, max, step, unit, onChange }: Sl
 
       <Slider.Root
         value={[value]}
-        onValueChange={([newValue]) => onChange(newValue)}
+        onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
         min={min}
         max={max}
         step={step}
@@ -387,7 +387,7 @@ const TypeScaleSlider = memo(({ value, onChange, fontSizeScale }: TypeScaleSlide
       <div className="px-4 py-2 border-t border-background-700">
         <Slider.Root
           value={[ratio]}
-          onValueChange={([newValue]) => onChange(newValue)}
+          onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
           min={1.067}
           max={1.2}
           step={0.001}

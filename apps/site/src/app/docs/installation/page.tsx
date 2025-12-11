@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { CodeBlock } from "@/components/CodeBlock";
 import { CodeBlockWithPackageManager } from "@/components/CodeBlockWithPackageManager";
 import { TableOfContents } from "@/components/TableOfContents";
-import { Card, Badge, ButtonGroup, ButtonGroupItem, Button } from "ui-lab-components";
+import { Card, Badge, Button } from "ui-lab-components";
 
 type Framework = "nextjs" | "vite" | "remix" | "tauri";
 type Manager = "npm" | "pnpm" | "yarn" | "bun";
@@ -83,10 +83,10 @@ export default function InstallationPage() {
         <main className="max-w-2xl mx-auto w-full px-6 py-16 font-sans text-sm leading-relaxed antialiased">
 
           {/* Version badge */}
-          <div className="mb-12 flex items-center gap-4 text-foreground-400">
+          <div className="mb-8 flex items-center gap-4 text-foreground-400">
             <span className="inline-flex items-center gap-2 rounded border border-foreground-800 px-2 py-0.5 text-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-              v2.4.0
+              v0.1.1
             </span>
             <span>·</span>
             <span>Installation</span>
@@ -140,20 +140,20 @@ export default function InstallationPage() {
           {/* Installation method */}
           <section id="installation-method">
             <div className="text-foreground-400 mb-3">Installation method</div>
-            <ButtonGroup variant="outline">
-              <ButtonGroupItem
-                isSelected={method === "cli"}
+            <div className="flex gap-2">
+              <Button
+                variant={method === "cli" ? "default" : "outline"}
                 onClick={() => setMethod("cli")}
               >
                 CLI (recommended)
-              </ButtonGroupItem>
-              <ButtonGroupItem
-                isSelected={method === "manual"}
+              </Button>
+              <Button
+                variant={method === "manual" ? "default" : "outline"}
                 onClick={() => setMethod("manual")}
               >
                 Manual
-              </ButtonGroupItem>
-            </ButtonGroup>
+              </Button>
+            </div>
           </section>
 
           <div className="h-px bg-foreground-800 mt-4 mb-12"></div>

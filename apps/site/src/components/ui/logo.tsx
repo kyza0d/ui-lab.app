@@ -1,6 +1,8 @@
 "use client";
 
-export function Logo() {
+import { cn } from "@/lib/utils";
+
+export function Logo({ className }: { className?: string }) {
   return (
     <svg
       width="34"
@@ -8,7 +10,7 @@ export function Logo() {
       viewBox="0 0 23 23"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="text-foreground-300"
+      className={cn("text-foreground-200", className)}
     >
       <path
         fillRule="evenodd"

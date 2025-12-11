@@ -11,7 +11,7 @@ export const componentRegistry: ComponentRegistry = {
       exportName: 'Button',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['button-group'],
+    relatedComponents: ['group'],
     tags: ['cta', 'interactive', 'primary-action'],
     accessibility: {
       hasAriaSupport: true,
@@ -19,21 +19,47 @@ export const componentRegistry: ComponentRegistry = {
     }
   },
 
-  'button-group': {
-    id: 'button-group',
-    name: 'Button Group',
-    description: 'A group of related buttons displayed together.',
-    category: 'action',
+  group: {
+    id: 'group',
+    name: 'Group',
+    description: 'A flexible container for grouping Button, Input, and Select components with unified styling.',
+    category: 'composition',
     source: {
       packageName: 'ui-lab-components',
-      exportName: 'ButtonGroup',
+      exportName: 'Group',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['button'],
-    tags: ['grouped', 'toggle', 'multi-select'],
+    relatedComponents: ['button', 'input', 'select'],
+    tags: ['composition', 'grouped', 'compound', 'form'],
     accessibility: {
       hasAriaSupport: true,
-      notes: ['Supports keyboard navigation', 'Role-based selection']
+      notes: [
+        'Uses role="group" for semantic grouping',
+        'Propagates disabled state to children',
+        'Maintains keyboard navigation for all child components'
+      ]
+    }
+  },
+
+  flex: {
+    id: 'flex',
+    name: 'Flex',
+    description: 'A flexible layout component with container query support for responsive flex layouts.',
+    category: 'layout',
+    source: {
+      packageName: 'ui-lab-components',
+      exportName: 'Flex',
+      packagePath: 'dist/index.d.ts',
+    },
+    relatedComponents: ['card', 'group', 'divider'],
+    tags: ['layout', 'flex', 'container-queries', 'responsive'],
+    accessibility: {
+      hasAriaSupport: false,
+      notes: [
+        'Semantic div element with flexbox layout',
+        'No built-in ARIA roles - use for layout purposes',
+        'Compose with accessible child components'
+      ]
     }
   },
 
@@ -47,7 +73,7 @@ export const componentRegistry: ComponentRegistry = {
       exportName: 'Input',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['label', 'form-wrapper'],
+    relatedComponents: ['label', 'form-wrapper', 'group'],
     tags: ['form', 'text', 'user-input'],
     accessibility: {
       hasAriaSupport: true,
@@ -83,7 +109,7 @@ export const componentRegistry: ComponentRegistry = {
       exportName: 'Select',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['input', 'label', 'form-wrapper'],
+    relatedComponents: ['input', 'label', 'form-wrapper', 'group'],
     tags: ['form', 'dropdown', 'selection'],
     accessibility: {
       hasAriaSupport: true,
@@ -363,7 +389,7 @@ export const componentRegistry: ComponentRegistry = {
 
   'command-palette': {
     id: 'command-palette',
-    name: 'Command Palette',
+    name: 'Command',
     description: 'A searchable command palette for quick access to actions.',
     category: 'action',
     source: {
@@ -379,18 +405,18 @@ export const componentRegistry: ComponentRegistry = {
     }
   },
 
-  confirmation: {
-    id: 'confirmation',
-    name: 'Confirmation',
-    description: 'A confirmation dialog for critical user actions.',
+  confirm: {
+    id: 'confirm',
+    name: 'Confirm',
+    description: 'A confirm dialog for critical user actions.',
     category: 'action',
     source: {
       packageName: 'ui-lab-components',
-      exportName: 'Confirmation',
+      exportName: 'Confirm',
       packagePath: 'dist/index.d.ts',
     },
     relatedComponents: ['modal', 'button', 'card'],
-    tags: ['dialog', 'confirmation', 'safety'],
+    tags: ['dialog', 'confirm', 'safety'],
     accessibility: {
       hasAriaSupport: true,
       notes: ['Focus management', 'Clear action buttons', 'Alert dialog role']

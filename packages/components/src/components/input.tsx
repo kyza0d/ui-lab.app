@@ -1,4 +1,7 @@
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
+"use client";
+
+import React, { forwardRef, type ComponentPropsWithoutRef } from "react";
+import { useFocusRing, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
 import styles from "./input.module.css";
 
@@ -24,6 +27,15 @@ const sizeMap: Record<Size, string> = {
   lg: "lg",
 };
 
+function useMergedRef<T>(...refs: (React.Ref<T> | undefined)[]): React.RefCallback<T> {
+  return React.useCallback((value: T) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") ref(value);
+      else if (ref && typeof ref === "object") (ref as React.MutableRefObject<T | null>).current = value;
+    });
+  }, refs);
+}
+
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -42,6 +54,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasPrefix = !!prefixIcon;
     const hasSuffix = !!suffixIcon;
 
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const mergedRef = useMergedRef(ref, inputRef);
+
+    const { focusProps, isFocusVisible } = useFocusRing();
+
     return (
       <div className={styles.container}>
         {hasPrefix && (
@@ -50,19 +67,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
         <input
-          ref={ref}
+          ref={mergedRef}
           type={type}
           disabled={disabled}
-          data-error={error ? "true" : "false"}
+          data-focus-visible={isFocusVisible || undefined}
+          data-disabled={disabled || undefined}
+          data-error={error || undefined}
+          data-variant={variant}
+          data-size={size}
           className={cn(
             styles.input,
-            variant !== "default" && styles[`input.${variantMap[variant]}`],
-            styles[`input.${sizeMap[size]}`],
             hasPrefix && "pl-8",
             hasSuffix && "pr-8",
             className
           )}
-          {...props}
+          {...mergeProps(focusProps, props)}
         />
         {hasSuffix && (
           <div className={cn(styles.iconWrapper, styles.suffixIcon)}>

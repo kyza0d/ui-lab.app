@@ -28,7 +28,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
     <nav
       className={cn(
         "grid grid-cols-[1fr_auto]",
-        "sticky top-15 px-8 py-4 bg-background-950 border-b border-background-800 z-40",
+        "sticky top-15 pl-6 pr-2 py-2 bg-background-950 border-b border-background-800 z-40",
         className
       )}
       aria-label="Breadcrumb"

@@ -131,9 +131,9 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:flex border-r min-w-60 border-background-700 sticky top-15 overflow-y-auto h-[calc(100vh-3.75rem)] flex-col">
-      <nav className="flex-1 overflow-y-auto py-2 px-3 space-y-8">
+      <nav className="flex-1 overflow-y-auto py-2 space-y-8">
         {/* Main Navigation */}
-        <div className="space-y-1 pb-2 mb-4 border-b border-background-700">
+        <div className="space-y-1 px-2 pb-2 mb-4 border-b border-background-700">
           {mainNav.map((nav) => {
             const href =
               nav.id === "documentation"
@@ -155,13 +155,13 @@ export function Sidebar() {
                 key={nav.id}
                 href={href}
                 className={cn(
-                  "flex items-center gap-4 px-1 py-2 text-sm font-medium rounded-md",
+                  "flex items-center gap-2 px-1 py-1.5 text-sm font-medium rounded-md",
                   isActive
                     ? "text-foreground-50 bg-background-800"
                     : "text-foreground-400 hover:text-foreground-300 hover:bg-background-900"
                 )}
               >
-                <div className="w-7 h-7 bg-background-700/80 flex items-center justify-center rounded-md">
+                <div className="w-7 h-7 flex items-center justify-center rounded-md">
                   <Icon className="w-4 h-4 flex-shrink-0" />
                 </div>
                 <span>{nav.label}</span>
@@ -171,7 +171,7 @@ export function Sidebar() {
         </div>
 
         {/* Contextual Sections */}
-        <div className="space-y-6">
+        <div className="space-y-6 px-5">
           {sections.map((section) => (
             <div key={section.label}>
               <span className="text-sm text-foreground-200">{section.label}</span>

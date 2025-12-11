@@ -1,57 +1,61 @@
 import { Button } from "ui-lab-components";
-import { buttonDetail } from "./components-data/button";
-import { ButtonGroup, ButtonGroupItem } from "ui-lab-components";
-import { buttonGroupDetail } from "./components-data/button-group";
+import { buttonDetail } from "./component-demos/button";
+import { Group } from "ui-lab-components";
+import { groupDetail } from "./component-demos/group";
+import { Flex } from "ui-lab-components";
+import { flexDetail } from "./component-demos/flex";
 import { Table } from "@/components/table";
-import { tableDetail } from "./components-data/table";
+import { tableDetail } from "./component-demos/table";
+
 import {
   Select,
   SelectContent,
   SelectItem,
+  SelectListBox,
   SelectTrigger,
   SelectValue,
 } from "ui-lab-components";
-import { selectDetail } from "./components-data/select";
+
+import { selectDetail } from "./component-demos/select";
 import { Input } from "ui-lab-components";
-import { inputDetail } from "./components-data/input";
+import { inputDetail } from "./component-demos/input";
 import { Label } from "ui-lab-components";
-import { labelDetail } from "./components-data/label";
+import { labelDetail } from "./component-demos/label";
 import { TextArea } from "ui-lab-components";
-import { textareaDetail } from "./components-data/textarea";
+import { textareaDetail } from "./component-demos/textarea";
 import { Checkbox } from "ui-lab-components";
-import { checkboxDetail } from "./components-data/checkbox";
+import { checkboxDetail } from "./component-demos/checkbox";
 import { Radio } from "ui-lab-components";
-import { radioDetail } from "./components-data/radio";
+import { radioDetail } from "./component-demos/radio";
 import { Badge } from "ui-lab-components";
-import { badgeDetail } from "./components-data/badge";
+import { badgeDetail } from "./component-demos/badge";
 import { Tooltip } from "ui-lab-components";
-import { tooltipDetail } from "./components-data/tooltip";
+import { tooltipDetail } from "./component-demos/tooltip";
 import { Popover } from "ui-lab-components";
-import { popoverDetail } from "./components-data/popover";
-import { formWrapperDetail } from "./components-data/form-wrapper";
-import { toastDetail } from "./components-data/toast";
-import { modalDetail } from "./components-data/modal";
+import { popoverDetail } from "./component-demos/popover";
+import { formWrapperDetail } from "./component-demos/form-wrapper";
+import { toastDetail } from "./component-demos/toast";
+import { modalDetail } from "./component-demos/modal";
 import { Slider } from "ui-lab-components";
-import { sliderDetail } from "./components-data/slider";
+import { sliderDetail } from "./component-demos/slider";
 import { Tabs, TabsList, TabsTrigger } from "ui-lab-components";
-import { tabsDetail } from "./components-data/tabs";
+import { tabsDetail } from "./component-demos/tabs";
 import {
   ContextMenu,
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
 } from "ui-lab-components";
-import { contextMenuDetail } from "./components-data/context-menu";
+import { contextMenuDetail } from "./component-demos/context-menu";
 import { Switch } from "ui-lab-components";
-import { switchDetail } from "./components-data/switch";
+import { switchDetail } from "./component-demos/switch";
 import { Progress } from "ui-lab-components";
-import { progressDetail } from "./components-data/progress";
-import { cardDetail } from "./components-data/card";
-import { commandPaletteDetail } from "./components-data/command-palette";
-import { confirmationComponentDetail } from "./components-data/confirmation";
+import { progressDetail } from "./component-demos/progress";
+import { cardDetail } from "./component-demos/card";
+import { commandPaletteDetail } from "./component-demos/command-palette";
+import { confirmComponentDetail } from "./component-demos/confirmation";
 import { Divider } from "ui-lab-components";
-import { dividerDetail } from "./components-data/divider";
-import { pageDetail } from "./components-data/page";
+import { dividerDetail } from "./component-demos/divider";
 import { ComponentDetail } from "@/types/component";
 import { FaBell, FaCircleQuestion, FaFile, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
@@ -75,14 +79,20 @@ const previews: Record<string, React.ReactNode> = {
       <Button size="sm">Small</Button>
     </div>
   ),
-  'button-group': (
+  group: (
     <div className="flex flex-wrap gap-2">
-      <ButtonGroup variant="secondary" spacing="tight" showDividers>
-        <ButtonGroupItem size="md">Item 1</ButtonGroupItem>
-        <ButtonGroupItem size="md" isSelected>Item 2</ButtonGroupItem>
-        <ButtonGroupItem size="md">Item 3</ButtonGroupItem>
-      </ButtonGroup>
+      <Group>
+        <Group.Button>Save</Group.Button>
+        <Group.Button variant="outline">Cancel</Group.Button>
+      </Group>
     </div>
+  ),
+  flex: (
+    <Flex gap="md">
+      <Button size="sm">Item 1</Button>
+      <Button size="sm">Item 2</Button>
+      <Button size="sm">Item 3</Button>
+    </Flex>
   ),
   table: (
     <div className="w-full overflow-hidden">
@@ -113,9 +123,11 @@ const previews: Record<string, React.ReactNode> = {
         <SelectValue placeholder="Select an option" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="option1">Option 1</SelectItem>
-        <SelectItem value="option2">Option 2</SelectItem>
-        <SelectItem value="option3">Option 3</SelectItem>
+        <SelectListBox>
+          <SelectItem key="option1" value="option1">Option 1</SelectItem>
+          <SelectItem key="option2" value="option2">Option 2</SelectItem>
+          <SelectItem key="option3" value="option3">Option 3</SelectItem>
+        </SelectListBox>
       </SelectContent>
     </Select>
   ),
@@ -198,15 +210,13 @@ const previews: Record<string, React.ReactNode> = {
   ),
   switch: (
     <div className="flex items-center gap-3">
-      <Switch size="sm" defaultChecked={false} />
-      <Switch size="sm" defaultChecked={true} />
+      <Switch size="sm" defaultSelected={false} />
+      <Switch size="sm" defaultSelected={true} />
     </div>
   ),
   slider: (
     <div className="w-48">
-      <Slider.Root min={0} max={100} defaultValue={[50]}>
-        <Slider.Thumb />
-      </Slider.Root>
+      <Slider.Root min={0} max={100} defaultValue={[50]} />
     </div>
   ),
   progress: (
@@ -224,7 +234,7 @@ const previews: Record<string, React.ReactNode> = {
       <FaKeyboard className="w-9 h-9 text-accent-500" />
     </div>
   ),
-  confirmation: (
+  confirm: (
     <div className="flex items-center justify-center h-22">
       <FaShieldHalved className="w-9 h-9 text-accent-500" />
     </div>
@@ -249,19 +259,6 @@ export const componentRegistry: ComponentMetadata[] = [
       preview: previews[id] || <div />,
     })
   ),
-  ...(!registryData.page ? [{
-    id: "page",
-    name: pageDetail.name,
-    description: pageDetail.description,
-    category: 'container' as const,
-    source: {
-      packageName: 'ui-lab-component' as const,
-      exportName: 'Page',
-      packagePath: 'dist/index.d.ts',
-    },
-    relatedComponents: ['card', 'modal'],
-    preview: previews.page || <div />,
-  }] : []),
   ...(!registryData.table ? [{
     id: "table",
     name: tableDetail.name,
@@ -299,7 +296,8 @@ export function getRelatedComponents(id: string): ComponentMetadata[] {
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
-  "button-group": buttonGroupDetail,
+  group: groupDetail,
+  flex: flexDetail,
   table: tableDetail,
   input: inputDetail,
   label: labelDetail,
@@ -320,9 +318,8 @@ const componentDetails: Record<string, ComponentDetail> = {
   switch: switchDetail,
   card: cardDetail,
   "command-palette": commandPaletteDetail,
-  confirmation: confirmationComponentDetail,
+  confirm: confirmComponentDetail,
   divider: dividerDetail,
-  page: pageDetail,
 };
 
 export function getComponentById(id: string): ComponentDetail | undefined {

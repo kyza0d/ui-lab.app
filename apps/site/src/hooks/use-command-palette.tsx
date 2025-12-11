@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "@/components/ui/toast/use-toast";
+import { toast } from "ui-lab-components";
 import type { Command } from "ui-lab-components";
 import { componentRegistry } from "@/lib/component-registry";
 import {
@@ -27,7 +27,7 @@ export function useCommandPalette() {
         label: "Go to Home",
         description: "Navigate to the home page",
         category: "Navigation",
-        icon: <FaCompass size={14} />,
+        icon: <FaCompass size={18} />,
         shortcut: "⌘H",
         action: () => router.push("/"),
       },
@@ -36,7 +36,7 @@ export function useCommandPalette() {
         label: "Browse Components",
         description: "View all UI components",
         category: "Navigation",
-        icon: <FaSquare size={14} />,
+        icon: <FaSquare size={18} />,
         shortcut: "⌘B",
         action: () => router.push("/components"),
       },
@@ -45,7 +45,7 @@ export function useCommandPalette() {
         label: "Documentation",
         description: "Read the documentation",
         category: "Navigation",
-        icon: <FaBookOpenReader size={14} />,
+        icon: <FaBookOpenReader size={18} />,
         shortcut: "⌘D",
         action: () => router.push("/docs"),
       },
@@ -54,7 +54,7 @@ export function useCommandPalette() {
         label: "Customize",
         description: "Customize theme, typography, and icons",
         category: "Navigation",
-        icon: <FaPalette size={14} />,
+        icon: <FaPalette size={18} />,
         shortcut: "⌘T",
         action: () => router.push("/customize"),
       },
@@ -63,7 +63,7 @@ export function useCommandPalette() {
         label: "View Configuration",
         description: "Export CSS configuration",
         category: "Navigation",
-        icon: <FaGear size={14} />,
+        icon: <FaGear size={18} />,
         shortcut: "⌘⇧E",
         action: () => router.push("/config"),
       },
@@ -74,7 +74,7 @@ export function useCommandPalette() {
         label: "Documentation Overview",
         description: "Component library overview",
         category: "Documentation",
-        icon: <FaBookOpenReader size={14} />,
+        icon: <FaBookOpenReader size={18} />,
         action: () => router.push("/docs/overview"),
       },
       {
@@ -82,7 +82,7 @@ export function useCommandPalette() {
         label: "Installation Guide",
         description: "How to install and set up",
         category: "Documentation",
-        icon: <FaArrowRight size={14} />,
+        icon: <FaArrowRight size={18} />,
         action: () => router.push("/docs/installation"),
       },
       {
@@ -90,7 +90,7 @@ export function useCommandPalette() {
         label: "Usage Guide",
         description: "How to use components",
         category: "Documentation",
-        icon: <FaMagnifyingGlass size={14} />,
+        icon: <FaMagnifyingGlass size={18} />,
         action: () => router.push("/docs/usage"),
       },
 
@@ -100,7 +100,7 @@ export function useCommandPalette() {
         label: "Color Theming",
         description: "Customize colors and palette",
         category: "Customization",
-        icon: <FaPalette size={14} />,
+        icon: <FaPalette size={18} />,
         action: () => router.push("/customize/theming"),
       },
       {
@@ -108,7 +108,7 @@ export function useCommandPalette() {
         label: "Typography Settings",
         description: "Configure fonts and sizes",
         category: "Customization",
-        icon: <FaFont size={14} />,
+        icon: <FaFont size={18} />,
         action: () => router.push("/customize/typography"),
       },
       {
@@ -116,7 +116,7 @@ export function useCommandPalette() {
         label: "Icon Management",
         description: "Manage custom icon sets",
         category: "Customization",
-        icon: <FaRulerCombined size={14} />,
+        icon: <FaRulerCombined size={18} />,
         action: () => router.push("/customize/icons"),
       },
 
@@ -127,7 +127,7 @@ export function useCommandPalette() {
           label: component.name,
           description: component.description,
           category: "Components",
-          icon: React.createElement(FaSquare, { size: 14 }),
+          icon: React.createElement(FaSquare, { size: 18 }),
           action: () => router.push(`/components/${component.id}`),
         };
       }),
@@ -138,7 +138,7 @@ export function useCommandPalette() {
         label: "Copy Configuration",
         description: "Copy CSS config to clipboard",
         category: "Quick Actions",
-        icon: <FaFileExport size={14} />,
+        icon: <FaFileExport size={18} />,
         action: async () => {
           try {
             // This is a placeholder - actual implementation would get the config from context

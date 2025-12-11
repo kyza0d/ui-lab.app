@@ -72,13 +72,13 @@ export const categoryMap = categories.reduce((acc, cat) => {
 }, {} as Record<ComponentCategory, CategoryDefinition>);
 
 export const categoryOrder: ComponentCategory[] = [
+  'layout',
+  'composition',
   'action',
   'input',
   'display',
   'feedback',
   'navigation',
   'container',
-  'composition',
-  'layout',
   'data'
 ];

@@ -1,19 +1,26 @@
 "use client"
 
 import * as React from 'react';
-import { Slider, SliderTrack, SliderThumb as AriaSliderThumb } from 'react-aria-components';
+import { useFocusRing } from 'react-aria';
 import { cn } from '@/lib/utils';
 import styles from './slider.module.css';
 
 type SliderSize = 'sm' | 'md' | 'lg';
 
-interface SliderRootProps extends Omit<React.ComponentPropsWithoutRef<typeof Slider>, 'children' | 'min' | 'max' | 'onChange'> {
+interface SliderRootProps {
   size?: SliderSize;
   disabled?: boolean;
-  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
   min?: number;
   max?: number;
-  onValueChange?: (value: number | number[]) => void;
+  step?: number;
+  defaultValue?: number | number[];
+  value?: number | number[];
+  onValueChange?: (value: number[]) => void;
+  orientation?: 'horizontal' | 'vertical';
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
 }
 
 const SliderContext = React.createContext<{
@@ -21,10 +28,142 @@ const SliderContext = React.createContext<{
   disabled?: boolean;
 } | null>(null);
 
-const Root = React.forwardRef<
-  React.ElementRef<typeof Slider>,
-  SliderRootProps
->(
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+function snapToStep(value: number, min: number, max: number, step: number): number {
+  const snapped = Math.round((value - min) / step) * step + min;
+  return clamp(snapped, min, max);
+}
+
+interface ThumbProps {
+  index: number;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  disabled?: boolean;
+  trackRef: React.RefObject<HTMLDivElement | null>;
+  onValueChange: (index: number, value: number) => void;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+}
+
+function SliderThumbInternal({
+  index,
+  value,
+  min,
+  max,
+  step,
+  disabled,
+  trackRef,
+  onValueChange,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+}: ThumbProps) {
+  const thumbRef = React.useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const { focusProps, isFocusVisible } = useFocusRing();
+
+  const percent = ((value - min) / (max - min)) * 100;
+
+  const getValueFromPointer = React.useCallback((clientX: number) => {
+    const track = trackRef.current;
+    if (!track) return value;
+
+    const rect = track.getBoundingClientRect();
+    const percent = clamp((clientX - rect.left) / rect.width, 0, 1);
+    const rawValue = percent * (max - min) + min;
+    return snapToStep(rawValue, min, max, step);
+  }, [trackRef, min, max, step, value]);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (disabled) return;
+    e.preventDefault();
+    setIsDragging(true);
+    thumbRef.current?.setPointerCapture(e.pointerId);
+    thumbRef.current?.focus();
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging || disabled) return;
+    const newValue = getValueFromPointer(e.clientX);
+    if (newValue !== value) {
+      onValueChange(index, newValue);
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (isDragging) {
+      setIsDragging(false);
+      thumbRef.current?.releasePointerCapture(e.pointerId);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return;
+
+    let newValue = value;
+    const largeStep = step * 10;
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowUp':
+        newValue = clamp(value + step, min, max);
+        break;
+      case 'ArrowLeft':
+      case 'ArrowDown':
+        newValue = clamp(value - step, min, max);
+        break;
+      case 'PageUp':
+        newValue = clamp(value + largeStep, min, max);
+        break;
+      case 'PageDown':
+        newValue = clamp(value - largeStep, min, max);
+        break;
+      case 'Home':
+        newValue = min;
+        break;
+      case 'End':
+        newValue = max;
+        break;
+      default:
+        return;
+    }
+
+    e.preventDefault();
+    if (newValue !== value) {
+      onValueChange(index, newValue);
+    }
+  };
+
+  return (
+    <div
+      ref={thumbRef}
+      role="slider"
+      tabIndex={disabled ? -1 : 0}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuenow={value}
+      aria-disabled={disabled || undefined}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      className={cn('slider thumb', styles.thumb)}
+      style={{ left: `${percent}%` }}
+      data-dragging={isDragging || undefined}
+      data-focus-visible={isFocusVisible || undefined}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onKeyDown={handleKeyDown}
+      {...focusProps}
+    />
+  );
+}
+
+const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
   (
     {
       className,
@@ -32,86 +171,114 @@ const Root = React.forwardRef<
       disabled,
       style,
       defaultValue,
-      value,
+      value: controlledValue,
       onValueChange,
-      min: _min,
-      max: _max,
-      step,
-      children,
+      min = 0,
+      max = 100,
+      step = 1,
+      orientation = 'horizontal',
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
       ...props
     },
     ref
   ) => {
-    const minValue = _min ?? 0;
-    const maxValue = _max ?? 100;
-    const stepValue = step ?? 1;
+    const trackRef = React.useRef<HTMLDivElement>(null);
+
+    // Normalize to arrays
+    const normalizeValue = (v: number | number[] | undefined): number[] | undefined => {
+      if (v === undefined) return undefined;
+      return Array.isArray(v) ? v : [v];
+    };
+
+    const [internalValues, setInternalValues] = React.useState<number[]>(() => {
+      return normalizeValue(defaultValue) ?? normalizeValue(controlledValue) ?? [min];
+    });
+
+    const isControlled = controlledValue !== undefined;
+    const values = isControlled ? normalizeValue(controlledValue)! : internalValues;
+
+    const handleValueChange = React.useCallback((index: number, newValue: number) => {
+      const newValues = [...values];
+      newValues[index] = newValue;
+
+      if (!isControlled) {
+        setInternalValues(newValues);
+      }
+      onValueChange?.(newValues);
+    }, [values, isControlled, onValueChange]);
+
+    const handleTrackClick = (e: React.PointerEvent) => {
+      if (disabled) return;
+      // Only handle clicks directly on the track, not on thumbs
+      if (e.target !== trackRef.current) return;
+
+      const track = trackRef.current;
+      if (!track) return;
+
+      const rect = track.getBoundingClientRect();
+      const percent = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+      const rawValue = percent * (max - min) + min;
+      const newValue = snapToStep(rawValue, min, max, step);
+
+      // Find the closest thumb and update it
+      let closestIndex = 0;
+      let closestDistance = Math.abs(values[0] - newValue);
+      for (let i = 1; i < values.length; i++) {
+        const distance = Math.abs(values[i] - newValue);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = i;
+        }
+      }
+
+      handleValueChange(closestIndex, newValue);
+    };
 
     return (
       <SliderContext.Provider value={{ size, disabled }}>
-        <Slider
+        <div
           ref={ref}
-          isDisabled={disabled}
-          defaultValue={defaultValue}
-          value={value}
-          onChange={onValueChange}
-          minValue={minValue}
-          maxValue={maxValue}
-          step={stepValue}
           data-size={size}
-          data-disabled={disabled}
+          data-disabled={disabled || undefined}
+          data-orientation={orientation}
           style={style}
           className={cn('slider', styles.slider, className)}
           {...props}
         >
-          <SliderTrack className={cn('slider track', styles.track)}>
-            {({ state }) => (
-              <>
-                <div
-                  className={cn('slider range', styles.range)}
-                  style={{
-                    left: `${state.values.length === 1 ? 0 : state.getThumbPercent(0) * 100}%`,
-                    right: `${state.values.length === 1 ? 100 - state.getThumbPercent(0) * 100 : 100 - state.getThumbPercent(state.values.length - 1) * 100}%`,
-                  }}
-                />
-                {state.values.map((_, index) => (
-                  <AriaSliderThumb
-                    key={index}
-                    index={index}
-                    className={cn('slider thumb', styles.thumb)}
-                  />
-                ))}
-              </>
-            )}
-          </SliderTrack>
-        </Slider>
+          <div
+            ref={trackRef}
+            className={cn('slider track', styles.track)}
+            onPointerDown={handleTrackClick}
+          >
+            <div
+              className={cn('slider range', styles.range)}
+              style={{
+                left: `${values.length === 1 ? 0 : ((values[0] - min) / (max - min)) * 100}%`,
+                right: `${values.length === 1 ? 100 - ((values[0] - min) / (max - min)) * 100 : 100 - ((values[values.length - 1] - min) / (max - min)) * 100}%`,
+              }}
+            />
+            {values.map((value, index) => (
+              <SliderThumbInternal
+                key={index}
+                index={index}
+                value={value}
+                min={min}
+                max={max}
+                step={step}
+                disabled={disabled}
+                trackRef={trackRef}
+                onValueChange={handleValueChange}
+                aria-label={ariaLabel}
+                aria-labelledby={ariaLabelledBy}
+              />
+            ))}
+          </div>
+        </div>
       </SliderContext.Provider>
     );
   }
 );
 Root.displayName = 'SliderRoot';
 
-interface ThumbProps extends React.ComponentPropsWithoutRef<typeof AriaSliderThumb> {
-  index?: number;
-}
-
-const Thumb = React.forwardRef<HTMLDivElement, ThumbProps>(
-  ({ index: _index, style, className, ...props }, ref) => {
-    const context = React.useContext(SliderContext);
-    if (!context) {
-      console.warn('Thumb must be used within Slider.Root');
-      return null;
-    }
-
-    return (
-      <AriaSliderThumb
-        ref={ref}
-        style={style}
-        className={cn('slider thumb', styles.thumb, className)}
-        {...props}
-      />
-    );
-  }
-);
-Thumb.displayName = 'SliderThumb';
-
-export { Root, Thumb };
+export { Root };
