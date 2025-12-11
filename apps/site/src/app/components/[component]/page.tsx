@@ -1,10 +1,10 @@
 import { ComponentDetailClient } from "./client";
 
 const componentIds = [
-  "button", "button-group", "input", "label", "select", "textarea",
+  "button", "input", "label", "select", "textarea",
   "checkbox", "radio", "badge", "tooltip", "popover", "form-wrapper",
   "toast", "modal", "tabs", "context-menu", "switch", "slider",
-  "progress", "card", "command-palette", "confirmation", "divider"
+  "progress", "card", "command-palette", "confirm", "divider"
 ];
 
 export function generateStaticParams() {

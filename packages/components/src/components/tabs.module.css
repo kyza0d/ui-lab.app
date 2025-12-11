@@ -1,6 +1,11 @@
 @reference "tailwindcss";
 
 @layer components {
+  .tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
   .tabsList {
     --background: var(--background-800);
     --border: var(--background-700);
@@ -12,25 +17,10 @@
     position: relative;
     overflow: hidden;
     background-color: var(--background);
+    text-decoration: none !important; 
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-lg);
     @apply p-1;
-  }
-
-  .tabsListUnderline {
-    --background: transparent;
-    --border: var(--background-700);
-    --indicator-background: var(--accent-500);
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    border: none;
-    border-bottom: var(--border-width-base) solid var(--border);
-    border-radius: 0;
-    @apply p-0;
   }
 
   .indicator {
@@ -45,6 +35,8 @@
   }
 
   .indicatorUnderline {
+    --indicator-background: var(--accent-500);
+
     bottom: 0;
     height: 0.125rem;
   }
@@ -69,39 +61,43 @@
     user-select: none;
     cursor: pointer;
     background: transparent;
-    border: none;
     border-radius: var(--radius-md);
 
-    &:focus-visible {
+    &[data-focus-visible] {
       outline: 2px solid var(--accent-500);
       outline-offset: 2px;
     }
 
-    &:disabled {
+    &[data-disabled] {
       opacity: 0.5;
       cursor: not-allowed;
     }
 
     @media (hover: hover) {
-      &:hover:not(:disabled) {
+      &:hover:not([data-disabled]) {
         color: var(--foreground-hover);
       }
     }
 
-    &:active:not(:disabled) {
+    &:active:not([data-disabled]) {
+      color: var(--foreground-active);
+    }
+
+    &[data-selected] {
       color: var(--foreground-active);
     }
   }
 
-  .tabsTrigger[data-state="active"] {
-    color: var(--foreground-active);
+  .triggerIcon {
+    display: flex;
+    align-items: center;
   }
 
   .tabsContent {
     margin-top: 0.5rem;
     outline: none;
 
-    &:focus-visible {
+    &[data-focus-visible] {
       outline: 2px solid var(--accent-500);
       outline-offset: 2px;
     }

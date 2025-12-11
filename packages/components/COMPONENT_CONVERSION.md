@@ -325,6 +325,317 @@ Button.displayName = "Button";
 
 ---
 
+## React Aria Migration (Replacing Radix UI)
+
+When converting components from **Radix UI** to **React Aria**, use **hooks-based patterns** (not pre-built components) to avoid SSR hydration mismatches.
+
+### Why React Aria Hooks (Not Components)?
+- **SSR Safety**: Hooks-based patterns don't generate internal IDs, preventing hydration mismatches in Next.js
+- **Better a11y**: Full WCAG 2.1 Level AA compliance with hooks like `useButton`, `useCheckbox`, `useFocusRing`
+- **Composition**: Direct access to state variables (`isFocused`, `isPressed`, `isHovered`)
+- **Flexibility**: Full control over structure and styling with native HTML elements
+- **Theming**: Seamless integration with CSS custom properties and data attributes
+
+### Key Differences: Components vs Hooks
+
+#### ❌ Before: Pre-Built Components (Causes Hydration Issues)
+```tsx
+// react-aria-components - Internally calls useId(), causes SSR mismatch
+import { Button } from 'react-aria-components';
+
+<Button isDisabled={disabled}>{children}</Button>
+```
+
+#### ✅ After: React Aria Hooks (SSR-Safe)
+```tsx
+// react-aria hooks - No internal ID generation, full control
+import { useButton, useFocusRing, useHover, mergeProps } from 'react-aria';
+
+const { buttonProps, isPressed } = useButton({ isDisabled }, ref);
+const { focusProps, isFocusVisible } = useFocusRing();
+const { hoverProps, isHovered } = useHover({ isDisabled });
+
+<button
+  {...mergeProps(buttonProps, focusProps, hoverProps)}
+  data-pressed={isPressed || undefined}
+  data-focus-visible={isFocusVisible || undefined}
+  data-hovered={isHovered || undefined}
+>
+  {children}
+</button>
+```
+
+### React Aria Hooks Pattern
+
+#### 1. **Use "use client" Directive**
+
+All React Aria components must run in the client:
+
+```tsx
+"use client";
+
+import { useButton, useFocusRing, useHover, mergeProps } from "react-aria";
+```
+
+#### 2. **Simple Components: Direct Hook Usage**
+
+For simple components (Button, Checkbox), use hooks directly:
+
+```tsx
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ isDisabled, variant, size, ...props }, ref) => {
+    const { buttonProps, isPressed } = useButton({ isDisabled }, ref);
+    const { focusProps, isFocusVisible } = useFocusRing();
+    const { hoverProps, isHovered } = useHover({ isDisabled });
+
+    return (
+      <button
+        {...mergeProps(buttonProps, focusProps, hoverProps)}
+        ref={ref}
+        data-variant={variant}
+        data-size={size}
+        data-disabled={isDisabled || undefined}
+        data-pressed={isPressed || undefined}
+        data-hovered={isHovered || undefined}
+        data-focus-visible={isFocusVisible || undefined}
+        className={cn(styles.button, variantMap[variant], sizeMap[size])}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+```
+
+#### 3. **Complex Components: Use Context for Child State**
+
+For components with multiple children (Slider, Select), use Context to avoid prop drilling:
+
+```tsx
+const SliderContext = React.createContext<{
+  size: SliderSize;
+  disabled?: boolean;
+} | null>(null);
+
+const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
+  ({ size = 'md', disabled, onValueChange, min = 0, max = 100, ...props }, ref) => {
+    const [values, setValues] = React.useState([50]);
+
+    return (
+      <SliderContext.Provider value={{ size, disabled }}>
+        <div
+          ref={ref}
+          data-size={size}
+          data-disabled={disabled || undefined}
+          className={cn(styles.slider)}
+          {...props}
+        >
+          {/* Render track, range, and thumbs here */}
+        </div>
+      </SliderContext.Provider>
+    );
+  }
+);
+```
+
+#### 4. **Use Data Attributes for Styling States**
+
+Always use data attributes (not class names) for state-based styling:
+
+```tsx
+<button
+  data-pressed={isPressed || undefined}      // Rendered when true
+  data-hovered={isHovered || undefined}      // Rendered when true
+  data-focus-visible={isFocusVisible || undefined}
+  data-disabled={isDisabled || undefined}
+  className={styles.button}
+/>
+
+// CSS targets data attributes
+.button[data-focus-visible] {
+  outline: 2px solid var(--blue);
+}
+
+.button[data-pressed] {
+  background-color: var(--background-active);
+}
+
+.button[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+```
+
+#### 5. **Handle Multiple Refs with useMergedRef Helper**
+
+When forwardRef is used with internal refs:
+
+```tsx
+function useMergedRef<T>(...refs: (React.Ref<T> | undefined)[]): React.RefCallback<T> {
+  return React.useCallback((value: T) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") ref(value);
+      else if (ref && typeof ref === "object") (ref as React.MutableRefObject<T | null>).current = value;
+    });
+  }, refs);
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ ...props }, ref) => {
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+    const mergedRef = useMergedRef(ref, buttonRef);
+
+    const { buttonProps } = useButton(options, buttonRef);
+
+    return <button ref={mergedRef} {...buttonProps} {...props} />;
+  }
+);
+```
+
+### Common React Aria Hooks and Props
+
+These are the most common hooks used in component conversion:
+
+| Hook | Returns | Use Case |
+|------|---------|----------|
+| `useButton(options, ref)` | `{ buttonProps, isPressed }` | Button components |
+| `useFocusRing(options)` | `{ focusProps, isFocusVisible, isFocused }` | Focus styling for any element |
+| `useHover(options)` | `{ hoverProps, isHovered }` | Hover state detection |
+| `useCheckbox(options, ref)` | `{ inputProps, isSelected, isIndeterminate }` | Checkbox components |
+| `useSwitch(options, ref)` | `{ inputProps, isSelected }` | Toggle/Switch components |
+| `mergeProps(...objects)` | Merged props object | Combine multiple hook prop objects |
+
+**Key Naming Conventions:**
+- Props: `isDisabled`, `isSelected`, `isIndeterminate` (boolean prefix)
+- Callbacks: `onPress`, `onChange`, `onFocusChange`
+- State: `isPressed`, `isFocusVisible`, `isHovered`, `isSelected`
+
+### CSS Module Patterns for React Aria Hooks
+
+Style components using data attributes set by hook state variables:
+
+```css
+@reference "tailwindcss";
+
+@layer components {
+  /* Base component */
+  .button {
+    --background: var(--accent-500);
+    --foreground: var(--accent-50);
+
+    @apply px-3 py-1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-md);
+    background-color: var(--background);
+    color: var(--foreground);
+    border: var(--border-width-base) solid var(--background);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+  }
+
+  /* Variant via data attributes */
+  .button[data-variant="secondary"] {
+    --background: var(--background-700);
+    --foreground: var(--foreground-50);
+  }
+
+  /* Size via data attributes */
+  .button[data-size="sm"] {
+    @apply px-2.5 py-1;
+    font-size: var(--text-sm);
+  }
+
+  .button[data-size="lg"] {
+    @apply px-4 py-2;
+    font-size: var(--text-lg);
+  }
+
+  /* Hover state - checked via hook */
+  @media (hover: hover) {
+    .button[data-hovered]:not([data-disabled]) {
+      --background: var(--accent-600);
+    }
+  }
+
+  /* Pressed state - checked via hook */
+  .button[data-pressed]:not([data-disabled]) {
+    --background: var(--accent-700);
+  }
+
+  /* Focus state - checked via hook */
+  .button[data-focus-visible] {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  /* Disabled state - checked via hook */
+  .button[data-disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Example: Checkbox with data attributes */
+  .base {
+    --background: var(--background-800);
+    --ring-color: var(--accent-500);
+
+    @apply w-5 h-5 cursor-pointer transition-all flex-shrink-0;
+    appearance: none;
+    background-color: var(--background);
+    border-radius: var(--radius-md);
+  }
+
+  /* Checked state - from hook or input */
+  .base[data-selected="true"] {
+    --background: var(--accent-500);
+  }
+
+  .base[data-selected="true"]::after {
+    content: "✓";
+    color: var(--accent-50);
+    font-weight: 700;
+  }
+
+  /* Focus state - from hook */
+  .base[data-focused="true"] {
+    box-shadow: 0 0 0 3px var(--ring-color);
+  }
+
+  /* Disabled state - from hook */
+  .base[data-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+```
+
+### React Aria Migration Checklist
+
+Before completing a React Aria migration:
+
+- [ ] **SSR Safe**: Import hooks from `react-aria` (NOT `react-aria-components`)
+- [ ] **Client Directive**: Add `"use client"` at the top of the file
+- [ ] **Hooks Setup**: Use `useButton`, `useFocusRing`, `useHover`, etc. from `react-aria`
+- [ ] **Props Merging**: Use `mergeProps()` to combine hook prop objects
+- [ ] **Native Elements**: Render native HTML elements (`<button>`, `<input>`, `<div>`, etc.)
+- [ ] **Data Attributes**: Add `data-*` attributes for all hook state (isPressed, isFocusVisible, isHovered, isDisabled)
+- [ ] **Context (if needed)**: Use React Context for complex components with multiple children
+- [ ] **Ref Handling**: Use `useMergedRef` helper when combining forwardRef with internal refs
+- [ ] **CSS Module**: Update styles to target data attributes, not class names
+- [ ] **Accessibility**: Verify with keyboard navigation, screen readers, and ARIA attributes
+- [ ] **Testing**: Test all states: focus, hover, active, pressed, disabled, indeterminate
+
+### Reference Implementations
+
+- **Button Component** (`button.tsx`, `button.module.css`): Simple hooks-based pattern with `useButton`, `useFocusRing`, `useHover`
+- **Checkbox Component** (`checkbox.tsx`, `checkbox.module.css`): Input-based pattern with state management and data attributes
+- **Slider Component** (`slider.tsx`, `slider.module.css`): Complex multi-child component with Context and custom state logic
+
+---
+
 ## CSS Module Output Checklist
 
 Before considering a CSS module complete, verify:

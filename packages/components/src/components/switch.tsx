@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useSwitch, useFocusRing, useHover, mergeProps } from "react-aria";
+import { useToggleState } from "react-stately";
 import { cn } from "@/lib/utils";
 
 import styles from "./switch.module.css";
@@ -16,13 +18,20 @@ const shapeMap = {
   round: styles["round"],
 };
 
+const thumbPositions = {
+  sm: { unchecked: 0.25, checked: 1.25 },
+  md: { unchecked: 0.25, checked: 1.5 },
+  lg: { unchecked: 0.25, checked: 1.75 },
+};
+
 export interface SwitchProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
-  checked?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size" | "onChange" | "checked" | "defaultChecked"> {
+  isSelected?: boolean;
+  onChange?: (isSelected: boolean) => void;
+  defaultSelected?: boolean;
   size?: "sm" | "md" | "lg";
   pill?: boolean;
-  disabled?: boolean;
+  isDisabled?: boolean;
 }
 
 const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
@@ -30,76 +39,74 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     {
       className,
       size = "md",
-      disabled = false,
-      checked: controlledChecked,
-      onCheckedChange,
+      isDisabled = false,
+      isSelected: controlledSelected,
       onChange,
-      defaultChecked,
+      defaultSelected,
       pill,
       ...props
     },
     ref
   ) => {
-    const [internalChecked, setInternalChecked] = useState(controlledChecked ?? defaultChecked ?? false);
-    const isControlled = controlledChecked !== undefined;
-    const checked = isControlled ? controlledChecked : internalChecked;
+    const state = useToggleState({
+      isSelected: controlledSelected,
+      defaultSelected: defaultSelected ?? false,
+      onChange,
+    });
+
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const { inputProps, isSelected } = useSwitch(
+      { isDisabled },
+      state,
+      inputRef
+    );
+    const { focusProps, isFocusVisible } = useFocusRing();
+    const { hoverProps, isHovered } = useHover({ isDisabled });
+
     const isPill = pill === true;
     const shapeClass = isPill ? shapeMap.pill : shapeMap.round;
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newChecked = e.target.checked;
-      if (!isControlled) setInternalChecked(newChecked)
-      onCheckedChange?.(newChecked);
-      onChange?.(e);
-    };
-
-    const thumbPositions = {
-      sm: { unchecked: 0.25, checked: 1.25 },
-      md: { unchecked: 0.25, checked: 1.5 },
-      lg: { unchecked: 0.25, checked: 1.75 },
-    };
-
     const position = thumbPositions[size];
-    const thumbLeft = checked ? position.checked : position.unchecked;
+    const thumbLeft = isSelected ? position.checked : position.unchecked;
+
+    React.useImperativeHandle(ref, () => inputRef.current!);
 
     return (
       <div
         className={cn(
-          "switch",
-          `${size}`,
+          'switch',
+          styles.switch,
           sizeMap[size],
           shapeClass,
-          styles.switch,
           className
         )}
-        data-checked={checked}
+        data-selected={isSelected || undefined}
+        data-disabled={isDisabled || undefined}
+        data-focus-visible={isFocusVisible || undefined}
+        data-hovered={isHovered || undefined}
       >
         <div
           className={cn(
-            "switch-track",
-            shapeClass,
-            styles["switch-track"]
+            'switch-track',
+            styles["switch-track"],
+            shapeClass
           )}
         />
         <div
           className={cn(
-            "switch-thumb",
-            `${size}`,
+            'switch-thumb',
+            styles["switch-thumb"],
             sizeMap[size],
-            shapeClass,
-            styles["switch-thumb"]
+            shapeClass
           )}
           style={{
             left: `${thumbLeft}rem`,
           }}
         />
         <input
-          ref={ref}
+          ref={inputRef}
           type="checkbox"
-          checked={checked}
-          disabled={disabled ?? false}
-          onChange={handleChange}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          {...mergeProps(inputProps, focusProps, hoverProps)}
           {...props}
         />
       </div>

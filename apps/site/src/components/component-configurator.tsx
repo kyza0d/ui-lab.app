@@ -9,8 +9,13 @@ import {
   Select,
   SelectContent,
   SelectItem,
+  SelectListBox,
   SelectTrigger,
   SelectValue,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
 } from "ui-lab-components";
 
 import {
@@ -21,38 +26,6 @@ import {
 
 import { useHeader } from "@/lib/header-context";
 
-// Hook to detect current theme mode
-function useThemeMode() {
-  const [themeMode, setThemeMode] = useState<"light" | "dark">("dark");
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-
-    // Get initial theme mode
-    const currentTheme = document.documentElement.getAttribute("data-theme") as "light" | "dark" | null;
-    if (currentTheme) {
-      setThemeMode(currentTheme);
-    }
-
-    // Listen for theme changes
-    const observer = new MutationObserver(() => {
-      const newTheme = document.documentElement.getAttribute("data-theme") as "light" | "dark" | null;
-      if (newTheme) {
-        setThemeMode(newTheme);
-      }
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  return { themeMode, isClient };
-}
 
 export interface ControlOption {
   label: string;
@@ -89,6 +62,8 @@ export interface ComponentConfiguratorProps {
   customRenderer?: (context: RenderContext) => React.ReactNode;
   hidePreviewToggle?: boolean;
   fullWidth?: boolean;
+  previewHeight?: string;
+  previewLayout?: "center" | "start";
 }
 
 export function ComponentConfigurator({
@@ -103,8 +78,9 @@ export function ComponentConfigurator({
   customRenderer,
   hidePreviewToggle = false,
   fullWidth = false,
+  previewHeight,
+  previewLayout = "center",
 }: ComponentConfiguratorProps) {
-  const { themeMode } = useThemeMode();
   const { currentThemeMode, currentThemeColors } = useHeader();
   const [highlightedCode, setHighlightedCode] = useState<string>("");
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -211,86 +187,70 @@ export function ComponentConfigurator({
         </div>
 
         <div className={cn("bg-background-700/40 border border-background-700 rounded-md overflow-hidden", fullWidth && "w-full")}>
-          {/* Toggle Header */}
           {!hidePreviewToggle && (
-            <div className="flex p-1 items-center justify-between ">
-              <div className="flex gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowCode(false)}
-                  className={!showCode ? "text-accent-500" : "text-foreground-400"}
-                >
-                  Preview
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowCode(true)}
-                  className={showCode ? "text-accent-500" : "text-foreground-400"}
-                >
-                  Code
-                </Button>
-              </div>
-
-              {showCode && (
-                <div className="flex items-center gap-3">
-                  {allTabs.length > 1 && (
-                    <div className="flex border-l border-background-700 pl-3">
-                      {allTabs.map((tab, index) => (
-                        <Button
-                          key={index}
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setActiveTab(index);
-                            setCopied(false);
-                          }}
-                          className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
-                        >
-                          {tab.label}
-                        </Button>
-                      ))}
-                    </div>
+            <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
+              <TabsList className="justify-start border-0 rounded-none border-b border-background-700 w-full">
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+                <TabsTrigger value="code">Code</TabsTrigger>
+                <button
+                  onClick={handleCopy}
+                  className={cn(
+                    "p-1.5 rounded",
+                    "text-foreground-400 hover:text-foreground-50",
+                    copied && "text-accent-500"
                   )}
-                  <button
-                    onClick={handleCopy}
-                    className={cn(
-                      "p-1.5 rounded",
-                      "text-foreground-400 hover:text-foreground-50",
-                      copied && "text-accent-500"
-                    )}
-                    title="Copy code"
-                  >
-                    {copied ? (
-                      <FaCheck size={16} />
-                    ) : (
-                      <FaCopy size={16} />
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+                  title="Copy code"
+                >
+                  {copied ? (
+                    <FaCheck size={16} />
+                  ) : (
+                    <FaCopy size={16} />
+                  )}
+                </button>
+              </TabsList>
 
-          {/* Preview/Code Toggle + Content */}
-          <div className={cn("overflow-hidden", !hidePreviewToggle && "border-t border-background-700 bg-background-950/50")}>
-            {/* Content */}
-            <div>
-              {showCode ? (
+              <TabsContent value="preview" className="overflow-hidden bg-background-950/50 mt-0">
+                <div className={cn("p-8", { [previewHeight]: !!previewHeight }, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
+                  {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="code" className="overflow-hidden bg-background-950/50 mt-0">
+                {allTabs.length > 1 && (
+                  <div className="flex gap-2">
+                    {allTabs.map((tab, index) => (
+                      <Button
+                        key={index}
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setActiveTab(index);
+                          setCopied(false);
+                        }}
+                        className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
+                      >
+                        {tab.label}
+                      </Button>
+                    ))}
+                  </div>
+                )}
                 <div
                   className="overflow-x-auto text-sm"
                   dangerouslySetInnerHTML={{
                     __html: highlightedCode,
                   }}
                 />
-              ) : (
-                <div className="p-8 flex items-center justify-center min-h-40">
-                  {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
-                </div>
-              )}
+              </TabsContent>
+            </Tabs>
+          )}
+
+          {hidePreviewToggle && (
+            <div className="overflow-hidden bg-background-950/50">
+              <div className={cn("p-8", { [previewHeight]: !!previewHeight }, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
+                {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Controls Section */}
@@ -304,20 +264,22 @@ export function ComponentConfigurator({
                   </label>
                   {control.type === "select" && (
                     <Select
-                      value={String(controlValues[control.name] ?? "")}
-                      onValueChange={(value) =>
-                        handleControlChange(control.name, value)
+                      selectedKey={String(controlValues[control.name] ?? "")}
+                      onSelectionChange={(key) =>
+                        handleControlChange(control.name, key)
                       }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select an option" />
                       </SelectTrigger>
                       <SelectContent>
-                        {control.options?.map((option) => (
-                          <SelectItem key={String(option.value)} value={String(option.value)}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
+                        <SelectListBox>
+                          {control.options?.map((option) => (
+                            <SelectItem key={String(option.value)} value={String(option.value)}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectListBox>
                       </SelectContent>
                     </Select>
                   )}

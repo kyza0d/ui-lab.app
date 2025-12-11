@@ -7,8 +7,8 @@ import "./globals.css";
 import "@fontsource-variable/karla";
 import "@fontsource-variable/jetbrains-mono";
 
-import Header from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import Header from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 // imoprt {Header, Footer} from "ui-lab-components/layout"
 
@@ -38,7 +38,7 @@ export default function RootLayout({
         <HeaderProvider>
           <CommandPaletteProvider>
             <Header />
-            <main className="flex-1 border-x border-background-700 mx-auto">
+            <main className="flex-1 max-w-[1700px] border-x border-background-700 mx-auto">
               {children}
             </main>
           </CommandPaletteProvider>

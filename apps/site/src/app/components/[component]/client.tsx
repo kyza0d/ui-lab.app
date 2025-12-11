@@ -75,6 +75,8 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
                             language="typescript"
                             controls={example.controls}
                             renderPreview={example.renderPreview}
+                            previewHeight={example.previewHeight}
+                            previewLayout={example.previewLayout}
                           >
                             {example.preview}
                           </ComponentConfigurator>

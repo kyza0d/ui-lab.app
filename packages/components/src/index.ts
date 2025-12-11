@@ -1,11 +1,14 @@
 export { Button } from "./components/button";
 export type { ButtonProps } from "./components/button";
 
+export { Group } from "./components/group";
+export type { GroupProps } from "./components/group";
+
+export { Flex } from "./components/flex";
+export type { FlexProps } from "./components/flex";
+
 export { Badge } from "./components/badge";
 export type { BadgeProps } from "./components/badge";
-
-export { ButtonGroup, ButtonGroupItem } from "./components/button-group";
-export type { ButtonGroupProps, ButtonGroupItemProps } from "./components/button-group";
 
 export { Card, CardHeader, CardBody, CardFooter } from "./components/card";
 export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from "./components/card";
@@ -21,6 +24,7 @@ export {
   SelectContent,
   SelectItem,
   SelectSeparator,
+  SelectListBox,
   SelectScrollUpButton,
   SelectScrollDownButton,
 } from "./components/select";

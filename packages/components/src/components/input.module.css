@@ -25,55 +25,55 @@
       color: var(--placeholder);
     }
 
-    &:focus {
+    &[data-focus-visible] {
       outline: none;
       border-color: var(--ring-color);
       box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring-color) 15%, transparent);
     }
 
-    &:disabled {
+    &[data-disabled] {
       background-color: var(--background-900);
       color: var(--foreground-500);
       cursor: not-allowed;
       opacity: 0.6;
     }
 
-    &[data-error="true"] {
+    &[data-error] {
       --border: var(--danger-600);
       --ring-color: var(--danger-600);
       border-color: var(--danger-600);
 
-      &:focus {
+      &[data-focus-visible] {
         border-color: var(--danger-600);
         box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger-600) 25%, transparent);
       }
     }
   }
 
-  .input.ghost {
+  .input[data-variant="ghost"] {
     --background: transparent;
     --border: transparent;
     --background-hover: transparent;
     --border-hover: transparent;
 
-    &:focus {
+    &[data-focus-visible] {
       box-shadow: none;
     }
   }
 
-  .input.sm {
+  .input[data-size="sm"] {
     height: 2rem;
     font-size: var(--text-sm);
     @apply px-2 py-1;
   }
 
-  .input.md {
+  .input[data-size="md"] {
     height: 2.5rem;
     font-size: var(--text-sm);
     @apply px-3 py-2;
   }
 
-  .input.lg {
+  .input[data-size="lg"] {
     height: 3rem;
     font-size: var(--text-base);
     @apply px-4 py-3;

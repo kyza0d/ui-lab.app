@@ -1,0 +1,133 @@
+@reference "tailwindcss";
+
+@layer components {
+  .flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--spacing-md);
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  /* Direction variants */
+  .flex.row {
+    flex-direction: row;
+  }
+
+  .flex.column {
+    flex-direction: column;
+  }
+
+  /* Wrap variants */
+  .flex.wrap {
+    flex-wrap: wrap;
+  }
+
+  .flex.nowrap {
+    flex-wrap: nowrap;
+  }
+
+  /* Gap variants */
+  .flex.gap-xs {
+    gap: var(--spacing-xs);
+  }
+
+  .flex.gap-sm {
+    gap: var(--spacing-sm);
+  }
+
+  .flex.gap-md {
+    gap: var(--spacing-md);
+  }
+
+  .flex.gap-lg {
+    gap: var(--spacing-lg);
+  }
+
+  .flex.gap-xl {
+    gap: var(--spacing-xl);
+  }
+
+  /* Justify-content variants */
+  .flex.justify-flex-start {
+    justify-content: flex-start;
+  }
+
+  .flex.justify-flex-end {
+    justify-content: flex-end;
+  }
+
+  .flex.justify-center {
+    justify-content: center;
+  }
+
+  .flex.justify-space-between {
+    justify-content: space-between;
+  }
+
+  .flex.justify-space-around {
+    justify-content: space-around;
+  }
+
+  .flex.justify-space-evenly {
+    justify-content: space-evenly;
+  }
+
+  /* Align-items variants */
+  .flex.align-flex-start {
+    align-items: flex-start;
+  }
+
+  .flex.align-flex-end {
+    align-items: flex-end;
+  }
+
+  .flex.align-center {
+    align-items: center;
+  }
+
+  .flex.align-stretch {
+    align-items: stretch;
+  }
+
+  .flex.align-baseline {
+    align-items: baseline;
+  }
+
+  /* Container query parent - establishes containment context */
+  .container-query-parent {
+    container-type: inline-size;
+    width: 100%;
+  }
+
+  /* Container query responsive behavior - responds to parent container */
+  @container (max-width: 400px) {
+    .container-responsive {
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: var(--spacing-sm);
+    }
+  }
+
+  @container (min-width: 401px) and (max-width: 500px) {
+    .container-responsive {
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+    }
+  }
+
+  @container (min-width: 501px) and (max-width: 900px) {
+    .container-responsive {
+      gap: var(--spacing-md);
+    }
+  }
+
+  @container (min-width: 901px) {
+    .container-responsive {
+      gap: var(--spacing-lg);
+    }
+  }
+}

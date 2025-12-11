@@ -132,8 +132,8 @@ The registry organizes components into 8 categories:
 18. **slider** - Range slider
 19. **progress** - Progress bar
 20. **card** - Card component
-21. **command-palette** - Command palette
-22. **confirmation** - Confirmation dialog
+21. **command** - Command palette
+22. **confirm** - Confirm dialog
 23. **divider** - Divider component
 
 ## TypeScript Support

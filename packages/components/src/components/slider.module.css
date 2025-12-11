@@ -106,13 +106,13 @@
     height: var(--thumb-size-lg);
   }
 
-  .thumb:focus-visible {
+  .thumb[data-focus-visible] {
     background-color: var(--background-focus);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-500) 30%, transparent);
   }
 
-  .thumb:active {
+  .thumb[data-dragging] {
     cursor: grabbing;
-    transform: scale(1.1);
+    transform: translate(-50%, -50%) scale(1.1);
   }
 }
