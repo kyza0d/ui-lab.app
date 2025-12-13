@@ -1,0 +1,132 @@
+@reference "tailwindcss";
+
+@layer components {
+  .base {
+    --background: var(--background-800);
+    --foreground: var(--accent-50);
+    --border: var(--background-700);
+    --ring-color: var(--accent-500);
+
+    @apply w-5 h-5 cursor-pointer transition-all flex-shrink-0;
+    appearance: none;
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-md);
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .base:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: 0 0 0 3px var(--ring-color);
+  }
+
+  .base[data-selected="true"] {
+    --background: var(--accent-500);
+    --border: var(--accent-500);
+    background-color: var(--background);
+    border-color: var(--border);
+  }
+
+  .base[data-selected="true"]::after {
+    content: "✓";
+    color: var(--foreground);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .base[data-indeterminate="true"] {
+    --background: var(--accent-500);
+    --border: var(--accent-500);
+    background-color: var(--background);
+    border-color: var(--border);
+  }
+
+  .base[data-indeterminate="true"]::after {
+    content: "−";
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .base[data-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .size-sm {
+    @apply w-4 h-4;
+  }
+
+  .size-sm[data-selected="true"]::after {
+    font-size: 0.625rem;
+  }
+
+  .size-sm[data-indeterminate="true"]::after {
+    font-size: 0.625rem;
+  }
+
+  .size-md {
+    @apply w-5 h-5;
+  }
+
+  .size-md[data-selected="true"]::after {
+    font-size: 0.75rem;
+  }
+
+  .size-md[data-indeterminate="true"]::after {
+    font-size: 0.875rem;
+  }
+
+  .size-lg {
+    @apply w-6 h-6;
+  }
+
+  .size-lg[data-selected="true"]::after {
+    font-size: 0.875rem;
+  }
+
+  .size-lg[data-indeterminate="true"]::after {
+    font-size: 1rem;
+  }
+
+  .label {
+    @apply transition-colors cursor-pointer select-none pt-1;
+  }
+
+  .label-sm {
+    font-size: var(--text-sm);
+  }
+
+  .label-md {
+    font-size: var(--text-md);
+  }
+
+  .label-lg {
+    font-size: var(--text-lg);
+  }
+
+  .label-disabled {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
+  .helper-text {
+    @apply text-sm mt-2 ml-8 transition-colors;
+  }
+
+  .helper-text-normal {
+    color: inherit;
+  }
+
+  .helper-text-error {
+    color: var(--danger-600);
+  }
+
+  .indeterminate {
+  }
+}
