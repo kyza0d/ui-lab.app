@@ -3,7 +3,7 @@ import { ComponentDetailClient } from "./client";
 const componentIds = [
   "button", "input", "label", "select", "textarea",
   "checkbox", "radio", "badge", "tooltip", "popover", "form-wrapper",
-  "toast", "modal", "tabs", "context-menu", "switch", "slider",
+  "toast", "modal", "tabs", "menu", "switch", "slider",
   "progress", "card", "command-palette", "confirm", "divider"
 ];
 

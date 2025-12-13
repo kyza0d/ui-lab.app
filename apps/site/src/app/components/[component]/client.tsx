@@ -56,7 +56,7 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
         />
         <div className="grid grid-cols-1 md:grid-cols-[1fr_16%] gap-0">
           <Toaster />
-          <div className="w-full bg-background-950 max-w-2xl mx-auto">
+          <div className="w-full bg-background-950 max-w-4xl mx-auto">
             <div>
               <main className="w-full">
                 <div className="px-8 py-8 space-y-8">

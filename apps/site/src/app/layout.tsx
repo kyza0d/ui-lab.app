@@ -38,7 +38,7 @@ export default function RootLayout({
         <HeaderProvider>
           <CommandPaletteProvider>
             <Header />
-            <main className="flex-1 max-w-[1700px] border-x border-background-700 mx-auto">
+            <main className="flex-1 max-w-[1600px] border-x border-background-700 mx-auto">
               {children}
             </main>
           </CommandPaletteProvider>
