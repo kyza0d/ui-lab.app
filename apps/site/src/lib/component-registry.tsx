@@ -4,6 +4,8 @@ import { Group } from "ui-lab-components";
 import { groupDetail } from "./component-demos/group";
 import { Flex } from "ui-lab-components";
 import { flexDetail } from "./component-demos/flex";
+import { Grid } from "ui-lab-components";
+import { gridDetail } from "./component-demos/grid";
 import { Table } from "@/components/table";
 import { tableDetail } from "./component-demos/table";
 
@@ -29,11 +31,13 @@ import { Radio } from "ui-lab-components";
 import { radioDetail } from "./component-demos/radio";
 import { Badge } from "ui-lab-components";
 import { badgeDetail } from "./component-demos/badge";
+import { Breadcrumbs, Breadcrumb } from "ui-lab-components";
+import { breadcrumbsDetail } from "./component-demos/breadcrumbs";
 import { Tooltip } from "ui-lab-components";
 import { tooltipDetail } from "./component-demos/tooltip";
 import { Popover } from "ui-lab-components";
 import { popoverDetail } from "./component-demos/popover";
-import { formWrapperDetail } from "./component-demos/form-wrapper";
+import { formDetail } from "./component-demos/form";
 import { toastDetail } from "./component-demos/toast";
 import { modalDetail } from "./component-demos/modal";
 import { Slider } from "ui-lab-components";
@@ -41,12 +45,12 @@ import { sliderDetail } from "./component-demos/slider";
 import { Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { tabsDetail } from "./component-demos/tabs";
 import {
-  ContextMenu,
-  ContextMenuTrigger,
-  ContextMenuContent,
-  ContextMenuItem,
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
 } from "ui-lab-components";
-import { contextMenuDetail } from "./component-demos/context-menu";
+import { menuDetail } from "./component-demos/menu";
 import { Switch } from "ui-lab-components";
 import { switchDetail } from "./component-demos/switch";
 import { Progress } from "ui-lab-components";
@@ -56,6 +60,8 @@ import { commandPaletteDetail } from "./component-demos/command-palette";
 import { confirmComponentDetail } from "./component-demos/confirmation";
 import { Divider } from "ui-lab-components";
 import { dividerDetail } from "./component-demos/divider";
+import { Fold } from "ui-lab-components";
+import { foldDetail } from "./component-demos/fold";
 import { ComponentDetail } from "@/types/component";
 import { FaBell, FaCircleQuestion, FaFile, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
@@ -88,11 +94,18 @@ const previews: Record<string, React.ReactNode> = {
     </div>
   ),
   flex: (
-    <Flex gap="md">
-      <Button size="sm">Item 1</Button>
-      <Button size="sm">Item 2</Button>
-      <Button size="sm">Item 3</Button>
+    <Flex align="center" direction="column" gap="sm">
+      <div className="h-7 w-12 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">1</div>
+      <div className="h-7 w-12 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">2</div>
+      <div className="h-7 w-12 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">3</div>
     </Flex>
+  ),
+  grid: (
+    <Grid columns="3" gap="sm">
+      <div className="h-16 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">1</div>
+      <div className="h-16 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">2</div>
+      <div className="h-16 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">3</div>
+    </Grid>
   ),
   table: (
     <div className="w-full overflow-hidden">
@@ -155,6 +168,13 @@ const previews: Record<string, React.ReactNode> = {
       <Badge variant="danger">Danger</Badge>
     </div>
   ),
+  breadcrumbs: (
+    <Breadcrumbs>
+      <Breadcrumb>Home</Breadcrumb>
+      <Breadcrumb>Products</Breadcrumb>
+      <Breadcrumb>Electronics</Breadcrumb>
+    </Breadcrumbs>
+  ),
   tooltip: (
     <div className="flex items-center justify-center h-22">
       <Tooltip content="Hover information">
@@ -171,7 +191,7 @@ const previews: Record<string, React.ReactNode> = {
       </Popover>
     </div>
   ),
-  'form-wrapper': (
+  'form': (
     <div className="flex items-center justify-center h-22">
       <FaPencil className="w-9 h-9 text-accent-500" />
     </div>
@@ -195,17 +215,17 @@ const previews: Record<string, React.ReactNode> = {
       </TabsList>
     </Tabs>
   ),
-  'context-menu': (
+  'menu': (
     <div className="flex items-center justify-center h-22">
-      <ContextMenu>
-        <ContextMenuTrigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-context-menu">
+      <Menu>
+        <MenuTrigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-menu">
           Right click
-        </ContextMenuTrigger>
-        <ContextMenuContent>
-          <ContextMenuItem>Copy</ContextMenuItem>
-          <ContextMenuItem>Paste</ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+        </MenuTrigger>
+        <MenuContent>
+          <MenuItem>Copy</MenuItem>
+          <MenuItem>Paste</MenuItem>
+        </MenuContent>
+      </Menu>
     </div>
   ),
   switch: (
@@ -245,6 +265,15 @@ const previews: Record<string, React.ReactNode> = {
       <Divider variant="dashed" size="md" color="subtle" />
     </div>
   ),
+  fold: (
+    <div className="w-full max-w-sm">
+      <Fold title="Expandable content" defaultExpanded={false}>
+        <p className="text-foreground-300 text-sm">
+          Click to reveal hidden content
+        </p>
+      </Fold>
+    </div>
+  ),
   page: (
     <div className="flex items-center justify-center h-22">
       <FaFile className="w-9 h-9 text-accent-500" />
@@ -265,7 +294,7 @@ export const componentRegistry: ComponentMetadata[] = [
     description: tableDetail.description,
     category: 'data' as const,
     source: {
-      packageName: 'ui-lab-component' as const,
+      packageName: 'ui-lab-components' as const,
       exportName: 'Table',
       packagePath: 'src/components/table.tsx',
     },
@@ -298,6 +327,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
   group: groupDetail,
   flex: flexDetail,
+  grid: gridDetail,
   table: tableDetail,
   input: inputDetail,
   label: labelDetail,
@@ -306,20 +336,22 @@ const componentDetails: Record<string, ComponentDetail> = {
   checkbox: checkboxDetail,
   radio: radioDetail,
   badge: badgeDetail,
+  breadcrumbs: breadcrumbsDetail,
   tooltip: tooltipDetail,
   popover: popoverDetail,
-  "form-wrapper": formWrapperDetail,
+  "form": formDetail,
   toast: toastDetail,
   modal: modalDetail,
   slider: sliderDetail,
   progress: progressDetail,
   tabs: tabsDetail,
-  "context-menu": contextMenuDetail,
+  "menu": menuDetail,
   switch: switchDetail,
   card: cardDetail,
   "command-palette": commandPaletteDetail,
   confirm: confirmComponentDetail,
   divider: dividerDetail,
+  fold: foldDetail,
 };
 
 export function getComponentById(id: string): ComponentDetail | undefined {
