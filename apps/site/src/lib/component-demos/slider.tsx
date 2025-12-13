@@ -42,17 +42,15 @@ const sliderControls: ControlDef[] = [
   },
 ];
 
-const sliderBasicCode = `import * as Slider from "ui-lab-components";
+const sliderBasicCode = `import { Slider } from "ui-lab-components";
 
 export function Example() {
   return (
-    <Slider.Root min={0} max={100} defaultValue={[50]}>
-      <Slider.Thumb />
-    </Slider.Root>
+    <Slider.Root min={0} max={100} defaultValue={[50]} />
   );
 }`;
 
-const sliderRangeCode = `import * as Slider from "ui-lab-components";
+const sliderRangeCode = `import { Slider } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -68,37 +66,28 @@ export function Example() {
           value={value}
           onValueChange={setValue}
           step={1}
-        >
-          <Slider.Thumb />
-          <Slider.Thumb />
-        </Slider.Root>
+        />
       </div>
     </div>
   );
 }`;
 
-const sliderSizesCode = `import * as Slider from "ui-lab-components";
+const sliderSizesCode = `import { Slider } from "ui-lab-components";
 
 export function Example() {
   return (
     <div className="space-y-6 w-64">
       <div>
         <p className="text-sm text-foreground-400 mb-2">Small</p>
-        <Slider.Root min={0} max={100} defaultValue={[50]} size="sm">
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} size="sm" />
       </div>
       <div>
         <p className="text-sm text-foreground-400 mb-2">Medium</p>
-        <Slider.Root min={0} max={100} defaultValue={[50]} size="md">
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} size="md" />
       </div>
       <div>
         <p className="text-sm text-foreground-400 mb-2">Large</p>
-        <Slider.Root min={0} max={100} defaultValue={[50]} size="lg">
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} size="lg" />
       </div>
     </div>
   );
@@ -127,9 +116,7 @@ export const sliderDetail: ComponentDetail = {
       description: "A simple slider with default range 0-100",
       code: sliderBasicCode,
       preview: (
-        <Slider.Root min={0} max={100} defaultValue={[50]}>
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} />
       ),
       controls: sliderControls,
       renderPreview: (props: any) => (
@@ -140,9 +127,7 @@ export const sliderDetail: ComponentDetail = {
           step={Number(props.step || '1')}
           defaultValue={[50]}
           disabled={props.disabled}
-        >
-          <Slider.Thumb />
-        </Slider.Root>
+        />
       ),
     },
     {
@@ -154,10 +139,7 @@ export const sliderDetail: ComponentDetail = {
         <div className="space-y-4">
           <div>
             <p className="text-sm text-foreground-400 mb-2">Price Range: $30 - $70</p>
-            <Slider.Root min={0} max={100} defaultValue={[30, 70]} step={1}>
-              <Slider.Thumb />
-              <Slider.Thumb />
-            </Slider.Root>
+            <Slider.Root min={0} max={100} defaultValue={[30, 70]} step={1} />
           </div>
         </div>
       ),
@@ -171,21 +153,15 @@ export const sliderDetail: ComponentDetail = {
         <div className="space-y-6">
           <div>
             <p className="text-sm text-foreground-400 mb-2">Small</p>
-            <Slider.Root min={0} max={100} defaultValue={[50]} size="sm">
-              <Slider.Thumb />
-            </Slider.Root>
+            <Slider.Root min={0} max={100} defaultValue={[50]} size="sm" />
           </div>
           <div>
             <p className="text-sm text-foreground-400 mb-2">Medium</p>
-            <Slider.Root min={0} max={100} defaultValue={[50]} size="md">
-              <Slider.Thumb />
-            </Slider.Root>
+            <Slider.Root min={0} max={100} defaultValue={[50]} size="md" />
           </div>
           <div>
             <p className="text-sm text-foreground-400 mb-2">Large</p>
-            <Slider.Root min={0} max={100} defaultValue={[50]} size="lg">
-              <Slider.Thumb />
-            </Slider.Root>
+            <Slider.Root min={0} max={100} defaultValue={[50]} size="lg" />
           </div>
         </div>
       ),
@@ -197,67 +173,45 @@ export const sliderDetail: ComponentDetail = {
       id: "small",
       name: "Small",
       description: "Compact slider for dense layouts",
-      code: `<Slider.Root min={0} max={100} defaultValue={[50]} size="sm">
-  <Slider.Thumb />
-</Slider.Root>`,
+      code: `<Slider.Root min={0} max={100} defaultValue={[50]} size="sm" />`,
       preview: (
-        <Slider.Root min={0} max={100} defaultValue={[50]} size="sm">
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} size="sm" />
       ),
     },
     {
       id: "medium",
       name: "Medium",
       description: "Standard slider for most use cases",
-      code: `<Slider.Root min={0} max={100} defaultValue={[50]} size="md">
-  <Slider.Thumb />
-</Slider.Root>`,
+      code: `<Slider.Root min={0} max={100} defaultValue={[50]} size="md" />`,
       preview: (
-        <Slider.Root min={0} max={100} defaultValue={[50]} size="md">
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} size="md" />
       ),
     },
     {
       id: "large",
       name: "Large",
       description: "Prominent slider for featured controls",
-      code: `<Slider.Root min={0} max={100} defaultValue={[50]} size="lg">
-  <Slider.Thumb />
-</Slider.Root>`,
+      code: `<Slider.Root min={0} max={100} defaultValue={[50]} size="lg" />`,
       preview: (
-        <Slider.Root min={0} max={100} defaultValue={[50]} size="lg">
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} size="lg" />
       ),
     },
     {
       id: "disabled",
       name: "Disabled",
       description: "Disabled slider state for inactive controls",
-      code: `<Slider.Root min={0} max={100} defaultValue={[50]} disabled>
-  <Slider.Thumb />
-</Slider.Root>`,
+      code: `<Slider.Root min={0} max={100} defaultValue={[50]} disabled />`,
       preview: (
-        <Slider.Root min={0} max={100} defaultValue={[50]} disabled>
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[50]} disabled />
       ),
     },
     {
       id: "range",
       name: "Range Selection",
       description: "Multiple thumbs for selecting a range of values",
-      code: `<Slider.Root min={0} max={100} defaultValue={[30, 70]}>
-  <Slider.Thumb />
-  <Slider.Thumb />
-</Slider.Root>`,
+      code: `<Slider.Root min={0} max={100} defaultValue={[30, 70]} />`,
       preview: (
-        <Slider.Root min={0} max={100} defaultValue={[30, 70]}>
-          <Slider.Thumb />
-          <Slider.Thumb />
-        </Slider.Root>
+        <Slider.Root min={0} max={100} defaultValue={[30, 70]} />
       ),
     },
   ],
