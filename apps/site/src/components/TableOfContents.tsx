@@ -46,7 +46,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
   };
 
   return (
-    <aside className="border-l border-background-700 sticky top-29 overflow-y-auto py-8 h-[calc(100vh-3.75rem)] hidden lg:block">
+    <aside className="border-l border-background-700 sticky top-27 overflow-y-auto py-4 h-[calc(100vh-3.75rem)] hidden lg:block">
       <nav className="space-y-6 px-4">
         <div>
           <span className="text-md font-semibold text-foreground-50">On this page</span>

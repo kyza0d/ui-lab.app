@@ -75,7 +75,8 @@ const SCALES: Record<string, Record<ShadeScale, number>> = {
   dark: { 50: .98, 100: .95, 200: .9, 300: .84, 400: .65, 500: .5, 600: .32, 700: .26, 800: .23, 900: .21, 950: .18 },
   light: { 50: .16, 100: .29, 200: .31, 300: .42, 400: .55, 500: .6, 600: .88, 700: .9, 800: .94, 900: .96, 950: .98 },
   sem: { 50: .95, 100: .88, 200: .8, 300: .72, 400: .65, 500: .55, 600: .46, 700: .38, 800: .29, 900: .2, 950: .12 },
-  accDark: { 50: .995, 100: .97, 200: .92, 300: .84, 400: .65, 500: .5, 600: .32, 700: .26, 800: .23, 900: .21, 950: .18 }
+  accDark: { 50: .995, 100: .97, 200: .92, 300: .84, 400: .65, 500: .5, 600: .32, 700: .26, 800: .23, 900: .21, 950: .18 },
+  accLight: { 50: .85, 100: .78, 200: .70, 300: .58, 400: .45, 500: .32, 600: .26, 700: .21, 800: .16, 900: .12, 950: .08 }
 };
 
 export const PaletteEasing = {
@@ -115,7 +116,7 @@ export function generateColorPalette(
   base: OklchColor, baseShade: ShadeScale = 500, mode: ThemeMode = 'dark', shift = 0, limit = 0.01,
   useSem = false, isAcc = false, ease?: EasingFunction, cScale?: ChromaScalingFunction
 ): ColorPalette {
-  let lScale = useSem ? SCALES.sem : (isAcc && mode === 'dark' ? SCALES.accDark : getLightnessScale(mode));
+  let lScale = useSem ? SCALES.sem : (isAcc ? (mode === 'dark' ? SCALES.accDark : SCALES.accLight) : getLightnessScale(mode));
 
   if (useSem) {
     const offset = base.l - SCALES.sem[baseShade];
@@ -192,21 +193,21 @@ export function generateShikiTheme(p: { background: ColorPalette; foreground: Co
   const c = { bg: hex(p.background, 900), bgL: hex(p.background, isDark ? 900 : 100), fg: hex(p.foreground, 200), fgD: hex(p.foreground, isDark ? 600 : 300), acc: hex(p.accent, 500) };
 
   const tokens = [
-    [['comment', 'punctuation.definition.comment'], isDark ? 400 : 400, 'italic', 'fg'],
-    [['string', 'meta.string', 'punctuation.definition.string'], isDark ? 300 : 400, '', 'acc'],
-    [['constant.numeric'], isDark ? 300 : 200, '', 'acc'],
-    [['constant.language', 'constant.other', 'keyword.constant'], 400, '', 'acc'],
-    [['keyword', 'storage.type', 'storage.modifier'], isDark ? 400 : 100, '', 'acc'],
-    [['entity.name.function', 'entity.name.class', 'entity.name.tag'], 300, '', 'acc'],
-    [['variable.other.property', 'variable.object.property'], isDark ? 300 : 500, '', 'fg'],
-    [['punctuation.separator', 'punctuation.terminator'], 400, '', 'fg'],
+    [['comment', 'punctuation.definition.comment'], 50, 'italic', 'fg'],
+    [['string', 'meta.string', 'punctuation.definition.string'], 50, '', 'fg'],
+    [['constant.numeric'], 50, '', 'fg'],
+    [['constant.language', 'constant.other', 'keyword.constant'], 50, '', 'fg'],
+    [['keyword', 'storage.type', 'storage.modifier'], 50, '', 'fg'],
+    [['entity.name.function', 'entity.name.class', 'entity.name.tag'], 50, '', 'fg'],
+    [['variable.other.property', 'variable.object.property'], 50, '', 'fg'],
+    [['punctuation.separator', 'punctuation.terminator'], 50, '', 'fg'],
     [['punctuation.definition.parameters'], null, '', 'std-fg'],
-    [['markup.bold'], isDark ? 300 : 400, 'bold', 'acc'],
+    [['markup.bold'], 50, 'bold', 'fg'],
     [['markup.italic'], null, 'italic', ''],
     [['markup.underline'], null, 'underline', ''],
     [['variable', 'variable.other'], null, '', 'std-fg'],
-    [['support.function'], isDark ? 300 : 400, '', 'acc'],
-    [['support.type', 'support.class'], isDark ? 300 : 500, '', 'acc'],
+    [['support.function'], 50, '', 'fg'],
+    [['support.type', 'support.class'], 50, '', 'fg'],
   ] as const;
 
   return {
@@ -216,7 +217,7 @@ export function generateShikiTheme(p: { background: ColorPalette; foreground: Co
       scope: scope as any,
       settings: {
         fontStyle: fontStyle || undefined,
-        foreground: type === 'std-fg' ? c.fg : (type === 'fg' && shade ? hex(p.foreground, shade) : (type === 'acc' && shade ? hex(p.accent, shade) : undefined))
+        foreground: type === 'std-fg' ? c.fg : (type === 'fg' && shade ? hex(p.foreground, shade) : undefined)
       }
     }))
   };

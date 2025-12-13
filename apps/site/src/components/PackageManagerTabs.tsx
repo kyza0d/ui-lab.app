@@ -19,8 +19,8 @@ const packageManagers = [
 
 export function PackageManagerTabs({ value, onValueChange }: PackageManagerTabsProps) {
   return (
-    <Tabs value={value} onValueChange={onValueChange as any}>
-      <TabsList variant="underline" className="border-b border-foreground-800 rounded-none px-0">
+    <Tabs value={value} variant="underline" onValueChange={onValueChange as any}>
+      <TabsList className="border-b border-foreground-800 rounded-none px-0">
         {packageManagers.map((pm) => (
           <TabsTrigger
             key={pm.id}

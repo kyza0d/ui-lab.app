@@ -210,7 +210,7 @@ export function ComponentConfigurator({
               </TabsList>
 
               <TabsContent value="preview" className="overflow-hidden bg-background-950/50 mt-0">
-                <div className={cn("p-8", { [previewHeight]: !!previewHeight }, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
+                <div className={cn("px-10 py-16", { [previewHeight]: !!previewHeight }, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
                   {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
                 </div>
               </TabsContent>
