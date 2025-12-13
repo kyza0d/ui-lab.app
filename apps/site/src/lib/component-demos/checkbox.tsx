@@ -197,7 +197,6 @@ export const checkboxDetail: ComponentDetail = {
           checked={props.checked ?? false}
           onChange={(e) => props.handleControlChange('checked', e.target.checked)}
           disabled={props.disabled}
-          error={props.error}
           label={props.label}
         />
       ),
@@ -238,7 +237,6 @@ export const checkboxDetail: ComponentDetail = {
         <div className="w-full max-w-sm">
           <Checkbox
             label="I agree to the terms"
-            error
             helperText="You must agree to continue"
             helperTextError
           />

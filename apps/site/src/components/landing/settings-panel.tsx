@@ -363,9 +363,7 @@ const SliderControl = memo(({ label, value, min, max, step, unit, onChange }: Sl
         max={max}
         step={step}
         size="md"
-      >
-        <Slider.Thumb />
-      </Slider.Root>
+      />
     </div>
   );
 });
@@ -392,9 +390,7 @@ const TypeScaleSlider = memo(({ value, onChange, fontSizeScale }: TypeScaleSlide
           max={1.2}
           step={0.001}
           size="md"
-        >
-          <Slider.Thumb />
-        </Slider.Root>
+        />
       </div>
     </div>
   );
