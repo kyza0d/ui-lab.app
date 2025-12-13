@@ -466,10 +466,6 @@ pre {
 */
 
 
-.button.sm {
-  @apply py-2
-}
-
 .switch {
   --track-background-unchecked: var(--background-950);
 }

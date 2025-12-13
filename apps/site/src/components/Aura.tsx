@@ -85,6 +85,7 @@ const AuraShader = ({
     updateColors();
 
     const observer = new MutationObserver(updateColors);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class'] });
     observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
     return () => observer.disconnect();
   }, []);
@@ -307,7 +308,7 @@ const AuraShader = ({
 
 export default function Aura() {
   return (
-    <div className="h-50 min-w-screen inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div className="h-300 min-w-screen inset-0 -z-10 overflow-hidden pointer-events-none">
       <Canvas camera={{ position: [0, 0, 1] }} gl={{ antialias: true, alpha: true }}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}>
         <AuraShader

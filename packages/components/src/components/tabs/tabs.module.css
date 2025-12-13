@@ -16,11 +16,20 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    background-color: var(--background);
-    text-decoration: none !important; 
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-lg);
+    text-decoration: none !important;
     @apply p-1;
+
+    &[data-variant="default"] {
+      background-color: var(--background);
+      border: var(--border-width-base) solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    &[data-variant="underline"] {
+      background-color: transparent;
+      border: none;
+      padding: 0;
+    }
   }
 
   .indicator {
