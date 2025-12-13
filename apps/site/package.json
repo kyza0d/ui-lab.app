@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm gen:highlights && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
@@ -39,8 +39,8 @@
     "react-icons": "^5.5.0",
     "shiki": "^3.17.1",
     "three": "^0.182.0",
-    "ui-lab-components": "^0.1.1",
-    "ui-lab-registry": "^0.1.1",
+    "ui-lab-components": "^0.1.2",
+    "ui-lab-registry": "^0.1.2",
     "use-debounce": "^10.0.6",
     "zoom": "^0.0.3"
   },
