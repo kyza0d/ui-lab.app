@@ -78,7 +78,7 @@ export default function InstallationPage() {
   ];
 
   return (
-    <div className="w-full  text-foreground-100">
+    <div className="w-full text-foreground-100">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
         <main className="max-w-2xl mx-auto w-full px-6 py-16 font-sans text-sm leading-relaxed antialiased">
 
@@ -142,13 +142,13 @@ export default function InstallationPage() {
             <div className="text-foreground-400 mb-3">Installation method</div>
             <div className="flex gap-2">
               <Button
-                variant={method === "cli" ? "default" : "outline"}
+                variant={method === "cli" ? "ghost" : "outline"}
                 onClick={() => setMethod("cli")}
               >
                 CLI (recommended)
               </Button>
               <Button
-                variant={method === "manual" ? "default" : "outline"}
+                variant={method === "manual" ? "ghost" : "outline"}
                 onClick={() => setMethod("manual")}
               >
                 Manual

@@ -1,147 +1,167 @@
 "use client";
-
+import Aura from "@/components/Aura";
 import Link from "next/link";
-import { FaBook, FaBox, FaBrain, FaBrush, FaPalette, FaRobot, FaRocket, FaShapes, FaTerminal, FaWandMagicSparkles } from "react-icons/fa6";
-import { Divider, Toaster } from "ui-lab-components";
-import { Button } from "ui-lab-components";
+import {
+  FaBook,
+  FaBox,
+  FaBrain,
+  FaBrush,
+  FaPalette,
+  FaRobot,
+  FaRocket,
+  FaShapes,
+  FaTerminal,
+  FaWandMagicSparkles,
+} from "react-icons/fa6";
+import { Divider, Toaster, Button } from "ui-lab-components";
+
+const features = [
+  {
+    icon: <FaBox size={20} />,
+    title: "62+ Production-Ready Components",
+    highlight: "62+",
+    desc: "Built with React Aria + Tailwind v4. 100% WAI-ARIA compliant out of the box.",
+  },
+  {
+    icon: <FaPalette size={20} />,
+    title: "Modern OKLCH Color System",
+    desc: "Perceptually uniform, wide-gamut colors. No more broken HSL lightness.",
+  },
+  {
+    icon: <FaWandMagicSparkles size={20} />,
+    title: "Stunning Defaults, Total Control",
+    desc: "Beautiful out-of-the-box design. Override any part with zero effort.",
+  },
+  {
+    icon: <FaTerminal size={20} />,
+    title: "Powerful Built-in CLI",
+    desc: "Install components, sync themes, measure bundle impact — all from terminal.",
+  },
+  {
+    icon: <FaRocket size={20} />,
+    title: "Zero-JS Server Components",
+    desc: "Most components render zero client JS. Instant loads with RSC & streaming.",
+  },
+  {
+    icon: <FaBrain size={20} />,
+    title: "Claude & AI-First Types",
+    desc: "Granular TypeScript, zero any. Claude, Cursor, Copilot autocomplete perfectly.",
+  },
+];
 
 export default function Home() {
   return (
     <div>
-      <div className="hidden fixed top-0 left-0 w-screen h-screen bg-background-700/10 backdrop-blur-md" />
-      <Toaster />
-      <main className="mx-auto max-w-[1700px] pt-8 pb-28">
-        <div className="fixed top-0 left-0 w-screen h-screen bg-background-950 backdrop-blur-md -z-10" />
-        <article>
-          <section className="h-200 overflow-hidden rounded-lg mx-6 border border-background-700 grid grid-cols-[51%_auto]">
-            <div className="grid grid-rows-[1fr_auto]">
-              <div>
-                <div className="grid grid-cols-2 gap-x-10 px-8 pt-12">
-                  <div className="grid grid-rows-3 space-y-6">
+      <div className="relative min-h-[calc(100vh-4rem)]">
+        <Toaster />
 
-                    <button className="cursor-pointer flex items-start gap-4 text-left p-2 pr-3 rounded-lg border border-transparent hover:bg-background-700/40 hover:border-background-600 transition">
-                      <div className="p-2">
-                        <FaBox size={20} className="text-foreground-100" />
-                      </div>
-                      <div>
-                        <strong className="font-semibold text-foreground">
-                          <span className="font-bold text-foreground-100">62+</span> Production-Ready Components
-                        </strong>
-                        <p className="text-sm text-foreground-400">
-                          Built with React Aria + Tailwind v4. 100% WAI-ARIA compliant out of the box.
-                        </p>
-                      </div>
-                    </button>
-
-                    <button className="cursor-pointer flex items-start gap-4 text-left p-2 pr-3 rounded-lg border border-transparent hover:bg-background-700/40 hover:border-background-600 transition">
-                      <div className="p-2">
-                        <FaPalette size={20} className="text-foreground-100" />
-                      </div>
-                      <div>
-                        <strong className="font-semibold text-foreground">Modern OKLCH Color System</strong>
-                        <p className="text-sm text-foreground-400">
-                          Perceptually uniform, wide-gamut colors. No more broken HSL lightness.
-                        </p>
-                      </div>
-                    </button>
-
-                    <button className="cursor-pointer flex items-start gap-4 text-left p-2 pr-3 rounded-lg border border-transparent hover:bg-background-700/40 hover:border-background-600 transition">
-                      <div className="p-2">
-                        <FaWandMagicSparkles size={20} className="text-foreground-100" />
-                      </div>
-                      <div>
-                        <strong className="font-semibold text-foreground">Stunning Defaults, Total Control</strong>
-                        <p className="text-sm text-foreground-400">
-                          Beautiful out-of-the-box design. Override any part with zero effort.
-                        </p>
-                      </div>
-                    </button>
-                  </div>
-
-
-                  <div className="grid grid-rows-3 space-y-6">
-                    <button className="cursor-pointer flex items-start gap-4 text-left p-2 pr-3 rounded-lg border border-transparent hover:bg-background-700/40 hover:border-background-600 transition">
-                      <div className="p-2">
-                        <FaTerminal size={20} className="text-foreground-100" />
-                      </div>
-                      <div>
-                        <strong className="font-semibold text-foreground">Powerful Built-in CLI</strong>
-                        <p className="text-sm text-foreground-400">
-                          Scaffold components, sync themes, measure bundle impact — all from terminal.
-                        </p>
-                      </div>
-                    </button>
-                    <button className="cursor-pointer flex items-start gap-4 text-left p-2 pr-3 rounded-lg border border-transparent hover:bg-background-700/40 hover:border-background-600 transition">
-                      <div className="p-2">
-                        <FaRocket size={20} className="text-foreground-100" />
-                      </div>
-                      <div>
-                        <strong className="font-semibold text-foreground">Zero-JS Server Components</strong>
-                        <p className="text-sm text-foreground-400">
-                          Most components render zero client JS. Instant loads with RSC & streaming.
-                        </p>
-                      </div>
-                    </button>
-                    <button className="cursor-pointer cursor-pointer flex items-start gap-4 text-left p-2 pr-3 rounded-lg border border-transparent hover:bg-background-700/40 hover:border-background-600 transition">
-                      <div className="p-2">
-                        <FaBrain size={20} className="text-foreground-100" />
-                      </div>
-                      <div>
-                        <strong className="font-semibold text-foreground">Claude & AI-First Types</strong>
-                        <p className="text-sm text-foreground-400">
-                          Granular TypeScript, zero any. Claude, Cursor, Copilot autocomplete perfectly.
-                        </p>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-              <Divider className="mt-8 my-0" />
-
-              <div className="pt-6 bg-background-900 m-4 rounded-xl border border-background-600">
-                <div className="px-6">
-                  <h2 className="mb-4 text-foreground-300">
-                    Accessible library <br />
-                    built for <span className="text-foreground-50 px-1 py-0.5 rounded-sm">beautiful UI</span>
-                  </h2>
-                  <p className="mb-12 text-sm text-foreground-400">
-                    Whether you're prototyping at lightning speed or building production-grade applications that need to scale, this is the component library that feels like an extension of your own codebase — beautiful, accessible, and obsessively polished, ready to ship the moment you install it.
+        <main className="relative mx-auto max-w-[1800px] px-4 sm:px-6 pt-8">
+          {/* Hero Section – 55/45 split on large screens */}
+          <section
+            className="relative overflow-hidden rounded-lg border border-background-700 
+            bg-background-900/50 min-h-[900px]
+            grid grid-cols-1 lg:grid-cols-20"
+          >
+            {/* Left: Content – 11 columns out of 20 (~55%) */}
+            <div className="lg:col-span-11 flex flex-col">
+              {/* Bottom Description + Buttons */}
+              <div className="m-3">
+                <div className="rounded-lg border border-background-600 bg-background-900/60 p-5 pb-3">
+                  <h3 className="text-2xl sm:text-3xl font-light leading-tight text-foreground-50 mb-5">
+                    Build beautiful, production-grade <br />
+                    products at{" "}
+                    <span className="inline-block px-2 py-0.5 rounded-sm bg-accent-500/30 text-foreground-50 font-medium">
+                      lightning speed
+                    </span>
+                  </h3>
+                  <p className="text-sm text-foreground-400 max-w-2xl leading-relaxed">
+                    Whether you're prototyping at lightning speed or building production-grade applications that need to scale,
+                    this is the component library that feels like an extension of your own codebase — beautiful, accessible,
+                    and obsessively polished, ready to ship the moment you install it.
                   </p>
-                </div>
-                <div className="flex p-3 gap-4 border-background-600">
-                  <Link href="/components">
-                    <Button variant="ghost" size="md">
-                      <FaBook className="text-foreground-400 mr-4" />
-                      Learn
-                    </Button>
-                  </Link>
-                  <Link href="/components">
-                    <Button size="md" variant="ghost">
-                      <FaShapes className="text-foreground-400 mr-4" /> Components
-                    </Button>
-                  </Link>
-                  <div className="ml-auto">
-                    <Link href="/components">
-                      <Button variant="ghost" size="md">
-                        <FaBrush className="text-foreground-400 mr-4" />
-                        Style Guide
-                      </Button>
-                    </Link>
-                    <Link href="/components">
-                      <Button variant="ghost" size="md">
-                        <FaRobot className="text-foreground-400 mr-4" />
-                        LLMs Reference
-                      </Button>
-                    </Link>
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap items-center gap-4 mt-12">
+                    <div className="flex flex-wrap gap-3">
+                      <Link href="/docs">
+                        <Button variant="ghost" size="sm">
+                          <FaBook size={20} className="mr-3" />
+                          Documentation
+                        </Button>
+                      </Link>
+                      <Link href="/components">
+                        <Button variant="ghost" size="sm">
+                          <FaShapes size={20} className="mr-3" />
+                          Components
+                        </Button>
+                      </Link>
+                    </div>
+
+                    <div className="ml-auto flex flex-wrap gap-3">
+                      <Link href="/style-guide">
+                        <Button variant="ghost" size="sm">
+                          <FaBrush size={20} className="mr-3" />
+                          Design System
+                        </Button>
+                      </Link>
+                      <Link href="/llms">
+                        <Button variant="ghost" size="sm">
+                          <FaRobot size={20} className="mr-3" />
+                          LLMs Reference
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
+                </div>
+              </div>
+              <Divider spacing="none" className="mb-4" />
+
+              {/* Feature Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5 px-4">
+                {features.map((feature, i) => (
+                  <button
+                    key={i}
+                    className="cursor-pointer flex items-start gap-3.5 text-left p-4 rounded-lg border border-transparent 
+                    hover:bg-background-800/50 hover:border-background-600 group"
+                  >
+                    <div className="p-3 shrink-0 text-foreground-100">
+                      {feature.icon}
+                    </div>
+                    <div>
+                      <strong className="font-semibold text-foreground text-base block leading-tight">
+                        {feature.highlight ? (
+                          <>
+                            <span className="font-medium text-foreground-100">{feature.highlight}</span>{" "}
+                            Production-Ready Components
+                          </>
+                        ) : (
+                          feature.title
+                        )}
+                      </strong>
+                      <p className="text-sm text-foreground-400 mt-1.5 leading-relaxed">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+            </div>
+
+            {/* Right: Visual Panel – 9 columns out of 20 (~45%) but feels wider */}
+            <div className="hidden lg:block lg:col-span-9 relative border-l border-background-700 overflow-hidden">
+              {/* Replace with your hero image, 3D preview, or illustration */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-background-700/30 text-9xl font-black select-none">
                 </div>
               </div>
             </div>
-            <div className="h-199 border-l border-background-700 w-full"></div>
           </section>
-        </article>
-      </main>
+        </main>
+      </div>
+      {/* Aura glow below hero */}
+      <div className="bottom-0 left-0 absolute -z-10 pointer-events-none">
+        <Aura />
+      </div>
     </div>
   );
 }

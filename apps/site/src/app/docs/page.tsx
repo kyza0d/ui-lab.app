@@ -4,7 +4,6 @@ import { ArrowRight, Rows } from "lucide-react";
 import { CodeBlock } from "@/components/CodeBlock";
 import { TableOfContents } from "@/components/TableOfContents";
 import { Table, type Column } from "@/components/table";
-import { useCodeHighlight } from "@/lib/use-code-highlight";
 import { Logo } from "@/components/ui/logo";
 
 const TailwindSvg = () => (
@@ -75,8 +74,6 @@ interface Requirement {
 }
 
 function DocsContent() {
-  const themeHighlight = useCodeHighlight('docs-theme-css');
-  const globalsHighlight = useCodeHighlight('docs-globals-css');
   const tocItems = [
     { id: "core-principles", title: "Core principles" },
     { id: "background-system", title: "Background system" },
@@ -107,8 +104,8 @@ function DocsContent() {
 
   return (
     <div className="w-full text-foreground-100">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%]">
-        <main className="max-w-2xl mx-auto w-full py-16 font-sans text-sm leading-relaxed antialiased">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
+        <main className="max-w-2xl mx-auto w-full px-6 py-16 font-sans text-sm leading-relaxed antialiased">
           {/* Version badge */}
           <div className="mb-8 flex items-center gap-4 text-foreground-400">
             <span className="inline-flex items-center gap-2 rounded border border-foreground-800 px-2 py-0.5 text-sm">
@@ -167,7 +164,7 @@ function DocsContent() {
               The scale is defined once in root @theme. Lower values represent the furthest visual plane in light mode and the nearest elevated plane in dark mode.
             </div>
 
-            <CodeBlock filename="theme.css" language="css" {...themeHighlight}>
+            <CodeBlock filename="theme.css" language="css">
               {`@theme {
   --background-50:   oklch(99.2% 0.001 240);
   --background-100:  oklch(97.5% 0.002 240);
@@ -190,7 +187,7 @@ function DocsContent() {
           <section id="global-token-contract" className="space-y-6 text-sm text-foreground-300">
             <div className="font-semibold text-foreground-50">Root token contract</div>
 
-            <CodeBlock filename="app/globals.css" language="css" {...globalsHighlight}>
+            <CodeBlock filename="app/globals.css" language="css">
               {`@theme {
   /* Brand */
   --color-primary: oklch(68% 0.22 245);
@@ -227,7 +224,7 @@ function DocsContent() {
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex  justify-end flex-col gap-4 px-6 py-4 h-30 rounded-xl border border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-foreground-600 hover:bg-background-800 cursor-pointer"
+                  className="relative flex  justify-end flex-col gap-4 px-6 py-4 h-30 rounded-lg border border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-foreground-600 hover:bg-background-800 cursor-pointer"
                 >
                   <div className="absolute top-4 left-6">
                     <Icon />

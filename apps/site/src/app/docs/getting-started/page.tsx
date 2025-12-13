@@ -1,368 +1,169 @@
 "use client";
-
+import React from "react";
+import { CodeBlock } from "@/components/CodeBlock";
 import { TableOfContents } from "@/components/TableOfContents";
 
+const tocItems = [
+  { id: "quick-start", title: "Quick start" },
+  { id: "first-component", title: "Your first component" },
+  { id: "common-components", title: "Common components" },
+  { id: "props-patterns", title: "Props & patterns" },
+  { id: "next-steps", title: "Next steps" },
+];
+
 export default function GettingStartedPage() {
-  const tocItems = [
-    { id: "importing-components", title: "Importing components" },
-    { id: "using-buttons", title: "Using buttons" },
-    { id: "form-inputs", title: "Form inputs" },
-    { id: "cards-for-layout", title: "Cards for layout" },
-    { id: "understanding-props", title: "Understanding props" },
-    { id: "managing-state", title: "Managing state" },
-    { id: "common-patterns", title: "Common patterns" },
-    { id: "next-steps", title: "Next steps" },
-  ];
-
   return (
-    <div className="w-full">
+    <div className="w-full text-foreground-100">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
-        <main className="max-w-4xl mx-auto w-full px-8 py-16">
-          {/* Header */}
-          <div className="mb-16">
-            <h1 className="text-4xl font-bold text-foreground-50 mb-4">Getting started</h1>
-            <p className="text-lg text-foreground-300">
-              Learn the fundamentals of using UI Lab components by building your first features.
-            </p>
+        <main className="max-w-2xl mx-auto w-full px-6 py-16 font-sans text-sm leading-relaxed antialiased">
+          {/* Version badge */}
+          <div className="mb-8 flex items-center gap-4 text-foreground-400">
+            <span className="inline-flex items-center gap-2 rounded border border-foreground-800 px-2 py-0.5 text-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+              v0.1.1
+            </span>
+            <span>·</span>
+            <span>Getting started</span>
           </div>
 
-          {/* Importing Components */}
-          <div id="importing-components" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Importing components</h2>
-            <p className="text-foreground-300 mb-6">
-              All UI Lab components are exported from a single entry point. Import only what you need:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`import { Button, Card, Input, Label } from '@ui-lab/core';`}</code></pre>
+          {/* Title */}
+          <div className="mb-10">
+            <div className="text-base font-medium text-foreground-50">Getting started</div>
+            <div className="mt-1 text-foreground-300">
+              Build your first UI in seconds with UI Lab components.
             </div>
-            <p className="text-foreground-300">
-              Components support tree-shaking, so unused imports are automatically removed from your bundle. The library provides TypeScript types for all components, ensuring type-safe development.
-            </p>
           </div>
 
-          <div className="border-t border-background-700 my-16"></div>
+          <div className="h-px bg-foreground-800 my-12"></div>
 
-          {/* Button Component */}
-          <div id="using-buttons" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Using buttons</h2>
+          {/* Quick start */}
+          <section id="quick-start" className="mb-12">
+            <span className="text-sm font-medium">Import what you need</span>
             <p className="text-foreground-300 mb-6">
-              Buttons are the most basic interactive element. They support multiple variants and states out of the box:
+              All components are tree-shakeable and fully typed.
             </p>
+            <CodeBlock language="tsx">
+              {`import { Button, Card, Input, Label } from "ui-lab-components";`}
+            </CodeBlock>
+          </section>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Basic usage</h3>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`import { Button } from '@ui-lab/core';
+          <div className="h-px bg-foreground-800 my-12"></div>
 
-export default function Demo() {
+          {/* First component */}
+          <section id="first-component" className="space-y-8">
+            <div>
+              <span className="text-sm font-medium">Your first component</span>
+              <p className="text-foreground-300 mb-6">
+                Drop a button anywhere — it just works.
+              </p>
+              <CodeBlock language="tsx">
+                {`export default function Home() {
   return (
-    <Button>Click me</Button>
-  );
-}`}</code></pre>
-            </div>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Button variants</h3>
-            <p className="text-foreground-300 mb-4">
-              UI Lab buttons support semantic variants: <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">primary</code> (default), <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">secondary</code>, <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">tertiary</code>, and <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">destructive</code>.
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="tertiary">Tertiary</Button>
-<Button variant="destructive">Delete</Button>`}</code></pre>
-            </div>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Sizes and states</h3>
-            <p className="text-foreground-300 mb-4">
-              Control button size with the <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">size</code> prop. Disabled state is handled natively:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
-<Button disabled>Disabled</Button>
-<Button loading>Loading...</Button>`}</code></pre>
-            </div>
-          </div>
-
-          <div className="border-t border-background-700 my-16"></div>
-
-          {/* Input Component */}
-          <div id="form-inputs" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Form inputs</h2>
-            <p className="text-foreground-300 mb-6">
-              Input components are fully accessible and support all standard HTML input types. They integrate seamlessly with labels:
-            </p>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Basic input</h3>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`import { Input, Label } from '@ui-lab/core';
-
-export default function LoginForm() {
-  return (
-    <div className="space-y-4">
-      <div>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
-        />
-      </div>
-      <div>
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-        />
-      </div>
+    <div className="flex items-center gap-4">
+      <Button>Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button size="lg">Large</Button>
+      <Button loading>Loading...</Button>
     </div>
   );
-}`}</code></pre>
+}`}
+              </CodeBlock>
             </div>
+          </section>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Input with error state</h3>
-            <p className="text-foreground-300 mb-4">
-              Mark inputs as invalid using the <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">invalid</code> prop:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`const [email, setEmail] = useState('');
-const isInvalid = email && !email.includes('@');
+          <div className="h-px bg-foreground-800 my-12"></div>
 
-<>
-  <Label htmlFor="email">Email</Label>
-  <Input
-    id="email"
-    type="email"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    invalid={isInvalid}
-  />
-  {isInvalid && (
-    <p className="text-destructive-500 text-sm mt-1">
-      Please enter a valid email
-    </p>
-  )}
-</>`}</code></pre>
-            </div>
-          </div>
+          {/* Common components */}
+          <section id="common-components" className="space-y-10">
+            <span className="text-sm font-medium">Common components in action</span>
 
-          <div className="border-t border-background-700 my-16"></div>
+            <div className="space-y-8">
+              {/* Card + Form */}
+              <div>
+                <div className="text-foreground-400 mb-3">Login form</div>
+                <CodeBlock language="tsx">
+                  {`import { Button, Card, Input, Label } from "ui-lab-components";
 
-          {/* Card Component */}
-          <div id="cards-for-layout" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Cards for layout</h2>
-            <p className="text-foreground-300 mb-6">
-              Cards provide semantic structure for grouped content. Use the compound component pattern to build layouts:
-            </p>
-
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`import { Card, Button, Input, Label } from '@ui-lab/core';
-
-export default function SignupCard() {
+export function LoginCard() {
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-sm">
       <Card.Header>
-        <Card.Title>Create account</Card.Title>
-        <Card.Description>
-          Sign up to get started
-        </Card.Description>
+        <Card.Title>Welcome back</Card.Title>
       </Card.Header>
-
       <Card.Content className="space-y-4">
-        <div>
-          <Label htmlFor="name">Full name</Label>
-          <Input id="name" placeholder="John Doe" />
-        </div>
         <div>
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" placeholder="you@example.com" />
         </div>
+        <div>
+          <Label htmlFor="pass">Password</Label>
+          <Input id="pass" type="password" />
+        </div>
       </Card.Content>
-
-      <Card.Footer className="flex gap-2">
-        <Button variant="secondary">Cancel</Button>
-        <Button>Sign up</Button>
+      <Card.Footer>
+        <Button className="w-full">Sign in</Button>
       </Card.Footer>
     </Card>
   );
-}`}</code></pre>
-            </div>
+}`}
+                </CodeBlock>
+              </div>
 
-            <p className="text-foreground-300">
-              Cards automatically handle spacing and layout. The <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">Card.Header</code>, <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">Card.Content</code>, and <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">Card.Footer</code> slots manage internal spacing, so you focus on content.
-            </p>
-          </div>
-
-          <div className="border-t border-background-700 my-16"></div>
-
-          {/* Component Props */}
-          <div id="understanding-props" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Understanding props</h2>
-            <p className="text-foreground-300 mb-6">
-              All UI Lab components follow consistent prop patterns for easy prediction:
-            </p>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Common props across components</h3>
-            <ul className="space-y-3 text-foreground-300 mb-6">
-              <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">className</code> — Apply custom Tailwind classes (merged with defaults)</li>
-              <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">variant</code> — Change visual style (e.g., primary, secondary)</li>
-              <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">size</code> — Adjust component size (sm, md, lg)</li>
-              <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">disabled</code> — Disable interaction</li>
-              <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">aria-*</code> — All components support ARIA attributes for accessibility</li>
-            </ul>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Tailwind className merging</h3>
-            <p className="text-foreground-300 mb-4">
-              Components intelligently merge your custom classes with defaults. Add spacing, colors, or other styles without overriding the component's base styles:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`{/* Both work - classes are intelligently merged */}
-<Button className="w-full">Full width button</Button>
-<Card className="shadow-lg border-2">Custom styling</Card>`}</code></pre>
-            </div>
-          </div>
-
-          <div className="border-t border-background-700 my-16"></div>
-
-          {/* Working with State */}
-          <div id="managing-state" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Managing state</h2>
-            <p className="text-foreground-300 mb-6">
-              UI Lab components are controlled components. Manage state using React hooks:
-            </p>
-
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`import { useState } from 'react';
-import { Button, Input } from '@ui-lab/core';
-
-export default function Counter() {
-  const [count, setCount] = useState(0);
-  const [text, setText] = useState('');
-
-  return (
-    <div className="space-y-4">
-      <Input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Type something..."
-      />
-      <p>You typed: {text}</p>
-
-      <Button onClick={() => setCount(count + 1)}>
-        Count: {count}
-      </Button>
+              {/* Dashboard card */}
+              <div>
+                <div className="text-foreground-400 mb-3">Dashboard widget</div>
+                <CodeBlock language="tsx">
+                  {`<Card className="p-6">
+  <div className="flex items-center justify-between">
+    <div>
+      <p className="text-foreground-400 text-sm">Revenue</p>
+      <p className="text-2xl font-semibold">$45,231</p>
     </div>
-  );
-}`}</code></pre>
+    <Badge>+12.5%</Badge>
+  </div>
+</Card>`}
+                </CodeBlock>
+              </div>
             </div>
+          </section>
 
-            <p className="text-foreground-300">
-              Components emit standard events (<code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">onChange</code>, <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">onClick</code>, etc.). No custom event handlers or complex APIs to learn.
-            </p>
-          </div>
+          <div className="h-px bg-foreground-800 my-12"></div>
 
-          <div className="border-t border-background-700 my-16"></div>
+          {/* Props & patterns */}
+          <section id="props-patterns" className="space-y-6 text-foreground-300">
+            <span className="text-sm font-medium">Props & patterns</span>
+            <ul className="space-y-2 text-sm">
+              <li>• <code className="text-foreground-200">variant</code> – primary · secondary · tertiary · destructive</li>
+              <li>• <code className="text-foreground-200">size</code> – sm · md · lg</li>
+              <li>• <code className="text-foreground-200">className</code> – Tailwind classes merged intelligently</li>
+              <li>• <code className="text-foreground-200">loading</code> / <code className="text-foreground-200">disabled</code> built-in</li>
+              <li>• Full ARIA support out of the box</li>
+            </ul>
+          </section>
 
-          {/* Common Patterns */}
-          <div id="common-patterns" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Common patterns</h2>
+          <div className="h-px bg-foreground-800 my-12"></div>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Building a form</h3>
-            <p className="text-foreground-300 mb-4">
-              Combine inputs, labels, and buttons to create accessible forms:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`import { useState } from 'react';
-import { Button, Card, Input, Label } from '@ui-lab/core';
-
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const handleChange = (field) => (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: e.target.value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Submitted:', formData);
-  };
-
-  return (
-    <Card className="w-full max-w-md">
-      <Card.Header>
-        <Card.Title>Contact us</Card.Title>
-      </Card.Header>
-      <form onSubmit={handleSubmit}>
-        <Card.Content className="space-y-4">
-          <div>
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={handleChange('name')}
-            />
-          </div>
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange('email')}
-            />
-          </div>
-          <div>
-            <Label htmlFor="message">Message</Label>
-            <textarea
-              id="message"
-              value={formData.message}
-              onChange={handleChange('message')}
-              className="w-full p-2 rounded border border-background-700"
-            />
-          </div>
-        </Card.Content>
-        <Card.Footer>
-          <Button type="submit" className="w-full">Send</Button>
-        </Card.Footer>
-      </form>
-    </Card>
-  );
-}`}</code></pre>
-            </div>
-          </div>
-
-          <div className="border-t border-background-700 my-16"></div>
-
-          {/* Next Steps */}
-          <div id="next-steps" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Next steps</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a href="/docs/customization" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Customization</h3>
-                <p className="text-foreground-400 text-sm">Learn how to customize colors, spacing, and build component variants.</p>
+          {/* Next steps */}
+          <section id="next-steps" className="space-y-6">
+            <span className="text-sm font-medium">Next steps</span>
+            <div className="grid grid-cols-1 gap-4 text-sm">
+              <a href="/docs/theming" className="block underline underline-offset-4 hover:text-foreground-100">
+                Theming → Customize colors, radius, and tokens
               </a>
-              <a href="/docs/best-practices" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Best practices</h3>
-                <p className="text-foreground-400 text-sm">Write efficient, maintainable code with UI Lab components.</p>
+              <a href="/docs/components" className="block underline underline-offset-4 hover:text-foreground-100">
+                Components → Full catalogue with props & examples
               </a>
-              <a href="/docs/accessibility" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Accessibility</h3>
-                <p className="text-foreground-400 text-sm">Build inclusive interfaces with built-in a11y features.</p>
-              </a>
-              <a href="/docs/ai-integration" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">AI Integration</h3>
-                <p className="text-foreground-400 text-sm">Generate code with AI tools using LLMs.txt.</p>
+              <a href="/docs/ai-integration" className="block underline underline-offset-4 hover:text-foreground-100">
+                AI workflow → Generate code with Cursor, Claude, Copilot
               </a>
             </div>
+          </section>
+
+          <div className="mt-20 text-sm text-foreground-500">
+            © 2025 UI Lab • Built for humans and machines
           </div>
         </main>
+
         <TableOfContents items={tocItems} />
       </div>
     </div>
