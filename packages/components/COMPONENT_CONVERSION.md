@@ -325,48 +325,6 @@ Button.displayName = "Button";
 
 ---
 
-## React Aria Migration (Replacing Radix UI)
-
-When converting components from **Radix UI** to **React Aria**, use **hooks-based patterns** (not pre-built components) to avoid SSR hydration mismatches.
-
-### Why React Aria Hooks (Not Components)?
-- **SSR Safety**: Hooks-based patterns don't generate internal IDs, preventing hydration mismatches in Next.js
-- **Better a11y**: Full WCAG 2.1 Level AA compliance with hooks like `useButton`, `useCheckbox`, `useFocusRing`
-- **Composition**: Direct access to state variables (`isFocused`, `isPressed`, `isHovered`)
-- **Flexibility**: Full control over structure and styling with native HTML elements
-- **Theming**: Seamless integration with CSS custom properties and data attributes
-
-### Key Differences: Components vs Hooks
-
-#### ❌ Before: Pre-Built Components (Causes Hydration Issues)
-```tsx
-// react-aria-components - Internally calls useId(), causes SSR mismatch
-import { Button } from 'react-aria-components';
-
-<Button isDisabled={disabled}>{children}</Button>
-```
-
-#### ✅ After: React Aria Hooks (SSR-Safe)
-```tsx
-// react-aria hooks - No internal ID generation, full control
-import { useButton, useFocusRing, useHover, mergeProps } from 'react-aria';
-
-const { buttonProps, isPressed } = useButton({ isDisabled }, ref);
-const { focusProps, isFocusVisible } = useFocusRing();
-const { hoverProps, isHovered } = useHover({ isDisabled });
-
-<button
-  {...mergeProps(buttonProps, focusProps, hoverProps)}
-  data-pressed={isPressed || undefined}
-  data-focus-visible={isFocusVisible || undefined}
-  data-hovered={isHovered || undefined}
->
-  {children}
-</button>
-```
-
-### React Aria Hooks Pattern
-
 #### 1. **Use "use client" Directive**
 
 All React Aria components must run in the client:
@@ -616,7 +574,7 @@ Style components using data attributes set by hook state variables:
 
 Before completing a React Aria migration:
 
-- [ ] **SSR Safe**: Import hooks from `react-aria` (NOT `react-aria-components`)
+- [ ] **SSR Safe**: Import hooks from `react-aria` 
 - [ ] **Client Directive**: Add `"use client"` at the top of the file
 - [ ] **Hooks Setup**: Use `useButton`, `useFocusRing`, `useHover`, etc. from `react-aria`
 - [ ] **Props Merging**: Use `mergeProps()` to combine hook prop objects

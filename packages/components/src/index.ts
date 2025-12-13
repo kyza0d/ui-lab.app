@@ -7,6 +7,12 @@ export type { GroupProps } from "./components/group";
 export { Flex } from "./components/flex";
 export type { FlexProps } from "./components/flex";
 
+export { Fold } from "./components/fold";
+export type { FoldProps } from "./components/fold";
+
+export { Grid } from "./components/grid";
+export type { GridProps } from "./components/grid";
+
 export { Badge } from "./components/badge";
 export type { BadgeProps } from "./components/badge";
 
@@ -27,6 +33,8 @@ export {
   SelectListBox,
   SelectScrollUpButton,
   SelectScrollDownButton,
+  SearchableTrigger,
+  SearchableContent,
 } from "./components/select";
 
 export { Input } from "./components/input";
@@ -35,7 +43,7 @@ export type { InputProps } from "./components/input";
 export { Label, labelVariants } from "./components/label";
 export type { LabelProps } from "./components/label";
 
-export { TextArea, textareaVariants } from "./components/textarea";
+export { TextArea } from "./components/textarea";
 export type { TextAreaProps } from "./components/textarea";
 
 export { Radio } from "./components/radio";
@@ -48,18 +56,18 @@ export { Popover } from "./components/popover";
 export type { PopoverProps } from "./components/popover";
 
 export {
-  FormWrapper,
+  Form,
   FormField,
   useFormContext,
-} from "./components/form-wrapper";
+} from "./components/form";
 export type {
-  FormWrapperProps,
+  FormProps,
   FormFieldProps,
   FormValues,
   FormErrors,
   ValidationRules,
   ValidationRule,
-} from "./components/form-wrapper";
+} from "./components/form";
 
 export { Toaster } from "./components/toast/toaster";
 export { toast } from "./components/toast/use-toast";
@@ -72,27 +80,27 @@ export type { ModalProps } from "./components/modal";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
 
 export {
-  ContextMenu,
-  ContextMenuTrigger,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuCheckboxItem,
-  ContextMenuRadioItem,
-  ContextMenuLabel,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuGroup,
-  ContextMenuRadioGroup,
-  ContextMenuPortal,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-} from "./components/context-menu";
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuCheckboxItem,
+  MenuRadioItem,
+  MenuLabel,
+  MenuSeparator,
+  MenuShortcut,
+  MenuGroup,
+  MenuRadioGroup,
+  MenuPortal,
+  MenuSub,
+  MenuSubContent,
+  MenuSubTrigger,
+} from "./components/menu";
 
 export { Switch } from "./components/switch";
 export type { SwitchProps } from "./components/switch";
 
-export { Progress, progressVariants, progressFillVariants } from "./components/progress";
+export { Progress } from "./components/progress";
 export type { ProgressProps } from "./components/progress";
 
 export * as Slider from "./components/slider";
@@ -106,6 +114,5 @@ export type { CommandPaletteProps, Command } from "./components/command-palette"
 export { Confirmation } from "./components/confirmation";
 export type { ConfirmationProps } from "./components/confirmation";
 
-export { Logo } from "./components/logo";
-
-export { cn } from "./lib/utils";
+export { Breadcrumbs, Breadcrumb } from "./components/breadcrumbs";
+export type { BreadcrumbsProps, BreadcrumbItemProps } from "./components/breadcrumbs";
