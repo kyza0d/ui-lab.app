@@ -15,10 +15,10 @@
     "clean": "pnpm -r run clean",
     "publish": "pnpm publish -r"
   },
-  "devDependencies": {
-    "typescript": "^5"
-  },
   "dependencies": {
     "next": "^16.0.10"
+  },
+  "devDependencies": {
+    "typescript": "^5"
   }
 }

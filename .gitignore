@@ -6,3 +6,4 @@ dist
 build
 *.local
 apps/site/.yalc
+.vercel
