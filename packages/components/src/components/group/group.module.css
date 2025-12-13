@@ -1,0 +1,62 @@
+@reference "tailwindcss";
+
+@layer components {
+  /* Container */
+  .group {
+    --background: var(--background-950);
+    --border: var(--background-700);
+
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  /* Orientations */
+  .group.horizontal {
+    flex-direction: row;
+  }
+
+  .group.vertical {
+    flex-direction: column;
+  }
+
+  /* Spacing */
+  .group.tight {
+    gap: 0;
+  }
+
+  .group.normal {
+    gap: var(--spacing-1);
+  }
+
+  .group.relaxed {
+    gap: var(--spacing-2);
+  }
+
+  /* Variants */
+  .group.ghost {
+    --background: transparent;
+    --border: transparent;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  /* Item wrapper - manages position-based border-radius */
+  .itemWrapper {
+    /* Spacing is handled by group's gap property */
+  }
+
+  /* Override child component styles when in group */
+  /* Remove all borders and rounded corners for seamless group appearance */
+  .itemWrapper .groupItem,
+  .groupInputWrapper input,
+  .groupSelectWrapper button {
+    border-radius: 0;
+    border: none;
+    outline: none;
+  }
+}
