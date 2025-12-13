@@ -281,8 +281,8 @@ export const tabsDetail: ComponentDetail = {
       description: "Minimal underline tab variant for a cleaner look.",
       code: tabsUnderlineCode,
       preview: (
-        <Tabs defaultValue="overview">
-          <TabsList variant="underline">
+        <Tabs defaultValue="overview" variant="underline">
+          <TabsList>
             <TabsTrigger value="overview">
               Overview
             </TabsTrigger>
@@ -414,8 +414,8 @@ export const tabsDetail: ComponentDetail = {
       description: "Minimal underline tabs for a cleaner, less prominent appearance.",
       code: tabsUnderlineCode,
       preview: (
-        <Tabs defaultValue="tab1">
-          <TabsList variant="underline">
+        <Tabs defaultValue="tab1" variant="underline">
+          <TabsList>
             <TabsTrigger value="tab1">
               Tab 1
             </TabsTrigger>

@@ -197,7 +197,7 @@ function SearchableTriggerExample() {
   ];
 
   return (
-    <Select selectedKey={selectedKey} onSelectionChange={setSelectedKey}>
+    <Select selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
       <SearchableTrigger
         className="w-48"
         placeholder="Search frameworks..."
@@ -229,7 +229,7 @@ function SearchableContentExample() {
   const selectedLabel = countries.find(c => c.value === selectedKey)?.label;
 
   return (
-    <Select selectedKey={selectedKey} onSelectionChange={setSelectedKey}>
+    <Select selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
       <SelectTrigger className="w-48">
         <SelectValue placeholder={selectedLabel || "Select a country"} />
       </SelectTrigger>
@@ -260,7 +260,7 @@ function SearchableBothExample() {
   ];
 
   return (
-    <Select selectedKey={selectedKey} onSelectionChange={setSelectedKey}>
+    <Select selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
       <SearchableTrigger
         className="w-48"
         placeholder="Search fruits..."
@@ -287,7 +287,7 @@ function HoverTriggerExample() {
   const selectedLabel = actions.find(a => a.value === selectedKey)?.label;
 
   return (
-    <Select trigger="hover" selectedKey={selectedKey} onSelectionChange={setSelectedKey}>
+    <Select trigger="hover" selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
       <SelectTrigger className="w-48">
         <SelectValue placeholder={selectedLabel || "Hover to open"} />
       </SelectTrigger>
