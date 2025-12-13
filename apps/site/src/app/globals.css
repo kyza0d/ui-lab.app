@@ -347,6 +347,14 @@
   .border-r-4 {
     border-right-width: var(--border-width-4);
   }
+
+ .blend-accent-balanced {
+    background-color: color-mix(in srgb, var(--color-accent-500) 50%, var(--color-foreground-500) 50%);
+  }
+
+  .blend-custom {
+    background-color: color-mix(in srgb, var(--blend-color-1) var(--blend-amount, 50%), var(--blend-color-2));
+  }
 }
 
 body {
@@ -458,3 +466,10 @@ pre {
 */
 
 
+.button.sm {
+  @apply py-2
+}
+
+.switch {
+  --track-background-unchecked: var(--background-950);
+}
