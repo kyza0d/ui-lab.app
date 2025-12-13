@@ -1,7 +1,11 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { fileURLToPath } from 'url';
 import { withCustomConfig, type ComponentDoc, type PropItem } from 'react-docgen-typescript';
 import type { PropDefinition, ComponentAPI } from '../src/types';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const COMPONENTS_DIR = path.resolve(__dirname, '../../components/src/components');
 
@@ -27,14 +31,35 @@ function formatType(type: string): string {
     .trim();
 }
 
+function extractEnumValues(prop: PropItem): string[] | undefined {
+  const typeObj = (prop.type as any);
+
+  // Check if this is an enum type with value array
+  if (typeObj.name === 'enum' && Array.isArray(typeObj.value)) {
+    return typeObj.value
+      .map((item: any) => {
+        // Extract the string value and remove surrounding quotes
+        const val = item.value || '';
+        return val.replace(/^["']|["']$/g, '');
+      })
+      .filter((val: string) => val.length > 0);
+  }
+
+  return undefined;
+}
+
 function extractPropsFromDoc(doc: ComponentDoc): PropDefinition[] {
-  return Object.entries(doc.props).map(([name, prop]) => ({
-    name,
-    type: formatType(prop.type.name),
-    required: prop.required,
-    defaultValue: prop.defaultValue?.value,
-    description: prop.description || undefined,
-  }));
+  return Object.entries(doc.props).map(([name, prop]) => {
+    const enumValues = extractEnumValues(prop);
+    return {
+      name,
+      type: enumValues ? enumValues.join(' | ') : formatType(prop.type.name),
+      required: prop.required,
+      defaultValue: prop.defaultValue?.value,
+      description: prop.description || undefined,
+      enumValues,
+    };
+  });
 }
 
 function getComponentFiles(componentId: string): string[] {

@@ -1,8 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import { extractAllComponentAPIs } from './extract-api';
 import { extractAllComponentStyles } from './extract-styles';
 import type { ComponentRegistry, ComponentAPI, ComponentStyles } from '../src/types';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const REGISTRY_PATH = path.resolve(__dirname, '../src/registry.ts');
 const GENERATED_DATA_PATH = path.resolve(__dirname, '../src/generated-data.ts');
