@@ -21,7 +21,7 @@ export default function ComponentsPage() {
           ]}
         />
 
-        <div className="w-full bg-background-950 mx-auto max-w-5xl">
+        <div className="w-full bg-background-950 mx-auto max-w-6xl">
           <main className="w-full">
             <div className="px-8 py-8">
 
