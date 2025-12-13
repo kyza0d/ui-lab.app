@@ -21,6 +21,7 @@ export interface PropDefinition {
   required: boolean;
   defaultValue?: string;
   description?: string;
+  enumValues?: string[];
 }
 
 export interface ComponentAPI {

@@ -1,6 +1,10 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { fileURLToPath } from 'url';
 import type { ComponentStyles, StyleVariable, StyleClass } from '../src/types';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const COMPONENTS_DIR = path.resolve(__dirname, '../../components/src/components');
 
