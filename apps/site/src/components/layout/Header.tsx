@@ -184,7 +184,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         >
           <div className="flex flex-col px-2 py-4 space-y-1">
             {navigationData.map((item) => {
-              const hasDropdown = item.isDropdown || ["documentation", "components"].includes(item.name);
+              const hasDropdown = "isDropdown" in item && item.isDropdown;
 
               if (hasDropdown) {
                 const subItems = getMenuItems(item.name);
@@ -235,18 +235,22 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 );
               }
 
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href!}
-                  onClick={onClose}
-                  className={cn(
-                    "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              );
+              if ("href" in item) {
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={onClose}
+                    className={cn(
+                      "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+
+              return null;
             })}
             <Divider variant="dashed" className="my-3" />
           </div>
