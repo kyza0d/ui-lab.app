@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
-    "use:local": "npm install file:.yalc/ui-lab-components file:.yalc/ui-lab-registry",
-    "use:prod": "npm install ui-lab-components ui-lab-registry"
+    "use:local": "yalc add ui-lab-components && yalc add ui-lab-registry && npm install",
+    "use:prod": "yalc remove ui-lab-components ui-lab-registry && pnpm add ui-lab-components && pnpm add ui-lab-registry"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
@@ -39,8 +39,8 @@
     "react-icons": "^5.5.0",
     "shiki": "^3.17.1",
     "three": "^0.182.0",
-    "ui-lab-components": "file:.yalc/ui-lab-components",
-    "ui-lab-registry": "file:.yalc/ui-lab-registry",
+    "ui-lab-components": "^0.1.2",
+    "ui-lab-registry": "^0.1.2",
     "use-debounce": "^10.0.6",
     "zoom": "^0.0.3"
   },
