@@ -123,11 +123,11 @@ The registry organizes components into 8 categories:
 9. **badge** - Badge component for labels
 10. **tooltip** - Tooltip component
 11. **popover** - Popover component
-12. **form-wrapper** - Form wrapper component
+12. **form** - Form wrapper component
 13. **toast** - Toast notification component
 14. **modal** - Modal dialog component
 15. **tabs** - Tabbed interface
-16. **context-menu** - Context menu
+16. **menu** - Context Menu
 17. **switch** - Toggle switch
 18. **slider** - Range slider
 19. **progress** - Progress bar

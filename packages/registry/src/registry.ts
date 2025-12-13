@@ -63,6 +63,51 @@ export const componentRegistry: ComponentRegistry = {
     }
   },
 
+  fold: {
+    id: 'fold',
+    name: 'Fold',
+    description: 'A collapsible disclosure component for expanding and collapsing content sections.',
+    category: 'layout',
+    source: {
+      packageName: 'ui-lab-components',
+      exportName: 'Fold',
+      packagePath: 'dist/index.d.ts',
+    },
+    relatedComponents: ['card', 'modal'],
+    tags: ['disclosure', 'accordion', 'collapsible', 'expandable'],
+    accessibility: {
+      hasAriaSupport: true,
+      notes: [
+        'Full ARIA disclosure pattern support',
+        'Keyboard navigation with Tab and Enter/Space',
+        'Proper button and panel roles',
+        'Screen reader friendly'
+      ]
+    }
+  },
+
+  grid: {
+    id: 'grid',
+    name: 'Grid',
+    description: 'A powerful grid layout component with container query support for responsive grid layouts.',
+    category: 'layout',
+    source: {
+      packageName: 'ui-lab-components',
+      exportName: 'Grid',
+      packagePath: 'dist/index.d.ts',
+    },
+    relatedComponents: ['flex', 'card', 'divider'],
+    tags: ['layout', 'grid', 'container-queries', 'responsive', 'columns'],
+    accessibility: {
+      hasAriaSupport: false,
+      notes: [
+        'Semantic div element with grid layout',
+        'No built-in ARIA roles - use for layout purposes',
+        'Compose with accessible child components'
+      ]
+    }
+  },
+
   input: {
     id: 'input',
     name: 'Input',
@@ -73,7 +118,7 @@ export const componentRegistry: ComponentRegistry = {
       exportName: 'Input',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['label', 'form-wrapper', 'group'],
+    relatedComponents: ['label', 'form', 'group'],
     tags: ['form', 'text', 'user-input'],
     accessibility: {
       hasAriaSupport: true,
@@ -109,7 +154,7 @@ export const componentRegistry: ComponentRegistry = {
       exportName: 'Select',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['input', 'label', 'form-wrapper', 'group'],
+    relatedComponents: ['input', 'label', 'form', 'group'],
     tags: ['form', 'dropdown', 'selection'],
     accessibility: {
       hasAriaSupport: true,
@@ -127,7 +172,7 @@ export const componentRegistry: ComponentRegistry = {
       exportName: 'TextArea',
       packagePath: 'dist/index.d.ts',
     },
-    relatedComponents: ['input', 'label', 'form-wrapper'],
+    relatedComponents: ['input', 'label', 'form'],
     tags: ['form', 'text', 'multi-line'],
     accessibility: {
       hasAriaSupport: true,
@@ -225,14 +270,14 @@ export const componentRegistry: ComponentRegistry = {
     }
   },
 
-  'form-wrapper': {
-    id: 'form-wrapper',
-    name: 'Form Wrapper',
-    description: 'A wrapper component for organizing form elements.',
+  'form': {
+    id: 'form',
+    name: 'Form',
+    description: 'A Form component for organizing form elements.',
     category: 'composition',
     source: {
       packageName: 'ui-lab-components',
-      exportName: 'FormWrapper',
+      exportName: 'Form',
       packagePath: 'dist/index.d.ts',
     },
     relatedComponents: ['input', 'button', 'label'],
@@ -297,14 +342,14 @@ export const componentRegistry: ComponentRegistry = {
     }
   },
 
-  'context-menu': {
-    id: 'context-menu',
-    name: 'Context Menu',
+  'menu': {
+    id: 'menu',
+    name: 'Menu',
     description: 'A context menu for right-click actions.',
     category: 'navigation',
     source: {
       packageName: 'ui-lab-components',
-      exportName: 'ContextMenu',
+      exportName: 'Menu',
       packagePath: 'dist/index.d.ts',
     },
     relatedComponents: ['popover'],
@@ -456,6 +501,30 @@ export const componentRegistry: ComponentRegistry = {
     accessibility: {
       hasAriaSupport: true,
       notes: ['Table role', 'Header associations', 'Keyboard navigation']
+    }
+  },
+
+  breadcrumbs: {
+    id: 'breadcrumbs',
+    name: 'Breadcrumbs',
+    description: 'A navigation component that displays the current page in a hierarchy and allows users to navigate to parent pages.',
+    category: 'navigation',
+    source: {
+      packageName: 'ui-lab-components',
+      exportName: 'Breadcrumbs',
+      packagePath: 'dist/index.d.ts',
+    },
+    relatedComponents: [],
+    tags: ['navigation', 'breadcrumb', 'hierarchy', 'parent-pages'],
+    accessibility: {
+      hasAriaSupport: true,
+      notes: [
+        'Uses nav element with landmark role',
+        'Semantic ordered list structure',
+        'Current page marked with aria-current',
+        'Full keyboard navigation support',
+        'Screen reader friendly labels'
+      ]
     }
   }
 };

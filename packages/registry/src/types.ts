@@ -15,6 +15,36 @@ export interface ComponentSource {
   packagePath: string;
 }
 
+export interface PropDefinition {
+  name: string;
+  type: string;
+  required: boolean;
+  defaultValue?: string;
+  description?: string;
+}
+
+export interface ComponentAPI {
+  props: PropDefinition[];
+  subComponents?: Record<string, PropDefinition[]>;
+}
+
+export interface StyleVariable {
+  name: string;
+  defaultValue?: string;
+}
+
+export interface StyleClass {
+  name: string;
+  description?: string;
+}
+
+export interface ComponentStyles {
+  cssVariables: StyleVariable[];
+  classes: StyleClass[];
+  variants?: Record<string, string[]>;
+  sizes?: string[];
+}
+
 export interface ComponentMetadata {
   id: string;
   name: string;
@@ -27,6 +57,9 @@ export interface ComponentMetadata {
     hasAriaSupport: boolean;
     notes?: string[];
   };
+  reactAriaUrl?: string;
+  api?: ComponentAPI;
+  styles?: ComponentStyles;
 }
 
 export interface ComponentRegistry {
