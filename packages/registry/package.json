@@ -1,6 +1,6 @@
 {
   "name": "ui-lab-registry",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Component registry and metadata management for ui-lab-components",
   "private": false,
   "type": "module",

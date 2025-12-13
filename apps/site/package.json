@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "gen:highlights": "node scripts/generate-code-highlights.mjs",
     "dev": "next dev",
     "build": "pnpm gen:highlights && next build",
     "start": "next start",
     "lint": "eslint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "use:local": "npm install file:.yalc/ui-lab-components",
+    "use:prod": "npm install ui-lab-components ui-lab-registry"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
@@ -38,8 +39,8 @@
     "react-icons": "^5.5.0",
     "shiki": "^3.17.1",
     "three": "^0.182.0",
-    "ui-lab-components": "file:.yalc/ui-lab-components",
-    "ui-lab-registry": "file:.yalc/ui-lab-registry",
+    "ui-lab-components": "^0.1.1",
+    "ui-lab-registry": "^0.1.1",
     "use-debounce": "^10.0.6",
     "zoom": "^0.0.3"
   },

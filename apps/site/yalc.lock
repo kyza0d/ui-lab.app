@@ -2,12 +2,12 @@
   "version": "v1",
   "packages": {
     "ui-lab-components": {
-      "signature": "703116b22a0daf12e75bfa82ad677216",
+      "signature": "efb802556f6cd4f74054ebe45ba580f6",
       "file": true,
       "replaced": "^0.1.1"
     },
     "ui-lab-registry": {
-      "signature": "96c7e2bcbcd62e45cc670d1b0b557336",
+      "signature": "42bed595a7c0f1c7da58e897da2cef97",
       "file": true
     }
   }
