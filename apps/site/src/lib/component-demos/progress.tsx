@@ -84,35 +84,6 @@ export function Example() {
   );
 }`;
 
-const progressIndeterminateCode = `import { Progress } from "ui-lab-components";
-
-export function Example() {
-  return <Progress indeterminate />;
-}`;
-
-const progressWithLabelCode = `import { Progress } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-6 w-full max-w-sm">
-      <Progress value={75} label="Uploading..." showValue />
-      <Progress value={100} label="Complete" variant="success" showValue />
-      <Progress indeterminate label="Loading..." />
-    </div>
-  );
-}`;
-
-const progressAnimatedCode = `import { Progress } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-4 w-full max-w-sm">
-      <Progress value={50} animated />
-      <Progress value={75} variant="success" animated />
-    </div>
-  );
-}`;
-
 export const progressDetail: ComponentDetail = {
   id: "progress",
   name: "Progress",
@@ -142,7 +113,6 @@ export const progressDetail: ComponentDetail = {
           size={props.size as any}
           variant={props.variant as any}
           value={Number(props.value) || 50}
-          indeterminate={props.indeterminate}
           showValue={props.showValue}
         />
       ),
@@ -171,19 +141,6 @@ export const progressDetail: ComponentDetail = {
           <Progress variant="success" value={100} />
           <Progress variant="warning" value={45} />
           <Progress variant="error" value={20} />
-        </div>
-      ),
-    },
-    {
-      id: "with-label",
-      title: "With Label",
-      description: "Progress bars with labels and percentage values.",
-      code: progressWithLabelCode,
-      preview: (
-        <div className="space-y-6 w-full max-w-sm">
-          <Progress value={75} label="Uploading..." showValue />
-          <Progress value={100} label="Complete" variant="success" showValue />
-          <Progress indeterminate label="Loading..." />
         </div>
       ),
     },
@@ -218,13 +175,6 @@ export const progressDetail: ComponentDetail = {
       code: `<Progress variant="error" value={20} />`,
       preview: <Progress variant="error" value={20} />,
     },
-    {
-      id: "indeterminate",
-      name: "Indeterminate",
-      description: "Animated loading state.",
-      code: `<Progress indeterminate />`,
-      preview: <Progress indeterminate />,
-    },
   ],
 
   props: [
@@ -239,41 +189,6 @@ export const progressDetail: ComponentDetail = {
       type: "number",
       default: "100",
       description: "Maximum progress value.",
-    },
-    {
-      name: "size",
-      type: '"sm" | "md" | "lg"',
-      default: '"md"',
-      description: "Size of the progress bar.",
-    },
-    {
-      name: "variant",
-      type: '"default" | "success" | "warning" | "error"',
-      default: '"default"',
-      description: "Color variant of the progress bar.",
-    },
-    {
-      name: "animated",
-      type: "boolean",
-      default: "false",
-      description: "Enable pulse animation on the fill.",
-    },
-    {
-      name: "indeterminate",
-      type: "boolean",
-      default: "false",
-      description: "Show animated loading state for unknown durations.",
-    },
-    {
-      name: "label",
-      type: "string",
-      description: "Label text displayed above the progress bar.",
-    },
-    {
-      name: "showValue",
-      type: "boolean",
-      default: "false",
-      description: "Display percentage value above the progress bar.",
-    },
+    }
   ],
 };

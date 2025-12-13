@@ -16,11 +16,11 @@ function BasicModalPreview(props: any) {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title="Welcome"
         size={props.size}
         closeButton={props.closeButton}
-        onBackdropClick={props.onBackdropClick}
+        isDismissable={props.isDismissable ?? true}
       >
         <p className="text-foreground-300">
           This is a simple modal dialog. Click the X or outside to close.
@@ -46,7 +46,7 @@ function ConfirmationModalPreview(props: any) {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title="Confirm Delete"
         footer={
           <div className="flex gap-3">
@@ -68,7 +68,7 @@ function ConfirmationModalPreview(props: any) {
         }
         size={props.size}
         closeButton={props.closeButton}
-        onBackdropClick={props.onBackdropClick}
+        isDismissable={props.isDismissable ?? true}
       >
         <p className="text-foreground-300">
           Are you sure you want to delete this item? This action cannot be undone.
@@ -106,7 +106,7 @@ function FormModalPreview(props: any) {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title="Create New User"
         footer={
           <div className="flex gap-3">
@@ -128,7 +128,7 @@ function FormModalPreview(props: any) {
         }
         size={props.size}
         closeButton={props.closeButton}
-        onBackdropClick={props.onBackdropClick}
+        isDismissable={props.isDismissable ?? true}
       >
         <form className="space-y-4">
           <div className="space-y-2">
@@ -206,9 +206,9 @@ function AlertModalPreview(props: any) {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title={alert.title}
-        onBackdropClick={false}
+        isDismissable={false}
         size={props.size}
         closeButton={props.closeButton}
       >
@@ -260,11 +260,11 @@ function SizedModalsPreview(props: any) {
         <Modal
           key={size}
           isOpen={openSize === size}
-          onClose={() => setOpenSize(null)}
+          onOpenChange={(isOpen) => setOpenSize(isOpen ? size : null)}
           title={`${label} Modal`}
           size={size}
           closeButton={props.closeButton}
-          onBackdropClick={props.onBackdropClick}
+          isDismissable={props.isDismissable ?? true}
         >
           <p className="text-foreground-300">
             This is a {label.toLowerCase()} modal. It has a responsive
@@ -300,7 +300,7 @@ const modalControls: ControlDef[] = [
     defaultValue: true,
   },
   {
-    name: "onBackdropClick",
+    name: "isDismissable",
     label: "Close on Backdrop Click",
     type: "toggle",
     defaultValue: true,
@@ -322,7 +322,7 @@ export function Example() {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title="Welcome"
       >
         <p className="text-foreground-300">
@@ -355,7 +355,7 @@ export function Example() {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title="Confirm Delete"
       >
         <p className="text-foreground-300 mb-4">
@@ -399,7 +399,7 @@ export function Example() {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title="Create New User"
         footer={
           <div className="flex gap-3">
@@ -500,9 +500,9 @@ export function Example() {
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onOpenChange={setIsOpen}
         title={alert.title}
-        onBackdropClick={false}
+        isDismissable={false}
       >
         <div className={\`p-4 rounded-lg border \${alert.color}\`}>
           <p className="text-sm text-foreground-100">{alert.message}</p>
@@ -529,10 +529,10 @@ export function Example() {
   const [openSize, setOpenSize] = useState<"sm" | "md" | "lg" | "xl" | null>(null);
 
   const sizes = [
-    { size: "sm" as const, label: "Small", width: "max-w-sm" },
-    { size: "md" as const, label: "Medium", width: "max-w-md" },
-    { size: "lg" as const, label: "Large", width: "max-w-lg" },
-    { size: "xl" as const, label: "Extra Large", width: "max-w-2xl" },
+    { size: "sm" as const, label: "Small" },
+    { size: "md" as const, label: "Medium" },
+    { size: "lg" as const, label: "Large" },
+    { size: "xl" as const, label: "Extra Large" },
   ];
 
   return (
@@ -549,16 +549,16 @@ export function Example() {
         ))}
       </div>
 
-      {sizes.map(({ size, label, width }) => (
+      {sizes.map(({ size, label }) => (
         <Modal
           key={size}
           isOpen={openSize === size}
-          onClose={() => setOpenSize(null)}
+          onOpenChange={(isOpen) => setOpenSize(isOpen ? size : null)}
           title={\`\${label} Modal\`}
           size={size}
         >
           <p className="text-foreground-300">
-            This is a {label.toLowerCase()} modal. It has a max-width of {width}.
+            This is a {label.toLowerCase()} modal with a responsive max-width.
           </p>
           <p className="text-sm text-foreground-500 mt-4">
             You can use different sizes for different types of content.

@@ -1,7 +1,6 @@
 import { TextArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
-import { Button } from "ui-lab-components";
 
 // Control definitions for the textarea configurator
 const textareaControls: ControlDef[] = [
@@ -54,47 +53,6 @@ export function Example() {
   return <TextArea placeholder="Enter your message..." />;
 }`;
 
-const textareaSizesCode = `import { TextArea } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-3">
-      <TextArea size="sm" placeholder="Small textarea" />
-      <TextArea size="md" placeholder="Medium textarea" />
-      <TextArea size="lg" placeholder="Large textarea" />
-    </div>
-  );
-}`;
-
-const textareaStatesCode = `import { TextArea } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-3 w-full max-w-sm">
-      <TextArea placeholder="Default state" />
-      <TextArea disabled placeholder="Disabled state" />
-      <TextArea error placeholder="Error state" />
-    </div>
-  );
-}`;
-
-const textareaResizableCode = `import { TextArea } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-3">
-      <div>
-        <p className="text-sm text-foreground-300 mb-2">Resizable</p>
-        <TextArea resizable placeholder="Drag to resize..." />
-      </div>
-      <div>
-        <p className="text-sm text-foreground-300 mb-2">Not Resizable</p>
-        <TextArea resizable={false} placeholder="Fixed size" />
-      </div>
-    </div>
-  );
-}`;
-
 const textareaCharacterCountCode = `import { TextArea } from "ui-lab-components";
 
 export function Example() {
@@ -119,62 +77,6 @@ export function Example() {
           placeholder="Limited to 100 characters..."
         />
       </div>
-    </div>
-  );
-}`;
-
-const textareaFormCode = `import { TextArea } from "ui-lab-components";
-import { Button } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <form className="space-y-4 max-w-sm">
-      <div>
-        <label className="block text-sm text-foreground-300 mb-2">
-          Your Message
-        </label>
-        <TextArea placeholder="Enter your message..." />
-      </div>
-      <div>
-        <label className="block text-sm text-foreground-300 mb-2">
-          Additional Comments
-        </label>
-        <TextArea
-          size="lg"
-          placeholder="Add any additional comments..."
-          showCharacterCount
-          maxCharacters={500}
-        />
-      </div>
-      <Button className="w-full">Submit</Button>
-    </form>
-  );
-}`;
-
-const textareaWithLabelCode = `import { TextArea } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-2 w-full max-w-sm">
-      <label htmlFor="message" className="block text-sm text-foreground-300">
-        Message
-      </label>
-      <TextArea
-        id="message"
-        placeholder="Enter your message..."
-        showCharacterCount
-      />
-    </div>
-  );
-}`;
-
-const textareaErrorStateCode = `import { TextArea } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <div className="space-y-2 w-full max-w-sm">
-      <TextArea error placeholder="Invalid input" />
-      <p className="text-sm text-danger-600">This field is required</p>
     </div>
   );
 }`;
@@ -206,55 +108,10 @@ export const textareaDetail: ComponentDetail = {
         <TextArea
           size={props.size as any}
           disabled={props.disabled}
-          error={props.error}
           resizable={props.resizable}
           showCharacterCount={props.showCharacterCount}
           placeholder={props.placeholder}
         />
-      ),
-    },
-    {
-      id: "sizes",
-      title: "TextArea Sizes",
-      description: "Choose from three size options depending on the context.",
-      code: textareaSizesCode,
-      preview: (
-        <div className="space-y-3 w-full max-w-sm">
-          <TextArea size="sm" placeholder="Small textarea" />
-          <TextArea size="md" placeholder="Medium textarea" />
-          <TextArea size="lg" placeholder="Large textarea" />
-        </div>
-      ),
-    },
-    {
-      id: "states",
-      title: "TextArea States",
-      description: "TextAreas support different states: default, disabled, and error.",
-      code: textareaStatesCode,
-      preview: (
-        <div className="space-y-3 w-full max-w-sm">
-          <TextArea placeholder="Default state" />
-          <TextArea disabled placeholder="Disabled state" />
-          <TextArea error placeholder="Error state" />
-        </div>
-      ),
-    },
-    {
-      id: "resizable",
-      title: "Resizable Options",
-      description: "Control whether the textarea can be resized by the user.",
-      code: textareaResizableCode,
-      preview: (
-        <div className="space-y-3 w-full max-w-sm">
-          <div>
-            <p className="text-sm text-foreground-300 mb-2">Resizable</p>
-            <TextArea resizable placeholder="Drag to resize..." />
-          </div>
-          <div>
-            <p className="text-sm text-foreground-300 mb-2">Not Resizable</p>
-            <TextArea resizable={false} placeholder="Fixed size" />
-          </div>
-        </div>
       ),
     },
     {
@@ -279,68 +136,9 @@ export const textareaDetail: ComponentDetail = {
             </label>
             <TextArea
               showCharacterCount
-              maxCharacters={100}
               placeholder="Limited to 100 characters..."
             />
           </div>
-        </div>
-      ),
-    },
-    {
-      id: "form",
-      title: "Form Integration",
-      description: "TextAreas used within a complete form with labels and buttons.",
-      code: textareaFormCode,
-      preview: (
-        <form className="space-y-4 max-w-sm">
-          <div>
-            <label className="block text-sm text-foreground-300 mb-2">
-              Your Message
-            </label>
-            <TextArea placeholder="Enter your message..." />
-          </div>
-          <div>
-            <label className="block text-sm text-foreground-300 mb-2">
-              Additional Comments
-            </label>
-            <TextArea
-              size="lg"
-              placeholder="Add any additional comments..."
-              showCharacterCount
-              maxCharacters={500}
-            />
-          </div>
-          <Button className="w-full">Submit</Button>
-        </form>
-      ),
-    },
-    {
-      id: "with-label",
-      title: "With Label",
-      description: "TextArea with properly associated label for better accessibility.",
-      code: textareaWithLabelCode,
-      preview: (
-        <div className="space-y-2 w-full max-w-sm">
-          <label htmlFor="message" className="block text-sm text-foreground-300">
-            Message
-          </label>
-          <TextArea
-            id="message"
-            placeholder="Enter your message..."
-            showCharacterCount
-          />
-        </div>
-      ),
-    },
-    {
-      id: "error",
-      title: "Error State",
-      description: "Display error state with helpful error message.",
-      code: textareaErrorStateCode,
-      preview: (
-        <div className="space-y-2 w-full max-w-sm">
-          <TextArea error placeholder="Invalid input" />
-          <p className="text-sm text-danger-600">This field is required</p>
         </div>
       ),
     },
@@ -360,20 +158,6 @@ export const textareaDetail: ComponentDetail = {
       description: "Textarea with character count display.",
       code: `<TextArea showCharacterCount placeholder="Enter text..." />`,
       preview: <TextArea showCharacterCount placeholder="Enter text..." />,
-    },
-    {
-      id: "limited-characters",
-      name: "Limited Characters",
-      description: "Textarea limited to a maximum number of characters.",
-      code: `<TextArea showCharacterCount maxCharacters={100} placeholder="Max 100 characters..." />`,
-      preview: <TextArea showCharacterCount maxCharacters={100} placeholder="Max 100 characters..." />,
-    },
-    {
-      id: "fixed-size",
-      name: "Fixed Size",
-      description: "Textarea with fixed size (not resizable).",
-      code: `<TextArea resizable={false} placeholder="Fixed size..." />`,
-      preview: <TextArea resizable={false} placeholder="Fixed size..." />,
-    },
+    }
   ],
 };
