@@ -1,6 +1,6 @@
-import { componentRegistry } from './registry';
-import { categories } from './categories';
-import type { ComponentMetadata, ComponentCategory } from './types';
+import { componentRegistry } from './registry.js';
+import { categories } from './categories.js';
+import type { ComponentMetadata, ComponentCategory } from './types.js';
 
 export function getComponentById(id: string): ComponentMetadata | undefined {
   return componentRegistry[id];

@@ -1,4 +1,4 @@
-import type { ComponentRegistry } from './types';
+import type { ComponentRegistry } from './types.js';
 
 export const componentRegistry: ComponentRegistry = {
   button: {
@@ -524,6 +524,29 @@ export const componentRegistry: ComponentRegistry = {
         'Current page marked with aria-current',
         'Full keyboard navigation support',
         'Screen reader friendly labels'
+      ]
+    }
+  },
+
+  gallery: {
+    id: 'gallery',
+    name: 'Gallery',
+    description: 'A responsive grid layout component for displaying media content like images, videos, and product cards.',
+    category: 'layout',
+    source: {
+      packageName: 'ui-lab-components',
+      exportName: 'Gallery',
+      packagePath: 'dist/index.d.ts',
+    },
+    relatedComponents: ['card', 'grid'],
+    tags: ['gallery', 'grid', 'media', 'images', 'video', 'responsive'],
+    accessibility: {
+      hasAriaSupport: true,
+      notes: [
+        'Uses React Aria useFocusRing for keyboard focus indication',
+        'Supports both link and button interaction modes',
+        'Proper focus order through natural DOM order',
+        'Hover and focus states for visual feedback'
       ]
     }
   }

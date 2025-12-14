@@ -3,7 +3,9 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { extractAllComponentAPIs } from './extract-api';
 import { extractAllComponentStyles } from './extract-styles';
-import type { ComponentRegistry, ComponentAPI, ComponentStyles } from '../src/types';
+import { extractAllComponentSources } from './extract-source';
+import { componentDependencies, coreNpmDependencies, corePeerDependencies } from '../src/component-dependencies';
+import type { ComponentRegistry, ComponentAPI, ComponentStyles, ComponentSourceCode, ComponentDeps } from '../src/types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,15 +60,24 @@ function getComponentIds(): string[] {
 function generateDataFile(
   apiData: Record<string, ComponentAPI>,
   stylesData: Record<string, ComponentStyles>,
+  sourceData: Record<string, ComponentSourceCode>,
   reactAriaUrls: Record<string, string>
 ): void {
-  const content = `import type { ComponentAPI, ComponentStyles } from './types';
+  const content = `import type { ComponentAPI, ComponentStyles, ComponentSourceCode, ComponentDeps } from './types';
 
 export const generatedAPI: Record<string, ComponentAPI> = ${JSON.stringify(apiData, null, 2)};
 
 export const generatedStyles: Record<string, ComponentStyles> = ${JSON.stringify(stylesData, null, 2)};
 
+export const generatedSourceCode: Record<string, ComponentSourceCode> = ${JSON.stringify(sourceData, null, 2)};
+
 export const reactAriaUrls: Record<string, string> = ${JSON.stringify(reactAriaUrls, null, 2)};
+
+export const generatedComponentDependencies: Record<string, ComponentDeps> = ${JSON.stringify(componentDependencies, null, 2)};
+
+export const generatedCoreNpmDependencies = ${JSON.stringify(Array.from(coreNpmDependencies), null, 2)};
+
+export const generatedCorePeerDependencies = ${JSON.stringify(Array.from(corePeerDependencies), null, 2)};
 `;
 
   fs.writeFileSync(GENERATED_DATA_PATH, content, 'utf-8');
@@ -87,21 +98,26 @@ async function main() {
   const stylesData = extractAllComponentStyles(componentIds);
   console.log(`Extracted styles for ${Object.keys(stylesData).length} components\n`);
 
+  console.log('Extracting source code...');
+  const sourceData = extractAllComponentSources(componentIds);
+  console.log(`Extracted source code for ${Object.keys(sourceData).length} components\n`);
+
   const reactAriaUrls: Record<string, string> = {};
   for (const id of componentIds) {
     reactAriaUrls[id] = REACT_ARIA_PLACEHOLDERS[id] || '';
   }
 
-  generateDataFile(apiData, stylesData, reactAriaUrls);
+  generateDataFile(apiData, stylesData, sourceData, reactAriaUrls);
 
   console.log('\nSummary:');
   console.log('--------');
   for (const id of componentIds) {
     const hasApi = id in apiData;
     const hasStyles = id in stylesData;
+    const hasSource = id in sourceData;
     const hasReactAria = reactAriaUrls[id] !== '';
     console.log(
-      `${id}: API=${hasApi ? '✓' : '✗'} Styles=${hasStyles ? '✓' : '✗'} ReactAria=${hasReactAria ? '✓' : '-'}`
+      `${id}: API=${hasApi ? '✓' : '✗'} Styles=${hasStyles ? '✓' : '✗'} Source=${hasSource ? '✓' : '✗'} ReactAria=${hasReactAria ? '✓' : '-'}`
     );
   }
 

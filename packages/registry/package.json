@@ -45,8 +45,11 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/react": "^19",
+    "react": "^19",
     "react-docgen-typescript": "^2.2.2",
     "tsx": "^4.7.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "ui-lab-components": "workspace:*"
   }
 }

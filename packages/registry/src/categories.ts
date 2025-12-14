@@ -1,4 +1,4 @@
-import type { CategoryDefinition, ComponentCategory } from './types';
+import type { CategoryDefinition, ComponentCategory } from './types.js';
 
 export const categories: CategoryDefinition[] = [
   {

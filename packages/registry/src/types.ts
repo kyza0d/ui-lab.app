@@ -80,3 +80,15 @@ export interface StarterPreset {
   components: string[];
   description: string;
 }
+
+export interface ComponentSourceCode {
+  tsx: string;              // Main component TypeScript file
+  css: string;              // CSS module content
+  cssTypes: string;         // CSS module TypeScript declarations
+  exportFile?: string;      // index.ts if it exists
+}
+
+export interface ComponentDeps {
+  npm: string[];
+  internal: string[];
+}
