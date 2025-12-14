@@ -1,7 +1,192 @@
 'use client';
 import { useRef, useEffect, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+
+const getThemeColor = (variableName: string, fallback: string) => {
+  if (typeof window === 'undefined') return new THREE.Color(fallback);
+  const tempDiv = document.createElement('div');
+  tempDiv.style.display = 'none';
+  document.body.appendChild(tempDiv);
+  tempDiv.style.color = `var(${variableName})`;
+  let computed = window.getComputedStyle(tempDiv).color;
+  if (!computed || computed === '' || computed === 'rgba(0, 0, 0, 0)') {
+    tempDiv.style.color = `oklch(var(${variableName}))`;
+    computed = window.getComputedStyle(tempDiv).color;
+  }
+  document.body.removeChild(tempDiv);
+  const canvas = document.createElement('canvas');
+  canvas.width = 1;
+  canvas.height = 1;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (ctx) {
+    ctx.fillStyle = computed;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+    return new THREE.Color(r / 255, g / 255, b / 255);
+  }
+  return new THREE.Color(fallback);
+};
+
+const ParticleLayer = () => {
+  const pointsRef = useRef<THREE.Points>(null!);
+
+  const count = 120;
+
+  const attributes = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const randoms = new Float32Array(count);
+    const sizes = new Float32Array(count);
+
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5);
+      positions[i * 3 + 1] = Math.random() * 2.0;
+      positions[i * 3 + 2] = 0;
+
+      randoms[i] = Math.random();
+      sizes[i] = Math.random() * 0.5 + 0.5;
+    }
+    return { positions, randoms, sizes };
+  }, []);
+
+  const uniforms = useMemo(() => ({
+    u_time: { value: 0 },
+    u_width: { value: 1.0 },
+    u_height: { value: 1.0 },
+    u_mouse: { value: new THREE.Vector2(0.5, 0.5) },
+    u_mouse_active: { value: 0 },
+    u_color: { value: new THREE.Color(1, 1, 1) },
+  }), []);
+
+  // Sync colors
+  useEffect(() => {
+    const updateColors = () => {
+      if (pointsRef.current) {
+        const mat = pointsRef.current.material as THREE.ShaderMaterial;
+        mat.uniforms.u_color.value.copy(getThemeColor('--color-aura-2', '#dddddd'));
+      }
+    };
+    updateColors();
+    const observer = new MutationObserver(updateColors);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  // Mouse tracking
+  const mouse = useRef({ x: 0.5, y: 0.5, active: false });
+  useEffect(() => {
+    const handleMove = (e: any) => {
+      const rect = document.body.getBoundingClientRect();
+      const x = (e.touches ? e.touches[0].clientX : e.clientX) / rect.width;
+      const y = 1.0 - (e.touches ? e.touches[0].clientY : e.clientY) / rect.height;
+      mouse.current = { x, y, active: true };
+    };
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchmove', handleMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('touchmove', handleMove);
+    };
+  }, []);
+
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    const mat = pointsRef.current.material as THREE.ShaderMaterial;
+    mat.uniforms.u_time.value = state.clock.elapsedTime;
+
+    // Pass viewport dimensions to shader for responsive scaling
+    mat.uniforms.u_width.value = state.viewport.width;
+    mat.uniforms.u_height.value = state.viewport.height;
+
+    mat.uniforms.u_mouse.value.lerp(new THREE.Vector2(mouse.current.x, mouse.current.y), 0.1);
+    mat.uniforms.u_mouse_active.value = THREE.MathUtils.lerp(
+      mat.uniforms.u_mouse_active.value,
+      mouse.current.active ? 1 : 0,
+      0.1
+    );
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[attributes.positions, 3]}
+        />
+        <bufferAttribute
+          attach="attributes-a_random"
+          args={[attributes.randoms, 1]}
+        />
+        <bufferAttribute
+          attach="attributes-a_size"
+          args={[attributes.sizes, 1]}
+        />
+      </bufferGeometry>
+      <shaderMaterial
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        uniforms={uniforms}
+        vertexShader={`
+          uniform float u_time;
+          uniform float u_width;
+          uniform float u_height;
+          uniform vec2 u_mouse;
+          uniform float u_mouse_active;
+          attribute float a_random;
+          attribute float a_size;
+          varying float vAlpha;
+
+          void main() {
+            vec3 pos = position;
+            pos.x *= u_width; 
+            float speed = 0.05 + a_random * 0.05;
+            float loopHeight = 2.5; 
+            float yOffset = mod(u_time * speed + a_random * 10.0, loopHeight);
+            pos.y = -0.2 + yOffset; 
+            pos.x += sin(u_time * 0.5 + a_random * 10.0) * 0.1;
+            vec2 worldMouse = (u_mouse - 0.5) * vec2(u_width, u_height);
+            
+            float dist = distance(pos.xy, worldMouse);
+            float repelRadius = 0.4;
+            
+            if (dist < repelRadius && u_mouse_active > 0.01) {
+              vec2 dir = normalize(pos.xy - worldMouse);
+              float force = (1.0 - dist/repelRadius);
+              // Push particles away
+              pos.xy += dir * force * 0.2 * u_mouse_active;
+            }
+
+            // 4. Alpha Fade
+            float alpha = smoothstep(-0.2, 0.1, pos.y) * (1.0 - smoothstep(0.6, 1.1, pos.y));
+            vAlpha = alpha;
+
+            vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+            gl_Position = projectionMatrix * mvPosition;
+            
+            // Dynamic Size
+            gl_PointSize = (12.0 * a_size + 4.0 * sin(u_time * 2.0 + a_random * 10.0)) * (1.0 / -mvPosition.z);
+          }
+        `}
+        fragmentShader={`
+          uniform vec3 u_color;
+          varying float vAlpha;
+          void main() {
+            // Soft Circular Particle
+            vec2 coord = gl_PointCoord - vec2(0.5);
+            float dist = length(coord);
+            if (dist > 0.5) discard;
+            float strength = 1.0 - (dist * 2.0);
+            strength = pow(strength, 1.5);
+            gl_FragColor = vec4(u_color, vAlpha * strength * 0.6);
+          }
+        `}
+      />
+    </points>
+  );
+};
+
+// --- AURA SHADER ---
 
 interface AuraProps {
   strength?: number;
@@ -26,7 +211,7 @@ const AuraShader = ({
 
   const uniforms = useMemo(() => ({
     u_time: { value: 0 },
-    u_intro: { value: 0 }, // New uniform for entrance animation
+    u_intro: { value: 0 },
     u_mouse: { value: new THREE.Vector2(0.5, 0.5) },
     u_mouse_active: { value: 0 },
     u_strength: { value: strength },
@@ -40,50 +225,17 @@ const AuraShader = ({
     u_bg_800: { value: new THREE.Color(0, 0, 0) },
   }), [strength, radius, clearing, distortion, irregularity]);
 
-  const getThemeColor = (variableName: string, fallback: string) => {
-    if (typeof window === 'undefined') return new THREE.Color(fallback);
-
-    const tempDiv = document.createElement('div');
-    tempDiv.style.display = 'none';
-    document.body.appendChild(tempDiv);
-    tempDiv.style.color = `var(${variableName})`;
-    let computed = window.getComputedStyle(tempDiv).color;
-
-    if (!computed || computed === '' || computed === 'rgba(0, 0, 0, 0)') {
-      tempDiv.style.color = `oklch(var(${variableName}))`;
-      computed = window.getComputedStyle(tempDiv).color;
-    }
-
-    document.body.removeChild(tempDiv);
-
-    const canvas = document.createElement('canvas');
-    canvas.width = 1;
-    canvas.height = 1;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-    if (ctx) {
-      ctx.fillStyle = computed;
-      ctx.fillRect(0, 0, 1, 1);
-      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-      return new THREE.Color(r / 255, g / 255, b / 255);
-    }
-
-    return new THREE.Color(fallback);
-  };
-
   useEffect(() => {
     const updateColors = () => {
       const mat = meshRef.current?.material as THREE.ShaderMaterial;
       if (mat) {
-        mat.uniforms.u_accent_50.value.copy(getThemeColor('--accent-500', '#ffffff'));
-        mat.uniforms.u_accent_300.value.copy(getThemeColor('--accent-500', '#dddddd'));
-        mat.uniforms.u_accent_500.value.copy(getThemeColor('--accent-700', '#aaaaaa'));
-        mat.uniforms.u_bg_800.value.copy(getThemeColor('--background-950', '#333333'));
+        mat.uniforms.u_accent_50.value.copy(getThemeColor('--color-aura-1', '#ffffff'));
+        mat.uniforms.u_accent_300.value.copy(getThemeColor('--color-aura-2', '#dddddd'));
+        mat.uniforms.u_accent_500.value.copy(getThemeColor('--color-aura-3', '#aaaaaa'));
+        mat.uniforms.u_bg_800.value.copy(getThemeColor('--color-accent-500', '#333333'));
       }
     };
-
     updateColors();
-
     const observer = new MutationObserver(updateColors);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class'] });
     observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
@@ -138,15 +290,10 @@ const AuraShader = ({
       mat.uniforms.u_distortion.value = distortion;
       mat.uniforms.u_irregularity.value = irregularity;
 
-      // --- INTRO ANIMATION LOGIC ---
-      // Define duration in seconds
       const introDuration = 4.0;
-      // Calculate progress (0 to 1)
       let progress = Math.min(time / introDuration, 1.0);
-      // Ease Out Cubic for a smooth "settle" effect
       progress = 1.0 - Math.pow(1.0 - progress, 3.0);
       mat.uniforms.u_intro.value = progress;
-      // -----------------------------
 
       const current = mouse.current;
       const target = new THREE.Vector2(current.x, current.y);
@@ -193,7 +340,7 @@ const AuraShader = ({
         fragmentShader={`
           precision highp float;
           uniform float u_time;
-          uniform float u_intro; // 0.0 to 1.0
+          uniform float u_intro;
           uniform vec2 u_mouse;
           uniform float u_mouse_active;
           uniform float u_strength;
@@ -255,11 +402,7 @@ const AuraShader = ({
           void main() {
             vec2 uv = vUv;
             
-            // --- INTRO REVEAL CALCULATION ---
-            // "Grow" from bottom (0.0) to top (1.0).
-            // (u_intro * 1.3) allows the mask to go slightly above screen top to fully clear it.
             float verticalGrowth = smoothstep(0.0, 1.0, (u_intro * 1.3) - uv.y);
-            // --------------------------------
 
             float repel = getRepulsionStrength(uv);
             vec2 pushDir = normalize(uv - u_mouse + vec2(
@@ -268,34 +411,28 @@ const AuraShader = ({
             )*0.3);
             vec2 warpedUv = uv + pushDir * repel * u_distortion;
             
-            // Base mask fading out at the top
             float mask = pow(1.0 - uv.y, 3.4);
-           
+            
             float glow = auroraField(warpedUv, 0.0);
             glow += auroraField(warpedUv + vec2(13.7,7.3), 1.1)*0.8;
             glow += auroraField(warpedUv + vec2(9.4,19.2), 2.3)*0.6;
             glow = pow(glow*0.33, 1.6);
-           
+            
             glow += sin(uv.y*12.0 - u_time*0.9)*0.04 +
                     sin(uv.y*25.0 - u_time*1.3)*0.02;
-           
+            
             glow *= (1.0 - repel * u_clearing);
             glow *= mask * 5.0;
-           
+            
             vec3 color = auroraColor(u_time*0.058 + uv.y*0.6 + glow*0.2);
             vec3 core = u_accent_50 + vec3(0.1);
             float coreMask = pow(mask, 0.35) * smoothstep(0.19, 0.0, uv.y);
             coreMask *= (1.0 - repel*0.7);
             color = mix(color, core, coreMask*0.85);
-           
+            
             vec3 final = color * glow;
             
-            // Apply the vertical growth mask to the alpha
             float alpha = glow * mask * 1.7 * verticalGrowth;
-            
-            // CAPPING INTENSITY:
-            // Ensure alpha doesn't get too intense. 
-            // 0.85 is the max opacity, preventing it from blowing out the screen.
             alpha = clamp(alpha, 0.0, 0.85);
 
             gl_FragColor = vec4(final, alpha);
@@ -308,9 +445,12 @@ const AuraShader = ({
 
 export default function Aura() {
   return (
-    <div className="h-300 min-w-screen inset-0 -z-10 overflow-hidden pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 1] }} gl={{ antialias: true, alpha: true }}
-        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}>
+    <div className="h-40 min-w-screen inset-0 -z-10 overflow-hidden pointer-events-none">
+      <Canvas
+        camera={{ position: [0, 0, 1] }}
+        gl={{ antialias: true, alpha: true }}
+        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
+      >
         <AuraShader
           strength={10.00}
           radius={0.10}
@@ -320,6 +460,7 @@ export default function Aura() {
           speed={0.10}
           idleDrift={0.20}
         />
+        <ParticleLayer />
       </Canvas>
     </div>
   );

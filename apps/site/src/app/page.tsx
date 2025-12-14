@@ -56,31 +56,29 @@ const features = [
 export default function Home() {
   return (
     <div>
-      <div className="relative min-h-[calc(100vh-4rem)]">
+      <div className="hidden fixed top-0 left-0 w-screen h-screen bg-black/20 z-999 backdrop-blur-lg" />
+      <div className="relative h-screen">
         <Toaster />
 
-        <main className="relative mx-auto max-w-[1800px] px-4 sm:px-6 pt-8">
+        <main className="w-full">
           {/* Hero Section – 55/45 split on large screens */}
           <section
-            className="relative overflow-hidden rounded-lg border border-background-700 
-            bg-background-900/50 min-h-[900px]
-            grid grid-cols-1 lg:grid-cols-20"
+            className="h-screen absolute grid grid-cols-1 lg:grid-cols-20"
           >
             {/* Left: Content – 11 columns out of 20 (~55%) */}
-            <div className="lg:col-span-11 flex flex-col">
+            <div className="lg:col-span-11 flex flex-col pt-35">
               {/* Bottom Description + Buttons */}
               <div className="m-3">
-                <div className="rounded-lg border border-background-600 bg-background-900/60 p-5 pb-3">
-                  <h3 className="text-2xl sm:text-3xl font-light leading-tight text-foreground-50 mb-5">
+                <div className="rounded-lg p-6 pb-3">
+                  <h1 className="text-2xl sm:text-3xl font-light leading-tight text-foreground-50 mb-10">
                     Build beautiful, production-grade <br />
                     products at{" "}
                     <span className="inline-block px-2 py-0.5 rounded-sm bg-accent-500/30 text-foreground-50 font-medium">
                       lightning speed
                     </span>
-                  </h3>
-                  <p className="text-sm text-foreground-400 max-w-2xl leading-relaxed">
-                    Whether you're prototyping at lightning speed or building production-grade applications that need to scale,
-                    this is the component library that feels like an extension of your own codebase — beautiful, accessible,
+                  </h1>
+                  <p className="text-sm text-foreground-400 max-w-[66ch]! leading-relaxed">
+                    Component library that feels like an extension of your own codebase — beautiful, accessible,
                     and obsessively polished, ready to ship the moment you install it.
                   </p>
                   {/* Action Buttons */}
@@ -122,7 +120,7 @@ export default function Home() {
               <Divider spacing="none" className="mb-4" />
 
               {/* Feature Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5 px-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5 px-5">
                 {features.map((feature, i) => {
                   const isDisabled = feature.disabled;
                   const hasLink = !!feature.link && !isDisabled;
@@ -189,7 +187,7 @@ export default function Home() {
             </div>
 
             {/* Right: Visual Panel – 9 columns out of 20 (~45%) but feels wider */}
-            <div className="hidden lg:block lg:col-span-9 relative border-l border-background-700 overflow-hidden">
+            <div className="ml-12 hidden lg:block lg:col-span-9 relative border-l border-background-700 overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-background-700/30 text-9xl font-black select-none">
                 </div>
@@ -199,7 +197,7 @@ export default function Home() {
         </main>
       </div>
       {/* Aura glow below hero */}
-      <div className="bottom-0 left-0 absolute -z-10 pointer-events-none">
+      <div className="hidden bottom-0 left-0 absolute -z-10 pointer-events-none">
         <Aura />
       </div>
     </div>

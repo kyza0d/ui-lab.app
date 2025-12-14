@@ -6,13 +6,6 @@ import { Logo } from "@/components/ui/logo";
 export function Footer() {
   return (
     <footer className="relative border-x mx-auto border-t border-background-700 pb-10 pt-10 overflow-hidden">
-      <video
-        autoPlay
-        muted
-        loop
-        className="hidden absolute inset-0 w-full h-full object-cover -z-10"
-        src="/nature.mp4"
-      />
       <div className="absolute inset-0 bg-background-950/80 -z-10" />
 
       <div className="relative flex max-w-[1700px] mx-auto z-10 px-2">

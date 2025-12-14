@@ -34,6 +34,11 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
 
+
+  --color-aura-1: var(--accent-50);   /* Very light ethereal cyan-tinted highlight */
+  --color-aura-2: var(--accent-300);  /* Mid vibrant blue-magenta shift */
+  --color-aura-3: var(--accent-500);  /* Bold electric cyan-blue (surreal neon pop) */
+
   /* Vitesse Dark Theme Fallback Colors - matches defaultPreferences */
   --color-background-50: var(--background-50, oklch(16.0% 0.000 0.0));
   --color-background-100: var(--background-100, oklch(29.0% 0.000 0.0));

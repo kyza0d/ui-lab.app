@@ -1,10 +1,11 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { type SimpleThemeColors } from "@/constants/themes";
+import { type SimpleThemeColors, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
 import { themes } from "@/constants/themes";
 import { getSourceConfig } from "./theme-cache";
 import { ensureSemanticColorIntegrity } from "./semantic-color-utils";
+import { type GlobalColorAdjustments } from "./color-utils";
 
 interface HeaderContextType {
   isSettingsPanelOpen: boolean;
@@ -28,6 +29,8 @@ interface HeaderContextType {
   setBorderWidth: (value: number) => void;
   spacingScale: number;
   setSpacingScale: (value: number) => void;
+  globalAdjustments: GlobalColorAdjustments;
+  setGlobalAdjustments: (adjustments: GlobalColorAdjustments) => void;
 }
 
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
@@ -46,6 +49,7 @@ const defaultPreferences = {
   radius: 0.2,
   borderWidth: 1,
   spacingScale: 1,
+  globalAdjustments: DEFAULT_GLOBAL_ADJUSTMENTS,
 };
 
 function loadPreferencesFromStorage() {
@@ -70,6 +74,7 @@ function loadPreferencesFromStorage() {
     radius: sourceConfig.layout.radius,
     borderWidth: sourceConfig.layout.borderWidth,
     spacingScale: sourceConfig.layout.spacingScale,
+    globalAdjustments: sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
   };
 }
 
@@ -85,6 +90,7 @@ export function HeaderProvider({ children }: { children: React.ReactNode }) {
   const [radius, setRadius] = useState(defaultPreferences.radius);
   const [borderWidth, setBorderWidth] = useState(defaultPreferences.borderWidth);
   const [spacingScale, setSpacingScale] = useState(defaultPreferences.spacingScale);
+  const [globalAdjustments, setGlobalAdjustments] = useState<GlobalColorAdjustments>(defaultPreferences.globalAdjustments);
 
   useEffect(() => {
     const savedPrefs = loadPreferencesFromStorage();
@@ -97,6 +103,7 @@ export function HeaderProvider({ children }: { children: React.ReactNode }) {
       setRadius(savedPrefs.radius);
       setBorderWidth(savedPrefs.borderWidth);
       setSpacingScale(savedPrefs.spacingScale);
+      setGlobalAdjustments(savedPrefs.globalAdjustments);
     }
     setIsThemeInitialized(true);
   }, []);
@@ -113,6 +120,7 @@ export function HeaderProvider({ children }: { children: React.ReactNode }) {
     radius, setRadius,
     borderWidth, setBorderWidth,
     spacingScale, setSpacingScale,
+    globalAdjustments, setGlobalAdjustments,
   };
 
   return <HeaderContext.Provider value={value}>{children}</HeaderContext.Provider>;

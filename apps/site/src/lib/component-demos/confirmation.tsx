@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react"
 import { Confirmation } from "ui-lab-components"
 import { ComponentDetail } from "@/types/component"

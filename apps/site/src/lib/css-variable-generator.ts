@@ -1,4 +1,4 @@
-import { type SimpleThemeColors } from "@/constants/themes";
+import { type SimpleThemeColors, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
 import { generateThemePalettes, paletteToCssVars } from "@/lib/color-utils";
 
 export interface ThemeConfig {
@@ -111,9 +111,11 @@ function computeBorderVars(layout: ThemeConfig['layout']): Record<string, string
 }
 
 function computeColorVars(colors: SimpleThemeColors, mode: "light" | "dark"): Record<string, string> {
+  const globalAdjustments = colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS;
   const palettes = generateThemePalettes(
     colors.background, colors.foreground, colors.accent, mode, 0,
-    colors.semantic, colors.accentChromaLimit ?? 0.30, colors.accentEasing, colors.accentChromaScaling
+    colors.semantic, colors.accentChromaLimit ?? 0.30, colors.accentEasing, colors.accentChromaScaling,
+    globalAdjustments
   );
 
   let allVars = {

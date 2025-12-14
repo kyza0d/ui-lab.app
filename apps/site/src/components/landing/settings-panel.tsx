@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState, memo, useMemo } from "react";
 import Link from "next/link";
 import { useHeader } from "@/lib/header-context";
-import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush } from "react-icons/fa6";
-import { themes } from "@/constants/themes";
-import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange } from "@/lib/color-utils";
+import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush, FaSun } from "react-icons/fa6";
+import { themes, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
+import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange, type GlobalColorAdjustments } from "@/lib/color-utils";
 import { getScaleName } from "@/lib/config-generator";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
 import { getSemanticColorSafely, getSemanticChromaLimit } from "@/lib/semantic-color-utils";
@@ -24,6 +24,17 @@ interface ColorRowProps {
   chromaLimit?: number;
   onChromaLimitChange?: (limit: number) => void;
   hueRange?: HueRange;
+}
+
+interface GlobalSliderProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+  formatValue: (value: number) => string;
+  onChange: (value: number) => void;
 }
 
 interface SliderControlProps {
@@ -71,18 +82,27 @@ export const SettingsPanel = () => {
     setSpacingScale,
     currentThemeMode,
     isThemeInitialized,
+    globalAdjustments,
+    setGlobalAdjustments,
   } = useHeader();
 
   const panelRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
   const [localColors, setLocalColors] = useState(currentThemeColors || themes["Vitesse"].dark);
   const [expandedColor, setExpandedColor] = useState<string | null>(null);
+  const [localGlobalAdjustments, setLocalGlobalAdjustments] = useState<GlobalColorAdjustments>(globalAdjustments);
 
   useEffect(() => {
     if (isThemeInitialized && currentThemeColors) {
       setLocalColors(currentThemeColors);
     }
   }, [isThemeInitialized, currentThemeColors]);
+
+  useEffect(() => {
+    if (isThemeInitialized) {
+      setLocalGlobalAdjustments(globalAdjustments);
+    }
+  }, [isThemeInitialized, globalAdjustments]);
 
   const { applyAndPersistColors, applyAndPersistTypography, applyAndPersistLayout } =
     useThemeStorage({
@@ -99,6 +119,15 @@ export const SettingsPanel = () => {
       },
       currentThemeMode,
     });
+
+  const handleGlobalAdjustmentChange = (key: keyof GlobalColorAdjustments, value: number) => {
+    const updated = { ...localGlobalAdjustments, [key]: value };
+    setLocalGlobalAdjustments(updated);
+    setGlobalAdjustments(updated);
+    const updatedColors = { ...localColors, globalAdjustments: updated };
+    setLocalColors(updatedColors);
+    applyAndPersistColors(updatedColors);
+  };
 
   const handleColorChange = (type: string, newColor: OklchColor) => {
     const updated = { ...localColors };
@@ -177,9 +206,39 @@ export const SettingsPanel = () => {
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar">
+      <div className="flex-1 overflow-y-auto custom-scrollbar  pt-[8px]">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as ConfigTab)}>
           <TabsContent value="colors" className="m-0 space-y-[8px]">
+            <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
+              <div className={`${MICRO_LABEL} mb-3 flex items-center gap-2`}>
+                <FaSun size={12} className="text-foreground-400" />
+                Global Adjustments
+              </div>
+              <div className="space-y-3">
+                <GlobalSlider
+                  label="Lightness"
+                  value={localGlobalAdjustments.lightnessShift}
+                  min={-0.015}
+                  max={0.015}
+                  step={0.001}
+                  unit="%"
+                  formatValue={(v) => `${v >= 0 ? '+' : ''}${(v * 100).toFixed(1)}%`}
+                  onChange={(v) => handleGlobalAdjustmentChange('lightnessShift', v)}
+                />
+                <GlobalSlider
+                  label="Chroma"
+                  value={localGlobalAdjustments.chromaBoost}
+                  min={0.7}
+                  max={1.5}
+                  step={0.05}
+                  unit="×"
+                  formatValue={(v) => `×${v.toFixed(2)}`}
+                  onChange={(v) => handleGlobalAdjustmentChange('chromaBoost', v)}
+                />
+              </div>
+            </div>
+            <Divider />
+            <div className={`${MICRO_LABEL} px-2 pt-2 opacity-70`}>Core Colors</div>
             {(["background", "foreground", "accent"] as const).map((colorType) => (
               <ColorRow
                 key={colorType}
@@ -331,7 +390,6 @@ const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }
           </div>
         </button>
 
-        {/* Animated Content Expansion */}
         <div
           className={`transition-all border-t border-background-700 duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden ${isExpanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}
         >
@@ -363,6 +421,28 @@ const SliderControl = memo(({ label, value, min, max, step, unit, onChange }: Sl
         max={max}
         step={step}
         size="md"
+      />
+    </div>
+  );
+});
+
+const GlobalSlider = memo(({ label, value, min, max, step, formatValue, onChange }: GlobalSliderProps) => {
+  const isNeutral = Math.abs(value - (label === "Lightness" ? 0 : 1)) < 0.01;
+  return (
+    <div className="space-y-1.5 group">
+      <div className="flex justify-between items-center">
+        <label className="text-[12px] font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">{label}</label>
+        <span className={`text-[11px] px-1.5 py-0.5 rounded-[4px] ${isNeutral ? 'text-foreground-500' : 'text-accent-400 bg-accent-900/30'}`}>
+          {formatValue(value)}
+        </span>
+      </div>
+      <Slider.Root
+        value={[value]}
+        onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
+        min={min}
+        max={max}
+        step={step}
+        size="sm"
       />
     </div>
   );
@@ -415,7 +495,6 @@ const ColorPicker = memo(({ color, onChange, hueRange }: ColorPickerProps) => {
           className="absolute inset-0 w-full opacity-0 cursor-pointer z-10 appearance-none bg-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-8 [&::-webkit-slider-thumb]:rounded-[6px] [&::-webkit-slider-thumb]:bg-accent-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] [&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:-mt-2.5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-8 [&::-moz-range-thumb]:rounded-[6px] [&::-moz-range-thumb]:bg-accent-500 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] [&::-moz-range-thumb]:border-0 [&::-moz-range-track]:bg-transparent [&::-moz-range-track]:border-0"
         />
         <div className="absolute inset-0 rounded-[3px]" style={{ background }} />
-        {/* Indicator Line */}
         <div
           className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_4px_rgba(0,0,0,0.5)] pointer-events-none"
           style={{ left: `${((value - min) / (max - min)) * 100}%` }}
@@ -424,30 +503,8 @@ const ColorPicker = memo(({ color, onChange, hueRange }: ColorPickerProps) => {
     </div>
   );
 
-  const isSemanticColor = !!hueRange;
-
   return (
     <div className="space-y-3">
-      {!isSemanticColor && (
-        <>
-          <GradientSlider
-            value={color.l}
-            min={0.1}
-            max={0.99}
-            step={0.01}
-            background={`linear-gradient(to right, oklch(10% ${color.c} ${color.h}), oklch(99% ${color.c} ${color.h}))`}
-            onChangeValue={(l: number) => onChange({ ...color, l })}
-          />
-          <GradientSlider
-            value={color.c}
-            min={0}
-            max={0.4}
-            step={0.01}
-            background={`linear-gradient(to right, oklch(${color.l * 100}% 0 ${color.h}), oklch(${color.l * 100}% 0.4 ${color.h}))`}
-            onChangeValue={(c: number) => onChange({ ...color, c })}
-          />
-        </>
-      )}
       <GradientSlider
         value={constrainHue(color.h)}
         min={hueRange?.min ?? 0}

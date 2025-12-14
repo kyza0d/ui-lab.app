@@ -1,4 +1,4 @@
-import { type OklchColor, type ShadeScale, type SemanticColors, type EasingFunction, type ChromaScalingFunction, PaletteEasing, ChromaScaling } from '@/lib/color-utils';
+import { type OklchColor, type ShadeScale, type SemanticColors, type EasingFunction, type ChromaScalingFunction, type GlobalColorAdjustments, PaletteEasing, ChromaScaling, DEFAULT_GLOBAL_ADJUSTMENTS } from '@/lib/color-utils';
 
 export const DEFAULT_THEME_NAME = "Vitesse";
 export const DEFAULT_THEME_VARIANT = "light";
@@ -14,7 +14,10 @@ export interface SimpleThemeColors {
   accentEasing?: EasingFunction;
   accentChromaScaling?: ChromaScalingFunction;
   semantic?: SemanticColors;
+  globalAdjustments?: GlobalColorAdjustments;
 }
+
+export { DEFAULT_GLOBAL_ADJUSTMENTS };
 
 export type ThemeColors = SimpleThemeColors
 
