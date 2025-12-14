@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { getComponentsByCategory, categoryMap, categoryOrder } from "@/lib/component-registry";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Divider, Gallery } from "ui-lab-components";
+import { GalleryItemWithPrefetch } from "./gallery-item";
 
 export default function ComponentsPage() {
   const router = useRouter();
@@ -50,22 +51,15 @@ export default function ComponentsPage() {
                     {/* Components Grid */}
                     <Gallery columns={{ base: 1, md: 2, lg: 3 }} gap="1.5rem">
                       {componentsInCategory.map((component) => (
-                        <Gallery.Item
+                        <GalleryItemWithPrefetch
                           key={component.id}
-                          onPress={(href) => href && router.push(href)}
+                          id={component.id}
                           href={`/components/${component.id}`}
-                        >
-                          <Gallery.View style={{ aspectRatio: "auto" }} className="px-4 flex items-center justify-center min-h-30 border-b border-background-700 gallery-preview">
-                            {component.preview}
-                          </Gallery.View>
-
-                          <Gallery.Body>
-                            <h4>{component.name}</h4>
-                            <p className="text-sm text-foreground-400 line-clamp-2">
-                              {component.description}
-                            </p>
-                          </Gallery.Body>
-                        </Gallery.Item>
+                          name={component.name}
+                          description={component.description}
+                          preview={component.preview}
+                          onPress={(href) => href && router.push(href)}
+                        />
                       ))}
                     </Gallery>
                   </div>

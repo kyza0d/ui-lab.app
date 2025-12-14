@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import {
@@ -9,6 +9,7 @@ import {
   categoryMap,
   type ComponentCategory,
 } from "@/lib/component-registry";
+import { usePrefetchOnHover } from "@/hooks/usePrefetchOnHover";
 import { FaBook, FaShapes, FaPaintbrush } from "react-icons/fa6";
 
 type MainNavItem = "documentation" | "components" | "customization";
@@ -124,7 +125,50 @@ function isItemActive(itemId: string, pathname: string, activeNav: MainNavItem):
   return pathname.includes(`/${itemId}`);
 }
 
+function SidebarItemLink({
+  href,
+  className,
+  children,
+  onPrefetch,
+}: {
+  href: string;
+  className: string;
+  children: React.ReactNode;
+  onPrefetch: () => void;
+}) {
+  const router = useRouter();
+
+  return (
+    <>
+      {/* Hidden link for prefetch on hover */}
+      <Link
+        href={href}
+        prefetch={false}
+        onMouseEnter={onPrefetch}
+        style={{ display: "none" }}
+        aria-hidden
+      />
+      {/* Visible element that navigates programmatically */}
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => router.push(href)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            router.push(href);
+          }
+        }}
+        onMouseEnter={onPrefetch}
+        className={className}
+      >
+        {children}
+      </div>
+    </>
+  );
+}
+
 export function Sidebar() {
+  const router = useRouter();
   const pathname = usePathname();
   const mainNav = getMainNav();
   const activeNav = getActiveSectionForPathname(pathname);
@@ -205,20 +249,22 @@ export function Sidebar() {
                   {section.items.map((item) => {
                     const active = isItemActive(item.id, pathname, activeNav);
                     const href = getHrefForItem(activeNav, item.id);
+                    const { onMouseEnter } = usePrefetchOnHover(href);
 
                     return (
-                      <Link
+                      <SidebarItemLink
                         key={item.id}
                         href={href}
+                        onPrefetch={onMouseEnter}
                         className={cn(
-                          "block px-3 py-1.5 text-sm rounded-md transition-colors",
+                          "block px-3 py-1.5 text-sm rounded-md transition-colors cursor-pointer",
                           active
                             ? "text-foreground-50 bg-background-800 font-medium"
                             : "text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50"
                         )}
                       >
                         {item.label}
-                      </Link>
+                      </SidebarItemLink>
                     );
                   })}
                 </div>
