@@ -1,10 +1,10 @@
-'use client';
-
-import { ArrowRight, Rows } from "lucide-react";
-import { CodeBlock } from "@/components/CodeBlock";
+import { ArrowRight } from "lucide-react";
+import { MDXRemote } from 'next-mdx-remote-client/rsc'
+import { getDocBySlug, extractHeadings } from "@/lib/docs";
+import { mdxComponents } from '@/lib/mdx-components'
 import { TableOfContents } from "@/components/TableOfContents";
-import { Table, type Column } from "@/components/table";
 import { Logo } from "@/components/ui/logo";
+import { RequirementsSection } from "./requirements-section";
 
 const TailwindSvg = () => (
   <svg
@@ -56,7 +56,6 @@ const TypeScriptSvg = () => (
   </svg>
 );
 
-// Reusable link component with arrow icon
 const DocLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <a
     href={href}
@@ -67,33 +66,15 @@ const DocLink = ({ href, children }: { href: string; children: React.ReactNode }
   </a>
 );
 
-interface Requirement {
-  category: string;
-  technology: string;
-  minimum: string;
-}
+export default async function DocsPage() {
+  const doc = await getDocBySlug('index');
 
-function DocsContent() {
-  const tocItems = [
-    { id: "core-principles", title: "Core principles" },
-    { id: "background-system", title: "Background system" },
-    { id: "global-token-contract", title: "Global token contract" },
-    { id: "runtime-requirements", title: "Runtime requirements" },
-    { id: "documentation", title: "Documentation" },
-  ];
+  if (!doc) {
+    return <div>Documentation not found</div>;
+  }
 
-  const requirementData: Requirement[] = [
-    { category: "Runtime", technology: "React", minimum: "19.0.0-rc" },
-    { category: "Styling", technology: "Tailwind CSS", minimum: "4.0.0-alpha.20+" },
-    { category: "Language", technology: "TypeScript", minimum: "5.6" },
-    { category: "Bundler", technology: "Next.js App Router / Vite", minimum: "2024.12+" },
-  ];
-
-  const requirementColumns: Column<Requirement>[] = [
-    { key: "category", label: "Category" },
-    { key: "technology", label: "Technology" },
-    { key: "minimum", label: "Minimum", render: (value) => <code className="text-foreground-400">{value}</code> },
-  ];
+  const headings = extractHeadings(doc.content);
+  const tocItems = headings.map(h => ({ id: h.id, title: h.title }));
 
   const techStack = [
     { Icon: TailwindSvg, name: "Tailwind CSS", version: "v4.1", link: "https://tailwindcss.com" },
@@ -118,10 +99,10 @@ function DocsContent() {
             <span>Build 2f8e9a1</span>
           </div>
 
-          <div className="w-full h-50 bg-gradient-to-b border border-background-700 from-background-900 to-background-950 rounded-xl mb-12  relative overflow-hidden">
+          <div className="w-full h-50 bg-linear-to-b border border-background-700 from-background-900 to-background-950 rounded-xl mb-12  relative overflow-hidden">
             <Logo className="absolute text-foreground-500 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-90 h-90" />
           </div>
-          {/* Title */}
+
           <div className="mb-10">
             <div className="text-base font-medium text-foreground-50">UI Lab</div>
             <div className="mt-1 text-foreground-300">
@@ -131,86 +112,13 @@ function DocsContent() {
 
           <div className="h-px bg-foreground-800 my-12"></div>
 
-          {/* Core principles */}
-          <section id="core-principles" className="space-y-8 text-foreground-300">
-            <div>
-              <div className="mb-2 font-semibold text-foreground-50">Semantic background scale</div>
-              <div className="text-sm">
-                Single 50–950 numeric hierarchy defines visual depth. Values are perceptually uniform in oklch space and automatically invert semantic role between light and dark themes.
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-2 font-semibold text-foreground-50">Zero-runtime styling</div>
-              <div className="text-sm">
-                Exclusively uses Tailwind CSS v4 Oxide engine. All design tokens declared via native @theme directive. No CSS-in-JS, no style injection at runtime.
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-2 font-semibold text-foreground-50">LLM-native contract</div>
-              <div className="text-sm">
-                Includes <code className="text-foreground-400">llms.txt</code> specification and exhaustive declaration-map output. Enables deterministic component generation in Cursor, Copilot, and Claude.
-              </div>
-            </div>
-          </section>
-
-          <div className="h-px bg-foreground-800 my-12"></div>
-
-          {/* Background system */}
-          <section id="background-system" className="space-y-6 text-sm text-foreground-300">
-            <div className="font-semibold text-foreground-50">Background scale semantics</div>
-            <div className="leading-6">
-              The scale is defined once in root @theme. Lower values represent the furthest visual plane in light mode and the nearest elevated plane in dark mode.
-            </div>
-
-            <CodeBlock filename="theme.css" language="css">
-              {`@theme {
-  --background-50:   oklch(99.2% 0.001 240);
-  --background-100:  oklch(97.5% 0.002 240);
-  --background-200:  oklch(95.0% 0.004 240);
-  /* ... up to 950 */
-  --background-950:  oklch(11.8% 0.018 240);
-
-  /* Semantic aliases */
-  --background-surface:   var(--background-100);
-  --background-elevated:  var(--background-50);
-  --background-contrast:  var(--background-950);
-  --background-border:    var(--background-200 / 0.12);
-}`}
-            </CodeBlock>
-          </section>
-
-          <div className="h-px bg-foreground-800 my-12"></div>
-
-          {/* Global token contract */}
-          <section id="global-token-contract" className="space-y-6 text-sm text-foreground-300">
-            <div className="font-semibold text-foreground-50">Root token contract</div>
-
-            <CodeBlock filename="app/globals.css" language="css">
-              {`@theme {
-  /* Brand */
-  --color-primary: oklch(68% 0.22 245);
-  --color-danger:  oklch(65% 0.28 25);
-
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-
-  /* Shadows */
-  --shadow-card: 0 4px 16px rgb(0 0 0 / 0.10);
-  --shadow-modal: 0 12px 48px rgb(0 0 0 / 0.24);
-
-  /* Transitions */
-  --transition-fast: 120ms cubic-bezier(0.2, 0, 0.4, 1);
-}`}
-            </CodeBlock>
-
-            <div className="text-sm text-foreground-400">
-              All component defaults are overridable at the root level.
-            </div>
-          </section>
+          {/* MDX Content */}
+          <div className="prose dark:prose-invert prose-lg max-w-none">
+            <MDXRemote
+              source={doc.content}
+              components={mdxComponents}
+            />
+          </div>
 
           <div className="h-px bg-foreground-800 my-12"></div>
 
@@ -239,12 +147,9 @@ function DocsContent() {
           </section>
 
           {/* Requirements table */}
-          <section id="runtime-requirements" className="text-sm">
-            <Table<Requirement> data={requirementData} columns={requirementColumns} />
-          </section>
+          <RequirementsSection />
 
           <div className="h-px bg-foreground-800 my-12"></div>
-
 
           {/* Navigation section */}
           <section id="documentation" className="space-y-6 text-sm">
@@ -268,10 +173,8 @@ function DocsContent() {
             </div>
           </section>
         </main>
-        <TableOfContents items={tocItems} />
+        {tocItems.length > 0 && <TableOfContents items={tocItems} />}
       </div>
     </div>
   );
 }
-
-export default DocsContent;
