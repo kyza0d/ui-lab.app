@@ -1,0 +1,26 @@
+.docs-typography h1,
+.docs-typography h2,
+.docs-typography h3,
+.docs-typography h4,
+.docs-typography h5,
+.docs-typography h6 {
+  font-size: var(--text-sm) !important
+}
+
+.docs-typography h1,
+.docs-typography h2,
+.docs-typography h3,
+.docs-typography h4,
+.docs-typography h5,
+.docs-typography h6 {
+  font-size: var(--text-md) !important;
+  margin: 0 !important;
+  font-weight: 600;
+}
+
+
+.docs-typography p {
+  font-size: var(--text-sm);
+  max-width: 65ch;
+  margin: 0 !important;
+}

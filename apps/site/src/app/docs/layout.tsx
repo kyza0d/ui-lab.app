@@ -2,6 +2,7 @@
 
 import { Sidebar } from "@/components/Sidebar";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import "../docs.css";
 
 export default function DocsLayout({
   children,
@@ -11,7 +12,7 @@ export default function DocsLayout({
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto_1fr]">
       <Sidebar />
-      <div>
+      <div className="docs-typography">
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
