@@ -8,13 +8,12 @@ import { Table, type Column } from "@/components/table";
 import { InlineCodeHighlight } from "@/components/InlineCodeHighlight";
 import { EnumUnionHighlight } from "@/components/EnumUnionHighlight";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex } from "ui-lab-components";
-import { useState, use } from "react";
+import { useState } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 import { FaGithub } from "react-icons/fa6";
 import { SiAdobe } from "react-icons/si";
 
-export function ComponentDetailClient({ params }: { params: Promise<{ component: string }> }) {
-  const { component: componentId } = use(params);
+export function ComponentDetailClient({ componentId }: { componentId: string }) {
   const component = getComponentById(componentId);
 
   if (!component) {
