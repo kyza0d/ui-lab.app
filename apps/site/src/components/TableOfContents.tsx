@@ -50,13 +50,13 @@ export function TableOfContents({ items }: TableOfContentsProps) {
       <nav className="space-y-6 px-4">
         <div>
           <span className="text-md font-semibold text-foreground-50">On this page</span>
-          <div className="space-y-0 mt-2">
+          <div className="flex flex-col space-y-0 mt-2">
             {items.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleClick(item.id)}
                 className={cn(
-                  "text-left text-sm px-2 py-1.5 rounded-md transition-colors",
+                  "block w-full text-left text-sm px-2 py-1.5 rounded-md transition-colors",
                   activeId === item.id
                     ? "text-foreground-50 bg-background-800"
                     : "text-foreground-400 hover:text-foreground-300"

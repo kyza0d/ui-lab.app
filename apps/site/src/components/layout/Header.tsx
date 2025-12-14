@@ -395,7 +395,6 @@ export default function Header() {
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
       <SettingsPanel />
-      <div className="h-15" /> {/* spacer */}
     </>
   );
 }

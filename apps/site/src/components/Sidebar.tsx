@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import {
   getComponentsGroupedByCategory,
@@ -128,6 +129,26 @@ export function Sidebar() {
   const mainNav = getMainNav();
   const activeNav = getActiveSectionForPathname(pathname);
   const sections = getSectionsForNav(activeNav);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const storageKey = `sidebar-scroll-${activeNav}`;
+
+    const savedPosition = sessionStorage.getItem(storageKey);
+    if (savedPosition) {
+      container.scrollTop = parseInt(savedPosition, 10);
+    }
+
+    const handleScroll = () => {
+      sessionStorage.setItem(storageKey, container.scrollTop.toString());
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [activeNav]);
 
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-background-700">
@@ -172,7 +193,10 @@ export function Sidebar() {
         </div>
 
         {/* Scrollable Contextual Content */}
-        <div className="flex-1 overflow-y-auto py-6 px-5 mb-15">
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-y-auto py-6 px-5 mb-15"
+        >
           <div className="space-y-8">
             {sections.map((section) => (
               <div key={section.label}>

@@ -190,7 +190,7 @@ export const tabsDetail: ComponentDetail = {
         The Tabs component provides a clean and intuitive way to organize content into multiple sections. Users can switch between content areas without leaving the page, making it perfect for dashboards, settings panels, and documentation.
       </p>
       <p>
-        Built on Radix UI's Tabs primitive, it ensures proper keyboard navigation and accessibility. Supports icon badges, disabled states, and two visual variants: default (boxed) and underline.
+        Built using React Aria hooks, it ensures proper keyboard navigation and accessibility. Supports icon badges, disabled states, and two visual variants: default (boxed) and underline.
       </p>
     </div>
   ),

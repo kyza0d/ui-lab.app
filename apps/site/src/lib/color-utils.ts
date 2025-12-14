@@ -4,6 +4,36 @@ export type ColorPalette = Record<ShadeScale, OklchColor>;
 export type ThemeMode = 'light' | 'dark';
 export type EasingFunction = (t: number) => number;
 export type ChromaScalingFunction = (t: number) => number;
+export type ColorRole = 'background' | 'foreground' | 'accent' | 'success' | 'danger' | 'warning' | 'info';
+
+export interface ChromaBounds { min: number; max: number }
+export const CHROMA_BOUNDARIES: Record<ColorRole, ChromaBounds> = {
+  background: { min: 0.001, max: 0.18 },
+  foreground: { min: 0.01, max: 0.12 },
+  accent: { min: 0.01, max: 0.32 },
+  success: { min: 0.01, max: 0.28 },
+  danger: { min: 0.01, max: 0.28 },
+  warning: { min: 0.01, max: 0.26 },
+  info: { min: 0.01, max: 0.24 },
+};
+
+export interface GlobalColorAdjustments {
+  lightnessShift: number;
+  chromaBoost: number;
+}
+
+export const DEFAULT_GLOBAL_ADJUSTMENTS: GlobalColorAdjustments = { lightnessShift: 0, chromaBoost: 1.0 };
+
+export function clampChromaToRole(chroma: number, role: ColorRole): number {
+  const bounds = CHROMA_BOUNDARIES[role];
+  return Math.max(bounds.min, Math.min(bounds.max, chroma));
+}
+
+export function applyGlobalAdjustments(color: OklchColor, role: ColorRole, global: GlobalColorAdjustments): OklchColor {
+  const adjustedL = clamp(color.l + global.lightnessShift);
+  const adjustedC = clampChromaToRole(color.c * global.chromaBoost, role);
+  return { l: adjustedL, c: adjustedC, h: color.h };
+}
 
 const SHADES: ShadeScale[] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n));
@@ -96,6 +126,16 @@ export const ChromaScaling = {
   desaturateModerate: (t: number) => t < .2 ? .35 + (t / .2) * .25 : t < .5 ? .6 + ((t - .2) / .3) * .28 : .88 + ((t - .5) / .5) * .12,
 };
 
+export const SimplifiedChromaScaling = {
+  linear: () => 1.0,
+  desaturateBright: (t: number) => t < .2 ? .3 + t * 1.5 : t < .5 ? .6 + (t - .2) * 1.0 : .9 + (t - .5) * .2,
+};
+
+export const SimplifiedPaletteEasing = {
+  linear: (t: number) => t,
+  accent: (t: number) => t < .2 ? .9 - t * .5 : t < .5 ? .8 - (t - .2) * 1.0 : .5 + (t - .5) * 1.0,
+};
+
 const SHADE_NORM: Record<ShadeScale, number> = { 50: 0, 100: .1, 200: .2, 300: .3, 400: .4, 500: .5, 600: .6, 700: .7, 800: .8, 900: .9, 950: 1 };
 const CHROMA_FACTORS = {
   acc: { 50: .75, 100: .8, 200: .9, 300: 1, 400: 1.05, 500: 1.1, 600: 1.05, 700: 1, 800: .95, 900: .85, 950: .75 },
@@ -146,19 +186,44 @@ export interface SemanticColorConfig { light: { color: OklchColor; chromaLimit?:
 export type SemanticColors = Record<SemanticColorType, SemanticColorConfig>;
 export type SemanticPalettes = Record<SemanticColorType, ColorPalette>;
 
+export interface ThemePaletteOptions {
+  mode?: ThemeMode;
+  shift?: number;
+  semantic?: SemanticColors;
+  accLimit?: number;
+  accEase?: EasingFunction;
+  accScale?: ChromaScalingFunction;
+  global?: GlobalColorAdjustments;
+}
+
 export function generateThemePalettes(
   bg: OklchColor, fg: OklchColor, acc: OklchColor, mode: ThemeMode = 'dark', shift = 0,
-  sem?: SemanticColors, accLimit = 0.3, accEase?: EasingFunction, accScale?: ChromaScalingFunction
+  sem?: SemanticColors, accLimit = 0.1, accEase?: EasingFunction, accScale?: ChromaScalingFunction,
+  global: GlobalColorAdjustments = DEFAULT_GLOBAL_ADJUSTMENTS
 ) {
+  const lightnessShift = global.lightnessShift + shift;
+  const bgLightnessShift = lightnessShift * 2.5;
+  const adjustedBg = applyGlobalAdjustments(bg, 'background', global);
+  const adjustedFg = applyGlobalAdjustments(fg, 'foreground', global);
+  const adjustedAcc = applyGlobalAdjustments(acc, 'accent', global);
+  const effectiveBgLimit = clampChromaToRole(CHROMA_BOUNDARIES.background.max * global.chromaBoost, 'background');
+  const effectiveFgLimit = clampChromaToRole(CHROMA_BOUNDARIES.foreground.max * global.chromaBoost, 'foreground');
+  const effectiveAccLimit = clampChromaToRole(accLimit * global.chromaBoost, 'accent');
+
   const result: any = {
-    background: generateColorPalette(bg, 500, mode, shift),
-    foreground: generateColorPalette(fg, 500, mode, shift),
-    accent: generateColorPalette(acc, 500, mode, shift, accLimit, true, false, accEase, accScale),
+    background: generateColorPalette(adjustedBg, 500, mode, bgLightnessShift, effectiveBgLimit),
+    foreground: generateColorPalette(adjustedFg, 500, mode, lightnessShift, effectiveFgLimit),
+    accent: generateColorPalette(adjustedAcc, 500, mode, lightnessShift, effectiveAccLimit, true, false, accEase, accScale),
   };
+
   if (sem) {
-    result.semantic = (['success', 'danger', 'warning', 'info'] as const).reduce((a, k) => ({
-      ...a, [k]: generateColorPalette(sem[k][mode].color, 500, mode, shift, sem[k][mode].chromaLimit ?? 0.025, true)
-    }), {});
+    result.semantic = (['success', 'danger', 'warning', 'info'] as const).reduce((a, k) => {
+      const semColor = sem[k][mode].color;
+      const semLimit = sem[k][mode].chromaLimit ?? 0.025;
+      const adjustedSemColor = applyGlobalAdjustments(semColor, k, global);
+      const effectiveSemLimit = clampChromaToRole(semLimit * global.chromaBoost, k);
+      return { ...a, [k]: generateColorPalette(adjustedSemColor, 500, mode, lightnessShift, effectiveSemLimit, true) };
+    }, {});
   }
   return result as { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes };
 }

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { Button } from "ui-lab-components";
 import { buttonDetail } from "./component-demos/button";
 import { Group } from "ui-lab-components";
@@ -62,8 +63,10 @@ import { Divider } from "ui-lab-components";
 import { dividerDetail } from "./component-demos/divider";
 import { Fold } from "ui-lab-components";
 import { foldDetail } from "./component-demos/fold";
+import { Gallery } from "ui-lab-components";
+import { galleryDetail } from "./component-demos/gallery";
 import { ComponentDetail } from "@/types/component";
-import { FaBell, FaCircleQuestion, FaFile, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
+import { FaBell, FaCircleQuestion, FaFile, FaImage, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
@@ -279,6 +282,17 @@ const previews: Record<string, React.ReactNode> = {
       <FaFile className="w-9 h-9 text-accent-500" />
     </div>
   ),
+  gallery: (
+    <Gallery columns={3}>
+      {[1, 2, 3].map((i) => (
+        <Gallery.Item key={i} className="p-4">
+          <Gallery.View aspectRatio="5/5">
+            <FaImage />
+          </Gallery.View>
+        </Gallery.Item>
+      ))}
+    </Gallery>
+  ),
 };
 
 export const componentRegistry: ComponentMetadata[] = [
@@ -303,25 +317,25 @@ export const componentRegistry: ComponentMetadata[] = [
   }] : [])
 ];
 
-export function getComponentsByCategory(category: ComponentCategory): ComponentMetadata[] {
+export const getComponentsByCategory = cache((category: ComponentCategory): ComponentMetadata[] => {
   return componentRegistry.filter(c => c.category === category)
-}
+});
 
-export function getComponentsGroupedByCategory(): Record<ComponentCategory, ComponentMetadata[]> {
+export const getComponentsGroupedByCategory = cache((): Record<ComponentCategory, ComponentMetadata[]> => {
   const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<ComponentCategory, ComponentMetadata[]>;
   categories.forEach(cat => {
     result[cat.id] = getComponentsByCategory(cat.id);
   });
   return result;
-}
+});
 
-export function getRelatedComponents(id: string): ComponentMetadata[] {
+export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
   const component = componentRegistry.find(c => c.id === id)
   if (!component) return []
   return component.relatedComponents
     .map(id => componentRegistry.find(c => c.id === id))
     .filter(Boolean) as ComponentMetadata[]
-}
+});
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
@@ -352,12 +366,13 @@ const componentDetails: Record<string, ComponentDetail> = {
   confirm: confirmComponentDetail,
   divider: dividerDetail,
   fold: foldDetail,
+  gallery: galleryDetail,
 };
 
-export function getComponentById(id: string): ComponentDetail | undefined {
+export const getComponentById = cache((id: string): ComponentDetail | undefined => {
   return componentDetails[id];
-}
+});
 
-export function getComponentMetadata(id: string): ComponentMetadata | undefined {
+export const getComponentMetadata = cache((id: string): ComponentMetadata | undefined => {
   return componentRegistry.find((component) => component.id === id);
-}
+});
