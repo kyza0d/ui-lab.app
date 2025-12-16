@@ -8,12 +8,12 @@ export function Footer() {
     <footer className="relative border-x mx-auto border-t border-background-700 pb-10 pt-10 overflow-hidden">
       <div className="absolute inset-0 bg-background-950/80 -z-10" />
 
-      <div className="relative flex max-w-[1700px] mx-auto z-10 px-2">
+      <div className="relative flex max-w-(--page-width) mx-auto z-10 px-2">
         <div className="mb-8 flex items-center gap-3">
           <Logo />
           <span className="text-md font-semibold text-foreground-300">UI Lab</span>
         </div>
-        <div className="grid grid-cols-3 w-fit max-w-3xl ml-auto gap-24 mb-14">
+        <div className="grid grid-cols-3 w-fit max-w-4xl ml-auto gap-24 mb-14">
           <div className="space-y-3">
             <p className="text-sm font-medium text-foreground-50">Components</p>
             <ul className="space-y-2">
@@ -62,7 +62,7 @@ export function Footer() {
         </div>
       </div>
       <div className="pt-6 border-t border-background-700">
-        <div className="flex justify-between w-full max-w-[1700px] mx-auto ">
+        <div className="flex justify-between w-full max-w-(--page-width) mx-auto ">
           <p className="text-sm text-foreground-500">
             © 2025 UI Lab. all rights reserved.
           </p>

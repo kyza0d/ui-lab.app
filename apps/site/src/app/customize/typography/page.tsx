@@ -2,7 +2,7 @@
 
 export default function TypographyPage() {
   return (
-    <div className="w-full bg-background-950 mx-auto max-w-7xl">
+    <div className="w-full bg-background-950 overflow-hidden mx-auto max-w-3xl">
       <main className="w-full">
         <div className="px-8 py-8 space-y-6">
           <div>

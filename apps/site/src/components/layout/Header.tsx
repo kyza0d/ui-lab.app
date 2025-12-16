@@ -1,16 +1,17 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LandingThemeToggle } from "../landing/theme-toggle";
 import { SettingsPanel } from "../landing/settings-panel";
 import { Logo } from "../ui/logo";
-import { Badge, Button, Divider } from "ui-lab-components";
+import { Badge, Divider, Input, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { useHeader } from "@/lib/header-context";
 import { cn } from "@/lib/utils";
 import { getComponentsGroupedByCategory } from "@/lib/component-registry";
 import {
   FaChevronDown,
-  FaSliders,
+  FaPaintbrush,
   FaPalette,
   FaFill,
   FaIcons,
@@ -18,11 +19,24 @@ import {
   FaBars,
   FaWrench,
   FaGithub,
+  FaMagnifyingGlass,
+  FaBagShopping,
+  FaTree,
 } from "react-icons/fa6";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectListBox,
+  SelectTrigger,
+  SelectValue,
+} from "ui-lab-components";
 import { HiX } from "react-icons/hi";
+import { useCommandPaletteControl } from "../CommandPaletteProvider";
+import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, DOMAINS } from "@/lib/route-config";
 
 const navigationData = [
-  { name: "marketplace", label: "Marketplace", href: "/marketplace" },
   { name: "documentation", label: "Documentation", isDropdown: true },
   { name: "components", label: "Components", isDropdown: true },
   { name: "tools", label: "Tools", isDropdown: true },
@@ -108,7 +122,7 @@ function ToolsDropdown({
                       "flex items-center gap-3 group"
                     )}
                   >
-                    <div className="group-hover:bg-background-600 flex-shrink-0 w-10 h-10 rounded-lg bg-background-800/50 flex items-center justify-center">
+                    <div className="group-hover:bg-background-600 w-10 h-10 rounded-lg bg-background-800/50 flex items-center justify-center">
                       <Icon className="h-5 w-5 text-foreground-100" />
                     </div>
                     <div className="flex flex-col">
@@ -178,7 +192,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       {isOpen && (
         <div
           className={cn(
-            "fixed top-15 left-0 right-0 z-50 pt-6 border-b-2 border-background-700/60 md:hidden",
+            "fixed top-15 left-0 right-0 z-50 pt-7 border-b-2 border-background-700/60 md:hidden",
             "overflow-y-auto max-h-[calc(100vh-3.75rem)] bg-background-950 animate-in slide-in-from-top-2"
           )}
         >
@@ -239,7 +253,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 return (
                   <Link
                     key={item.name}
-                    href={item.href}
+                    href={(item as any).href}
                     onClick={onClose}
                     className={cn(
                       "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
@@ -262,6 +276,8 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
 /* ---------- Main Header ---------- */
 export default function Header() {
+  const pathname = usePathname();
+  const isDocRoute = shouldShowHeaderTabs(pathname);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -295,102 +311,159 @@ export default function Header() {
       });
   }, []);
 
+  const { setIsOpen } = useCommandPaletteControl();
+
+  const handleInputClick = () => {
+    setIsOpen(true);
+  };
+
+  const activeTabValue = getActiveTabValue(pathname);
+
+
   return (
     <>
       {/* background bar */}
-      <div className="fixed inset-x-0 top-0 z-100 h-15 border-b border-background-700 bg-background-900" />
-      <header className="mx-auto max-w-[1600px] fixed top-0 left-1/2 -translate-x-1/2 z-100 flex h-15 w-full items-center justify-between px-4">
-        <div className="flex items-center space-x-4 md:space-x-6">
-          <Link
-            href="/"
-            className="mr-6 mb-1 flex items-center flex-shrink-0 transition-opacity hover:opacity-80"
-          >
-            <Logo />
-            <span className="text-md font-semibold text-foreground-100">UI Lab</span>
-            <Badge className="ml-2 mt-1 border-0 bg-transparent px-2! text-xs! font-semibold" pill size="sm">
-              v0.1.2
-            </Badge>
-          </Link>
-          {/* Desktop navigation */}
-          <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
-            {navigationData.map((item) => {
-              if (item.name === "tools") {
-                return (
-                  <div key={item.name} className="relative">
-                    <button
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                      className={cn(
-                        "flex items-center rounded-xl px-3 py-2 text-sm",
-                        "hover:bg-background-800 hover:text-foreground-50"
-                      )}
-                    >
-                      {item.label}
-                      <FaChevronDown
+      <div
+        className="fixed inset-x-0 top-0 z-100 border-b border-background-700 bg-background-900"
+        style={{ height: isDocRoute ? "var(--header-height)" : "3.75rem" }}
+      />
+
+      <header
+        className="items-start justify-between flex flex-col max-w-(--page-width) fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-4"
+        style={{ height: isDocRoute ? "var(--header-height)" : "3.75rem" }}
+      >
+        <div className="flex justify-between w-full pt-2.5">
+          <div className="flex items-center space-x-4 md:space-x-6">
+            <Link
+              href="/"
+              className="mr-6 mb-1 flex items-center transition-opacity hover:opacity-80"
+            >
+              <Logo />
+              <span className="text-md font-semibold text-foreground-100">UI Lab</span>
+              <Badge className="ml-2 mt-1 border-0 bg-transparent px-2! text-xs! font-semibold" pill size="sm">
+                v0.1.2
+              </Badge>
+            </Link>
+            {/* Desktop navigation */}
+            <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
+              {navigationData.map((item) => {
+                if (item.name === "tools") {
+                  return (
+                    <div key={item.name} className="relative">
+                      <button
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
                         className={cn(
-                          "ml-2 h-2.5 w-2.5 text-foreground-300",
-                          isToolsOpen && "rotate-180"
+                          "flex items-center rounded-xl px-3 py-2 text-sm",
+                          "hover:bg-background-800 hover:text-foreground-50"
                         )}
+                      >
+                        {item.label}
+                        <FaChevronDown
+                          className={cn(
+                            "ml-2 h-2.5 w-2.5 text-foreground-300",
+                            isToolsOpen && "rotate-180"
+                          )}
+                        />
+                      </button>
+                      <ToolsDropdown
+                        isOpen={isToolsOpen}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
                       />
-                    </button>
-                    <ToolsDropdown
-                      isOpen={isToolsOpen}
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                    />
-                  </div>
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.name === "documentation" ? "/docs" : `/components`}
+                    className={cn(
+                      "rounded-xl px-3 py-2 text-sm",
+                      "hover:bg-background-800 hover:text-foreground-50"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
                 );
-              }
-              return (
-                <Link
-                  key={item.name}
-                  href={item.name === "documentation" ? "/docs" : `/components`}
-                  className={cn(
-                    "rounded-xl px-3 py-2 text-sm",
-                    "hover:bg-background-800 hover:text-foreground-50"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+              })}
+              <Select trigger="hover" className="relative flex items-center">
+                <SelectTrigger className="bg-transparent border-0" chevron={<FaChevronDown size={10} className="relative top-1/2 -translate-y-1/2" />}>
+                  <SelectValue icon={<FaBagShopping />} placeholder="Marketplace" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectListBox>
+                    <SelectItem icon={<FaTree />} value="option1">Option 1</SelectItem>
+                    <SelectItem value="option2">Option 2</SelectItem>
+                    <SelectItem value="option3">Option 3</SelectItem>
+                  </SelectListBox>
+                </SelectContent>
+              </Select>
+
+            </nav>
+          </div>
+
+          {/* Right side: Settings, Theme Toggle, GitHub Stars */}
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setIsSettingsPanelOpen(!isSettingsPanelOpen)}
+              className="rounded-xl p-2 hover:bg-theme-border/30"
+              aria-label="Open settings"
+              title="Open theme settings"
+            >
+              <FaPaintbrush />
+            </button>
+
+            <LandingThemeToggle />
+
+            {/* GitHub Stars Button */}
+            <a
+              href="https://github.com/kyza0d/ui-lab.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center space-x-1.5 rounded-xl bg-background-700 border border-background-600 px-3 py-1.5 text-xs font-medium text-foreground-50 transition-all hover:bg-background-600 md:flex"
+              aria-label="Star on GitHub"
+            >
+              <FaGithub />
+              <span>{stars}</span>
+            </a>
+
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
+              className="md:hidden flex items-center justify-center rounded-lg p-2 text-foreground-300 hover:bg-background-800"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMobileMenuOpen ? <HiX size={24} /> : <FaBars size={24} />}
+            </button>
+          </div>
         </div>
-
-        {/* Right side: Settings, Theme Toggle, GitHub Stars */}
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setIsSettingsPanelOpen(!isSettingsPanelOpen)}
-            className="z-[250] rounded-xl p-2 hover:bg-theme-border/30"
-            aria-label="Open settings"
-            title="Open theme settings"
-          >
-            <FaSliders />
-          </button>
-
-          <LandingThemeToggle />
-
-          {/* GitHub Stars Button */}
-          <a
-            href="https://github.com/kyza0d/ui-lab.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:flex items-center space-x-1.5 rounded-xl bg-background-700 border border-background-600 px-3 py-1.5 text-xs font-medium text-foreground-50 transition-all hover:bg-background-600 md:flex"
-            aria-label="Star on GitHub"
-          >
-            <FaGithub />
-            <span>{stars}</span>
-          </a>
-
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen((v) => !v)}
-            className="md:hidden flex items-center justify-center rounded-lg p-2 text-foreground-300 hover:bg-background-800"
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMobileMenuOpen ? <HiX size={24} /> : <FaBars size={24} />}
-          </button>
-        </div>
+        {isDocRoute && activeTabValue && (
+          <Tabs value={activeTabValue} variant="underline">
+            <TabsList>
+              {getDomainsWithTabs().map((domain) => {
+                const Icon = domain.icon;
+                return (
+                  <Link key={domain.id} href={domain.id === 'docs' ? '/docs' : `/${domain.id}`}>
+                    <TabsTrigger icon={<Icon />} value={domain.id} className="text-sm mb-1">
+                      {domain.label}
+                    </TabsTrigger>
+                  </Link>
+                );
+              })}
+            </TabsList>
+            <div className="absolute bottom-2 right-3">
+              <Input
+                placeholder="Search documentation"
+                prefixIcon={<FaMagnifyingGlass size={14} />}
+                className="w-[190] lg:w-[290]"
+                size="md"
+                onClick={handleInputClick}
+                readOnly
+              />
+            </div>
+          </Tabs>
+        )}
       </header>
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

@@ -42,13 +42,56 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
   }
 
   const [activeTab, setActiveTab] = useState("examples");
-  const tocItems = component.examples.map((example) => ({
-    id: example.id,
-    title: example.title,
-  }));
+
+  const getTocItems = () => {
+    if (activeTab === "examples") {
+      return component.examples.map((example) => ({
+        id: example.id,
+        title: example.title,
+        level: 3,
+      }));
+    }
+
+    if (activeTab === "api") {
+      const items: any[] = [];
+      const api = generatedAPI[componentId];
+      if (api?.props && api.props.length > 0) {
+        items.push({ id: "api-props", title: "Props", level: 2 });
+      }
+      if (api?.subComponents && Object.keys(api.subComponents).length > 0) {
+        items.push({ id: "api-subcomponents", title: "Sub-Components", level: 2 });
+        Object.keys(api.subComponents).forEach((subComponentName) => {
+          items.push({ id: `api-${subComponentName}`, title: subComponentName, level: 3 });
+        });
+      }
+      return items;
+    }
+
+    if (activeTab === "styles") {
+      const items: any[] = [];
+      const styles = generatedStyles[componentId];
+      if (styles?.cssVariables && styles.cssVariables.length > 0) {
+        items.push({ id: "styles-css-variables", title: "CSS Variables", level: 2 });
+      }
+      if (styles?.classes && styles.classes.length > 0) {
+        items.push({ id: "styles-classes", title: "Classes", level: 2 });
+      }
+      if (styles?.variants && Object.keys(styles.variants).length > 0) {
+        items.push({ id: "styles-variants", title: "Variants", level: 2 });
+      }
+      if (styles?.sizes && styles.sizes.length > 0) {
+        items.push({ id: "styles-sizes", title: "Sizes", level: 2 });
+      }
+      return items;
+    }
+
+    return [];
+  };
+
+  const tocItems = getTocItems();
 
   return (
-    <div className="flex-1">
+    <div>
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
@@ -56,78 +99,76 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
           { label: component.name, href: `/components/${componentId}` },
         ]}
       />
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_16%] gap-0">
+      <div className="w-full text-foreground-100 ">
         <Toaster />
-        <div className="w-full bg-background-950 max-w-4xl mx-auto">
-          <div>
-            <main className="w-full">
-              <div className="px-8 pb-12 pt-24 space-y-8">
-                <div className="space-y-2">
-                  <h2 className="font-bold text-foreground-50">{component.name}</h2>
-                  <p className="text-md text-foreground-400">{component.description}</p>
+        <div className="flex flex-col lg:flex-row justify-between gap-0">
+          <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
+            <div className="space-y-2 min-h-48 mt-28">
+              <h2 className="font-bold text-foreground-50">{component.name}</h2>
+              <p className="text-md text-foreground-400">{component.description}</p>
+            </div>
+            <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="w-full min-h-[calc(100vh-var(--header-height))]">
+              <Flex direction="row" justify="space-between" className="border-b border-background-700">
+                <TabsList className="grid w-fit grid-cols-3 h-10">
+                  <TabsTrigger className="text-sm" value="examples">Examples</TabsTrigger>
+                  <TabsTrigger className="text-sm" value="api">API</TabsTrigger>
+                  <TabsTrigger className="text-sm" value="styles">Styles</TabsTrigger>
+                </TabsList>
+                <div className="space-x-2">
+                  {sourceUrls[componentId] && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => window.open(sourceUrls[componentId], '_blank')}
+                    >
+                      <FaGithub className="mr-4 text-foreground-400" /> Source
+                    </Button>
+                  )}
+                  {reactAriaUrls[componentId] && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => window.open(reactAriaUrls[componentId], '_blank')}
+                    >
+                      <SiAdobe className="mr-4 text-foreground-400" /> React Aria
+                    </Button>
+                  )}
                 </div>
-                <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                  <Flex direction="row" justify="space-between" className="border-b border-background-700">
-                    <TabsList className="grid w-fit grid-cols-3 h-10">
-                      <TabsTrigger className="text-sm" value="examples">Examples</TabsTrigger>
-                      <TabsTrigger className="text-sm" value="api">API</TabsTrigger>
-                      <TabsTrigger className="text-sm" value="styles">Styles</TabsTrigger>
-                    </TabsList>
-                    <div className="space-x-2">
-                      {sourceUrls[componentId] && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => window.open(sourceUrls[componentId], '_blank')}
+              </Flex>
+              <TabsContent value="examples" className="mt-6">
+                <section className="scroll-mt-20">
+                  <div className="space-y-4">
+                    {component.examples.map((example) => (
+                      <div key={example.id} id={example.id}>
+                        <ComponentConfigurator
+                          title={example.title}
+                          description={example.description}
+                          code={example.code}
+                          language="typescript"
+                          controls={example.controls}
+                          renderPreview={example.renderPreview}
+                          previewHeight={example.previewHeight}
+                          previewLayout={example.previewLayout}
                         >
-                          <FaGithub className="mr-4 text-foreground-400" /> Source
-                        </Button>
-                      )}
-                      {reactAriaUrls[componentId] && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => window.open(reactAriaUrls[componentId], '_blank')}
-                        >
-                          <SiAdobe className="mr-4 text-foreground-400" /> React Aria
-                        </Button>
-                      )}
-                    </div>
-                  </Flex>
-                  <TabsContent value="examples" className="mt-6">
-                    <section className="scroll-mt-20">
-                      <div className="space-y-4">
-                        {component.examples.map((example) => (
-                          <div key={example.id} id={example.id}>
-                            <ComponentConfigurator
-                              title={example.title}
-                              description={example.description}
-                              code={example.code}
-                              language="typescript"
-                              controls={example.controls}
-                              renderPreview={example.renderPreview}
-                              previewHeight={example.previewHeight}
-                              previewLayout={example.previewLayout}
-                            >
-                              {example.preview}
-                            </ComponentConfigurator>
-                          </div>
-                        ))}
+                          {example.preview}
+                        </ComponentConfigurator>
                       </div>
-                    </section>
-                  </TabsContent>
-                  <TabsContent value="api" className="mt-6">
-                    <APIDocumentation componentId={componentId} api={generatedAPI[componentId]} />
-                  </TabsContent>
-                  <TabsContent value="styles" className="mt-6">
-                    <StylesDocumentation componentId={componentId} styles={generatedStyles[componentId]} />
-                  </TabsContent>
-                </Tabs>
-              </div>
-            </main>
+                    ))}
+                  </div>
+                </section>
+              </TabsContent>
+              <TabsContent value="api" className="mt-6">
+                <APIDocumentation componentId={componentId} api={generatedAPI[componentId]} />
+              </TabsContent>
+              <TabsContent value="styles" className="mt-6">
+                <StylesDocumentation componentId={componentId} styles={generatedStyles[componentId]} />
+              </TabsContent>
+            </Tabs>
+          </main>
+          <div className="w-full lg:w-auto">
+            {tocItems.length > 0 && <TableOfContents items={tocItems} />}
           </div>
         </div>
-        <TableOfContents items={tocItems} />
       </div>
     </div>
   );
@@ -221,7 +262,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
   return (
     <div className="space-y-8">
       {api.props && api.props.length > 0 && (
-        <div>
+        <div id="api-props" className="scroll-mt-20">
           <h3 className="text-lg font-semibold text-foreground-50 mb-4">Props</h3>
           <Table<PropData>
             data={api.props}
@@ -231,11 +272,11 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
       )}
 
       {api.subComponents && Object.keys(api.subComponents).length > 0 && (
-        <div>
+        <div id="api-subcomponents" className="scroll-mt-20">
           <h3 className="mt-12 text-lg font-semibold text-foreground-50">Sub-Components</h3>
           <div className="space-y-6">
             {Object.entries(api.subComponents).map(([subComponentName, subProps]: [string, any]) => (
-              <div key={subComponentName} className="space-y-3 mt-20 first:mt-8">
+              <div key={subComponentName} id={`api-${subComponentName}`} className="space-y-3 mt-20 first:mt-8 scroll-mt-20">
                 <h4 className="font-semibold text-foreground-100">
                   <InlineCodeHighlight code={subComponentName} language="typescript" />
                 </h4>
@@ -268,7 +309,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
   return (
     <div className="space-y-8">
       {styles.cssVariables && styles.cssVariables.length > 0 && (
-        <div>
+        <div id="styles-css-variables" className="scroll-mt-20">
           <h3 className="text-lg font-semibold text-foreground-50 mb-4">CSS Variables</h3>
           <div className="space-y-2">
             {styles.cssVariables.map((variable: any) => (
@@ -284,7 +325,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
       )}
 
       {styles.classes && styles.classes.length > 0 && (
-        <div>
+        <div id="styles-classes" className="scroll-mt-20">
           <h3 className="text-lg font-semibold text-foreground-50 mb-4">Classes</h3>
           <div className="flex flex-wrap gap-2">
             {styles.classes.map((cls: any) => (
@@ -300,7 +341,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
       )}
 
       {styles.variants && Object.keys(styles.variants).length > 0 && (
-        <div>
+        <div id="styles-variants" className="scroll-mt-20">
           <h3 className="text-lg font-semibold text-foreground-50 mb-4">Variants</h3>
           <div className="space-y-3">
             {Object.entries(styles.variants).map(([variantName, variantValues]: [string, any]) => (
@@ -323,7 +364,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
       )}
 
       {styles.sizes && styles.sizes.length > 0 && (
-        <div>
+        <div id="styles-sizes" className="scroll-mt-20">
           <h3 className="text-lg font-semibold text-foreground-50 mb-4">Sizes</h3>
           <div className="flex flex-wrap gap-2">
             {styles.sizes.map((size: string) => (
