@@ -152,7 +152,7 @@ import { FaRocket } from "react-icons/fa6";
 
 export function Example() {
   return (
-    <div className="space-y-3 max-w-md">
+    <div className="space-y-3 max-w-(--page-width)d">
       <Button className="w-full">
         <FaRocket className="mr-2" />
         Get Started Now
@@ -324,7 +324,7 @@ export const buttonDetail: ComponentDetail = {
       description: "Full-width buttons for prominent call-to-action sections.",
       code: buttonCtaCode,
       preview: (
-        <div className="space-y-3 max-w-md">
+        <div className="space-y-3 max-w-(--page-width)d">
           <Button className="w-full">
             <FaRocket className="mr-2" />
             Get Started Now

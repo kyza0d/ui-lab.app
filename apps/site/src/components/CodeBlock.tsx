@@ -113,7 +113,7 @@ export function CodeBlock({
   }, [children, language, currentThemeMode, shikiTheme, preHighlightedLight, preHighlightedDark]);
 
   return (
-    <div className="my-8 overflow-hidden rounded border border-foreground-800 leading-snug">
+    <div className="my-8 max-w-full overflow-hidden rounded border border-foreground-800 leading-snug">
       {(filename || heading) && (
         <div className="flex text-xs font-semibold items-center justify-between border-b border-foreground-800 bg-background-900 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>
@@ -123,7 +123,7 @@ export function CodeBlock({
       <div className="relative group">
         <CopyButton code={children} />
         <div
-          className="overflow-x-auto [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_code]:text-foreground-100"
+          className="overflow-x-auto [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:overflow-hidden [&_code]:text-foreground-100 [&_code]:whitespace-pre-wrap [&_code]:break-words"
           dangerouslySetInnerHTML={{ __html: highlightedCode }}
         />
       </div>

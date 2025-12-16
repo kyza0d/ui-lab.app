@@ -1,73 +1,187 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { FadeContainer } from "./FadeContainer";
 
 interface TableOfContentsItem {
   id: string;
   title: string;
+  level: number;
 }
 
 interface TableOfContentsProps {
   items: TableOfContentsItem[];
 }
 
-export function TableOfContents({ items }: TableOfContentsProps) {
+export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>("");
+  const [visibleItems, setVisibleItems] = useState<TableOfContentsItem[]>(initialItems);
+  const isClickScrolling = useRef(false);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const observerRef = useRef<MutationObserver | null>(null);
+  const filterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const filterVisibleHeadings = useCallback(() => {
+    const registryIds = new Set(initialItems.map(item => item.id));
+    const visible: TableOfContentsItem[] = [];
+
+    for (const item of initialItems) {
+      const element = document.getElementById(item.id);
+      if (element && (element as HTMLElement).offsetParent !== null) {
+        visible.push(item);
+      }
+    }
+
+    const domHeadings = new Set<string>();
+    document.querySelectorAll('h2[id], h3[id], h4[id], h5[id], h6[id]').forEach(heading => {
+      const id = heading.getAttribute('id')!;
+      const htmlElement = heading as HTMLElement;
+      if (htmlElement.offsetParent === null) return;
+
+      domHeadings.add(id);
+      if (!registryIds.has(id)) {
+        const level = parseInt(heading.tagName[1], 10);
+        visible.push({
+          id,
+          title: heading.textContent || '',
+          level
+        });
+      }
+    });
+
+    setVisibleItems(visible);
+  }, [initialItems]);
+
+  const debouncedFilter = useCallback(() => {
+    if (filterTimeoutRef.current) {
+      clearTimeout(filterTimeoutRef.current);
+    }
+    filterTimeoutRef.current = setTimeout(() => {
+      filterVisibleHeadings();
+    }, 50);
+  }, [filterVisibleHeadings]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 150;
+    filterVisibleHeadings();
 
-      for (const item of items) {
-        const element = document.getElementById(item.id);
-        if (!element) continue;
+    const container = document.documentElement;
+    observerRef.current = new MutationObserver(() => {
+      debouncedFilter();
+    });
 
-        const elementTop = element.getBoundingClientRect().top + window.scrollY;
-        const elementBottom = elementTop + element.offsetHeight;
+    observerRef.current.observe(container, {
+      childList: true,
+      subtree: true,
+    });
 
-        if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
-          setActiveId(item.id);
-          break;
-        }
+    return () => {
+      observerRef.current?.disconnect();
+      if (filterTimeoutRef.current) {
+        clearTimeout(filterTimeoutRef.current);
       }
     };
+  }, [filterVisibleHeadings, debouncedFilter]);
 
-    window.addEventListener("scroll", handleScroll);
+  const findActiveHeading = useCallback(() => {
+    if (visibleItems.length === 0) return;
+    const scrollOffset = 120;
+    const headingPositions: { id: string; top: number }[] = [];
+    for (const item of visibleItems) {
+      const element = document.getElementById(item.id);
+      if (element) {
+        headingPositions.push({
+          id: item.id,
+          top: element.getBoundingClientRect().top,
+        });
+      }
+    }
+    if (headingPositions.length === 0) return;
+    let activeHeading = headingPositions[0].id;
+    for (const { id, top } of headingPositions) {
+      if (top <= scrollOffset) {
+        activeHeading = id;
+      } else {
+        break;
+      }
+    }
+    setActiveId(activeHeading);
+  }, [visibleItems]);
+
+  useEffect(() => {
+    if (visibleItems.length === 0) return;
+    const timer = setTimeout(() => {
+      findActiveHeading();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [visibleItems, findActiveHeading]);
+
+  useEffect(() => {
+    if (visibleItems.length === 0) return;
+    const handleScroll = () => {
+      if (isClickScrolling.current) return;
+      findActiveHeading();
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [items]);
+  }, [findActiveHeading]);
 
   const handleClick = (id: string) => {
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setActiveId(id);
+    if (!element) return;
+    setActiveId(id);
+    isClickScrolling.current = true;
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
     }
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickScrolling.current = false;
+    }, 1000);
   };
 
+  useEffect(() => {
+    return () => {
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  if (visibleItems.length === 0) return null;
+
   return (
-    <aside className="border-l border-background-700 sticky top-27 overflow-y-auto py-4 h-[calc(100vh-3.75rem)] hidden lg:block">
-      <nav className="space-y-6 px-4">
-        <div>
-          <span className="text-md font-semibold text-foreground-50">On this page</span>
-          <div className="flex flex-col space-y-0 mt-2">
-            {items.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleClick(item.id)}
-                className={cn(
-                  "block w-full text-left text-sm px-2 py-1.5 rounded-md transition-colors",
-                  activeId === item.id
-                    ? "text-foreground-50 bg-background-800"
-                    : "text-foreground-400 hover:text-foreground-300"
-                )}
-              >
-                {item.title}
-              </button>
-            ))}
+    <>
+      <aside className="border-l w-[14rem] overflow-x-hidden h-screen top-[calc(var(--header-height)+3.2rem)] border-background-700 sticky overflow-y-auto hidden lg:block">
+        <nav className="space-y-6 px-4 pt-8">
+          <div>
+            <span className="text-md font-semibold text-foreground-50">On this page</span>
+            <div className="flex flex-col space-y-0 mt-2">
+              {visibleItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleClick(item.id)}
+                  className={cn(
+                    "block w-full text-left text-sm px-2 py-1.5 rounded-md transition-colors cursor-pointer overflow-hidden",
+                    item.level === 3 && "pl-6",
+                    item.level === 4 && "pl-10",
+                    item.level && item.level > 4 && "pl-14",
+                    activeId === item.id
+                      ? "text-foreground-50 bg-background-800"
+                      : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50" // optional: subtle hover bg
+                  )}
+                >
+                  <span
+                    className="whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]"
+                  >
+                    {item.title}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      </nav>
-    </aside>
+        </nav>
+      </aside>
+    </>
   );
 }

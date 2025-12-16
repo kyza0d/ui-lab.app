@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useHeader } from "@/lib/header-context";
 import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush, FaSun } from "react-icons/fa6";
 import { themes, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
-import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange, type GlobalColorAdjustments } from "@/lib/color-utils";
+import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange, type GlobalColorAdjustments, oklchToCss } from "@/lib/color-utils";
 import { getScaleName } from "@/lib/config-generator";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
 import { getSemanticColorSafely, getSemanticChromaLimit } from "@/lib/semantic-color-utils";
@@ -131,8 +131,13 @@ export const SettingsPanel = () => {
 
   const handleColorChange = (type: string, newColor: OklchColor) => {
     const updated = { ...localColors };
+    const MIN_BACKGROUND_CHROMA = 0.008;
+
     if (type === "background") {
-      updated.background = newColor;
+      updated.background = {
+        ...newColor,
+        c: Math.max(newColor.c, MIN_BACKGROUND_CHROMA)
+      };
     } else if (type === "foreground") {
       updated.foreground = newColor;
     } else if (type === "accent") {
@@ -375,7 +380,7 @@ const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }
           <div className="relative">
             <div
               className="w-7 h-7 rounded-[8px]"
-              style={{ backgroundColor: `oklch(${color.l} ${color.c} ${color.h})` }}
+              style={{ backgroundColor: oklchToCss({ ...color, l: 0.55 }) }}
             />
           </div>
 

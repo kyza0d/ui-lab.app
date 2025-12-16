@@ -70,7 +70,7 @@ export function InstallationFlow() {
   return (
     <div className="space-y-8">
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground-200">Target framework</h3>
+        <h3 id="target-framework" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Target framework</h3>
         <div className="grid grid-cols-2 gap-3">
           {(
             [
@@ -104,7 +104,7 @@ export function InstallationFlow() {
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground-200">Installation method</h3>
+        <h3 id="installation-method" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Installation method</h3>
         <div className="flex gap-2">
           <Button
             variant={method === 'cli' ? 'ghost' : 'outline'}
@@ -123,7 +123,7 @@ export function InstallationFlow() {
 
       {method === 'cli' && (
         <section className="space-y-4">
-          <h3 className="text-lg font-semibold text-foreground-200">Automated setup via CLI</h3>
+          <h3 id="automated-setup-cli" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Automated setup via CLI</h3>
           <p className="text-foreground-300 text-sm">
             The official installer configures Tailwind, injects the required @theme tokens, and optionally copies component source.
           </p>
@@ -144,11 +144,11 @@ export function InstallationFlow() {
 
       {method === 'manual' && (
         <section className="space-y-6">
-          <h3 className="text-lg font-semibold text-foreground-200">Manual installation steps</h3>
+          <h3 id="manual-installation-steps" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Manual installation steps</h3>
 
           <div className="space-y-6">
             <div>
-              <h4 className="text-foreground-200 font-medium mb-3">1. Install core package</h4>
+              <h4 id="install-core-package" className="text-foreground-200 font-medium mb-3 scroll-mt-20">1. Install core package</h4>
               <CodeBlockWithPackageManager
                 code={installCmd}
                 packageManager={manager}
@@ -158,7 +158,7 @@ export function InstallationFlow() {
             </div>
 
             <div>
-              <h4 className="text-foreground-200 font-medium mb-3">2. Extend Tailwind content paths</h4>
+              <h4 id="extend-tailwind-paths" className="text-foreground-200 font-medium mb-3 scroll-mt-20">2. Extend Tailwind content paths</h4>
               <CodeBlock language="typescript" heading="tailwind.config.ts">
                 {`export default {
   content: [
@@ -171,7 +171,7 @@ export function InstallationFlow() {
             </div>
 
             <div>
-              <h4 className="text-foreground-200 font-medium mb-3">3. Add root theme (globals.css or equivalent)</h4>
+              <h4 id="add-root-theme" className="text-foreground-200 font-medium mb-3 scroll-mt-20">3. Add root theme (globals.css or equivalent)</h4>
               <CodeBlock language="css" heading="app/globals.css">
                 {`@import "ui-lab-components/styles/base.css";
 
@@ -190,7 +190,7 @@ export function InstallationFlow() {
             </div>
 
             <div>
-              <h4 className="text-foreground-200 font-medium mb-3">4. Import stylesheet in root layout/entry</h4>
+              <h4 id="import-stylesheet" className="text-foreground-200 font-medium mb-3 scroll-mt-20">4. Import stylesheet in root layout/entry</h4>
               <CodeBlock language="typescript">
                 {`import "./globals.css";`}
               </CodeBlock>
@@ -200,7 +200,7 @@ export function InstallationFlow() {
       )}
 
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold text-foreground-200">Verification</h3>
+        <h3 id="verification" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Verification</h3>
         <p className="text-foreground-300 text-sm">
           Start your dev server and render a test component:
         </p>

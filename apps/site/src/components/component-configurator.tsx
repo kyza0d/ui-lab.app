@@ -180,7 +180,7 @@ export function ComponentConfigurator({
       <div className="space-y-4">
         {/* Header */}
         <div className="border-b border-background-700 pt-4 pb-8">
-          <h5 className="text-foreground-50">{title}</h5>
+          <h2 className="text-foreground-50">{title}</h2>
           {description && (
             <p className="text-sm leading-relaxed text-foreground-400">{description}</p>
           )}
