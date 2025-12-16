@@ -5,7 +5,7 @@ import { ControlDef } from "@/components/component-configurator";
 
 function BasicFoldPreview(props: any) {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-(--page-width)d mx-auto">
       <Fold title="What is a Fold component?" defaultExpanded={props.expanded}>
         <p className="text-foreground-300">
           A Fold component is a disclosure widget that expands and collapses content. It's built with React Aria for full accessibility support, including keyboard navigation and proper ARIA attributes.
@@ -17,7 +17,7 @@ function BasicFoldPreview(props: any) {
 
 function AccordionPreview(props: any) {
   return (
-    <div className="w-full max-w-md mx-auto space-y-2">
+    <div className="w-full max-w-(--page-width)d mx-auto space-y-2">
       <Fold title="Section One" defaultExpanded={props.expanded}>
         <p className="text-foreground-300">
           This is the first section of content. Each fold can be independently expanded or collapsed.

@@ -8,7 +8,7 @@ export type ColorRole = 'background' | 'foreground' | 'accent' | 'success' | 'da
 
 export interface ChromaBounds { min: number; max: number }
 export const CHROMA_BOUNDARIES: Record<ColorRole, ChromaBounds> = {
-  background: { min: 0.001, max: 0.18 },
+  background: { min: 0.008, max: 0.18 },
   foreground: { min: 0.01, max: 0.12 },
   accent: { min: 0.01, max: 0.32 },
   success: { min: 0.01, max: 0.28 },
