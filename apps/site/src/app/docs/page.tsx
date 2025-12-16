@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
-import { getDocBySlug, extractHeadings } from "@/lib/docs";
+import rehypeSlug from 'rehype-slug'
+import { getDocBySlug } from "@/lib/docs";
+import { tocRegistry } from "@/lib/generated-toc-registry";
 import { mdxComponents } from '@/lib/mdx-components'
 import { TableOfContents } from "@/components/TableOfContents";
 import { Logo } from "@/components/ui/logo";
@@ -73,8 +75,7 @@ export default async function DocsPage() {
     return <div>Documentation not found</div>;
   }
 
-  const headings = extractHeadings(doc.content);
-  const tocItems = headings.map(h => ({ id: h.id, title: h.title }));
+  const tocItems = tocRegistry['index'] || [];
 
   const techStack = [
     { Icon: TailwindSvg, name: "Tailwind CSS", version: "v4.1", link: "https://tailwindcss.com" },
@@ -85,8 +86,8 @@ export default async function DocsPage() {
 
   return (
     <div className="w-full text-foreground-100">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
-        <main className="max-w-2xl mx-auto w-full px-6 py-16 font-sans text-sm leading-relaxed antialiased">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
           {/* Version badge */}
           <div className="mb-8 flex items-center gap-4 text-foreground-400">
             <span className="inline-flex items-center gap-2 rounded border border-foreground-800 px-2 py-0.5 text-sm">
@@ -100,7 +101,7 @@ export default async function DocsPage() {
           </div>
 
           <div className="w-full h-50 bg-linear-to-b border border-background-700 from-background-900 to-background-950 rounded-xl mb-12  relative overflow-hidden">
-            <Logo className="absolute text-foreground-500 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-90 h-90" />
+            <Logo className="absolute text-foreground-500 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-90" />
           </div>
 
           <div className="mb-10">
@@ -117,6 +118,7 @@ export default async function DocsPage() {
             <MDXRemote
               source={doc.content}
               components={mdxComponents}
+              options={{ mdxOptions: { rehypePlugins: [rehypeSlug] } }}
             />
           </div>
 
@@ -173,7 +175,9 @@ export default async function DocsPage() {
             </div>
           </section>
         </main>
-        {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+        <div className="w-full lg:w-auto">
+          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+        </div>
       </div>
     </div>
   );

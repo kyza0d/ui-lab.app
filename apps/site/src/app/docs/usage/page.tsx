@@ -2,17 +2,19 @@
 
 export default function UsagePage() {
   return (
-    <div className="w-full bg-background-950 mx-auto max-w-7xl">
-      <main className="w-full">
-        <div className="px-8 py-8 space-y-6">
-          <div>
-            <h2 className="text-3xl font-bold text-foreground-50 mb-2">Usage</h2>
-            <p className="text-foreground-400">
+    <div className="w-full text-foreground-100">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
+          <div className="mb-16">
+            <h1 className="text-4xl font-bold text-foreground-50 mb-4">Usage</h1>
+            <p className="text-lg text-foreground-300">
               Learn how to use UI Lab components in your applications.
             </p>
           </div>
+        </main>
+        <div className="w-full lg:w-auto">
         </div>
-      </main>
+      </div>
     </div>
   );
 }

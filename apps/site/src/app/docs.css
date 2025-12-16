@@ -1,26 +1,17 @@
-.docs-typography h1,
-.docs-typography h2,
-.docs-typography h3,
-.docs-typography h4,
-.docs-typography h5,
-.docs-typography h6 {
-  font-size: var(--text-sm) !important
-}
-
-.docs-typography h1,
-.docs-typography h2,
-.docs-typography h3,
-.docs-typography h4,
-.docs-typography h5,
-.docs-typography h6 {
+.docs h1,
+.docs h2,
+.docs h3,
+.docs h4,
+.docs h5,
+.docs h6 {
   font-size: var(--text-md) !important;
-  margin: 0 !important;
+  margin: 0 0 0.6rem 0 ;
   font-weight: 600;
 }
 
 
-.docs-typography p {
+.docs p {
   font-size: var(--text-sm);
   max-width: 65ch;
-  margin: 0 !important;
+  margin: 0 0 2.4rem 0;
 }

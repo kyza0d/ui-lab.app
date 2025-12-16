@@ -3,6 +3,12 @@ import matter from 'gray-matter'
 import path from 'path'
 import { cacheTag, cacheLife } from 'next/cache'
 
+export interface TocItem {
+  id: string
+  title: string
+  level: number
+}
+
 export interface DocMetadata {
   slug: string
   title: string
@@ -18,21 +24,24 @@ export interface DocContent {
 }
 
 const DOCS_DIR = path.join(process.cwd(), 'content/docs')
+const AGENTS_MCPS_DIR = path.join(process.cwd(), 'content/agents-mcps')
+const CLI_DIR = path.join(process.cwd(), 'content/cli')
+const DESIGN_SYSTEM_DIR = path.join(process.cwd(), 'content/design-system')
 
-export async function getAllDocs(): Promise<DocMetadata[]> {
+async function getAllDocsFromDir(dir: string): Promise<DocMetadata[]> {
   'use cache'
   cacheLife('hours')
   cacheTag('docs')
 
   try {
-    const files = await readdir(DOCS_DIR, { recursive: true })
+    const files = await readdir(dir, { recursive: true })
     const docs: DocMetadata[] = []
 
     for (const file of files) {
       const fileName = file.toString()
       if (!fileName.endsWith('.mdx')) continue
 
-      const filePath = path.join(DOCS_DIR, fileName)
+      const filePath = path.join(dir, fileName)
       const content = await readFile(filePath, 'utf8')
       const { data } = matter(content)
 
@@ -58,13 +67,13 @@ export async function getAllDocs(): Promise<DocMetadata[]> {
   }
 }
 
-export async function getDocBySlug(slug: string): Promise<DocContent | null> {
+async function getDocBySlugFromDir(slug: string, dir: string): Promise<DocContent | null> {
   'use cache'
   cacheLife('hours')
   cacheTag('docs', `doc-${slug}`)
 
   try {
-    const filePath = path.join(DOCS_DIR, `${slug}.mdx`)
+    const filePath = path.join(dir, `${slug}.mdx`)
     const source = await readFile(filePath, 'utf8')
     const { data: frontmatter, content } = matter(source)
 
@@ -85,6 +94,38 @@ export async function getDocBySlug(slug: string): Promise<DocContent | null> {
   }
 }
 
+export async function getAllDocs(): Promise<DocMetadata[]> {
+  return getAllDocsFromDir(DOCS_DIR)
+}
+
+export async function getDocBySlug(slug: string): Promise<DocContent | null> {
+  return getDocBySlugFromDir(slug, DOCS_DIR)
+}
+
+export async function getAllAgentsMcpsDocs(): Promise<DocMetadata[]> {
+  return getAllDocsFromDir(AGENTS_MCPS_DIR)
+}
+
+export async function getAgentsMcpsDocBySlug(slug: string): Promise<DocContent | null> {
+  return getDocBySlugFromDir(slug, AGENTS_MCPS_DIR)
+}
+
+export async function getAllCliDocs(): Promise<DocMetadata[]> {
+  return getAllDocsFromDir(CLI_DIR)
+}
+
+export async function getCliDocBySlug(slug: string): Promise<DocContent | null> {
+  return getDocBySlugFromDir(slug, CLI_DIR)
+}
+
+export async function getAllDesignSystemDocs(): Promise<DocMetadata[]> {
+  return getAllDocsFromDir(DESIGN_SYSTEM_DIR)
+}
+
+export async function getDesignSystemDocBySlug(slug: string): Promise<DocContent | null> {
+  return getDocBySlugFromDir(slug, DESIGN_SYSTEM_DIR)
+}
+
 export async function getDocsByCategory(category: string): Promise<DocMetadata[]> {
   const docs = await getAllDocs()
   return docs.filter(doc => doc.category === category)
@@ -93,15 +134,22 @@ export async function getDocsByCategory(category: string): Promise<DocMetadata[]
 export function extractHeadings(markdown: string) {
   const headingRegex = /^(#{1,3})\s+(.+)$/gm
   const headings: { level: number; title: string; id: string }[] = []
+  const idCounts = new Map<string, number>()
 
   let match
   while ((match = headingRegex.exec(markdown)) !== null) {
     const level = match[1].length
     const title = match[2]
-    const id = title
+    let id = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, '')
       .replace(/\s+/g, '-')
+
+    const count = (idCounts.get(id) || 0) + 1
+    idCounts.set(id, count)
+    if (count > 1) {
+      id = `${id}-${count}`
+    }
 
     headings.push({ level, title, id })
   }

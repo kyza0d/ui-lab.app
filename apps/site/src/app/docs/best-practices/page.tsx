@@ -1,22 +1,15 @@
 "use client";
 
 import { TableOfContents } from "@/components/TableOfContents";
+import { tocRegistry } from "@/lib/generated-toc-registry";
 
 export default function BestPracticesPage() {
-  const tocItems = [
-    { id: "component-composition", title: "Component composition" },
-    { id: "state-management", title: "State management" },
-    { id: "performance-optimization", title: "Performance optimization" },
-    { id: "typescript-best-practices", title: "TypeScript best practices" },
-    { id: "responsive-design", title: "Responsive design" },
-    { id: "common-patterns", title: "Common patterns" },
-    { id: "next-steps", title: "Next steps" },
-  ];
+  const tocItems = tocRegistry["best-practices"] || [];
 
   return (
-    <div className="w-full bg-background-950">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
-        <main className="max-w-4xl mx-auto w-full px-8 py-16">
+    <div className="w-full text-foreground-100">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
         {/* Header */}
         <div className="mb-16">
           <h1 className="text-4xl font-bold text-foreground-50 mb-4">Best practices</h1>
@@ -539,7 +532,9 @@ export default function Dashboard() {
           </div>
         </div>
         </main>
-        <TableOfContents items={tocItems} />
+        <div className="w-full lg:w-auto">
+          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+        </div>
       </div>
     </div>
   );

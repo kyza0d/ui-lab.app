@@ -1,23 +1,15 @@
 "use client";
 
 import { TableOfContents } from "@/components/TableOfContents";
+import { tocRegistry } from "@/lib/generated-toc-registry";
 
 export default function AIIntegrationPage() {
-  const tocItems = [
-    { id: "what-is-llms-txt", title: "What is LLMs.txt" },
-    { id: "accessing-llms-txt", title: "Accessing LLMs.txt" },
-    { id: "using-with-ai-tools", title: "Using with AI tools" },
-    { id: "example-prompts", title: "Example prompts" },
-    { id: "best-practices-for-ai-code-generation", title: "Best practices for AI code generation" },
-    { id: "understanding-llms-txt-structure", title: "Understanding LLMs.txt structure" },
-    { id: "advanced-scenarios", title: "Advanced scenarios" },
-    { id: "next-steps", title: "Next steps" },
-  ];
+  const tocItems = tocRegistry["ai-integration"] || [];
 
   return (
-    <div className="w-full bg-background-950">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
-        <main className="max-w-4xl mx-auto w-full px-8 py-16">
+    <div className="w-full text-foreground-100">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
           {/* Header */}
           <div className="mb-16">
             <h1 className="text-4xl font-bold text-foreground-50 mb-4">AI integration</h1>
@@ -346,7 +338,9 @@ components. Keep the same data structure and logic.`}</code></pre>
             </div>
           </div>
         </main>
-        <TableOfContents items={tocItems} />
+        <div className="w-full lg:w-auto">
+          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+        </div>
       </div>
     </div>
   );
