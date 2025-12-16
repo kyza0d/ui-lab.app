@@ -1,24 +1,15 @@
 "use client";
 
 import { TableOfContents } from "@/components/TableOfContents";
+import { tocRegistry } from "@/lib/generated-toc-registry";
 
 export default function CustomizationPage() {
-  const tocItems = [
-    { id: "design-tokens", title: "Design tokens" },
-    { id: "color-system", title: "Color system" },
-    { id: "typography", title: "Typography" },
-    { id: "spacing-and-sizing", title: "Spacing and sizing" },
-    { id: "creating-component-variants", title: "Creating component variants" },
-    { id: "extending-tailwind-configuration", title: "Extending Tailwind configuration" },
-    { id: "theme-switching", title: "Theme switching" },
-    { id: "customization-best-practices", title: "Customization best practices" },
-    { id: "next-steps", title: "Next steps" },
-  ];
+  const tocItems = tocRegistry["customization"] || [];
 
   return (
-    <div className="w-full bg-background-950">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
-        <main className="max-w-4xl mx-auto w-full px-8 py-16">
+    <div className="w-full text-foreground-100">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
         {/* Header */}
         <div className="mb-16">
           <h1 className="text-4xl font-bold text-foreground-50 mb-4">Customization</h1>
@@ -415,7 +406,9 @@ html[data-theme="light"] {
           </div>
         </div>
         </main>
-        <TableOfContents items={tocItems} />
+        <div className="w-full lg:w-auto">
+          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+        </div>
       </div>
     </div>
   );
