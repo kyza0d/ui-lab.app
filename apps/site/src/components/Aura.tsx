@@ -445,7 +445,7 @@ const AuraShader = ({
 
 export default function Aura() {
   return (
-    <div className="h-40 min-w-screen inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div className="h-20 min-w-screen inset-0 -z-10 overflow-hidden pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 1] }}
         gl={{ antialias: true, alpha: true }}

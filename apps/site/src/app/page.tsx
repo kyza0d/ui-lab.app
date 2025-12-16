@@ -14,12 +14,13 @@ import {
   FaWandMagicSparkles,
 } from "react-icons/fa6";
 import { Divider, Toaster, Button } from "ui-lab-components";
+import Image from "next/image"
 
 const features = [
   {
     icon: <FaBox size={20} />,
-    title: "20 Production-Ready Components",
-    highlight: "20+",
+    title: "28 Production-Ready Components",
+    highlight: "28+",
     desc: "Built with React Aria + Tailwind v4. 100% WAI-ARIA compliant out of the box.",
     link: "/components",
   },
@@ -32,7 +33,7 @@ const features = [
   {
     icon: <FaWandMagicSparkles size={20} />,
     title: "Stunning Defaults, Total Control",
-    desc: "Beautiful out-of-the-box design. Override any part with zero effort.",
+    desc: "Beautiful out-of-the-box design. Theme any component with ease.",
   },
   {
     icon: <FaTerminal size={20} />,
@@ -55,72 +56,33 @@ const features = [
 
 export default function Home() {
   return (
-    <div>
+    <div className="h-screen relative">
       <div className="hidden fixed top-0 left-0 w-screen h-screen bg-black/20 z-999 backdrop-blur-lg" />
-      <div className="relative h-screen">
+      <div>
         <Toaster />
 
-        <main className="w-full">
+        <main>
           {/* Hero Section – 55/45 split on large screens */}
-          <section
-            className="h-screen absolute grid grid-cols-1 lg:grid-cols-20"
-          >
+          <section className="absolute left-1/2 top-1/2 -translate-1/2 w-full max-w-(--page-width) grid grid-cols-1 lg:grid-cols-20" >
             {/* Left: Content – 11 columns out of 20 (~55%) */}
-            <div className="lg:col-span-11 flex flex-col pt-35">
+            <div className="lg:col-span-11 flex flex-col mr-12 pt-12 pr-12">
               {/* Bottom Description + Buttons */}
-              <div className="m-3">
+              <div className="image space-y-40">
                 <div className="rounded-lg p-6 pb-3">
-                  <h1 className="text-2xl sm:text-3xl font-light leading-tight text-foreground-50 mb-10">
+                  <h1 className="leading-tight text-foreground-50 mb-4">
                     Build beautiful, production-grade <br />
-                    products at{" "}
-                    <span className="inline-block px-2 py-0.5 rounded-sm bg-accent-500/30 text-foreground-50 font-medium">
-                      lightning speed
-                    </span>
+                    products at lightning speed
                   </h1>
                   <p className="text-sm text-foreground-400 max-w-[66ch]! leading-relaxed">
                     Component library that feels like an extension of your own codebase — beautiful, accessible,
                     and obsessively polished, ready to ship the moment you install it.
                   </p>
-                  {/* Action Buttons */}
-                  <div className="flex flex-wrap items-center gap-4 mt-12">
-                    <div className="flex flex-wrap gap-3">
-                      <Link href="/docs">
-                        <Button variant="ghost" size="md">
-                          <FaBook size={20} className="mr-3" />
-                          <span className="text-sm">Documentation</span>
-                        </Button>
-                      </Link>
-                      <Link href="/components">
-                        <Button variant="ghost" size="md">
-                          <FaShapes size={20} className="mr-3" />
-                          <span className="text-sm">Components</span>
-                        </Button>
-                      </Link>
-                    </div>
-
-                    <div className="ml-auto flex flex-wrap gap-3">
-                      <Link href="/style-guide">
-                        <Button variant="ghost" size="md" className="opacity-20" disabled>
-                          <FaBrush size={20} className="mr-3" />
-                          <span className="text-sm">Design System</span>
-                        </Button>
-                      </Link>
-                      <Link href="/llms">
-                        <Button className="opacity-20" variant="ghost" size="md" disabled>
-                          <FaRobot size={20} className="mr-3" />
-                          <span className="text-sm">
-                            LLMs Reference
-                          </span>
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
                 </div>
               </div>
-              <Divider spacing="none" className="mb-4" />
+              <Divider spacing="none" className="mb-4 mt-32 mx-5" />
 
               {/* Feature Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5 px-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                 {features.map((feature, i) => {
                   const isDisabled = feature.disabled;
                   const hasLink = !!feature.link && !isDisabled;
@@ -128,7 +90,7 @@ export default function Home() {
                   const cardContent = (
                     <div
                       className={`
-                        flex items-start gap-3.5 text-left p-4 rounded-lg border
+                        flex flex-col items-start gap-3.5 text-left p-4 rounded-lg border
                         transition-all duration-200
                         ${isDisabled
                           ? "cursor-not-allowed opacity-40 border-transparent"
@@ -138,7 +100,7 @@ export default function Home() {
                     >
                       <div
                         className={`
-                          p-3 shrink-0 transition-colors
+                          hidden mb-2 shrink-0 transition-colors
                           ${isDisabled ? "text-foreground-500" : "text-foreground-100 group-hover:text-foreground-50"}
                         `}
                       >
@@ -183,14 +145,11 @@ export default function Home() {
                   return <div key={i}>{cardContent}</div>;
                 })}
               </div>
-
             </div>
 
             {/* Right: Visual Panel – 9 columns out of 20 (~45%) but feels wider */}
-            <div className="ml-12 hidden lg:block lg:col-span-9 relative border-l border-background-700 overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-background-700/30 text-9xl font-black select-none">
-                </div>
+            <div className="absolute right-0 top-0 ml-12 w-150 h-180 lg:col-span-9 rounded-lg border border-background-700">
+              <div className="text-background-700/30 text-9xl font-black select-none">
               </div>
             </div>
           </section>

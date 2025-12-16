@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { FaChevronRight, FaMagnifyingGlass } from "react-icons/fa6";
-import { Input } from "ui-lab-components";
-import { useCommandPaletteControl } from "./CommandPaletteProvider";
+import { FaChevronRight } from "react-icons/fa6";
 
 export interface BreadcrumbItem {
   label: string;
@@ -18,17 +16,11 @@ interface BreadcrumbsProps {
 }
 
 export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
-  const { setIsOpen } = useCommandPaletteControl();
-
-  const handleInputClick = () => {
-    setIsOpen(true);
-  };
-
   return (
     <nav
       className={cn(
         "grid grid-cols-[1fr_auto]",
-        "sticky top-15 pl-6 pr-2 py-2 bg-background-950 border-b border-background-800 z-90",
+        "sticky top-(--header-height) pl-6 pr-2 py-4 bg-background-950 border-b border-background-800 z-90",
         className
       )}
       aria-label="Breadcrumb"
@@ -54,14 +46,6 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
           </li>
         ))}
       </ol>
-      <Input
-        placeholder="Search documentation"
-        prefixIcon={<FaMagnifyingGlass />}
-        className="w-[190] lg:w-[240]"
-        size="sm"
-        onClick={handleInputClick}
-        readOnly
-      />
     </nav>
   );
 }

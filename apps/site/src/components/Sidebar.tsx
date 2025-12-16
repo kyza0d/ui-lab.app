@@ -9,10 +9,12 @@ import {
   categoryMap,
   type ComponentCategory,
 } from "@/lib/component-registry";
+import { DOCUMENTATION_SECTIONS } from "@/lib/generated-docs";
 import { usePrefetchOnHover } from "@/hooks/usePrefetchOnHover";
-import { FaBook, FaShapes, FaPaintbrush } from "react-icons/fa6";
+import { FadeContainer } from "./FadeContainer";
+import { FaBook, FaShapes, FaPaintbrush, FaPalette, FaPlug, FaTerminal, FaRoad, FaPaperclip } from "react-icons/fa6";
 
-type MainNavItem = "documentation" | "components" | "customization";
+type MainNavItem = "overview" | "components" | "design-system" | "agents-mcps" | "cli";
 
 interface SidebarSection {
   label: string;
@@ -22,44 +24,25 @@ interface SidebarSection {
   }>;
 }
 
-function getMainNav(): Array<{
+function getMainNav(activeNav?: MainNavItem): Array<{
   id: MainNavItem;
   label: string;
 }> {
-  return [
-    { id: "documentation", label: "Documentation" },
+  const allItems = [
+    { id: "overview", label: "UI Lab Overview" },
+    { id: "design-system", label: "Design System" },
+    { id: "agents-mcps", label: "Agents & MCPs" },
+    { id: "cli", label: "CLI" },
     { id: "components", label: "Components" },
-    { id: "customization", label: "Customization" },
-  ];
+  ] as const;
+
+  if (activeNav === "agents-mcps" || activeNav === "cli") {
+    return allItems.filter(item => item.id === activeNav);
+  }
+
+  return allItems.filter(item => item.id !== "agents-mcps" && item.id !== "cli");
 }
 
-function getDocumentationSections(): SidebarSection[] {
-  return [
-    {
-      label: "Getting Started",
-      items: [
-        { id: "introduction", label: "Introduction" },
-        { id: "installation", label: "Installation" },
-        { id: "getting-started", label: "Getting Started" },
-      ],
-    },
-    {
-      label: "Development",
-      items: [
-        { id: "customization", label: "Customization" },
-        { id: "best-practices", label: "Best Practices" },
-        { id: "accessibility", label: "Accessibility" },
-      ],
-    },
-    {
-      label: "Advanced",
-      items: [
-        { id: "ai-integration", label: "AI Integration" },
-        { id: "troubleshooting", label: "Troubleshooting" },
-      ],
-    },
-  ];
-}
 
 function getComponentSections(): SidebarSection[] {
   const groupedComponents = getComponentsGroupedByCategory();
@@ -74,31 +57,77 @@ function getComponentSections(): SidebarSection[] {
     }));
 }
 
-function getCustomizationSections(): SidebarSection[] {
+function getDesignSystemSections(): SidebarSection[] {
   return [
     {
-      label: "Customization",
+      label: "Foundation",
       items: [
-        { id: "theming", label: "Theming" },
+        { id: "colors", label: "Colors" },
         { id: "typography", label: "Typography" },
-        { id: "icons", label: "Icons" },
+        { id: "spacing", label: "Spacing" },
+      ],
+    },
+    {
+      label: "Systems",
+      items: [
+        { id: "tokens", label: "Tokens" },
+        { id: "variables", label: "Variables" },
+      ],
+    },
+    {
+      label: "Guidelines",
+      items: [
+        { id: "components-guidelines", label: "Component Guidelines" },
+        { id: "accessibility", label: "Accessibility" },
+      ],
+    },
+  ];
+}
+
+function getAgentsMcpsSections(): SidebarSection[] {
+  return [
+    {
+      label: "Getting Started",
+      items: [
+        { id: "introduction", label: "Introduction" },
+        { id: "setup", label: "Setup" },
+        { id: "configuration", label: "Configuration" },
+      ],
+    },
+  ];
+}
+
+function getCliSections(): SidebarSection[] {
+  return [
+    {
+      label: "Getting Started",
+      items: [
+        { id: "introduction", label: "Introduction" },
+        { id: "installation", label: "Installation" },
+        { id: "commands", label: "Commands" },
       ],
     },
   ];
 }
 
 function getActiveSectionForPathname(pathname: string): MainNavItem {
-  if (pathname.startsWith("/docs")) return "documentation";
-  if (pathname.startsWith("/customize")) return "customization";
+  if (pathname.startsWith("/docs")) return "overview";
+  if (pathname.startsWith("/agents-mcps")) return "agents-mcps";
+  if (pathname.startsWith("/cli")) return "cli";
+  if (pathname.startsWith("/design-system")) return "design-system";
   return "components";
 }
 
 function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
   switch (nav) {
-    case "documentation":
-      return getDocumentationSections();
-    case "customization":
-      return getCustomizationSections();
+    case "overview":
+      return DOCUMENTATION_SECTIONS;
+    case "agents-mcps":
+      return getAgentsMcpsSections();
+    case "cli":
+      return getCliSections();
+    case "design-system":
+      return getDesignSystemSections();
     case "components":
     default:
       return getComponentSections();
@@ -107,10 +136,14 @@ function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
 
 function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
   switch (activeNav) {
-    case "documentation":
+    case "overview":
       return itemId === "introduction" ? "/docs" : `/docs/${itemId}`;
-    case "customization":
-      return itemId === "theming" ? "/customize" : `/customize/${itemId}`;
+    case "agents-mcps":
+      return itemId === "introduction" ? "/agents-mcps" : `/agents-mcps/${itemId}`;
+    case "cli":
+      return itemId === "introduction" ? "/cli" : `/cli/${itemId}`;
+    case "design-system":
+      return itemId === "overview" ? "/design-system" : `/design-system/${itemId}`;
     case "components":
     default:
       return itemId === "overview" ? "/components" : `/components/${itemId}`;
@@ -120,8 +153,8 @@ function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
 function isItemActive(itemId: string, pathname: string, activeNav: MainNavItem): boolean {
   const href = getHrefForItem(activeNav, itemId);
   if (href === pathname) return true;
-  if (itemId === "introduction" && pathname === "/docs") return true;
-  if (itemId === "overview" && pathname === "/components") return true;
+  if (itemId === "introduction" && (pathname === "/docs" || pathname === "/agents-mcps" || pathname === "/cli" || pathname === "/design-system")) return true;
+  if (itemId === "overview" && (pathname === "/components" || pathname === "/design-system")) return true;
   return pathname.includes(`/${itemId}`);
 }
 
@@ -129,14 +162,13 @@ function SidebarItemLink({
   href,
   className,
   children,
-  onPrefetch,
 }: {
   href: string;
   className: string;
   children: React.ReactNode;
-  onPrefetch: () => void;
 }) {
   const router = useRouter();
+  const { onMouseEnter } = usePrefetchOnHover(href);
 
   return (
     <>
@@ -144,7 +176,7 @@ function SidebarItemLink({
       <Link
         href={href}
         prefetch={false}
-        onMouseEnter={onPrefetch}
+        onMouseEnter={onMouseEnter}
         style={{ display: "none" }}
         aria-hidden
       />
@@ -158,7 +190,7 @@ function SidebarItemLink({
             router.push(href);
           }
         }}
-        onMouseEnter={onPrefetch}
+        onMouseEnter={onMouseEnter}
         className={className}
       >
         {children}
@@ -170,8 +202,8 @@ function SidebarItemLink({
 export function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const mainNav = getMainNav();
   const activeNav = getActiveSectionForPathname(pathname);
+  const mainNav = getMainNav(activeNav);
   const sections = getSectionsForNav(activeNav);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -197,23 +229,25 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-background-700">
       {/* Fixed height container with sticky header + scrollable body */}
-      <div className="flex flex-col h-screen sticky top-15">
+      <div className="flex flex-col h-screen sticky top-(--header-height)">
         {/* Sticky Top Navigation */}
-        <div className="flex-shrink-0 border-b border-background-700 z-10">
-          <nav className="py-4 px-2 space-y-1">
+        <div className="border-b border-background-700 z-10">
+          <nav className="py-3 px-2 space-y-1">
             {mainNav.map((nav) => {
-              const href =
-                nav.id === "documentation"
-                  ? "/docs"
-                  : nav.id === "customization"
-                    ? "/customize"
-                    : "/components";
+              let href = "/components";
+              if (nav.id === "overview") href = "/docs";
+              else if (nav.id === "agents-mcps") href = "/agents-mcps";
+              else if (nav.id === "cli") href = "/cli";
+              else if (nav.id === "design-system") href = "/design-system";
+
               const isActive = activeNav === nav.id;
 
               const iconMap = {
-                documentation: FaBook,
+                "overview": FaPaperclip,
+                "agents-mcps": FaPlug,
+                cli: FaTerminal,
                 components: FaShapes,
-                customization: FaPaintbrush,
+                "design-system": FaPaintbrush,
               };
               const Icon = iconMap[nav.id];
 
@@ -237,41 +271,41 @@ export function Sidebar() {
         </div>
 
         {/* Scrollable Contextual Content */}
-        <div
-          ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto py-6 px-5 mb-15"
-        >
-          <div className="space-y-8">
-            {sections.map((section) => (
-              <div key={section.label}>
-                <span className="text-sm text-foreground-200">{section.label}</span>
-                <div className="space-y-0 mt-1.5">
-                  {section.items.map((item) => {
-                    const active = isItemActive(item.id, pathname, activeNav);
-                    const href = getHrefForItem(activeNav, item.id);
-                    const { onMouseEnter } = usePrefetchOnHover(href);
+        <FadeContainer className="flex-1 mb-26">
+          <div
+            ref={scrollContainerRef}
+            className="overflow-y-auto py-5 px-5 h-full"
+          >
+            <div className="space-y-8">
+              {sections.map((section) => (
+                <div key={section.label}>
+                  <span className="text-sm text-foreground-200">{section.label}</span>
+                  <div className="space-y-0 mt-1.5">
+                    {section.items.map((item) => {
+                      const active = isItemActive(item.id, pathname, activeNav);
+                      const href = getHrefForItem(activeNav, item.id);
 
-                    return (
-                      <SidebarItemLink
-                        key={item.id}
-                        href={href}
-                        onPrefetch={onMouseEnter}
-                        className={cn(
-                          "block px-3 py-1.5 text-sm rounded-md transition-colors cursor-pointer",
-                          active
-                            ? "text-foreground-50 bg-background-800 font-medium"
-                            : "text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50"
-                        )}
-                      >
-                        {item.label}
-                      </SidebarItemLink>
-                    );
-                  })}
+                      return (
+                        <SidebarItemLink
+                          key={item.id}
+                          href={href}
+                          className={cn(
+                            "block px-3 py-1.5 text-sm rounded-md transition-colors cursor-pointer",
+                            active
+                              ? "text-foreground-50 bg-background-800 font-medium"
+                              : "text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50"
+                          )}
+                        >
+                          {item.label}
+                        </SidebarItemLink>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </FadeContainer>
       </div>
     </aside>
   );
