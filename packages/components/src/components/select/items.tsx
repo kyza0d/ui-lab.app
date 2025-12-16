@@ -24,15 +24,17 @@ SelectGroup.displayName = "SelectGroup"
 interface SelectValueProps extends React.PropsWithChildren {
   placeholder?: string
   className?: string
+  icon?: React.ReactNode
 }
 
 const SelectValue = React.forwardRef<HTMLSpanElement, SelectValueProps>(
-  ({ placeholder = "Select an option", className }, ref) => {
+  ({ placeholder = "Select an option", className, icon }, ref) => {
     const { selectedTextValue } = useSelectContext()
 
     return (
-      <span ref={ref} className={className}>
-        {selectedTextValue || placeholder}
+      <span ref={ref} className={cn(styles.value, className)}>
+        {icon && <span className={styles.valueIcon}>{icon}</span>}
+        <span className={styles.valueText}>{selectedTextValue || placeholder}</span>
       </span>
     )
   }
@@ -44,11 +46,12 @@ interface SelectItemProps extends React.PropsWithChildren {
   textValue?: string
   isDisabled?: boolean
   className?: string
+  icon?: React.ReactNode
   _focusedKey?: Key | null
 }
 
 const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
-  ({ children, isDisabled = false, className, textValue, value, _focusedKey }, forwardedRef) => {
+  ({ children, isDisabled = false, className, textValue, value, icon, _focusedKey }, forwardedRef) => {
     const { selectedKey, onSelect, registerItem, unregisterItem, visibleKeys, isOpen, setFocusedKey } = useSelectContext()
     const itemRef = React.useRef<HTMLLIElement>(null)
     const [isHovered, setIsHovered] = React.useState(false)
@@ -131,8 +134,9 @@ const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
       >
-        <div className={styles.itemIndicator}>{isSelected && <FaCheck className="w-3 h-3" />}</div>
+        {icon && <div className={styles.itemIcon}>{icon}</div>}
         <div className={styles.itemText}>{children}</div>
+        <div className={styles.itemIndicator}>{isSelected && <FaCheck className="w-3 h-3" />}</div>
       </li>
     )
   }

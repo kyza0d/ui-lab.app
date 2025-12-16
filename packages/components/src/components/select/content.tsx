@@ -50,7 +50,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
       const container = document.createElement('div')
       container.setAttribute('data-select-portal', '')
-      container.style.cssText = 'position: fixed; top: 0; left: 0; z-index: 50;'
+      container.style.cssText = 'position: fixed; top: 0; left: 0; z-index: 50000;'
 
       document.body.appendChild(container)
       setPortalContainer(container)
@@ -85,7 +85,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       <>
         {showContent && triggerMode !== "hover" && (
           <div
-            style={{ position: "fixed", inset: 0, zIndex: 49 }}
+            style={{ position: "fixed", inset: 0, zIndex: 49999 }}
             onClick={() => setIsOpen(false)}
           />
         )}
@@ -177,7 +177,7 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
 
       const container = document.createElement('div')
       container.setAttribute('data-select-portal', '')
-      container.style.cssText = 'position: absolute; top: 0; left: 0; z-index: 50;'
+      container.style.cssText = 'position: absolute; top: 0; left: 0; z-index: 50000;'
       document.body.appendChild(container)
       setPortalContainer(container)
 
@@ -256,7 +256,7 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
       <>
         {showContent && triggerMode !== "hover" && (
           <div
-            style={{ position: "fixed", inset: 0, zIndex: 49 }}
+            style={{ position: "fixed", inset: 0, zIndex: 49999 }}
             onClick={() => setIsOpen(false)}
           />
         )}
