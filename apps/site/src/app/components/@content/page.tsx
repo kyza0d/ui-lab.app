@@ -17,10 +17,9 @@ export default function ComponentsPage() {
         ]}
       />
 
-      <div className="w-full bg-background-950 mx-auto max-w-6xl">
+      <div className="w-full bg-background-950 mx-auto max-w-4xl pt-32">
         <main className="w-full">
-          <div className="px-8 py-8">
-
+          <div>
             {/* Page Header */}
             <div className="space-y-4 mb-18">
               <h2 className="text-4xl font-bold text-foreground-50">Components</h2>

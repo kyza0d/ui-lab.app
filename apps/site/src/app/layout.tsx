@@ -7,13 +7,8 @@ import "./globals.css";
 import "@fontsource-variable/karla";
 import "@fontsource-variable/jetbrains-mono";
 
-import Header from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-
-// imoprt {Header, Footer} from "ui-lab-components/layout"
-
-import { HeaderProvider } from "@/lib/header-context";
-import { CommandPaletteProvider } from "@/components/CommandPaletteProvider";
+import { ClientLayout } from "./client-layout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -35,14 +30,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <HeaderProvider>
-          <CommandPaletteProvider>
-            <Header />
-            <main className="flex-1 max-w-[1600px] border-background-700 mx-auto">
-              {children}
-            </main>
-          </CommandPaletteProvider>
-        </HeaderProvider>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
         <Footer />
       </body>
     </html>
