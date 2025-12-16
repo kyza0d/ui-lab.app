@@ -66,8 +66,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-size={size}
           className={cn(
             styles.input,
-            hasPrefix && "pl-8",
-            hasSuffix && "pr-8",
+            hasPrefix && "pl-10",
+            hasSuffix && "pr-10",
             className
           )}
           {...mergeProps(focusProps, props)}

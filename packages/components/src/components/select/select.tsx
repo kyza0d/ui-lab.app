@@ -95,14 +95,12 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       if (isHovering) {
         setIsOpen(true)
       } else {
-        // Small delay before closing to allow moving between trigger and content
         hoverTimeoutRef.current = setTimeout(() => {
           setIsOpen(false)
         }, 100)
       }
     }, [triggerMode, isDisabled])
 
-    // Cleanup timeout on unmount
     React.useEffect(() => {
       return () => {
         if (hoverTimeoutRef.current) {
@@ -168,13 +166,8 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const navigateToNextItem = React.useCallback(() => {
       if (enabledFilteredItems.length === 0) return
 
-      const currentIndex = focusedKey !== null
-        ? enabledFilteredItems.findIndex(item => item.key === focusedKey)
-        : -1
-
-      const nextIndex = currentIndex < enabledFilteredItems.length - 1
-        ? currentIndex + 1
-        : 0
+      const currentIndex = focusedKey !== null ? enabledFilteredItems.findIndex(item => item.key === focusedKey) : -1
+      const nextIndex = currentIndex < enabledFilteredItems.length - 1 ? currentIndex + 1 : 0
 
       setFocusedKey(enabledFilteredItems[nextIndex].key)
     }, [enabledFilteredItems, focusedKey])
@@ -183,13 +176,8 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const navigateToPrevItem = React.useCallback(() => {
       if (enabledFilteredItems.length === 0) return
 
-      const currentIndex = focusedKey !== null
-        ? enabledFilteredItems.findIndex(item => item.key === focusedKey)
-        : 0
-
-      const prevIndex = currentIndex > 0
-        ? currentIndex - 1
-        : enabledFilteredItems.length - 1
+      const currentIndex = focusedKey !== null ? enabledFilteredItems.findIndex(item => item.key === focusedKey) : 0
+      const prevIndex = currentIndex > 0 ? currentIndex - 1 : enabledFilteredItems.length - 1
 
       setFocusedKey(enabledFilteredItems[prevIndex].key)
     }, [enabledFilteredItems, focusedKey])
@@ -365,7 +353,6 @@ const SelectListBox = React.forwardRef<HTMLUListElement, SelectListBoxProps>(
           selectFocusedItem()
           break
         case ' ':
-          // Only select on space if not in a searchable select (no input focused)
           if (document.activeElement?.tagName !== 'INPUT') {
             e.preventDefault()
             selectFocusedItem()
@@ -380,7 +367,6 @@ const SelectListBox = React.forwardRef<HTMLUListElement, SelectListBoxProps>(
 
     React.useEffect(() => {
       if (isOpen) {
-        // Don't steal focus if another element (like a search input) is focused
         if (document.activeElement?.tagName !== 'INPUT') {
           requestAnimationFrame(() => {
             listBoxRef.current?.focus({ preventScroll: true })

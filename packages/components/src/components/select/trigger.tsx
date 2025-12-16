@@ -6,10 +6,11 @@ import { useSelectContext } from "./select"
 
 interface SelectTriggerProps extends React.PropsWithChildren {
   className?: string
+  chevron?: React.ReactNode
 }
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ children, className }, ref) => {
+  ({ children, className, chevron }, ref) => {
     const {
       triggerRef: contextTriggerRef,
       triggerProps,
@@ -47,7 +48,11 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
         {...hoverHandlers}
       >
         <span>{children}</span>
-        <FaChevronDown className={styles.icon} />
+        {chevron !== undefined ? (
+          <div className={styles.icon}>{chevron}</div>
+        ) : (
+          <FaChevronDown className={styles.icon} />
+        )}
       </button>
     )
   }
