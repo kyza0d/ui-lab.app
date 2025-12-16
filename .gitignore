@@ -9,3 +9,4 @@ build
 *.local
 apps/site/.yalc
 .vercel
+apps/site/src/lib/generated-*.ts
