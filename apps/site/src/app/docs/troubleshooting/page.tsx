@@ -2,17 +2,12 @@
 
 import { useState } from "react";
 import { TableOfContents } from "@/components/TableOfContents";
+import { tocRegistry } from "@/lib/generated-toc-registry";
 
 export default function TroubleshootingPage() {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
 
-  const tocItems = [
-    { id: "installation-issues", title: "Installation issues" },
-    { id: "styling-issues", title: "Styling issues" },
-    { id: "component-behavior-issues", title: "Component behavior issues" },
-    { id: "general-questions", title: "General questions" },
-    { id: "getting-help", title: "Getting help" },
-  ];
+  const tocItems = tocRegistry["troubleshooting"] || [];
 
   const toggleItem = (id: string) => {
     setExpandedItems((prev) => ({
@@ -39,9 +34,9 @@ export default function TroubleshootingPage() {
   );
 
   return (
-    <div className="w-full bg-background-950">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_16%] gap-8">
-        <main className="max-w-4xl mx-auto w-full px-8 py-16">
+    <div className="w-full text-foreground-100">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
         {/* Header */}
         <div className="mb-16">
           <h1 className="text-4xl font-bold text-foreground-50 mb-4">Troubleshooting & FAQ</h1>
@@ -457,7 +452,9 @@ function MyButton(props) {
           </div>
         </div>
         </main>
-        <TableOfContents items={tocItems} />
+        <div className="w-full lg:w-auto">
+          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+        </div>
       </div>
     </div>
   );

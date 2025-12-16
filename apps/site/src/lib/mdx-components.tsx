@@ -1,6 +1,10 @@
 import { CodeBlock } from '@/components/CodeBlock'
 import { CodeBlockWithPackageManager } from '@/components/CodeBlockWithPackageManager'
 import { InstallationFlow } from '@/components/InstallationFlow'
+import { MarkdownTable } from '@/components/MarkdownTable'
+import { ColorSwatch } from '@/components/ColorSwatch'
+import { ColorScale } from '@/components/ColorScale'
+import { ColorPaletteGrid } from '@/components/ColorPaletteGrid'
 import Image from 'next/image'
 
 export const mdxComponents = {
@@ -113,4 +117,8 @@ export const mdxComponents = {
   CodeBlock,
   CodeBlockWithPackageManager,
   InstallationFlow,
+  MarkdownTable,
+  ColorSwatch,
+  ColorScale,
+  ColorPaletteGrid,
 }
