@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
-import { useHeader } from "@/lib/header-context";
+import { useApp } from "@/lib/app-context";
 
 interface EnumUnionHighlightProps {
   values: string[];
@@ -13,7 +13,7 @@ export function EnumUnionHighlight({
   values,
   className = ""
 }: EnumUnionHighlightProps) {
-  const { currentThemeMode } = useHeader();
+  const { currentThemeMode } = useApp();
   const [highlightedCode, setHighlightedCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 

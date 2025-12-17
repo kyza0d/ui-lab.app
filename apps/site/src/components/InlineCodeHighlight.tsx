@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
-import { useHeader } from "@/lib/header-context";
+import { useApp } from "@/lib/app-context";
 
 interface InlineCodeHighlightProps {
   code: string;
@@ -15,7 +15,7 @@ export function InlineCodeHighlight({
   language = "typescript",
   className = ""
 }: InlineCodeHighlightProps) {
-  const { currentThemeMode } = useHeader();
+  const { currentThemeMode } = useApp();
   const [highlightedCode, setHighlightedCode] = useState<string>(code);
   const [isLoading, setIsLoading] = useState(true);
 

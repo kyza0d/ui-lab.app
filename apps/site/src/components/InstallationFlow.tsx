@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { CodeBlock } from './CodeBlock';
 import { CodeBlockWithPackageManager } from './CodeBlockWithPackageManager';
-import { Card, Badge, Button } from 'ui-lab-components';
+import { Card, Badge, Button, Divider, Tabs, TabsList, TabsTrigger } from 'ui-lab-components';
 
 type Framework = 'nextjs' | 'vite' | 'remix' | 'tauri';
 type Manager = 'npm' | 'pnpm' | 'yarn' | 'bun';
@@ -105,20 +105,18 @@ export function InstallationFlow() {
 
       <section className="space-y-4">
         <h3 id="installation-method" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Installation method</h3>
-        <div className="flex gap-2">
-          <Button
-            variant={method === 'cli' ? 'ghost' : 'outline'}
-            onClick={() => setMethod('cli')}
-          >
-            CLI (recommended)
-          </Button>
-          <Button
-            variant={method === 'manual' ? 'ghost' : 'outline'}
-            onClick={() => setMethod('manual')}
-          >
-            Manual
-          </Button>
-        </div>
+        <Tabs className='w-fit mb-0 mt-12' variant='underline' value={method} onValueChange={(value) => setMethod(value as 'cli' | 'manual')}>
+          <TabsList> {/* Adjust grid-cols based on number of tabs if needed */}
+            <TabsTrigger value="cli">
+              CLI (recommended)
+            </TabsTrigger>
+            <TabsTrigger value="manual">
+              Manual
+            </TabsTrigger>
+          </TabsList>
+          {/* If you have corresponding content for each tab, add TabsContent here */}
+        </Tabs>
+        <Divider color='default' spacing='none' />
       </section>
 
       {method === 'cli' && (
