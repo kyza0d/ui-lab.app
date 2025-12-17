@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { themes } from "@/constants/themes";
 import { FaMoon, FaSun } from "react-icons/fa6";
-import { useHeader } from "@/lib/header-context";
+import { useApp } from "@/lib/app-context";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
 
 export const LandingThemeToggle = () => {
-  const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors, isThemeInitialized } = useHeader();
+  const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors, isThemeInitialized } = useApp();
   const [isClient, setIsClient] = useState(false);
 
   const { applyAndPersistColors, applyAndPersistMode } = useThemeStorage({
