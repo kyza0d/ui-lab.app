@@ -21,6 +21,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const observerRef = useRef<MutationObserver | null>(null);
   const filterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const tocContainerRef = useRef<HTMLElement | null>(null);
 
   const filterVisibleHeadings = useCallback(() => {
     const registryIds = new Set(initialItems.map(item => item.id));
@@ -85,7 +86,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
 
   const findActiveHeading = useCallback(() => {
     if (visibleItems.length === 0) return;
-    const scrollOffset = 120;
+    const scrollOffset = window.innerHeight * 0.20;
     const headingPositions: { id: string; top: number }[] = [];
     for (const item of visibleItems) {
       const element = document.getElementById(item.id);
@@ -126,6 +127,22 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [findActiveHeading]);
 
+  useEffect(() => {
+    if (!activeId || !tocContainerRef.current) return;
+    const activeButton = tocContainerRef.current.querySelector(
+      `button[data-toc-id="${activeId}"]`
+    ) as HTMLButtonElement | null;
+    if (!activeButton) return;
+
+    const container = tocContainerRef.current;
+    const containerHeight = container.clientHeight;
+    const buttonTop = activeButton.offsetTop;
+    const buttonHeight = activeButton.clientHeight;
+    const targetPosition = buttonTop - containerHeight * 0.33;
+
+    container.scrollTop = Math.max(0, targetPosition);
+  }, [activeId]);
+
   const handleClick = (id: string) => {
     const element = document.getElementById(id);
     if (!element) return;
@@ -134,7 +151,9 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
     }
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
+    const elementTop = element.getBoundingClientRect().top + window.scrollY;
+    const topPadding = 200;
+    window.scrollTo({ top: elementTop - topPadding, behavior: "smooth" });
     clickTimeoutRef.current = setTimeout(() => {
       isClickScrolling.current = false;
     }, 1000);
@@ -152,28 +171,38 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
 
   return (
     <>
-      <aside className="border-l w-[14rem] overflow-x-hidden h-screen top-[calc(var(--header-height)+3.2rem)] border-background-700 sticky overflow-y-auto hidden lg:block">
-        <nav className="space-y-6 px-4 pt-8">
+      <aside
+        ref={tocContainerRef}
+        className="border-l pb-42 w-[14rem] overflow-x-hidden h-screen top-[calc(var(--header-height)+3.2rem)] border-background-700 sticky overflow-y-auto hidden lg:block"
+      >
+        <nav className="space-y-6 px-4 py-8">
           <div>
-            <span className="text-md font-semibold text-foreground-50">On this page</span>
+            <span className="text-md font-semibold text-foreground-50">
+              On this page
+            </span>
             <div className="flex flex-col space-y-0 mt-2">
               {visibleItems.map((item) => (
                 <button
                   key={item.id}
+                  data-toc-id={item.id}
                   onClick={() => handleClick(item.id)}
                   className={cn(
-                    "block w-full text-left text-sm px-2 py-1.5 rounded-md transition-colors cursor-pointer overflow-hidden",
+                    "block w-full text-left text-sm px-2 py-1.5 rounded-md cursor-pointer overflow-hidden",
+                    "transition-colors duration-300 ease-out",
+                    "hover:duration-0",
+
+                    // 3. Indentation Logic
                     item.level === 3 && "pl-6",
                     item.level === 4 && "pl-10",
                     item.level && item.level > 4 && "pl-14",
+
+                    // 4. Active vs Inactive State
                     activeId === item.id
-                      ? "text-foreground-50 bg-background-800"
-                      : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50" // optional: subtle hover bg
+                      ? "text-foreground-50 bg-background-800 font-medium"
+                      : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50"
                   )}
                 >
-                  <span
-                    className="whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]"
-                  >
+                  <span className="whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
                     {item.title}
                   </span>
                 </button>
