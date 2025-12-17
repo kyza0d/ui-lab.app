@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useHeader } from "@/lib/header-context";
+import { useApp } from "@/lib/app-context";
 import { generateFullThemeConfig } from "@/lib/config-generator";
 import { CodeDisplay } from "@/components/code-display";
 
@@ -15,7 +15,7 @@ export default function ConfigPage() {
     radius,
     borderWidth,
     spacingScale,
-  } = useHeader();
+  } = useApp();
 
   const [generatedConfig, setGeneratedConfig] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
