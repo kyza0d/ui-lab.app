@@ -73,13 +73,14 @@ async function getDocBySlugFromDir(slug: string, dir: string): Promise<DocConten
   cacheTag('docs', `doc-${slug}`)
 
   try {
-    const filePath = path.join(dir, `${slug}.mdx`)
+    const decodedSlug = decodeURIComponent(slug)
+    const filePath = path.join(dir, `${decodedSlug}.mdx`)
     const source = await readFile(filePath, 'utf8')
     const { data: frontmatter, content } = matter(source)
 
     return {
       metadata: {
-        slug,
+        slug: decodedSlug,
         title: frontmatter.title || 'Untitled',
         description: frontmatter.description,
         category: frontmatter.category,
