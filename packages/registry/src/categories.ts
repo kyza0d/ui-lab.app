@@ -9,9 +9,9 @@ export const categories: CategoryDefinition[] = [
     icon: '⌨️'
   },
   {
-    id: 'display',
-    name: 'Display Components',
-    label: 'Display',
+    id: 'information',
+    name: 'Information Components',
+    label: 'Information',
     description: 'Components for presenting information',
     icon: '👁️'
   },
@@ -63,6 +63,13 @@ export const categories: CategoryDefinition[] = [
     label: 'Data',
     description: 'Components for displaying and managing data like tables and visualizations',
     icon: '📊'
+  },
+  {
+    id: 'experimental',
+    name: 'Experimental Components',
+    label: 'Experimental',
+    description: 'Experimental components that are still in development and may change',
+    icon: '🧪'
   }
 ];
 
@@ -76,9 +83,10 @@ export const categoryOrder: ComponentCategory[] = [
   'composition',
   'action',
   'input',
-  'display',
+  'information',
   'feedback',
   'navigation',
   'container',
-  'data'
+  'data',
+  'experimental'
 ];

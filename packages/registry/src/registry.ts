@@ -130,7 +130,7 @@ export const componentRegistry: ComponentRegistry = {
     id: 'label',
     name: 'Label',
     description: 'Text label for form elements.',
-    category: 'display',
+    category: 'information',
     source: {
       packageName: 'ui-lab-components',
       exportName: 'Label',
@@ -220,7 +220,7 @@ export const componentRegistry: ComponentRegistry = {
     id: 'badge',
     name: 'Badge',
     description: 'A small badge component for displaying labels or status.',
-    category: 'display',
+    category: 'information',
     source: {
       packageName: 'ui-lab-components',
       exportName: 'Badge',
@@ -238,7 +238,7 @@ export const componentRegistry: ComponentRegistry = {
     id: 'tooltip',
     name: 'Tooltip',
     description: 'Displays additional information on hover or focus.',
-    category: 'display',
+    category: 'information',
     source: {
       packageName: 'ui-lab-components',
       exportName: 'Tooltip',
@@ -292,7 +292,7 @@ export const componentRegistry: ComponentRegistry = {
     id: 'toast',
     name: 'Toast',
     description: 'A notification component for displaying temporary messages.',
-    category: 'feedback',
+    category: 'experimental',
     source: {
       packageName: 'ui-lab-components',
       exportName: 'Toast',
