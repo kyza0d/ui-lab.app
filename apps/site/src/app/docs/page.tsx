@@ -7,6 +7,7 @@ import { mdxComponents } from '@/lib/mdx-components'
 import { TableOfContents } from "@/components/TableOfContents";
 import { Logo } from "@/components/ui/logo";
 import { RequirementsSection } from "./requirements-section";
+import { packageMetadata } from 'ui-lab-registry';
 
 const TailwindSvg = () => (
   <svg
@@ -87,12 +88,12 @@ export default async function DocsPage() {
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
+        <main className="w-full mx-auto max-w-2xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
           {/* Version badge */}
           <div className="mb-8 flex items-center gap-4 text-foreground-400">
-            <span className="inline-flex items-center gap-2 rounded border border-foreground-800 px-2 py-0.5 text-sm">
+            <span className="inline-flex items-center gap-2 rounded border border-background-700 px-2 py-0.5 text-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-              v0.1.1
+              v{packageMetadata.version}
             </span>
             <span>·</span>
             <span>06 Dec 2025</span>
@@ -111,8 +112,6 @@ export default async function DocsPage() {
             </div>
           </div>
 
-          <div className="h-px bg-foreground-800 my-12"></div>
-
           {/* MDX Content */}
           <div className="prose dark:prose-invert prose-lg max-w-none">
             <MDXRemote
@@ -122,7 +121,7 @@ export default async function DocsPage() {
             />
           </div>
 
-          <div className="h-px bg-foreground-800 my-12"></div>
+          <div className="h-px bg-background-800 my-12"></div>
 
           {/* Tech Stack*/}
           <section id="tech-stack" className="mb-12">
@@ -151,7 +150,7 @@ export default async function DocsPage() {
           {/* Requirements table */}
           <RequirementsSection />
 
-          <div className="h-px bg-foreground-800 my-12"></div>
+          <div className="h-px bg-background-800 my-12"></div>
 
           {/* Navigation section */}
           <section id="documentation" className="space-y-6 text-sm">
