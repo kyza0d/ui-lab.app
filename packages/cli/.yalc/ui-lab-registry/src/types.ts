@@ -1,13 +1,14 @@
 export type ComponentCategory =
   | 'input'
-  | 'display'
+  | 'information'
   | 'feedback'
   | 'navigation'
   | 'container'
   | 'action'
   | 'composition'
   | 'layout'
-  | 'data';
+  | 'data'
+  | 'experimental';
 
 export interface ComponentSource {
   packageName: 'ui-lab-components';
@@ -91,4 +92,8 @@ export interface ComponentSourceCode {
 export interface ComponentDeps {
   npm: string[];
   internal: string[];
+}
+
+export interface PackageMetadata {
+  version: string;
 }

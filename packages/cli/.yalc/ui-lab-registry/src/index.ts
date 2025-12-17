@@ -2,7 +2,7 @@
 export { componentRegistry, componentMetadata } from './registry.js';
 
 // Generated data (auto-populated by scripts/generate-registry-data.ts)
-export { generatedAPI, generatedStyles, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies } from './generated-data.js';
+export { generatedAPI, generatedStyles, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies, packageMetadata } from './generated-data.js';
 
 export const sourceUrls: Record<string, string> = {
   "badge": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/badge",
@@ -49,7 +49,8 @@ export type {
   StyleVariable,
   StyleClass,
   ComponentStyles,
-  ComponentSourceCode
+  ComponentSourceCode,
+  PackageMetadata
 } from './types.js';
 
 // Helpers
