@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 const REGISTRY_PATH = path.resolve(__dirname, '../src/registry.ts');
 const GENERATED_DATA_PATH = path.resolve(__dirname, '../src/generated-data.ts');
 const COMPONENTS_DIR = path.resolve(__dirname, '../../components/src/components');
+const PACKAGE_JSON_PATH = path.resolve(__dirname, '../package.json');
 
 const REACT_ARIA_PLACEHOLDERS: Record<string, string> = {
   button: 'https://react-spectrum.adobe.com/react-aria/useButton.html',
@@ -57,13 +58,27 @@ function getComponentIds(): string[] {
     .map(dirent => dirent.name);
 }
 
+function getPackageMetadata(): { version: string } {
+  try {
+    if (!fs.existsSync(PACKAGE_JSON_PATH)) {
+      throw new Error('package.json not found');
+    }
+    const packageJson = JSON.parse(fs.readFileSync(PACKAGE_JSON_PATH, 'utf-8'));
+    return { version: packageJson.version || '0.0.0' };
+  } catch (error) {
+    console.error('Error reading package metadata:', error);
+    return { version: '0.0.0' };
+  }
+}
+
 function generateDataFile(
   apiData: Record<string, ComponentAPI>,
   stylesData: Record<string, ComponentStyles>,
   sourceData: Record<string, ComponentSourceCode>,
-  reactAriaUrls: Record<string, string>
+  reactAriaUrls: Record<string, string>,
+  packageMetadata: { version: string }
 ): void {
-  const content = `import type { ComponentAPI, ComponentStyles, ComponentSourceCode, ComponentDeps } from './types';
+  const content = `import type { ComponentAPI, ComponentStyles, ComponentSourceCode, ComponentDeps, PackageMetadata } from './types';
 
 export const generatedAPI: Record<string, ComponentAPI> = ${JSON.stringify(apiData, null, 2)};
 
@@ -78,6 +93,8 @@ export const generatedComponentDependencies: Record<string, ComponentDeps> = ${J
 export const generatedCoreNpmDependencies = ${JSON.stringify(Array.from(coreNpmDependencies), null, 2)};
 
 export const generatedCorePeerDependencies = ${JSON.stringify(Array.from(corePeerDependencies), null, 2)};
+
+export const packageMetadata: PackageMetadata = ${JSON.stringify(packageMetadata, null, 2)};
 `;
 
   fs.writeFileSync(GENERATED_DATA_PATH, content, 'utf-8');
@@ -107,7 +124,11 @@ async function main() {
     reactAriaUrls[id] = REACT_ARIA_PLACEHOLDERS[id] || '';
   }
 
-  generateDataFile(apiData, stylesData, sourceData, reactAriaUrls);
+  console.log('Extracting package metadata...');
+  const packageMetadata = getPackageMetadata();
+  console.log(`Package version: ${packageMetadata.version}\n`);
+
+  generateDataFile(apiData, stylesData, sourceData, reactAriaUrls, packageMetadata);
 
   console.log('\nSummary:');
   console.log('--------');

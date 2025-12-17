@@ -39,7 +39,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsx scripts/generate-registry-data.ts && tsc",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-registry-data.ts"
   },
