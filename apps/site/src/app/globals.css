@@ -1,9 +1,93 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/assets/fonts/monospace/IoskeleyMono-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
+
 @theme {
   /* Font Families */
   --font-sans: "Karla", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", monospace;
+  --font-mono: "Ioskeley Mono", monospace;
 
   --text-xs: clamp(0.581rem, 1.5vw, 0.635rem);
   --text-sm: clamp(0.681rem, 2vw, 0.762rem);
@@ -169,7 +253,7 @@
   --h1-font-size: var(--text-4xl);
 
   --header-height: 6.75rem;
-  --page-width: 1200px;
+  --page-width: 1400px;
 }
 
 
@@ -436,7 +520,6 @@ p {
 a {
   text-decoration: none;
   text-underline-offset: 0.15em;
-  transition: color 0.2s ease;
 }
 
 /* Emphasis Styles */
@@ -450,10 +533,10 @@ strong {
 code,
 pre {
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0.010em;
+  font-size: calc(var(--text-sm) * 1.06);
+  font-weight: 500;
+  line-height: 1.58;
+  letter-spacing: 0.006em;
 }
 
 /*
@@ -479,6 +562,40 @@ pre {
   @apply font-semibold
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 0.6rem 0 ;
+  font-weight: 600;
+}
+
 h1 {
-  --h1-font-size: var(--text-xl)
+  margin: 0rem 0 0.6rem 0 ;
+  font-size: var(--text-xl) !important;
+}
+
+h2 {
+  margin: 0rem 0 0.4rem 0 ;
+  font-size: var(--text-xl) !important;
+}
+
+
+h3 {
+  margin: 0rem 0 1.2rem 0 ;
+  font-size: var(--text-lg) !important;
+}
+
+h4 {
+  margin: 0rem 0 1.2rem 0 ;
+  font-size: var(--text-md) !important;
+}
+
+
+p {
+  font-size: var(--text-sm);
+  max-width: 65ch;
+  margin: 0 0 0.4rem 0;
 }
