@@ -1,0 +1,235 @@
+---
+title: "Typography System"
+description: "Font families, type scale, and text styles for consistent, readable interfaces"
+category: "design-system"
+publishedOn: "2025-12-15"
+tags: ["typography", "fonts", "text-styles"]
+---
+
+# Typography System
+
+Carefully selected typefaces, modular type scale (1.25 ratio), and predefined text styles create readable, consistent interfaces.
+
+---
+
+## Font Families
+
+**Primary (Sans):** System fonts for native appearance, better performance, and accessibility
+
+**Secondary (Monospace):** For code, data tables, and technical content
+
+---
+
+## Type Scale
+
+1.25 ratio (perfect fourth) provides clear hierarchy without too many sizes
+
+### Font Sizes
+
+<MarkdownTable markdown="| Name | Size | Use Case | CSS Variable |\n|------|------|----------|--------------||\n| **xs** | 0.75rem (12px) | Captions, metadata, small labels | \`--font-size-xs\` |\n| **sm** | 0.875rem (14px) | Small text, help text, secondary content | \`--font-size-sm\` |\n| **md** | 1rem (16px) | Body text, standard labels, default size | \`--font-size-md\` |\n| **lg** | 1.25rem (20px) | Large labels, lead paragraphs | \`--font-size-lg\` |\n| **xl** | 1.5rem (24px) | Subheadings, section titles | \`--font-size-xl\` |\n| **2xl** | 1.875rem (30px) | Page titles, main headings | \`--font-size-2xl\` |\n| **3xl** | 2.25rem (36px) | Large display headings | \`--font-size-3xl\` |" />
+
+---
+
+## Font Weights
+
+Three primary weights provide sufficient contrast without excessive variety:
+
+<MarkdownTable markdown="| Weight | Value | Use Case |\n|--------|-------|----------|\n| **Regular** | 400 | Body text, default weight |\n| **Medium** | 500 | Emphasis, labels, interactive states |\n| **Bold** | 700 | Headings, strong emphasis, important text |" />
+
+### Weight Usage Guidelines
+
+**Regular (400)**
+- Primary body text
+- Paragraphs, descriptions
+- Default state for all text
+
+**Medium (500)**
+- Labels and form text
+- Navigation items
+- Subheadings
+- Emphasized content
+- Button labels
+
+**Bold (700)**
+- Heading levels (h1-h6)
+- Strong emphasis within body text
+- Important labels or badges
+- Section titles
+
+---
+
+## Line Heights
+
+Line height affects readability and visual rhythm:
+
+<MarkdownTable markdown="| Name | Value | Use Case |\n|------|-------|----------|\n| **tight** | 1.25 | Headings, compact layouts |\n| **normal** | 1.5 | Body text, standard content |\n| **relaxed** | 1.75 | Long-form content, accessibility |" />
+
+### Line Height Guidelines
+
+**Tight (1.25)**
+- Headings and display text
+- Badges and labels
+- Compact information
+
+**Normal (1.5)**
+- Body paragraphs
+- Descriptions and explanatory text
+- Standard content blocks
+- Forms and form labels
+
+**Relaxed (1.75)**
+- Long-form articles
+- Accessibility-critical content
+- Content designed for readability
+
+---
+
+## Text Styles
+
+Predefined text styles combine font size, weight, line height, and letter spacing for common patterns.
+
+### Heading Styles
+
+---
+
+#### Heading 1 (h1)
+- **Size**: 2.25rem (36px)
+- **Weight**: 700 (bold)
+- **Line Height**: 1.25
+- **Use**: Page titles, primary headings
+- **CSS Variable**: `--text-h1`
+
+#### Heading 2 (h2)
+- **Size**: 1.875rem (30px)
+- **Weight**: 700 (bold)
+- **Line Height**: 1.25
+- **Use**: Section titles, major divisions
+- **CSS Variable**: `--text-h2`
+
+#### Heading 3 (h3)
+- **Size**: 1.5rem (24px)
+- **Weight**: 700 (bold)
+- **Line Height**: 1.5
+- **Use**: Subsections, component headings
+- **CSS Variable**: `--text-h3`
+
+#### Heading 4 (h4)
+- **Size**: 1.25rem (20px)
+- **Weight**: 700 (bold)
+- **Line Height**: 1.5
+- **Use**: Minor headings, group titles
+- **CSS Variable**: `--text-h4`
+
+### Body Styles
+
+---
+
+#### Body Large
+- **Size**: 1rem (16px)
+- **Weight**: 400 (regular)
+- **Line Height**: 1.5
+- **Use**: Lead paragraphs, important content
+- **CSS Variable**: `--text-body-lg`
+
+#### Body (Default)
+- **Size**: 1rem (16px)
+- **Weight**: 400 (regular)
+- **Line Height**: 1.5
+- **Use**: Standard body text, paragraphs
+- **CSS Variable**: `--text-body`
+
+#### Body Small
+- **Size**: 0.875rem (14px)
+- **Weight**: 400 (regular)
+- **Line Height**: 1.5
+- **Use**: Secondary text, descriptions
+- **CSS Variable**: `--text-body-sm`
+
+### UI Styles
+
+---
+
+#### Label
+- **Size**: 0.875rem (14px)
+- **Weight**: 500 (medium)
+- **Line Height**: 1.25
+- **Use**: Form labels, UI text, badges
+- **CSS Variable**: `--text-label`
+
+#### Caption
+- **Size**: 0.75rem (12px)
+- **Weight**: 400 (regular)
+- **Line Height**: 1.25
+- **Use**: Metadata, timestamps, hints
+- **CSS Variable**: `--text-caption`
+
+#### Code
+- **Font Family**: Monospace
+- **Size**: 0.875rem (14px)
+- **Weight**: 400 (regular)
+- **Line Height**: 1.5
+- **Use**: Inline code, code blocks
+- **CSS Variable**: `--text-code`
+
+---
+
+## Usage
+
+**Line length:** 45-75 characters optimal, max 90
+
+**Contrast:** Minimum 4.5:1 for normal text, 3:1 for large text (18pt+)
+
+**Responsive:** Adjust sizes down one step on tablet, increase line height slightly on mobile
+
+---
+
+## CSS Variable Usage
+
+All typography styles are available as CSS variables:
+
+```css
+/* Font sizes */
+font-size: var(--font-size-md);
+font-size: var(--font-size-lg);
+
+/* Complete text styles */
+font: var(--text-body);
+font: var(--text-h2);
+font: var(--text-label);
+
+/* Individual properties */
+font-family: var(--font-family-sans);
+font-weight: var(--font-weight-bold);
+line-height: var(--line-height-relaxed);
+```
+
+### Tailwind CSS Classes
+
+Typography is integrated with Tailwind:
+
+```html
+<!-- Font sizes -->
+<p class="text-xs">Smallest</p>
+<p class="text-sm">Small</p>
+<p class="text-base">Default</p>
+<p class="text-lg">Large</p>
+<p class="text-xl">Extra Large</p>
+
+<!-- Font weights -->
+<p class="font-normal">Regular</p>
+<p class="font-medium">Medium</p>
+<p class="font-bold">Bold</p>
+
+<!-- Line heights -->
+<p class="leading-tight">Tight</p>
+<p class="leading-normal">Normal</p>
+<p class="leading-relaxed">Relaxed</p>
+```
+
+---
+
+## Accessibility
+
+- **Minimums:** Body text 16px, labels 14px, captions 12px
+- **Line height:** Minimum 1.5 for body text
+- **Testing:** Verify contrast ratios, test with screen readers, check at 200% zoom

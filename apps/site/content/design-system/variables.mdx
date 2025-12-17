@@ -1,0 +1,777 @@
+---
+title: "CSS Variables"
+description: "Complete reference for CSS custom properties implementing design tokens"
+category: "design-system"
+publishedOn: "2025-12-15"
+tags: ["css-variables", "custom-properties", "implementation"]
+---
+
+# CSS Variables
+
+CSS Variables (Custom Properties) provide direct access to all design tokens in your stylesheets. They enable dynamic theming, easier maintenance, and more predictable styling across components.
+
+---
+
+## What Are CSS Variables?
+
+CSS Variables (also called CSS Custom Properties) are entities defined by CSS authors that contain specific values to be reused throughout a document. They provide:
+- Dynamic theming capabilities
+- Single-source-of-truth for design decisions
+- Reduced code duplication
+- Easier maintenance and updates
+
+### Syntax
+
+```css
+/* Define a variable */
+:root {
+  --color-primary: #4F46E5;
+  --spacing-base: 16px;
+}
+
+/* Use a variable */
+.button {
+  background-color: var(--color-primary);
+  padding: var(--spacing-base);
+}
+
+/* Fallback value */
+color: var(--foreground, #000);
+```
+
+---
+
+## Variable Naming Convention
+
+All CSS variables follow the pattern: `--{category}-{property}`
+
+### Examples
+
+**Colors**
+```css
+--background-50
+--foreground-950
+--accent-600
+--success-500
+--danger-700
+```
+
+**Typography**
+```css
+--font-family-sans
+--font-size-md
+--font-weight-bold
+--line-height-normal
+--text-body
+```
+
+**Spacing**
+```css
+--space-1
+--space-4
+--space-12
+```
+
+**Other**
+```css
+--radius-lg
+--shadow-md
+--duration-base
+--ease-in-out
+```
+
+---
+
+## Color Variables
+
+### Background Colors
+
+Used for page backgrounds, containers, and surface layers:
+
+```css
+--background-50    /* Lightest background */
+--background-100
+--background-200
+--background-300
+--background-400
+--background-500
+--background-600
+--background-700
+--background-800
+--background-900
+--background-950   /* Darkest background */
+```
+
+**Usage:**
+```css
+body {
+  background-color: var(--background-50);
+}
+
+.card {
+  background-color: var(--background-100);
+}
+
+.dark-mode {
+  background-color: var(--background-950);
+}
+```
+
+### Foreground Colors
+
+Text and foreground elements:
+
+```css
+--foreground-50    /* Lightest text */
+--foreground-100
+--foreground-200
+--foreground-300
+--foreground-400
+--foreground-500
+--foreground-600
+--foreground-700
+--foreground-800
+--foreground-900
+--foreground-950   /* Darkest text */
+```
+
+**Usage:**
+```css
+body {
+  color: var(--foreground-950);
+}
+
+.secondary-text {
+  color: var(--foreground-500);
+}
+
+.placeholder {
+  color: var(--foreground-400);
+}
+```
+
+### Accent Colors
+
+Primary interactive elements and highlights:
+
+```css
+--accent-50
+--accent-100
+--accent-200
+/* ... */
+--accent-950
+```
+
+**Usage:**
+```css
+.button-primary {
+  background-color: var(--accent-600);
+  color: var(--foreground-50);
+}
+
+.button-primary:hover {
+  background-color: var(--accent-700);
+}
+
+a {
+  color: var(--accent-600);
+}
+```
+
+### Semantic Colors
+
+**Success (Green)**
+```css
+--success-50 through --success-950
+```
+
+**Danger (Red)**
+```css
+--danger-50 through --danger-950
+```
+
+**Warning (Yellow)**
+```css
+--warning-50 through --warning-950
+```
+
+**Info (Blue)**
+```css
+--info-50 through --info-950
+```
+
+**Usage:**
+```css
+.alert-success {
+  background-color: var(--success-50);
+  color: var(--success-900);
+  border: 1px solid var(--success-300);
+}
+
+.alert-danger {
+  background-color: var(--danger-50);
+  color: var(--danger-900);
+  border: 1px solid var(--danger-300);
+}
+```
+
+---
+
+## Typography Variables
+
+### Font Family
+
+```css
+--font-family-sans
+--font-family-mono
+```
+
+**Usage:**
+```css
+body {
+  font-family: var(--font-family-sans);
+}
+
+code,
+pre {
+  font-family: var(--font-family-mono);
+}
+```
+
+### Font Sizes
+
+```css
+--font-size-xs    /* 0.75rem (12px) */
+--font-size-sm    /* 0.875rem (14px) */
+--font-size-md    /* 1rem (16px) */
+--font-size-lg    /* 1.25rem (20px) */
+--font-size-xl    /* 1.5rem (24px) */
+--font-size-2xl   /* 1.875rem (30px) */
+--font-size-3xl   /* 2.25rem (36px) */
+```
+
+**Usage:**
+```css
+h1 {
+  font-size: var(--font-size-3xl);
+}
+
+body {
+  font-size: var(--font-size-md);
+}
+
+.small-text {
+  font-size: var(--font-size-sm);
+}
+```
+
+### Font Weights
+
+```css
+--font-weight-regular  /* 400 */
+--font-weight-medium   /* 500 */
+--font-weight-bold     /* 700 */
+```
+
+**Usage:**
+```css
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.label {
+  font-weight: var(--font-weight-medium);
+}
+```
+
+### Line Heights
+
+```css
+--line-height-tight    /* 1.25 */
+--line-height-normal   /* 1.5 */
+--line-height-relaxed  /* 1.75 */
+```
+
+**Usage:**
+```css
+h1 {
+  line-height: var(--line-height-tight);
+}
+
+body {
+  line-height: var(--line-height-normal);
+}
+
+article {
+  line-height: var(--line-height-relaxed);
+}
+```
+
+### Complete Text Styles
+
+Pre-combined typography variables:
+
+```css
+--text-h1           /* 2.25rem, bold, tight line-height */
+--text-h2           /* 1.875rem, bold, tight line-height */
+--text-h3           /* 1.5rem, bold, normal line-height */
+--text-h4           /* 1.25rem, bold, normal line-height */
+--text-body-lg      /* 1rem, regular, normal line-height */
+--text-body         /* 1rem, regular, normal line-height */
+--text-body-sm      /* 0.875rem, regular, normal line-height */
+--text-label        /* 0.875rem, medium, tight line-height */
+--text-caption      /* 0.75rem, regular, tight line-height */
+--text-code         /* Monospace, 0.875rem, normal line-height */
+```
+
+**Usage:**
+```css
+h1 {
+  font: var(--text-h1);
+}
+
+body {
+  font: var(--text-body);
+}
+
+label {
+  font: var(--text-label);
+}
+```
+
+---
+
+## Spacing Variables
+
+Spacing uses 4px as the base unit:
+
+```css
+--space-0.5   /* 2px */
+--space-1     /* 4px */
+--space-2     /* 8px */
+--space-3     /* 12px */
+--space-4     /* 16px */
+--space-6     /* 24px */
+--space-8     /* 32px */
+--space-12    /* 48px */
+--space-16    /* 64px */
+--space-20    /* 80px */
+--space-24    /* 96px */
+```
+
+**Usage:**
+```css
+/* Single value */
+margin: var(--space-4);
+
+/* Multiple values */
+padding: var(--space-4) var(--space-6);
+margin: var(--space-6) var(--space-4) var(--space-3);
+
+/* With gap */
+.flex-container {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* With grid */
+.grid-container {
+  display: grid;
+  gap: var(--space-4);
+}
+```
+
+---
+
+## Border Radius Variables
+
+```css
+--radius-sm    /* 2px */
+--radius-md    /* 4px */
+--radius-lg    /* 8px */
+--radius-xl    /* 12px */
+--radius-2xl   /* 16px */
+--radius-full  /* 9999px */
+```
+
+**Usage:**
+```css
+.button {
+  border-radius: var(--radius-md);
+}
+
+.card {
+  border-radius: var(--radius-lg);
+}
+
+.modal {
+  border-radius: var(--radius-xl);
+}
+
+.pill {
+  border-radius: var(--radius-full);
+}
+```
+
+---
+
+## Shadow Variables
+
+```css
+--shadow-sm    /* Subtle shadow */
+--shadow-md    /* Medium shadow */
+--shadow-lg    /* Large shadow */
+--shadow-xl    /* Extra large shadow */
+```
+
+**Usage:**
+```css
+.card {
+  box-shadow: var(--shadow-md);
+}
+
+.floating-action {
+  box-shadow: var(--shadow-lg);
+}
+
+.tooltip {
+  box-shadow: var(--shadow-sm);
+}
+```
+
+---
+
+## Motion Variables
+
+### Duration
+
+```css
+--duration-fast   /* 100ms */
+--duration-base   /* 200ms */
+--duration-slow   /* 300ms */
+```
+
+### Easing
+
+```css
+--ease-in        /* Cubic-bezier for entering animations */
+--ease-out       /* Cubic-bezier for exiting animations */
+--ease-in-out    /* Cubic-bezier for continuous animations */
+```
+
+**Usage:**
+```css
+button {
+  transition: all var(--duration-base) var(--ease-in-out);
+}
+
+.fade-enter {
+  animation: fadeIn var(--duration-fast) var(--ease-in);
+}
+
+.slide-exit {
+  animation: slideOut var(--duration-slow) var(--ease-out);
+}
+```
+
+---
+
+## Practical Examples
+
+### Button Component
+
+```css
+.button {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  background-color: var(--accent-600);
+  color: var(--foreground-50);
+  border-radius: var(--radius-md);
+  border: none;
+  transition: all var(--duration-base) var(--ease-in-out);
+}
+
+.button:hover {
+  background-color: var(--accent-700);
+  box-shadow: var(--shadow-md);
+}
+
+.button:active {
+  background-color: var(--accent-800);
+}
+
+.button.secondary {
+  background-color: var(--background-100);
+  color: var(--foreground-950);
+  border: 1px solid var(--foreground-200);
+}
+
+.button.disabled {
+  background-color: var(--background-200);
+  color: var(--foreground-400);
+  cursor: not-allowed;
+}
+```
+
+### Form Element
+
+```css
+.input {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-md);
+  border: 1px solid var(--foreground-200);
+  border-radius: var(--radius-md);
+  background-color: var(--background-50);
+  color: var(--foreground-950);
+  font-family: var(--font-family-sans);
+  transition: border-color var(--duration-base) var(--ease-in-out);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-600);
+  box-shadow: 0 0 0 3px var(--accent-100);
+}
+
+.input:disabled {
+  background-color: var(--background-100);
+  color: var(--foreground-500);
+  cursor: not-allowed;
+}
+
+label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font: var(--text-label);
+  color: var(--foreground-900);
+}
+```
+
+### Card Component
+
+```css
+.card {
+  padding: var(--space-6);
+  background-color: var(--background-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.card-title {
+  font: var(--text-h3);
+  color: var(--foreground-950);
+  margin-bottom: var(--space-3);
+}
+
+.card-description {
+  font: var(--text-body-sm);
+  color: var(--foreground-600);
+  margin-bottom: var(--space-4);
+}
+
+.card-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+```
+
+### Alert Component
+
+```css
+.alert {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+}
+
+.alert-success {
+  background-color: var(--success-50);
+  border-left-color: var(--success-600);
+  color: var(--success-900);
+}
+
+.alert-danger {
+  background-color: var(--danger-50);
+  border-left-color: var(--danger-600);
+  color: var(--danger-900);
+}
+
+.alert-warning {
+  background-color: var(--warning-50);
+  border-left-color: var(--warning-600);
+  color: var(--warning-900);
+}
+
+.alert-info {
+  background-color: var(--info-50);
+  border-left-color: var(--info-600);
+  color: var(--info-900);
+}
+
+.alert-title {
+  font: var(--text-label);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-1);
+}
+
+.alert-message {
+  font: var(--text-body-sm);
+}
+```
+
+---
+
+## Theme Switching
+
+CSS variables make theme switching simple and efficient:
+
+```css
+:root {
+  /* Light theme (default) */
+  --background-50: #ffffff;
+  --background-100: #f9f9f9;
+  /* ... more light theme variables */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark theme */
+    --background-50: #1a1a1a;
+    --background-100: #2d2d2d;
+    /* ... more dark theme variables */
+  }
+}
+
+/* Or use a data attribute for manual theme switching */
+[data-theme="dark"] {
+  --background-50: #1a1a1a;
+  --background-100: #2d2d2d;
+  /* ... */
+}
+
+[data-theme="light"] {
+  --background-50: #ffffff;
+  --background-100: #f9f9f9;
+  /* ... */
+}
+```
+
+**JavaScript Theme Switching:**
+
+```javascript
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme)
+  localStorage.setItem('theme', theme)
+}
+
+function getTheme() {
+  return localStorage.getItem('theme') || 'light'
+}
+
+// Apply theme on page load
+document.documentElement.setAttribute('data-theme', getTheme())
+```
+
+---
+
+## Browser Support
+
+CSS Variables are supported in all modern browsers:
+- Chrome 49+
+- Firefox 31+
+- Safari 9.1+
+- Edge 15+
+- All modern mobile browsers
+
+### Fallback Values
+
+For older browser support, provide fallback values:
+
+```css
+.button {
+  background-color: #4F46E5;  /* Fallback */
+  background-color: var(--accent-600);
+}
+```
+
+---
+
+## Performance Considerations
+
+### Advantages
+
+- **Zero runtime cost**: Variables are parsed at parse time
+- **Smaller CSS**: Reduces code duplication
+- **Faster theme switching**: No need to recompile stylesheets
+
+### Best Practices
+
+1. Define variables at `:root` for global scope
+2. Use local variables for component-specific values
+3. Avoid excessive nesting of variables
+4. Use meaningful names that reflect purpose
+
+---
+
+## Debugging
+
+### Inspecting Variables
+
+In the browser DevTools:
+
+```javascript
+// Get all variables
+const variables = getComputedStyle(document.documentElement)
+
+// Get a specific variable
+const accentColor = variables.getPropertyValue('--accent-600')
+
+// Set a variable dynamically
+document.documentElement.style.setProperty('--accent-600', '#new-color')
+```
+
+### Common Issues
+
+**Variable not working:**
+- Check spelling and hyphenation
+- Verify it's defined in `:root` or parent scope
+- Ensure fallback value is valid CSS
+
+**Theme not switching:**
+- Verify CSS selector matches HTML element
+- Check that variables are redefined in new scope
+- Clear browser cache
+
+---
+
+## Migration Guide
+
+### From Hardcoded Values
+
+**Before:**
+```css
+.button {
+  background-color: #4F46E5;
+  padding: 8px 16px;
+  color: #ffffff;
+}
+```
+
+**After:**
+```css
+.button {
+  background-color: var(--accent-600);
+  padding: var(--space-2) var(--space-4);
+  color: var(--foreground-50);
+}
+```
+
+---
+
+## Further Resources
+
+- [MDN: CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/--*)
+- [CSS Variables Best Practices](https://www.smashingmagazine.com/2018/05/css-custom-properties-strategy-guide/)
+- [Using CSS Variables](https://developer.mozilla.org/en-US/docs/Web/CSS/var())

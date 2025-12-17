@@ -1,0 +1,227 @@
+---
+title: "Design Tokens"
+description: "Complete reference of design tokens including colors, typography, spacing, and more"
+category: "design-system"
+publishedOn: "2025-12-15"
+tags: ["tokens", "design-tokens", "reference"]
+---
+
+# Design Tokens
+
+Design tokens are named design values that represent design decisions as reusable, centrally-managed variables. Use tokens instead of hardcoding values to enable theme swapping and maintain consistency.
+
+**Instead of:**
+```css
+.button {
+  background-color: #4F46E5;
+  padding: 8px 16px;
+  font-size: 16px;
+}
+```
+
+**Use:**
+```css
+.button {
+  background-color: var(--accent-600);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-md);
+}
+```
+
+---
+
+## Token Categories
+
+Colors, typography, spacing, shadows, borders, and motion
+
+---
+
+## Color Tokens
+
+All colors use OKLCH color space (perceptually uniform). Pattern: `{family}-{shade}` where shade ranges 50 (lightest) to 950 (darkest).
+
+**Core families**: Background, Foreground, Accent
+**Semantic**: Success (green), Danger (red), Warning (yellow), Info (blue)
+
+### Shade Selection Guide
+
+<MarkdownTable markdown="| Shade Range | Use Case | Examples |\n|-------------|----------|----------|\n| **50-100** | Light backgrounds, hover states | Card backgrounds, tooltips |\n| **200-300** | Light accents, borders | Input borders, dividers |\n| **400-500** | Medium, interactive states | Button backgrounds, links |\n| **600-700** | Bold accents, dark mode backgrounds | Primary buttons, section backgrounds |\n| **800-900** | Dark text, dark backgrounds | Text color, dark mode text |\n| **950** | Darkest, text on light | Headlines, strong emphasis |" />
+
+---
+
+## Typography Tokens
+
+**Families:**
+- `--font-family-sans`: System fonts (primary)
+- `--font-family-mono`: Monospace (code, data)
+
+### Font Size Tokens
+
+<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--font-size-xs\` | 0.75rem (12px) | Captions, metadata |\n| \`--font-size-sm\` | 0.875rem (14px) | Small text, help |\n| \`--font-size-md\` | 1rem (16px) | Body text, default |\n| \`--font-size-lg\` | 1.25rem (20px) | Large labels |\n| \`--font-size-xl\` | 1.5rem (24px) | Subheadings |\n| \`--font-size-2xl\` | 1.875rem (30px) | Page titles |\n| \`--font-size-3xl\` | 2.25rem (36px) | Display headings |" />
+
+### Font Weight Tokens
+
+<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--font-weight-regular\` | 400 | Body text |\n| \`--font-weight-medium\` | 500 | Labels, emphasis |\n| \`--font-weight-bold\` | 700 | Headings, strong |" />
+
+### Line Height Tokens
+
+<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--line-height-tight\` | 1.25 | Headings, compact |\n| \`--line-height-normal\` | 1.5 | Body text, standard |\n| \`--line-height-relaxed\` | 1.75 | Long-form, accessibility |" />
+
+### Complete Text Style Tokens
+
+Pre-combined typography tokens:
+
+<MarkdownTable markdown="| Token | Includes | Use Case |\n|-------|----------|----------|\n| \`--text-h1\` | 2.25rem, 700, 1.25 | Page titles |\n| \`--text-h2\` | 1.875rem, 700, 1.25 | Section titles |\n| \`--text-h3\` | 1.5rem, 700, 1.5 | Subsections |\n| \`--text-h4\` | 1.25rem, 700, 1.5 | Minor headings |\n| \`--text-body-lg\` | 1rem, 400, 1.5 | Lead paragraphs |\n| \`--text-body\` | 1rem, 400, 1.5 | Standard body |\n| \`--text-body-sm\` | 0.875rem, 400, 1.5 | Secondary text |\n| \`--text-label\` | 0.875rem, 500, 1.25 | Form labels |\n| \`--text-caption\` | 0.75rem, 400, 1.25 | Metadata |\n| \`--text-code\` | 0.875rem mono, 400, 1.5 | Code blocks |" />
+
+---
+
+## Spacing Tokens
+
+All spacing tokens use 4px as the base unit with a 1.5x ratio between steps.
+
+<MarkdownTable markdown="| Token | Pixels | REM | Use Case |\n|-------|--------|-----|----------|\n| \`--space-0.5\` | 2px | 0.125rem | Minimal gaps |\n| \`--space-1\` | 4px | 0.25rem | Tight spacing |\n| \`--space-2\` | 8px | 0.5rem | Button padding |\n| \`--space-3\` | 12px | 0.75rem | Component padding |\n| \`--space-4\` | 16px | 1rem | Standard spacing |\n| \`--space-6\` | 24px | 1.5rem | Section spacing |\n| \`--space-8\` | 32px | 2rem | Major sections |\n| \`--space-12\` | 48px | 3rem | Large sections |\n| \`--space-16\` | 64px | 4rem | Hero sections |\n| \`--space-20\` | 80px | 5rem | Page spacing |\n| \`--space-24\` | 96px | 6rem | Full-width sections |" />
+
+---
+
+## Border Radius Tokens
+
+Consistent corner rounding throughout the interface:
+
+<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--radius-sm\` | 2px | Subtle rounding |\n| \`--radius-md\` | 4px | Small components |\n| \`--radius-lg\` | 8px | Cards, buttons |\n| \`--radius-xl\` | 12px | Large cards, modals |\n| \`--radius-2xl\` | 16px | Extra large elements |\n| \`--radius-full\` | 9999px | Fully rounded (pills, circles) |" />
+
+---
+
+## Shadow/Elevation Tokens
+
+Depth system using box shadows:
+
+<MarkdownTable markdown="| Token | Usage | Use Case |\n|-------|-------|----------|\n| \`--shadow-sm\` | Small shadow | Subtle elevation |\n| \`--shadow-md\` | Medium shadow | Standard elevation |\n| \`--shadow-lg\` | Large shadow | Prominent elevation |\n| \`--shadow-xl\` | Extra large shadow | High elevation |" />
+
+---
+
+## Motion/Animation Tokens
+
+### Duration Tokens
+
+<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--duration-fast\` | 100ms | Quick interactions |\n| \`--duration-base\` | 200ms | Standard animations |\n| \`--duration-slow\` | 300ms | Complex animations |" />
+
+### Easing Tokens
+
+<MarkdownTable markdown="| Token | Timing Function | Use Case |\n|-------|-----------------|----------|\n| \`--ease-in\` | cubic-bezier(0.4, 0, 1, 1) | Exiting animations |\n| \`--ease-out\` | cubic-bezier(0, 0, 0.2, 1) | Entering animations |\n| \`--ease-in-out\` | cubic-bezier(0.4, 0, 0.2, 1) | Continuous animations |" />
+
+---
+
+## Using Tokens
+
+**CSS:** `color: var(--foreground-950); padding: var(--space-4);`
+
+**Tailwind:** `<div class="bg-accent-600 p-4">Content</div>`
+
+**JavaScript:** `getComputedStyle(document.documentElement).getPropertyValue('--space-4')`
+
+---
+
+## Naming Conventions
+
+### Color Tokens
+
+**Pattern**: `--{family}-{shade}`
+
+Examples:
+- `--background-50`, `--background-950`
+- `--success-600`
+- `--danger-300`
+
+### Typography Tokens
+
+**Pattern**: `--font-{property}` or `--text-{style}`
+
+Examples:
+- `--font-family-sans`
+- `--font-size-md`
+- `--font-weight-bold`
+- `--text-body`
+- `--text-h1`
+
+### Spacing Tokens
+
+**Pattern**: `--space-{multiplier}`
+
+Examples:
+- `--space-1`, `--space-4`, `--space-12`
+
+### Other Tokens
+
+**Pattern**: `--{category}-{descriptor}`
+
+Examples:
+- `--radius-lg`
+- `--shadow-md`
+- `--duration-base`
+- `--ease-in-out`
+
+---
+
+## Semantic vs. Descriptive
+
+### Semantic Naming (Preferred)
+
+Token names describe their **purpose** or **meaning**:
+```
+--success-600 (used for success states)
+--danger-500 (used for errors)
+--foreground-950 (used for text)
+```
+
+### Descriptive Naming (Avoid)
+
+Token names describe their **appearance**:
+```
+--green-600 (color doesn't indicate purpose)
+--red-500 (red could mean danger or warm)
+--dark-text (not specific enough)
+```
+
+**Why semantic is better:**
+- Easy to swap themes without changing code
+- More maintainable across the project
+- Clearer intent for developers
+- Facilitates accessibility (e.g., danger colors can change if needed)
+
+---
+
+## Token Inheritance & Composition
+
+### Single Value Tokens
+Basic tokens representing a single decision:
+```
+--space-4: 1rem
+--font-size-md: 1rem
+--accent-600: oklch(50% 0.15 260)
+```
+
+### Composite Tokens
+Tokens combining multiple values for efficiency:
+```
+--text-body: 1rem / 1.5 "system-ui, ..."
+--shadow-md: 0 4px 6px rgba(0,0,0,0.1)
+```
+
+### Token Combinations
+Using multiple tokens together:
+```css
+.card {
+  padding: var(--space-6);
+  background-color: var(--background-50);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+```
+
+---
+
+## Accessibility Considerations
+
+- **Color Contrast**: Minimum 4.5:1 for text, 3:1 for graphics
+- **Font Sizes**: Body 16px+, small text 14px+, captions 12px+
+- **Touch Targets**: Minimum 44px × 44px with 8px gaps
