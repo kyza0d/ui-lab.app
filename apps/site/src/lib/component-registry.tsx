@@ -65,6 +65,8 @@ import { Fold } from "ui-lab-components";
 import { foldDetail } from "./component-demos/fold";
 import { Gallery } from "ui-lab-components";
 import { galleryDetail } from "./component-demos/gallery";
+import { Frame } from "@/components/experimental";
+import { frameDetail } from "./component-demos/frame";
 import { ComponentDetail } from "@/types/component";
 import { FaBell, FaCircleQuestion, FaFile, FaImage, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
@@ -74,12 +76,14 @@ import {
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
 } from "ui-lab-registry";
+import { experimentalRegistry, type ExperimentalComponentMetadata } from "./experimental-registry";
 
 export type { ComponentCategory } from "ui-lab-registry";
 export { categories, categoryMap, categoryOrder } from "ui-lab-registry";
 
 export interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
+  experimental?: boolean;
 }
 
 const previews: Record<string, React.ReactNode> = {
@@ -293,6 +297,11 @@ const previews: Record<string, React.ReactNode> = {
       ))}
     </Gallery>
   ),
+  frame: (
+    <Frame>
+      <p className="text-sm text-foreground-300">Framed content</p>
+    </Frame>
+  ),
 };
 
 export const componentRegistry: ComponentMetadata[] = [
@@ -314,7 +323,16 @@ export const componentRegistry: ComponentMetadata[] = [
     },
     relatedComponents: ['card'],
     preview: previews.table || <div />,
-  }] : [])
+  }] : []),
+  ...experimentalRegistry.map((metadata) => ({
+    ...metadata,
+    source: {
+      packageName: 'ui-lab-components' as const,
+      exportName: metadata.id.charAt(0).toUpperCase() + metadata.id.slice(1),
+      packagePath: `src/components/experimental/${metadata.id}`,
+    },
+    preview: previews[metadata.id] || <div />,
+  }))
 ];
 
 export const getComponentsByCategory = cache((category: ComponentCategory): ComponentMetadata[] => {
@@ -367,6 +385,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   divider: dividerDetail,
   fold: foldDetail,
   gallery: galleryDetail,
+  frame: frameDetail,
 };
 
 export const getComponentById = cache((id: string): ComponentDetail | undefined => {
