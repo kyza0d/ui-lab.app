@@ -1,0 +1,535 @@
+---
+title: "CLI Guide"
+description: "Complete reference for the ui-lab command-line tool for initializing projects and installing components."
+category: "guides"
+publishedOn: "2025-12-14"
+tags: ["cli", "commands", "setup", "installation", "reference"]
+---
+
+# CLI Guide
+
+The `ui-lab` command-line tool provides an intuitive way to initialize projects and install components into your existing applications.
+
+## Overview
+
+The CLI is published as the `ui-lab` npm package and can be used either as a global tool or via `npx`.
+
+**Installation:**
+
+```bash
+npm install -g ui-lab        # Global installation
+# or use npx without installing
+npx ui-lab init
+```
+
+**Requirements:**
+- Node.js 18 or higher
+- npm, yarn, or pnpm
+
+**Built with:**
+- Commander.js – CLI framework
+- @clack/prompts – Interactive CLI prompts
+- picocolors – Terminal colors
+
+---
+
+## ui-lab init
+
+Initialize a new UI Lab project in your existing application.
+
+**Basic Usage:**
+
+```bash
+npx ui-lab init
+```
+
+### Usage Modes
+
+**Interactive (Default):** Guided prompts walk you through framework detection, component directory selection, theme presets, and CSS setup.
+
+```bash
+npx ui-lab init
+```
+
+**Headless:** Skip all prompts with defaults or flags:
+
+```bash
+npx ui-lab init --yes
+npx ui-lab init --yes --preset vitesse-dark --framework nextjs
+```
+
+### Options
+
+<MarkdownTable markdown="| Option | Description | Example |\n|--------|-------------|----------|\n| \`--yes\` | Skip all interactive prompts | \`npx ui-lab init --yes\` |\n| \`--preset <theme>\` | Use specific theme preset | \`npx ui-lab init --preset vitesse-dark\` |\n| \`--framework <fw>\` | Force framework detection | \`npx ui-lab init --framework nextjs\` |\n| \`--componentDir <path>\` | Custom component directory | \`npx ui-lab init --componentDir src/ui\` |\n| \`--scaffold\` | Generate full project structure | \`npx ui-lab init --scaffold\` |\n| \`--json\` | Output results as JSON | \`npx ui-lab init --json\` |" />
+
+### What init Does
+
+The `init` command performs the following:
+
+1. **Detects your framework** – Identifies Next.js (app/pages router) or Vite
+2. **Creates component directory** – Creates the target directory for components
+3. **Generates CSS variables file** – Sets up semantic theme variables
+4. **Creates configuration** – Stores settings for future commands
+5. **Sets up imports** – Configures component imports in your project
+6. **Applies theme preset** – Generates CSS variables based on selected theme
+
+### Example Output
+
+```bash
+npx ui-lab init --framework nextjs
+
+✓ Detected Next.js 16 (app router)
+✓ Creating ./components directory
+✓ Generating theme preset (vitesse-light)
+✓ Creating ui-lab.config.json
+✓ Setup complete!
+```
+
+---
+
+## ui-lab install / ui-lab add
+
+Install specific components into your project. Both `install` and `add` work identically.
+
+**Basic Usage:**
+
+```bash
+npx ui-lab install button input modal
+# or
+npx ui-lab add button input modal
+```
+
+### Component Installation
+
+The CLI installs only the components you request:
+
+```bash
+$ npx ui-lab install button input
+
+ ◇  Validating components...
+ ◇  Resolving dependencies...
+    • button → no dependencies
+    • input → requires label
+ ◇  Installing components...
+    ✓ button → ./components/button.tsx
+    ✓ input → ./components/input.tsx
+    ✓ label → ./components/label.tsx (auto-required)
+ ✓ Installation complete!
+```
+
+### Features
+
+**Component Validation:**
+- Validates component names against registry
+- Suggests corrections for typos
+
+**Dependency Resolution:**
+- Automatically identifies component dependencies
+- Installs required child components
+- Shows dependency tree
+
+**Preview Mode:**
+- Shows what will be installed before making changes
+
+### Options
+
+<MarkdownTable markdown="| Option | Description | Example |\n|--------|-------------|----------|\n| \`<components>\` | Space-separated component names | \`npx ui-lab install button input\` |\n| \`--yes\` | Skip confirmation prompts | \`npx ui-lab install button --yes\` |\n| \`--dry-run\` | Preview installation without changes | \`npx ui-lab install button --dry-run\` |\n| \`--json\` | Output results as JSON | \`npx ui-lab install button --json\` |" />
+
+### Example: With Dependencies & Dry Run
+
+```bash
+npx ui-lab install form
+
+ ◇  Validating components...
+ ◇  Resolving dependencies...
+    • form (requires: input, label, button, select)
+ ✓ Installing 5 components...
+```
+
+Preview before installing:
+```bash
+npx ui-lab install button input --dry-run
+
+ ◇  Preview mode (no changes)
+ ◆  Would install: button.tsx (28 KB), input.tsx (15 KB), label.tsx (8 KB)
+ ◆  Estimated impact: +51 KB
+```
+
+---
+
+## Available Components
+
+The CLI recognizes all 27+ components from the UI Lab library:
+
+**Layout:**
+button · card · divider · flex · fold · grid · group
+
+**Input:**
+checkbox · input · label · radio · select · slider · switch · textarea
+
+**Feedback:**
+badge · progress · toast · tooltip
+
+**Modal/Overlay:**
+modal · popover · menu · confirmation
+
+**Form:**
+form · command-palette
+
+**Complex:**
+breadcrumbs · tabs · gallery
+
+Use `npx ui-lab list` to see all available components (if implemented).
+
+---
+
+## Theme Presets
+
+### Available Presets
+
+<MarkdownTable markdown="| Preset | Description | Colors |\n|--------|-------------|----------|\n| \`vitesse-light\` | Light theme with accent blue | Cool, professional |\n| \`vitesse-dark\` | Dark theme with accent blue | Modern, high contrast |\n| Custom | Define your own colors | Fully customizable |" />
+
+### Selecting a Preset
+
+During `init`:
+
+```bash
+npx ui-lab init --preset vitesse-dark
+```
+
+Or update after initialization by regenerating CSS variables.
+
+### Creating Custom Presets
+
+After running `init`, you can manually edit the generated theme file to customize colors:
+
+```css
+/* themes/custom.css */
+@theme {
+  --color-primary: oklch(68% 0.22 245);     /* Your brand blue */
+  --color-danger: oklch(65% 0.28 25);       /* Your error red */
+  --background-50: oklch(99.2% 0.001 240);  /* White-ish */
+  --background-950: oklch(11.8% 0.018 240); /* Black-ish */
+}
+```
+
+---
+
+## Project Detection
+
+The CLI automatically detects your project setup:
+
+### Supported Frameworks
+
+**Next.js:**
+- App router (default)
+- Pages router (legacy)
+- Detects from `next.config.js` or `package.json`
+
+**Vite:**
+- Framework-agnostic (React + others)
+- Detects from `vite.config.js`
+
+### Manual Override
+
+Force a specific framework if auto-detection fails:
+
+```bash
+npx ui-lab init --framework nextjs
+npx ui-lab init --framework vite
+```
+
+### What Gets Detected
+
+- Framework type and version
+- Root structure (pages vs app directory)
+- Existing component directory
+- CSS setup (Tailwind, Sass, etc.)
+- Build configuration
+
+---
+
+## Configuration
+
+The CLI stores configuration in `ui-lab.config.json`:
+
+```json
+{
+  "framework": "nextjs",
+  "componentDir": "./components",
+  "theme": "vitesse-light",
+  "version": "1.0.0"
+}
+```
+
+This file is used by subsequent commands to remember your setup.
+
+### Updating Configuration
+
+Edit `ui-lab.config.json` manually or regenerate it:
+
+```bash
+npx ui-lab init        # Regenerate config
+```
+
+---
+
+## Integration with npm Scripts
+
+Add CLI commands to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "add:component": "ui-lab install",
+    "setup:ui": "ui-lab init --yes"
+  }
+}
+```
+
+Then run:
+
+```bash
+npm run add:component button input
+npm run setup:ui
+```
+
+---
+
+## CI/CD Integration
+
+### GitHub Actions Example
+
+```yaml
+name: Setup UI Lab
+
+on: [workflow_dispatch]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: npx ui-lab init --yes --preset vitesse-dark
+      - run: npx ui-lab install button input form
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: 'chore: initialize UI Lab components'
+```
+
+### Headless Setup in CI
+
+Use `--yes` flag to skip all prompts:
+
+```bash
+# Initialize in CI environment
+npx ui-lab init --yes --preset vitesse-light --framework nextjs
+
+# Install specific components
+npx ui-lab install button input label --yes
+```
+
+---
+
+## Troubleshooting
+
+### Framework Detection Failed
+
+**Problem:** CLI doesn't recognize your framework
+
+**Solution:**
+```bash
+# Specify framework explicitly
+npx ui-lab init --framework nextjs    # or --framework vite
+```
+
+### Permission Denied Error
+
+**Problem:** "Permission denied" when running CLI
+
+**Solution (macOS/Linux):**
+```bash
+chmod +x node_modules/.bin/ui-lab
+npx ui-lab init
+```
+
+### Component Installation Failed
+
+**Problem:** Component fails to install
+
+**Causes & Solutions:**
+- Component name typo → Check spelling (`ui-lab install button` not `ui-lab install btn`)
+- Dependency missing → Let CLI resolve dependencies automatically
+- Directory permissions → Ensure component directory is writable
+
+### Theme Preset Not Found
+
+**Problem:** "Unknown preset" error
+
+**Solution:**
+```bash
+# Use a known preset
+npx ui-lab init --preset vitesse-light
+
+# Check available presets
+npx ui-lab list-presets    # if implemented
+```
+
+### Network Issues
+
+**Problem:** "Cannot reach registry" error
+
+**Causes & Solutions:**
+- Check internet connection
+- Verify npm registry is accessible
+- Try again with exponential backoff
+- Check npm configuration: `npm config get registry`
+
+---
+
+## Advanced Usage
+
+### Programmatic Usage (Advanced)
+
+The CLI can be used programmatically via JavaScript:
+
+```javascript
+import { initializeProject, installComponents } from 'ui-lab/api';
+
+await initializeProject({
+  framework: 'nextjs',
+  componentDir: './components',
+  theme: 'vitesse-dark'
+});
+
+await installComponents(['button', 'input', 'modal']);
+```
+
+### Custom Scaffolders (Advanced)
+
+Build custom project scaffolders on top of UI Lab:
+
+```javascript
+import { ComponentInstaller } from 'ui-lab/core';
+
+const installer = new ComponentInstaller({
+  componentDir: './src/components',
+  framework: 'nextjs'
+});
+
+await installer.install(['button', 'input']);
+```
+
+---
+
+## Best Practices
+
+### 1. Initialize First
+
+Always run `init` before installing components:
+
+```bash
+npx ui-lab init
+npx ui-lab install button input
+```
+
+### 2. Use Presets Initially
+
+Start with a preset theme, customize later:
+
+```bash
+npx ui-lab init --preset vitesse-dark
+# Later: edit theme variables in CSS
+```
+
+### 3. Install Components as Needed
+
+Add components incrementally:
+
+```bash
+# Week 1: basic components
+npx ui-lab install button input label
+
+# Week 2: more components
+npx ui-lab install form modal select
+```
+
+### 4. Version Lock Package.json
+
+Keep UI Lab versions consistent:
+
+```json
+{
+  "devDependencies": {
+    "ui-lab": "~0.1.0"
+  }
+}
+```
+
+### 5. Git Track Component Directory
+
+Commit installed components to version control:
+
+```bash
+git add ./components
+git commit -m "chore: add UI Lab components"
+```
+
+---
+
+## Common Questions
+
+**Q: Can I use the CLI without initializing first?**
+A: Run `init` first—it sets up configuration for future commands.
+
+**Q: How do I change the theme after init?**
+A: Edit the generated theme CSS file or run `init` again with a new preset.
+
+**Q: Does the CLI modify my existing files?**
+A: No, it only creates new files. Use `--dry-run` to preview.
+
+**Q: Can I use a custom component directory?**
+A: Yes: `npx ui-lab init --componentDir src/ui`
+
+---
+
+## Command Reference
+
+```bash
+# Initialize a project
+npx ui-lab init
+
+# Initialize with specific settings
+npx ui-lab init --framework nextjs --preset vitesse-dark --yes
+
+# Install components
+npx ui-lab install button input
+
+# Install with dry-run
+npx ui-lab install button input --dry-run
+
+# Install in headless mode
+npx ui-lab install button --yes
+
+# Get help
+npx ui-lab --help
+npx ui-lab init --help
+npx ui-lab install --help
+```
+
+---
+
+## Feedback & Support
+
+Found an issue? Have suggestions for the CLI?
+
+- GitHub Issues: https://github.com/kyza0d/ui-lab.app/issues
+- Include CLI version: `npx ui-lab --version`
+- Include framework and Node version
+- Describe steps to reproduce
