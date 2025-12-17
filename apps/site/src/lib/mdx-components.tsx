@@ -5,6 +5,7 @@ import { MarkdownTable } from '@/components/MarkdownTable'
 import { ColorSwatch } from '@/components/ColorSwatch'
 import { ColorScale } from '@/components/ColorScale'
 import { ColorPaletteGrid } from '@/components/ColorPaletteGrid'
+import { Timeline } from '@/components/Timeline'
 import Image from 'next/image'
 
 export const mdxComponents = {
@@ -90,18 +91,18 @@ export const mdxComponents = {
   ),
   table: ({ children }: any) => (
     <div className="overflow-x-auto my-4">
-      <table className="min-w-full border-collapse border border-foreground-800">
+      <table className="min-w-full border-collapse border border-background-700">
         {children}
       </table>
     </div>
   ),
   th: ({ children }: any) => (
-    <th className="border border-foreground-800 bg-background-800 px-4 py-2 text-left font-bold text-foreground-100">
+    <th className="border border-background-700 bg-background-800 px-4 py-2 text-left font-bold text-foreground-100">
       {children}
     </th>
   ),
   td: ({ children }: any) => (
-    <td className="border border-foreground-800 px-4 py-2 text-foreground-300">
+    <td className="border border-background-700 px-4 py-2 text-foreground-300">
       {children}
     </td>
   ),
@@ -111,7 +112,7 @@ export const mdxComponents = {
     </blockquote>
   ),
   hr: () => (
-    <hr className="my-8 border-t border-foreground-800" />
+    <hr className="my-8 border-t border-background-700" />
   ),
 
   CodeBlock,
@@ -121,4 +122,5 @@ export const mdxComponents = {
   ColorSwatch,
   ColorScale,
   ColorPaletteGrid,
+  Timeline,
 }
