@@ -1,0 +1,247 @@
+---
+title: "Best Practices"
+description: "Best practices for using the CLI effectively"
+category: "Advanced"
+---
+
+# Best Practices
+
+Follow these best practices to get the most out of the CLI and its ecosystem.
+
+## General Usage
+
+### Command Organization
+
+- Use meaningful command names
+- Group related commands logically
+- Provide clear help text for all commands
+
+### Error Handling
+
+- Always provide actionable error messages
+- Include suggestions for recovery
+- Log detailed information for debugging
+
+### Performance
+
+- Minimize expensive operations in the hot path
+- Cache results when appropriate
+- Use concurrent execution for independent tasks
+
+## Hooks Best Practices
+
+### Validation Hooks
+
+Use PreToolUse hooks for validation:
+
+```typescript
+export const validateConfig = async (context) => {
+  if (!context.config.required) {
+    throw new Error('Required config missing')
+  }
+}
+```
+
+### Side Effects
+
+Use PostToolUse hooks for cleanup:
+
+```typescript
+export const cleanup = async (result) => {
+  // Clean up resources
+  await cleanupTempFiles()
+}
+```
+
+## Skills Best Practices
+
+### Single Responsibility
+
+Each skill should have a single, well-defined purpose.
+
+### Documentation
+
+Provide comprehensive documentation:
+
+- Describe what the skill does
+- List all configuration options
+- Include usage examples
+
+### Error Handling
+
+Handle errors gracefully and provide clear feedback:
+
+```typescript
+try {
+  // Skill logic
+} catch (error) {
+  throw new Error(`Skill failed: ${error.message}`)
+}
+```
+
+## Agents Best Practices
+
+### Clear Instructions
+
+Provide clear, unambiguous instructions to agents:
+
+```typescript
+instructions: `
+You are responsible for managing component versions.
+Always validate inputs before processing.
+Report results in JSON format.
+`
+```
+
+### Tool Selection
+
+Choose tools that are:
+- Well-tested and reliable
+- Properly documented
+- Focused on specific tasks
+
+### Error Recovery
+
+Implement fallback strategies for common failure scenarios.
+
+## MCP Servers Best Practices
+
+### Server Design
+
+- Keep servers lightweight and focused
+- Implement proper timeout handling
+- Provide meaningful error messages
+
+### Resource Management
+
+- Clean up resources promptly
+- Limit concurrent connections
+- Monitor memory usage
+
+## Security Practices
+
+### Secrets Management
+
+- Never commit secrets to version control
+- Use environment variables for sensitive data
+- Rotate credentials regularly
+
+```typescript
+const apiKey = process.env.API_KEY
+if (!apiKey) {
+  throw new Error('API_KEY environment variable is required')
+}
+```
+
+### Input Validation
+
+Always validate user input:
+
+```typescript
+function validateInput(input: unknown) {
+  if (typeof input !== 'string') {
+    throw new Error('Invalid input type')
+  }
+  // Additional validation
+}
+```
+
+## Debugging
+
+### Enable Debug Mode
+
+```bash
+ui-lab --debug
+```
+
+### Inspect Configuration
+
+View current configuration:
+
+```bash
+ui-lab config show
+```
+
+### Check Logs
+
+Review detailed logs for troubleshooting:
+
+```bash
+ui-lab logs tail --lines 100
+```
+
+## Performance Optimization
+
+### Profile Your Tools
+
+Identify performance bottlenecks:
+
+```bash
+ui-lab profile my-command
+```
+
+### Optimize Hot Paths
+
+- Minimize file I/O
+- Batch operations when possible
+- Use efficient algorithms
+
+### Caching
+
+Implement strategic caching:
+
+```typescript
+const cache = new Map()
+function getData(key) {
+  if (cache.has(key)) {
+    return cache.get(key)
+  }
+  const data = expensiveOperation()
+  cache.set(key, data)
+  return data
+}
+```
+
+## Testing
+
+### Unit Tests
+
+Test individual components thoroughly:
+
+```bash
+ui-lab test --include "**/*.test.ts"
+```
+
+### Integration Tests
+
+Test component interactions:
+
+```bash
+ui-lab test --type integration
+```
+
+### Manual Testing
+
+Always perform manual testing before deployment.
+
+## Deployment
+
+### Version Management
+
+Use semantic versioning for your extensions:
+
+```
+MAJOR.MINOR.PATCH
+```
+
+### Changelog
+
+Maintain a detailed changelog for each release.
+
+### Documentation
+
+Update documentation with each release:
+
+- New features
+- Breaking changes
+- Migration guides

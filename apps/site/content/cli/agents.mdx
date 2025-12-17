@@ -1,0 +1,57 @@
+---
+title: "Agents"
+description: "Create and manage autonomous agents within the CLI"
+category: "Advanced"
+---
+
+# Agents
+
+Agents are autonomous entities that can make decisions and execute tasks based on configuration and context.
+
+## What are Agents?
+
+Agents enable:
+
+- Autonomous task execution
+- Context-aware decision making
+- Multi-step workflow orchestration
+- Intelligent resource management
+
+## Agent Architecture
+
+Agents consist of:
+
+- **Resolver** - Determines what action to take
+- **Executor** - Performs the resolved action
+- **Context** - Maintains state and configuration
+- **Hooks** - Integration points for custom logic
+
+## Creating an Agent
+
+```typescript
+const myAgent = createAgent({
+  name: 'my-agent',
+  description: 'An agent that does something',
+  tools: [/* available tools */],
+  instructions: 'Instructions for the agent'
+})
+```
+
+## Running Agents
+
+Execute agents from the CLI:
+
+```bash
+ui-lab agent run my-agent --option value
+```
+
+## Integration with Skills and Hooks
+
+Agents work seamlessly with [skills](/cli/skills) and [hooks](/cli/hooks) to create powerful workflows.
+
+## Advanced Topics
+
+- Agent communication and coordination
+- Custom resolvers and executors
+- Performance optimization
+- See [best practices](/cli/best-practices) for optimization strategies

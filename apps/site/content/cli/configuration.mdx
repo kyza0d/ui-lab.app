@@ -1,0 +1,121 @@
+---
+title: "Configuration"
+description: "Configure the CLI and its extensions"
+category: "Advanced"
+---
+
+# Configuration
+
+Learn how to configure the CLI, hooks, skills, agents, and MCP servers.
+
+## Configuration File
+
+The CLI uses a `.clauderc` or `claude.config.ts` file for configuration:
+
+```typescript
+// claude.config.ts
+export default {
+  version: 1,
+  hooks: {
+    preToolUse: [],
+    postToolUse: [],
+  },
+  skills: [],
+  agents: [],
+  mcp_servers: [],
+}
+```
+
+## Environment Variables
+
+Configure sensitive values using environment variables:
+
+```bash
+export CLAUDE_API_KEY=your-api-key
+export CLAUDE_LOG_LEVEL=debug
+```
+
+## Hooks Configuration
+
+```typescript
+hooks: {
+  preToolUse: [
+    {
+      name: 'validate-config',
+      handler: './hooks/validate-config.ts'
+    }
+  ]
+}
+```
+
+## Skills Configuration
+
+```typescript
+skills: [
+  {
+    name: 'my-skill',
+    version: '1.0.0',
+    config: {
+      enabled: true,
+      options: {}
+    }
+  }
+]
+```
+
+## Agents Configuration
+
+```typescript
+agents: [
+  {
+    name: 'my-agent',
+    description: 'Agent description',
+    tools: ['tool1', 'tool2'],
+    instructions: 'Agent instructions'
+  }
+]
+```
+
+## MCP Servers Configuration
+
+```typescript
+mcp_servers: [
+  {
+    name: 'my-server',
+    type: 'tool',
+    handler: './servers/my-server.ts',
+    config: {
+      apiKey: process.env.MY_API_KEY
+    }
+  }
+]
+```
+
+## Advanced Options
+
+### Logging
+
+```typescript
+logging: {
+  level: 'debug',
+  format: 'json',
+  file: './logs/cli.log'
+}
+```
+
+### Performance Tuning
+
+```typescript
+performance: {
+  maxConcurrentTools: 5,
+  cacheTimeout: 3600000,
+  enableOptimization: true
+}
+```
+
+## Best Practices
+
+- Use environment variables for secrets
+- Organize configuration into separate files
+- Document all custom settings
+- See [best practices](/cli/best-practices) for more guidance
