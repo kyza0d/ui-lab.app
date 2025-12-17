@@ -1,0 +1,79 @@
+---
+title: "Installation"
+description: "Set up Agents & MCPs in your project"
+category: "Getting Started"
+---
+
+# Installation
+
+Get your development environment set up with Agents & MCPs support.
+
+## Prerequisites
+
+Before installing, ensure you have:
+
+- Node.js 18+ or later
+- pnpm, npm, or yarn package manager
+- Basic familiarity with React and Next.js
+- UI Lab components installed in your project
+
+## Installation Steps
+
+### 1. Install Dependencies
+
+Install the necessary packages for agent support:
+
+```bash
+npm install @ui-lab/agents @ui-lab/mcp
+# or with pnpm
+pnpm add @ui-lab/agents @ui-lab/mcp
+# or with yarn
+yarn add @ui-lab/agents @ui-lab/mcp
+```
+
+### 2. Configure Your Environment
+
+Create a `.env.local` file with required environment variables:
+
+```env
+NEXT_PUBLIC_AGENT_API_URL=http://localhost:3000/api/agent
+MCP_SERVER_URL=http://localhost:8000
+```
+
+### 3. Set Up Provider
+
+Wrap your application with the Agents provider:
+
+```tsx
+import { AgentsProvider } from '@ui-lab/agents';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <AgentsProvider>
+          {children}
+        </AgentsProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+## Verification
+
+Test your installation by running your development server:
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` and check the console for any errors.
+
+## Troubleshooting
+
+If you encounter issues during installation, see the [Advanced Topics & Troubleshooting](/docs/advanced) guide.
