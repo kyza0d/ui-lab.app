@@ -62,7 +62,7 @@
     z-index: 10;
     font-family: inherit;
     font-weight: 500;
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     line-height: var(--leading-snug);
     @apply gap-2 px-3 py-1.5 whitespace-nowrap;
 

@@ -127,7 +127,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     return createPortal(
       <div
         className={cn(
-          "fixed inset-0 z-50 flex items-center justify-center",
+          "fixed inset-0 z-9999 flex items-center justify-center",
           styles.overlay,
           overlayClassName
         )}
