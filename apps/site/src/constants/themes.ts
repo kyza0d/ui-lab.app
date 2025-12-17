@@ -15,6 +15,7 @@ export interface SimpleThemeColors {
   accentChromaScaling?: ChromaScalingFunction;
   semantic?: SemanticColors;
   globalAdjustments?: GlobalColorAdjustments;
+  syntaxVariation?: number;
 }
 
 export { DEFAULT_GLOBAL_ADJUSTMENTS };
