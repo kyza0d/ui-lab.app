@@ -1,6 +1,6 @@
 {
   "name": "ui-lab-registry",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Component registry and metadata management for ui-lab-components",
   "type": "module",
   "license": "MIT",
@@ -39,9 +39,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsx scripts/generate-registry-data.ts && tsc",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-registry-data.ts"
   },
-  "yalcSig": "1672ccf6232ef6044a90a38500ee4f76"
+  "yalcSig": "a3fa4e4170d991e3a4b5adbd084c1e86"
 }
