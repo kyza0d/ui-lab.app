@@ -1,0 +1,78 @@
+---
+title: "MCP Servers"
+description: "Integration and management of Model Context Protocol servers"
+category: "Advanced"
+---
+
+# MCP Servers
+
+MCP (Model Context Protocol) servers extend the CLI's capabilities by providing additional context and tools to AI models.
+
+## What are MCP Servers?
+
+MCP servers:
+
+- Provide custom tools and resources to the CLI
+- Enable integration with external services
+- Expose domain-specific knowledge and utilities
+- Allow AI models to interact with specialized systems
+
+## Server Types
+
+### Tool Servers
+
+Provide callable tools:
+
+```yaml
+mcp_servers:
+  - name: my-tools
+    type: tool
+    handler: ./servers/my-tools.ts
+```
+
+### Resource Servers
+
+Expose accessible resources:
+
+```yaml
+mcp_servers:
+  - name: my-resources
+    type: resource
+    handler: ./servers/my-resources.ts
+```
+
+## Building an MCP Server
+
+```typescript
+// servers/my-server.ts
+export const createServer = () => {
+  return {
+    name: 'my-server',
+    tools: [
+      {
+        name: 'my-tool',
+        description: 'What this tool does',
+        execute: async (args) => { /* ... */ }
+      }
+    ]
+  }
+}
+```
+
+## Configuration
+
+Configure servers in your CLI settings:
+
+```yaml
+mcp_servers:
+  - name: my-server
+    config:
+      apiKey: ${SOME_API_KEY}
+      timeout: 30000
+```
+
+## Related Resources
+
+- Learn about [skills](/cli/skills) for CLI extensions
+- Explore [hooks](/cli/hooks) for execution lifecycle control
+- See [best practices](/cli/best-practices) for optimization

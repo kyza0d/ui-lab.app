@@ -1,0 +1,50 @@
+---
+title: "Hooks"
+description: "Extend CLI functionality with custom hooks"
+category: "Advanced"
+---
+
+# Hooks
+
+Hooks allow you to extend and customize CLI behavior at specific points in the execution lifecycle.
+
+## What are Hooks?
+
+Hooks are points in the CLI execution flow where you can inject custom logic to:
+
+- Validate commands before execution
+- Transform configuration values
+- Execute side effects before or after operations
+- Integrate with external systems
+
+## Available Hook Types
+
+### PreToolUse
+
+Executes before a tool is invoked. Useful for validation and logging.
+
+```typescript
+hooks:
+  preToolUse:
+    - name: validate-config
+      handler: ./hooks/validate-config.ts
+```
+
+### PostToolUse
+
+Executes after a tool completes. Useful for cleanup and post-processing.
+
+```typescript
+hooks:
+  postToolUse:
+    - name: deploy-after
+      handler: ./hooks/deploy-after.ts
+```
+
+## Creating a Custom Hook
+
+See the [configuration](/cli/configuration) guide for detailed hook setup instructions and examples.
+
+## Best Practices
+
+Learn more in the [best practices](/cli/best-practices) guide.
