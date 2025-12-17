@@ -1,17 +1,31 @@
-.docs h1,
-.docs h2,
-.docs h3,
-.docs h4,
-.docs h5,
-.docs h6 {
-  font-size: var(--text-md) !important;
+#docs h1,
+#docs h2,
+#docs h3,
+#docs h4,
+#docs h5,
+#docs h6 {
   margin: 0 0 0.6rem 0 ;
   font-weight: 600;
 }
 
+#docs h1 {
+  margin: 2.2rem 0 0.6rem 0 ;
+  font-size: var(--text-xl) !important;
+}
 
-.docs p {
+#docs h2 {
+  margin: 4.0rem 0 0.4rem 0 ;
+  font-size: var(--text-md) !important;
+}
+
+
+#docs h3 {
+  margin: 3.2rem 0 1.2rem 0 ;
+  font-size: var(--text-md) !important;
+}
+
+#docs p {
   font-size: var(--text-sm);
   max-width: 65ch;
-  margin: 0 0 2.4rem 0;
+  margin: 0 0 0.4rem 0;
 }
