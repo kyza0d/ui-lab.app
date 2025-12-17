@@ -20,11 +20,11 @@ import {
 
 import {
   generateThemePalettes,
-  generateShikiTheme,
-  type ShikiTheme,
 } from "@/lib/color-utils";
+import { generateShikiTheme, type ShikiTheme } from "@/lib/themes/shiki/generator";
+import { generateSyntaxPalettes } from "@/lib/themes/syntax-colors";
 
-import { useHeader } from "@/lib/header-context";
+import { useApp } from "@/lib/app-context";
 
 
 export interface ControlOption {
@@ -81,7 +81,7 @@ export function ComponentConfigurator({
   previewHeight,
   previewLayout = "center",
 }: ComponentConfiguratorProps) {
-  const { currentThemeMode, currentThemeColors } = useHeader();
+  const { currentThemeMode, currentThemeColors } = useApp();
   const [highlightedCode, setHighlightedCode] = useState<string>("");
   const [activeTab, setActiveTab] = useState<number>(0);
   const [copied, setCopied] = useState<boolean>(false);
@@ -118,7 +118,17 @@ export function ComponentConfigurator({
         currentThemeColors.accentEasing,
         currentThemeColors.accentChromaScaling
       );
-      const customTheme = generateShikiTheme(palettes, currentThemeMode, `custom-${currentThemeMode}`);
+      const syntaxPalettes = generateSyntaxPalettes(
+        currentThemeColors.background,
+        currentThemeColors.accent,
+        currentThemeMode,
+        currentThemeColors.syntaxVariation ?? 0
+      );
+      const customTheme = generateShikiTheme(
+        { ...palettes, ...syntaxPalettes },
+        currentThemeMode,
+        `custom-${currentThemeMode}`
+      );
       setShikiTheme(customTheme);
     }
   }, [currentThemeColors, currentThemeMode]);
