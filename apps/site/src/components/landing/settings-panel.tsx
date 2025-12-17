@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, memo, useMemo } from "react";
 import Link from "next/link";
-import { useHeader } from "@/lib/header-context";
+import { useApp } from "@/lib/app-context";
 import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush, FaSun } from "react-icons/fa6";
 import { themes, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
 import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange, type GlobalColorAdjustments, oklchToCss } from "@/lib/color-utils";
@@ -84,13 +84,16 @@ export const SettingsPanel = () => {
     isThemeInitialized,
     globalAdjustments,
     setGlobalAdjustments,
-  } = useHeader();
+    syntaxVariation,
+    setSyntaxVariation,
+  } = useApp();
 
   const panelRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
   const [localColors, setLocalColors] = useState(currentThemeColors || themes["Vitesse"].dark);
   const [expandedColor, setExpandedColor] = useState<string | null>(null);
   const [localGlobalAdjustments, setLocalGlobalAdjustments] = useState<GlobalColorAdjustments>(globalAdjustments);
+  const [localSyntaxVariation, setLocalSyntaxVariation] = useState(syntaxVariation);
 
   useEffect(() => {
     if (isThemeInitialized && currentThemeColors) {
@@ -103,6 +106,12 @@ export const SettingsPanel = () => {
       setLocalGlobalAdjustments(globalAdjustments);
     }
   }, [isThemeInitialized, globalAdjustments]);
+
+  useEffect(() => {
+    if (isThemeInitialized) {
+      setLocalSyntaxVariation(syntaxVariation);
+    }
+  }, [isThemeInitialized, syntaxVariation]);
 
   const { applyAndPersistColors, applyAndPersistTypography, applyAndPersistLayout } =
     useThemeStorage({
@@ -125,6 +134,14 @@ export const SettingsPanel = () => {
     setLocalGlobalAdjustments(updated);
     setGlobalAdjustments(updated);
     const updatedColors = { ...localColors, globalAdjustments: updated };
+    setLocalColors(updatedColors);
+    applyAndPersistColors(updatedColors);
+  };
+
+  const handleSyntaxVariationChange = (value: number) => {
+    setLocalSyntaxVariation(value);
+    setSyntaxVariation(value);
+    const updatedColors = { ...localColors, syntaxVariation: value };
     setLocalColors(updatedColors);
     applyAndPersistColors(updatedColors);
   };
@@ -239,6 +256,24 @@ export const SettingsPanel = () => {
                   unit="×"
                   formatValue={(v) => `×${v.toFixed(2)}`}
                   onChange={(v) => handleGlobalAdjustmentChange('chromaBoost', v)}
+                />
+              </div>
+            </div>
+            <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
+              <div className={`${MICRO_LABEL} mb-3 flex items-center gap-2`}>
+                <FaBrush size={12} className="text-foreground-400" />
+                Syntax Highlighting
+              </div>
+              <div className="space-y-3">
+                <GlobalSlider
+                  label="Color Variation"
+                  value={localSyntaxVariation}
+                  min={-0.1}
+                  max={0.1}
+                  step={0.01}
+                  unit=""
+                  formatValue={(v) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}`}
+                  onChange={handleSyntaxVariationChange}
                 />
               </div>
             </div>
