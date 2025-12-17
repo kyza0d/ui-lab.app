@@ -1,0 +1,788 @@
+---
+title: "Accessibility Standards"
+description: "WCAG compliance guidelines and inclusive design practices for UI Lab"
+category: "design-system"
+publishedOn: "2025-12-15"
+tags: ["accessibility", "wcag", "inclusive-design", "a11y"]
+---
+
+# Accessibility Standards
+
+Accessibility ensures interfaces work for everyone, including people with disabilities. UI Lab is built with WCAG 2.1 compliance as a foundation, ensuring inclusive design for all users.
+
+---
+
+## What is Accessibility?
+
+Web accessibility means designing and developing websites and applications that are usable by everyone, including people with disabilities. This includes:
+
+- **Visual disabilities**: Blindness, low vision, color blindness
+- **Hearing disabilities**: Deafness, hard of hearing
+- **Motor disabilities**: Limited mobility, tremors, paralysis
+- **Cognitive disabilities**: Dyslexia, ADHD, cognitive impairments
+- **Temporary situations**: Bright sunlight, loud environments, injuries
+
+---
+
+## WCAG Compliance
+
+UI Lab components meet WCAG 2.1 Level AA standards, ensuring:
+- **Perceivable**: Content is visible and understandable
+- **Operable**: Interfaces work with keyboard and assistive tech
+- **Understandable**: Content is clear and predictable
+- **Robust**: Code is compatible with assistive technologies
+
+### Compliance Levels
+
+- **Level A**: Basic accessibility
+- **Level AA**: Enhanced accessibility (our standard)
+- **Level AAA**: Advanced accessibility (when practical)
+
+---
+
+## Color Contrast
+
+All text must meet minimum contrast ratios to be readable:
+
+### Contrast Ratios
+
+| Content | Minimum Ratio | Normal Text Size | Large Text Size |
+|---------|---------------|------------------|-----------------|
+| **Body text** | 4.5:1 | Required | - |
+| **Large text** | 3:1 | - | 18pt+ |
+| **Graphics & UI** | 3:1 | - | - |
+
+### Implementation
+
+All semantic colors in our system meet WCAG AA contrast requirements by default:
+
+```css
+/* Good: Sufficient contrast */
+color: var(--foreground-950);           /* 950 on 50 = 21:1 */
+background-color: var(--background-50);
+
+/* Verify with tools before using non-standard combinations */
+color: var(--foreground-600);
+background-color: var(--background-100); /* Check ratio first */
+```
+
+### Color Alone
+
+**Never use color alone to convey information.**
+
+```tsx
+/* ❌ Don't rely on color alone */
+<div className="text-red-600">Error occurred</div>
+
+/* ✓ Do: Use color + icon + text */
+<div className="flex items-center gap-2 text-danger-600">
+  <AlertCircle className="w-5 h-5" />
+  Error occurred
+</div>
+```
+
+### Testing Tools
+
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [Color Contrast Analyzer](https://www.tpgi.com/color-contrast-checker/)
+- [WAVE Browser Extension](https://wave.webaim.org/extension/)
+
+---
+
+## Keyboard Navigation
+
+All interactive elements must be keyboard accessible:
+
+### Essential Keys
+
+- **Tab**: Move focus forward
+- **Shift + Tab**: Move focus backward
+- **Enter**: Activate buttons
+- **Space**: Activate buttons, toggle checkboxes
+- **Escape**: Close modals, dropdowns
+- **Arrow Keys**: Navigate within components
+
+### Implementation
+
+```tsx
+/* All buttons are keyboard accessible by default */
+<button onClick={handleClick}>Click me</button>
+
+/* Custom components need manual focus management */
+<div
+  role="button"
+  tabIndex={0}
+  onClick={handleClick}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleClick()
+    }
+  }}
+>
+  Custom button
+</div>
+```
+
+### Focus Management
+
+- **Focus visible**: Clear visual focus indicator
+- **Tab order**: Logical, predictable order
+- **Focus trap**: Modal dialogs trap focus
+- **Focus restoration**: Return focus after closing modal
+
+### Focus Indicators
+
+```css
+/* Always provide visible focus */
+.button:focus {
+  outline: 2px solid var(--accent-600);
+  outline-offset: 2px;
+}
+
+/* Don't remove outline */
+.button:focus {
+  /* ❌ Avoid */
+  outline: none;
+}
+```
+
+---
+
+## Screen Readers
+
+Screen readers announce page content to blind users. Ensure semantic HTML and ARIA attributes:
+
+### Semantic HTML
+
+Use semantic elements whenever possible:
+
+```tsx
+/* ✓ Good: Semantic HTML */
+<header>...</header>
+<nav>...</nav>
+<main>...</main>
+<section>
+  <h2>Section Title</h2>
+</section>
+<footer>...</footer>
+
+/* ❌ Avoid: Non-semantic divs */
+<div id="header">...</div>
+<div id="nav">...</div>
+<div id="main">...</div>
+```
+
+### ARIA Attributes
+
+Use ARIA when semantic HTML isn't available:
+
+```tsx
+/* Images */
+<img src="photo.jpg" alt="Description of photo" />
+
+/* Icon-only buttons */
+<button aria-label="Close dialog">
+  <X className="w-5 h-5" />
+</button>
+
+/* Hidden labels */
+<input
+  id="email"
+  type="email"
+  aria-label="Email address"
+/>
+
+/* Descriptions */
+<input
+  type="password"
+  aria-describedby="pwd-hint"
+/>
+<span id="pwd-hint">At least 12 characters</span>
+
+/* Required fields */
+<input aria-required="true" required />
+
+/* Disabled fields */
+<input aria-disabled="true" disabled />
+
+/* Live regions (updates) */
+<div aria-live="polite" aria-atomic="true">
+  Item added to cart
+</div>
+```
+
+### Testing with Screen Readers
+
+- **NVDA**: Free Windows screen reader
+- **JAWS**: Premium Windows screen reader
+- **VoiceOver**: Built-in macOS/iOS
+- **TalkBack**: Built-in Android
+
+---
+
+## Forms & Labels
+
+Forms must be clearly labeled and easy to navigate:
+
+### Labels
+
+Every input must have a label:
+
+```tsx
+/* ✓ Good: Associated label */
+<label htmlFor="email">Email Address</label>
+<input id="email" type="email" />
+
+/* ✓ Alternative: Implicit association */
+<label>
+  Email Address
+  <input type="email" />
+</label>
+
+/* ❌ Avoid: Missing label */
+<input type="email" placeholder="email@example.com" />
+```
+
+### Help Text
+
+Provide context for form fields:
+
+```tsx
+<div>
+  <label htmlFor="password">Password</label>
+  <input
+    id="password"
+    type="password"
+    aria-describedby="pwd-requirements"
+  />
+  <span id="pwd-requirements">
+    At least 12 characters, including uppercase, numbers, and symbols
+  </span>
+</div>
+```
+
+### Error Handling
+
+Show errors clearly:
+
+```tsx
+<div>
+  <label htmlFor="email">Email Address</label>
+  <input
+    id="email"
+    type="email"
+    aria-invalid={Boolean(error)}
+    aria-describedby={error ? 'email-error' : undefined}
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+  />
+  {error && <span id="email-error">{error}</span>}
+</div>
+```
+
+### Required Fields
+
+Mark required fields clearly:
+
+```tsx
+/* Visual indicator + HTML */
+<label>
+  Email Address <span aria-label="required">*</span>
+</label>
+<input type="email" required aria-required="true" />
+```
+
+---
+
+## Text & Typography
+
+### Font Size
+
+Never go below 12px for regular text:
+
+- **Body text**: Minimum 16px
+- **Labels**: Minimum 14px
+- **Captions**: Minimum 12px
+
+### Line Height
+
+Adequate line height improves readability:
+
+```css
+/* Sufficient line height */
+body {
+  line-height: 1.5;
+}
+
+/* For long-form content */
+article {
+  line-height: 1.75;
+}
+```
+
+### Letter Spacing
+
+Increase letter spacing for better readability:
+
+```css
+/* Helpful for dyslexic users */
+body {
+  letter-spacing: 0.02em;
+}
+```
+
+### Text Alignment
+
+Left-align text for readability:
+
+```css
+/* ✓ Good */
+text-align: left;
+
+/* ❌ Avoid for body text */
+text-align: justify;
+text-align: center; /* Only for headings/short text */
+```
+
+### Caps Lock
+
+Avoid using all-caps for body text:
+
+```css
+/* ❌ Hard to read */
+.warning {
+  text-transform: uppercase;
+}
+
+/* ✓ Better */
+.warning {
+  font-weight: bold;
+}
+```
+
+---
+
+## Motion & Animation
+
+Respect user preferences for motion:
+
+### Reduced Motion
+
+Always check `prefers-reduced-motion`:
+
+```css
+/* Default animation */
+.fade-in {
+  animation: fadeIn 300ms ease-in;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+    opacity: 1;
+  }
+}
+```
+
+### React Implementation
+
+```tsx
+function useReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handler = (e) => setPrefersReduced(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  return prefersReduced
+}
+
+function AnimatedComponent() {
+  const prefersReduced = useReducedMotion()
+
+  return (
+    <div
+      className={prefersReduced ? '' : 'animate-fade-in'}
+    >
+      Content
+    </div>
+  )
+}
+```
+
+### Guidelines
+
+- **Fast animations**: Maximum 300ms
+- **Easing**: Use natural easing curves
+- **Auto-play**: Never auto-play videos/animations
+- **Parallax**: Avoid parallax with reduced motion
+
+---
+
+## Images & Media
+
+### Alt Text
+
+Every image needs meaningful alt text:
+
+```tsx
+/* ✓ Descriptive alt text */
+<img
+  src="sunset.jpg"
+  alt="Golden sunset over mountains with purple sky"
+/>
+
+/* ✓ Icon images */
+<img
+  src="warning.svg"
+  alt="Warning icon"
+  className="w-5 h-5"
+/>
+
+/* ❌ Don't use generic alt text */
+<img src="photo.jpg" alt="Image" />
+<img src="photo.jpg" alt="Photo" />
+
+/* ✓ Decorative images */
+<img src="decoration.svg" alt="" role="presentation" />
+```
+
+### Video & Audio
+
+Provide captions and transcripts:
+
+```tsx
+<video controls>
+  <source src="video.mp4" type="video/mp4" />
+  <track kind="captions" src="captions.vtt" srclang="en" />
+  Your browser doesn't support HTML5 video.
+</video>
+```
+
+---
+
+## Links & Navigation
+
+### Link Text
+
+Link text should be descriptive:
+
+```tsx
+/* ✓ Descriptive link text */
+<a href="/docs">Read the documentation</a>
+
+/* ❌ Avoid generic text */
+<a href="/docs">Click here</a>
+<a href="/docs">Read more</a>
+
+/* ✓ For icon links */
+<a href="/home" aria-label="Home">
+  <Home className="w-5 h-5" />
+</a>
+```
+
+### Focus Indicators
+
+Links must have clear focus:
+
+```css
+a:focus {
+  outline: 2px solid var(--accent-600);
+  outline-offset: 2px;
+}
+```
+
+### Skip Links
+
+Include skip navigation for keyboard users:
+
+```tsx
+<a href="#main-content" className="sr-only">
+  Skip to main content
+</a>
+
+<header>...</header>
+
+<main id="main-content">
+  {/* Page content */}
+</main>
+```
+
+---
+
+## Headings & Structure
+
+### Heading Hierarchy
+
+Use headings to create document structure:
+
+```tsx
+/* ✓ Logical hierarchy */
+<h1>Page Title</h1>
+<section>
+  <h2>Section 1</h2>
+  <h3>Subsection 1.1</h3>
+  <h3>Subsection 1.2</h3>
+  <h2>Section 2</h2>
+</section>
+
+/* ❌ Skip heading levels */
+<h1>Title</h1>
+<h4>Section</h4> {/* Jumps from h1 to h4 */}
+```
+
+### Heading Tags
+
+Never skip heading levels. Always use semantic heading tags:
+
+```tsx
+/* ✓ Semantic headings */
+<h1>Main Title</h1>
+<h2>Section Title</h2>
+<h3>Subsection Title</h3>
+
+/* ❌ Using divs instead */
+<div style={{ fontSize: '2em', fontWeight: 'bold' }}>
+  Title
+</div>
+```
+
+---
+
+## Color Blindness
+
+Design for users with color blindness:
+
+### Types of Color Blindness
+
+- **Red-Green**: Most common (8% of men, 0.5% of women)
+- **Blue-Yellow**: Rare (0.1%)
+- **Monochromacy**: Extremely rare, sees only grayscale
+
+### Implementation
+
+1. **Don't rely on color alone**: Always use patterns, icons, or text
+2. **Use sufficient contrast**: Works for color blind users
+3. **Semantic colors**: Use success/danger/warning colors
+4. **Test with tools**: Simulate color blindness
+
+### Testing Tools
+
+- [Color Blindness Simulator](https://www.color-blindness.com/)
+- [Coblis Color Blindness Simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/)
+- Browser DevTools: Emulate vision deficiencies
+
+```tsx
+/* ❌ Relies on color alone */
+<div className="text-red-600">Error</div>
+
+/* ✓ Color + icon + text */
+<div className="flex gap-2 text-danger-600">
+  <AlertCircle className="w-5 h-5" />
+  Error: Invalid email
+</div>
+```
+
+---
+
+## Touch & Motor Accessibility
+
+### Touch Target Size
+
+Buttons and interactive elements must be large enough:
+
+- **Minimum**: 44px × 44px
+- **Recommended**: 48px × 48px
+- **Gap between targets**: Minimum 8px
+
+### Implementation
+
+```css
+/* Sufficient button size */
+.button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 16px;
+}
+
+/* Adequate spacing */
+.flex {
+  gap: 8px;
+}
+```
+
+### Hover Targets
+
+Provide large hover areas:
+
+```css
+/* Extend clickable area */
+.link {
+  padding: 8px;
+  margin: -8px;
+}
+```
+
+---
+
+## Testing for Accessibility
+
+### Automated Testing
+
+Tools that can find accessibility issues automatically:
+
+- **axe**: Fast, accurate automated testing
+- **Lighthouse**: Built-in Chrome DevTools
+- **WAVE**: Browser extension
+- **NVDA/JAWS**: Screen reader testing
+
+### Manual Testing
+
+No tool can catch everything:
+
+1. **Keyboard navigation**: Tab through entire page
+2. **Screen reader**: Test with NVDA/JAWS/VoiceOver
+3. **Contrast**: Check with contrast checker
+4. **Zoom**: Test at 200% zoom
+5. **Mobile**: Test on phone/tablet
+6. **Color blindness**: Simulate color blindness
+7. **Reduced motion**: Test with animations disabled
+
+### Testing Checklist
+
+- [ ] All buttons keyboard accessible
+- [ ] All images have alt text
+- [ ] Color contrast >= 4.5:1
+- [ ] Focus indicators visible
+- [ ] Links have descriptive text
+- [ ] Forms have labels
+- [ ] Heading hierarchy correct
+- [ ] Errors clearly marked
+- [ ] Captions on videos
+- [ ] Respects prefers-reduced-motion
+
+---
+
+## Common Accessibility Patterns
+
+### Form Group
+
+```tsx
+<div className="form-group">
+  <label htmlFor="email">
+    Email Address <span aria-label="required">*</span>
+  </label>
+  <input
+    id="email"
+    type="email"
+    required
+    aria-required="true"
+    aria-describedby="email-help"
+  />
+  <span id="email-help" className="help-text">
+    We'll use this to contact you
+  </span>
+</div>
+```
+
+### Error Message
+
+```tsx
+<div>
+  <input
+    aria-invalid={Boolean(error)}
+    aria-describedby={error ? 'error-msg' : undefined}
+  />
+  {error && (
+    <div id="error-msg" role="alert">
+      {error}
+    </div>
+  )}
+</div>
+```
+
+### Icon Button
+
+```tsx
+<button aria-label="Close dialog">
+  <X className="w-5 h-5" />
+</button>
+```
+
+### Dropdown Menu
+
+```tsx
+<div>
+  <button
+    aria-expanded={isOpen}
+    aria-haspopup="true"
+    onClick={() => setIsOpen(!isOpen)}
+  >
+    Menu
+  </button>
+  {isOpen && (
+    <ul role="menu">
+      <li role="menuitem">
+        <a href="/profile">Profile</a>
+      </li>
+      <li role="menuitem">
+        <a href="/settings">Settings</a>
+      </li>
+    </ul>
+  )}
+</div>
+```
+
+---
+
+## Accessibility Resources
+
+### Learning
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+- [A11y Project](https://www.a11yproject.com/)
+- [WebAIM](https://webaim.org/)
+
+### Tools
+
+- [axe DevTools](https://www.axe-core.org/)
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse)
+- [WAVE](https://wave.webaim.org/)
+- [NVDA Screen Reader](https://www.nvaccess.org/)
+
+### Checklists
+
+- [WebAIM Checklist](https://webaim.org/articles/wcag2checklist.php)
+- [A11y Project Checklist](https://www.a11yproject.com/checklist/)
+- [Deque Accessibility Checklist](https://dequeuniversity.com/checklists/web/)
+
+---
+
+## Continuous Improvement
+
+Accessibility is not a one-time effort:
+
+1. **Include testing**: Automated and manual
+2. **Get feedback**: Test with real users with disabilities
+3. **Update regularly**: As new standards emerge
+4. **Educate team**: Share accessibility best practices
+5. **Monitor**: Regularly audit for regressions
+
+---
+
+## Summary
+
+Building accessible interfaces benefits everyone:
+- Users with disabilities can access your content
+- Better SEO and performance
+- Improved usability for all users
+- Legal compliance (in many jurisdictions)
+
+Make accessibility a core part of your design and development process, not an afterthought.
