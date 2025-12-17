@@ -13,7 +13,7 @@ export function Footer() {
           <Logo />
           <span className="text-md font-semibold text-foreground-300">UI Lab</span>
         </div>
-        <div className="grid grid-cols-3 w-fit max-w-4xl ml-auto gap-24 mb-14">
+        <div className="grid grid-cols-3 w-fit max-w-3xl ml-auto gap-24 mb-14">
           <div className="space-y-3">
             <p className="text-sm font-medium text-foreground-50">Components</p>
             <ul className="space-y-2">
