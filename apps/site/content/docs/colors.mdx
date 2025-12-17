@@ -1,0 +1,287 @@
+---
+title: "Color System"
+description: "Complete color palette documentation with OKLCH and HEX values for all semantic scales"
+category: "design-system"
+publishedOn: "2025-12-15"
+tags: ["colors", "design", "theming", "oklch"]
+---
+
+# Color System
+
+The UI Lab design system uses a perceptually-uniform color space based on OKLCH to ensure consistent, accessible colors across all components and themes. This section documents the complete color palette with technical specifications and usage guidelines.
+
+---
+
+## Why OKLCH?
+
+OKLCH (Oklch LCH) is a perceptually-uniform color space where equal steps in lightness produce equal perceived brightness changes. This offers several advantages over traditional RGB or HSL:
+
+- **Perceptual Uniformity**: Lightness (L) correlates directly with perceived brightness
+- **Hue Stability**: Colors maintain their appearance across the lightness scale
+- **Accessible Defaults**: All color combinations are designed for WCAG AA compliance
+- **Theme Independence**: Dynamic theming becomes intuitive and predictable
+
+### OKLCH Components
+
+Each color is defined by three components:
+
+- **L (Lightness)**: 0% (black) to 100% (white) - controls brightness
+- **C (Chroma)**: 0 (grayscale) to ~0.4 (saturated) - controls color intensity
+- **H (Hue)**: 0° to 360° - the color angle on the color wheel
+
+Example: `oklch(50% 0.150 25)` represents a medium-lightness red with moderate saturation
+
+---
+
+## Complete Color Palette
+
+Below is the comprehensive color palette for all color families. Click any value to copy it to your clipboard.
+
+<ColorPaletteGrid />
+
+---
+
+## Color Families
+
+### Core Colors
+
+#### Background
+Used for page backgrounds, card surfaces, and containers. Grayscale palette with neutral tones.
+
+- **Shade Scale**: 50 (lightest) to 950 (darkest)
+- **Use Cases**: Page backgrounds, surface layers, elevated surfaces
+- **Accessibility**: Ensure sufficient contrast with foreground colors
+
+#### Foreground
+Text and foreground element colors. Grayscale palette optimized for readability.
+
+- **Shade Scale**: 50 (lightest) to 950 (darkest)
+- **Use Cases**: Body text, labels, icons, borders
+- **Accessibility**: All shades meet WCAG AAA contrast requirements
+
+#### Accent
+Primary interactive element color used for links, buttons, and focus states. Can be dynamically themed.
+
+- **Shade Scale**: 50 (lightest) to 950 (darkest)
+- **Use Cases**: Primary buttons, links, focus indicators, highlights
+- **Dynamic Theming**: Can be customized per theme while maintaining accessibility
+
+### Semantic Colors
+
+#### Success (Green)
+Indicates positive actions, confirmations, and successful states.
+
+- **Hue**: 142° (green)
+- **Chroma Range**: 0.01 – 0.28
+- **Use Cases**: Success messages, confirmation dialogs, positive indicators, approved states
+
+#### Danger (Red)
+Indicates errors, destructive actions, and critical states.
+
+- **Hue**: 25° (red)
+- **Chroma Range**: 0.01 – 0.28
+- **Use Cases**: Error messages, delete confirmations, critical alerts, failed states
+
+#### Warning (Yellow/Orange)
+Indicates cautions, warnings, and attention-required states.
+
+- **Hue**: 65° (yellow/orange)
+- **Chroma Range**: 0.01 – 0.26
+- **Use Cases**: Warning messages, notifications, pending states, important notices
+
+#### Info (Blue)
+Indicates informational content and neutral states.
+
+- **Hue**: 255° (blue)
+- **Chroma Range**: 0.01 – 0.24
+- **Use Cases**: Info messages, documentation links, metadata, neutral states
+
+---
+
+## Usage Guidelines
+
+### Color Selection
+
+1. **Choose the Right Family**: Select the semantic color family that matches your intent
+2. **Pick a Shade**: Use shades 50-300 for light backgrounds, 400-500 for medium, 600-950 for dark
+3. **Verify Contrast**: Ensure WCAG AA compliance (4.5:1 for text) when pairing colors
+4. **Consider Dark Mode**: Both light and dark themes are supported
+
+### Practical Examples
+
+**Success Message**
+```html
+<!-- Background: success-50 or success-100 -->
+<!-- Text: success-900 or success-950 -->
+<!-- Border: success-300 -->
+```
+
+**Error Button**
+```html
+<!-- Background: danger-600 or danger-700 -->
+<!-- Text: foreground-50 -->
+<!-- Hover: danger-700 or danger-800 -->
+```
+
+**Info Badge**
+```html
+<!-- Background: info-200 -->
+<!-- Text: info-900 -->
+<!-- No border needed -->
+```
+
+### CSS Variable Usage
+
+All colors are available as CSS variables following the pattern:
+
+```css
+--{family}-{shade}
+```
+
+Examples:
+- `--background-900`
+- `--foreground-300`
+- `--accent-500`
+- `--success-700`
+- `--danger-600`
+- `--warning-400`
+- `--info-500`
+
+Use them in your CSS:
+
+```css
+.button {
+  background-color: var(--accent-600);
+  color: var(--foreground-50);
+  border-color: var(--accent-700);
+}
+
+.button:hover {
+  background-color: var(--accent-700);
+}
+
+.success-alert {
+  background-color: var(--success-50);
+  color: var(--success-900);
+  border: 1px solid var(--success-300);
+}
+```
+
+---
+
+## Accessibility
+
+### Contrast Ratios
+
+All color combinations in this palette are designed to meet or exceed WCAG AA standards:
+
+- **Normal Text**: Minimum 4.5:1 contrast ratio
+- **Large Text**: Minimum 3:1 contrast ratio
+- **Graphics & UI**: Minimum 3:1 contrast ratio
+
+### Best Practices
+
+1. **Never rely on color alone**: Always use text labels and icons in addition to color
+2. **Test your combinations**: Verify contrast before using in production
+3. **Consider colorblind users**: Use semantic colors with supporting icons
+4. **Use sufficient spacing**: Help distinguish similarly-colored elements through spacing
+
+### Testing Tools
+
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [APCA Contrast Calculator](https://www.myndex.org/APCA/)
+- [Accessible Colors](https://accessible-colors.com/)
+
+---
+
+## Dynamic Theming
+
+The accent color family can be dynamically customized while maintaining accessibility:
+
+```typescript
+import { generateThemePalettes } from '@/lib/color-utils'
+
+const customTheme = generateThemePalettes(
+  { l: 0.16, c: 0.0, h: 0 },      // Background
+  { l: 0.9, c: 0.0, h: 0 },       // Foreground
+  { l: 0.5, c: 0.15, h: 260 },    // Accent (custom purple)
+  'dark'
+)
+```
+
+The system automatically:
+- Scales chroma appropriately across shades
+- Maintains perceptual uniformity
+- Respects WCAG AA compliance
+- Applies global adjustments consistently
+
+---
+
+## Integration
+
+### React Components
+
+```tsx
+import { ColorPaletteGrid } from '@/components/ColorPaletteGrid'
+
+export default function ColorsPage() {
+  return <ColorPaletteGrid />
+}
+```
+
+### Direct CSS Variable Access
+
+```css
+/* Light backgrounds */
+background-color: var(--background-50);
+
+/* Dark text */
+color: var(--foreground-950);
+
+/* Interactive elements */
+border-color: var(--accent-500);
+
+/* Semantic states */
+background-color: var(--success-100);
+color: var(--success-900);
+```
+
+### Tailwind Classes
+
+All color variables are integrated with Tailwind CSS v4:
+
+```html
+<!-- Background utilities -->
+<div class="bg-background-900">...</div>
+
+<!-- Text color utilities -->
+<p class="text-foreground-300">...</p>
+
+<!-- Border utilities -->
+<button class="border-accent-500">...</button>
+
+<!-- Semantic colors -->
+<div class="bg-success-50 text-success-900">Success!</div>
+```
+
+---
+
+## Browser Support
+
+The OKLCH color space is supported in all modern browsers:
+
+- Chrome/Edge 111+
+- Firefox 113+
+- Safari 15.4+
+- All modern mobile browsers
+
+For older browsers, CSS variables fall back to oklch() syntax with fallback values automatically provided.
+
+---
+
+## Further Reading
+
+- [OKLCH Color Space Specification](https://oklab.github.io/)
+- [Perception vs Reality in Color](https://www.smashingmagazine.com/2021/07/oklch-color-space-web-design-css-color-module-level-4/)
+- [WCAG 2.1 Color Contrast Guidelines](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
+- [Color Blindness Simulation Tools](https://www.color-blindness.com/)
