@@ -9,7 +9,7 @@ import {
   categoryMap,
   type ComponentCategory,
 } from "@/lib/component-registry";
-import { DOCUMENTATION_SECTIONS } from "@/lib/generated-docs";
+import { getSectionsForDomain } from "@/lib/sidebar-registry-resolver";
 import { usePrefetchOnHover } from "@/hooks/usePrefetchOnHover";
 import { FadeContainer } from "./FadeContainer";
 import {
@@ -22,7 +22,7 @@ import {
   FaBookOpen,
 } from "react-icons/fa6";
 
-type MainNavItem = "overview" | "components" | "design-system" | "agents-mcps" | "agents-mcps-introduction" | "agents-mcps-workflows" | "agents-mcps-references" | "cli-getting-started" | "cli-advanced";
+export type MainNavItem = "overview" | "components" | "design-system" | "agents-mcps" | "agents-mcps-introduction" | "agents-mcps-workflows" | "agents-mcps-references" | "cli-getting-started" | "cli-advanced";
 
 interface SidebarSection {
   label: string;
@@ -74,106 +74,7 @@ function getComponentSections(): SidebarSection[] {
     }));
 }
 
-function getDesignSystemSections(): SidebarSection[] {
-  return [
-    {
-      label: "Foundation",
-      items: [
-        { id: "colors", label: "Colors" },
-        { id: "typography", label: "Typography" },
-        { id: "spacing", label: "Spacing" },
-      ],
-    },
-    {
-      label: "Systems",
-      items: [
-        { id: "tokens", label: "Tokens" },
-        { id: "variables", label: "Variables" },
-      ],
-    },
-    {
-      label: "Guidelines",
-      items: [
-        { id: "components-guidelines", label: "Component Guidelines" },
-        { id: "accessibility", label: "Accessibility" },
-      ],
-    },
-  ];
-}
-
-function getAgentsMcpsIntroductionSections(): SidebarSection[] {
-  return [
-    {
-      label: "Getting Started",
-      items: [
-        { id: "introduction", label: "Introduction" },
-        { id: "installation", label: "Installation" },
-        { id: "quick-start", label: "Quick Start" },
-        { id: "core-concepts", label: "Core Concepts" },
-      ],
-    },
-  ];
-}
-
-function getAgentsMcpsWorkflowsSections(): SidebarSection[] {
-  return [
-    {
-      label: "Building Workflows",
-      items: [
-        { id: "designing-ai-workflows", label: "Designing AI Workflows" },
-        { id: "prompting-strategies", label: "Prompting Strategies" },
-        { id: "state-management", label: "State Management" },
-        { id: "examples-use-cases", label: "Examples & Use Cases" },
-      ],
-    },
-  ];
-}
-
-function getAgentsMcpsReferencesSections(): SidebarSection[] {
-  return [
-    {
-      label: "Technical Reference",
-      items: [
-        { id: "mcps-overview", label: "MCPs Overview" },
-        { id: "custom-mcps", label: "Custom MCPs" },
-        { id: "integrations", label: "Integrations" },
-        { id: "api-reference", label: "API Reference" },
-      ],
-    },
-  ];
-}
-
-function getCliGetStartedSections(): SidebarSection[] {
-  return [
-    {
-      label: "Getting Started",
-      items: [
-        { id: "introduction", label: "Introduction" },
-        { id: "installation", label: "Installation" },
-        { id: "commands", label: "Commands" },
-        { id: "quick-start", label: "Quick Start" },
-      ],
-    },
-  ];
-}
-
-function getCliAdvancedSections(): SidebarSection[] {
-  return [
-    {
-      label: "Advanced Features",
-      items: [
-        { id: "hooks", label: "Hooks" },
-        { id: "skills", label: "Skills" },
-        { id: "agents", label: "Agents" },
-        { id: "mcp-servers", label: "MCP Servers" },
-        { id: "configuration", label: "Configuration" },
-        { id: "best-practices", label: "Best Practices" },
-      ],
-    },
-  ];
-}
-
-function getActiveSectionForPathname(pathname: string): MainNavItem {
+export function getActiveSectionForPathname(pathname: string): MainNavItem {
   if (pathname.startsWith("/docs")) return "overview";
   if (pathname.startsWith("/agents-mcps")) {
     if (pathname === "/agents-mcps" || pathname.includes("/introduction") || pathname.includes("/installation") || pathname.includes("/quick-start") || pathname.includes("/core-concepts")) {
@@ -200,29 +101,26 @@ function getActiveSectionForPathname(pathname: string): MainNavItem {
   return "components";
 }
 
-function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
+export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
   switch (nav) {
     case "overview":
-      return DOCUMENTATION_SECTIONS;
+      return getSectionsForDomain("docs");
     case "agents-mcps-introduction":
-      return getAgentsMcpsIntroductionSections();
     case "agents-mcps-workflows":
-      return getAgentsMcpsWorkflowsSections();
     case "agents-mcps-references":
-      return getAgentsMcpsReferencesSections();
+      return getSectionsForDomain("agents-mcps");
     case "cli-getting-started":
-      return getCliGetStartedSections();
     case "cli-advanced":
-      return getCliAdvancedSections();
+      return getSectionsForDomain("cli");
     case "design-system":
-      return getDesignSystemSections();
+      return getSectionsForDomain("design-system");
     case "components":
     default:
       return getComponentSections();
   }
 }
 
-function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
+export function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
   switch (activeNav) {
     case "overview":
       return itemId === "introduction" ? "/docs" : `/docs/${itemId}`;
@@ -318,7 +216,7 @@ export function Sidebar() {
   }, [activeNav]);
 
   return (
-    <aside className="hidden md:flex w-64 flex-col border-r border-background-700">
+    <aside className="hidden md:flex w-56 flex-col border-r border-background-700">
       {/* Fixed height container with sticky header + scrollable body */}
       <div className="flex flex-col h-screen sticky top-(--header-height)">
         {/* Sticky Top Navigation */}

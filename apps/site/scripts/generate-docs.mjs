@@ -1,111 +1,105 @@
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
 import { spawn } from 'child_process';
+import { scanContentDirectory } from './lib/file-scanner.mjs';
+import { extractAllMetadata } from './lib/metadata-extractor.mjs';
+import { organizeFilesIntoSections, buildFileMap } from './lib/section-organizer.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DOCS_DIR = path.join(__dirname, '../content/docs');
-const OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-docs.ts');
+const CONTENT_DOMAINS = {
+  docs: path.join(__dirname, '../content/docs'),
+  'agents-mcps': path.join(__dirname, '../content/agents-mcps'),
+  cli: path.join(__dirname, '../content/cli'),
+  'design-system': path.join(__dirname, '../content/design-system'),
+};
+
+const OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-sidebar-registry.ts');
+const LEGACY_OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-docs.ts');
 const TOC_GENERATOR = path.join(__dirname, './generate-toc-registry.mjs');
+const BREADCRUMB_GENERATOR = path.join(__dirname, './generate-breadcrumb-registry.mjs');
 
-/**
- * @typedef {Object} DocMetadata
- * @property {string} id
- * @property {string} title
- * @property {number} [order]
- */
+async function generateSidebarRegistry() {
+  const registry = {};
 
-/**
- * @param {string} filePath
- * @returns {DocMetadata | null}
- */
-function getDocMetadata(filePath) {
-  try {
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const { data } = matter(content);
-    const filename = path.basename(filePath, '.mdx');
+  for (const [domain, contentDir] of Object.entries(CONTENT_DOMAINS)) {
+    console.log(`\nProcessing domain: ${domain}`);
+    console.log(`  Content directory: ${contentDir}`);
 
-    // Skip index, but keep all other files including installation
-    if (filename === 'index') {
-      return null;
-    }
+    const files = await scanContentDirectory(contentDir, domain);
+    console.log(`  Found ${files.length} content files`);
 
-    return {
-      id: filename,
-      title: data.title || filename,
-      order: data.order || 999,
-    };
-  } catch (error) {
-    console.error(`Error reading ${filePath}:`, error.message);
-    return null;
+    const metadata = await extractAllMetadata(files, domain);
+    console.log(`  Extracted metadata for ${metadata.length} files`);
+
+    const sections = organizeFilesIntoSections(metadata, domain);
+    const fileMap = buildFileMap(metadata);
+
+    registry[domain] = { sections, fileMap };
+
+    console.log(`  Organized into ${sections.length} sections:`);
+    sections.forEach(s => console.log(`    - ${s.label} (${s.items.length} items)`));
   }
+
+  return registry;
 }
 
-function generateDocumentation() {
-  if (!fs.existsSync(DOCS_DIR)) {
-    console.error(`Docs directory not found: ${DOCS_DIR}`);
-    process.exit(1);
-  }
+function generateTypeScriptOutput(registry) {
+  const registryEntries = Object.entries(registry)
+    .map(([domain, data]) => {
+      const quotedDomain = domain.includes('-') ? `'${domain}'` : domain;
+      return `  ${quotedDomain}: {
+    sections: ${JSON.stringify(data.sections, null, 6)},
+    fileMap: ${JSON.stringify(data.fileMap, null, 6)},
+  }`;
+    })
+    .join(',\n');
 
-  const files = fs.readdirSync(DOCS_DIR).filter((file) => file.endsWith('.mdx'));
-  const docs = files
-    .map((file) => getDocMetadata(path.join(DOCS_DIR, file)))
-    .filter((doc) => doc !== null)
-    .sort((a, b) => a.order - b.order);
+  const output = `// This file is auto-generated. Do not edit manually.
+// To regenerate, run: npm run generate:docs
 
-  // Organize sections
-  const sections = [];
+interface SidebarItem {
+  id: string;
+  label: string;
+}
 
-  // Getting Started
-  sections.push({
-    label: 'Getting Started',
-    items: [
-      { id: 'introduction', label: 'Introduction' },
-      { id: 'installation', label: 'Installation' },
-      { id: 'getting-started', label: 'Getting Started' },
-    ].filter((item) =>
-      item.id === 'introduction' || docs.some((doc) => doc.id === item.id)
-    ),
-  });
+interface SidebarSection {
+  label: string;
+  items: SidebarItem[];
+}
 
-  // Development
-  const developmentDocs = docs.filter((doc) =>
-    ['styling', 'best-practices', 'cli-guide'].includes(doc.id)
-  );
-  if (developmentDocs.length > 0) {
-    const order = ['cli-guide', 'styling', 'best-practices'];
-    sections.push({
-      label: 'Development',
-      items: developmentDocs
-        .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
-        .map((doc) => ({
-          id: doc.id,
-          label: doc.title,
-        })),
-    });
-  }
+interface FileMetadata {
+  title: string;
+  description: string;
+  slug: string;
+  category: string | null;
+}
 
-  // Architecture & Advanced
-  const advancedDocs = docs.filter((doc) =>
-    ['architecture', 'advanced'].includes(doc.id)
-  );
-  if (advancedDocs.length > 0) {
-    const order = ['architecture', 'advanced'];
-    sections.push({
-      label: 'Architecture & Advanced',
-      items: advancedDocs
-        .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
-        .map((doc) => ({
-          id: doc.id,
-          label: doc.title,
-        })),
-    });
-  }
+interface DomainRegistry {
+  sections: SidebarSection[];
+  fileMap: Record<string, FileMetadata>;
+}
 
-  // Generate TypeScript file
+export interface SidebarRegistry {
+  docs: DomainRegistry;
+  'agents-mcps': DomainRegistry;
+  cli: DomainRegistry;
+  'design-system': DomainRegistry;
+}
+
+export const SIDEBAR_REGISTRY: SidebarRegistry = {
+${registryEntries},
+};
+`;
+
+  return output;
+}
+
+function generateLegacyDocsOutput(registry) {
+  const docsSections = registry.docs.sections;
+
   const output = `// This file is auto-generated. Do not edit manually.
 // To regenerate, run: npm run generate:docs
 
@@ -118,16 +112,23 @@ interface SidebarSection {
 }
 
 export const DOCUMENTATION_SECTIONS: SidebarSection[] = ${JSON.stringify(
-    sections,
+    docsSections,
     null,
     2
   )};
 `;
 
-  fs.writeFileSync(OUTPUT_FILE, output, 'utf-8');
-  console.log(`✓ Generated documentation registry: ${OUTPUT_FILE}`);
-  console.log(`  Found ${docs.length} documentation pages`);
-  console.log(`  Organized into ${sections.length} sections`);
+  return output;
+}
+
+function writeOutputFiles(registry) {
+  const registryOutput = generateTypeScriptOutput(registry);
+  fs.writeFileSync(OUTPUT_FILE, registryOutput, 'utf-8');
+  console.log(`\n✓ Generated sidebar registry: ${OUTPUT_FILE}`);
+
+  const legacyOutput = generateLegacyDocsOutput(registry);
+  fs.writeFileSync(LEGACY_OUTPUT_FILE, legacyOutput, 'utf-8');
+  console.log(`✓ Generated legacy docs output: ${LEGACY_OUTPUT_FILE}`);
 }
 
 function runTocGenerator() {
@@ -148,10 +149,32 @@ function runTocGenerator() {
   });
 }
 
+function runBreadcrumbGenerator() {
+  return new Promise((resolve, reject) => {
+    const process = spawn('node', [BREADCRUMB_GENERATOR]);
+
+    process.on('close', (code) => {
+      if (code !== 0) {
+        reject(new Error(`Breadcrumb generator exited with code ${code}`));
+      } else {
+        resolve();
+      }
+    });
+
+    process.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
 async function generate() {
   try {
-    generateDocumentation();
+    console.log('Generating sidebar registry...');
+    const registry = await generateSidebarRegistry();
+    writeOutputFiles(registry);
+    await runBreadcrumbGenerator();
     await runTocGenerator();
+    console.log('\n✓ All generators completed successfully');
   } catch (error) {
     console.error('Failed to generate documentation:', error);
     process.exit(1);

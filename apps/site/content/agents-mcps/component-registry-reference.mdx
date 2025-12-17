@@ -1,0 +1,563 @@
+---
+title: "Component Registry Reference"
+description: "Complete reference for accessing and understanding UI Lab's component registry"
+category: "Reference"
+---
+
+# Component Registry Reference
+
+Complete technical reference for the UI Lab Component Registry. This document describes the registry structure, data format, and access methods.
+
+## Registry Data Structure
+
+### Component Object
+
+Each component in the registry has this structure:
+
+```typescript
+interface ComponentMetadata {
+  // Identification
+  id: string                          // Unique identifier (e.g., "button")
+  name: string                        // Display name (e.g., "Button")
+  description: string                 // Brief description
+
+  // Organization
+  category: string                    // Category (e.g., "action", "layout")
+  tags: string[]                      // Searchable tags
+  relatedComponents: string[]         // Related component IDs
+
+  // Variants
+  variants: Record<string, VariantInfo>
+
+  // Props
+  props: Record<string, PropDefinition>
+
+  // Accessibility
+  accessibility: AccessibilityInfo
+
+  // Composition
+  composition: CompositionInfo
+
+  // Design System
+  design: DesignInfo
+
+  // Source
+  source: SourceInfo
+}
+```
+
+### VariantInfo
+
+```typescript
+interface VariantInfo {
+  description: string                 // What this variant is
+  usage: string                       // When to use it
+  example?: string                    // Code example
+}
+```
+
+Example:
+```json
+{
+  "primary": {
+    "description": "Recommended action, main call-to-action",
+    "usage": "Use for the primary action the user should take",
+    "example": "<Button variant=\"primary\">Save</Button>"
+  }
+}
+```
+
+### PropDefinition
+
+```typescript
+interface PropDefinition {
+  type: string                        // Type: 'string' | 'number' | 'boolean' | 'enum' | 'function'
+  description: string                 // What this prop does
+  default?: any                       // Default value
+  required?: boolean                  // Whether required
+
+  // For enum types:
+  enum?: string[] | number[]          // Allowed values
+
+  // For function types:
+  signature?: string                  // Function signature
+
+  // For specific cases:
+  responsive?: boolean                // Can be responsive object
+  accepts?: string[]                  // Accepted value formats
+}
+```
+
+Example:
+```json
+{
+  "variant": {
+    "type": "enum",
+    "enum": ["primary", "secondary", "outline", "ghost"],
+    "description": "Visual style of the button",
+    "default": "primary"
+  },
+  "size": {
+    "type": "enum",
+    "enum": ["sm", "md", "lg"],
+    "description": "Button size",
+    "default": "md"
+  },
+  "disabled": {
+    "type": "boolean",
+    "description": "Whether button is disabled",
+    "default": false
+  },
+  "onClick": {
+    "type": "function",
+    "description": "Callback when button is clicked",
+    "signature": "(e: React.MouseEvent) => void"
+  }
+}
+```
+
+### AccessibilityInfo
+
+```typescript
+interface AccessibilityInfo {
+  hasAriaSupport: boolean             // Whether component has ARIA support
+  ariaAttributes: string[]            // Available ARIA attributes
+  keyboardSupport: string[]           // Supported keyboard keys
+  screenReaderTested: boolean         // Whether tested with screen readers
+  wcagLevel: 'A' | 'AA' | 'AAA'       // WCAG compliance level
+  notes: string[]                     // Important accessibility notes
+}
+```
+
+Example:
+```json
+{
+  "hasAriaSupport": true,
+  "ariaAttributes": ["aria-label", "aria-busy", "aria-disabled"],
+  "keyboardSupport": ["Tab", "Enter", "Space"],
+  "screenReaderTested": true,
+  "wcagLevel": "AA",
+  "notes": [
+    "All buttons have visible focus rings",
+    "Icon-only buttons require aria-label",
+    "Disabled state conveyed visually and programmatically"
+  ]
+}
+```
+
+### CompositionInfo
+
+```typescript
+interface CompositionInfo {
+  canContain: string[]                // Component IDs that can be children
+  canBeContainedBy: string[]          // Component IDs that can be parents
+  relatedComponents: string[]         // Related components
+  patterns: string[]                  // Common composition patterns
+}
+```
+
+Example:
+```json
+{
+  "canContain": ["Icon", "Spinner"],
+  "canBeContainedBy": ["Group", "Card", "Modal"],
+  "relatedComponents": ["Link", "IconButton"],
+  "patterns": [
+    "Button group for related actions",
+    "Loading button with spinner overlay",
+    "Icon button for compact layouts"
+  ]
+}
+```
+
+### DesignInfo
+
+```typescript
+interface DesignInfo {
+  tokens: Record<string, string[]>    // Design tokens by variant
+  spacing: string[]                   // Available spacing tokens
+  responsive: boolean                 // Supports responsive props
+  darkMode: boolean                   // Has dark mode styles
+  examples: Record<string, string>    // Code examples
+}
+```
+
+Example:
+```json
+{
+  "tokens": {
+    "primary": ["--accent-600", "--accent-50"],
+    "secondary": ["--accent-100", "--accent-900"],
+    "outline": ["--accent-300", "--accent-900"],
+    "ghost": ["--transparent", "--foreground-900"]
+  },
+  "spacing": ["--spacing-xs", "--spacing-sm", "--spacing-md"],
+  "responsive": true,
+  "darkMode": true,
+  "examples": {
+    "basic": "<Button>Click Me</Button>",
+    "primary": "<Button variant=\"primary\">Save</Button>",
+    "loading": "<Button disabled aria-busy=\"true\"><Spinner /> Loading</Button>"
+  }
+}
+```
+
+### SourceInfo
+
+```typescript
+interface SourceInfo {
+  packageName: string                 // NPM package name
+  exportName: string                  // Export name from package
+  packagePath: string                 // Path to source file
+  typesPath: string                   // Path to TypeScript definitions
+}
+```
+
+Example:
+```json
+{
+  "packageName": "ui-lab-components",
+  "exportName": "Button",
+  "packagePath": "src/components/button/index.ts",
+  "typesPath": "dist/types/components/button.d.ts"
+}
+```
+
+## Component Categories
+
+Components are organized by category:
+
+| Category | Components | Purpose |
+|----------|------------|---------|
+| `action` | Button, Link, IconButton | User interactions |
+| `input` | Input, TextArea, Select, Checkbox, Radio, Switch | Form inputs |
+| `layout` | Flex, Grid, Card, Fold, Gallery | Layout and composition |
+| `navigation` | Tabs, Menu, Breadcrumbs, Divider | Navigation and structure |
+| `feedback` | Modal, Toast, Popover, Tooltip, Progress | Feedback and overlays |
+| `information` | Label, Badge | Information display |
+| `data` | Table, Form | Data and composition |
+
+## API Reference
+
+### TypeScript Imports
+
+```typescript
+// Import registry
+import { componentRegistry } from 'ui-lab-registry'
+
+// Import individual component metadata
+import { ButtonMetadata } from 'ui-lab-registry/components'
+
+// Import type definitions
+import { ComponentMetadata, PropDefinition } from 'ui-lab-registry'
+```
+
+### Registry Methods
+
+#### `list()`
+
+Get all components:
+
+```typescript
+const allComponents: ComponentMetadata[] = componentRegistry.list()
+```
+
+#### `find(id: string)`
+
+Find component by ID:
+
+```typescript
+const button = componentRegistry.find('button')
+// Returns: ComponentMetadata | undefined
+```
+
+#### `findByCategory(category: string)`
+
+Find all components in a category:
+
+```typescript
+const actionComponents = componentRegistry.findByCategory('action')
+// Returns: ComponentMetadata[]
+```
+
+#### `search(query: string)`
+
+Search components by name, description, or tags:
+
+```typescript
+const results = componentRegistry.search('button')
+// Returns: ComponentMetadata[]
+```
+
+#### `getComponentProps(componentId: string)`
+
+Get all props for a component:
+
+```typescript
+const buttonProps = componentRegistry.getComponentProps('button')
+// Returns: Record<string, PropDefinition>
+```
+
+#### `getVariants(componentId: string)`
+
+Get all variants for a component:
+
+```typescript
+const variants = componentRegistry.getVariants('button')
+// Returns: Record<string, VariantInfo>
+```
+
+#### `getAccessibility(componentId: string)`
+
+Get accessibility info:
+
+```typescript
+const a11y = componentRegistry.getAccessibility('button')
+// Returns: AccessibilityInfo
+```
+
+## Common Components
+
+### Button
+
+```json
+{
+  "id": "button",
+  "name": "Button",
+  "category": "action",
+  "variants": {
+    "primary": "Main call-to-action",
+    "secondary": "Alternative actions",
+    "outline": "Secondary with less emphasis",
+    "ghost": "Tertiary or subtle actions"
+  },
+  "props": {
+    "variant": { "type": "enum", "enum": ["primary", "secondary", "outline", "ghost"] },
+    "size": { "type": "enum", "enum": ["sm", "md", "lg"] },
+    "disabled": { "type": "boolean" },
+    "onClick": { "type": "function" }
+  }
+}
+```
+
+### Input
+
+```json
+{
+  "id": "input",
+  "name": "Input",
+  "category": "input",
+  "props": {
+    "type": { "type": "string", "default": "text" },
+    "value": { "type": "string" },
+    "onChange": { "type": "function" },
+    "placeholder": { "type": "string" },
+    "disabled": { "type": "boolean" },
+    "error": { "type": "boolean" }
+  }
+}
+```
+
+### Flex
+
+```json
+{
+  "id": "flex",
+  "name": "Flex",
+  "category": "layout",
+  "props": {
+    "direction": { "type": "enum", "enum": ["row", "column"], "default": "row" },
+    "align": { "type": "enum", "enum": ["start", "center", "end", "stretch"] },
+    "justify": { "type": "enum", "enum": ["start", "center", "end", "between", "around"] },
+    "gap": { "type": "string", "default": "md" },
+    "wrap": { "type": "boolean", "default": false }
+  }
+}
+```
+
+### Grid
+
+```json
+{
+  "id": "grid",
+  "name": "Grid",
+  "category": "layout",
+  "props": {
+    "columns": { "type": "string", "responsive": true },
+    "gap": { "type": "string", "default": "md" },
+    "autoFit": { "type": "boolean" },
+    "autoFlow": { "type": "enum", "enum": ["row", "column", "dense"] }
+  }
+}
+```
+
+## Accessing the Registry Programmatically
+
+### JavaScript/TypeScript
+
+```typescript
+import { componentRegistry } from 'ui-lab-registry'
+
+// Get all components
+const components = componentRegistry.list()
+
+// Find specific component
+const button = componentRegistry.find('button')
+console.log(button.variants)     // Get variants
+console.log(button.props)         // Get props
+console.log(button.accessibility) // Get accessibility info
+
+// Search by category
+const layoutComponents = componentRegistry.findByCategory('layout')
+
+// Get type-safe component props
+const buttonProps = componentRegistry.getComponentProps('button')
+```
+
+### JSON Export
+
+Export registry as JSON:
+
+```bash
+npx ui-lab registry export > registry.json
+```
+
+Use in your application:
+
+```typescript
+import registryData from './registry.json'
+
+const buttonMetadata = registryData.find(c => c.id === 'button')
+```
+
+## Validation
+
+### Validate Component Props
+
+```typescript
+import { validateProps } from 'ui-lab-registry'
+
+const isValid = validateProps('button', {
+  variant: 'primary',
+  size: 'md',
+  onClick: () => {}
+})
+
+// Returns: { valid: boolean, errors: string[] }
+```
+
+### Validate Component Composition
+
+```typescript
+import { validateComposition } from 'ui-lab-registry'
+
+const isValid = validateComposition('button', 'spinner')
+// Check if 'spinner' can be a child of 'button'
+// Returns: { valid: boolean, reason?: string }
+```
+
+## LLMs.txt Format
+
+Export registry in LLMs.txt format:
+
+```bash
+npx ui-lab llms > llms.txt
+```
+
+This generates machine-readable documentation for AI systems.
+
+## MCP Server Access
+
+Query the registry via MCP server:
+
+```typescript
+const client = new MCPClient('http://localhost:8000')
+
+// Get all components
+const components = await client.getComponents()
+
+// Get specific component
+const button = await client.getComponent('button')
+
+// Search components
+const results = await client.searchComponents({
+  category: 'action',
+  tag: 'interactive'
+})
+
+// Get component variants
+const variants = await client.getComponentVariants('button')
+
+// Validate props
+const isValid = await client.validateProps('button', {
+  variant: 'primary'
+})
+```
+
+## Best Practices
+
+### For AI Systems
+
+1. **Check Variants First** – Always consult the variants documentation
+2. **Use Semantic Props** – Reference tokens and named values
+3. **Verify Composition** – Check `canContain` before nesting
+4. **Include Accessibility** – Follow accessibility guidelines
+5. **Respect Responsive** – Handle responsive variants appropriately
+
+### For Registry Maintainers
+
+1. **Keep Examples Current** – Update examples when component changes
+2. **Document Edge Cases** – Note unusual behaviors or constraints
+3. **Maintain Composition Rules** – Keep `canContain`/`canBeContainedBy` accurate
+4. **Include Patterns** – Document common usage patterns
+5. **Version Registry** – Update version when components change
+
+## Updating the Registry
+
+To update component metadata:
+
+1. Update metadata file in `packages/registry/src/components/[id].ts`
+2. Run registry generation: `npm run registry:generate`
+3. Commit updated `packages/registry/src/generated-data.ts`
+4. Deploy to update live registry
+
+Example component metadata file:
+
+```typescript
+// packages/registry/src/components/button.ts
+export const ButtonMetadata: ComponentMetadata = {
+  id: 'button',
+  name: 'Button',
+  description: 'Primary action component',
+  category: 'action',
+  variants: {
+    primary: {
+      description: 'Recommended action',
+      usage: 'Use for main call-to-action'
+    }
+  },
+  // ... rest of metadata
+}
+```
+
+## Version History
+
+The registry is versioned alongside the component library:
+
+```
+v1.0.0 - Initial registry structure
+v1.1.0 - Added composition rules
+v1.2.0 - Added design tokens
+v2.0.0 - Redesigned accessibility section
+```
+
+Check the current version:
+
+```typescript
+import { registryVersion } from 'ui-lab-registry'
+console.log(registryVersion) // "2.0.0"
+```
+
+---
+
+**The registry is the single source of truth for UI Lab components.**

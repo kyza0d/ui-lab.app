@@ -8,51 +8,100 @@ tags: ["design-system", "overview", "foundation"]
 
 # Design System Overview
 
-The UI Lab Design System ensures consistency, accessibility, and efficiency across all interfaces through design tokens, components, and guidelines.
+The UI Lab Design System ensures consistency, accessibility, and efficiency across all interfaces through a unified foundation of design tokens, accessible components, and guidelines. It enables teams to build interfaces rapidly while maintaining visual coherence and WCAG AA compliance.
+
+---
+
+## Quick Start
+
+**New to the design system?** Start with the guides below based on your role:
+
+- **Designers**: Review [Colors](/design-system/colors), [Typography](/design-system/typography), and [Spacing](/design-system/spacing)
+- **Developers**: Learn about [Tokens](/design-system/tokens) and [Component Guidelines](/design-system/component-guidelines)
+- **Teams**: Understand [Accessibility](/design-system/accessibility) requirements
 
 ---
 
 ## Core Pillars
 
-**Foundation**: Colors (OKLCH-based), typography, spacing, and elevation systems
+### Foundation
+Colors (OKLCH-based), typography, spacing, and elevation systems form the visual foundation. The foundation ensures perceptual uniformity, readability, and accessibility across all contexts, including light/dark themes and various display types.
 
-**Tokens**: Reusable design decisions with semantic naming and CSS variable implementation
+### Tokens
+Reusable design decisions with semantic naming and CSS variable implementation. Tokens represent decisions (colors, spacing, typography sizes) in a format that any team can consume—whether styling React components, building native apps, or customizing designs.
 
-**Components**: Reusable UI elements with built-in accessibility and state management
+### Components
+Reusable UI elements with built-in accessibility and state management. Components combine tokens with behavior and state patterns, providing a reliable building block that handles edge cases and accessibility requirements automatically.
 
-**Guidelines**: WCAG compliance and patterns for applying the system
+### Guidelines
+WCAG compliance standards and patterns for applying the system correctly. Guidelines provide the "why" and "when" for each system element, helping teams make consistent decisions when the system doesn't prescribe an exact solution.
 
 ---
 
-## Key Design Decisions
+## Design Philosophy
 
-- **OKLCH Color Space**: Perceptually uniform across themes
-- **Modular Type Scale**: 1.25 ratio for visual hierarchy
-- **Rhythm-Based Spacing**: Consistent scale derived from base unit
-- **Semantic Naming**: Token names describe purpose, not appearance (e.g., `--success-600`)
+### Perceptual Uniformity
+The design system uses OKLCH color space because it matches human perception. Equal steps in lightness produce equal perceived brightness, making it possible to build themes programmatically while maintaining visual balance.
+
+### Semantic Over Visual
+Token names describe their purpose (`--success-600`) rather than appearance (`--green-600`). This approach supports theming and makes the intent clear, so teams use tokens appropriately across different contexts.
+
+### Accessibility First
+Every design decision considers WCAG AA standards from the start. This includes color contrast ratios, font sizing and line heights for readability, keyboard navigation support, and motion preferences.
+
+### Rhythm and Consistency
+All spacing derives from a shared base unit. Typography uses a 1.25 modular scale. These consistent rhythms create visual harmony and make the system predictable and extensible.
+
+---
+
+## Key Features
+
+- **OKLCH Color Space**: Perceptually uniform across themes with automatic contrast compliance
+- **Modular Type Scale**: 1.25 ratio provides clear visual hierarchy from xs to 4xl
+- **Rhythm-Based Spacing**: All spacing units derive from a consistent base unit
+- **Semantic Naming**: Token names describe purpose, enabling intuitive usage and theming
+- **Dark/Light Themes**: System supports both with automatic color adjustments
+- **Dynamic Theming**: Accent colors can be customized while maintaining accessibility
 
 ---
 
 ## Accessibility
 
-All design decisions meet WCAG AA standards:
-- Color contrast for readability
-- Font sizes and line heights for accessibility
-- Keyboard navigation and screen reader support
-- Respect for motion preferences
-- Clear focus states
+All design system decisions prioritize accessibility and meet WCAG AA standards:
+
+**Color & Contrast**
+- Minimum 4.5:1 contrast ratio for normal text
+- Minimum 3:1 for large text and UI components
+- OKLCH ensures perceptual uniformity even with dynamic theming
+
+**Typography**
+- Font sizes and line heights optimized for readability
+- Clear hierarchy through modular scale
+- Support for system font preferences
+
+**Interaction**
+- Keyboard navigation support throughout
+- Screen reader compatible components
+- Clear, visible focus states
+- Respect for motion preferences (prefers-reduced-motion)
+
+**Color Independence**
+- Never rely on color alone to convey information
+- Always include text labels and icons with semantic colors
+- Sufficient spacing helps distinguish similarly-colored elements
 
 ---
 
-## Contributing
+## Related Documentation
 
-To propose changes:
+Explore the complete system:
 
-1. Document the change and rationale
-2. Consider accessibility implications
-3. Test across browsers and devices
-4. Update documentation
-5. Communicate to the team
+- **[Colors](/design-system/colors)** — Color palette, OKLCH values, and usage guidelines
+- **[Typography](/design-system/typography)** — Type scale, font families, and text styling
+- **[Spacing](/design-system/spacing)** — Spacing scale and layout rhythms
+- **[Tokens](/design-system/tokens)** — Complete token reference and implementation
+- **[Component Guidelines](/design-system/component-guidelines)** — Building components with the system
+- **[Accessibility](/design-system/accessibility)** — Detailed WCAG compliance and testing
 
 ---
 

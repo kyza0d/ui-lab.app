@@ -1,0 +1,440 @@
+---
+title: "Understanding the Component Registry"
+description: "Learn how the Component Registry enables AI to make smart decisions about components"
+category: "Concepts"
+---
+
+# Understanding the Component Registry
+
+The Component Registry is the foundation of UI Lab's AI integration. It's a structured, machine-readable catalog that answers one fundamental question: **What can AI generate with UI Lab, and how?**
+
+This document explains the *why* and *how* of the registry—what it contains, how it's organized, and why it matters for AI systems.
+
+## The Problem It Solves
+
+When Claude (or any AI) generates React code with a component library, it faces dozens of decisions:
+
+1. **Discovery**: What components are available?
+2. **Selection**: Which component should I use for this task?
+3. **Variants**: What variants/props does this component have?
+4. **Composition**: How do components work together?
+5. **Accessibility**: What ARIA attributes are needed?
+6. **Theming**: Which design tokens should I reference?
+7. **Responsive**: How should this respond to different screen sizes?
+
+Traditional component libraries answer these implicitly—you read the docs, memorize patterns, try combinations. AI can't do that reliably. **The registry makes these answers explicit and machine-readable.**
+
+## What's in the Registry
+
+Each component has comprehensive metadata:
+
+```json
+{
+  "id": "button",
+  "name": "Button",
+  "description": "Primary action component for user interactions",
+
+  "category": "action",
+  "tags": ["interactive", "cta", "form"],
+
+  "variants": {
+    "primary": {
+      "description": "Recommended action, main call-to-action",
+      "usage": "Use for the primary action the user should take"
+    },
+    "secondary": {
+      "description": "Alternative action with less emphasis",
+      "usage": "Use for secondary actions or less important choices"
+    },
+    "outline": {
+      "description": "Secondary action with outline style",
+      "usage": "Use when primary and secondary are both prominent"
+    },
+    "ghost": {
+      "description": "Subtle tertiary action",
+      "usage": "Use for help, information, or ancillary actions"
+    }
+  },
+
+  "props": {
+    "variant": {
+      "type": "enum",
+      "enum": ["primary", "secondary", "outline", "ghost"],
+      "description": "Visual style of the button",
+      "default": "primary"
+    },
+    "size": {
+      "type": "enum",
+      "enum": ["sm", "md", "lg"],
+      "description": "Button size",
+      "default": "md"
+    },
+    "disabled": {
+      "type": "boolean",
+      "description": "Whether the button is disabled",
+      "default": false
+    },
+    "onClick": {
+      "type": "function",
+      "description": "Callback when button is clicked",
+      "required": false
+    }
+  },
+
+  "accessibility": {
+    "hasAriaSupport": true,
+    "ariaAttributes": ["aria-label", "aria-busy", "aria-disabled"],
+    "keyboardSupport": ["Tab", "Enter", "Space"],
+    "screenReaderTested": true,
+    "wcagLevel": "AA",
+    "notes": [
+      "All buttons have visible focus rings",
+      "Icon-only buttons require aria-label",
+      "Disabled state is conveyed visually and programmatically"
+    ]
+  },
+
+  "composition": {
+    "canContain": ["Icon", "Spinner"],
+    "canBeContainedBy": ["Group", "Card", "Form"],
+    "relatedComponents": ["Link", "IconButton"],
+    "patterns": [
+      "Button group for related actions",
+      "Loading button with spinner",
+      "Disabled button for form submission"
+    ]
+  },
+
+  "design": {
+    "tokens": {
+      "primary": ["--accent-600", "--accent-50"],
+      "secondary": ["--accent-100", "--accent-900"],
+      "outline": ["--accent-300", "--accent-900"],
+      "ghost": ["--transparent", "--foreground-900"]
+    },
+    "spacing": ["--spacing-sm", "--spacing-md"],
+    "responsive": true,
+    "darkMode": true,
+    "examples": {
+      "primary": '<Button variant="primary">Save</Button>',
+      "primaryLoading": '<Button variant="primary" disabled aria-busy="true"><Spinner /> Saving...</Button>',
+      "secondary": '<Button variant="secondary">Cancel</Button>',
+      "iconOnly": '<Button variant="ghost" aria-label="Close">×</Button>'
+    }
+  }
+}
+```
+
+## Core Sections Explained
+
+### 1. Identity
+
+```json
+{
+  "id": "button",
+  "name": "Button",
+  "description": "...",
+  "category": "action",
+  "tags": ["interactive", "cta"]
+}
+```
+
+**Why this matters:**
+- `id`: Allows AI to uniquely reference components programmatically
+- `category`: Helps AI discover related components (all "action" components)
+- `tags`: Enables semantic searches ("find a CTA component")
+
+### 2. Variants with Semantics
+
+```json
+{
+  "variants": {
+    "primary": {
+      "description": "Recommended action, main call-to-action",
+      "usage": "Use for the primary action the user should take"
+    }
+  }
+}
+```
+
+**Why this matters:**
+- Each variant has *semantic meaning*, not just visual difference
+- AI knows not just "this variant exists," but *when to use it*
+- Prevents AI from randomly choosing variants
+
+### 3. Props with Context
+
+```json
+{
+  "props": {
+    "variant": {
+      "type": "enum",
+      "enum": ["primary", "secondary", "outline", "ghost"],
+      "description": "Visual style of the button",
+      "default": "primary"
+    }
+  }
+}
+```
+
+**Why this matters:**
+- AI knows the exact type and allowed values
+- No guessing about prop names or values
+- Enables type checking in generated code
+
+### 4. Accessibility Guarantees
+
+```json
+{
+  "accessibility": {
+    "hasAriaSupport": true,
+    "ariaAttributes": ["aria-label", "aria-busy"],
+    "keyboardSupport": ["Tab", "Enter"],
+    "wcagLevel": "AA",
+    "notes": ["Icon-only buttons require aria-label"]
+  }
+}
+```
+
+**Why this matters:**
+- AI knows what accessibility features are available
+- Knows what ARIA attributes to use
+- Can validate accessibility before generating code
+
+### 5. Composition Rules
+
+```json
+{
+  "composition": {
+    "canContain": ["Icon", "Spinner"],
+    "canBeContainedBy": ["Group", "Card"],
+    "relatedComponents": ["Link", "IconButton"],
+    "patterns": ["Button group for related actions"]
+  }
+}
+```
+
+**Why this matters:**
+- AI knows what components can be children/parents
+- Understands common patterns (button groups, etc.)
+- Can suggest related components
+
+### 6. Design System Integration
+
+```json
+{
+  "design": {
+    "tokens": {
+      "primary": ["--accent-600", "--accent-50"]
+    },
+    "responsive": true,
+    "darkMode": true,
+    "examples": {
+      "primary": '<Button variant="primary">Save</Button>'
+    }
+  }
+}
+```
+
+**Why this matters:**
+- AI references semantic tokens instead of hardcoding colors
+- Knows the component supports dark mode
+- Has concrete examples to follow
+
+## How AI Uses the Registry
+
+### 1. Discovery Phase
+
+```
+AI Question: "What components can I use?"
+
+Registry Response: Returns all components with id, name, category
+
+AI thinks: "I can use Button, Link, IconButton from action category"
+```
+
+### 2. Selection Phase
+
+```
+AI Question: "I need a component for submitting a form. What's best?"
+
+Registry Response:
+{
+  "id": "button",
+  "category": "action",
+  "variants": {
+    "primary": "Recommended action, main call-to-action"
+  }
+}
+
+AI thinks: "Button with variant='primary' is perfect for form submission"
+```
+
+### 3. Composition Phase
+
+```
+AI Question: "Can a Button contain a Spinner?"
+
+Registry Response:
+{
+  "canContain": ["Icon", "Spinner"]
+}
+
+AI thinks: "Yes, I can put a Spinner inside a Button for loading state"
+```
+
+### 4. Accessibility Phase
+
+```
+AI Question: "How do I make an icon-only button accessible?"
+
+Registry Response:
+{
+  "ariaAttributes": ["aria-label"],
+  "notes": ["Icon-only buttons require aria-label"]
+}
+
+AI thinks: "I need to add aria-label to icon-only buttons"
+```
+
+### 5. Code Generation
+
+```
+With all this information, AI generates:
+
+<Button
+  variant="primary"              // From variants registry
+  onClick={handleSubmit}         // From props registry
+  disabled={isLoading}           // From props registry
+  aria-busy={isLoading}          // From accessibility registry
+>
+  {isLoading ? <Spinner /> : 'Submit'}  // Can contain Spinner
+</Button>
+```
+
+## Why This Approach Works
+
+### For AI Systems
+
+1. **Explicit over Implicit** – No guessing; everything is documented
+2. **Semantic over Visual** – Variants have meaning, not just appearance
+3. **Composable** – Clear patterns for combining components
+4. **Accessible by Default** – Accessibility is built in and documented
+5. **Design System Aware** – Uses tokens, responds to themes
+
+### For Developers
+
+1. **Better AI Code** – Claude understands *why* components are used
+2. **Consistency** – AI generates code that matches design patterns
+3. **Maintenance** – Update registry once, AI learns automatically
+4. **Validation** – Registry can validate AI-generated code
+5. **Documentation** – Registry serves as source of truth
+
+## Registry Structure in the Codebase
+
+The registry is typically structured as:
+
+```
+packages/registry/
+├── src/
+│   ├── index.ts              # Main registry export
+│   ├── components/
+│   │   ├── button.ts         # Button metadata
+│   │   ├── input.ts          # Input metadata
+│   │   └── ...
+│   └── generated-data.ts     # Auto-generated from components
+├── README.md                 # Registry documentation
+└── package.json
+```
+
+Each component metadata file contains the structure described above.
+
+## Accessing the Registry
+
+### Programmatically (JavaScript/TypeScript)
+
+```typescript
+import { componentRegistry } from 'ui-lab-registry'
+
+// Find a component
+const buttonComponent = componentRegistry.find(c => c.id === 'button')
+
+// List all components
+const allComponents = componentRegistry.list()
+
+// Find by category
+const actionComponents = componentRegistry.findByCategory('action')
+
+// Get variants for a component
+const buttonVariants = buttonComponent.variants
+```
+
+### Via LLMs.txt
+
+```bash
+npx ui-lab llms > components.txt
+```
+
+Generates a text file with all component documentation in LLMs.txt format.
+
+### Via MCP Server
+
+```typescript
+const client = new MCPClient('http://localhost:8000')
+
+// Get component metadata
+const button = await client.getComponent('button')
+
+// List all components
+const components = await client.listComponents()
+
+// Search components
+const buttons = await client.searchComponents({
+  category: 'action',
+  tag: 'interactive'
+})
+```
+
+## Extending the Registry
+
+To add a new component to the registry:
+
+1. Create component metadata in `packages/registry/src/components/[name].ts`
+2. Include all sections: identity, variants, props, accessibility, composition, design
+3. Add examples showing common usage patterns
+4. Document composition rules with other components
+5. Run registry generation to update `generated-data.ts`
+6. Update main registry index
+
+Example:
+
+```typescript
+// packages/registry/src/components/my-component.ts
+export const MyComponentMetadata = {
+  id: "my-component",
+  name: "MyComponent",
+  description: "...",
+  // ... rest of metadata
+}
+```
+
+## Design Philosophy
+
+The registry embodies these principles:
+
+1. **Semantics Over Configuration** – Variants mean something, props have purpose
+2. **Explicit Over Implicit** – Everything is documented, nothing is assumed
+3. **Composable Over Complex** – Simple components that work together
+4. **Accessible by Default** – Accessibility is built-in, not optional
+5. **AI-First** – Designed specifically for machine consumption
+
+## Next Steps
+
+- **See Full Registry** → [Component Registry Reference](/agents-mcps/component-registry-reference)
+- **Learn Design Guidelines** → [Design Guidelines Reference](/agents-mcps/design-guidelines-reference)
+- **Set Up MCP Server** → [MCP Server Setup](/agents-mcps/mcp-server-setup)
+- **View Examples** → [Examples & Patterns](/agents-mcps/examples-patterns)
+
+---
+
+**The registry is UI Lab's contract with AI: complete information for confident code generation.**

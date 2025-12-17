@@ -10,77 +10,32 @@ tags: ["getting-started", "setup", "basics"]
 
 Build your first UI in seconds with UI Lab components.
 
-## Core principles
+## Who this is for
 
-### Semantic background scale
+**Prerequisites:**
+- Node.js 18 or higher
+- React 19 or higher
+- Tailwind CSS v4 configured
+- Basic React component knowledge
 
-Single 50–950 numeric hierarchy defines visual depth. Values are perceptually uniform in oklch space and automatically invert semantic role between light and dark themes.
+**You will learn:**
+- How to import and use UI Lab components
+- Common component patterns for layouts and forms
+- How to customize component behavior and styling
 
-### Zero-runtime styling
+**Estimated time:** 10 minutes
 
-Exclusively uses Tailwind CSS v4 Oxide engine. All design tokens declared via native @theme directive. No CSS-in-JS, no style injection at runtime.
+## Installation
 
-### LLM-native contract
-
-Includes `llms.txt` specification and exhaustive declaration-map output. Enables deterministic component generation in Cursor, Copilot, and Claude.
-
-## Background system
-
-The scale is defined once in root @theme. Lower values represent the furthest visual plane in light mode and the nearest elevated plane in dark mode.
-
-```css
-@theme {
-  --background-50:   oklch(99.2% 0.001 240);
-  --background-100:  oklch(97.5% 0.002 240);
-  --background-200:  oklch(95.0% 0.004 240);
-  /* ... up to 950 */
-  --background-950:  oklch(11.8% 0.018 240);
-
-  /* Semantic aliases */
-  --background-surface:   var(--background-100);
-  --background-elevated:  var(--background-50);
-  --background-contrast:  var(--background-950);
-  --background-border:    var(--background-200 / 0.12);
-}
-```
-
-## Global token contract
-
-All component defaults are overridable at the root level.
-
-```css
-@theme {
-  /* Brand */
-  --color-primary: oklch(68% 0.22 245);
-  --color-danger:  oklch(65% 0.28 25);
-
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-
-  /* Shadows */
-  --shadow-card: 0 4px 16px rgb(0 0 0 / 0.10);
-  --shadow-modal: 0 12px 48px rgb(0 0 0 / 0.24);
-
-  /* Transitions */
-  --transition-fast: 120ms cubic-bezier(0.2, 0, 0.4, 1);
-}
-```
-
-## Quick start
-
-All components are tree-shakeable and fully typed. Import what you need:
-
-```tsx
-import { Button, Card, Input, Label } from "ui-lab-components";
-```
+Start with our [Installation guide](/docs/installation) to add UI Lab to your project.
 
 ## Your first component
 
-Drop a button anywhere — it just works.
+Drop a button anywhere—it just works:
 
 ```tsx
+import { Button } from "ui-lab-components";
+
 export default function Home() {
   return (
     <div className="flex items-center gap-4">
@@ -93,7 +48,7 @@ export default function Home() {
 }
 ```
 
-## Common components in action
+## Common patterns
 
 ### Login form
 
@@ -127,26 +82,26 @@ export function LoginCard() {
 ### Dashboard widget
 
 ```tsx
-<Card className="p-6">
-  <div className="flex items-center justify-between">
-    <div>
-      <p className="text-foreground-400 text-sm">Revenue</p>
-      <p className="text-2xl font-semibold">$45,231</p>
-    </div>
-    <Badge>+12.5%</Badge>
-  </div>
-</Card>
-```
-## Props & patterns
+import { Card, Badge } from "ui-lab-components";
 
-- **variant** – primary · secondary · tertiary · destructive
-- **size** – sm · md · lg
-- **className** – Tailwind classes merged intelligently
-- **loading** / **disabled** – Built-in states
-- **ARIA support** – Full accessibility out of the box
+export function RevenueWidget() {
+  return (
+    <Card className="p-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-foreground-400 text-sm">Revenue</p>
+          <p className="text-2xl font-semibold">$45,231</p>
+        </div>
+        <Badge>+12.5%</Badge>
+      </div>
+    </Card>
+  );
+}
+```
 
 ## Next steps
 
-- [Theming](/docs/theming) – Customize colors, radius, and tokens
-- [Components](/docs/components) – Full catalogue with props & examples
-- [AI workflow](/docs/ai-integration) – Generate code with Cursor, Claude, Copilot
+- [Browse components](/components) – Full gallery with all available components
+- [Explore design system](/docs/design-system) – Understand UI Lab's architecture and principles
+- [Learn theming](/docs/theming) – Customize colors, radius, and tokens for your brand
+- [AI workflow](/docs/ai-integration) – Generate code with Cursor, Claude, or Copilot

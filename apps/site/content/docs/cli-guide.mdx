@@ -1,7 +1,7 @@
 ---
 title: "CLI Guide"
 description: "Complete reference for the ui-lab command-line tool for initializing projects and installing components."
-category: "guides"
+category: "Development"
 publishedOn: "2025-12-14"
 tags: ["cli", "commands", "setup", "installation", "reference"]
 ---
@@ -25,11 +25,6 @@ npx ui-lab init
 **Requirements:**
 - Node.js 18 or higher
 - npm, yarn, or pnpm
-
-**Built with:**
-- Commander.js – CLI framework
-- @clack/prompts – Interactive CLI prompts
-- picocolors – Terminal colors
 
 ---
 
@@ -60,18 +55,14 @@ npx ui-lab init --yes --preset vitesse-dark --framework nextjs
 
 ### Options
 
-<MarkdownTable markdown="| Option | Description | Example |\n|--------|-------------|----------|\n| \`--yes\` | Skip all interactive prompts | \`npx ui-lab init --yes\` |\n| \`--preset <theme>\` | Use specific theme preset | \`npx ui-lab init --preset vitesse-dark\` |\n| \`--framework <fw>\` | Force framework detection | \`npx ui-lab init --framework nextjs\` |\n| \`--componentDir <path>\` | Custom component directory | \`npx ui-lab init --componentDir src/ui\` |\n| \`--scaffold\` | Generate full project structure | \`npx ui-lab init --scaffold\` |\n| \`--json\` | Output results as JSON | \`npx ui-lab init --json\` |" />
+<MarkdownTable markdown="| Option | Description |\n|--------|----------|\n| \`--yes\` | Skip all interactive prompts |\n| \`--preset <theme>\` | Use specific theme preset |\n| \`--framework <fw>\` | Force framework detection |\n| \`--componentDir <path>\` | Custom component directory |" />
 
 ### What init Does
 
-The `init` command performs the following:
-
-1. **Detects your framework** – Identifies Next.js (app/pages router) or Vite
-2. **Creates component directory** – Creates the target directory for components
-3. **Generates CSS variables file** – Sets up semantic theme variables
-4. **Creates configuration** – Stores settings for future commands
-5. **Sets up imports** – Configures component imports in your project
-6. **Applies theme preset** – Generates CSS variables based on selected theme
+- Detects your framework (Next.js or Vite)
+- Creates a component directory
+- Generates CSS variables for your theme
+- Saves configuration for future commands
 
 ### Example Output
 
@@ -119,21 +110,13 @@ $ npx ui-lab install button input
 
 ### Features
 
-**Component Validation:**
-- Validates component names against registry
-- Suggests corrections for typos
-
-**Dependency Resolution:**
-- Automatically identifies component dependencies
-- Installs required child components
-- Shows dependency tree
-
-**Preview Mode:**
-- Shows what will be installed before making changes
+- **Auto-validates** component names and suggests corrections
+- **Resolves dependencies** – installs required child components automatically
+- **Preview mode** – preview changes with `--dry-run` before committing
 
 ### Options
 
-<MarkdownTable markdown="| Option | Description | Example |\n|--------|-------------|----------|\n| \`<components>\` | Space-separated component names | \`npx ui-lab install button input\` |\n| \`--yes\` | Skip confirmation prompts | \`npx ui-lab install button --yes\` |\n| \`--dry-run\` | Preview installation without changes | \`npx ui-lab install button --dry-run\` |\n| \`--json\` | Output results as JSON | \`npx ui-lab install button --json\` |" />
+<MarkdownTable markdown="| Option | Description |\n|--------|----------|\n| \`<components>\` | Space-separated component names |\n| \`--yes\` | Skip confirmation prompts |\n| \`--dry-run\` | Preview without making changes |" />
 
 ### Example: With Dependencies & Dry Run
 
@@ -185,154 +168,34 @@ Use `npx ui-lab list` to see all available components (if implemented).
 
 ## Theme Presets
 
-### Available Presets
-
-<MarkdownTable markdown="| Preset | Description | Colors |\n|--------|-------------|----------|\n| \`vitesse-light\` | Light theme with accent blue | Cool, professional |\n| \`vitesse-dark\` | Dark theme with accent blue | Modern, high contrast |\n| Custom | Define your own colors | Fully customizable |" />
-
-### Selecting a Preset
-
-During `init`:
+Choose a preset during init or update later:
 
 ```bash
-npx ui-lab init --preset vitesse-dark
+npx ui-lab init --preset vitesse-light   # Light theme
+npx ui-lab init --preset vitesse-dark    # Dark theme
 ```
 
-Or update after initialization by regenerating CSS variables.
-
-### Creating Custom Presets
-
-After running `init`, you can manually edit the generated theme file to customize colors:
-
-```css
-/* themes/custom.css */
-@theme {
-  --color-primary: oklch(68% 0.22 245);     /* Your brand blue */
-  --color-danger: oklch(65% 0.28 25);       /* Your error red */
-  --background-50: oklch(99.2% 0.001 240);  /* White-ish */
-  --background-950: oklch(11.8% 0.018 240); /* Black-ish */
-}
-```
+To customize colors, edit the generated CSS variables file after initialization.
 
 ---
 
 ## Project Detection
 
-The CLI automatically detects your project setup:
-
-### Supported Frameworks
-
-**Next.js:**
-- App router (default)
-- Pages router (legacy)
-- Detects from `next.config.js` or `package.json`
-
-**Vite:**
-- Framework-agnostic (React + others)
-- Detects from `vite.config.js`
-
-### Manual Override
-
-Force a specific framework if auto-detection fails:
+The CLI automatically detects **Next.js** (app/pages router) and **Vite** projects. If detection fails, specify your framework explicitly:
 
 ```bash
 npx ui-lab init --framework nextjs
 npx ui-lab init --framework vite
 ```
 
-### What Gets Detected
-
-- Framework type and version
-- Root structure (pages vs app directory)
-- Existing component directory
-- CSS setup (Tailwind, Sass, etc.)
-- Build configuration
-
 ---
 
 ## Configuration
 
-The CLI stores configuration in `ui-lab.config.json`:
-
-```json
-{
-  "framework": "nextjs",
-  "componentDir": "./components",
-  "theme": "vitesse-light",
-  "version": "1.0.0"
-}
-```
-
-This file is used by subsequent commands to remember your setup.
-
-### Updating Configuration
-
-Edit `ui-lab.config.json` manually or regenerate it:
+The CLI saves your setup in `ui-lab.config.json`. To update it, run `init` again:
 
 ```bash
-npx ui-lab init        # Regenerate config
-```
-
----
-
-## Integration with npm Scripts
-
-Add CLI commands to your `package.json`:
-
-```json
-{
-  "scripts": {
-    "add:component": "ui-lab install",
-    "setup:ui": "ui-lab init --yes"
-  }
-}
-```
-
-Then run:
-
-```bash
-npm run add:component button input
-npm run setup:ui
-```
-
----
-
-## CI/CD Integration
-
-### GitHub Actions Example
-
-```yaml
-name: Setup UI Lab
-
-on: [workflow_dispatch]
-
-jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: npx ui-lab init --yes --preset vitesse-dark
-      - run: npx ui-lab install button input form
-      - uses: EndBug/add-and-commit@v9
-        with:
-          message: 'chore: initialize UI Lab components'
-```
-
-### Headless Setup in CI
-
-Use `--yes` flag to skip all prompts:
-
-```bash
-# Initialize in CI environment
-npx ui-lab init --yes --preset vitesse-light --framework nextjs
-
-# Install specific components
-npx ui-lab install button input label --yes
+npx ui-lab init --preset vitesse-dark
 ```
 
 ---
@@ -347,16 +210,6 @@ npx ui-lab install button input label --yes
 ```bash
 # Specify framework explicitly
 npx ui-lab init --framework nextjs    # or --framework vite
-```
-
-### Permission Denied Error
-
-**Problem:** "Permission denied" when running CLI
-
-**Solution (macOS/Linux):**
-```bash
-chmod +x node_modules/.bin/ui-lab
-npx ui-lab init
 ```
 
 ### Component Installation Failed
@@ -393,41 +246,6 @@ npx ui-lab list-presets    # if implemented
 
 ---
 
-## Advanced Usage
-
-### Programmatic Usage (Advanced)
-
-The CLI can be used programmatically via JavaScript:
-
-```javascript
-import { initializeProject, installComponents } from 'ui-lab/api';
-
-await initializeProject({
-  framework: 'nextjs',
-  componentDir: './components',
-  theme: 'vitesse-dark'
-});
-
-await installComponents(['button', 'input', 'modal']);
-```
-
-### Custom Scaffolders (Advanced)
-
-Build custom project scaffolders on top of UI Lab:
-
-```javascript
-import { ComponentInstaller } from 'ui-lab/core';
-
-const installer = new ComponentInstaller({
-  componentDir: './src/components',
-  framework: 'nextjs'
-});
-
-await installer.install(['button', 'input']);
-```
-
----
-
 ## Best Practices
 
 ### 1. Initialize First
@@ -450,35 +268,11 @@ npx ui-lab init --preset vitesse-dark
 
 ### 3. Install Components as Needed
 
-Add components incrementally:
+Add components incrementally as you need them:
 
 ```bash
-# Week 1: basic components
 npx ui-lab install button input label
-
-# Week 2: more components
 npx ui-lab install form modal select
-```
-
-### 4. Version Lock Package.json
-
-Keep UI Lab versions consistent:
-
-```json
-{
-  "devDependencies": {
-    "ui-lab": "~0.1.0"
-  }
-}
-```
-
-### 5. Git Track Component Directory
-
-Commit installed components to version control:
-
-```bash
-git add ./components
-git commit -m "chore: add UI Lab components"
 ```
 
 ---

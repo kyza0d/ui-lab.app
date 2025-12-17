@@ -1,7 +1,7 @@
 ---
 title: "Installation"
 description: "Add UI Lab to any Tailwind v4 project in under one minute."
-category: "guides"
+category: "Getting Started"
 publishedOn: "2025-01-10"
 tags: ["installation", "setup", "tailwind"]
 ---
@@ -10,17 +10,45 @@ tags: ["installation", "setup", "tailwind"]
 
 Add UI Lab to any Tailwind v4 project in under one minute.
 
+## Who this is for
+
+**Prerequisites:**
+- Node.js 18 or higher
+- React 19 or higher
+- Tailwind CSS v4 (with PostCSS configured)
+- Existing Tailwind project or knowledge of setting it up
+
+**You will accomplish:**
+- Install UI Lab components in your project
+- Import and render your first component
+- Have full component library ready to use
+
+**Estimated time:** 5 minutes
+
+## Check your setup
+
+Before installing, verify you have Tailwind CSS v4 with PostCSS configured:
+
+```javascript
+// postcss.config.mjs
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};
+```
+
+If you don't have PostCSS configured, see [Tailwind's setup guide](https://tailwindcss.com/docs/installation) first.
+
 ## Interactive Installation
 
-The `<InstallationFlow />` component below provides an interactive, step-by-step installation experience. It detects your framework (Next.js or Vite), guides you through configuration, and helps you install your first components.
+The component below provides step-by-step guidance for your framework (Next.js or Vite):
 
 <InstallationFlow />
 
----
-
 ## Manual Installation
 
-If you prefer manual setup or need more control, follow the steps below:
+If you prefer manual setup or need more control, follow these steps:
 
 <Timeline>
 ## Install Dependencies
@@ -33,27 +61,16 @@ pnpm add ui-lab-components
 
 ## Import Styles
 
-Add the component styles to your application root:
+Add component styles to your application root:
 
 ```tsx
 // app/layout.tsx (Next.js) or main.tsx (Vite)
 import 'ui-lab-components/styles.css';
 ```
 
-## Configure Tailwind CSS v4
+## Import and Use
 
-Ensure your project uses Tailwind CSS v4 with PostCSS:
-
-```javascript
-// postcss.config.mjs
-export default {
-  plugins: {
-    '@tailwindcss/postcss': {},
-  },
-};
-```
-
-## Start Using Components
+Start using components immediately:
 
 ```tsx
 import { Button, Card, Input } from 'ui-lab-components';
@@ -65,7 +82,7 @@ export default function Home() {
         <Card.Title>Welcome to UI Lab</Card.Title>
       </Card.Header>
       <Card.Content>
-        <Input placeholder="Your email" />
+        <Input placeholder="your@email.com" />
       </Card.Content>
       <Card.Footer>
         <Button>Get Started</Button>
@@ -76,19 +93,52 @@ export default function Home() {
 ```
 </Timeline>
 
----
+## Troubleshooting
 
-## Requirements
+### Components don't render or styles look wrong
 
-- Node.js 18 or higher
-- React 19 or higher
-- Tailwind CSS v4
-- PostCSS configured
+**Check Tailwind CSS v4 is installed:**
+```bash
+npm ls tailwindcss
+```
 
----
+You should see v4.x.x. If not, upgrade:
+```bash
+npm install tailwindcss@latest
+```
+
+### PostCSS error during build
+
+Ensure `postcss.config.mjs` exists and includes `@tailwindcss/postcss`:
+```javascript
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};
+```
+
+Then restart your dev server:
+```bash
+npm run dev
+```
+
+### Styles still not applying
+
+1. Clear your node_modules cache:
+   ```bash
+   rm -rf node_modules/.cache
+   npm run dev
+   ```
+
+2. Check that component styles are imported in your root file—without this, styles won't load
+
+### Still having issues?
+
+Check the [Component Gallery](/components) to verify expected appearance. If something looks different, file an issue on [GitHub](https://github.com/yourusername/ui-lab).
 
 ## Next Steps
 
-- Browse the [Component Gallery](/components) to see all available components
-- Read [Best Practices](/docs/best-practices) for usage guidelines
-- Explore [Styling](/docs/styling) to customize component appearance
+- Browse the [Component Gallery](/components) to explore all available components
+- Read [Getting Started](/docs/getting-started) for common patterns
+- Learn [Theming](/docs/theming) to customize colors and tokens
