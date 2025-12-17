@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
-import { generateThemePalettes, generateShikiTheme, type OklchColor, type ShikiTheme } from "@/lib/color-utils";
-import { useHeader } from "@/lib/header-context";
+import { generateThemePalettes, type OklchColor, oklchToCss } from "@/lib/color-utils";
+import { generateShikiTheme, type ShikiTheme } from "@/lib/themes/shiki/generator";
+import { generateSyntaxPalettes } from "@/lib/themes/syntax-colors";
+import { useApp } from "@/lib/app-context";
 import { CopyButton } from "./CopyButton";
 
 function useThemeMode() {
@@ -35,6 +37,12 @@ function useThemeMode() {
   return { themeMode, isClient };
 }
 
+const escapeHtml = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c] || c));
+
+function generateFallbackHtml(code: string): string {
+  return `<pre><code style="display: block; padding: 1rem;">${escapeHtml(code)}</code></pre>`;
+}
+
 interface CodeBlockProps {
   children: string;
   language?: string;
@@ -56,11 +64,11 @@ export function CodeBlock({
   preHighlightedLight,
   preHighlightedDark
 }: CodeBlockProps) {
-  const { currentThemeMode, currentThemeColors } = useHeader();
+  const { currentThemeMode, currentThemeColors } = useApp();
   const [highlightedCode, setHighlightedCode] = useState<string>(() => {
     if (currentThemeMode === "light" && preHighlightedLight) return preHighlightedLight;
     if (currentThemeMode === "dark" && preHighlightedDark) return preHighlightedDark;
-    return `<pre><code style="display: block; padding: 1rem;">${children}</code></pre>`;
+    return generateFallbackHtml(children);
   });
   const [shikiTheme, setShikiTheme] = useState<ShikiTheme | null>(null);
 
@@ -77,7 +85,17 @@ export function CodeBlock({
         currentThemeColors.accentEasing,
         currentThemeColors.accentChromaScaling
       );
-      const customTheme = generateShikiTheme(palettes, currentThemeMode, `custom-${currentThemeMode}`);
+      const syntaxPalettes = generateSyntaxPalettes(
+        currentThemeColors.background,
+        currentThemeColors.accent,
+        currentThemeMode,
+        currentThemeColors.syntaxVariation ?? 0
+      );
+      const customTheme = generateShikiTheme(
+        { ...palettes, ...syntaxPalettes },
+        currentThemeMode,
+        `custom-${currentThemeMode}`
+      );
       setShikiTheme(customTheme);
     }
   }, [currentThemeColors, currentThemeMode]);
@@ -98,14 +116,15 @@ export function CodeBlock({
           lang: language as any,
           theme,
         });
-        const styledHtml = html.replace(
+        let styledHtml = html.replace(
           /<code>/,
           '<code style="display: block; padding: 1rem;">'
         );
+        styledHtml = styledHtml.replace(/background-color:\s*[^;]+;?/g, '');
         setHighlightedCode(styledHtml);
       } catch (error) {
         console.error("Failed to highlight code:", error);
-        setHighlightedCode(`<pre><code style="display: block; padding: 1rem;">${children}</code></pre>`);
+        setHighlightedCode(generateFallbackHtml(children));
       }
     };
 
@@ -113,17 +132,17 @@ export function CodeBlock({
   }, [children, language, currentThemeMode, shikiTheme, preHighlightedLight, preHighlightedDark]);
 
   return (
-    <div className="my-8 max-w-full overflow-hidden rounded border border-foreground-800 leading-snug">
+    <div className="mt-8 mb-12 max-w-full overflow-hidden rounded-md border border-background-700 leading-snug">
       {(filename || heading) && (
-        <div className="flex text-xs font-semibold items-center justify-between border-b border-foreground-800 bg-background-900 px-3 py-1.5 text-foreground-400">
+        <div className="flex text-xs font-semibold items-center justify-between border-b border-background-700 bg-background-900 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>
           {!heading && <span className="text-foreground-500">{language}</span>}
         </div>
       )}
-      <div className="relative group">
+      <div className="relative group bg-background-950 text-foreground-300">
         <CopyButton code={children} />
         <div
-          className="overflow-x-auto [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:overflow-hidden [&_code]:text-foreground-100 [&_code]:whitespace-pre-wrap [&_code]:break-words"
+          className="overflow-x-auto [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:overflow-hidden [&_code]:text-foreground-300 [&_code]:whitespace-pre-wrap [&_code]:wrap-break-word"
           dangerouslySetInnerHTML={{ __html: highlightedCode }}
         />
       </div>
