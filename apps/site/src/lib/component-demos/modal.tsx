@@ -76,8 +76,8 @@ function ConfirmationModalPreview(props: any) {
       </Modal>
 
       {confirmed && (
-        <div className="mt-4 p-3 bg-accent-500/20 border border-accent-500 rounded-md">
-          <p className="text-sm text-accent-100">
+        <div className="mt-4 p-3 bg-accent-500/10 border border-accent-500/20 rounded-md">
+          <p className="text-sm text-accent-500">
             Item deleted successfully!
           </p>
         </div>
@@ -176,17 +176,17 @@ function AlertModalPreview(props: any) {
     success: {
       title: "Success!",
       message: "Your action was completed successfully.",
-      color: "bg-success-600/40 text-success-700 border-success-600/50",
+      color: "bg-success-800/10 text-success-800 border-success-800/20",
     },
     error: {
       title: "Error",
       message: "Something went wrong. Please try again.",
-      color: "bg-danger-600/40 text-danger-700 border-danger-600/50",
+      color: "bg-danger-800/10 text-danger-800 border-danger-800/20",
     },
     warning: {
       title: "Warning",
       message: "Please review your action before proceeding.",
-      color: "bg-warning-600/40 text-warning-700 border-warning-600/50",
+      color: "bg-warning-800/10 text-warning-800 border-warning-800/20",
     },
   };
 

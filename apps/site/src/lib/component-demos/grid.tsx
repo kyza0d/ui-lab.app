@@ -84,7 +84,7 @@ const GridCell = ({
   h?: string;
 }) => (
   <div className={cn(
-    "bg-accent-400/20 border border-accent-500/30 rounded flex items-center justify-center text-accent-500 text-sm font-medium shadow-sm",
+    "bg-accent-500/10 border border-accent-500/10 rounded flex items-center justify-center text-accent-500 text-sm font-medium shadow-sm",
     h, className
   )}
   >
@@ -283,7 +283,7 @@ const gridDenseCode = `import { Grid } from "ui-lab-components";
 
 export function Example() {
   return (
-    <Grid columns="4" gap="md" autoFlow="row-dense" className="bg-background-900/50 p-4 rounded">
+    <Grid columns="4" gap="md" autoFlow="row-dense" className="bg-background-500/50 p-4 rounded">
       <div className="h-20 bg-accent-500/20 rounded flex items-center justify-center col-span-2">1</div>
       <div className="h-20 bg-accent-500/20 rounded flex items-center justify-center">2</div>
       <div className="h-20 bg-accent-500/20 rounded flex items-center justify-center">3</div>
@@ -517,7 +517,7 @@ export const gridDetail: ComponentDetail = {
       preview: (
         <ResizableFrame>
           <div className="text-xs text-center mb-4 text-foreground-500">
-            Resize the container to see responsive behavior (breakpoints: 400px, 600px, 900px)
+            Resize the container to see responsive behavior (breakpoints: 400px, 600px, 500px)
           </div>
           <Grid
             columns="3"
