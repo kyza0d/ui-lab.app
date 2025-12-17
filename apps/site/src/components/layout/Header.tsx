@@ -1,14 +1,15 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { LandingThemeToggle } from "../landing/theme-toggle";
 import { SettingsPanel } from "../landing/settings-panel";
 import { Logo } from "../ui/logo";
-import { Badge, Divider, Input, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
-import { useHeader } from "@/lib/header-context";
+import { Badge, Divider, Input, Tabs, TabsList, TabsTrigger, CommandPalette } from "ui-lab-components";
+import { packageMetadata } from "ui-lab-registry";
+import { useApp } from "@/lib/app-context";
 import { cn } from "@/lib/utils";
-import { getComponentsGroupedByCategory } from "@/lib/component-registry";
+import { getComponentsGroupedByCategory, componentRegistry } from "@/lib/component-registry";
 import {
   FaChevronDown,
   FaPaintbrush,
@@ -22,6 +23,11 @@ import {
   FaMagnifyingGlass,
   FaBagShopping,
   FaTree,
+  FaBook,
+  FaPlug,
+  FaTerminal,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa6";
 
 import {
@@ -33,8 +39,8 @@ import {
   SelectValue,
 } from "ui-lab-components";
 import { HiX } from "react-icons/hi";
-import { useCommandPaletteControl } from "../CommandPaletteProvider";
 import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, DOMAINS } from "@/lib/route-config";
+import { type Command } from "ui-lab-components";
 
 const navigationData = [
   { name: "documentation", label: "Documentation", isDropdown: true },
@@ -277,11 +283,12 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 /* ---------- Main Header ---------- */
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const isDocRoute = shouldShowHeaderTabs(pathname);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { isSettingsPanelOpen, setIsSettingsPanelOpen } = useHeader();
+  const { isSettingsPanelOpen, setIsSettingsPanelOpen, isCommandPaletteOpen, setIsCommandPaletteOpen, currentThemeMode, setCurrentThemeMode } = useApp();
 
   const handleMouseEnter = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -292,8 +299,7 @@ export default function Header() {
     hideTimeoutRef.current = setTimeout(() => setIsToolsOpen(false), 200);
   };
 
-  // Inside your component
-  const [stars, setStars] = useState<string>("—"); // nice loading state
+  const [stars, setStars] = useState<string>("—");
 
   useEffect(() => {
     fetch("https://api.github.com/repos/kyza0d/ui-lab.app")
@@ -311,11 +317,117 @@ export default function Header() {
       });
   }, []);
 
-  const { setIsOpen } = useCommandPaletteControl();
+  const commands: Command[] = useMemo(() => {
+    const cmds: Command[] = [];
 
-  const handleInputClick = () => {
-    setIsOpen(true);
-  };
+    cmds.push({
+      id: "docs-overview",
+      label: "Documentation Overview",
+      description: "View the documentation home page",
+      category: "Documentation",
+      icon: <FaBook className="w-4 h-4" />,
+      keywords: ["docs", "overview", "documentation"],
+      action: () => router.push("/docs"),
+    });
+
+    cmds.push({
+      id: "docs-installation",
+      label: "Installation Guide",
+      description: "How to install and set up UI Lab",
+      category: "Documentation",
+      icon: <FaBook className="w-4 h-4" />,
+      keywords: ["install", "setup", "guide"],
+      action: () => router.push("/docs/installation"),
+    });
+
+    cmds.push({
+      id: "docs-usage",
+      label: "Usage Guide",
+      description: "Learn how to use UI Lab components",
+      category: "Documentation",
+      icon: <FaBook className="w-4 h-4" />,
+      keywords: ["usage", "how-to", "guide"],
+      action: () => router.push("/docs/usage"),
+    });
+
+    componentRegistry.forEach((component) => {
+      cmds.push({
+        id: `component-${component.id}`,
+        label: component.name,
+        description: component.description,
+        category: "Components",
+        icon: <FaIcons className="w-4 h-4" />,
+        keywords: [component.id, component.name.toLowerCase()],
+        action: () => router.push(`/components/${component.id}`),
+      });
+    });
+
+    toolsItems.forEach((tool) => {
+      cmds.push({
+        id: `tool-${tool.title.toLowerCase().replace(/\s+/g, "-")}`,
+        label: tool.title,
+        description: tool.description,
+        category: "Tools",
+        icon: <FaWrench className="w-4 h-4" />,
+        keywords: [tool.title.toLowerCase()],
+        action: () => router.push(tool.href),
+      });
+    });
+
+    cmds.push({
+      id: "agents-mcps",
+      label: "Agents & MCPs",
+      description: "View agents and MCP documentation",
+      category: "Navigation",
+      icon: <FaPlug className="w-4 h-4" />,
+      keywords: ["agents", "mcps", "plugins"],
+      action: () => router.push("/agents-mcps"),
+    });
+
+    cmds.push({
+      id: "cli",
+      label: "CLI",
+      description: "View CLI documentation",
+      category: "Navigation",
+      icon: <FaTerminal className="w-4 h-4" />,
+      keywords: ["cli", "command", "terminal"],
+      action: () => router.push("/cli"),
+    });
+
+    cmds.push({
+      id: "github",
+      label: "GitHub Repository",
+      description: "Open UI Lab on GitHub",
+      category: "Navigation",
+      icon: <FaGithub className="w-4 h-4" />,
+      keywords: ["github", "source", "repo"],
+      action: () => {
+        window.open("https://github.com/kyza0d/ui-lab.app", "_blank");
+      },
+    });
+
+    cmds.push({
+      id: "theme-toggle",
+      label: `Switch to ${currentThemeMode === "light" ? "Dark" : "Light"} Mode`,
+      description: `Toggle between light and dark themes`,
+      category: "Settings",
+      icon: currentThemeMode === "light" ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />,
+      keywords: ["theme", "dark", "light", "mode"],
+      action: () => setCurrentThemeMode(currentThemeMode === "light" ? "dark" : "light"),
+    });
+
+    cmds.push({
+      id: "settings",
+      label: "Open Settings Panel",
+      description: "Customize theme and design settings",
+      category: "Settings",
+      icon: <FaPaintbrush className="w-4 h-4" />,
+      keywords: ["settings", "preferences", "customize"],
+      action: () => setIsSettingsPanelOpen(true),
+    });
+
+    return cmds;
+  }, [router, currentThemeMode, setCurrentThemeMode, setIsSettingsPanelOpen]);
 
   const activeTabValue = getActiveTabValue(pathname);
 
@@ -341,7 +453,7 @@ export default function Header() {
               <Logo />
               <span className="text-md font-semibold text-foreground-100">UI Lab</span>
               <Badge className="ml-2 mt-1 border-0 bg-transparent px-2! text-xs! font-semibold" pill size="sm">
-                v0.1.2
+                v{packageMetadata.version}
               </Badge>
             </Link>
             {/* Desktop navigation */}
@@ -387,9 +499,9 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <Select trigger="hover" className="relative flex items-center">
-                <SelectTrigger className="bg-transparent border-0" chevron={<FaChevronDown size={10} className="relative top-1/2 -translate-y-1/2" />}>
-                  <SelectValue icon={<FaBagShopping />} placeholder="Marketplace" />
+              <Select trigger="hover" className="hidden relative flex items-center">
+                <SelectTrigger className="bg-transparent border-0  text-foreground-300" chevron={<FaChevronDown size={10} className="relative top-1/2 -translate-y-1/2" />}>
+                  <SelectValue icon={<FaBagShopping className="text-foreground-400" />} placeholder="Marketplace" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectListBox>
@@ -428,6 +540,7 @@ export default function Header() {
               <span>{stars}</span>
             </a>
 
+
             {/* Mobile menu toggle */}
             <button
               onClick={() => setIsMobileMenuOpen((v) => !v)}
@@ -458,13 +571,21 @@ export default function Header() {
                 prefixIcon={<FaMagnifyingGlass size={14} />}
                 className="w-[190] lg:w-[290]"
                 size="md"
-                onClick={handleInputClick}
+                onClick={() => setIsCommandPaletteOpen(true)}
                 readOnly
               />
             </div>
           </Tabs>
         )}
       </header>
+
+      <CommandPalette
+        open={isCommandPaletteOpen}
+        onOpenChange={setIsCommandPaletteOpen}
+        commands={commands}
+        placeholder="Search commands, components, docs..."
+        showCategories={true}
+      />
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
       <SettingsPanel />
