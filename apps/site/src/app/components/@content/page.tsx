@@ -17,7 +17,7 @@ export default function ComponentsPage() {
         ]}
       />
 
-      <div className="w-full bg-background-950 mx-auto max-w-4xl pt-32">
+      <div className="w-full bg-background-950 mx-auto max-w-4xl pt-48 pb-12">
         <main className="w-full">
           <div>
             {/* Page Header */}
@@ -48,7 +48,7 @@ export default function ComponentsPage() {
                     <Divider className="mb-6 mt-2" />
 
                     {/* Components Grid */}
-                    <Gallery columns={{ base: 1, md: 2, lg: 3 }} gap="1.5rem">
+                    <Gallery columns={{ base: 1, md: 2, lg: 3 }} gap="0.5rem">
                       {componentsInCategory.map((component) => (
                         <GalleryItemWithPrefetch
                           key={component.id}
@@ -57,6 +57,7 @@ export default function ComponentsPage() {
                           name={component.name}
                           description={component.description}
                           preview={component.preview}
+                          experimental={component.experimental}
                           onPress={(href) => href && router.push(href)}
                         />
                       ))}

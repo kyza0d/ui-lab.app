@@ -10,6 +10,7 @@ interface GalleryItemWithPrefetchProps {
   name: string;
   description: string;
   preview: React.ReactNode;
+  experimental?: boolean;
   onPress: (href: string) => void;
 }
 
@@ -19,6 +20,7 @@ export function GalleryItemWithPrefetch({
   name,
   description,
   preview,
+  experimental,
   onPress,
 }: GalleryItemWithPrefetchProps) {
   const { onMouseEnter, onMouseLeave } = usePrefetchOnHover(href);
@@ -47,7 +49,14 @@ export function GalleryItemWithPrefetch({
         </Gallery.View>
 
         <Gallery.Body>
-          <h4>{name}</h4>
+          <div className="flex items-center gap-2">
+            <h4>{name}</h4>
+            {experimental && (
+              <span className="inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded">
+                Experimental
+              </span>
+            )}
+          </div>
           <p className="text-sm text-foreground-400 line-clamp-2">
             {description}
           </p>

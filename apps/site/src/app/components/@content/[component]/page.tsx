@@ -1,25 +1,25 @@
-import { Suspense } from "react";
-import { ComponentDetailContent } from "./content";
+import { ComponentDetailClient } from "./client";
+import { cacheLife } from "next/cache";
 
 const componentIds = [
   "button", "input", "label", "select", "textarea",
   "checkbox", "radio", "badge", "tooltip", "popover", "form-wrapper",
   "toast", "modal", "tabs", "menu", "switch", "slider",
-  "progress", "card", "command-palette", "confirm", "divider"
+  "progress", "card", "command-palette", "confirm", "divider", "frame"
 ];
 
 export function generateStaticParams() {
   return componentIds.map((id) => ({ component: id }));
 }
 
-export default function ComponentDetailPage({
+export default async function ComponentDetailPage({
   params
 }: {
   params: Promise<{ component: string }>
 }) {
-  return (
-    <Suspense fallback={<div />}>
-      <ComponentDetailContent params={params} />
-    </Suspense>
-  );
+  'use cache';
+  cacheLife('hours');
+
+  const { component: componentId } = await params;
+  return <ComponentDetailClient componentId={componentId} />;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentConfigurator } from "@/components/component-configurator";
-import { getComponentById } from "@/lib/component-registry";
+import { getComponentById, getComponentMetadata } from "@/lib/component-registry";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { TableOfContents } from "@/components/TableOfContents";
 import { Table, type Column } from "@/components/table";
@@ -15,6 +15,7 @@ import { SiAdobe } from "react-icons/si";
 
 export function ComponentDetailClient({ componentId }: { componentId: string }) {
   const component = getComponentById(componentId);
+  const metadata = getComponentMetadata(componentId);
 
   if (!component) {
     return (
@@ -102,9 +103,16 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
       <div className="w-full text-foreground-100 ">
         <Toaster />
         <div className="flex flex-col lg:flex-row justify-between gap-0">
-          <main className="w-full mx-auto max-w-4xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
+          <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
             <div className="space-y-2 min-h-48 mt-28">
-              <h2 className="font-bold text-foreground-50">{component.name}</h2>
+              <div className="flex items-center gap-3">
+                <h2 className="font-bold text-foreground-50">{component.name}</h2>
+                {metadata?.experimental && (
+                  <span className="inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded">
+                    Experimental
+                  </span>
+                )}
+              </div>
               <p className="text-md text-foreground-400">{component.description}</p>
             </div>
             <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="w-full min-h-[calc(100vh-var(--header-height))]">
