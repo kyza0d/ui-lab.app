@@ -60,7 +60,7 @@ const ResizableFrame = ({ children, className }: { children: React.ReactNode; cl
 
         <div
           onMouseDown={startDrag}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-12 bg-background-700 border border-background-600 rounded-full flex items-center justify-center cursor-ew-resize hover:bg-background-600 hover:border-background-500 hover:text-foreground-50 transition-colors z-20 shadow-lg -mr-3"
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-12 bg-background-700 border border-background-600 rounded-full flex items-center justify-center cursor-ew-resize hover:bg-background-600 hover:border-background-500 hover:text-foreground-50 transition-colors z-20 -mr-3"
           title="Drag to resize"
         >
           <RxDragHandleDots2 className="text-current rotate-90" />

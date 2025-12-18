@@ -1,7 +1,7 @@
 import { Group } from "ui-lab-components";
 import { Button } from "ui-lab-components";
 import { Input } from "ui-lab-components";
-import { Select, SelectContent, SelectItem, SelectListBox, SelectTrigger, SelectValue } from "ui-lab-components";
+import { Select, SelectListBox } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
 
@@ -72,21 +72,21 @@ export function Example() {
 }`;
 
 const groupSelectWithButtonCode = `import { Group } from "ui-lab-components";
-import { Select, SelectContent, SelectItem, SelectListBox, SelectTrigger, SelectValue } from "ui-lab-components";
+import { Select, SelectListBox } from "ui-lab-components";
 
 export function Example() {
   return (
     <Group>
       <Group.Select>
-        <SelectTrigger>
-          <SelectValue placeholder="Category" />
-        </SelectTrigger>
-        <SelectContent>
+        <Select.Trigger>
+          <Select.Value placeholder="Category" />
+        </Select.Trigger>
+        <Select.Content>
           <SelectListBox>
-            <SelectItem value="cat1">Category 1</SelectItem>
-            <SelectItem value="cat2">Category 2</SelectItem>
+            <Select.Item value="cat1">Category 1</Select.Item>
+            <Select.Item value="cat2">Category 2</Select.Item>
           </SelectListBox>
-        </SelectContent>
+        </Select.Content>
       </Group.Select>
       <Group.Button>Apply</Group.Button>
     </Group>
@@ -150,21 +150,22 @@ export function Example() {
 }`;
 
 const groupMixedInputsCode = `import { Group } from "ui-lab-components";
+import { Select, SelectListBox } from "ui-lab-components";
 
 export function Example() {
   return (
     <Group orientation="horizontal">
       <Group.Input placeholder="Search..." />
       <Group.Select>
-        <SelectTrigger>
-          <SelectValue placeholder="Sort by" />
-        </SelectTrigger>
-        <SelectContent>
+        <Select.Trigger>
+          <Select.Value placeholder="Sort by" />
+        </Select.Trigger>
+        <Select.Content>
           <SelectListBox>
-            <SelectItem value="name">Name</SelectItem>
-            <SelectItem value="date">Date</SelectItem>
+            <Select.Item value="name">Name</Select.Item>
+            <Select.Item value="date">Date</Select.Item>
           </SelectListBox>
-        </SelectContent>
+        </Select.Content>
       </Group.Select>
       <Group.Button>Apply</Group.Button>
     </Group>
@@ -244,15 +245,15 @@ export const groupDetail: ComponentDetail = {
       preview: (
         <Group>
           <Group.Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
+            <Select.Trigger>
+              <Select.Value placeholder="Category" />
+            </Select.Trigger>
+            <Select.Content>
               <SelectListBox>
-                <SelectItem value="cat1">Category 1</SelectItem>
-                <SelectItem value="cat2">Category 2</SelectItem>
+                <Select.Item value="cat1">Category 1</Select.Item>
+                <Select.Item value="cat2">Category 2</Select.Item>
               </SelectListBox>
-            </SelectContent>
+            </Select.Content>
           </Group.Select>
           <Group.Button>Apply</Group.Button>
         </Group>
@@ -327,15 +328,15 @@ export const groupDetail: ComponentDetail = {
         <Group orientation="horizontal">
           <Group.Input placeholder="Search..." />
           <Group.Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
+            <Select.Trigger>
+              <Select.Value placeholder="Sort by" />
+            </Select.Trigger>
+            <Select.Content>
               <SelectListBox>
-                <SelectItem value="name">Name</SelectItem>
-                <SelectItem value="date">Date</SelectItem>
+                <Select.Item value="name">Name</Select.Item>
+                <Select.Item value="date">Date</Select.Item>
               </SelectListBox>
-            </SelectContent>
+            </Select.Content>
           </Group.Select>
           <Group.Button>Apply</Group.Button>
         </Group>

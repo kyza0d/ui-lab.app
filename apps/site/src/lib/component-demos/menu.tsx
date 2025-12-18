@@ -1,72 +1,45 @@
-import {
-  Menu,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-  MenuSeparator,
-  MenuLabel,
-  MenuSub,
-  MenuSubTrigger,
-  MenuSubContent,
-  MenuCheckboxItem,
-  MenuRadioItem,
-  MenuRadioGroup,
-} from "ui-lab-components";
+import { Menu } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { Copy, Edit, Trash2, Share2, Eye } from "lucide-react";
 
-const contextMenuBasicCode = `import {
-  Menu,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-} from "ui-lab-components";
+const contextMenuBasicCode = `import { Menu } from "ui-lab-components";
 
 export function Example() {
   return (
     <Menu>
-      <MenuTrigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none">
+      <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none">
         Right click here
-      </MenuTrigger>
-      <MenuContent>
-        <MenuItem>Copy</MenuItem>
-        <MenuItem>Paste</MenuItem>
-        <MenuItem disabled>Cut</MenuItem>
-      </MenuContent>
+      </Menu.Trigger>
+      <Menu.Content>
+        <Menu.Item>Copy</Menu.Item>
+        <Menu.Item>Paste</Menu.Item>
+        <Menu.Item disabled>Cut</Menu.Item>
+      </Menu.Content>
     </Menu>
   );
 }`;
 
-const contextMenuSubmenuCode = `import {
-  Menu,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-  MenuSeparator,
-  MenuSub,
-  MenuSubTrigger,
-  MenuSubContent,
-} from "ui-lab-components";
+const contextMenuSubmenuCode = `import { Menu } from "ui-lab-components";
 
 export function Example() {
   return (
     <Menu>
-      <MenuTrigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none">
+      <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none">
         Right click here
-      </MenuTrigger>
-      <MenuContent>
-        <MenuItem>Copy</MenuItem>
-        <MenuItem>Paste</MenuItem>
-        <MenuSeparator />
-        <MenuSub>
-          <MenuSubTrigger>Share</MenuSubTrigger>
-          <MenuSubContent>
-            <MenuItem>Email</MenuItem>
-            <MenuItem>Copy Link</MenuItem>
-            <MenuItem>Social Media</MenuItem>
-          </MenuSubContent>
-        </MenuSub>
-      </MenuContent>
+      </Menu.Trigger>
+      <Menu.Content>
+        <Menu.Item>Copy</Menu.Item>
+        <Menu.Item>Paste</Menu.Item>
+        <Menu.Separator />
+        <Menu.Sub>
+          <Menu.SubTrigger>Share</Menu.SubTrigger>
+          <Menu.SubContent>
+            <Menu.Item>Email</Menu.Item>
+            <Menu.Item>Copy Link</Menu.Item>
+            <Menu.Item>Social Media</Menu.Item>
+          </Menu.SubContent>
+        </Menu.Sub>
+      </Menu.Content>
     </Menu>
   );
 }`;
@@ -95,28 +68,28 @@ export const menuDetail: ComponentDetail = {
       code: contextMenuBasicCode,
       preview: (
         <Menu>
-          <MenuTrigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
+          <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
             Right click here
-          </MenuTrigger>
-          <MenuContent>
-            <MenuItem>
+          </Menu.Trigger>
+          <Menu.Content>
+            <Menu.Item>
               <Copy className="mr-2 h-4 w-4" />
               Copy
-            </MenuItem>
-            <MenuItem>
+            </Menu.Item>
+            <Menu.Item>
               <Edit className="mr-2 h-4 w-4" />
               Edit
-            </MenuItem>
-            <MenuSeparator />
-            <MenuItem>
+            </Menu.Item>
+            <Menu.Separator />
+            <Menu.Item>
               <Share2 className="mr-2 h-4 w-4" />
               Share
-            </MenuItem>
-            <MenuItem disabled>
+            </Menu.Item>
+            <Menu.Item disabled>
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
-            </MenuItem>
-          </MenuContent>
+            </Menu.Item>
+          </Menu.Content>
         </Menu>
       ),
     },
@@ -127,36 +100,36 @@ export const menuDetail: ComponentDetail = {
       code: contextMenuSubmenuCode,
       preview: (
         <Menu>
-          <MenuTrigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
+          <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
             Right click here
-          </MenuTrigger>
-          <MenuContent>
-            <MenuItem>
+          </Menu.Trigger>
+          <Menu.Content>
+            <Menu.Item>
               <Copy className="mr-2 h-4 w-4" />
               Copy
-            </MenuItem>
-            <MenuItem>
+            </Menu.Item>
+            <Menu.Item>
               <Edit className="mr-2 h-4 w-4" />
               Edit
-            </MenuItem>
-            <MenuSeparator />
-            <MenuSub>
-              <MenuSubTrigger>
+            </Menu.Item>
+            <Menu.Separator />
+            <Menu.Sub>
+              <Menu.SubTrigger>
                 <Share2 className="mr-2 h-4 w-4" />
                 Share
-              </MenuSubTrigger>
-              <MenuSubContent>
-                <MenuItem>Email</MenuItem>
-                <MenuItem>Copy Link</MenuItem>
-                <MenuItem>Social Media</MenuItem>
-              </MenuSubContent>
-            </MenuSub>
-            <MenuSeparator />
-            <MenuItem disabled>
+              </Menu.SubTrigger>
+              <Menu.SubContent>
+                <Menu.Item>Email</Menu.Item>
+                <Menu.Item>Copy Link</Menu.Item>
+                <Menu.Item>Social Media</Menu.Item>
+              </Menu.SubContent>
+            </Menu.Sub>
+            <Menu.Separator />
+            <Menu.Item disabled>
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
-            </MenuItem>
-          </MenuContent>
+            </Menu.Item>
+          </Menu.Content>
         </Menu>
       ),
     },

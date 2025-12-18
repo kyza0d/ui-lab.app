@@ -12,11 +12,7 @@ import { tableDetail } from "./component-demos/table";
 
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
 } from "ui-lab-components";
 
 import { selectDetail } from "./component-demos/select";
@@ -45,12 +41,7 @@ import { Slider } from "ui-lab-components";
 import { sliderDetail } from "./component-demos/slider";
 import { Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { tabsDetail } from "./component-demos/tabs";
-import {
-  Menu,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-} from "ui-lab-components";
+import { Menu } from "ui-lab-components";
 import { menuDetail } from "./component-demos/menu";
 import { Switch } from "ui-lab-components";
 import { switchDetail } from "./component-demos/switch";
@@ -139,16 +130,16 @@ const previews: Record<string, React.ReactNode> = {
   ),
   select: (
     <Select>
-      <SelectTrigger className="w-48">
-        <SelectValue placeholder="Select an option" />
-      </SelectTrigger>
-      <SelectContent>
+      <Select.Trigger className="w-48">
+        <Select.Value placeholder="Select an option" />
+      </Select.Trigger>
+      <Select.Content>
         <SelectListBox>
-          <SelectItem key="option1" value="option1">Option 1</SelectItem>
-          <SelectItem key="option2" value="option2">Option 2</SelectItem>
-          <SelectItem key="option3" value="option3">Option 3</SelectItem>
+          <Select.Item key="option1" value="option1">Option 1</Select.Item>
+          <Select.Item key="option2" value="option2">Option 2</Select.Item>
+          <Select.Item key="option3" value="option3">Option 3</Select.Item>
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   ),
   textarea: (
@@ -225,13 +216,13 @@ const previews: Record<string, React.ReactNode> = {
   'menu': (
     <div className="flex items-center justify-center h-22">
       <Menu>
-        <MenuTrigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-menu">
+        <Menu.Trigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-menu">
           Right click
-        </MenuTrigger>
-        <MenuContent>
-          <MenuItem>Copy</MenuItem>
-          <MenuItem>Paste</MenuItem>
-        </MenuContent>
+        </Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Copy</Menu.Item>
+          <Menu.Item>Paste</Menu.Item>
+        </Menu.Content>
       </Menu>
     </div>
   ),

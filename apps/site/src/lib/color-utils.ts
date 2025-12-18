@@ -1,10 +1,21 @@
 export interface OklchColor { l: number; c: number; h: number }
 export type ShadeScale = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950;
-export type ColorPalette = Record<ShadeScale, OklchColor>;
+export type ColorPalette = Partial<Record<ShadeScale, OklchColor>>;
 export type ThemeMode = 'light' | 'dark';
 export type EasingFunction = (t: number) => number;
 export type ChromaScalingFunction = (t: number) => number;
 export type ColorRole = 'background' | 'foreground' | 'accent' | 'success' | 'danger' | 'warning' | 'info';
+
+export interface ScaleRange { min: ShadeScale; max: ShadeScale }
+export const SCALE_RANGES: Record<ColorRole, ScaleRange> = {
+  foreground: { min: 50, max: 600 },
+  background: { min: 50, max: 950 },
+  accent: { min: 50, max: 950 },
+  success: { min: 50, max: 950 },
+  danger: { min: 50, max: 950 },
+  warning: { min: 50, max: 950 },
+  info: { min: 50, max: 950 },
+};
 
 export interface ChromaBounds { min: number; max: number }
 export const CHROMA_BOUNDARIES: Record<ColorRole, ChromaBounds> = {
@@ -35,9 +46,15 @@ export function applyGlobalAdjustments(color: OklchColor, role: ColorRole, globa
   return { l: adjustedL, c: adjustedC, h: color.h };
 }
 
-const SHADES: ShadeScale[] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+const ALL_SHADES: ShadeScale[] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+const SHADES = ALL_SHADES;
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n));
 const rnd = (n: number, p = 1000) => Math.round(n * p) / p;
+
+export function getShadesForRole(role: ColorRole): ShadeScale[] {
+  const range = SCALE_RANGES[role];
+  return ALL_SHADES.filter(s => s >= range.min && s <= range.max);
+}
 
 export function hexToOklch(hex: string): OklchColor {
   const n = parseInt(hex.replace('#', ''), 16);
@@ -142,11 +159,16 @@ const CHROMA_FACTORS = {
   std: { 50: .4, 100: .5, 200: .65, 300: .8, 400: .9, 500: 1, 600: .95, 700: .9, 800: .75, 900: .65, 950: .55 }
 } as const;
 
-export function applyEasingToScale(scale: Record<ShadeScale, number>, ease?: EasingFunction): Record<ShadeScale, number> {
+export function applyEasingToScale(scale: Record<ShadeScale, number>, shades?: ShadeScale[], ease?: EasingFunction): Record<ShadeScale, number> {
   if (!ease) return scale;
-  const vals = Object.values(scale);
+  const shadesToUse = shades || SHADES;
+  const vals = shadesToUse.map(s => scale[s]).filter((v): v is number => v !== undefined);
   const [min, max] = [Math.min(...vals), Math.max(...vals)];
-  return SHADES.reduce((acc, s) => ({ ...acc, [s]: clamp(min + ease(SHADE_NORM[s]) * (max - min), 0.01, 0.99) }), {} as any);
+
+  return shadesToUse.reduce((acc, s) => {
+    const normValue = (s - shadesToUse[0]) / (shadesToUse[shadesToUse.length - 1] - shadesToUse[0]);
+    return { ...acc, [s]: clamp(min + ease(normValue) * (max - min), 0.01, 0.99) };
+  }, {} as any);
 }
 
 export const getLightnessScale = (m: ThemeMode) => m === 'light' ? SCALES.light : SCALES.dark;
@@ -154,20 +176,21 @@ export const getSemanticLightnessScale = () => SCALES.sem;
 
 export function generateColorPalette(
   base: OklchColor, baseShade: ShadeScale = 500, mode: ThemeMode = 'dark', shift = 0, limit = 0.01,
-  useSem = false, isAcc = false, ease?: EasingFunction, cScale?: ChromaScalingFunction
+  useSem = false, isAcc = false, ease?: EasingFunction, cScale?: ChromaScalingFunction, shades?: ShadeScale[]
 ): ColorPalette {
+  const shadesToUse = shades || SHADES;
   let lScale = useSem ? SCALES.sem : (isAcc ? (mode === 'dark' ? SCALES.accDark : SCALES.accLight) : getLightnessScale(mode));
 
   if (useSem) {
     const offset = base.l - SCALES.sem[baseShade];
-    lScale = SHADES.reduce((a, s) => ({ ...a, [s]: clamp(SCALES.sem[s] + offset, 0.01, 0.99) }), {} as any);
+    lScale = shadesToUse.reduce((a, s) => ({ ...a, [s]: clamp(SCALES.sem[s] + offset, 0.01, 0.99) }), {} as any);
   }
-  if (ease) lScale = applyEasingToScale(lScale, ease);
+  if (ease) lScale = applyEasingToScale(lScale, shadesToUse, ease);
 
   const normC = { ...base, l: clamp(lScale[baseShade], 0.01, 0.99) };
   const cConstraint = Math.min(1.0, limit / Math.max(normC.c, 0.01));
 
-  return SHADES.reduce((palette, shade) => {
+  return shadesToUse.reduce((palette, shade) => {
     let cFactor = (isAcc ? CHROMA_FACTORS.acc : CHROMA_FACTORS.std)[shade] * cConstraint;
     if (cScale) cFactor *= cScale(SHADE_NORM[shade]);
 
@@ -210,10 +233,14 @@ export function generateThemePalettes(
   const effectiveFgLimit = clampChromaToRole(CHROMA_BOUNDARIES.foreground.max * global.chromaBoost, 'foreground');
   const effectiveAccLimit = clampChromaToRole(accLimit * global.chromaBoost, 'accent');
 
+  const fgShades = getShadesForRole('foreground');
+  const bgShades = getShadesForRole('background');
+  const accShades = getShadesForRole('accent');
+
   const result: any = {
-    background: generateColorPalette(adjustedBg, 500, mode, bgLightnessShift, effectiveBgLimit),
-    foreground: generateColorPalette(adjustedFg, 500, mode, lightnessShift, effectiveFgLimit),
-    accent: generateColorPalette(adjustedAcc, 500, mode, lightnessShift, effectiveAccLimit, true, false, accEase, accScale),
+    background: generateColorPalette(adjustedBg, 500, mode, bgLightnessShift, effectiveBgLimit, false, false, undefined, undefined, bgShades),
+    foreground: generateColorPalette(adjustedFg, 500, mode, lightnessShift, effectiveFgLimit, false, false, undefined, undefined, fgShades),
+    accent: generateColorPalette(adjustedAcc, 500, mode, lightnessShift, effectiveAccLimit, true, false, accEase, accScale, accShades),
   };
 
   if (sem) {
@@ -222,13 +249,20 @@ export function generateThemePalettes(
       const semLimit = sem[k][mode].chromaLimit ?? 0.025;
       const adjustedSemColor = applyGlobalAdjustments(semColor, k, global);
       const effectiveSemLimit = clampChromaToRole(semLimit * global.chromaBoost, k);
-      return { ...a, [k]: generateColorPalette(adjustedSemColor, 500, mode, lightnessShift, effectiveSemLimit, true) };
+      const semShades = getShadesForRole(k);
+      return { ...a, [k]: generateColorPalette(adjustedSemColor, 500, mode, lightnessShift, effectiveSemLimit, true, false, undefined, undefined, semShades) };
     }, {});
   }
   return result as { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes };
 }
 
-export const paletteToCssVars = (name: string, p: ColorPalette) => SHADES.reduce((a, s) => ({ ...a, [`--${name}-${s}`]: oklchToCss(p[s]) }), {});
+export const paletteToCssVars = (name: string, p: ColorPalette): Record<string, string> => {
+  const vars: Record<string, string> = {};
+  Object.entries(p).forEach(([shade, color]) => {
+    if (color) vars[`--${name}-${shade}`] = oklchToCss(color);
+  });
+  return vars;
+};
 
 export function applyPalettesToDocument(p: { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes }) {
   const allVars = {
@@ -243,7 +277,8 @@ export function applyPalettesToDocument(p: { background: ColorPalette; foregroun
 export function logColorVariablesForExport(p: { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes }) {
   let out = '';
   const add = (name: string, pal: ColorPalette) => {
-    out += `\n/* ${name.charAt(0).toUpperCase() + name.slice(1)} Palette */\n` + SHADES.map(s => `--color-${name}-${s}: ${oklchToCss(pal[s])};`).join('\n') + '\n';
+    const shades = (Object.keys(pal) as unknown as ShadeScale[]).filter((s) => pal[s]).sort((a, b) => Number(a) - Number(b));
+    out += `\n/* ${name.charAt(0).toUpperCase() + name.slice(1)} Palette */\n` + shades.map(s => `--color-${name}-${s}: ${oklchToCss(pal[s]!)};`).join('\n') + '\n';
   };
   add('background', p.background); add('foreground', p.foreground); add('accent', p.accent);
   if (p.semantic) Object.entries(p.semantic).forEach(([k, v]) => add(k, v));

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { cssToOklch, type OklchColor, type ShadeScale, type ColorRole } from '@/lib/color-utils'
+import { cssToOklch, getShadesForRole, type OklchColor, type ShadeScale, type ColorRole } from '@/lib/color-utils'
 
 export function useColorVariable(family: ColorRole, shade: ShadeScale): OklchColor | null {
   const [color, setColor] = useState<OklchColor | null>(null)
@@ -37,16 +37,17 @@ export function useColorVariable(family: ColorRole, shade: ShadeScale): OklchCol
   return color
 }
 
-export function useColorVariables(family: ColorRole): Record<ShadeScale, OklchColor | null> {
-  const [colors, setColors] = useState<Record<ShadeScale, OklchColor | null>>({} as any)
+export function useColorVariables(family: ColorRole): Partial<Record<ShadeScale, OklchColor | null>> {
+  const [colors, setColors] = useState<Partial<Record<ShadeScale, OklchColor | null>>>({})
   const observerRef = useRef<MutationObserver | null>(null)
-  const SHADES: ShadeScale[] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
   useEffect(() => {
+    const shades = getShadesForRole(family)
+
     const updateColors = () => {
       if (typeof window !== 'undefined') {
-        const newColors = {} as Record<ShadeScale, OklchColor | null>
-        SHADES.forEach(shade => {
+        const newColors = {} as Partial<Record<ShadeScale, OklchColor | null>>
+        shades.forEach(shade => {
           const css = getComputedStyle(document.documentElement)
             .getPropertyValue(`--${family}-${shade}`)
             .trim()

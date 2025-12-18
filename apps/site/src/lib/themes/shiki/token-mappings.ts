@@ -43,107 +43,107 @@ const getShade = (darkShade: ShadeScale, mode: ThemeMode): ShadeScale => {
 export const TOKEN_MAPPINGS: TokenMapping[] = [
   {
     scope: ['comment', 'punctuation.definition.comment'],
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]),
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]!),
     fontStyle: 'italic'
   },
   {
     scope: ['string', 'meta.string', 'punctuation.definition.string'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)]!)
   },
   {
     scope: ['constant.numeric', 'constant.numeric.decimal'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(300, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(300, mode)]!)
   },
   {
     scope: ['constant.language', 'constant.other', 'keyword.constant'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]!)
   },
   {
     scope: ['keyword', 'storage.type', 'storage.modifier'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(300, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(300, mode)]!)
   },
   {
     scope: ['keyword.control', 'keyword.control.import', 'keyword.control.from'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)]!)
   },
   {
     scope: 'entity.name.function',
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]!)
   },
   {
     scope: ['support.function', 'support.function.builtin'],
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(100, mode)]!)
   },
   {
     scope: ['entity.name.class', 'entity.name.type'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]!)
   },
   {
     scope: ['support.type', 'support.class'],
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(100, mode)]!)
   },
   {
     scope: 'entity.name.tag',
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]!)
   },
   {
     scope: ['variable', 'variable.other'],
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(400, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(400, mode)]!)
   },
   {
     scope: 'variable.other.property',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(100, mode)]!)
   },
   {
     scope: 'variable.other.object.property',
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]!)
   },
   {
     scope: 'variable.builtin',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(300, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(300, mode)]!)
   },
   {
     scope: 'punctuation.separator',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]!)
   },
   {
     scope: 'punctuation.terminator',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]!)
   },
   {
     scope: 'punctuation.delimiter',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]!)
   },
   {
     scope: 'punctuation.bracket',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]!)
   },
   {
     scope: 'operator',
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(300, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(300, mode)]!)
   },
   {
     scope: 'keyword.operator',
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)])
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)]!)
   },
   {
     scope: ['markup.bold'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]),
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(100, mode)]!),
     fontStyle: 'bold'
   },
   {
     scope: ['markup.italic'],
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(200, mode)]),
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(200, mode)]!),
     fontStyle: 'italic'
   },
   {
     scope: ['markup.underline'],
-    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(200, mode)]),
+    getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(200, mode)]!),
     fontStyle: 'underline'
   },
   {
     scope: ['markup.heading'],
-    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)]),
+    getColor: (p, mode) => oklchToHex(p.syntax_accent[getShade(200, mode)]!),
     fontStyle: 'bold'
   },
   {

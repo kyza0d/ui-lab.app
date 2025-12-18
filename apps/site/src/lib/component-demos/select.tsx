@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import {
+  Searchable,
   Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
-  SearchableTrigger,
-  SearchableContent,
 } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { ControlDef } from "@/components/component-configurator";
@@ -31,140 +25,123 @@ const selectControls: ControlDef[] = [
 
 const selectBasicCode = `import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
 } from "ui-lab-components";
 
 export function Example() {
   return (
     <Select>
-      <SelectTrigger>
-        <SelectValue placeholder="Select an option" />
-      </SelectTrigger>
-      <SelectContent>
+      <Select.Trigger>
+        <Select.Value placeholder="Select an option" />
+      </Select.Trigger>
+      <Select.Content>
         <SelectListBox>
-          <SelectItem value="option1">Option 1</SelectItem>
-          <SelectItem value="option2">Option 2</SelectItem>
-          <SelectItem value="option3">Option 3</SelectItem>
+          <Select.Item value="option1">Option 1</Select.Item>
+          <Select.Item value="option2">Option 2</Select.Item>
+          <Select.Item value="option3">Option 3</Select.Item>
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   );
 }`;
 
 const searchableTriggerCode = `import {
   Select,
-  SelectContent,
-  SelectItem,
+  Searchable,
   SelectListBox,
-  SearchableTrigger,
 } from "ui-lab-components";
 
 export function Example() {
   return (
     <Select>
-      <SearchableTrigger placeholder="Search frameworks..." />
-      <SelectContent>
+      <Searchable.Trigger placeholder="Search frameworks..." />
+      <Select.Content>
         <SelectListBox>
-          <SelectItem value="react">React</SelectItem>
-          <SelectItem value="vue">Vue</SelectItem>
-          <SelectItem value="angular">Angular</SelectItem>
-          <SelectItem value="svelte">Svelte</SelectItem>
-          <SelectItem value="nextjs">Next.js</SelectItem>
+          <Select.Item value="react">React</Select.Item>
+          <Select.Item value="vue">Vue</Select.Item>
+          <Select.Item value="angular">Angular</Select.Item>
+          <Select.Item value="svelte">Svelte</Select.Item>
+          <Select.Item value="nextjs">Next.js</Select.Item>
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   );
 }`;
 
 const searchableContentCode = `import {
   Select,
-  SelectContent,
-  SelectItem,
+  Searchable,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
-  SearchableContent,
 } from "ui-lab-components";
 
 export function Example() {
   return (
     <Select>
-      <SelectTrigger>
-        <SelectValue placeholder="Select a country" />
-      </SelectTrigger>
-      <SearchableContent searchPlaceholder="Find country...">
+      <Select.Trigger>
+        <Select.Value placeholder="Select a country" />
+      </Select.Trigger>
+      <Searchable.Content searchPlaceholder="Find country...">
         <SelectListBox>
-          <SelectItem value="usa">United States</SelectItem>
-          <SelectItem value="canada">Canada</SelectItem>
-          <SelectItem value="mexico">Mexico</SelectItem>
-          <SelectItem value="brazil">Brazil</SelectItem>
-          <SelectItem value="france">France</SelectItem>
-          <SelectItem value="germany">Germany</SelectItem>
-          <SelectItem value="japan">Japan</SelectItem>
-          <SelectItem value="australia">Australia</SelectItem>
+          <Select.Item value="usa">United States</Select.Item>
+          <Select.Item value="canada">Canada</Select.Item>
+          <Select.Item value="mexico">Mexico</Select.Item>
+          <Select.Item value="brazil">Brazil</Select.Item>
+          <Select.Item value="france">France</Select.Item>
+          <Select.Item value="germany">Germany</Select.Item>
+          <Select.Item value="japan">Japan</Select.Item>
+          <Select.Item value="australia">Australia</Select.Item>
         </SelectListBox>
-      </SearchableContent>
+      </Searchable.Content>
     </Select>
   );
 }`;
 
 const searchableBothCode = `import {
   Select,
-  SelectContent,
-  SelectItem,
+  Searchable,
   SelectListBox,
-  SearchableTrigger,
-  SearchableContent,
 } from "ui-lab-components";
 
 export function Example() {
   return (
     <Select>
-      <SearchableTrigger placeholder="Search..." />
-      <SearchableContent searchPlaceholder="Filter items...">
+      <Searchable.Trigger placeholder="Search..." />
+      <Searchable.Content searchPlaceholder="Filter items...">
         <SelectListBox>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="apricot">Apricot</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="cherry">Cherry</SelectItem>
-          <SelectItem value="cranberry">Cranberry</SelectItem>
-          <SelectItem value="date">Date</SelectItem>
-          <SelectItem value="elderberry">Elderberry</SelectItem>
-          <SelectItem value="fig">Fig</SelectItem>
-          <SelectItem value="grape">Grape</SelectItem>
+          <Select.Item value="apple">Apple</Select.Item>
+          <Select.Item value="apricot">Apricot</Select.Item>
+          <Select.Item value="banana">Banana</Select.Item>
+          <Select.Item value="blueberry">Blueberry</Select.Item>
+          <Select.Item value="cherry">Cherry</Select.Item>
+          <Select.Item value="cranberry">Cranberry</Select.Item>
+          <Select.Item value="date">Date</Select.Item>
+          <Select.Item value="elderberry">Elderberry</Select.Item>
+          <Select.Item value="fig">Fig</Select.Item>
+          <Select.Item value="grape">Grape</Select.Item>
         </SelectListBox>
-      </SearchableContent>
+      </Searchable.Content>
     </Select>
   );
 }`;
 
 const hoverTriggerCode = `import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
 } from "ui-lab-components";
 
 export function Example() {
   return (
     <Select trigger="hover">
-      <SelectTrigger>
-        <SelectValue placeholder="Hover to open" />
-      </SelectTrigger>
-      <SelectContent>
+      <Select.Trigger>
+        <Select.Value placeholder="Hover to open" />
+      </Select.Trigger>
+      <Select.Content>
         <SelectListBox>
-          <SelectItem value="view">View</SelectItem>
-          <SelectItem value="edit">Edit</SelectItem>
-          <SelectItem value="delete">Delete</SelectItem>
+          <Select.Item value="view">View</Select.Item>
+          <Select.Item value="edit">Edit</Select.Item>
+          <Select.Item value="delete">Delete</Select.Item>
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   );
 }`;
@@ -172,16 +149,16 @@ export function Example() {
 function BasicSelectExample({ placeholder }: any) {
   return (
     <Select>
-      <SelectTrigger className="w-48">
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
+      <Select.Trigger className="w-48">
+        <Select.Value placeholder={placeholder} />
+      </Select.Trigger>
+      <Select.Content>
         <SelectListBox>
-          <SelectItem value="option1">Option 1</SelectItem>
-          <SelectItem value="option2">Option 2</SelectItem>
-          <SelectItem value="option3">Option 3</SelectItem>
+          <Select.Item value="option1">Option 1</Select.Item>
+          <Select.Item value="option2">Option 2</Select.Item>
+          <Select.Item value="option3">Option 3</Select.Item>
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   );
 }
@@ -198,17 +175,17 @@ function SearchableTriggerExample() {
 
   return (
     <Select selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
-      <SearchableTrigger
+      <Searchable.Trigger
         className="w-48"
         placeholder="Search frameworks..."
       />
-      <SelectContent>
+      <Select.Content>
         <SelectListBox>
           {frameworks.map(f => (
-            <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
+            <Select.Item key={f.value} value={f.value}>{f.label}</Select.Item>
           ))}
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   );
 }
@@ -230,16 +207,16 @@ function SearchableContentExample() {
 
   return (
     <Select selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
-      <SelectTrigger className="w-48">
-        <SelectValue placeholder={selectedLabel || "Select a country"} />
-      </SelectTrigger>
-      <SearchableContent searchPlaceholder="Find country...">
+      <Select.Trigger className="w-48">
+        <Select.Value placeholder={selectedLabel || "Select a country"} />
+      </Select.Trigger>
+      <Searchable.Content searchPlaceholder="Find country...">
         <SelectListBox>
           {countries.map(c => (
-            <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
+            <Select.Item key={c.value} value={c.value}>{c.label}</Select.Item>
           ))}
         </SelectListBox>
-      </SearchableContent>
+      </Searchable.Content>
     </Select>
   );
 }
@@ -261,17 +238,17 @@ function SearchableBothExample() {
 
   return (
     <Select selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
-      <SearchableTrigger
+      <Searchable.Trigger
         className="w-48"
         placeholder="Search fruits..."
       />
-      <SearchableContent searchPlaceholder="Filter items...">
+      <Searchable.Content searchPlaceholder="Filter items...">
         <SelectListBox>
           {fruits.map(f => (
-            <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>
+            <Select.Item key={f.value} value={f.value}>{f.label}</Select.Item>
           ))}
         </SelectListBox>
-      </SearchableContent>
+      </Searchable.Content>
     </Select>
   );
 }
@@ -288,16 +265,16 @@ function HoverTriggerExample() {
 
   return (
     <Select trigger="hover" selectedKey={selectedKey} onSelectionChange={(key) => setSelectedKey(key as string | null)}>
-      <SelectTrigger className="w-48">
-        <SelectValue placeholder={selectedLabel || "Hover to open"} />
-      </SelectTrigger>
-      <SelectContent>
+      <Select.Trigger className="w-48">
+        <Select.Value placeholder={selectedLabel || "Hover to open"} />
+      </Select.Trigger>
+      <Select.Content>
         <SelectListBox>
           {actions.map(a => (
-            <SelectItem key={a.value} value={a.value}>{a.label}</SelectItem>
+            <Select.Item key={a.value} value={a.value}>{a.label}</Select.Item>
           ))}
         </SelectListBox>
-      </SelectContent>
+      </Select.Content>
     </Select>
   );
 }
