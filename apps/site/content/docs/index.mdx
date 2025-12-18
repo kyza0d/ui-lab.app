@@ -8,22 +8,28 @@ tags: ["getting-started", "setup", "basics"]
 
 # Getting started
 
-Build your first UI in seconds with UI Lab components.
+---
+
+## What is UI Lab?
+
+UI Lab is a modern component library built for React developers who value simplicity and speed. Rather than wrestling with complex configuration or bloated component APIs, UI Lab gives you production-ready components that work with Tailwind CSS v4—out of the box. Whether you're building a landing page, a dashboard, or a full-featured application, UI Lab components are designed to be dropped in and customized without friction.
+
+## Core values
+
+**Ship faster, not simpler.** UI Lab components are intentionally minimal—they avoid the complexity trap of over-engineered libraries while still handling real-world needs. You get composable, accessible components with sensible defaults that you can customize for your brand without writing from scratch.
+
+**Your styles, your system.** Every component is built on Tailwind CSS, giving you full control through utility classes. No CSS-in-JS surprises, no conflicting style layers, no black boxes. What you see is what you get.
+
+**Developer experience first.** Clear prop APIs, predictable behavior, and components that feel natural to React developers. Spend less time reading documentation and more time building.
 
 ## Who this is for
 
+React developers with Tailwind v4 already set up. You should know React basics (components, hooks, JSX). This guide teaches you to import and use UI Lab components in 10 minutes.
+
 **Prerequisites:**
-- Node.js 18 or higher
-- React 19 or higher
+- Node.js 18+
+- React 19+
 - Tailwind CSS v4 configured
-- Basic React component knowledge
-
-**You will learn:**
-- How to import and use UI Lab components
-- Common component patterns for layouts and forms
-- How to customize component behavior and styling
-
-**Estimated time:** 10 minutes
 
 ## Installation
 
@@ -31,7 +37,7 @@ Start with our [Installation guide](/docs/installation) to add UI Lab to your pr
 
 ## Your first component
 
-Drop a button anywhere—it just works:
+Forget about complex setup steps. Components in UI Lab work the same way as any React component. Here's a button with different variants and sizes:
 
 ```tsx
 import { Button } from "ui-lab-components";
@@ -50,7 +56,11 @@ export default function Home() {
 
 ## Common patterns
 
+UI Lab components are designed to compose together naturally. Here are a few real-world patterns you'll build with regularly:
+
 ### Login form
+
+Combine Card, Input, Label, and Button to create complete, accessible forms:
 
 ```tsx
 import { Button, Card, Input, Label } from "ui-lab-components";
@@ -81,6 +91,8 @@ export function LoginCard() {
 
 ### Dashboard widget
 
+Build data-rich interfaces by layering components. Here's a simple analytics widget that shows key metrics:
+
 ```tsx
 import { Card, Badge } from "ui-lab-components";
 
@@ -99,9 +111,10 @@ export function RevenueWidget() {
 }
 ```
 
-## Next steps
+## What's next?
 
-- [Browse components](/components) – Full gallery with all available components
-- [Explore design system](/docs/design-system) – Understand UI Lab's architecture and principles
-- [Learn theming](/docs/theming) – Customize colors, radius, and tokens for your brand
-- [AI workflow](/docs/ai-integration) – Generate code with Cursor, Claude, or Copilot
+- **Need a specific component?** [Browse all components](/components)
+- **Building a form?** See [Build a Form with Validation](/docs/form-validation)
+- **Need a modal?** See [Create a Modal Dialog](/docs/modal-dialog)
+- **Customize colors/spacing?** See [Dark Mode Setup](/docs/dark-mode)
+- **Deep dive into styling?** See [Styling & CSS Architecture](/docs/styling)
