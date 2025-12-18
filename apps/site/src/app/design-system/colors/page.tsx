@@ -1,13 +1,13 @@
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
-import { getDocBySlug } from '@/lib/docs'
+import { getDesignSystemDocBySlug } from '@/lib/docs'
 import { tocRegistry } from '@/lib/generated-toc-registry'
 import { mdxComponents } from '@/lib/mdx-components'
 import { TableOfContents } from '@/components/TableOfContents'
 import { packageMetadata } from 'ui-lab-registry'
 
 export default async function ColorsPage() {
-  const doc = await getDocBySlug('colors')
+  const doc = await getDesignSystemDocBySlug('colors')
   const tocItems = tocRegistry['colors'] || []
 
   if (!doc) {

@@ -6,9 +6,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <DocsLayout
-      section={{ label: "CLI", href: "/cli" }}
-    >
+    <DocsLayout>
       {children}
     </DocsLayout>
   );

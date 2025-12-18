@@ -6,9 +6,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <DocsLayout
-      section={{ label: "Agents & MCPs", href: "/agents-mcps" }}
-    >
+    <DocsLayout>
       {children}
     </DocsLayout>
   );

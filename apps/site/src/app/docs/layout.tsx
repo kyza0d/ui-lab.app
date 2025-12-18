@@ -6,9 +6,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <DocsLayout
-      section={{ label: "Documentation", href: "/docs" }}
-    >
+    <DocsLayout>
       {children}
     </DocsLayout>
   );

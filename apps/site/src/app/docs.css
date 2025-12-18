@@ -20,12 +20,16 @@
 
 
 #docs h3 {
-  margin: 3.2rem 0 1.2rem 0 ;
+  margin: 3.2rem 0 0.0rem 0 ;
   font-size: var(--text-md) !important;
 }
 
 #docs p {
   font-size: var(--text-sm);
   max-width: 65ch;
-  margin: 0 0 0.4rem 0;
+  margin: 0.6rem 0 2.4rem 0;
+}
+
+#docs ul {
+  margin: 0.0rem 0 2.6rem 0;
 }
