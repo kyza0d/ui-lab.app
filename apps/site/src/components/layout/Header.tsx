@@ -32,11 +32,7 @@ import {
 
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
 } from "ui-lab-components";
 import { HiX } from "react-icons/hi";
 import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, DOMAINS } from "@/lib/route-config";
@@ -288,7 +284,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { isSettingsPanelOpen, setIsSettingsPanelOpen, isCommandPaletteOpen, setIsCommandPaletteOpen, currentThemeMode, setCurrentThemeMode } = useApp();
+  const { isCommandPaletteOpen, setIsCommandPaletteOpen, currentThemeMode, setCurrentThemeMode } = useApp();
 
   const handleMouseEnter = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -416,18 +412,8 @@ export default function Header() {
       action: () => setCurrentThemeMode(currentThemeMode === "light" ? "dark" : "light"),
     });
 
-    cmds.push({
-      id: "settings",
-      label: "Open Settings Panel",
-      description: "Customize theme and design settings",
-      category: "Settings",
-      icon: <FaPaintbrush className="w-4 h-4" />,
-      keywords: ["settings", "preferences", "customize"],
-      action: () => setIsSettingsPanelOpen(true),
-    });
-
     return cmds;
-  }, [router, currentThemeMode, setCurrentThemeMode, setIsSettingsPanelOpen]);
+  }, [router, currentThemeMode, setCurrentThemeMode]);
 
   const activeTabValue = getActiveTabValue(pathname);
 
@@ -436,7 +422,10 @@ export default function Header() {
     <>
       {/* background bar */}
       <div
-        className="fixed inset-x-0 top-0 z-100 border-b border-background-700 bg-background-900"
+        className={cn(
+          "fixed inset-x-0 top-0 z-100 border-b-[2px] border-background-700",
+          pathname === "/" ? "bg-background-950" : "bg-background-900"
+        )}
         style={{ height: isDocRoute ? "var(--header-height)" : "3.75rem" }}
       />
 
@@ -500,16 +489,16 @@ export default function Header() {
                 );
               })}
               <Select trigger="hover" className="hidden relative flex items-center">
-                <SelectTrigger className="bg-transparent border-0  text-foreground-300" chevron={<FaChevronDown size={10} className="relative top-1/2 -translate-y-1/2" />}>
-                  <SelectValue icon={<FaBagShopping className="text-foreground-400" />} placeholder="Marketplace" />
-                </SelectTrigger>
-                <SelectContent>
+                <Select.Trigger className="bg-transparent border-0  text-foreground-300" chevron={<FaChevronDown size={10} className="relative top-1/2 -translate-y-1/2" />}>
+                  <Select.Value icon={<FaBagShopping className="text-foreground-400" />} placeholder="Marketplace" />
+                </Select.Trigger>
+                <Select.Content>
                   <SelectListBox>
-                    <SelectItem icon={<FaTree />} value="option1">Option 1</SelectItem>
-                    <SelectItem value="option2">Option 2</SelectItem>
-                    <SelectItem value="option3">Option 3</SelectItem>
+                    <Select.Item icon={<FaTree />} value="option1">Option 1</Select.Item>
+                    <Select.Item value="option2">Option 2</Select.Item>
+                    <Select.Item value="option3">Option 3</Select.Item>
                   </SelectListBox>
-                </SelectContent>
+                </Select.Content>
               </Select>
 
             </nav>
@@ -517,14 +506,7 @@ export default function Header() {
 
           {/* Right side: Settings, Theme Toggle, GitHub Stars */}
           <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setIsSettingsPanelOpen(!isSettingsPanelOpen)}
-              className="rounded-xl p-2 hover:bg-theme-border/30"
-              aria-label="Open settings"
-              title="Open theme settings"
-            >
-              <FaPaintbrush />
-            </button>
+            <SettingsPanel />
 
             <LandingThemeToggle />
 
@@ -588,7 +570,6 @@ export default function Header() {
       />
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
-      <SettingsPanel />
     </>
   );
 }

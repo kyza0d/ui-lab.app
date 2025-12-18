@@ -79,7 +79,7 @@ export function Timeline({ children }: { children: ReactNode }) {
             )}
 
             {/* Content (header + body) */}
-            <div className="ml-12 pl-4 min-w-0 flex-1">
+            <div className="ml-8 pl-4 min-w-0 flex-1">
               <div className="space-y-4">
                 {styledHeader}
                 {step.content.length > 0 && (

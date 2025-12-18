@@ -173,9 +173,9 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     <>
       <aside
         ref={tocContainerRef}
-        className="border-l pb-42 w-[14rem] overflow-x-hidden h-screen top-[calc(var(--header-height)+3.2rem)] border-background-700 sticky overflow-y-auto hidden lg:block"
+        className="border-l pb-42 w-[14rem] overflow-x-hidden h-screen top-[calc(var(--header-height)+2.9rem)] border-background-700 sticky overflow-y-auto hidden lg:block"
       >
-        <nav className="space-y-6 px-4 py-8">
+        <nav className="space-y-6 px-4 py-5">
           <div>
             <span className="text-md font-semibold text-foreground-50">
               On this page
