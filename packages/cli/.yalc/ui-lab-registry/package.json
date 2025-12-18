@@ -43,5 +43,5 @@
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-registry-data.ts"
   },
-  "yalcSig": "a3fa4e4170d991e3a4b5adbd084c1e86"
+  "yalcSig": "d3db69fcb1e04b732f3a369e358114a2"
 }

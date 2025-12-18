@@ -967,41 +967,6 @@ export const generatedAPI: Record<string, ComponentAPI> = {
           "required": false
         }
       ],
-      "Menu": [
-        {
-          "name": "selectionMode",
-          "type": "none | single | multiple",
-          "required": false,
-          "defaultValue": "none",
-          "enumValues": [
-            "none",
-            "single",
-            "multiple"
-          ]
-        },
-        {
-          "name": "selectedKeys",
-          "type": "Set<Key>",
-          "required": false
-        },
-        {
-          "name": "defaultSelectedKeys",
-          "type": "Set<Key>",
-          "required": false
-        },
-        {
-          "name": "onSelectionChange",
-          "type": "((keys: Set<Key>) => void)",
-          "required": false
-        }
-      ],
-      "MenuPortal": [
-        {
-          "name": "container",
-          "type": "HTMLElement",
-          "required": false
-        }
-      ],
       "MenuItem": [
         {
           "name": "disabled",
@@ -1140,6 +1105,44 @@ export const generatedAPI: Record<string, ComponentAPI> = {
           "required": false
         }
       ],
+      "MenuContext": [],
+      "MenuSubmenuContext": [],
+      "RadioGroupContext": [],
+      "Menu": [
+        {
+          "name": "selectionMode",
+          "type": "none | single | multiple",
+          "required": false,
+          "defaultValue": "none",
+          "enumValues": [
+            "none",
+            "single",
+            "multiple"
+          ]
+        },
+        {
+          "name": "selectedKeys",
+          "type": "Set<Key>",
+          "required": false
+        },
+        {
+          "name": "defaultSelectedKeys",
+          "type": "Set<Key>",
+          "required": false
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "((keys: Set<Key>) => void)",
+          "required": false
+        }
+      ],
+      "MenuPortal": [
+        {
+          "name": "container",
+          "type": "HTMLElement",
+          "required": false
+        }
+      ],
       "MenuSub": [
         {
           "name": "open",
@@ -1156,25 +1159,6 @@ export const generatedAPI: Record<string, ComponentAPI> = {
           "name": "onOpenChange",
           "type": "((open: boolean) => void)",
           "required": false
-        }
-      ],
-      "MenuSubContent": [
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        },
-        {
-          "name": "sideOffset",
-          "type": "number",
-          "required": false,
-          "defaultValue": "2"
-        },
-        {
-          "name": "alignOffset",
-          "type": "number",
-          "required": false,
-          "defaultValue": "-4"
         }
       ],
       "MenuSubTrigger": [
@@ -1211,9 +1195,25 @@ export const generatedAPI: Record<string, ComponentAPI> = {
           "required": false
         }
       ],
-      "MenuContext": [],
-      "MenuSubmenuContext": [],
-      "RadioGroupContext": []
+      "MenuSubContent": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2"
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "-4"
+        }
+      ]
     }
   },
   "modal": {
@@ -3392,7 +3392,7 @@ export const generatedSourceCode: Record<string, ComponentSourceCode> = {
   },
   "tabs": {
     "tsx": "\"use client\"\n\nimport * as React from \"react\"\nimport { useFocusRing } from \"react-aria\"\nimport { cn } from \"./utils\"\nimport styles from \"./tabs.module.css\"\n\ntype TabsVariant = \"default\" | \"underline\"\n\ninterface TabsContextValue {\n  selectedValue: string\n  setSelectedValue: (value: string) => void\n  variant: TabsVariant\n  listRef: React.RefObject<HTMLDivElement | null>\n  registerTab: (value: string) => void\n  tabIds: Map<string, string>\n  panelIds: Map<string, string>\n}\n\nconst TabsContext = React.createContext<TabsContextValue | null>(null)\n\nfunction useTabsContext() {\n  const context = React.useContext(TabsContext)\n  if (!context) {\n    throw new Error(\"Tabs components must be used within a Tabs provider\")\n  }\n  return context\n}\n\ninterface TabsProps {\n  variant?: TabsVariant\n  defaultValue?: string\n  value?: string\n  onValueChange?: (value: string) => void\n  className?: string\n  children?: React.ReactNode\n}\n\nfunction Tabs({\n  variant = \"default\",\n  defaultValue,\n  value,\n  onValueChange,\n  className,\n  children,\n}: TabsProps) {\n  const listRef = React.useRef<HTMLDivElement>(null)\n  const [internalValue, setInternalValue] = React.useState(defaultValue ?? \"\")\n  const [tabIds] = React.useState(() => new Map<string, string>())\n  const [panelIds] = React.useState(() => new Map<string, string>())\n\n  const isControlled = value !== undefined\n  const selectedValue = isControlled ? value : internalValue\n\n  const setSelectedValue = React.useCallback(\n    (newValue: string) => {\n      if (!isControlled) {\n        setInternalValue(newValue)\n      }\n      onValueChange?.(newValue)\n    },\n    [isControlled, onValueChange]\n  )\n\n  const registerTab = React.useCallback(\n    (tabValue: string) => {\n      if (!tabIds.has(tabValue)) {\n        const tabId = `tab-${tabValue}-${Math.random().toString(36).slice(2, 9)}`\n        const panelId = `panel-${tabValue}-${Math.random().toString(36).slice(2, 9)}`\n        tabIds.set(tabValue, tabId)\n        panelIds.set(tabValue, panelId)\n      }\n    },\n    [tabIds, panelIds]\n  )\n\n  return (\n    <TabsContext.Provider\n      value={{\n        selectedValue,\n        setSelectedValue,\n        variant,\n        listRef,\n        registerTab,\n        tabIds,\n        panelIds,\n      }}\n    >\n      <div className={cn(styles.tabs, className)} data-variant={variant}>\n        {children}\n      </div>\n    </TabsContext.Provider>\n  )\n}\n\ninterface TabsListProps {\n  className?: string\n  children?: React.ReactNode\n  \"aria-label\"?: string\n}\n\nfunction TabsList({ className, children, \"aria-label\": ariaLabel }: TabsListProps) {\n  const { variant, listRef } = useTabsContext()\n\n  const [indicator, setIndicator] = React.useState<{\n    left: number\n    width: number\n    height: number\n  }>({ left: 0, width: 0, height: 0 })\n\n  const updateIndicator = React.useCallback(() => {\n    if (!listRef.current) return\n\n    const activeTrigger = listRef.current.querySelector(\n      '[data-selected=\"true\"]'\n    ) as HTMLElement | null\n\n    if (activeTrigger) {\n      setIndicator({\n        left: activeTrigger.offsetLeft,\n        width: activeTrigger.offsetWidth,\n        height: activeTrigger.offsetHeight,\n      })\n    } else {\n      setIndicator({ left: 0, width: 0, height: 0 })\n    }\n  }, [listRef])\n\n  React.useEffect(() => {\n    updateIndicator()\n\n    const observer = new MutationObserver(updateIndicator)\n    const resizeObserver = new ResizeObserver(updateIndicator)\n\n    if (listRef.current) {\n      observer.observe(listRef.current, {\n        attributes: true,\n        attributeFilter: [\"data-selected\"],\n        subtree: true,\n      })\n      resizeObserver.observe(listRef.current)\n    }\n\n    window.addEventListener(\"resize\", updateIndicator)\n\n    return () => {\n      observer.disconnect()\n      resizeObserver.disconnect()\n      window.removeEventListener(\"resize\", updateIndicator)\n    }\n  }, [updateIndicator, listRef])\n\n  return (\n    <div\n      role=\"tablist\"\n      aria-label={ariaLabel}\n      ref={listRef}\n      className={cn(\"tabs\", variant, styles.tabsList, className)}\n      data-variant={variant}\n    >\n      {children}\n      {indicator.width > 0 && (\n        <div\n          className={cn(\n            styles.indicator,\n            variant === \"default\" && styles.indicatorDefault,\n            variant === \"underline\" && styles.indicatorUnderline\n          )}\n          style={{\n            left: variant === \"underline\" ? 0 : indicator.left,\n            width: indicator.width,\n            height: variant === \"default\" ? indicator.height : undefined,\n            transform:\n              variant === \"underline\"\n                ? `translateX(${indicator.left}px)`\n                : undefined,\n          }}\n        />\n      )}\n    </div>\n  )\n}\n\ninterface TabsTriggerProps {\n  value: string\n  icon?: React.ReactNode\n  disabled?: boolean\n  className?: string\n  children?: React.ReactNode\n}\n\nfunction TabsTrigger({\n  value,\n  icon,\n  disabled,\n  className,\n  children,\n}: TabsTriggerProps) {\n  const { selectedValue, setSelectedValue, registerTab, tabIds, panelIds } =\n    useTabsContext()\n  const triggerRef = React.useRef<HTMLButtonElement>(null)\n\n  React.useEffect(() => {\n    registerTab(value)\n  }, [value, registerTab])\n\n  const isSelected = selectedValue === value\n  const { focusProps, isFocusVisible } = useFocusRing()\n\n  const handleClick = () => {\n    if (!disabled) {\n      setSelectedValue(value)\n    }\n  }\n\n  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {\n    const tabList = triggerRef.current?.closest('[role=\"tablist\"]')\n    if (!tabList) return\n\n    const tabs = Array.from(\n      tabList.querySelectorAll('[role=\"tab\"]:not([disabled])')\n    ) as HTMLButtonElement[]\n    const currentIndex = tabs.indexOf(triggerRef.current!)\n\n    let nextIndex: number | null = null\n\n    switch (e.key) {\n      case \"ArrowRight\":\n        nextIndex = (currentIndex + 1) % tabs.length\n        break\n      case \"ArrowLeft\":\n        nextIndex = (currentIndex - 1 + tabs.length) % tabs.length\n        break\n      case \"Home\":\n        nextIndex = 0\n        break\n      case \"End\":\n        nextIndex = tabs.length - 1\n        break\n    }\n\n    if (nextIndex !== null) {\n      e.preventDefault()\n      tabs[nextIndex].focus()\n      tabs[nextIndex].click()\n    }\n  }\n\n  return (\n    <button\n      {...focusProps}\n      ref={triggerRef}\n      role=\"tab\"\n      id={tabIds.get(value)}\n      aria-selected={isSelected}\n      aria-controls={panelIds.get(value)}\n      tabIndex={isSelected ? 0 : -1}\n      disabled={disabled}\n      onClick={handleClick}\n      onKeyDown={handleKeyDown}\n      className={cn(styles.tabsTrigger, className)}\n      data-selected={isSelected || undefined}\n      data-disabled={disabled || undefined}\n      data-focus-visible={isFocusVisible || undefined}\n    >\n      {icon && <span className={styles.triggerIcon}>{icon}</span>}\n      <span>{children}</span>\n    </button>\n  )\n}\n\ninterface TabsContentProps {\n  value: string\n  className?: string\n  children?: React.ReactNode\n}\n\nfunction TabsContent({ value, className, children }: TabsContentProps) {\n  const { selectedValue, tabIds, panelIds, registerTab } = useTabsContext()\n  const panelRef = React.useRef<HTMLDivElement>(null)\n  const { focusProps, isFocusVisible } = useFocusRing()\n\n  React.useEffect(() => {\n    registerTab(value)\n  }, [value, registerTab])\n\n  const isSelected = selectedValue === value\n\n  if (!isSelected) {\n    return null\n  }\n\n  return (\n    <div\n      {...focusProps}\n      ref={panelRef}\n      role=\"tabpanel\"\n      id={panelIds.get(value)}\n      aria-labelledby={tabIds.get(value)}\n      tabIndex={0}\n      className={cn(styles.tabsContent, className)}\n      data-focus-visible={isFocusVisible || undefined}\n    >\n      {children}\n    </div>\n  )\n}\n\nexport { Tabs, TabsList, TabsTrigger, TabsContent }\n",
-    "css": "@reference \"tailwindcss\";\n\n@layer components {\n  .tabs {\n    display: flex;\n    flex-direction: column;\n  }\n\n  .tabsList {\n    --background: var(--background-800);\n    --border: var(--background-700);\n    --indicator-background: var(--background-700);\n\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    position: relative;\n    overflow: hidden;\n    text-decoration: none !important;\n    @apply p-1;\n\n    &[data-variant=\"default\"] {\n      background-color: var(--background);\n      border: var(--border-width-base) solid var(--border);\n      border-radius: var(--radius-lg);\n    }\n\n    &[data-variant=\"underline\"] {\n      background-color: transparent;\n      border: none;\n      padding: 0;\n    }\n  }\n\n  .indicator {\n    position: absolute;\n    pointer-events: none;\n    transition: all 300ms ease-out;\n    background-color: var(--indicator-background);\n  }\n\n  .indicatorDefault {\n    border-radius: var(--radius-md);\n  }\n\n  .indicatorUnderline {\n    --indicator-background: var(--accent-500);\n\n    bottom: 0;\n    height: 0.125rem;\n  }\n\n  .tabsTrigger {\n    --foreground: var(--foreground-400);\n    --foreground-hover: var(--foreground-200);\n    --foreground-active: var(--foreground-50);\n\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    position: relative;\n    z-index: 10;\n    font-family: inherit;\n    font-weight: 500;\n    font-size: var(--text-sm);\n    line-height: var(--leading-snug);\n    @apply gap-2 px-3 py-1.5 whitespace-nowrap;\n\n    color: var(--foreground);\n    user-select: none;\n    cursor: pointer;\n    background: transparent;\n    border-radius: var(--radius-md);\n\n    &[data-focus-visible] {\n      outline: 2px solid var(--accent-500);\n      outline-offset: 2px;\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      cursor: not-allowed;\n    }\n\n    @media (hover: hover) {\n      &:hover:not([data-disabled]) {\n        color: var(--foreground-hover);\n      }\n    }\n\n    &:active:not([data-disabled]) {\n      color: var(--foreground-active);\n    }\n\n    &[data-selected] {\n      color: var(--foreground-active);\n    }\n  }\n\n  .triggerIcon {\n    display: flex;\n    align-items: center;\n  }\n\n  .tabsContent {\n    margin-top: 0.5rem;\n    outline: none;\n\n    &[data-focus-visible] {\n      outline: 2px solid var(--accent-500);\n      outline-offset: 2px;\n    }\n  }\n}\n",
+    "css": "@reference \"tailwindcss\";\n\n@layer components {\n  .tabs {\n    display: flex;\n    flex-direction: column;\n  }\n\n  .tabsList {\n    --background: var(--background-800);\n    --border: var(--background-700);\n    --indicator-background: var(--background-700);\n\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    position: relative;\n    overflow: hidden;\n    text-decoration: none !important;\n    @apply p-1;\n\n    &[data-variant=\"default\"] {\n      background-color: var(--background);\n      border: var(--border-width-base) solid var(--border);\n      border-radius: var(--radius-lg);\n    }\n\n    &[data-variant=\"underline\"] {\n      background-color: transparent;\n      border: none;\n      padding: 0;\n    }\n  }\n\n  .indicator {\n    position: absolute;\n    pointer-events: none;\n    transition: all 300ms ease-out;\n    background-color: var(--indicator-background);\n  }\n\n  .indicatorDefault {\n    border-radius: var(--radius-md);\n  }\n\n  .indicatorUnderline {\n    --indicator-background: var(--accent-500);\n\n    bottom: 0;\n    height: 0.125rem;\n  }\n\n  .tabsTrigger {\n    --foreground: var(--foreground-400);\n    --foreground-hover: var(--foreground-200);\n    --foreground-active: var(--foreground-50);\n\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    position: relative;\n    z-index: 10;\n    font-family: inherit;\n    font-weight: 500;\n    font-size: var(--text-sm);\n    line-height: var(--leading-snug);\n    @apply gap-2 px-3 py-1.5 whitespace-nowrap;\n\n    color: var(--foreground);\n    user-select: none;\n    cursor: pointer;\n    background: transparent;\n    border: 1px solid transparent;\n    border-radius: var(--radius-md);\n\n    &[data-focus-visible] {\n      border-radius: 0px;\n      outline: 1px solid var(--accent-500);\n      outline-offset: 0px;\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      cursor: not-allowed;\n    }\n\n    @media (hover: hover) {\n      &:hover:not([data-disabled]) {\n        color: var(--foreground-hover);\n      }\n    }\n\n    &:active:not([data-disabled]) {\n      color: var(--foreground-active);\n    }\n\n    &[data-selected] {\n      color: var(--foreground-active);\n    }\n  }\n\n  .triggerIcon {\n    display: flex;\n    align-items: center;\n  }\n\n  .tabsContent {\n    margin-top: 0.5rem;\n    outline: none;\n\n    &[data-focus-visible] {\n      outline: 2px solid var(--accent-500);\n      outline-offset: 2px;\n    }\n  }\n}\n",
     "cssTypes": "declare const styles: {\n  tabs: string;\n  tabsList: string;\n  indicator: string;\n  indicatorDefault: string;\n  indicatorUnderline: string;\n  tabsTrigger: string;\n  triggerIcon: string;\n  tabsContent: string;\n  default: string;\n  underline: string;\n};\n\nexport default styles;\n"
   },
   "textarea": {
