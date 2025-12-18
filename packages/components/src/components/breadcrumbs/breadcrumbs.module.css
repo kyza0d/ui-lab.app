@@ -4,6 +4,7 @@
     --foreground-muted: var(--foreground-secondary);
     --separator-color: var(--border-secondary);
     --focus-ring-color: var(--accent-500);
+    --font-size: var(--text-sm);
 
     display: block;
   }
@@ -16,6 +17,10 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
+  }
+
+  .breadcrumbsList.withCustomSeparator .breadcrumb:not(:last-child)::after {
+    content: none;
   }
 
   .breadcrumb {
@@ -35,13 +40,25 @@
     pointer-events: none;
   }
 
+  /* Custom separator element */
+  .separator {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    color: var(--separator-color);
+    user-select: none;
+    pointer-events: none;
+  }
+
   .breadcrumbLink {
     color: var(--foreground);
     text-decoration: none;
     padding: 0.25rem 0.5rem;
     border-radius: 0.375rem;
     cursor: pointer;
-    font-size: 0.9375rem;
+    font-size: var(--font-size);
     line-height: 1.5;
     transition: all 150ms ease-in-out;
     position: relative;

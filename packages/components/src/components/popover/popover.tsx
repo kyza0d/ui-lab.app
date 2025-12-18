@@ -4,6 +4,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { useOverlayTrigger, useButton, useDialog, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
+import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
 import { cn } from "@/lib/utils";
 
 const ARROW_SIZE = 12;
@@ -163,18 +164,12 @@ const PopoverArrow = ({ position }: PopoverArrowProps) => {
   );
 };
 
-interface PopoverCoordinates {
-  top: number;
-  left: number;
-}
-
 const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
   ({ children, content, position = "bottom", className, contentClassName, isOpen: controlledIsOpen, onOpenChange, showArrow = false }, ref) => {
     const triggerRef = React.useRef<HTMLDivElement>(null);
     const popoverContentRef = React.useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = React.useState(false);
-    const [isPositioned, setIsPositioned] = React.useState(false);
-    const [popoverPosition, setPopoverPosition] = React.useState<PopoverCoordinates>({ top: 0, left: 0 });
+    const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null);
 
     const state = useOverlayTriggerState({
       isOpen: controlledIsOpen,
@@ -189,39 +184,40 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     const { buttonProps } = useButton(triggerProps, triggerRef);
     const { dialogProps } = useDialog({}, popoverContentRef);
 
-    React.useEffect(() => {
-      if (!state.isOpen || !triggerRef.current) return;
-      const triggerRect = triggerRef.current.getBoundingClientRect();
-      let top = 0;
-      let left = 0;
-      switch (position) {
-        case "top":
-          top = triggerRect.top + window.scrollY - POPOVER_GAP - ARROW_POSITIONING_SIZE;
-          left = triggerRect.left + window.scrollX + triggerRect.width / 2;
-          break;
-        case "bottom":
-          top = triggerRect.bottom + window.scrollY + POPOVER_GAP + ARROW_POSITIONING_SIZE;
-          left = triggerRect.left + window.scrollX + triggerRect.width / 2;
-          break;
-        case "left":
-          top = triggerRect.top + window.scrollY + triggerRect.height / 2;
-          left = triggerRect.left + window.scrollX - POPOVER_GAP - ARROW_POSITIONING_SIZE;
-          break;
-        case "right":
-          top = triggerRect.top + window.scrollY + triggerRect.height / 2;
-          left = triggerRect.right + window.scrollX + POPOVER_GAP + ARROW_POSITIONING_SIZE;
-          break;
-      }
-      setPopoverPosition({ top, left });
-    }, [state.isOpen, position]);
+    const placementMap: Record<PopoverPosition, "top" | "bottom" | "left" | "right"> = {
+      top: "top",
+      bottom: "bottom",
+      left: "left",
+      right: "right",
+    };
+
+    const { refs, floatingStyles, placement } = useFloating({
+      placement: placementMap[position],
+      whileElementsMounted: autoUpdate,
+      middleware: [
+        offset(POPOVER_GAP + ARROW_POSITIONING_SIZE),
+        flip(),
+        shift({ padding: 8 }),
+      ],
+    });
+
+    const isPositioned = floatingStyles.transform !== undefined;
+
+    React.useLayoutEffect(() => {
+      refs.setReference(triggerRef.current);
+    }, [refs]);
 
     React.useEffect(() => {
-      if (!state.isOpen) {
-        setIsPositioned(false);
-        return;
-      }
-      setIsPositioned(true);
-    }, [state.isOpen]);
+      if (typeof document === 'undefined') return;
+      const container = document.createElement('div');
+      container.setAttribute('data-popover-portal', '');
+      container.style.cssText = 'position: fixed; top: 0; left: 0; z-index: 500;';
+      document.body.appendChild(container);
+      setPortalContainer(container);
+      return () => {
+        document.body.removeChild(container);
+      };
+    }, []);
 
     React.useEffect(() => {
       if (!state.isOpen) return;
@@ -252,32 +248,34 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     const mergedTriggerRef = React.useCallback(
       (el: HTMLDivElement | null) => {
         (triggerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        refs.setReference(el);
         if (typeof ref === "function") ref(el);
         else if (ref) ref.current = el;
       },
-      [ref]
+      [refs, ref]
     );
 
-    const positionClasses: Record<PopoverPosition, string> = {
-      top: "-translate-x-1/2 -translate-y-full",
-      bottom: "-translate-x-1/2 translate-y-0",
-      left: "-translate-y-1/2 -translate-x-full",
-      right: "-translate-y-1/2 translate-x-0",
-    };
+    const mergedContentRef = React.useCallback(
+      (el: HTMLDivElement | null) => {
+        (popoverContentRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        refs.setFloating(el);
+      },
+      [refs]
+    );
 
     const triggerElement = React.isValidElement(children)
       ? React.cloneElement(children as React.ReactElement<{ className?: string; ref?: React.Ref<HTMLDivElement> }>, {
-          ...buttonProps,
-          className: cn((children as React.ReactElement<{ className?: string }>).props.className, className),
-          ref: mergedTriggerRef,
-        })
+        ...buttonProps,
+        className: cn((children as React.ReactElement<{ className?: string }>).props.className, className),
+        ref: mergedTriggerRef,
+      })
       : (
-          <div ref={mergedTriggerRef} {...buttonProps} className={cn("inline-block", className)}>
-            {children}
-          </div>
-        );
+        <div ref={mergedTriggerRef} {...buttonProps} className={cn("inline-block", className)}>
+          {children}
+        </div>
+      );
 
-    if (!mounted) {
+    if (!mounted || !portalContainer) {
       return triggerElement;
     }
 
@@ -288,26 +286,18 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
           createPortal(
             <div
               {...mergeProps(overlayProps, dialogProps)}
+              ref={mergedContentRef}
               role="dialog"
-              className={cn("absolute pointer-events-none z-50 transition-opacity", positionClasses[position], {
-                "opacity-0": !isPositioned,
-                "opacity-100": isPositioned,
-              })}
-              style={{ top: `${popoverPosition.top}px`, left: `${popoverPosition.left}px` }}
+              className={cn("relative pointer-events-auto bg-background-900 text-foreground-50 text-sm p-3 rounded-lg shadow-lg border border-background-700", contentClassName)}
+              style={{
+                ...floatingStyles,
+                visibility: isPositioned ? 'visible' : 'hidden',
+              }}
             >
-              <div
-                ref={popoverContentRef}
-                onClick={(e) => e.stopPropagation()}
-                className={cn(
-                  "relative pointer-events-auto bg-background-900 text-foreground-50 text-sm p-3 rounded-lg shadow-lg border border-background-700",
-                  contentClassName
-                )}
-              >
-                {content}
-                {showArrow && <PopoverArrow position={position} />}
-              </div>
+              {content}
+              {showArrow && <PopoverArrow position={position as PopoverPosition} />}
             </div>,
-            document.body
+            portalContainer!
           )}
       </>
     );

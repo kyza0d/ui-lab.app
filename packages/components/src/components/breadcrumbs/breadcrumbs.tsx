@@ -15,6 +15,7 @@ export interface BreadcrumbItemProps {
 export interface BreadcrumbsProps {
   children: ReactNode;
   className?: string;
+  separator?: ReactNode;
 }
 
 const Breadcrumb = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
@@ -57,7 +58,7 @@ const Breadcrumb = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
 Breadcrumb.displayName = 'Breadcrumb';
 
 const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
-  ({ children, className }, ref) => {
+  ({ children, className, separator }, ref) => {
     const childArray = React.Children.toArray(children);
     const childCount = childArray.length;
 
@@ -67,12 +68,26 @@ const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
         className={`${styles.breadcrumbs} ${className || ''}`}
         aria-label="Breadcrumb"
       >
-        <ol className={styles.breadcrumbsList}>
+        <ol className={`${styles.breadcrumbsList} ${separator ? styles.withCustomSeparator : ''}`}>
           {React.Children.map(childArray, (child, index) => {
+            const isLastChild = index === childCount - 1;
             if (React.isValidElement(child)) {
-              return React.cloneElement(child as React.ReactElement<BreadcrumbItemProps>, {
-                isCurrent: index === childCount - 1,
+              const element = React.cloneElement(child as React.ReactElement<BreadcrumbItemProps>, {
+                isCurrent: isLastChild,
               });
+
+              // Add separator after each item except the last
+              if (separator && !isLastChild) {
+                return (
+                  <React.Fragment key={index}>
+                    {element}
+                    <li className={styles.separator} aria-hidden="true">
+                      {separator}
+                    </li>
+                  </React.Fragment>
+                );
+              }
+              return element;
             }
             return child;
           })}

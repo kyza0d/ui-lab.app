@@ -54,6 +54,7 @@ export interface SelectProps<T> extends React.PropsWithChildren {
   items?: Array<T>
   selectedKey?: Key | null
   defaultSelectedKey?: Key | null
+  defaultValue?: string | null
   onSelectionChange?: (key: Key | null) => void
   isDisabled?: boolean
   autoFocus?: boolean
@@ -68,6 +69,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       items: propItems = [],
       selectedKey: controlledSelectedKey,
       defaultSelectedKey,
+      defaultValue,
       onSelectionChange,
       isDisabled = false,
       autoFocus = false,
@@ -113,7 +115,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     )
     const [searchValue, setSearchValue] = React.useState("")
     const [focusedKey, setFocusedKey] = React.useState<Key | null>(null)
-    const [selectedTextValue, setSelectedTextValue] = React.useState("")
+    const [selectedTextValue, setSelectedTextValue] = React.useState(defaultValue ?? "")
     const selectedKey = controlledSelectedKey !== undefined ? controlledSelectedKey : uncontrolledSelectedKey
     const registeredItemsRef = React.useRef<Map<Key, SelectItemData>>(new Map())
     const [registeredItems, setRegisteredItems] = React.useState<SelectItemData[]>([])
@@ -249,12 +251,17 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       }
     }, [isOpen])
 
-    // Clear selectedTextValue when selectedKey becomes null
+    // Sync selectedTextValue with selectedKey
     React.useEffect(() => {
       if (selectedKey === null) {
         setSelectedTextValue("")
+      } else {
+        const selectedItem = items.find(item => item.key === selectedKey)
+        if (selectedItem) {
+          setSelectedTextValue(selectedItem.textValue)
+        }
       }
-    }, [selectedKey])
+    }, [selectedKey, items])
 
     return (
       <SelectContext.Provider

@@ -1,8 +1,34 @@
-export { Select, SelectListBox, SelectContext, useSelectContext } from "./select"
-export { SelectTrigger, SearchableTrigger } from "./trigger"
-export { SelectContent, SearchableContent } from "./content"
-export { SelectItem, SelectGroup, SelectValue } from "./items"
-export { SelectSeparator, SelectScrollUpButton, SelectScrollDownButton } from "./decorative"
+import { Select as SelectRoot, SelectListBox, SelectContext, useSelectContext } from "./select"
+import { SelectTrigger, SearchableTrigger } from "./trigger"
+import { SelectContent, SearchableContent } from "./content"
+import { SelectItem, SelectGroup, SelectValue } from "./items"
+import { SelectSeparator, SelectScrollUpButton, SelectScrollDownButton } from "./decorative"
+
+// Create compound component pattern for Select
+const Select = Object.assign(SelectRoot, {
+  Trigger: SelectTrigger,
+  Content: SelectContent,
+  Item: SelectItem,
+  Group: SelectGroup,
+  Value: SelectValue,
+  Separator: SelectSeparator,
+  ScrollUpButton: SelectScrollUpButton,
+  ScrollDownButton: SelectScrollDownButton,
+})
+
+// Create compound component pattern for Searchable
+const Searchable = Object.assign(() => null, {
+  Trigger: SearchableTrigger,
+  Content: SearchableContent,
+})
+
+export {
+  Select,
+  Searchable,
+  SelectListBox,
+  SelectContext,
+  useSelectContext,
+}
 
 export type { SelectProps, SelectContextValue, SelectItemData, SelectTriggerMode } from "./select"
 export type { SelectTriggerProps, SearchableTriggerProps } from "./trigger"

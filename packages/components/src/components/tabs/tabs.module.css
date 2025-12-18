@@ -70,11 +70,13 @@
     user-select: none;
     cursor: pointer;
     background: transparent;
+    border: 1px solid transparent;
     border-radius: var(--radius-md);
 
     &[data-focus-visible] {
-      outline: 2px solid var(--accent-500);
-      outline-offset: 2px;
+      border-radius: 0px;
+      outline: 1px solid var(--accent-500);
+      outline-offset: 0px;
     }
 
     &[data-disabled] {

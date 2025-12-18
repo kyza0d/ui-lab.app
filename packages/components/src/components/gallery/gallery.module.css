@@ -36,7 +36,7 @@
   }
 
   .item {
-    --background: var(--background-800);
+    --background: var(--background-950);
     --border: var(--background-700);
     --border-hover: var(--background-600);
     --border-focus: var(--accent-500);
@@ -72,7 +72,7 @@
 
   .view {
     --aspect-ratio: var(--gallery-aspect-ratio, 16/9);
-    --background: var(--background-900);
+    --background: var(--background-950);
 
     position: relative;
     aspect-ratio: var(--aspect-ratio);
