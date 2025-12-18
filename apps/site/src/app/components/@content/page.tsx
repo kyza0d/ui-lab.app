@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { getComponentsByCategory, categoryMap, categoryOrder } from "@/lib/component-registry";
-import { Breadcrumbs } from "@/components/breadcrumbs";
+import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
 import { Divider, Gallery } from "ui-lab-components";
 import { GalleryItemWithPrefetch } from "./gallery-item";
 
@@ -10,12 +10,7 @@ export default function ComponentsPage() {
   return (
     <div>
       {/* Breadcrumbs */}
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Components", href: "/components" },
-        ]}
-      />
+      <BreadcrumbsNav />
 
       <div className="w-full bg-background-950 mx-auto max-w-4xl pt-48 pb-12">
         <main className="w-full">

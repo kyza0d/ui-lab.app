@@ -24,17 +24,8 @@ export type { CheckboxProps } from "./components/checkbox";
 
 export {
   Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectSeparator,
+  Searchable,
   SelectListBox,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
-  SearchableTrigger,
-  SearchableContent,
 } from "./components/select";
 
 export { Input } from "./components/input";
@@ -79,22 +70,23 @@ export type { ModalProps } from "./components/modal";
 
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
 
-export {
-  Menu,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-  MenuCheckboxItem,
-  MenuRadioItem,
-  MenuLabel,
-  MenuSeparator,
-  MenuShortcut,
-  MenuGroup,
-  MenuRadioGroup,
-  MenuPortal,
-  MenuSub,
-  MenuSubContent,
-  MenuSubTrigger,
+export { Menu } from "./components/menu";
+export type {
+  MenuProps,
+  MenuTriggerProps,
+  MenuPortalProps,
+  MenuContentProps,
+  MenuGroupProps,
+  MenuItemProps,
+  MenuCheckboxItemProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
+  MenuLabelProps,
+  MenuSeparatorProps,
+  MenuShortcutProps,
+  MenuSubProps,
+  MenuSubTriggerProps,
+  MenuSubContentProps,
 } from "./components/menu";
 
 export { Switch } from "./components/switch";
