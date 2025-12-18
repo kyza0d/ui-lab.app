@@ -21,7 +21,7 @@ export function organizeFilesIntoSections(metadata, domain) {
         })),
     }))
     .sort((a, b) => {
-      const order = getDefaultSectionOrder(domain);
+      const order = getDynamicSectionOrder(Array.from(sectionMap.keys()), domain);
       return (order.indexOf(a.label) ?? 999) - (order.indexOf(b.label) ?? 999);
     });
 
@@ -41,13 +41,19 @@ export function buildFileMap(metadata) {
   return fileMap;
 }
 
-function getDefaultSectionOrder(domain) {
-  const orders = {
+function getDynamicSectionOrder(foundSections, domain) {
+  const preferredOrder = {
     docs: ['Getting Started', 'Development', 'Architecture & Advanced'],
-    'agents-mcps': ['Getting Started', 'Concepts', 'Building Workflows', 'AI Integration', 'Technical Reference', 'Development'],
-    cli: ['Getting Started', 'Advanced Features', 'Advanced'],
+    'agents-mcps': ['Getting Started', 'Concepts', 'Building Workflows', 'Reference', 'Technical Reference', 'AI Integration', 'Development'],
+    cli: ['Getting Started', 'Advanced'],
     'design-system': ['Foundation', 'Systems', 'Guidelines'],
   };
 
-  return orders[domain] || [];
+  const order = preferredOrder[domain] || [];
+  const foundSectionSet = new Set(foundSections);
+
+  const inOrder = order.filter(s => foundSectionSet.has(s));
+  const notInOrder = foundSections.filter(s => !order.includes(s));
+
+  return [...inOrder, ...notInOrder.sort()];
 }

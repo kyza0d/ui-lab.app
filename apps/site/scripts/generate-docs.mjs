@@ -5,6 +5,7 @@ import { spawn } from 'child_process';
 import { scanContentDirectory } from './lib/file-scanner.mjs';
 import { extractAllMetadata } from './lib/metadata-extractor.mjs';
 import { organizeFilesIntoSections, buildFileMap } from './lib/section-organizer.mjs';
+import { NAV_STRUCTURE } from './lib/nav-structure-config.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,14 +37,36 @@ async function generateSidebarRegistry() {
 
     const sections = organizeFilesIntoSections(metadata, domain);
     const fileMap = buildFileMap(metadata);
+    const navSectionMap = buildNavSectionMap(sections, domain);
 
-    registry[domain] = { sections, fileMap };
+    registry[domain] = { sections, fileMap, navSectionMap };
 
     console.log(`  Organized into ${sections.length} sections:`);
     sections.forEach(s => console.log(`    - ${s.label} (${s.items.length} items)`));
+
+    if (navSectionMap && Object.keys(navSectionMap).length > 0) {
+      console.log(`  Navigation mappings for sub-items:`);
+      Object.entries(navSectionMap).forEach(([nav, labels]) => {
+        console.log(`    - ${nav}: [${labels.join(', ')}]`);
+      });
+    }
   }
 
   return registry;
+}
+
+function buildNavSectionMap(sections, domain) {
+  const navStructure = NAV_STRUCTURE[domain];
+  if (!navStructure?.subNav) return null;
+
+  const navSectionMap = {};
+  const sectionLabels = sections.map(s => s.label);
+
+  for (const [navItem, allowedLabels] of Object.entries(navStructure.subNav)) {
+    navSectionMap[navItem] = allowedLabels.filter(label => sectionLabels.includes(label));
+  }
+
+  return navSectionMap;
 }
 
 function generateTypeScriptOutput(registry) {
@@ -53,6 +76,7 @@ function generateTypeScriptOutput(registry) {
       return `  ${quotedDomain}: {
     sections: ${JSON.stringify(data.sections, null, 6)},
     fileMap: ${JSON.stringify(data.fileMap, null, 6)},
+    navSectionMap: ${JSON.stringify(data.navSectionMap, null, 6)},
   }`;
     })
     .join(',\n');
@@ -80,6 +104,7 @@ interface FileMetadata {
 interface DomainRegistry {
   sections: SidebarSection[];
   fileMap: Record<string, FileMetadata>;
+  navSectionMap: Record<string, string[]> | null;
 }
 
 export interface SidebarRegistry {
