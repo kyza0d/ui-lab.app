@@ -2,16 +2,15 @@
 
 import { ComponentConfigurator } from "@/components/component-configurator";
 import { getComponentById, getComponentMetadata } from "@/lib/component-registry";
-import { Breadcrumbs } from "@/components/breadcrumbs";
 import { TableOfContents } from "@/components/TableOfContents";
 import { Table, type Column } from "@/components/table";
 import { InlineCodeHighlight } from "@/components/InlineCodeHighlight";
-import { EnumUnionHighlight } from "@/components/EnumUnionHighlight";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex } from "ui-lab-components";
 import { useState } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 import { FaGithub } from "react-icons/fa6";
 import { SiAdobe } from "react-icons/si";
+import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
 
 export function ComponentDetailClient({ componentId }: { componentId: string }) {
   const component = getComponentById(componentId);
@@ -20,12 +19,7 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
   if (!component) {
     return (
       <div>
-        <Breadcrumbs
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Components", href: "/components" },
-          ]}
-        />
+        <BreadcrumbsNav />
         <div className="w-full bg-background-950 mx-auto">
           <main className="w-full">
             <div className="px-8 py-8 space-y-8">
@@ -93,13 +87,7 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
 
   return (
     <div>
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Components", href: "/components" },
-          { label: component.name, href: `/components/${componentId}` },
-        ]}
-      />
+      <BreadcrumbsNav />
       <div className="w-full text-foreground-100 ">
         <Toaster />
         <div className="flex flex-col lg:flex-row justify-between gap-0">
@@ -108,7 +96,7 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
               <div className="flex items-center gap-3">
                 <h2 className="font-bold text-foreground-50">{component.name}</h2>
                 {metadata?.experimental && (
-                  <span className="inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded">
+                  <span className="inline-block px-2 py-1 text-sm font-semibold bg-accent-500/20 text-accent-300 rounded">
                     Experimental
                   </span>
                 )}
@@ -203,14 +191,15 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "name",
       label: "Name",
-      render: (value) => <span className="font-mono text-xs text-foreground-50">{value}</span>,
+      render: (value) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
     },
     {
       key: "type",
       label: "Type",
       render: (value, row) => {
         if (row.enumValues && row.enumValues.length > 0) {
-          return <EnumUnionHighlight values={row.enumValues} />;
+          const enumCode = row.enumValues.map((v) => `"${v}"`).join(" | ");
+          return <InlineCodeHighlight code={enumCode} language="typescript" />;
         }
         return <InlineCodeHighlight code={value} language="typescript" />;
       },
@@ -244,14 +233,15 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "name",
       label: "Name",
-      render: (value) => <span className="font-mono text-xs text-foreground-50">{value}</span>,
+      render: (value) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
     },
     {
       key: "type",
       label: "Type",
       render: (value, row) => {
         if (row.enumValues && row.enumValues.length > 0) {
-          return <EnumUnionHighlight values={row.enumValues} />;
+          const enumCode = row.enumValues.map((v) => `"${v}"`).join(" | ");
+          return <InlineCodeHighlight code={enumCode} language="typescript" />;
         }
         return <InlineCodeHighlight code={value} language="typescript" />;
       },
@@ -324,7 +314,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
               <div key={variable.name} className="p-3 bg-background-800 rounded border border-background-700">
                 <div className="font-mono text-sm text-accent-400 mb-1">{variable.name}</div>
                 {variable.defaultValue && (
-                  <div className="text-foreground-400 text-xs">Default: {variable.defaultValue}</div>
+                  <div className="text-foreground-400 text-sm">Default: {variable.defaultValue}</div>
                 )}
               </div>
             ))}
