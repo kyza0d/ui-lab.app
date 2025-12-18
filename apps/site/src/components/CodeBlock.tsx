@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
+import { transformerRenderIndentGuides } from "@shikijs/transformers";
 import { generateThemePalettes, type OklchColor, oklchToCss } from "@/lib/color-utils";
 import { generateShikiTheme, type ShikiTheme } from "@/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/lib/themes/syntax-colors";
@@ -115,6 +116,7 @@ export function CodeBlock({
         const html = await codeToHtml(children, {
           lang: language as any,
           theme,
+          transformers: [transformerRenderIndentGuides()],
         });
         let styledHtml = html.replace(
           /<code>/,

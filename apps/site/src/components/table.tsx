@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { InlineCodeHighlight } from "./InlineCodeHighlight";
 
 export interface Column<T> {
   key: keyof T;
   label: string;
   sortable?: boolean;
   filterable?: boolean;
+  isCode?: boolean;
+  codeLanguage?: string;
   render?: (value: any, row: T) => React.ReactNode;
 }
 
@@ -101,7 +104,17 @@ export function Table<T extends Record<string, any>>({
                       key={String(col.key)}
                       className="px-4 py-3 text-foreground-300"
                     >
-                      {col.render ? col.render(row[col.key], row) : String(row[col.key])}
+                      {col.render ? (
+                        col.render(row[col.key], row)
+                      ) : col.isCode ? (
+                        <InlineCodeHighlight
+                          code={String(row[col.key])}
+                          language={col.codeLanguage || "typescript"}
+                          className="bg-background-900 px-2 py-1 rounded"
+                        />
+                      ) : (
+                        String(row[col.key])
+                      )}
                     </td>
                   ))}
                 </tr>

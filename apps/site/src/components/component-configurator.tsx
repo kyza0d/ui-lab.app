@@ -7,11 +7,7 @@ import { FaCheck, FaCopy } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectListBox,
-  SelectTrigger,
-  SelectValue,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -154,7 +150,7 @@ export function ComponentConfigurator({
         setHighlightedCode(styledHtml);
       } catch (error) {
         console.error("Failed to highlight code:", error);
-        setHighlightedCode(`<pre><code style="display: block; padding: 1rem;">${currentCode}</code></pre>`);
+        setHighlightedCode(`<pre style="background: red" ><code style="display: block; padding: 1rem;">${currentCode}</code></pre>`);
       }
     };
 
@@ -196,16 +192,25 @@ export function ComponentConfigurator({
           )}
         </div>
 
-        <div className={cn("bg-background-700/40 border border-background-700 rounded-md overflow-hidden", fullWidth && "w-full")}>
+        <div className={cn("border border-background-700 rounded-md overflow-hidden", fullWidth && "w-full")}>
           {!hidePreviewToggle && (
             <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
-              <TabsList className="justify-start border-0 rounded-none border-b border-background-700 w-full">
+              <TabsList className="justify-start h-12 border-0 rounded-none border-b border-background-700 w-full">
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="preview" className="overflow-hidden mt-0">
+                <div className={cn("px-10 py-16", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
+                  {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="code" className="relative overflow-hidden mt-0">
                 <button
                   onClick={handleCopy}
                   className={cn(
-                    "p-1.5 rounded",
+                    "absolute right-2 top-2 p-1.5 rounded",
                     "text-foreground-400 hover:text-foreground-50",
                     copied && "text-accent-500"
                   )}
@@ -217,15 +222,6 @@ export function ComponentConfigurator({
                     <FaCopy size={16} />
                   )}
                 </button>
-              </TabsList>
-
-              <TabsContent value="preview" className="overflow-hidden bg-background-950/50 mt-0">
-                <div className={cn("px-10 py-16", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
-                  {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="code" className="overflow-hidden bg-background-950/50 mt-0">
                 {allTabs.length > 1 && (
                   <div className="flex gap-2">
                     {allTabs.map((tab, index) => (
@@ -255,7 +251,7 @@ export function ComponentConfigurator({
           )}
 
           {hidePreviewToggle && (
-            <div className="overflow-hidden bg-background-950/50">
+            <div className="overflow-hidden">
               <div className={cn("p-8", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
                 {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
               </div>
@@ -275,22 +271,23 @@ export function ComponentConfigurator({
                   {control.type === "select" && (
                     <Select
                       selectedKey={String(controlValues[control.name] ?? "")}
+                      defaultValue={control.options?.find(opt => opt.value === controlValues[control.name])?.label ?? control.options?.[0]?.label ?? ""}
                       onSelectionChange={(key) =>
                         handleControlChange(control.name, key)
                       }
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select an option" />
-                      </SelectTrigger>
-                      <SelectContent>
+                      <Select.Trigger>
+                        <Select.Value />
+                      </Select.Trigger>
+                      <Select.Content>
                         <SelectListBox>
                           {control.options?.map((option) => (
-                            <SelectItem key={String(option.value)} value={String(option.value)}>
+                            <Select.Item key={String(option.value)} value={String(option.value)}>
                               {option.label}
-                            </SelectItem>
+                            </Select.Item>
                           ))}
                         </SelectListBox>
-                      </SelectContent>
+                      </Select.Content>
                     </Select>
                   )}
                   {control.type === "toggle" && (

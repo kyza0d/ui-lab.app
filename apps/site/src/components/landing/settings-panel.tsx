@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState, memo, useMemo } from "react";
 import Link from "next/link";
 import { useApp } from "@/lib/app-context";
-import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush, FaSun } from "react-icons/fa6";
+import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush, FaSun, FaPaintbrush } from "react-icons/fa6";
 import { themes, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
 import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange, type GlobalColorAdjustments, oklchToCss } from "@/lib/color-utils";
 import { getScaleName } from "@/lib/config-generator";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
 import { getSemanticColorSafely, getSemanticChromaLimit } from "@/lib/semantic-color-utils";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
+import { Tabs, TabsList, TabsTrigger, TabsContent, Popover } from "ui-lab-components";
 import { Slider } from "ui-lab-components";
 import { Divider } from "ui-lab-components";
 
@@ -62,10 +62,8 @@ interface ColorPickerProps {
 const MICRO_LABEL = "text-[14px] font-semibold text-foreground-500";
 const VALUE_LABEL = "text-[12px] text-foreground-300";
 
-export const SettingsPanel = () => {
+const SettingsPanelContent = () => {
   const {
-    isSettingsPanelOpen,
-    setIsSettingsPanelOpen,
     currentThemeColors,
     setCurrentThemeColors,
     fontSizeScale,
@@ -88,7 +86,6 @@ export const SettingsPanel = () => {
     setSyntaxVariation,
   } = useApp();
 
-  const panelRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
   const [localColors, setLocalColors] = useState(currentThemeColors || themes["Vitesse"].dark);
   const [expandedColor, setExpandedColor] = useState<string | null>(null);
@@ -195,13 +192,8 @@ export const SettingsPanel = () => {
     applyAndPersistColors(updated);
   };
 
-  if (!isSettingsPanelOpen) return null;
-
   return (
-    <div
-      ref={panelRef}
-      className={`fixed z-[300] w-[390px] h-[490px] bg-background-900 border border-background-700 bottom-[24px] right-[24px] rounded-[16px] overflow-hidden select-none flex flex-col shadow-2xl`}
-    >
+    <div className="w-[390px] h-[490px] select-none flex flex-col">
       {/* Header */}
       <div className="pr-[8px] py-[2px] flex items-center justify-between border-b border-background-700">
         {/* Segmented Sliding Tabs */}
@@ -218,13 +210,6 @@ export const SettingsPanel = () => {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-
-        <button
-          onClick={() => setIsSettingsPanelOpen(false)}
-          className="p-1.5 cursor-pointer text-foreground-400 hover:text-foreground-100 hover:bg-white/10 rounded-[9px] transition-all active:scale-90"
-        >
-          <FaXmark size={14} />
-        </button>
       </div>
 
       {/* Scrollable Content */}
@@ -401,6 +386,29 @@ export const SettingsPanel = () => {
         </Link>
       </div>
     </div>
+  );
+};
+
+export const SettingsPanel = () => {
+  const { isSettingsPanelOpen, setIsSettingsPanelOpen } = useApp();
+
+  return (
+    <Popover
+      isOpen={isSettingsPanelOpen}
+      onOpenChange={setIsSettingsPanelOpen}
+      position="bottom"
+      showArrow={true}
+      contentClassName="p-0! rounded-[16px] overflow-hidden"
+      content={<SettingsPanelContent />}
+    >
+      <button
+        className="rounded-xl p-2 hover:bg-theme-border/30"
+        aria-label="Open settings"
+        title="Open theme settings"
+      >
+        <FaPaintbrush />
+      </button>
+    </Popover>
   );
 };
 
