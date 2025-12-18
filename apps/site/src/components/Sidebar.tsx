@@ -101,23 +101,66 @@ export function getActiveSectionForPathname(pathname: string): MainNavItem {
   return "components";
 }
 
+const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
+  "agents-mcps": null,
+  "agents-mcps-introduction": ["Getting Started"],
+  "agents-mcps-workflows": ["Building Workflows"],
+  "agents-mcps-references": ["Reference", "Technical Reference"],
+  "cli-getting-started": ["Getting Started"],
+  "cli-advanced": ["Advanced"],
+  "overview": null,
+  "components": null,
+  "design-system": null,
+};
+
+function deduplicateSectionItems(section: SidebarSection): SidebarSection {
+  const seenLabels = new Map<string, string>();
+  const uniqueItems: Array<{ id: string; label: string }> = [];
+
+  for (const item of section.items) {
+    const normalizedLabel = item.label.toLowerCase();
+    if (!seenLabels.has(normalizedLabel)) {
+      seenLabels.set(normalizedLabel, item.id);
+      uniqueItems.push(item);
+    }
+  }
+
+  return {
+    label: section.label,
+    items: uniqueItems,
+  };
+}
+
 export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
+  let sections: SidebarSection[] = [];
+
   switch (nav) {
     case "overview":
-      return getSectionsForDomain("docs");
+      sections = getSectionsForDomain("docs");
+      break;
     case "agents-mcps-introduction":
     case "agents-mcps-workflows":
     case "agents-mcps-references":
-      return getSectionsForDomain("agents-mcps");
+      sections = getSectionsForDomain("agents-mcps");
+      break;
     case "cli-getting-started":
     case "cli-advanced":
-      return getSectionsForDomain("cli");
+      sections = getSectionsForDomain("cli");
+      break;
     case "design-system":
-      return getSectionsForDomain("design-system");
+      sections = getSectionsForDomain("design-system");
+      break;
     case "components":
     default:
       return getComponentSections();
   }
+
+  const allowedLabels = SECTION_LABEL_FILTERS[nav];
+  if (allowedLabels) {
+    sections = sections.filter(s => allowedLabels.includes(s.label));
+  }
+
+  return sections.map(deduplicateSectionItems);
 }
 
 export function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
