@@ -114,14 +114,25 @@ const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
 };
 
 function deduplicateSectionItems(section: SidebarSection): SidebarSection {
-  const seenLabels = new Map<string, string>();
+  const seenLabels = new Map<string, { id: string; index: number }>();
   const uniqueItems: Array<{ id: string; label: string }> = [];
 
   for (const item of section.items) {
     const normalizedLabel = item.label.toLowerCase();
     if (!seenLabels.has(normalizedLabel)) {
-      seenLabels.set(normalizedLabel, item.id);
+      seenLabels.set(normalizedLabel, { id: item.id, index: uniqueItems.length });
       uniqueItems.push(item);
+    } else {
+      const stored = seenLabels.get(normalizedLabel)!;
+      const storedId = uniqueItems[stored.index].id;
+
+      const storedHyphens = storedId.split('-').length;
+      const currentHyphens = item.id.split('-').length;
+
+      if (currentHyphens < storedHyphens || (currentHyphens === storedHyphens && item.id.length < storedId.length)) {
+        uniqueItems[stored.index] = item;
+        seenLabels.set(normalizedLabel, { id: item.id, index: stored.index });
+      }
     }
   }
 
