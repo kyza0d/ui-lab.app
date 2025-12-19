@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "ui-lab-registry": {
-      "signature": "d3db69fcb1e04b732f3a369e358114a2",
-      "file": true
-    }
-  }
-}
