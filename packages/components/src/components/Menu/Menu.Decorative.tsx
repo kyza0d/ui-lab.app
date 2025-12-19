@@ -1,8 +1,8 @@
 import * as React from "react"
-import { useMenuContext, RadioGroupContext } from "./menu"
-import type { MenuGroupProps, MenuRadioGroupProps, MenuLabelProps, MenuSeparatorProps, MenuShortcutProps } from "./menu"
+import { useMenuContext, RadioGroupContext } from "./Menu"
+import type { MenuGroupProps, MenuRadioGroupProps, MenuLabelProps, MenuSeparatorProps, MenuShortcutProps } from "./Menu"
 import type { Key } from "react-aria"
-import styles from "./menu.module.css"
+import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
 
 // ============================================================================

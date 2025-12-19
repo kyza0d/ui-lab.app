@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import styles from "./flex.module.css";
+import styles from "./Flex.module.css";
 
 type FlexDirection = "row" | "column";
 type FlexWrap = "wrap" | "nowrap";

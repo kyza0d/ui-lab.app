@@ -4,8 +4,8 @@ import React, { forwardRef, useImperativeHandle, useRef, useEffect, useCallback 
 import gsap from 'gsap';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { ToastProps as ToastData } from './store';
-import { dispatch } from './store';
+import { ToastProps as ToastData } from "./Toast.Store";
+import { dispatch } from "./Toast.Store";
 import { FaCircleExclamation, FaCircleCheck, FaCircleInfo, FaTriangleExclamation } from 'react-icons/fa6';
 import { HiX } from 'react-icons/hi';
 

@@ -5,7 +5,7 @@ import { useSwitch, useFocusRing, useHover, mergeProps } from "react-aria";
 import { useToggleState } from "react-stately";
 import { cn } from "@/lib/utils";
 
-import styles from "./switch.module.css";
+import styles from "./Switch.module.css";
 
 const sizeMap = {
   sm: styles["sm"],

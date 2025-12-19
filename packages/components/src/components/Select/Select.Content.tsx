@@ -2,8 +2,8 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useFloating, flip, shift, offset, size, autoUpdate } from '@floating-ui/react-dom'
 import { cn } from "@/lib/utils"
-import styles from "./select.module.css"
-import { useSelectContext } from "./select"
+import styles from "./Select.module.css"
+import { useSelectContext } from "./Select"
 
 interface SelectContentProps extends React.PropsWithChildren {
   className?: string

@@ -1,56 +1,62 @@
-export { Button } from "./components/button";
-export type { ButtonProps } from "./components/button";
+export { Button } from "./components/Button";
+export type { ButtonProps } from "./components/Button";
 
-export { Group } from "./components/group";
-export type { GroupProps } from "./components/group";
+export { EasingPreview } from "./components/EasingPreview";
+export type { EasingPreviewProps } from "./components/EasingPreview";
 
-export { Flex } from "./components/flex";
-export type { FlexProps } from "./components/flex";
+export { EASING_FUNCTIONS, EASING_KEYS, getEasingByKey, getBezierValue, getCssVar } from "./utils/easing";
+export type { EasingKey } from "./utils/easing";
 
-export { Fold } from "./components/fold";
-export type { FoldProps } from "./components/fold";
+export { Group } from "./components/Group";
+export type { GroupProps } from "./components/Group";
 
-export { Grid } from "./components/grid";
-export type { GridProps } from "./components/grid";
+export { Flex } from "./components/Flex";
+export type { FlexProps } from "./components/Flex";
 
-export { Badge } from "./components/badge";
-export type { BadgeProps } from "./components/badge";
+export { Fold } from "./components/Fold";
+export type { FoldProps } from "./components/Fold";
 
-export { Card, CardHeader, CardBody, CardFooter } from "./components/card";
-export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from "./components/card";
+export { Grid } from "./components/Grid";
+export type { GridProps } from "./components/Grid";
 
-export { Checkbox } from "./components/checkbox";
-export type { CheckboxProps } from "./components/checkbox";
+export { Badge } from "./components/Badge";
+export type { BadgeProps } from "./components/Badge";
+
+export { Card, CardHeader, CardBody, CardFooter } from "./components/Card";
+export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from "./components/Card";
+
+export { Checkbox } from "./components/Checkbox";
+export type { CheckboxProps } from "./components/Checkbox";
 
 export {
   Select,
   Searchable,
   SelectListBox,
-} from "./components/select";
+} from "./components/Select";
 
-export { Input } from "./components/input";
-export type { InputProps } from "./components/input";
+export { Input } from "./components/Input";
+export type { InputProps } from "./components/Input";
 
-export { Label, labelVariants } from "./components/label";
-export type { LabelProps } from "./components/label";
+export { Label, labelVariants } from "./components/Label";
+export type { LabelProps } from "./components/Label";
 
-export { TextArea } from "./components/textarea";
-export type { TextAreaProps } from "./components/textarea";
+export { TextArea } from "./components/Textarea";
+export type { TextAreaProps } from "./components/Textarea";
 
-export { Radio } from "./components/radio";
-export type { RadioProps, RadioGroupProps, RadioItemProps } from "./components/radio";
+export { Radio } from "./components/Radio";
+export type { RadioProps, RadioGroupProps, RadioItemProps } from "./components/Radio";
 
-export { Tooltip } from "./components/tooltip";
-export type { TooltipProps } from "./components/tooltip";
+export { Tooltip } from "./components/Tooltip";
+export type { TooltipProps } from "./components/Tooltip";
 
-export { Popover } from "./components/popover";
-export type { PopoverProps } from "./components/popover";
+export { Popover } from "./components/Popover";
+export type { PopoverProps } from "./components/Popover";
 
 export {
   Form,
   FormField,
   useFormContext,
-} from "./components/form";
+} from "./components/Form";
 export type {
   FormProps,
   FormFieldProps,
@@ -58,19 +64,19 @@ export type {
   FormErrors,
   ValidationRules,
   ValidationRule,
-} from "./components/form";
+} from "./components/Form";
 
-export { Toaster } from "./components/toast/toaster";
-export { toast } from "./components/toast/use-toast";
-export { useToastStore } from "./components/toast/store";
-export type { ToastProps, ToastVariant, ToastPosition } from "./components/toast/store";
+export { Toaster } from "./components/Toast/Toast.Toaster";
+export { toast } from "./components/Toast/Toast.UseToast";
+export { useToastStore } from "./components/Toast/Toast.Store";
+export type { ToastProps, ToastVariant, ToastPosition } from "./components/Toast/Toast.Store";
 
-export { Modal } from "./components/modal";
-export type { ModalProps } from "./components/modal";
+export { Modal } from "./components/Modal";
+export type { ModalProps } from "./components/Modal";
 
-export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tabs";
 
-export { Menu } from "./components/menu";
+export { Menu } from "./components/Menu";
 export type {
   MenuProps,
   MenuTriggerProps,
@@ -87,27 +93,27 @@ export type {
   MenuSubProps,
   MenuSubTriggerProps,
   MenuSubContentProps,
-} from "./components/menu";
+} from "./components/Menu";
 
-export { Switch } from "./components/switch";
-export type { SwitchProps } from "./components/switch";
+export { Switch } from "./components/Switch";
+export type { SwitchProps } from "./components/Switch";
 
-export { Progress } from "./components/progress";
-export type { ProgressProps } from "./components/progress";
+export { Progress } from "./components/Progress";
+export type { ProgressProps } from "./components/Progress";
 
-export * as Slider from "./components/slider";
+export * as Slider from "./components/Slider";
 
-export { Divider, dividerVariants } from "./components/divider";
-export type { DividerProps } from "./components/divider";
+export { Divider, dividerVariants } from "./components/Divider";
+export type { DividerProps } from "./components/Divider";
 
-export { CommandPalette } from "./components/command-palette";
-export type { CommandPaletteProps, Command } from "./components/command-palette";
+export { CommandPalette } from "./components/CommandPalette";
+export type { CommandPaletteProps, Command } from "./components/CommandPalette";
 
-export { Confirmation } from "./components/confirmation";
-export type { ConfirmationProps } from "./components/confirmation";
+export { Confirmation } from "./components/Confirmation";
+export type { ConfirmationProps } from "./components/Confirmation";
 
-export { Breadcrumbs, Breadcrumb } from "./components/breadcrumbs";
-export type { BreadcrumbsProps, BreadcrumbItemProps } from "./components/breadcrumbs";
+export { Breadcrumbs, Breadcrumb } from "./components/Breadcrumbs";
+export type { BreadcrumbsProps, BreadcrumbItemProps } from "./components/Breadcrumbs";
 
-export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/gallery";
-export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/gallery";
+export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gallery";
+export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";

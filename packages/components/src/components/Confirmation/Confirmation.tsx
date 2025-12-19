@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import { Button } from "../button"
-import { Card } from "../card"
+import { Button } from "../Button"
+import { Card } from "../Card"
 import { HiExclamationCircle, HiExclamation, HiInformationCircle, HiCheckCircle } from "react-icons/hi"
 
 export interface ConfirmationProps {

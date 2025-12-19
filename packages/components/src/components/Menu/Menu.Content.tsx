@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useInteractOutside } from "react-aria"
-import { useMenuContext } from "./menu"
-import type { MenuTriggerProps, MenuContentProps } from "./menu"
-import styles from "./menu.module.css"
+import { useMenuContext } from "./Menu"
+import type { MenuTriggerProps, MenuContentProps } from "./Menu"
+import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
 
 // ============================================================================

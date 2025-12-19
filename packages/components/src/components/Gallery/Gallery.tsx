@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useFocusRing, useHover, usePress, mergeProps } from "react-aria"
 import { cn } from "@/lib/utils"
-import styles from "./gallery.module.css"
+import styles from "./Gallery.module.css"
 
 // Types
 type ResponsiveColumns = {

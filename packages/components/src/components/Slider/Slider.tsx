@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useFocusRing } from 'react-aria';
 import { cn } from '@/lib/utils';
-import styles from './slider.module.css';
+import styles from "./Slider.module.css";
 
 type SliderSize = 'sm' | 'md' | 'lg';
 

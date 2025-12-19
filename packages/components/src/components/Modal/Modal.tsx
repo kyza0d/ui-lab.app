@@ -6,7 +6,7 @@ import { useDialog, useModalOverlay, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { cn } from "@/lib/utils";
 import { HiX } from "react-icons/hi";
-import styles from "./modal.module.css";
+import styles from "./Modal.module.css";
 
 const useModalKeyboard = (
   ref: React.RefObject<HTMLDivElement | null>,

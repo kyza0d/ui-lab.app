@@ -35,7 +35,7 @@
   .indicator {
     position: absolute;
     pointer-events: none;
-    transition: all 300ms ease-out;
+    transition: all 300ms var(--ease-snappy-pop);
     background-color: var(--indicator-background);
   }
 
@@ -72,6 +72,7 @@
     background: transparent;
     border: 1px solid transparent;
     border-radius: var(--radius-md);
+    transition: transform 150ms var(--ease-snappy-pop);
 
     &[data-focus-visible] {
       border-radius: 0px;
@@ -91,7 +92,7 @@
     }
 
     &:active:not([data-disabled]) {
-      color: var(--foreground-active);
+      color: var(--foreground-active)
     }
 
     &[data-selected] {

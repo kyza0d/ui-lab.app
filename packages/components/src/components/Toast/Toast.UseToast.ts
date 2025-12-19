@@ -1,4 +1,4 @@
-import { dispatch, ToastProps } from './store';
+import { dispatch, ToastProps } from "./Toast.Store";
 
 type ToastOptions = Omit<ToastProps, 'id' | 'open'>;
 

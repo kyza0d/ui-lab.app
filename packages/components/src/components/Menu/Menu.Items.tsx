@@ -1,14 +1,10 @@
 import * as React from "react"
 import { useFocusRing } from "react-aria"
 import { Check, Circle } from "lucide-react"
-import { useMenuContext, useMenuSubmenuContext, useRadioGroupContext } from "./menu"
-import type { MenuItemProps, MenuCheckboxItemProps, MenuRadioItemProps } from "./menu"
-import styles from "./menu.module.css"
+import { useMenuContext, useMenuSubmenuContext, useRadioGroupContext } from "./Menu"
+import type { MenuItemProps, MenuCheckboxItemProps, MenuRadioItemProps } from "./Menu"
+import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
-
-// ============================================================================
-// Basic Menu Item
-// ============================================================================
 
 const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
   ({ children, disabled = false, onSelect, textValue, inset, className, _index = 0, _isHighlighted, _isInSubmenu }, ref) => {
@@ -71,10 +67,6 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
   }
 )
 MenuItem.displayName = "MenuItem"
-
-// ============================================================================
-// Checkbox Menu Item
-// ============================================================================
 
 const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
   ({ children, checked = false, onCheckedChange, disabled = false, onSelect, textValue, className, _index = 0, _isHighlighted, _isInSubmenu }, ref) => {

@@ -3,7 +3,7 @@
 import React, { forwardRef, useState, type ComponentPropsWithoutRef } from "react";
 import { useFocusRing, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
-import styles from "./textarea.module.css";
+import styles from "./Textarea.module.css";
 
 type Size = "sm" | "md" | "lg";
 

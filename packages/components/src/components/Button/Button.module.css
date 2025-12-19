@@ -5,10 +5,11 @@
     --background: var(--accent-500);
     --foreground: var(--accent-50);
     --border: var(--accent-500);
-    --background-hover: var(--accent-600);
-    --border-hover: var(--accent-600);
-    --background-active: var(--accent-700);
+    --background-hover: var(--accent-400);
+    --border-hover: var(--accent-300);
+    --background-active: var(--accent-300);
     --border-active: var(--accent-700);
+    --button-easing: var(--ease-snappy-pop);
 
     @apply px-3 py-1.5;
     display: inline-flex;
@@ -24,6 +25,7 @@
     color: var(--foreground);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-md);
+    transition: background-color 0.15s var(--button-easing), border-color 0.15s var(--button-easing), transform 0.15s var(--button-easing), box-shadow 0.15s var(--button-easing);
 
     &:focus-visible {
       outline: 2px solid var(--blue);
@@ -39,12 +41,15 @@
       &:hover:not(:disabled) {
         background-color: var(--background-hover);
         border-color: var(--border-hover);
+        box-shadow: 0 2px 6px rgb(0 0 0 / 0.10);
       }
     }
 
     &:active:not(:disabled) {
       background-color: var(--background-active);
       border-color: var(--border-active);
+      transform: scale(0.97);
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
     }
   }
 }
@@ -53,10 +58,10 @@
   --background: var(--accent-500);
   --foreground: var(--accent-50);
   --border: var(--accent-500);
-  --background-hover: var(--accent-600);
-  --border-hover: var(--accent-600);
-  --background-active: var(--accent-700);
-  --border-active: var(--accent-700);
+  --background-hover: var(--accent-400);
+  --border-hover: var(--accent-400);
+  --background-active: var(--accent-400);
+  --border-active: var(--accent-400);
 }
 
 .button.secondary {

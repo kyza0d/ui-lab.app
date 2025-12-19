@@ -1,2 +1,2 @@
-export { Fold } from "./fold";
-export type { FoldProps } from "./fold";
+export { Fold } from "./Fold";
+export type { FoldProps } from "./Fold";

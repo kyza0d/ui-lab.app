@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import styles from "./progress.module.css";
+import styles from "./Progress.module.css";
 
 type ProgressVariant = "default" | "success" | "warning" | "error";
 type ProgressSize = "sm" | "md" | "lg";

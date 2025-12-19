@@ -32,7 +32,7 @@
     --radio-dot-unchecked: transparent;
     --radio-dot-checked: var(--accent-50);
     --radio-hover-background: var(--accent-500);
-    --radio-hover-border: var(--accent-500);
+    --radio-hover-border: var(--background-500);
     --radio-error-border: var(--danger-500);
 
     position: relative;
@@ -45,9 +45,13 @@
     cursor: pointer;
     border: var(--border-width-base) solid;
     border-radius: 9999px;
-    transition: all 200ms;
+    transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);
     background-color: var(--radio-background-unchecked);
     border-color: var(--radio-border-unchecked);
+  }
+
+  .radio-item:active .radio {
+    transform: scale(0.92);
   }
 
   .radio-dot {
@@ -55,7 +59,7 @@
     background-color: var(--radio-dot-unchecked);
     transform: scale(0);
     transform-origin: center;
-    transition: transform 200ms;
+    transition: transform 200ms var(--ease-snappy-pop);
   }
 
   .radio[data-checked="true"] {
@@ -98,7 +102,7 @@
 
   .radio-label {
     font-weight: 500;
-    transition: color 200ms;
+    transition: color 200ms var(--ease-snappy-pop);
     color: var(--radio-foreground, var(--foreground-300));
     font-size: inherit;
     line-height: inherit;
@@ -115,7 +119,7 @@
   .radio-description {
     font-size: 0.875rem;
     margin-top: 0.125rem;
-    transition: color 200ms;
+    transition: color 200ms var(--ease-snappy-pop);
     color: var(--radio-helper, var(--foreground-500));
   }
 

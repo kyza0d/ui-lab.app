@@ -2,11 +2,11 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Button, type ButtonProps } from "../button"
-import { Input, type InputProps } from "../input"
-import { Select, type SelectProps } from "../select"
-import { Divider } from "../divider"
-import styles from "./group.module.css"
+import { Button, type ButtonProps } from "../Button"
+import { Input, type InputProps } from "../Input"
+import { Select, type SelectProps } from "../Select"
+import { Divider } from "../Divider"
+import styles from "./Group.module.css"
 
 type Orientation = "horizontal" | "vertical"
 type Spacing = "tight" | "normal" | "relaxed"

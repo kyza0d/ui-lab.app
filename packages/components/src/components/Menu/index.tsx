@@ -1,9 +1,9 @@
 import React from "react"
-import { Menu as MenuRoot, MenuPortal } from "./menu"
-import { MenuTrigger, MenuContent } from "./content"
-import { MenuItem, MenuCheckboxItem, MenuRadioItem } from "./items"
-import { MenuLabel, MenuSeparator, MenuShortcut, MenuGroup, MenuRadioGroup } from "./decorative"
-import { MenuSub, MenuSubContent, MenuSubTrigger } from "./submenu"
+import { Menu as MenuRoot, MenuPortal } from "./Menu"
+import { MenuTrigger, MenuContent } from "./Menu.Content"
+import { MenuItem, MenuCheckboxItem, MenuRadioItem } from "./Menu.Items"
+import { MenuLabel, MenuSeparator, MenuShortcut, MenuGroup, MenuRadioGroup } from "./Menu.Decorative"
+import { MenuSub, MenuSubContent, MenuSubTrigger } from "./Menu.Submenu"
 
 import type {
   MenuProps,
@@ -21,7 +21,7 @@ import type {
   MenuSubProps,
   MenuSubTriggerProps,
   MenuSubContentProps,
-} from "./menu"
+} from "./Menu"
 
 interface MenuComponent extends React.FC<React.PropsWithChildren<MenuProps>> {
   Trigger: typeof MenuTrigger
@@ -76,4 +76,4 @@ export type {
   MenuSubContentProps,
 }
 
-export type { SelectionMode, Position, ItemData, MenuContextValue, MenuSubmenuContextValue, RadioGroupContextValue } from "./menu"
+export type { SelectionMode, Position, ItemData, MenuContextValue, MenuSubmenuContextValue, RadioGroupContextValue } from "./Menu"

@@ -9,7 +9,7 @@ import {
   mergeProps,
 } from "react-aria";
 import { cn } from "@/lib/utils";
-import styles from "./radio.module.css";
+import styles from "./Radio.module.css";
 
 type Size = "sm" | "md" | "lg";
 

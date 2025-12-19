@@ -3,7 +3,7 @@
 import React, { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { useFocusRing, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
-import styles from "./input.module.css";
+import styles from "./Input.module.css";
 
 type Variant = "default" | "ghost";
 type Size = "sm" | "md" | "lg";
@@ -59,7 +59,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={mergedRef}
           type={type}
           disabled={disabled}
-          data-focus-visible={isFocusVisible || undefined}
+          // Apply data-focus-visible only when keyboard-focused
+          data-focus-visible={isFocusVisible ? "true" : undefined}
           data-disabled={disabled || undefined}
           data-error={error ? "true" : undefined}
           data-variant={variant}
@@ -70,6 +71,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             hasSuffix && "pr-10",
             className
           )}
+          // Merge React Aria focus props + user props
           {...mergeProps(focusProps, props)}
         />
         {hasSuffix && (

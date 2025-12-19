@@ -50,10 +50,14 @@
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
+    transition: border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
 
     &:focus {
       outline: none;
+    }
+
+    &[data-pressed] {
+      transform: scale(0.97);
     }
   }
 

@@ -60,7 +60,7 @@
     cursor: pointer;
     font-size: var(--font-size);
     line-height: 1.5;
-    transition: all 150ms ease-in-out;
+    transition: all 150ms var(--ease-gentle-ease), transform 150ms var(--ease-snappy-pop);
     position: relative;
 
     &:hover:not([data-disabled='true']) {
@@ -70,6 +70,7 @@
 
     &:active:not([data-disabled='true']) {
       background-color: var(--background-active, rgba(0, 0, 0, 0.08));
+      transform: scale(0.96);
     }
 
     &:focus-visible {

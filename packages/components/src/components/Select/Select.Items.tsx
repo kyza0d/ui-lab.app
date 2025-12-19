@@ -2,8 +2,8 @@ import * as React from "react"
 import { type Key } from "react-aria"
 import { cn } from "@/lib/utils"
 import { FaCheck } from "react-icons/fa6"
-import styles from "./select.module.css"
-import { useSelectContext } from "./select"
+import styles from "./Select.module.css"
+import { useSelectContext } from "./Select"
 
 interface SelectGroupProps extends React.PropsWithChildren {
   key?: string

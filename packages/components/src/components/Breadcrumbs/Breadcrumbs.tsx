@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactNode, forwardRef } from 'react';
-import styles from './breadcrumbs.module.css';
+import styles from "./Breadcrumbs.module.css";
 
 export interface BreadcrumbItemProps {
   href?: string;

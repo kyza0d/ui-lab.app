@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useButton, useFocusRing, useHover, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
-import styles from "./badge.module.css";
+import styles from "./Badge.module.css";
 
 type BadgeVariant = "default" | "success" | "warning" | "danger" | "info";
 type BadgeSize = "sm" | "md" | "lg";

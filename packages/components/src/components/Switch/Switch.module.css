@@ -26,10 +26,14 @@
     right: 0;
     bottom: 0;
     left: 0;
-    transition: background-color var(--transition-interactions), border-color var(--transition-interactions);
+    transition: background-color 180ms var(--ease-snappy-pop), border-color 180ms var(--ease-snappy-pop);
     background-color: var(--track-background-unchecked);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-md);
+  }
+
+  .switch:active:not([data-disabled]) .switch-track {
+    transform: scale(0.98);
   }
 
   .switch-thumb {
@@ -37,7 +41,7 @@
     top: 0;
     bottom: 0;
     margin: auto 0;
-    transition: left var(--transition-interactions), background-color var(--transition-interactions);
+    transition: left 180ms var(--ease-snappy-pop), background-color 180ms var(--ease-snappy-pop);
     background-color: var(--thumb-background-unchecked);
     border-radius: var(--radius-md);
     z-index: 1;

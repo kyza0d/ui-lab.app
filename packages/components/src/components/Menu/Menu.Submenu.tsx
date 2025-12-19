@@ -2,10 +2,10 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useFocusRing, useHover } from "react-aria"
 import { ChevronRight } from "lucide-react"
-import { useMenuContext, useMenuSubmenuContext, MenuSubmenuContext } from "./menu"
-import type { MenuSubProps, MenuSubTriggerProps, MenuSubContentProps, ItemData } from "./menu"
+import { useMenuContext, useMenuSubmenuContext, MenuSubmenuContext } from "./Menu"
+import type { MenuSubProps, MenuSubTriggerProps, MenuSubContentProps, ItemData } from "./Menu"
 import type { Key } from "react-aria"
-import styles from "./menu.module.css"
+import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
 
 // ============================================================================

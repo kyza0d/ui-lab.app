@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { FaChevronDown } from "react-icons/fa6"
-import styles from "./select.module.css"
+import styles from "./Select.module.css"
 
 interface SelectSeparatorProps extends React.PropsWithChildren {
   className?: string

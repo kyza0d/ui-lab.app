@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useFocusRing } from "react-aria"
 import { cn } from "@/lib/utils"
-import styles from "./tabs.module.css"
+import styles from "./Tabs.module.css"
 
 type TabsVariant = "default" | "underline"
 

@@ -10,10 +10,10 @@
     border: var(--border-width-base) solid var(--background-700);
     border-radius: var(--radius-lg);
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-    animation: contextMenuFadeIn 0.15s ease-out;
+    animation: contextMenuFadeIn 0.15s var(--ease-snappy-pop);
 
     &[data-state="closed"] {
-      animation: contextMenuFadeOut 0.1s ease-out;
+      animation: contextMenuFadeOut 0.1s var(--ease-snappy-pop);
     }
   }
 
@@ -32,9 +32,14 @@
     user-select: none;
     outline: none;
     border-radius: var(--radius-md);
+    transition: transform 150ms var(--ease-snappy-pop);
 
     &[data-highlighted] {
       background-color: var(--background-800);
+    }
+
+    &[data-highlighted]:active {
+      transform: scale(0.96);
     }
 
     &[data-disabled] {
@@ -140,10 +145,10 @@
     border: var(--border-width-base) solid var(--background-700);
     border-radius: var(--radius-lg);
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-    animation: contextMenuFadeIn 0.15s ease-out;
+    animation: contextMenuFadeIn 0.15s var(--ease-snappy-pop);
 
     &[data-state="closed"] {
-      animation: contextMenuFadeOut 0.1s ease-out;
+      animation: contextMenuFadeOut 0.1s var(--ease-snappy-pop);
     }
   }
 

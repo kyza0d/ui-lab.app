@@ -4,8 +4,8 @@ import * as React from "react";
 import { useToggleState } from "react-stately";
 import { useButton, useFocusRing, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
-import { Divider } from "@/components/divider";
-import styles from "./fold.module.css";
+import { Divider } from "@/components/Divider";
+import styles from "./Fold.module.css";
 
 export interface FoldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   title: React.ReactNode;

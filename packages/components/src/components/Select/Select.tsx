@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useButton, useFocusRing, useHover, mergeProps, useFilter, type Key } from "react-aria"
 import { cn } from "@/lib/utils"
-import styles from "./select.module.css"
+import styles from "./Select.module.css"
 
 export interface SelectItemData {
   key: Key

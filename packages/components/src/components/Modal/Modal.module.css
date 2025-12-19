@@ -11,7 +11,7 @@
   inset: 0;
   background-color: rgb(0 0 0 / 0.5);
   backdrop-filter: blur(4px);
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 200ms var(--ease-gentle-ease);
   cursor: pointer;
 }
 
@@ -26,7 +26,7 @@
   border: 1px solid var(--modal-border);
   border-radius: 0.5rem;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
-  animation: modalIn 200ms ease-out;
+  animation: modalIn 200ms var(--ease-snappy-pop);
   pointer-events: auto;
 }
 
@@ -72,11 +72,15 @@
   border: none;
   cursor: pointer;
   color: var(--modal-close-color);
-  transition: color 150ms ease-in-out;
+  transition: color 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
 }
 
 .closeButton:hover {
   color: var(--modal-close-hover);
+}
+
+.closeButton:active {
+  transform: scale(0.92);
 }
 
 .closeButton:focus {

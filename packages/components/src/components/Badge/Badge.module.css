@@ -86,7 +86,7 @@
   border: none;
   color: currentColor;
   cursor: pointer;
-  transition: opacity 150ms ease;
+  transition: opacity 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
   outline: none;
 }
 
@@ -96,6 +96,7 @@
 
 .dismissButton[data-pressed="true"] {
   opacity: 0.5;
+  transform: scale(0.95);
 }
 
 .dismissButton[data-focus-visible="true"] {

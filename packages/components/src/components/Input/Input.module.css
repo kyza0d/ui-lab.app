@@ -20,15 +20,17 @@
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-md);
     @apply px-3 py-2;
+    transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop);
 
     &::placeholder {
       color: var(--placeholder);
     }
 
     &[data-focus-visible] {
+      @apply ring-0;
       outline: none;
       border-color: var(--ring-color);
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring-color) 15%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent)
     }
 
     &[data-disabled] {

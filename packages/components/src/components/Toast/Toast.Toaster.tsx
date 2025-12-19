@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import { useToastStore, ToastPosition, ToastProps, dispatch } from "./store";
-import { Toast } from "./toast";
+import { useToastStore, ToastPosition, ToastProps, dispatch } from "./Toast.Store";
+import { Toast } from "./Toast";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
