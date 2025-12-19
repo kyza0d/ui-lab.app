@@ -34,6 +34,13 @@ const radioControls: ControlDef[] = [
     type: "text",
     defaultValue: "Option 1",
   },
+  {
+    name: "easing",
+    label: "Interaction Ease",
+    type: "select",
+    options: [], // This acts as a flag to show the easing selector
+    defaultValue: "snappyPop",
+  },
 ];
 
 const radioBasicCode = `import { Radio } from "ui-lab-components";
@@ -145,21 +152,12 @@ export const radioDetail: ComponentDetail = {
       preview: <Radio label="Option 1" />,
       controls: radioControls,
       renderPreview: (props: any) => (
-        <Radio.Group defaultValue="option1" className="space-y-3">
-          <Radio.Item
-            value="option1"
-            size={props.size as any}
-            disabled={props.disabled}
-            error={props.error}
-            label={props.label}
-          />
-          <Radio.Item
-            value="option2"
-            size={props.size as any}
-            disabled={props.disabled}
-            label="Option 2"
-          />
-        </Radio.Group>
+        <Radio
+          size={props.size as any}
+          disabled={props.disabled}
+          error={props.error}
+          label={props.label}
+        />
       ),
     },
     {

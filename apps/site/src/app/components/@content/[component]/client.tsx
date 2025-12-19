@@ -37,10 +37,12 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
   }
 
   const [activeTab, setActiveTab] = useState("examples");
+  const firstExample = component.examples[0];
+  const remainingExamples = component.examples.slice(1);
 
   const getTocItems = () => {
     if (activeTab === "examples") {
-      return component.examples.map((example) => ({
+      return remainingExamples.map((example) => ({
         id: example.id,
         title: example.title,
         level: 3,
@@ -92,7 +94,7 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
         <Toaster />
         <div className="flex flex-col lg:flex-row justify-between gap-0">
           <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-            <div className="space-y-2 min-h-48 mt-28">
+            <div className="space-y-2 min-h-32 mt-28">
               <div className="flex items-center gap-3">
                 <h2 className="font-bold text-foreground-50">{component.name}</h2>
                 {metadata?.experimental && (
@@ -103,6 +105,22 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
               </div>
               <p className="text-md text-foreground-400">{component.description}</p>
             </div>
+            {firstExample && (
+              <div className="space-y-4 mb-12">
+                <ComponentConfigurator
+                  title=""
+                  description=""
+                  code={firstExample.code}
+                  language="typescript"
+                  controls={firstExample.controls}
+                  renderPreview={firstExample.renderPreview}
+                  previewHeight={firstExample.previewHeight}
+                  previewLayout={firstExample.previewLayout}
+                >
+                  {firstExample.preview}
+                </ComponentConfigurator>
+              </div>
+            )}
             <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="w-full min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
                 <TabsList className="grid w-fit grid-cols-3 h-10">
@@ -134,7 +152,7 @@ export function ComponentDetailClient({ componentId }: { componentId: string }) 
               <TabsContent value="examples" className="mt-6">
                 <section className="scroll-mt-20">
                   <div className="space-y-4">
-                    {component.examples.map((example) => (
+                    {remainingExamples.map((example) => (
                       <div key={example.id} id={example.id}>
                         <ComponentConfigurator
                           title={example.title}
