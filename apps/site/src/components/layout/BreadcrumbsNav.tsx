@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Breadcrumbs, Breadcrumb } from "ui-lab-components";
 import { useBreadcrumbs } from "@/hooks/use-breadcrumbs";
 import { cn } from "@/lib/utils";
+import { FaChevronRight } from "react-icons/fa6";
 
 interface BreadcrumbsNavProps {
   className?: string;
@@ -24,7 +25,7 @@ export function BreadcrumbsNav({ className }: BreadcrumbsNavProps) {
         className
       )}
     >
-      <Breadcrumbs>
+      <Breadcrumbs separator={<FaChevronRight className="text-foreground-500 mt-0.5" size={10} />}>
         {items.map((item, index) => (
           <Breadcrumb
             key={index}
