@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { codeToHtml } from "shiki";
 import { cn } from "@/lib/utils";
 import { FaCheck, FaCopy } from "react-icons/fa6";
-import { Button } from "ui-lab-components";
+import { Button, EasingPreview, EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "ui-lab-components";
 import {
   Select,
   SelectListBox,
@@ -41,6 +41,8 @@ export interface RenderContext {
   activeTab: number;
   controlValues: Record<string, any>;
   handleControlChange: (name: string, value: any) => void;
+  selectedEasing: EasingKey;
+  setSelectedEasing: (easing: EasingKey) => void;
 }
 
 export interface ComponentConfiguratorProps {
@@ -84,6 +86,7 @@ export function ComponentConfigurator({
   const [controlValues, setControlValues] = useState<Record<string, any>>({});
   const [showCode, setShowCode] = useState<boolean>(false);
   const [shikiTheme, setShikiTheme] = useState<ShikiTheme | null>(null);
+  const [selectedEasing, setSelectedEasing] = useState<EasingKey>("snappyPop");
 
   // Memoize initial control values to prevent infinite re-renders
   const initialControlValues = useMemo(() => {
@@ -177,6 +180,8 @@ export function ComponentConfigurator({
       activeTab,
       controlValues,
       handleControlChange,
+      selectedEasing,
+      setSelectedEasing,
     };
     return customRenderer(renderContext);
   }
@@ -185,12 +190,15 @@ export function ComponentConfigurator({
     <div className="space-y-4">
       <div className="space-y-4">
         {/* Header */}
-        <div className="border-b border-background-700 pt-4 pb-8">
-          <h2 className="text-foreground-50">{title}</h2>
-          {description && (
-            <p className="text-sm leading-relaxed text-foreground-400">{description}</p>
-          )}
-        </div>
+        {title && (
+          <div className="border-b border-background-700 pt-4 pb-8">
+            <h2 className="text-foreground-50">{title}</h2>
+            {description && (
+              <p className="text-sm leading-relaxed text-foreground-400">{description}</p>
+            )}
+          </div>
+        )
+        }
 
         <div className={cn("border border-background-700 rounded-md overflow-hidden", fullWidth && "w-full")}>
           {!hidePreviewToggle && (
@@ -201,7 +209,10 @@ export function ComponentConfigurator({
               </TabsList>
 
               <TabsContent value="preview" className="overflow-hidden mt-0">
-                <div className={cn("px-10 py-16", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
+                <div
+                  className={cn("px-10 py-16", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                  style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
+                >
                   {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
                 </div>
               </TabsContent>
@@ -252,7 +263,10 @@ export function ComponentConfigurator({
 
           {hidePreviewToggle && (
             <div className="overflow-hidden">
-              <div className={cn("p-8", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}>
+              <div
+                className={cn("p-8", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
+              >
                 {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
               </div>
             </div>
@@ -263,65 +277,104 @@ export function ComponentConfigurator({
         {controls.length > 0 && (
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {controls.map((control) => (
-                <div key={control.name} className="space-y-2">
+              {controls.map((control) => {
+                // Skip rendering easing control here - it will be handled separately
+                if (control.name === "easing") return null;
+
+                return (
+                  <div key={control.name} className="space-y-2">
+                    <label className="text-sm text-foreground-400">
+                      {control.label}
+                    </label>
+                    {control.type === "select" && (
+                      <Select
+                        selectedKey={String(controlValues[control.name] ?? "")}
+                        defaultValue={control.options?.find(opt => opt.value === controlValues[control.name])?.label ?? control.options?.[0]?.label ?? ""}
+                        onSelectionChange={(key) =>
+                          handleControlChange(control.name, key)
+                        }
+                      >
+                        <Select.Trigger>
+                          <Select.Value />
+                        </Select.Trigger>
+                        <Select.Content>
+                          <SelectListBox>
+                            {control.options?.map((option) => (
+                              <Select.Item key={String(option.value)} value={String(option.value)}>
+                                {option.label}
+                              </Select.Item>
+                            ))}
+                          </SelectListBox>
+                        </Select.Content>
+                      </Select>
+                    )}
+                    {control.type === "toggle" && (
+                      <button
+                        onClick={() =>
+                          handleControlChange(
+                            control.name,
+                            !controlValues[control.name]
+                          )
+                        }
+                        className={cn(
+                          "w-full px-3 py-1.5 text-sm font-medium rounded-md",
+                          controlValues[control.name]
+                            ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
+                            : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
+                        )}
+                      >
+                        {controlValues[control.name]
+                          ? control.label
+                          : `${control.label} (Off)`}
+                      </button>
+                    )}
+                    {control.type === "text" && (
+                      <input
+                        type="text"
+                        value={controlValues[control.name] ?? ""}
+                        onChange={(e) =>
+                          handleControlChange(control.name, e.target.value)
+                        }
+                        className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-md text-foreground-50 placeholder-foreground-600 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                      />
+                    )}
+                  </div>
+                );
+              })}
+              {/* Easing Selector - only show if easing control is defined */}
+              {controls.some((c) => c.name === "easing") && (
+                <div className="space-y-2">
                   <label className="text-sm text-foreground-400">
-                    {control.label}
+                    Interaction Ease
                   </label>
-                  {control.type === "select" && (
-                    <Select
-                      selectedKey={String(controlValues[control.name] ?? "")}
-                      defaultValue={control.options?.find(opt => opt.value === controlValues[control.name])?.label ?? control.options?.[0]?.label ?? ""}
-                      onSelectionChange={(key) =>
-                        handleControlChange(control.name, key)
-                      }
-                    >
-                      <Select.Trigger>
-                        <Select.Value />
-                      </Select.Trigger>
-                      <Select.Content>
-                        <SelectListBox>
-                          {control.options?.map((option) => (
-                            <Select.Item key={String(option.value)} value={String(option.value)}>
-                              {option.label}
-                            </Select.Item>
-                          ))}
-                        </SelectListBox>
-                      </Select.Content>
-                    </Select>
-                  )}
-                  {control.type === "toggle" && (
-                    <button
-                      onClick={() =>
-                        handleControlChange(
-                          control.name,
-                          !controlValues[control.name]
-                        )
-                      }
-                      className={cn(
-                        "w-full px-3 py-1.5 text-sm font-medium rounded-md",
-                        controlValues[control.name]
-                          ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
-                          : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
-                      )}
-                    >
-                      {controlValues[control.name]
-                        ? control.label
-                        : `${control.label} (Off)`}
-                    </button>
-                  )}
-                  {control.type === "text" && (
-                    <input
-                      type="text"
-                      value={controlValues[control.name] ?? ""}
-                      onChange={(e) =>
-                        handleControlChange(control.name, e.target.value)
-                      }
-                      className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-md text-foreground-50 placeholder-foreground-600 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
-                    />
-                  )}
+                  <Select
+                    selectedKey={selectedEasing}
+                    defaultValue={EASING_FUNCTIONS[selectedEasing]?.name || ""}
+                    onSelectionChange={(key) =>
+                      setSelectedEasing(key as EasingKey)
+                    }
+                  >
+                    <Select.Trigger>
+                      <div className="flex items-center gap-2">
+                        <EasingPreview easing={selectedEasing} size="sm" className="text-accent-500" />
+                        <span>{EASING_FUNCTIONS[selectedEasing].name}</span>
+                      </div>
+                    </Select.Trigger>
+                    <Select.Content>
+                      <SelectListBox>
+                        {EASING_KEYS.map((easing: EasingKey) => (
+                          <Select.Item key={easing} value={easing}>
+                            <div className="flex items-center gap-2">
+                              <EasingPreview easing={easing} size="sm" className="text-accent-500" />
+                              <span>{EASING_FUNCTIONS[easing].name}</span>
+                            </div>
+                          </Select.Item>
+                        ))}
+                      </SelectListBox>
+                    </Select.Content>
+                  </Select>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}

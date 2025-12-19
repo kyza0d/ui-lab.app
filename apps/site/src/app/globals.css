@@ -598,6 +598,8 @@ h6 {
 h1 {
   margin: 0rem 0 0.6rem 0 ;
   font-size: var(--text-xl) !important;
+  line-height: 1.4;
+  font-weight: 700
 }
 
 h2 {

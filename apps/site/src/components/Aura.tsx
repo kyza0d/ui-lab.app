@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useMemo, useState } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -34,24 +34,25 @@ interface StarryAuraProps {
   twinkleSpeed?: number;
   twinkleSharpness?: number;
   sparsity?: number;
-  baseOpacity?: number;    // Subtlety of "off" dots
-  accentOpacity?: number;  // Brightness of "twinkling" dots
+  baseOpacity?: number;
+  accentOpacity?: number;
   bgVariable?: string;
   accentVariable?: string;
 }
 
 const StarryGridShader = ({
-  gridDensity = 220,
-  dotSize = 0.40,
+  gridDensity = 170,
+  dotSize = 0.300,
   twinkleSpeed = 1.50,
   twinkleSharpness = 0.50,
-  sparsity = 0.50,
+  sparsity = 0.10,
   baseOpacity = 0.010,
-  accentOpacity = 0.100,
+  accentOpacity = 0.400,
   bgVariable = '--background-900',
   accentVariable = '--accent-500'
 }: StarryAuraProps) => {
   const meshRef = useRef<THREE.Mesh>(null!);
+
   const uniforms = useMemo(() => ({
     u_time: { value: 0 },
     u_resolution: { value: new THREE.Vector2(1, 1) },
@@ -62,30 +63,24 @@ const StarryGridShader = ({
     u_sparsity: { value: sparsity },
     u_base_opacity: { value: baseOpacity },
     u_accent_opacity: { value: accentOpacity },
-    u_is_dark: { value: 1.0 }, // 1.0 for dark mode, 0.0 for light
+    u_is_dark: { value: 1.0 },
     u_background: { value: new THREE.Color(0, 0, 0) },
     u_accent: { value: new THREE.Color(1, 1, 1) },
   }), [gridDensity, dotSize, twinkleSpeed, twinkleSharpness, sparsity, baseOpacity, accentOpacity]);
 
   useEffect(() => {
     let throttleTimeout: NodeJS.Timeout | null = null;
-
     const updateColors = () => {
       if (meshRef.current) {
         const mat = meshRef.current.material as THREE.ShaderMaterial;
         const bgColor = getThemeColor(bgVariable, '#000000');
         const accentColor = getThemeColor(accentVariable, '#ffffff');
-
-        // Determine if background is dark or light based on luminance
         const luminance = (0.299 * bgColor.r + 0.587 * bgColor.g + 0.114 * bgColor.b);
-        const darkState = luminance < 0.5;
-
-        mat.uniforms.u_is_dark.value = darkState ? 1.0 : 0.0;
+        mat.uniforms.u_is_dark.value = luminance < 0.5 ? 1.0 : 0.0;
         mat.uniforms.u_background.value.copy(bgColor);
         mat.uniforms.u_accent.value.copy(accentColor);
       }
     };
-
     const throttledUpdate = () => {
       if (throttleTimeout) return;
       throttleTimeout = setTimeout(() => {
@@ -93,13 +88,9 @@ const StarryGridShader = ({
         throttleTimeout = null;
       }, 100);
     };
-
     updateColors();
     const observer = new MutationObserver(throttledUpdate);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class', 'style']
-    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
     return () => {
       observer.disconnect();
       if (throttleTimeout) clearTimeout(throttleTimeout);
@@ -118,7 +109,7 @@ const StarryGridShader = ({
       <shaderMaterial
         transparent
         depthWrite={false}
-        blending={THREE.NormalBlending} // Changed from Additive to Normal for Light Mode compatibility
+        blending={THREE.NormalBlending}
         uniforms={uniforms}
         vertexShader={`
           varying vec2 vUv;
@@ -154,25 +145,32 @@ const StarryGridShader = ({
             vec2 cellId = floor(uv * u_grid_density);
             float dotRandom = hash(cellId);
             
-            float canTwinkle = smoothstep(u_sparsity, u_sparsity + 0.05, dotRandom);
+            // --- GRADIENT LOGIC ---
+            // vUv.y is 1.0 at the top and 0.0 at the bottom.
+            // yFactor is 0.0 at the top and 1.0 at the bottom.
+            float yFactor = pow(1.0 - vUv.y, 1.5); 
+            
+            // Increase sparsity threshold at the top (top requires dotRandom to be higher to show)
+            float dynamicSparsity = mix(1.0, u_sparsity, yFactor);
+            float canTwinkle = smoothstep(dynamicSparsity, dynamicSparsity + 0.05, dotRandom);
+            
             float speed = (0.5 + dotRandom) * u_speed;
             float phase = dotRandom * 6.28;
             float twinkle = sin(u_time * speed + phase) * 0.5 + 0.5;
-            twinkle = pow(twinkle, u_sharpness) * canTwinkle; 
+            
+            // Multiply twinkle by yFactor so stars at the top are physically dimmer
+            twinkle = pow(twinkle, u_sharpness) * canTwinkle * yFactor; 
 
-            // Logic to balance lightness
-            // In light mode (u_is_dark = 0), we reduce the base opacity so background dots don't look like dirt.
             float themeAdjustedBase = mix(u_base_opacity * 0.3, u_base_opacity, u_is_dark);
-            float intensity = themeAdjustedBase + (twinkle * u_accent_opacity);
+            // Apply gradient to base opacity as well so the background dots fade out at top
+            float finalBase = themeAdjustedBase * yFactor;
+            float intensity = finalBase + (twinkle * u_accent_opacity);
 
             float dotDist = length(gridUv);
             float dotMask = smoothstep(u_dot_size, u_dot_size - 0.1, dotDist);
 
-            // In light mode, stars should be the accent color but softer.
-            // In dark mode, they should glow against the dark.
             vec3 finalColor = mix(u_background, u_accent, twinkle);
-
-            gl_FragColor = vec4(finalColor, dotMask  * intensity);
+            gl_FragColor = vec4(finalColor, dotMask * intensity);
           }
         `}
       />

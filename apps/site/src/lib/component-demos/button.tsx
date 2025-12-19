@@ -35,6 +35,13 @@ const buttonControls: ControlDef[] = [
     type: "toggle",
     defaultValue: false,
   },
+  {
+    name: "easing",
+    label: "Interaction Ease",
+    type: "select",
+    options: [], // This acts as a flag to show the easing selector
+    defaultValue: "snappyPop",
+  },
 ];
 
 const buttonBasicCode = `import { Button } from "ui-lab-components";
