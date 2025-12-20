@@ -1,0 +1,42 @@
+{
+  "name": "ui-lab-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for UI Lab component library - enables AI agents to discover, understand, and generate production-ready code",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "ui-lab-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "start": "node dist/index.js",
+    "test": "tsc && node dist/test.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ui-lab",
+    "components",
+    "ai",
+    "code-generation"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "ui-lab-registry": "file:.yalc/ui-lab-registry"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
