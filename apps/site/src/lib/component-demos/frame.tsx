@@ -100,6 +100,24 @@ export const frameDetail: ComponentDetail = {
       id: "biometric-bracket",
       title: "Biometric Scanner",
       description: "A minimal, non-contiguous frame perfect for HUD overlays and target tracking.",
+      code: `const buildBracketPath = (w: number, h: number) => {
+  const s = 30;
+  return \`
+    M 0,\${s} V 0 H \${s}
+    M \${w - s},0 H \${w} V \${s}
+    M \${w},\${h - s} V \${h} H \${w - s}
+    M \${s},\${h} H 0 V \${h - s}
+  \`;
+};
+
+<Frame
+  pathBuilder={buildBracketPath}
+  variant="accent"
+  padding="large"
+  className="bg-cyan-500/[0.03] border-cyan-400"
+>
+  {/* Content */}
+</Frame>`,
       preview: (
         <div className="w-full max-w-sm p-8 flex justify-center items-center">
           <Frame
@@ -134,6 +152,25 @@ export const frameDetail: ComponentDetail = {
       id: "tactical-blade",
       title: "The Blade Terminal",
       description: "Aggressive asymmetric geometry with integrated side-notch status indicators.",
+      code: `const buildBladePath = (w: number, h: number) => {
+  const c = 32;
+  const notchH = 40;
+  return \`
+    M \${c},0 H \${w} V \${h - c} L \${w - c},\${h}
+    H \${c * 2} L 0,\${h - c * 2} V \${h / 2 + notchH / 2}
+    L \${c / 2},\${h / 2} L 0,\${h / 2 - notchH / 2}
+    V \${c} Z
+  \`;
+};
+
+<Frame
+  pathBuilder={buildBladePath}
+  variant="default"
+  padding="none"
+  className="bg-zinc-950 border-zinc-700"
+>
+  {/* Content */}
+</Frame>`,
       preview: (
         <div className="w-full max-w-md p-6">
           <Frame
@@ -177,6 +214,24 @@ export const frameDetail: ComponentDetail = {
       id: "liquid-node",
       title: "Liquid Interface",
       description: "Utilizes Bezier curves for a more premium, high-end consumer hardware aesthetic.",
+      code: `const buildLiquidPath = (w: number, h: number) => {
+  const r = 40;
+  return \`
+    M 0,\${r} Q 0,0 \${r},0 H \${w - r}
+    Q \${w},0 \${w},\${r} V \${h - r * 1.5}
+    Q \${w},\${h} \${w - r * 2},\${h} H \${r}
+    Q 0,\${h} 0,\${h - r} Z
+  \`;
+};
+
+<Frame
+  pathBuilder={buildLiquidPath}
+  variant="subtle"
+  padding="large"
+  className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-xl border-white/20"
+>
+  {/* Content */}
+</Frame>`,
       preview: (
         <div className="w-full max-w-xs p-6">
           <Frame
@@ -205,6 +260,25 @@ export const frameDetail: ComponentDetail = {
       id: "industrial-plate",
       title: "Industrial Chassis",
       description: "Demonstrates internal cutouts (sub-paths) to simulate mechanical details and bolts.",
+      code: `const buildIndustrialPath = (w: number, h: number) => {
+  const s = 15;
+  return \`
+    M 0,0 H \${w} V \${h} H 0 Z
+    M \${s},\${s} L \${s * 2},\${s} L \${s},\${s * 2} Z
+    M \${w - s},\${s} L \${w - s * 2},\${s} L \${w - s},\${s * 2} Z
+    M \${w - s},\${h - s} L \${w - s * 2},\${h - s} L \${w - s},\${h - s * 2} Z
+    M \${s},\${h - s} L \${s * 2},\${h - s} L \${s},\${h - s * 2} Z
+  \`;
+};
+
+<Frame
+  pathBuilder={buildIndustrialPath}
+  variant="default"
+  padding="medium"
+  className="bg-zinc-900 border-zinc-700"
+>
+  {/* Content */}
+</Frame>`,
       preview: (
         <div className="w-full max-w-md p-6">
           <Frame
