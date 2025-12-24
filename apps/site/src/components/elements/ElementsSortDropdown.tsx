@@ -25,7 +25,9 @@ export function ElementsSortDropdown() {
   // Get current sort from URL or default to 'newest'
   const currentSort = searchParams.get('sort') || 'newest';
 
-  const handleSortChange = (value: string) => {
+  const handleSortChange = (key: string | number | null) => {
+    if (key === null) return;
+    const value = String(key);
     const params = new URLSearchParams(searchParams.toString());
     params.set('sort', value);
     router.push(`${pathname}?${params.toString()}`);
@@ -35,8 +37,8 @@ export function ElementsSortDropdown() {
 
   return (
     <Select
-      value={currentSort}
-      onValueChange={handleSortChange}
+      defaultSelectedKey={currentSort}
+      onSelectionChange={handleSortChange}
       className="w-fit"
     >
       <Select.Trigger

@@ -49,7 +49,7 @@ export default function ElementDetailClient({ element, variantsWithCode, element
   return (
     <div>
       <BreadcrumbsNav />
-      <div className="w-full bg-background-950 max-w-4xl mx-auto min-h-screen flex flex-col pt-32 pb-12">
+      <div className="w-full bg-background-950 max-w-6xl mx-auto min-h-screen flex flex-col pt-32 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
           <button
             onClick={() => router.push('/elements')}

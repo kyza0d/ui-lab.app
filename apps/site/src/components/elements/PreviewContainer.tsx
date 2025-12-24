@@ -46,7 +46,7 @@ export function PreviewContainer({
   return (
     <div className="relative w-full h-full min-h-56 bg-background-950 border-b border-background-700 overflow-hidden">
       <div className={`absolute inset-0 flex ${centeringClass}`}>
-        <div style={buildPreviewStyles(previewConfig)}>
+        <div className="w-4/5" style={buildPreviewStyles(previewConfig)}>
           {children}
         </div>
       </div>

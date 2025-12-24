@@ -1,0 +1,7 @@
+{
+  "01-basic-textarea": {
+    "title": "Basic TextArea",
+    "description": "A simple multi-line text input field. Use this for collecting longer text input like comments or descriptions.",
+    "code": "import React from 'react';\nimport { TextArea } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <TextArea\n      placeholder=\"Enter your comments here...\"\n      rows={4}\n    />\n  );\n}"
+  }
+}

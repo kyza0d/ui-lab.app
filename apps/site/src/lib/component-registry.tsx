@@ -57,7 +57,6 @@ import { Divider } from "ui-lab-components";
 import { Fold } from "ui-lab-components";
 import { Gallery } from "ui-lab-components";
 // import { Frame } from "@/components/experimental";
-import { frameDetail } from "./demos/frame";
 import { ScrollArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { FaBell, FaCircleQuestion, FaComputerMouse, FaFile, FaImage, FaInfo, FaRectangleList, FaWindowRestore } from "react-icons/fa6";

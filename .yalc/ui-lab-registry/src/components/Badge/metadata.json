@@ -1,0 +1,24 @@
+{
+  "id": "badge",
+  "name": "Badge",
+  "description": "A small badge component for displaying labels or status.",
+  "category": "information",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Badge",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [],
+  "tags": [
+    "label",
+    "status",
+    "tag"
+  ],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Semantic HTML",
+      "Use with proper context"
+    ]
+  }
+}

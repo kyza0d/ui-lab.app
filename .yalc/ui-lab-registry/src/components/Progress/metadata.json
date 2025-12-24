@@ -1,0 +1,28 @@
+{
+  "id": "progress",
+  "name": "Progress",
+  "description": "A progress bar component for showing completion status.",
+  "category": "feedback",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Progress",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "slider"
+  ],
+  "tags": [
+    "feedback",
+    "status",
+    "progress"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "ARIA progressbar role",
+      "aria-valuenow",
+      "aria-valuemin",
+      "aria-valuemax"
+    ]
+  }
+}
