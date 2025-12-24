@@ -2,6 +2,8 @@
 
 import { use } from 'react';
 import { Dashboard } from '@/lib/demos/dashboard';
+import { getElementById } from 'ui-lab-registry';
+import { getDemoComponent } from '@/lib/get-element-demo';
 
 interface PreviewPageProps {
   params: Promise<{
@@ -64,6 +66,40 @@ const exampleNames: Record<string, string> = {
 export default function PreviewPage({ params }: PreviewPageProps) {
   const { categoryId, exampleId } = use(params);
   const exampleName = exampleNames[exampleId] || exampleId;
+
+  if (categoryId === 'elements') {
+    const parts = exampleId.split('-');
+    const variantIndex = parseInt(parts[parts.length - 1], 10);
+    const elementId = parts.slice(0, -1).join('-');
+    const element = getElementById(elementId);
+
+    if (element && element.variants[variantIndex]) {
+      const variant = element.variants[variantIndex];
+      const DemoComponent = variant.demoPath ? getDemoComponent(variant.demoPath) : null;
+
+      return (
+        <div className="w-screen h-screen bg-background-950 overflow-auto">
+          {DemoComponent ? (
+            <DemoComponent />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-foreground-400">Demo not available for {element.name} - {variant.name}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <PlaceholderContent
+        categoryId={categoryId}
+        exampleId={exampleId}
+        exampleName={`${elementId} - Variant ${variantIndex}`}
+      />
+    );
+  }
 
   if (exampleId === 'saas-1') {
     return (

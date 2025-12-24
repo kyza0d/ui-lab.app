@@ -35,11 +35,10 @@ export function ElementFilter({
         <div className="space-y-2 pt-3">
           <button
             onClick={() => onCategoryChange(null)}
-            className={`block w-full text-left px-3 py-2 rounded transition-colors text-sm ${
-              selectedCategory === null
+            className={`block w-full text-left px-3 py-2 rounded transition-colors text-sm ${selectedCategory === null
                 ? 'bg-accent-500 text-foreground-50 font-medium'
                 : 'text-foreground-400 hover:bg-background-800'
-            }`}
+              }`}
           >
             All
           </button>
@@ -47,11 +46,10 @@ export function ElementFilter({
             <button
               key={category}
               onClick={() => onCategoryChange(category)}
-              className={`block w-full text-left px-3 py-2 rounded transition-colors text-sm capitalize ${
-                selectedCategory === category
+              className={`block w-full text-left px-3 py-2 rounded transition-colors text-sm capitalize ${selectedCategory === category
                   ? 'bg-accent-500 text-foreground-50 font-medium'
                   : 'text-foreground-400 hover:bg-background-800'
-              }`}
+                }`}
             >
               {category}
             </button>

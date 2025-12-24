@@ -26,7 +26,7 @@ export function ElementsGridClient({ elements }: ElementsGridClientProps) {
       {elements.map((element) => {
         const layoutConfig = getLayoutConfig(element);
         const firstVariant = element.variants[0];
-        const DemoComponent = firstVariant?.demoPath ? getDemoComponent(firstVariant.demoPath) : null;
+        const Element = firstVariant?.demoPath ? getDemoComponent(firstVariant.demoPath) : null;
         const adaptiveProps = layoutConfig.previewConfig?.adaptiveProps ?? {};
 
         return (
@@ -38,9 +38,7 @@ export function ElementsGridClient({ elements }: ElementsGridClientProps) {
             className="overflow-hidden hover:border-accent-500 transition-colors"
           >
             <PreviewContainer element={element} layoutConfig={layoutConfig}>
-              {DemoComponent ? (
-                <DemoComponent {...adaptiveProps} />
-              ) : (
+              {Element ? (<Element {...adaptiveProps} />) : (
                 <div className="text-foreground-500">Preview</div>
               )}
             </PreviewContainer>
