@@ -29,6 +29,21 @@
     "./components": {
       "import": "./dist/components/index.js",
       "types": "./dist/components/index.d.ts"
+    },
+    "./components/*": {
+      "import": "./dist/components/*/index.js",
+      "types": "./dist/components/*/index.d.ts"
+    },
+    "./components/*/examples": {
+      "import": "./dist/components/*/examples/index.js",
+      "types": "./dist/components/*/examples/index.d.ts"
+    },
+    "./components/*/examples.json": {
+      "import": "./dist/components/*/examples.json"
+    },
+    "./elements": {
+      "import": "./dist/elements/index.js",
+      "types": "./dist/elements/index.d.ts"
     }
   },
   "files": [
@@ -39,9 +54,13 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsx scripts/generate-registry-data.ts && tsc",
+    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsc",
     "type-check": "tsc --noEmit",
-    "generate": "tsx scripts/generate-registry-data.ts"
+    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts",
+    "validate": "tsx scripts/validate-registry.ts"
   },
-  "yalcSig": "d3db69fcb1e04b732f3a369e358114a2"
+  "dependencies": {
+    "ui-lab-components": "file:.yalc/ui-lab-components"
+  },
+  "yalcSig": "6ca6a91e31e3b23ef31ed20323bccf93"
 }

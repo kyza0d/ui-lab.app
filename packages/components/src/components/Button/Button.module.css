@@ -2,15 +2,6 @@
 
 @layer components {
   .button {
-    --background: var(--accent-500);
-    --foreground: var(--accent-50);
-    --border: var(--accent-500);
-    --background-hover: var(--accent-400);
-    --border-hover: var(--accent-300);
-    --background-active: var(--accent-300);
-    --border-active: var(--accent-700);
-    --button-easing: var(--ease-snappy-pop);
-
     @apply px-3 py-1.5;
     display: inline-flex;
     align-items: center;
@@ -21,11 +12,9 @@
     line-height: var(--leading-snug);
     user-select: none;
     cursor: pointer;
-    background-color: var(--background);
-    color: var(--foreground);
-    border: var(--border-width-base) solid var(--border);
+    border: var(--border-width-base) solid var(--background-700);
     border-radius: var(--radius-md);
-    transition: background-color 0.15s var(--button-easing), border-color 0.15s var(--button-easing), transform 0.15s var(--button-easing), box-shadow 0.15s var(--button-easing);
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out;
 
     &:focus-visible {
       outline: 2px solid var(--blue);
@@ -37,62 +26,79 @@
       cursor: not-allowed;
     }
 
-    @media (hover: hover) {
-      &:hover:not(:disabled) {
-        background-color: var(--background-hover);
-        border-color: var(--border-hover);
-        box-shadow: 0 2px 6px rgb(0 0 0 / 0.10);
-      }
-    }
-
     &:active:not(:disabled) {
-      background-color: var(--background-active);
-      border-color: var(--border-active);
       transform: scale(0.97);
-      box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
     }
   }
 }
 
 .button.primary {
-  --background: var(--accent-500);
-  --foreground: var(--accent-50);
-  --border: var(--accent-500);
-  --background-hover: var(--accent-400);
-  --border-hover: var(--accent-400);
-  --background-active: var(--accent-400);
-  --border-active: var(--accent-400);
+  background-color: var(--accent-500);
+  color: var(--accent-50);
+  border-color: var(--accent-500);
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: var(--accent-400);
+      border-color: var(--accent-400);
+    }
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--accent-400);
+    border-color: var(--accent-400);
+  }
 }
 
 .button.secondary {
-  --background: var(--background-800);
-  --foreground: var(--foreground-50);
-  --border: var(--background-700);
-  --background-hover: var(--background-700);
-  --border-hover: var(--background-700);
-  --background-active: var(--background-600);
-  --border-active: var(--background-600);
+  background-color: var(--background-800);
+  color: var(--foreground-50);
+  border-color: var(--background-700);
+
+  &:hover:not(:disabled) {
+    background-color: var(--background-700);
+    border-color: var(--background-700);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--background-600);
+    border-color: var(--background-600);
+  }
 }
 
 .button.outline {
-  --background: transparent;
-  --foreground: var(--foreground-50);
-  --border: var(--background-700);
-  --background-hover: var(--background-800);
   --border-hover: var(--background-700);
-  --background-active: var(--background-700);
-  --border-active: var(--background-600);
   outline: 1px solid var(--background-700);
+  background-color: transparent;
+  color: var(--foreground-50);
+
+  &:hover:not(:disabled) {
+    background-color: var(--background-800);
+    border-color: var(--background-700);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--background-700);
+    border-color: var(--background-600);
+  }
 }
 
 .button.ghost {
-  --background: transparent;
-  --foreground: var(--foreground-50);
-  --border: transparent;
-  --background-hover: var(--background-800);
-  --border-hover: transparent;
-  --background-active: var(--background-700);
-  --border-active: transparent;
+  background-color: transparent;
+  color: var(--foreground-50);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: var(--background-800);
+      border-color: transparent;
+    }
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--background-700);
+    border-color: transparent;
+  }
 }
 
 .button.sm {

@@ -32,15 +32,15 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
 
     const hoverHandlers = triggerMode === "hover"
       ? {
-          onMouseEnter: () => handleHoverIntent(true),
-          onMouseLeave: () => handleHoverIntent(false),
-        }
+        onMouseEnter: () => handleHoverIntent(true),
+        onMouseLeave: () => handleHoverIntent(false),
+      }
       : {}
 
     return (
       <button
         ref={mergedRef}
-        className={cn(styles.trigger, className)}
+        className={cn('trigger', styles.trigger, className)}
         data-focus-visible={isFocusVisible || undefined}
         data-pressed={isPressed || undefined}
         data-hovered={isHovered || undefined}

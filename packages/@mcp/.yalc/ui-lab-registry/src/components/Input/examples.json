@@ -1,0 +1,7 @@
+{
+  "01-basic-input": {
+    "title": "Basic Input",
+    "description": "A simple text input field with default styling. Use this as the standard input element for collecting user text input.",
+    "code": "import React from 'react';\nimport { Input } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Input placeholder=\"Enter text...\" />;\n}"
+  }
+}

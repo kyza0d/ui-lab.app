@@ -1,12 +1,12 @@
 ---
 title: "Installation"
-description: "Set up Agents & MCPs in your project"
+description: "Install and configure the UI Lab MCP Server"
 category: "Getting Started"
 ---
 
 # Installation
 
-Get your development environment set up with Agents & MCPs support.
+Set up the UI Lab MCP Server to enable AI agents to discover, understand, and generate production-ready UI Lab component code.
 
 ## Prerequisites
 
@@ -14,66 +14,170 @@ Before installing, ensure you have:
 
 - Node.js 18+ or later
 - pnpm, npm, or yarn package manager
-- Basic familiarity with React and Next.js
-- UI Lab components installed in your project
+- The UI Lab monorepo cloned and set up
+- Basic familiarity with the Model Context Protocol (MCP)
 
-## Installation Steps
+## Building the MCP Server
+
+The MCP server is located in `packages/@mcp` and needs to be compiled before use.
 
 ### 1. Install Dependencies
 
-Install the necessary packages for agent support:
+From the root of the monorepo:
 
 ```bash
-npm install @ui-lab/agents @ui-lab/mcp
-# or with pnpm
-pnpm add @ui-lab/agents @ui-lab/mcp
-# or with yarn
-yarn add @ui-lab/agents @ui-lab/mcp
+pnpm install
 ```
 
-### 2. Configure Your Environment
+### 2. Build the MCP Server
 
-Create a `.env.local` file with required environment variables:
-
-```env
-NEXT_PUBLIC_AGENT_API_URL=http://localhost:3000/api/agent
-MCP_SERVER_URL=http://localhost:8000
+```bash
+cd packages/@mcp
+pnpm build
 ```
 
-### 3. Set Up Provider
+This compiles TypeScript to JavaScript and outputs to the `dist/` directory.
 
-Wrap your application with the Agents provider:
+### 3. Verify Build
 
-```tsx
-import { AgentsProvider } from '@ui-lab/agents';
+Check that the compiled output exists:
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body>
-        <AgentsProvider>
-          {children}
-        </AgentsProvider>
-      </body>
-    </html>
-  );
+```bash
+ls -la dist/
+# Should show: index.js, server.js, tools.js, types.js, etc.
+```
+
+## Installation for Claude Code
+
+To use the UI Lab MCP Server with Claude Code, configure it in your Claude Code settings.
+
+### 1. Update Claude Code MCP Configuration
+
+Add the MCP server to your Claude Code config (typically in `~/.config/claude-code/mcp.json` or similar):
+
+```json
+{
+  "mcpServers": {
+    "ui-lab": {
+      "command": "node",
+      "args": ["/path/to/packages/@mcp/dist/index.js"]
+    }
+  }
 }
 ```
 
-## Verification
+Replace `/path/to/packages/@mcp` with the absolute path to your cloned repository.
 
-Test your installation by running your development server:
+### 2. Restart Claude Code
 
-```bash
-npm run dev
+Close and reopen Claude Code to apply the MCP configuration.
+
+### 3. Verify Installation
+
+In Claude Code, the MCP server will automatically load. You can verify it's working by:
+- Using MCP tools in your prompts to search for components
+- Requesting component code generation
+- Getting component API information
+
+## Installation for Claude Desktop
+
+To use the UI Lab MCP Server with Claude Desktop, add it to your desktop config.
+
+### 1. Update Claude Desktop Config
+
+Add the MCP server to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or the equivalent location on your system:
+
+```json
+{
+  "mcpServers": {
+    "ui-lab": {
+      "command": "node",
+      "args": ["/path/to/packages/@mcp/dist/index.js"]
+    }
+  }
+}
 ```
 
-Visit `http://localhost:3000` and check the console for any errors.
+Replace `/path/to/packages/@mcp` with the absolute path to your cloned repository.
+
+### 2. Restart Claude Desktop
+
+Restart Claude Desktop for the changes to take effect.
+
+## Development Workflow
+
+### Watch Mode
+
+For development, run TypeScript in watch mode:
+
+```bash
+cd packages/@mcp
+pnpm dev
+```
+
+### Testing
+
+Test the MCP server locally:
+
+```bash
+cd packages/@mcp
+pnpm test
+```
+
+### Type Checking
+
+Verify TypeScript types without building:
+
+```bash
+cd packages/@mcp
+pnpm type-check
+```
+
+## Available Tools
+
+Once installed, the MCP server provides these tools to AI agents:
+
+- **search_components** - Search for components by query and category
+- **get_component_details** - Get full metadata for a specific component
+- **get_component_api** - Get prop types and sub-component APIs
+- **resolve_dependencies** - Find all npm packages required for components
+- **generate_component_code** - Generate TSX code for a component
+- **get_installation_plan** - Get installation instructions for components
+- **get_component_examples** - Get code examples and usage patterns
 
 ## Troubleshooting
 
-If you encounter issues during installation, see the [Advanced Topics & Troubleshooting](/docs/advanced) guide.
+### MCP Server Won't Start
+
+**Problem**: Node command fails when starting the MCP server.
+
+**Solution**:
+1. Verify Node.js is installed: `node --version` (must be 18+)
+2. Ensure the MCP server is built: `cd packages/@mcp && pnpm build`
+3. Check that the path in your config is correct and absolute
+
+### TypeScript Compilation Errors
+
+**Problem**: Build fails with TypeScript errors.
+
+**Solution**:
+1. Clear the dist folder: `rm -rf dist/`
+2. Reinstall dependencies: `pnpm install`
+3. Rebuild: `pnpm build`
+
+### Tools Not Available in Claude Code
+
+**Problem**: The MCP tools aren't appearing in Claude Code.
+
+**Solution**:
+1. Restart Claude Code completely
+2. Check the MCP configuration file for syntax errors (valid JSON)
+3. Verify the file path in the config exists and is absolute
+4. Review Claude Code logs for error messages
+
+## Next Steps
+
+After installation, you can:
+- Use the MCP tools to search and discover components
+- Ask Claude Code to generate component code using the MCP tools
+- Build custom tools on top of the existing MCP infrastructure

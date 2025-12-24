@@ -7,8 +7,7 @@ import "./globals.css";
 import "@fontsource-variable/karla";
 import "@fontsource-variable/jetbrains-mono";
 
-import { Footer } from "@/components/layout/Footer";
-import { ClientLayout } from "./client-layout";
+import { AppProvider } from "@/lib/app-context";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,10 +29,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ClientLayout>
+        <AppProvider>
           {children}
-        </ClientLayout>
-        <Footer />
+        </AppProvider>
       </body>
     </html>
   );

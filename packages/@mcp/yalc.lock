@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "ui-lab-registry": {
-      "signature": "d3db69fcb1e04b732f3a369e358114a2",
+      "signature": "6ca6a91e31e3b23ef31ed20323bccf93",
       "file": true,
       "replaced": "workspace:*"
     }

@@ -1,0 +1,7 @@
+{
+  "01-basic-breadcrumbs": {
+    "title": "Basic Breadcrumbs",
+    "description": "A simple breadcrumb navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
+    "code": "import { Breadcrumbs, Breadcrumb } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Breadcrumbs>\n      <Breadcrumb href=\"/\">Home</Breadcrumb>\n      <Breadcrumb href=\"/products\">Products</Breadcrumb>\n      <Breadcrumb href=\"/products/electronics\">Electronics</Breadcrumb>\n      <Breadcrumb>Laptop</Breadcrumb>\n    </Breadcrumbs>\n  );\n}"
+  }
+}

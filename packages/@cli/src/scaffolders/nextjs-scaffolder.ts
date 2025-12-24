@@ -1,8 +1,5 @@
-import path from 'node:path'
 import type { ScaffoldResult } from '../types/index.js'
 import { ensureDir } from '../utils/file-utils.js'
-import { applyTemplate } from '../lib/apply-template.js'
-import { writeFile } from '../utils/file-utils.js'
 import { BaseScaffolder, type ScaffoldOptions } from './base-scaffolder.js'
 
 export class NextJsScaffolder extends BaseScaffolder {

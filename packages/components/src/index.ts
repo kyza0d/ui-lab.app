@@ -71,7 +71,7 @@ export { toast } from "./components/Toast/Toast.UseToast";
 export { useToastStore } from "./components/Toast/Toast.Store";
 export type { ToastProps, ToastVariant, ToastPosition } from "./components/Toast/Toast.Store";
 
-export { Modal } from "./components/Modal";
+export { Modal, ModalHeader, ModalBody, ModalFooter } from "./components/Modal";
 export type { ModalProps } from "./components/Modal";
 
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tabs";
@@ -117,3 +117,9 @@ export type { BreadcrumbsProps, BreadcrumbItemProps } from "./components/Breadcr
 
 export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gallery";
 export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";
+
+export { ScrollArea } from "./components/ScrollArea";
+export type { ScrollAreaProps } from "./components/ScrollArea";
+
+export { Table } from "./components/Table";
+export type { TableProps, Column } from "./components/Table";

@@ -3,6 +3,7 @@
 import { Sidebar } from "@/components/Sidebar";
 import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
 import "../../app/docs.css";
+import { FadeContainer } from "../FadeContainer";
 
 interface DocsLayoutProps {
   children: React.ReactNode;

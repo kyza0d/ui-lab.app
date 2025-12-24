@@ -28,6 +28,7 @@ export interface PropDefinition {
 export interface ComponentAPI {
   props: PropDefinition[];
   subComponents?: Record<string, PropDefinition[]>;
+  examples?: ComponentExample[];
 }
 
 export interface StyleVariable {
@@ -40,11 +41,65 @@ export interface StyleClass {
   description?: string;
 }
 
-export interface ComponentStyles {
-  cssVariables: StyleVariable[];
-  classes: StyleClass[];
-  variants?: Record<string, string[]>;
-  sizes?: string[];
+export type ComponentStyles = string;
+
+export interface ComponentExample {
+  title?: string;
+  name?: string;
+  description: string;
+  code: string;
+  preview?: string;
+}
+
+export interface Example {
+  id: string;
+  title: string;
+  description: string;
+  code: string;
+  tags?: string[];
+}
+
+export interface ElementFile {
+  filename: string;
+  language: string;
+  code: string;
+  description?: string;
+  isEntryPoint?: boolean;
+}
+
+export interface ElementVariant {
+  name: string;
+  description: string;
+  code?: string;
+  demoPath?: string;
+  files?: ElementFile[];
+}
+
+export interface LayoutConfig {
+  layoutClass: 'featured-header' | 'featured-sidebar' | 'featured-card' | 'default';
+  columnSpan: number;
+  rowSpan: number;
+  previewConfig?: {
+    scale?: number;
+    maxHeight?: string;
+    centeringStrategy?: 'full' | 'horizontal' | 'none';
+    adaptiveProps?: Record<string, boolean | string | number>;
+  };
+}
+
+export interface ElementMetadata {
+  id: string;
+  name: string;
+  description: string;
+  category: 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'other';
+  tags: string[];
+  variants: ElementVariant[];
+  componentDependencies?: string[];
+  layout?: LayoutConfig;
+}
+
+export interface ElementRegistry {
+  [elementId: string]: ElementMetadata;
 }
 
 export interface ComponentMetadata {
@@ -62,6 +117,8 @@ export interface ComponentMetadata {
   reactAriaUrl?: string;
   api?: ComponentAPI;
   styles?: ComponentStyles;
+  examples?: ComponentExample[];
+  example?: Example;
 }
 
 export interface ComponentRegistry {
@@ -73,7 +130,6 @@ export interface CategoryDefinition {
   name: string;
   label: string;
   description: string;
-  icon?: string;
 }
 
 export interface StarterPreset {
@@ -96,4 +152,62 @@ export interface ComponentDeps {
 
 export interface PackageMetadata {
   version: string;
+}
+
+// UI Configurator Controls
+export interface ControlOption {
+  label: string;
+  value: string | number | boolean;
+}
+
+export interface ControlDef {
+  name: string;
+  label: string;
+  type: 'select' | 'toggle' | 'text';
+  options?: ControlOption[];
+  defaultValue?: string | number | boolean;
+}
+
+// Component Detail for Site
+export interface ComponentVariant {
+  id: string;
+  name: string;
+  description?: string;
+  code: string;
+  preview: React.ReactNode;
+}
+
+export interface ComponentAccessibilityNote {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface SiteComponentExample {
+  id: string;
+  title: string;
+  description?: string;
+  code: string;
+  preview: React.ReactNode;
+  controls?: ControlDef[];
+  renderPreview?: (props: Record<string, any>) => React.ReactNode;
+  previewHeight?: string;
+  previewLayout?: 'center' | 'start';
+}
+
+export interface ComponentDetail {
+  id: string;
+  name: string;
+  description: string;
+  overview: React.ReactNode;
+  examples: SiteComponentExample[];
+  variants?: ComponentVariant[];
+  accessibility?: ComponentAccessibilityNote[];
+  props?: Array<{
+    name: string;
+    type: string;
+    default?: string;
+    description: string;
+  }>;
+  usage?: React.ReactNode;
 }

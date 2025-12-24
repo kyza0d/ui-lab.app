@@ -1,3 +1,4 @@
+import React from 'react'
 import { CodeBlock } from '@/components/CodeBlock'
 import { CodeBlockWithPackageManager } from '@/components/CodeBlockWithPackageManager'
 import { InstallationFlow } from '@/components/InstallationFlow'

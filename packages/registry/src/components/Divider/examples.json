@@ -1,0 +1,7 @@
+{
+  "01-basic-divider": {
+    "title": "Basic Divider",
+    "description": "A simple horizontal divider separating content sections. Use this to create visual separation between different areas of your interface.",
+    "code": "import React from 'react';\nimport { Divider } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"text-foreground-300\">Content above</div>\n      <Divider />\n      <div className=\"text-foreground-300\">Content below</div>\n    </div>\n  );\n}"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "textarea",
+  "name": "Textarea",
+  "description": "Multi-line text input field for longer user input.",
+  "category": "input",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "TextArea",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "input",
+    "label",
+    "form"
+  ],
+  "tags": [
+    "form",
+    "text",
+    "multi-line"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Works with label elements",
+      "Resizable option available"
+    ]
+  }
+}

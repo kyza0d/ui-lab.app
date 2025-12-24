@@ -30,6 +30,10 @@
     user-select: none;
     transition: transform 150ms var(--ease-snappy-pop);
 
+    &[aria-expanded="true"] {
+      background-color: color-mix(in srgb, var(--background-700) 80%, transparent);
+    }
+
     &[data-focus-visible] {
       outline: 2px solid var(--accent-500);
       outline-offset: 2px;

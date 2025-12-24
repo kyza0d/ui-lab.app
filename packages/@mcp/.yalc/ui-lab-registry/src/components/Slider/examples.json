@@ -1,0 +1,7 @@
+{
+  "01-basic-slider": {
+    "title": "Basic Slider",
+    "description": "A simple range slider with a default value. Perfect for adjusting values within a range like volume or brightness.",
+    "code": "import React from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Slider.Root min={0} max={100} defaultValue={[50]} />;\n}"
+  }
+}

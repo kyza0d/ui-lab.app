@@ -10,6 +10,8 @@
     --fg-muted: var(--foreground-500);
     --fg-icon: var(--foreground-400);
     --overlay: rgb(0 0 0 / 0.2);
+    --list-background: var(--background-950);
+    --footer-background: var(--background-800);
   }
 
   /* Overlay Container */
@@ -34,23 +36,26 @@
   /* Content */
   .content {
     position: relative;
+    @apply m-2;
+    background-color: var(--bg-default);
+    border-radius: var(--radius-lg);
     width: 100%;
     margin-inline: 1rem;
     max-width: 28rem;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     animation: fadeInZoomIn 0.2s ease-out;
-    background-color: var(--bg-default);
   }
 
   .inner {
+    @apply px-2;
     overflow: hidden;
   }
 
   /* Search Section */
   .search {
     display: flex;
-    border-bottom: 1px solid var(--border-default);
-    padding: 0.5rem;
+    border-bottom: var(--border-width-base) solid var(--border-default);
+    @apply p-2
   }
 
   .search-container {
@@ -60,7 +65,7 @@
 
   .search-icon {
     position: absolute;
-    left: 0.75rem;
+    left: 0.50rem;
     top: 50%;
     transform: translateY(-50%);
     width: 1rem;
@@ -96,7 +101,7 @@
     top: 50%;
     transform: translateY(-50%);
     padding: 0.25rem;
-    border-radius: 0.25rem;
+    border-radius: var(--radius-lg);
     background-color: transparent;
     color: var(--fg-muted);
     border: none;
@@ -111,13 +116,15 @@
 
   /* List Section */
   .list {
-    @apply p-2 space-y-2;
+    @apply p-0.5 space-y-2;
+    background-color: var(--list-background);
     height: 44dvh;
     overflow-y: auto;
   }
 
   .item {
     display: flex;
+    @apply px-2 py-0.5;
     border-radius: 0.375rem;
     align-items: center;
     justify-content: space-between;
@@ -183,12 +190,13 @@
 
   /* Footer */
   .footer {
+    @apply px-1.5 py-2 gap-2;
+    width: 100%;
+    background-color: var(--footer-background);
     border-top: 1px solid var(--border-default);
-    padding: 0.5rem 0.25rem;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
+    justify-content: flex-between;
   }
 
   /* Animations */

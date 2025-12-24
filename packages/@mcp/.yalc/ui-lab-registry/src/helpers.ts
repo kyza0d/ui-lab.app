@@ -27,12 +27,49 @@ export function getRelatedComponents(id: string): ComponentMetadata[] {
 }
 
 export function searchComponents(query: string): ComponentMetadata[] {
-  const lowerQuery = query.toLowerCase();
-  return Object.values(componentRegistry).filter(comp =>
-    comp.name.toLowerCase().includes(lowerQuery) ||
-    comp.description.toLowerCase().includes(lowerQuery) ||
-    comp.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
-  );
+  const lowerQuery = query.toLowerCase().trim();
+  if (!lowerQuery) return [];
+
+  // Split query into tokens for flexible matching
+  const tokens = lowerQuery
+    .split(/\s+/) // Split on whitespace
+    .filter(token => token.length > 0);
+
+  // Score each component based on matches
+  const scored = Object.values(componentRegistry).map(comp => {
+    let score = 0;
+    const compName = comp.name.toLowerCase();
+    const compDesc = comp.description.toLowerCase();
+    const compCategory = comp.category.toLowerCase();
+    const compTags = (comp.tags || []).map(t => t.toLowerCase());
+    const relatedNames = (comp.relatedComponents || [])
+      .map(id => (getComponentById(id)?.name || '').toLowerCase());
+
+    for (const token of tokens) {
+      // Exact name match (highest priority)
+      if (compName === token) score += 100;
+      // Name contains token
+      else if (compName.includes(token)) score += 50;
+      // Category matches token
+      else if (compCategory.includes(token)) score += 30;
+      // Description contains token
+      else if (compDesc.includes(token)) score += 20;
+      // Tag matches token (exact)
+      else if (compTags.some(tag => tag === token)) score += 25;
+      // Tag contains token
+      else if (compTags.some(tag => tag.includes(token))) score += 15;
+      // Related component name contains token
+      else if (relatedNames.some(name => name.includes(token))) score += 10;
+    }
+
+    return { component: comp, score };
+  });
+
+  // Filter components with at least one matching token and sort by score
+  return scored
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(({ component }) => component);
 }
 
 export function getAllComponentIds(): string[] {

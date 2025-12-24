@@ -2,7 +2,7 @@
 
 import React from "react";
 import { createPortal } from "react-dom";
-import { useOverlayTrigger, useButton, useDialog, mergeProps } from "react-aria";
+import { useOverlayTrigger, useDialog, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
 import { cn } from "@/lib/utils";
@@ -181,7 +181,6 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     }, []);
 
     const { triggerProps, overlayProps } = useOverlayTrigger({ type: "dialog" }, state, triggerRef);
-    const { buttonProps } = useButton(triggerProps, triggerRef);
     const { dialogProps } = useDialog({}, popoverContentRef);
 
     const placementMap: Record<PopoverPosition, "top" | "bottom" | "left" | "right"> = {
@@ -264,13 +263,13 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     );
 
     const triggerElement = React.isValidElement(children)
-      ? React.cloneElement(children as React.ReactElement<{ className?: string; ref?: React.Ref<HTMLDivElement> }>, {
-        ...buttonProps,
+      ? React.cloneElement(children as React.ReactElement<{ className?: string; ref?: React.Ref<HTMLButtonElement | HTMLDivElement> }>, {
+        ...triggerProps,
         className: cn((children as React.ReactElement<{ className?: string }>).props.className, className),
         ref: mergedTriggerRef,
       })
       : (
-        <div ref={mergedTriggerRef} {...buttonProps} className={cn("inline-block", className)}>
+        <div ref={mergedTriggerRef} {...triggerProps} className={cn("inline-block", className)}>
           {children}
         </div>
       );

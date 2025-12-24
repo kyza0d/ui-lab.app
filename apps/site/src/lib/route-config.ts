@@ -1,12 +1,13 @@
-import { FaBook, FaPlug, FaTerminal } from 'react-icons/fa6';
+import { FaBook, FaPlug, FaTerminal, FaShapes } from 'react-icons/fa6';
 
-export type DomainId = 'docs' | 'agents-mcps' | 'cli';
+export type DomainId = 'docs' | 'agents-mcps' | 'cli' | 'elements';
 
 export interface DomainConfig {
   id: DomainId;
   label: string;
   icon: React.ComponentType;
-  hasHeaderTabs: true;
+  headerType: 'tabs' | 'search';
+  headerHeight?: string;
 }
 
 export const DOMAINS: Record<DomainId, DomainConfig> = {
@@ -14,19 +15,26 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     id: 'docs',
     label: 'Documentation',
     icon: FaBook,
-    hasHeaderTabs: true,
+    headerType: 'tabs',
   },
   'agents-mcps': {
     id: 'agents-mcps',
     label: 'Agents & MCPs',
     icon: FaPlug,
-    hasHeaderTabs: true,
+    headerType: 'tabs',
   },
   cli: {
     id: 'cli',
     label: 'CLI',
     icon: FaTerminal,
-    hasHeaderTabs: true,
+    headerType: 'tabs',
+  },
+  elements: {
+    id: 'elements',
+    label: 'Elements',
+    icon: FaShapes,
+    headerType: 'search',
+    headerHeight: '9rem',
   },
 };
 
@@ -56,6 +64,18 @@ export const ROUTES: Record<string, RouteConfig> = {
     path: '/cli',
     domainId: 'cli',
   },
+  elements: {
+    path: '/elements',
+    domainId: 'elements',
+  },
+  blocks: {
+    path: '/blocks',
+    domainId: 'elements',
+  },
+  starters: {
+    path: '/starters',
+    domainId: 'elements',
+  },
 };
 
 const ROUTES_ARRAY = Object.values(ROUTES);
@@ -67,7 +87,8 @@ export const getDomainForPathname = (pathname: string): DomainId | undefined => 
 
 export const shouldShowHeaderTabs = (pathname: string): boolean => {
   const domainId = getDomainForPathname(pathname);
-  return (domainId !== undefined && DOMAINS[domainId]?.hasHeaderTabs) ?? false;
+  const domain = domainId ? DOMAINS[domainId] : undefined;
+  return domain?.headerType === 'tabs' || false;
 };
 
 export const getActiveTabValue = (pathname: string): string | undefined => {
@@ -76,5 +97,17 @@ export const getActiveTabValue = (pathname: string): string | undefined => {
 };
 
 export const getDomainsWithTabs = (): DomainConfig[] => {
-  return Object.values(DOMAINS).filter((domain) => domain.hasHeaderTabs);
+  return Object.values(DOMAINS).filter((domain) => domain.headerType === 'tabs');
+};
+
+export const shouldShowHeaderSearch = (pathname: string): boolean => {
+  const domainId = getDomainForPathname(pathname);
+  const domain = domainId ? DOMAINS[domainId] : undefined;
+  return domain?.headerType === 'search' || false;
+};
+
+export const getHeaderHeight = (pathname: string): string => {
+  const domainId = getDomainForPathname(pathname);
+  if (!domainId) return '3.75rem';
+  return DOMAINS[domainId]?.headerHeight || '6.75rem';
 };

@@ -20,7 +20,7 @@ export function BreadcrumbsNav({ className }: BreadcrumbsNavProps) {
   return (
     <nav
       className={cn(
-        "sticky top-(--header-height) py-2 pl-6 pr-2",
+        "hidden sticky top-(--header-height) py-2 pl-6 pr-2",
         "bg-background-950 border-b border-background-800 z-90",
         className
       )}

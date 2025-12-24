@@ -59,7 +59,7 @@ const sizeClasses: Record<string, string> = {
  * Built with React Aria for full accessibility support including focus management,
  * keyboard handling, and screen reader announcements.
  */
-const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
+const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
   (
     {
       isOpen: controlledIsOpen,
@@ -190,6 +190,62 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
   }
 );
 
-Modal.displayName = "Modal";
+ModalBase.displayName = "Modal";
 
-export { Modal };
+/**
+ * ModalHeader component for use with compound Modal pattern
+ */
+const ModalHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
+>(({ children, ...props }, ref) => (
+  <div ref={ref} className={styles.header} {...props}>
+    {children}
+  </div>
+));
+
+ModalHeader.displayName = "Modal.Header";
+
+/**
+ * ModalBody component for use with compound Modal pattern
+ */
+const ModalBody = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
+>(({ children, ...props }, ref) => (
+  <div ref={ref} className={styles.content} {...props}>
+    {children}
+  </div>
+));
+
+ModalBody.displayName = "Modal.Body";
+
+/**
+ * ModalFooter component for use with compound Modal pattern
+ */
+const ModalFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
+>(({ children, ...props }, ref) => (
+  <div ref={ref} className={styles.footer} {...props}>
+    {children}
+  </div>
+));
+
+ModalFooter.displayName = "Modal.Footer";
+
+/**
+ * Modal with compound components
+ */
+interface ModalComponent extends React.ForwardRefExoticComponent<ModalProps & React.RefAttributes<HTMLDivElement>> {
+  Header: typeof ModalHeader;
+  Body: typeof ModalBody;
+  Footer: typeof ModalFooter;
+}
+
+const Modal = ModalBase as ModalComponent;
+Modal.Header = ModalHeader;
+Modal.Body = ModalBody;
+Modal.Footer = ModalFooter;
+
+export { Modal, ModalHeader, ModalBody, ModalFooter };

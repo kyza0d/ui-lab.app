@@ -166,6 +166,120 @@ export interface GetDesignTokensInput {
 
 export interface GetDesignTokensOutput extends DesignTokens {}
 
+/**
+ * Design System Types
+ */
+
+export interface ColorGuidanceRule {
+  recommendedShades: number[];
+  pairing?: {
+    family: string;
+    shades: number[];
+  };
+  rationale: string;
+}
+
+export interface GetColorGuidanceInput {
+  context: 'button' | 'alert' | 'badge' | 'input' | 'link' | 'text' | 'border' | 'background';
+  semantic_intent: 'primary' | 'success' | 'danger' | 'warning' | 'info' | 'neutral';
+  include_examples?: boolean;
+}
+
+export interface ColorGuidanceExample {
+  title: string;
+  code: string;
+  cssVars: Record<string, string>;
+}
+
+export interface GetColorGuidanceOutput {
+  context: string;
+  semanticIntent: string;
+  recommendedColorFamily: string;
+  shadeGuidance: {
+    lightShades: { shades: number[]; use: string };
+    mediumShades: { shades: number[]; use: string };
+    darkShades: { shades: number[]; use: string };
+  };
+  commonUsages: Array<{
+    component: string;
+    role: string;
+    recommendedShades: number[];
+    pairing?: { family: string; shades: number[] };
+  }>;
+  accessibility: {
+    wcagLevel: string;
+    minContrastRatio: number;
+    requiredPairings: string[];
+  };
+  examples?: ColorGuidanceExample[];
+  doNotUse: string[];
+}
+
+export interface ValidateColorUsageInput {
+  color_family: string;
+  shade: number;
+  usage_context: 'button-background' | 'text' | 'border' | 'background' | 'hover' | 'active' | 'error-indicator';
+  paired_colors?: string[];
+}
+
+export interface ColorValidationIssue {
+  level: 'error' | 'warning' | 'info';
+  message: string;
+  recommendation?: string;
+}
+
+export interface ValidateColorUsageOutput {
+  valid: boolean;
+  colorFamily: string;
+  shade: number;
+  cssVar: string;
+  issues: ColorValidationIssue[];
+  accessibility: {
+    wcagCompliant: boolean;
+    contrastRatios?: Record<string, number>;
+    requiredText?: string;
+  };
+  semanticMatch: {
+    appropriate: boolean;
+    reason: string;
+    alternatives?: string[];
+  };
+}
+
+export interface ComponentDesignGuidance {
+  colorUsage?: {
+    primary?: {
+      family: string;
+      role: 'background' | 'text' | 'border';
+      recommendedShades: number[];
+      rationale: string;
+    };
+    secondary?: {
+      family: string;
+      role: 'background' | 'text' | 'border';
+      recommendedShades: number[];
+      rationale: string;
+    };
+    states?: {
+      hover?: { family: string; shade: number };
+      active?: { family: string; shade: number };
+      disabled?: { family: string; shade: number };
+      error?: { family: string; shade: number };
+    };
+  };
+  examples?: Array<{
+    title: string;
+    description: string;
+    code: string;
+    semanticColors: { property: string; cssVar: string }[];
+  }>;
+  accessibility?: {
+    wcagLevel: 'AA' | 'AAA';
+    requiredPairings: string[];
+    notes: string[];
+  };
+}
+
 export interface ToolInputs {
   search_components: SearchComponentsInput;
   get_component_details: GetComponentDetailsInput;
@@ -175,6 +289,9 @@ export interface ToolInputs {
   get_installation_plan: GetInstallationPlanInput;
   get_component_examples: GetComponentExamplesInput;
   get_design_tokens: GetDesignTokensInput;
+  get_color_guidance: GetColorGuidanceInput;
+  validate_color_usage: ValidateColorUsageInput;
+  iterate_ui_to_lab_components: IterateUIRequest;
 }
 
 export interface ToolOutputs {
@@ -186,4 +303,70 @@ export interface ToolOutputs {
   get_installation_plan: GetInstallationPlanOutput;
   get_component_examples: GetComponentExamplesOutput;
   get_design_tokens: GetDesignTokensOutput;
+  get_color_guidance: GetColorGuidanceOutput;
+  validate_color_usage: ValidateColorUsageOutput;
+  iterate_ui_to_lab_components: IterateUIResult;
+}
+
+/**
+ * UI Iteration Orchestration Types
+ */
+
+export interface IterateUIRequest {
+  file_path: string;
+  context?: string;
+  options?: {
+    analyzeOnly?: boolean;
+    preserveExisting?: boolean;
+    [key: string]: unknown;
+  };
+}
+
+export interface ComponentChoice {
+  component: string;
+  reasoning: string;
+  relevantProps: Record<string, unknown>;
+}
+
+export interface DesignPlan {
+  currentAnalysis: string;
+  proposedImprovements: string;
+  componentChoices: Record<string, ComponentChoice>;
+  designTokens: {
+    backgrounds: string[];
+    foregrounds: string[];
+    borders: string[];
+  };
+}
+
+export interface UIImplementation {
+  code: string;
+  imports: string[];
+  dependencies: string[];
+  cssVariables: string[];
+}
+
+export interface ComponentValidationResult {
+  [key: string]: boolean;
+}
+
+export interface TokenValidationResult {
+  [key: string]: boolean;
+}
+
+export interface WCAGValidation {
+  level: string;
+  issues: string[];
+}
+
+export interface DesignValidation {
+  componentValidation: ComponentValidationResult;
+  tokenValidation: TokenValidationResult;
+  wcagCompliance: WCAGValidation;
+}
+
+export interface IterateUIResult {
+  designPlan: DesignPlan;
+  implementation: UIImplementation;
+  validation: DesignValidation;
 }

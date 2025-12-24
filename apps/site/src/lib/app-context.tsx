@@ -32,8 +32,6 @@ interface AppContextType {
   setSpacingScale: (value: number) => void;
   globalAdjustments: GlobalColorAdjustments;
   setGlobalAdjustments: (adjustments: GlobalColorAdjustments) => void;
-  syntaxVariation: number;
-  setSyntaxVariation: (variation: number) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -53,7 +51,6 @@ const defaultPreferences = {
   borderWidth: 1,
   spacingScale: 1,
   globalAdjustments: DEFAULT_GLOBAL_ADJUSTMENTS,
-  syntaxVariation: 0,
 };
 
 function loadPreferencesFromStorage() {
@@ -79,42 +76,24 @@ function loadPreferencesFromStorage() {
     borderWidth: sourceConfig.layout.borderWidth,
     spacingScale: sourceConfig.layout.spacingScale,
     globalAdjustments: sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
-    syntaxVariation: sourceConfig.colors.syntaxVariation ?? 0,
   };
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  const savedPrefs = typeof window !== 'undefined' ? loadPreferencesFromStorage() : null;
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [currentThemeColors, setCurrentThemeColors] = useState<SimpleThemeColors | null>(defaultPreferences.colors);
-  const [currentThemeMode, setCurrentThemeMode] = useState<"light" | "dark">(defaultPreferences.mode);
+  const [currentThemeColors, setCurrentThemeColors] = useState<SimpleThemeColors | null>(savedPrefs?.colors ?? defaultPreferences.colors);
+  const [currentThemeMode, setCurrentThemeMode] = useState<"light" | "dark">(savedPrefs?.mode ?? defaultPreferences.mode);
   const [panelPosition, setPanelPosition] = useState({ x: 20, y: 80 });
-  const [isThemeInitialized, setIsThemeInitialized] = useState(false);
-  const [fontSizeScale, setFontSizeScale] = useState(defaultPreferences.fontSizeScale);
-  const [fontWeightScale, setFontWeightScale] = useState(defaultPreferences.fontWeightScale);
-  const [typeSizeRatio, setTypeSizeRatio] = useState(defaultPreferences.typeSizeRatio);
-  const [radius, setRadius] = useState(defaultPreferences.radius);
-  const [borderWidth, setBorderWidth] = useState(defaultPreferences.borderWidth);
-  const [spacingScale, setSpacingScale] = useState(defaultPreferences.spacingScale);
-  const [globalAdjustments, setGlobalAdjustments] = useState<GlobalColorAdjustments>(defaultPreferences.globalAdjustments);
-  const [syntaxVariation, setSyntaxVariation] = useState(defaultPreferences.syntaxVariation);
-
-  useEffect(() => {
-    const savedPrefs = loadPreferencesFromStorage();
-    if (savedPrefs) {
-      setCurrentThemeColors(savedPrefs.colors);
-      setCurrentThemeMode(savedPrefs.mode);
-      setFontSizeScale(savedPrefs.fontSizeScale);
-      setFontWeightScale(savedPrefs.fontWeightScale);
-      setTypeSizeRatio(savedPrefs.typeSizeRatio);
-      setRadius(savedPrefs.radius);
-      setBorderWidth(savedPrefs.borderWidth);
-      setSpacingScale(savedPrefs.spacingScale);
-      setGlobalAdjustments(savedPrefs.globalAdjustments);
-      setSyntaxVariation(savedPrefs.syntaxVariation);
-    }
-    setIsThemeInitialized(true);
-  }, []);
+  const [isThemeInitialized, setIsThemeInitialized] = useState(true);
+  const [fontSizeScale, setFontSizeScale] = useState(savedPrefs?.fontSizeScale ?? defaultPreferences.fontSizeScale);
+  const [fontWeightScale, setFontWeightScale] = useState(savedPrefs?.fontWeightScale ?? defaultPreferences.fontWeightScale);
+  const [typeSizeRatio, setTypeSizeRatio] = useState(savedPrefs?.typeSizeRatio ?? defaultPreferences.typeSizeRatio);
+  const [radius, setRadius] = useState(savedPrefs?.radius ?? defaultPreferences.radius);
+  const [borderWidth, setBorderWidth] = useState(savedPrefs?.borderWidth ?? defaultPreferences.borderWidth);
+  const [spacingScale, setSpacingScale] = useState(savedPrefs?.spacingScale ?? defaultPreferences.spacingScale);
+  const [globalAdjustments, setGlobalAdjustments] = useState<GlobalColorAdjustments>(savedPrefs?.globalAdjustments ?? defaultPreferences.globalAdjustments);
 
   const value: AppContextType = {
     isSettingsPanelOpen, setIsSettingsPanelOpen,
@@ -130,7 +109,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     borderWidth, setBorderWidth,
     spacingScale, setSpacingScale,
     globalAdjustments, setGlobalAdjustments,
-    syntaxVariation, setSyntaxVariation,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

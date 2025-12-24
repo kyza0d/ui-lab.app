@@ -148,12 +148,12 @@ export function ComponentConfigurator({
         // Add padding to the code element and display as block
         const styledHtml = html.replace(
           /<code>/,
-          '<code style="display: block; padding: 1rem;">'
+          '<code style="display: block; padding: 1rem; background: var(--background-950);">'
         );
         setHighlightedCode(styledHtml);
       } catch (error) {
         console.error("Failed to highlight code:", error);
-        setHighlightedCode(`<pre style="background: red" ><code style="display: block; padding: 1rem;">${currentCode}</code></pre>`);
+        setHighlightedCode(`<pre cla><code style="display: block; padding: 1rem">${currentCode}</code></pre>`);
       }
     };
 
@@ -203,7 +203,7 @@ export function ComponentConfigurator({
         <div className={cn("border border-background-700 rounded-md overflow-hidden", fullWidth && "w-full")}>
           {!hidePreviewToggle && (
             <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
-              <TabsList className="justify-start h-12 border-0 rounded-none border-b border-background-700 w-full">
+              <TabsList className="bg-transparent justify-start h-12 border-0 rounded-none border-b border-background-700 w-full">
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
               </TabsList>

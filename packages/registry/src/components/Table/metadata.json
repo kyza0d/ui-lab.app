@@ -1,0 +1,27 @@
+{
+  "id": "table",
+  "name": "Table",
+  "description": "A table component for displaying and organizing tabular data.",
+  "category": "data",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Table",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "card"
+  ],
+  "tags": [
+    "data",
+    "table",
+    "display"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Table role",
+      "Header associations",
+      "Keyboard navigation"
+    ]
+  }
+}

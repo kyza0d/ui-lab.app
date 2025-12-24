@@ -1,0 +1,7 @@
+{
+  "01-basic-progress": {
+    "title": "Basic Progress",
+    "description": "A simple progress bar showing completion at 65%. Use this to display task or loading progress in your interface.",
+    "code": "import React from 'react';\nimport { Progress } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Progress value={65} />;\n}"
+  }
+}
