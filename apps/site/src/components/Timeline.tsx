@@ -40,7 +40,7 @@ export function Timeline({ children }: { children: ReactNode }) {
     return timelineSteps;
   }, [children]);
 
-  const circleSize = 32;
+  const circleSize = 26;
   const halfCircle = circleSize / 2;
 
   return (
@@ -58,7 +58,7 @@ export function Timeline({ children }: { children: ReactNode }) {
           <div key={index} className="mt-10 relative flex items-start">
             {/* Circle marker */}
             <div
-              className="absolute left-0 flex items-center justify-center rounded-md border border-background-700 bg-background-900 text-sm font-bold text-foreground-200 z-10"
+              className="absolute left-0 flex pr-px items-center justify-center rounded-md border border-background-700 bg-background-900 text-xs font-bold text-foreground-200 z-10"
               style={{
                 width: `${circleSize}px`,
                 height: `${circleSize}px`,

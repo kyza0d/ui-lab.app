@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BreadcrumbsNav } from '@/components/layout/BreadcrumbsNav';
-import { Divider } from 'ui-lab-components';
 import { FaArrowLeft } from 'react-icons/fa6';
 import type { ElementMetadata, ElementFile } from 'ui-lab-registry';
 import { ElementPreviewContent } from '@/components/elements/ElementPreview';
@@ -21,9 +20,10 @@ interface VariantWithCode {
 interface ElementDetailClientProps {
   element: ElementMetadata;
   variantsWithCode: VariantWithCode[];
+  elementId?: string;
 }
 
-export default function ElementDetailClient({ element, variantsWithCode }: ElementDetailClientProps) {
+export default function ElementDetailClient({ element, variantsWithCode, elementId }: ElementDetailClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Record<number, 'preview' | 'code'>>({});
   const [activeFile, setActiveFile] = useState<Record<number, string>>({});
@@ -118,6 +118,8 @@ export default function ElementDetailClient({ element, variantsWithCode }: Eleme
                         onDeviceVariantChange={(dev) => setDeviceVariant({ ...deviceVariant, [variant.index]: dev })}
                         width={currentWidth}
                         onWidthChange={(w) => setWidth({ ...width, [variant.index]: w })}
+                        elementId={elementId}
+                        variantIndex={variant.index}
                       />
                     ) : (
                       <div className="space-y-4">

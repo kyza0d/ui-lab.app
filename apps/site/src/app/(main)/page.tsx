@@ -97,13 +97,13 @@ export default function Home() {
   };
 
   return (
-    <div ref={containerRef} className="pt-(--header-height) max-w-[1900px] mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
+    <div ref={containerRef} className="pt-(--header-height) max-w-[1400px] mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
       <Toaster />
       <div className="fixed top-0 left-0 w-screen h-screen">
       </div>
       <main className="mx-auto relative h-full">
         <div className="border-b-[2px] border-background-700">
-          <section className="bg-background-950 shadow-2xl ml-auto w-[1600px] grid grid-cols-[5fr_10fr] border-[2px] border-y-0 border-background-700 overflow-hidden">
+          <section className="bg-background-950 ml-auto grid grid-cols-[5fr_10fr] border-[2px] border-y-0 border-background-700 overflow-hidden">
             <HeroSection
               packageManager={packageManager}
               onPackageManagerChange={setPackageManager}
@@ -122,7 +122,7 @@ export default function Home() {
               uiChartRef={uiChartRef}
             />
           </section>
-          <div className="bg-background-950 shadow-2xl ml-auto w-[1600px] border-[2px] border-b-0 border-r-0 border-background-700 overflow-hidden">
+          <div className="bg-background-950 ml-auto border-[2px] border-b-0 border-background-700 overflow-hidden">
             <div className="grid px-[28px] grid-cols-3 gap-x-[24px] py-[48px] space-y-[12px] bg-background-950 border-background-700 overflow-scroll">
               {features.map((feature, i) => {
                 const hasLink = !!feature.link;

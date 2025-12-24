@@ -48,7 +48,7 @@ export function PreviewHeader({
       </div>
 
       <div className="flex items-center gap-3">
-        <Group variant="outline" spacing="compact">
+        <Group variant="outline" spacing="tight">
           <Group.Button
             variant={deviceVariant === "mobile" ? "primary" : "ghost"}
             onClick={() => onDeviceVariantChange("mobile")}

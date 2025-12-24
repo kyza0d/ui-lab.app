@@ -3,16 +3,14 @@
 import { useState, useEffect } from "react";
 import { codeToHtml } from "shiki";
 import { transformerRenderIndentGuides } from "@shikijs/transformers";
-import { FaCheck, FaCopy, FaExpand, FaFile } from "react-icons/fa6";
+import { FaCheck, FaCopy, FaExpand } from "react-icons/fa6";
 import { Button, Modal, Flex } from "ui-lab-components";
-import { PreviewHeader } from "./PreviewHeader";
-import { generateThemePalettes, type OklchColor } from "@/lib/color-utils";
+import { generateThemePalettes } from "@/lib/color-utils";
 import { generateShikiTheme, type ShikiTheme } from "@/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/lib/themes/syntax-colors";
 import { useApp } from "@/lib/app-context";
 import { usePreviewContext, type PreviewActiveTab } from "./PreviewContext";
-import { ResizablePreviewFrame } from "./ResizablePreviewFrame";
-import { Dashboard } from "@/lib/demos/dashboard";
+import { ResizablePreviewContainer } from "./ResizablePreviewContainer";
 import { useExternalWindow } from "@/hooks/useExternalWindow";
 
 interface PreviewContentProps {
@@ -33,17 +31,10 @@ function PromptModal({ isOpen, onClose, prompt }: { isOpen: boolean; onClose: ()
   );
 }
 
-function PlaceholderContent({
-  variant,
-  exampleId,
-}: {
+function PlaceholderContent({ variant }: {
   variant: "mobile" | "desktop";
   exampleId: string;
 }) {
-  // if (exampleId === "saas-1") {
-  //   return <Dashboard />;
-  // }
-
   if (variant === "mobile") {
     return (
       <div className="p-6 bg-background-900">
@@ -107,7 +98,7 @@ export function PreviewContent({
   exampleCode,
 }: PreviewContentProps) {
   const { currentThemeMode, currentThemeColors } = useApp();
-  const { activeTab, setActiveTab, variant, setVariant, showPromptModal, setShowPromptModal, highlightedCode, setHighlightedCode, copied, setCopied } =
+  const { activeTab, setActiveTab, variant, setVariant, showPromptModal, setShowPromptModal, highlightedCode, setHighlightedCode, copied, setCopied, width, setWidth } =
     usePreviewContext();
   const [isHighlighting, setIsHighlighting] = useState(true);
   const { openWindow } = useExternalWindow();
@@ -187,59 +178,49 @@ export function PreviewContent({
   return (
     <>
       <PromptModal isOpen={showPromptModal} onClose={() => setShowPromptModal(false)} prompt={prompt} />
-      <div className="flex flex-col h-full bg-background-900/50 overflow-hidden">
-        <PreviewHeader
-          activeTab={activeTab}
-          onTabChange={(tab) => setActiveTab(tab as PreviewActiveTab)}
-          deviceVariant={variant}
-          onDeviceVariantChange={setVariant}
-          leftContent={
-            <Button className="gap-2" variant="outline" onClick={() => setShowPromptModal(true)}>
-              <FaFile size={14} />
-              Prompt
-            </Button>
-          }
-          rightContent={
-            <Button variant="outline" size="sm" onClick={handleOpenWindow}>
-              <FaExpand size={14} />
-            </Button>
-          }
-          className="border-b-2"
-        />
-
-        <div className="flex-1 overflow-auto bg-background-950 p-[12px]">
-          {activeTab === "preview" && (
-            <ResizablePreviewFrame variant={variant} className="min-h-[300px]">
-              <PlaceholderContent variant={variant} exampleId={exampleId} />
-            </ResizablePreviewFrame>
-          )}
-
-          {activeTab === "code" && (
-            <div className="relative bg-background-950">
-              <button
-                onClick={handleCopy}
-                className={`absolute right-4 top-4 p-2 rounded transition-colors ${copied ? "text-accent-500" : "text-foreground-400 hover:text-foreground-50"
-                  }`}
-                title="Copy code"
-              >
-                {copied ? <FaCheck size={16} /> : <FaCopy size={16} />}
-              </button>
-              {isHighlighting ? (
-                <div className="p-4 text-foreground-400 text-sm">Highlighting code...</div>
-              ) : highlightedCode ? (
-                <div
-                  className="overflow-x-auto text-sm [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:overflow-hidden [&_code]:text-foreground-300 [&_code]:whitespace-pre-wrap [&_code]:wrap-break-word"
-                  dangerouslySetInnerHTML={{
-                    __html: highlightedCode,
-                  }}
-                />
-              ) : (
-                <pre className="overflow-x-auto text-sm text-foreground-300 p-4 whitespace-pre-wrap break-words">{exampleCode}</pre>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+      <ResizablePreviewContainer
+        deviceVariant={variant}
+        width={width}
+        onWidthChange={setWidth}
+        activeTab={activeTab}
+        onTabChange={(tab) => setActiveTab(tab as PreviewActiveTab)}
+        onDeviceVariantChange={setVariant}
+        prompt={prompt}
+        onPromptClick={() => setShowPromptModal(true)}
+        rightContent={
+          <Button variant="outline" size="sm" onClick={handleOpenWindow}>
+            <FaExpand size={14} />
+          </Button>
+        }
+        previewClassName="min-h-[300px]"
+      >
+        {activeTab === "preview" ? (
+          <PlaceholderContent variant={variant} exampleId={exampleId} />
+        ) : (
+          <div className="relative bg-background-950 w-full">
+            <button
+              onClick={handleCopy}
+              className={`absolute right-4 top-4 p-2 rounded transition-colors ${copied ? "text-accent-500" : "text-foreground-400 hover:text-foreground-50"
+                }`}
+              title="Copy code"
+            >
+              {copied ? <FaCheck size={16} /> : <FaCopy size={16} />}
+            </button>
+            {isHighlighting ? (
+              <div className="p-4 text-foreground-400 text-sm">Highlighting code...</div>
+            ) : highlightedCode ? (
+              <div
+                className="overflow-x-auto text-sm [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:overflow-hidden [&_code]:text-foreground-300 [&_code]:whitespace-pre-wrap [&_code]:wrap-break-word"
+                dangerouslySetInnerHTML={{
+                  __html: highlightedCode,
+                }}
+              />
+            ) : (
+              <pre className="overflow-x-auto text-sm text-foreground-300 p-4 whitespace-pre-wrap break-words">{exampleCode}</pre>
+            )}
+          </div>
+        )}
+      </ResizablePreviewContainer>
     </>
   );
 }
