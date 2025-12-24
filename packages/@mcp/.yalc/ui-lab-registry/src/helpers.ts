@@ -46,26 +46,18 @@ export function searchComponents(query: string): ComponentMetadata[] {
       .map(id => (getComponentById(id)?.name || '').toLowerCase());
 
     for (const token of tokens) {
-      // Exact name match (highest priority)
       if (compName === token) score += 100;
-      // Name contains token
       else if (compName.includes(token)) score += 50;
-      // Category matches token
       else if (compCategory.includes(token)) score += 30;
-      // Description contains token
       else if (compDesc.includes(token)) score += 20;
-      // Tag matches token (exact)
       else if (compTags.some(tag => tag === token)) score += 25;
-      // Tag contains token
       else if (compTags.some(tag => tag.includes(token))) score += 15;
-      // Related component name contains token
       else if (relatedNames.some(name => name.includes(token))) score += 10;
     }
 
     return { component: comp, score };
   });
 
-  // Filter components with at least one matching token and sort by score
   return scored
     .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score)

@@ -44,6 +44,14 @@
     "./elements": {
       "import": "./dist/elements/index.js",
       "types": "./dist/elements/index.d.ts"
+    },
+    "./elements/*": {
+      "import": "./dist/elements/*/index.js",
+      "types": "./dist/elements/*/index.d.ts"
+    },
+    "./elements/*/variations/*": {
+      "import": "./dist/elements/*/variations/*/index.js",
+      "types": "./dist/elements/*/variations/*/index.d.ts"
     }
   },
   "files": [
@@ -54,9 +62,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsc",
+    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && tsc",
     "type-check": "tsc --noEmit",
-    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts",
+    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js",
     "validate": "tsx scripts/validate-registry.ts"
   },
   "dependencies": {

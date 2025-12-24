@@ -89,3 +89,7 @@ export {
   getAllCategories,
   getAllTags
 } from './elements/index.js';
+
+// Element components
+export { BasicHeader, HeaderWithActions, demoComponents as headerDemoComponents } from './elements/Header';
+export { default as headerElement } from './elements/Header';

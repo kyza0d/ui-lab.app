@@ -13,8 +13,8 @@ const textareaControls: ControlDef[] = [
   {
     name: 'rows',
     label: 'Rows',
-    type: 'number',
-    defaultValue: 4,
+    type: 'text',
+    defaultValue: '4',
   },
   {
     name: 'placeholder',
