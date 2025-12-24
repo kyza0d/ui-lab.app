@@ -34,5 +34,5 @@ export default async function ElementDetailPage({ params }: ElementDetailPagePro
     index,
   }));
 
-  return <ElementDetailClient element={element} variantsWithCode={variantsWithCode} />;
+  return <ElementDetailClient element={element} variantsWithCode={variantsWithCode} elementId={elementId} />;
 }

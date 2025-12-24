@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "ui-lab-components";
-import { FaFolder, FaFolderOpen, FaFile } from "react-icons/fa6";
-import { PreviewHeader } from "../preview/PreviewHeader";
-import { ResizablePreview } from "../ResizablePreview";
+import { FaFolder, FaFolderOpen, FaFile, FaExpand } from "react-icons/fa6";
+import { ResizablePreviewContainer } from "../preview/ResizablePreviewContainer";
 import { ElementFileViewer } from "./ElementFileViewer";
+import { useExternalWindow } from "@/hooks/useExternalWindow";
 import type { ElementFile } from "ui-lab-registry";
 
 interface ElementPreviewProps {
@@ -21,6 +21,8 @@ interface ElementPreviewProps {
   onDeviceVariantChange?: (variant: "mobile" | "desktop") => void;
   width?: number;
   onWidthChange?: (width: number) => void;
+  elementId?: string;
+  variantIndex?: number;
 }
 
 type FileNode = {
@@ -43,9 +45,12 @@ export function ElementPreviewContent({
   onDeviceVariantChange,
   width = 1200,
   onWidthChange,
+  elementId,
+  variantIndex,
 }: ElementPreviewProps) {
   const [internalWidth, setInternalWidth] = useState(width);
   const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());
+  const { openWindow } = useExternalWindow();
 
   useEffect(() => {
     const defaultWidth = deviceVariant === "mobile" ? 375 : 1200;
@@ -149,61 +154,72 @@ export function ElementPreviewContent({
 
   const currentFile = files.find((f) => f.filename === activeFile) || files[0];
 
+  const handleOpenWindow = () => {
+    if (elementId && variantIndex !== undefined) {
+      openWindow({
+        categoryId: "elements",
+        exampleId: `${elementId}-${variantIndex}`,
+        width: 1200,
+        height: 900,
+      });
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      <PreviewHeader
+    <div className="h-full">
+      <ResizablePreviewContainer
+        deviceVariant={deviceVariant}
+        width={internalWidth}
+        onWidthChange={handleWidthChange}
         activeTab={variant}
         onTabChange={setVariant}
-        deviceVariant={deviceVariant}
         onDeviceVariantChange={(dev) => onDeviceVariantChange?.(dev)}
-      />
-
-      {/* Preview Mode */}
-      {variant === "preview" && DemoComponent && (
-        <ResizablePreview
-          deviceVariant={deviceVariant}
-          width={internalWidth}
-          onWidthChange={handleWidthChange}
-          className="min-h-[70vh]"
-        >
+        previewClassName="min-h-[70vh]"
+        showWidthLabel={variant === "preview"}
+        rightContent={
+          elementId && variantIndex !== undefined ? (
+            <Button variant="outline" size="sm" onClick={handleOpenWindow}>
+              <FaExpand size={14} />
+            </Button>
+          ) : null
+        }
+      >
+        {variant === "preview" && DemoComponent ? (
           <DemoComponent />
-        </ResizablePreview>
-      )}
-
-      {/* Code Mode */}
-      {variant === "code" && (
-        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4">
-          {/* File Tree Sidebar - Only show if >1 file */}
-          {files.length > 1 && (
-            <div className="bg-background-800 border border-background-700 rounded-lg p-3 overflow-y-auto max-h-[70vh]">
-              <div className="text-xs font-semibold text-foreground-400 uppercase tracking-wider mb-3">
-                Files
-              </div>
-              <div className="space-y-0.5">
-                {renderTree(fileTree)}
-              </div>
-            </div>
-          )}
-
-          {/* Code Viewer */}
-          <div className="space-y-3">
-            {/* Breadcrumb-style active file indicator (optional fallback for single file) */}
-            {files.length === 1 && (
-              <div className="text-sm font-mono text-foreground-400">
-                {currentFile.filename}
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4 p-4">
+            {/* File Tree Sidebar - Only show if >1 file */}
+            {files.length > 1 && (
+              <div className="bg-background-800 border border-background-700 rounded-lg p-3 overflow-y-auto max-h-[70vh]">
+                <div className="text-xs font-semibold text-foreground-400 uppercase tracking-wider mb-3">
+                  Files
+                </div>
+                <div className="space-y-0.5">
+                  {renderTree(fileTree)}
+                </div>
               </div>
             )}
 
-            <div className="border border-background-700 rounded-lg overflow-hidden">
-              <ElementFileViewer
-                file={currentFile}
-                onCopy={onCopy}
-                copied={copied}
-              />
+            {/* Code Viewer */}
+            <div className="space-y-3">
+              {/* Breadcrumb-style active file indicator (optional fallback for single file) */}
+              {files.length === 1 && (
+                <div className="text-sm font-mono text-foreground-400">
+                  {currentFile.filename}
+                </div>
+              )}
+
+              <div className="border border-background-700 rounded-lg overflow-hidden">
+                <ElementFileViewer
+                  file={currentFile}
+                  onCopy={onCopy}
+                  copied={copied}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </ResizablePreviewContainer>
     </div>
   );
 }

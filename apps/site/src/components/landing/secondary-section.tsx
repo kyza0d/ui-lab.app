@@ -106,7 +106,7 @@ export function SecondarySection() {
   };
 
   return (
-    <div className="bg-background-950 shadow-2xl ml-auto w-[1600px] h-200 grid grid-cols-[400px_1fr] border-[2px] border-b-0 border-r-0 border-background-700 overflow-hidden">
+    <div className="bg-background-950 shadow-2xl ml-auto h-200 grid grid-cols-[400px_1fr] border-[2px] border-b-0 border-r-0 border-background-700 overflow-hidden">
       <div className="border-r-[2px] h-200 overflow-y-scroll border-background-700 flex flex-col">
         <div className="flex flex-col gap-2 p-3 flex-1">
           {categories.map((category) => (
@@ -131,11 +131,10 @@ export function SecondarySection() {
                   <button
                     key={example.id}
                     onClick={() => handleExampleClick(example.id)}
-                    className={`text-left px-3 py-2 hover:bg-background-800 rounded-lg transition-all text-sm ${
-                      selectedExampleId === example.id
-                        ? "bg-background-800 text-foreground-200"
-                        : "text-foreground-400"
-                    }`}
+                    className={`text-left px-3 py-2 hover:bg-background-800 rounded-lg transition-all text-sm ${selectedExampleId === example.id
+                      ? "bg-background-800 text-foreground-200"
+                      : "text-foreground-400"
+                      }`}
                   >
                     <strong className="font-medium">{example.name}</strong>
                     {example.description && (
