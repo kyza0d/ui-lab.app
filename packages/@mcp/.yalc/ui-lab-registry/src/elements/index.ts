@@ -1,15 +1,11 @@
 import type { ElementRegistry } from '../types';
-import { header } from './header';
-import { sidebar } from './sidebar';
-import { card } from './card';
-
-export const elementRegistry: ElementRegistry = {
-  header,
-  sidebar,
-  card,
-};
+import headerElement from './Header';
 
 export type { ElementMetadata, ElementVariant } from '../types';
+
+export const elementRegistry: ElementRegistry = {
+  [headerElement.id]: headerElement,
+};
 
 export const elementsList = Object.values(elementRegistry);
 

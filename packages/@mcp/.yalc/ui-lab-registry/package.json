@@ -44,6 +44,14 @@
     "./elements": {
       "import": "./dist/elements/index.js",
       "types": "./dist/elements/index.d.ts"
+    },
+    "./elements/*": {
+      "import": "./dist/elements/*/index.js",
+      "types": "./dist/elements/*/index.d.ts"
+    },
+    "./elements/*/variations/*": {
+      "import": "./dist/elements/*/variations/*/index.js",
+      "types": "./dist/elements/*/variations/*/index.d.ts"
     }
   },
   "files": [
@@ -62,5 +70,5 @@
   "dependencies": {
     "ui-lab-components": "file:.yalc/ui-lab-components"
   },
-  "yalcSig": "6ca6a91e31e3b23ef31ed20323bccf93"
+  "yalcSig": "033906baab9e7225dd0a3b720a4a88bb"
 }
