@@ -1,0 +1,31 @@
+{
+  "id": "grid",
+  "name": "Grid",
+  "description": "A powerful grid layout component with container query support for responsive grid layouts.",
+  "category": "layout",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Grid",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "flex",
+    "card",
+    "divider"
+  ],
+  "tags": [
+    "layout",
+    "grid",
+    "container-queries",
+    "responsive",
+    "columns"
+  ],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Semantic div element with grid layout",
+      "No built-in ARIA roles - use for layout purposes",
+      "Compose with accessible child components"
+    ]
+  }
+}

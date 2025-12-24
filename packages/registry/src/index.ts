@@ -5,33 +5,34 @@ export { componentRegistry, componentMetadata } from './registry.js';
 export { generatedAPI, generatedStyles, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies, packageMetadata } from './generated-data.js';
 
 export const sourceUrls: Record<string, string> = {
-  "badge": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/badge",
-  "breadcrumbs": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/breadcrumbs",
-  "button": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/button",
-  "card": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/card",
-  "checkbox": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/checkbox",
-  "command-palette": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/command-palette",
-  "confirmation": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/confirmation",
-  "divider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/divider",
-  "flex": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/flex",
-  "fold": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/fold",
-  "form": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/form",
-  "grid": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/grid",
-  "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/group",
-  "input": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/input",
-  "label": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/label",
-  "menu": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/menu",
-  "modal": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/modal",
-  "popover": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/popover",
-  "progress": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/progress",
-  "radio": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/radio",
-  "select": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/select",
-  "slider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/slider",
-  "switch": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/switch",
-  "tabs": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/tabs",
-  "textarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/textarea",
-  "toast": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/toast",
-  "tooltip": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/tooltip"
+  "badge": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Badge",
+  "breadcrumbs": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Breadcrumbs",
+  "button": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Button",
+  "card": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Card",
+  "checkbox": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Checkbox",
+  "command-palette": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Command-Palette",
+  "confirmation": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Confirmation",
+  "divider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Divider",
+  "flex": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Flex",
+  "fold": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Fold",
+  "form": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Form",
+  "grid": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Grid",
+  "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Group",
+  "input": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Input",
+  "label": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Label",
+  "menu": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Menu",
+  "modal": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Modal",
+  "popover": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Popover",
+  "progress": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Progress",
+  "radio": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Radio",
+  "select": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Select",
+  "slider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Slider",
+  "switch": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Switch",
+  "tabs": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Tabs",
+  "textarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/TextArea",
+  "toast": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Toast",
+  "tooltip": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Tooltip",
+  "scrollarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/ScrollArea"
 };
 
 // Categories
@@ -50,7 +51,20 @@ export type {
   StyleClass,
   ComponentStyles,
   ComponentSourceCode,
-  PackageMetadata
+  PackageMetadata,
+  Example,
+  ComponentExample,
+  ElementMetadata,
+  ElementVariant,
+  ElementFile,
+  ElementRegistry,
+  LayoutConfig,
+  ControlOption,
+  ControlDef,
+  ComponentVariant,
+  ComponentAccessibilityNote,
+  SiteComponentExample,
+  ComponentDetail
 } from './types.js';
 
 // Helpers
@@ -63,3 +77,15 @@ export {
   getAllComponentIds,
   getComponentCount
 } from './helpers.js';
+
+// Elements
+export {
+  elementRegistry,
+  elementsList,
+  getElementById,
+  getElementsByCategory,
+  getElementsByTag,
+  searchElements,
+  getAllCategories,
+  getAllTags
+} from './elements/index.js';

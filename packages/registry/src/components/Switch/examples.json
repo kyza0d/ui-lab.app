@@ -1,0 +1,7 @@
+{
+  "01-basic-switch": {
+    "title": "Basic Switch",
+    "description": "A simple toggle switch component. Use for binary on/off states like enabling features or toggling settings.",
+    "code": "import React from 'react';\nimport { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Switch />;\n}"
+  }
+}

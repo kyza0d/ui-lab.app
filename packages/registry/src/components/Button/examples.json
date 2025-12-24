@@ -1,0 +1,22 @@
+{
+  "01-basic-button": {
+    "title": "Basic Button",
+    "description": "A simple primary button with default styling. Use this as the standard action button in your interface.",
+    "code": "import React from 'react';\nimport { Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Button>Click me</Button>;\n}"
+  },
+  "02-secondary-button": {
+    "title": "Secondary Button",
+    "description": "Secondary action button. Use for supplementary actions.",
+    "code": "import React from 'react';\nimport { Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Button variant=\"secondary\">Secondary Button</Button>;\n}"
+  },
+  "03-outline-button": {
+    "title": "Outline Button",
+    "description": "Outlined button with border. Use for tertiary actions.",
+    "code": "import React from 'react';\nimport { Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Button variant=\"outline\">Outline Button</Button>;\n}"
+  },
+  "04-ghost-button": {
+    "title": "Ghost Button",
+    "description": "Minimal ghost button. Use for low-priority actions.",
+    "code": "import React from 'react';\nimport { Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Button variant=\"ghost\">Ghost Button</Button>;\n}"
+  }
+}

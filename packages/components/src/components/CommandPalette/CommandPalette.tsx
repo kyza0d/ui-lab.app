@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Card } from "../Card";
 import { Badge } from "../Badge";
-import { Divider } from "../Divider";
 import styles from "./CommandPalette.module.css";
 
 export interface Command {
@@ -125,26 +124,24 @@ function PaletteSearchInput({
   );
 
   return (
-    <div className={styles["search"]}>
-      <div className={styles["search-container"]}>
-        <div className={styles["search-icon"]}>
-          <FaMagnifyingGlass className="w-4 h-4" />
-        </div>
-        <input
-          {...filterDOMProps(inputProps)}
-          ref={inputRef}
-          value={searchValue}
-          onChange={handleInputChange}
-          className={styles["search-input"]}
-        />
-        <button
-          {...filterDOMProps(clearButtonProps)}
-          aria-label="Clear search"
-          className={styles["search-clear"]}
-        >
-          ✕
-        </button>
+    <div className={styles["search-container"]}>
+      <div className={styles["search-icon"]}>
+        <FaMagnifyingGlass className="w-4 h-4" />
       </div>
+      <input
+        {...filterDOMProps(inputProps)}
+        ref={inputRef}
+        value={searchValue}
+        onChange={handleInputChange}
+        className={styles["search-input"]}
+      />
+      <button
+        {...filterDOMProps(clearButtonProps)}
+        aria-label="Clear search"
+        className={styles["search-clear"]}
+      >
+        ✕
+      </button>
     </div>
   );
 }
@@ -442,7 +439,7 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
             aria-modal="true"
             aria-label="Command palette"
           >
-            <div className={cn(styles["inner"], contentClassName)}>
+            <Card.Header className={styles["search"]}>
               {/* Search Input */}
               <PaletteSearchInput
                 searchValue={searchQuery}
@@ -450,7 +447,9 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
                 placeholder={placeholder}
                 inputRef={inputRef}
               />
+            </Card.Header>
 
+            <div className={cn(styles["inner"], contentClassName)}>
               {/* Results List */}
               <CommandList
                 commands={filteredCommands}
@@ -460,9 +459,11 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
                 emptyMessage={emptyStateMessage}
               />
 
+            </div>
+            <Card.Footer className={styles["footer"]}>
               {/* Footer hint */}
               {commands.length > 0 && (
-                <div className={styles["footer"]}>
+                <>
                   <Badge variant="default">
                     <span className="pr-2">↑↓</span>Navigate
                   </Badge>
@@ -472,9 +473,9 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
                   <Badge className="ml-auto" variant="default">
                     <span className="pr-2">Esc</span> Close
                   </Badge>
-                </div>
+                </>
               )}
-            </div>
+            </Card.Footer>
           </Card>
         </div>
       </FocusScope>,

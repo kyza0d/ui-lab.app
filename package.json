@@ -18,7 +18,8 @@
     "publish": "pnpm publish -r"
   },
   "dependencies": {
-    "next": "^16.0.10"
+    "next": "^16.0.10",
+    "ui-lab-registry": "file:.yalc/ui-lab-registry"
   },
   "devDependencies": {
     "typescript": "^5"

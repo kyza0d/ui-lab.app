@@ -70,7 +70,7 @@ export function InstallationFlow() {
   return (
     <div className="space-y-8">
       <section className="space-y-4">
-        <h3 id="target-framework" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Target framework</h3>
+        <h3 id="target-framework" className="text-lg font-semibold text-foreground-200 pb-6 scroll-mt-20">Target framework</h3>
         <div className="grid grid-cols-2 gap-3">
           {(
             [
@@ -103,7 +103,7 @@ export function InstallationFlow() {
         </div>
       </section>
 
-      <section className="space-y-4">
+      <section className="space-y-2">
         <h3 id="installation-method" className="text-lg font-semibold text-foreground-200 scroll-mt-20">Installation method</h3>
         <Tabs className='w-fit mb-0 mt-12' variant='underline' value={method} onValueChange={(value) => setMethod(value as 'cli' | 'manual')}>
           <TabsList> {/* Adjust grid-cols based on number of tabs if needed */}

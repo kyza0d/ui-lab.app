@@ -34,6 +34,7 @@ export const componentDependencies: Record<string, ComponentDeps> = {
   'textarea': { npm: [], internal: ['label'] },
   'toast': { npm: [], internal: [] },
   'tooltip': { npm: ['@floating-ui/react-dom'], internal: [] },
+  'scrollarea': { npm: [], internal: [] },
 }
 
 /**

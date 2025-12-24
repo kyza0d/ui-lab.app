@@ -5,71 +5,61 @@ export const categories: CategoryDefinition[] = [
     id: 'input',
     name: 'Input Components',
     label: 'Input',
-    description: 'Form inputs for capturing user data',
-    icon: '⌨️'
+    description: 'Form elements for capturing and validating user input, such as text fields, checkboxes, radio buttons, selects, and sliders.',
   },
   {
     id: 'information',
     name: 'Information Components',
     label: 'Information',
-    description: 'Components for presenting information',
-    icon: '👁️'
+    description: 'Read-only components for displaying static content like labels, badges, tooltips, and descriptive text.',
   },
   {
     id: 'feedback',
     name: 'Feedback Components',
     label: 'Feedback',
-    description: 'Components for system notifications and feedback',
-    icon: '💬'
+    description: 'Components that notify users of system status, success, errors, or progress through alerts and temporary messages.',
   },
   {
     id: 'navigation',
     name: 'Navigation Components',
     label: 'Navigation',
-    description: 'Components for organizing and navigating content',
-    icon: '🧭'
+    description: 'Elements that guide users through the app, including menus, tabs, breadcrumbs, and navigation bars.',
   },
   {
     id: 'container',
     name: 'Container Components',
     label: 'Container',
-    description: 'Components for wrapping and structuring content',
-    icon: '📦'
+    description: 'Components that group and organize related content with visual and semantic structure.',
   },
   {
     id: 'action',
     name: 'Action Components',
     label: 'Action',
-    description: 'Components for triggering user actions',
-    icon: '⚡'
+    description: 'Interactive elements like buttons and links that trigger actions, navigation, or form submission.',
   },
   {
     id: 'composition',
     name: 'Composition Components',
     label: 'Composition',
-    description: 'Components that combine other components',
-    icon: '🧩'
+    description: 'Higher-level components combining primitives to create complex, reusable UI patterns.',
   },
   {
     id: 'layout',
     name: 'Layout Components',
     label: 'Layout',
-    description: 'Components for organizing and separating content',
-    icon: '📐'
+    description: 'Components for arranging and structuring page content using grids, flexbox, or other layout systems.',
   },
   {
     id: 'data',
     name: 'Data Components',
     label: 'Data',
-    description: 'Components for displaying and managing data like tables and visualizations',
-    icon: '📊'
+    description: 'Components for displaying and interacting with datasets, such as tables, lists, and data visualizations.',
   },
   {
     id: 'experimental',
     name: 'Experimental Components',
     label: 'Experimental',
-    description: 'Experimental components that are still in development and may change',
-    icon: '🧪'
+    description: 'Unstable components in active development; APIs may change or be removed.',
   }
 ];
 

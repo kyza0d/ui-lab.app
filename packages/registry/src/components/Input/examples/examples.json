@@ -1,0 +1,10 @@
+{
+  "examples": [
+    {
+      "id": "01-basic-input",
+      "title": "Basic Input",
+      "description": "A simple text input field with default styling. Use this as the standard input element for collecting user text input.",
+      "file": "01-basic-input.tsx"
+    }
+  ]
+}

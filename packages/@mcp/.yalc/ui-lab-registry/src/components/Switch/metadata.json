@@ -1,0 +1,29 @@
+{
+  "id": "switch",
+  "name": "Switch",
+  "description": "A toggle switch for boolean input.",
+  "category": "input",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Switch",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "checkbox",
+    "radio",
+    "label"
+  ],
+  "tags": [
+    "form",
+    "boolean",
+    "toggle"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Keyboard accessible",
+      "ARIA switch role",
+      "Visual state indication"
+    ]
+  }
+}

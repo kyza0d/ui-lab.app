@@ -1,0 +1,8 @@
+[
+  {
+    "id": "01-basic-radio",
+    "title": "Basic Radio",
+    "description": "A simple radio button option with a label. Use this for single-choice selection in forms and settings.",
+    "code": "import React from 'react';\nimport { Radio } from 'ui-lab-components';\n\nexport const metadata = {\n  title: 'Basic Radio',\n  description: 'A simple radio button option with a label. Use this for single-choice selection in forms and settings.'\n};\n\nexport default function Example() {\n  return (\n    <Radio value=\"option1\">\n      Select this option\n    </Radio>\n  );\n}\n"
+  }
+]

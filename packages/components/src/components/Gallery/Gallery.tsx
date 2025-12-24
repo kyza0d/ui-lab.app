@@ -14,28 +14,35 @@ type ResponsiveColumns = {
   xl?: number
 }
 
+type LayoutType = "grid" | "masonry"
+
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   columns?: number | ResponsiveColumns
   gap?: number | string
+  layout?: LayoutType
+  columnWidth?: number | string
 }
 
 interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
   href?: string
   onPress?: (href?: string) => void
+  columnSpan?: number
+  rowSpan?: number
 }
 
 interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
   aspectRatio?: string
 }
 
-interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, gap, className, style, children, ...props }, ref) => {
+  ({ columns = 3, gap, layout = "grid", columnWidth, className, style, children, ...props }, ref) => {
     const columnValue = typeof columns === "number" ? columns : columns.base ?? 3
     const responsiveColumns = typeof columns === "object" ? columns : {}
     const gapValue = typeof gap === "number" ? `${gap / 16}rem` : gap
+    const columnWidthValue = typeof columnWidth === "number" ? `${columnWidth}px` : columnWidth
 
     const cssVariables = {
       "--gallery-columns": columnValue,
@@ -44,6 +51,7 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
       "--gallery-columns-lg": responsiveColumns.lg,
       "--gallery-columns-xl": responsiveColumns.xl,
       "--gallery-gap": gapValue,
+      "--gallery-column-width": columnWidthValue,
     } as React.CSSProperties
 
     return (
@@ -51,6 +59,7 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
         ref={ref}
         className={cn(styles.gallery, className)}
         style={{ ...cssVariables, ...style }}
+        data-layout={layout}
         {...props}
       >
         {children}
@@ -62,7 +71,7 @@ GalleryRoot.displayName = "Gallery"
 
 // Gallery Item Component
 const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
-  ({ href, onPress, className, children, ...props }, ref) => {
+  ({ href, onPress, columnSpan, rowSpan, className, style, children, ...props }, ref) => {
     const elementRef = React.useRef<HTMLElement>(null)
     const combinedRef = (node: HTMLElement | null) => {
       (elementRef as React.MutableRefObject<HTMLElement | null>).current = node
@@ -81,12 +90,19 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
       onPress: () => onPress?.(href),
     })
 
+    const spanStyles: React.CSSProperties = {
+      ...(columnSpan && { gridColumn: `span ${columnSpan}` }),
+      ...(rowSpan && { gridRow: `span ${rowSpan}` }),
+      ...style,
+    }
+
     const commonProps = mergeProps(
       focusProps,
       hoverProps,
       pressProps,
       {
         className: cn(styles.item, className),
+        style: spanStyles,
         "data-focus-visible": isFocusVisible || undefined,
         "data-hovered": isHovered || undefined,
         "data-pressed": isPressed || undefined,

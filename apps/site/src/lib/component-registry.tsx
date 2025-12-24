@@ -1,65 +1,66 @@
 import { cache } from "react";
 import { Button } from "ui-lab-components";
-import { buttonDetail } from "./component-demos/button";
-import { Group } from "ui-lab-components";
-import { groupDetail } from "./component-demos/group";
-import { Flex } from "ui-lab-components";
-import { flexDetail } from "./component-demos/flex";
-import { Grid } from "ui-lab-components";
-import { gridDetail } from "./component-demos/grid";
-import { Table } from "@/components/table";
-import { tableDetail } from "./component-demos/table";
+import { buttonDetail } from "ui-lab-registry/components/Button";
+import { badgeDetail } from "ui-lab-registry/components/Badge";
+import { breadcrumbsDetail } from "ui-lab-registry/components/Breadcrumbs";
+import { cardDetail } from "ui-lab-registry/components/Card";
+import { checkboxDetail } from "ui-lab-registry/components/Checkbox";
+import { dividerDetail } from "ui-lab-registry/components/Divider";
+import { flexDetail } from "ui-lab-registry/components/Flex";
+import { foldDetail } from "ui-lab-registry/components/Fold";
+import { formDetail } from "ui-lab-registry/components/Form";
+import { galleryDetail } from "ui-lab-registry/components/Gallery";
+import { gridDetail } from "ui-lab-registry/components/Grid";
+import { groupDetail } from "ui-lab-registry/components/Group";
+import { inputDetail } from "ui-lab-registry/components/Input";
+import { labelDetail } from "ui-lab-registry/components/Label";
+import { menuDetail } from "ui-lab-registry/components/Menu";
+import { toastDetail } from "ui-lab-registry/components/Toast";
+import { modalDetail } from "ui-lab-registry/components/Modal";
+import { popoverDetail } from "ui-lab-registry/components/Popover";
+import { confirmDetail } from "ui-lab-registry/components/Confirm";
+import { progressDetail } from "ui-lab-registry/components/Progress";
+import { radioDetail } from "ui-lab-registry/components/Radio";
+import { commandPaletteDetail } from "ui-lab-registry/components/CommandPalette";
+import { scrollareaDetail } from "ui-lab-registry/components/ScrollArea";
+import { selectDetail } from "ui-lab-registry/components/Select";
+import { sliderDetail } from "ui-lab-registry/components/Slider";
+import { switchDetail } from "ui-lab-registry/components/Switch";
+import { tableDetail } from "ui-lab-registry/components/Table";
+import { tabsDetail } from "ui-lab-registry/components/Tabs";
+import { textareaDetail } from "ui-lab-registry/components/Textarea";
+import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
 
+import { Group } from "ui-lab-components";
+import { Flex } from "ui-lab-components";
+import { Grid } from "ui-lab-components";
+import { Table } from "ui-lab-components";
 import {
   Select,
   SelectListBox,
 } from "ui-lab-components";
-
-import { selectDetail } from "./component-demos/select";
 import { Input } from "ui-lab-components";
-import { inputDetail } from "./component-demos/input";
 import { Label } from "ui-lab-components";
-import { labelDetail } from "./component-demos/label";
 import { TextArea } from "ui-lab-components";
-import { textareaDetail } from "./component-demos/textarea";
 import { Checkbox } from "ui-lab-components";
-import { checkboxDetail } from "./component-demos/checkbox";
 import { Radio } from "ui-lab-components";
-import { radioDetail } from "./component-demos/radio";
 import { Badge } from "ui-lab-components";
-import { badgeDetail } from "./component-demos/badge";
 import { Breadcrumbs, Breadcrumb } from "ui-lab-components";
-import { breadcrumbsDetail } from "./component-demos/breadcrumbs";
 import { Tooltip } from "ui-lab-components";
-import { tooltipDetail } from "./component-demos/tooltip";
 import { Popover } from "ui-lab-components";
-import { popoverDetail } from "./component-demos/popover";
-import { formDetail } from "./component-demos/form";
-import { toastDetail } from "./component-demos/toast";
-import { modalDetail } from "./component-demos/modal";
 import { Slider } from "ui-lab-components";
-import { sliderDetail } from "./component-demos/slider";
 import { Tabs, TabsList, TabsTrigger } from "ui-lab-components";
-import { tabsDetail } from "./component-demos/tabs";
 import { Menu } from "ui-lab-components";
-import { menuDetail } from "./component-demos/menu";
 import { Switch } from "ui-lab-components";
-import { switchDetail } from "./component-demos/switch";
 import { Progress } from "ui-lab-components";
-import { progressDetail } from "./component-demos/progress";
-import { cardDetail } from "./component-demos/card";
-import { commandPaletteDetail } from "./component-demos/command-palette";
-import { confirmComponentDetail } from "./component-demos/confirmation";
 import { Divider } from "ui-lab-components";
-import { dividerDetail } from "./component-demos/divider";
 import { Fold } from "ui-lab-components";
-import { foldDetail } from "./component-demos/fold";
 import { Gallery } from "ui-lab-components";
-import { galleryDetail } from "./component-demos/gallery";
-import { Frame } from "@/components/experimental";
-import { frameDetail } from "./component-demos/frame";
+// import { Frame } from "@/components/experimental";
+import { frameDetail } from "./demos/frame";
+import { ScrollArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
-import { FaBell, FaCircleQuestion, FaFile, FaImage, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
+import { FaBell, FaCircleQuestion, FaComputerMouse, FaFile, FaImage, FaInfo, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
@@ -68,15 +69,12 @@ import {
   type ComponentMetadata as RegistryMetadata,
 } from "ui-lab-registry";
 import { experimentalRegistry, type ExperimentalComponentMetadata } from "./experimental-registry";
-
 export type { ComponentCategory } from "ui-lab-registry";
 export { categories, categoryMap, categoryOrder } from "ui-lab-registry";
-
 export interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
   experimental?: boolean;
 }
-
 const previews: Record<string, React.ReactNode> = {
   button: (
     <div className="flex flex-wrap gap-2">
@@ -93,16 +91,16 @@ const previews: Record<string, React.ReactNode> = {
   ),
   flex: (
     <Flex align="center" direction="column" gap="sm">
-      <div className="h-7 w-12 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">1</div>
-      <div className="h-7 w-12 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">2</div>
-      <div className="h-7 w-12 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">3</div>
+      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">1</div>
+      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">2</div>
+      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">3</div>
     </Flex>
   ),
   grid: (
     <Grid columns="3" gap="sm">
-      <div className="h-16 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">1</div>
-      <div className="h-16 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">2</div>
-      <div className="h-16 bg-accent-500/20 rounded flex items-center justify-center text-accent-200 text-sm font-medium">3</div>
+      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">1</div>
+      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">2</div>
+      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">3</div>
     </Grid>
   ),
   table: (
@@ -128,23 +126,31 @@ const previews: Record<string, React.ReactNode> = {
       <Label>Default Label</Label>
     </div>
   ),
-  select: (
-    <Select>
-      <Select.Trigger className="w-48">
-        <Select.Value placeholder="Select an option" />
-      </Select.Trigger>
-      <Select.Content>
-        <SelectListBox>
-          <Select.Item key="option1" value="option1">Option 1</Select.Item>
-          <Select.Item key="option2" value="option2">Option 2</Select.Item>
-          <Select.Item key="option3" value="option3">Option 3</Select.Item>
-        </SelectListBox>
-      </Select.Content>
-    </Select>
-  ),
   textarea: (
     <div className="flex flex-col gap-2 max-w-sm">
       <TextArea size="sm" placeholder="Small textarea" />
+    </div>
+  ),
+  select: (
+    <div className="flex items-center justify-center h-22">
+      <Select>
+        <Select.Trigger className="w-48">
+          <Select.Value placeholder="Select an option" />
+        </Select.Trigger>
+        <Select.Content>
+          <SelectListBox>
+            <Select.Item key="option1" value="option1">Option 1</Select.Item>
+            <Select.Item key="option2" value="option2">Option 2</Select.Item>
+            <Select.Item key="option3" value="option3">Option 3</Select.Item>
+          </SelectListBox>
+        </Select.Content>
+      </Select>
+    </div>
+  ),
+  switch: (
+    <div className="flex flex-col items-center gap-3">
+      <Switch size="sm" defaultSelected={false} />
+      <Switch size="sm" defaultSelected={true} />
     </div>
   ),
   checkbox: (
@@ -160,10 +166,8 @@ const previews: Record<string, React.ReactNode> = {
     </div>
   ),
   badge: (
-    <div className="flex flex-wrap gap-2">
-      <Badge variant="success">Success</Badge>
-      <Badge variant="warning">Warning</Badge>
-      <Badge variant="danger">Danger</Badge>
+    <div className="flex flex-wrap">
+      <Badge><FaInfo className="inline mr-2 mb-0.5" />Badge</Badge>
     </div>
   ),
   breadcrumbs: (
@@ -183,9 +187,11 @@ const previews: Record<string, React.ReactNode> = {
   popover: (
     <div className="flex items-center justify-center h-22">
       <Popover content="Click to show">
-        <button className="px-3 py-2 rounded-lg border border-background-600 bg-background-700 text-foreground-300 hover:bg-background-600 text-sm">
-          Click me
-        </button>
+        <Button
+          variant="secondary"
+        >
+          Click Me
+        </Button>
       </Popover>
     </div>
   ),
@@ -224,12 +230,6 @@ const previews: Record<string, React.ReactNode> = {
           <Menu.Item>Paste</Menu.Item>
         </Menu.Content>
       </Menu>
-    </div>
-  ),
-  switch: (
-    <div className="flex items-center gap-3">
-      <Switch size="sm" defaultSelected={false} />
-      <Switch size="sm" defaultSelected={true} />
     </div>
   ),
   slider: (
@@ -288,13 +288,19 @@ const previews: Record<string, React.ReactNode> = {
       ))}
     </Gallery>
   ),
-  frame: (
-    <Frame>
-      <p className="text-sm text-foreground-300">Framed content</p>
-    </Frame>
+  // frame: (
+  //   <Frame>
+  //     <p className="text-sm text-foreground-300">Framed content</p>
+  //   </Frame>
+  // ),
+  scrollarea: (
+    <ScrollArea maxHeight="200px">
+      <div className="flex items-center justify-center h-22">
+        <FaComputerMouse className="w-9 h-9 text-accent-500" />
+      </div>
+    </ScrollArea>
   ),
 };
-
 export const componentRegistry: ComponentMetadata[] = [
   ...Object.entries(registryData).map(
     ([id, metadata]) => ({
@@ -325,11 +331,9 @@ export const componentRegistry: ComponentMetadata[] = [
     preview: previews[metadata.id] || <div />,
   }))
 ];
-
 export const getComponentsByCategory = cache((category: ComponentCategory): ComponentMetadata[] => {
   return componentRegistry.filter(c => c.category === category)
 });
-
 export const getComponentsGroupedByCategory = cache((): Record<ComponentCategory, ComponentMetadata[]> => {
   const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<ComponentCategory, ComponentMetadata[]>;
   categories.forEach(cat => {
@@ -337,7 +341,6 @@ export const getComponentsGroupedByCategory = cache((): Record<ComponentCategory
   });
   return result;
 });
-
 export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
   const component = componentRegistry.find(c => c.id === id)
   if (!component) return []
@@ -345,7 +348,6 @@ export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
     .map(id => componentRegistry.find(c => c.id === id))
     .filter(Boolean) as ComponentMetadata[]
 });
-
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
   group: groupDetail,
@@ -353,9 +355,9 @@ const componentDetails: Record<string, ComponentDetail> = {
   grid: gridDetail,
   table: tableDetail,
   input: inputDetail,
+  textarea: textareaDetail,
   label: labelDetail,
   select: selectDetail,
-  textarea: textareaDetail,
   checkbox: checkboxDetail,
   radio: radioDetail,
   badge: badgeDetail,
@@ -372,17 +374,16 @@ const componentDetails: Record<string, ComponentDetail> = {
   switch: switchDetail,
   card: cardDetail,
   "command-palette": commandPaletteDetail,
-  confirm: confirmComponentDetail,
+  confirm: confirmDetail,
   divider: dividerDetail,
   fold: foldDetail,
   gallery: galleryDetail,
-  frame: frameDetail,
+  // frame: frameDetail,
+  scrollarea: scrollareaDetail,
 };
-
 export const getComponentById = cache((id: string): ComponentDetail | undefined => {
   return componentDetails[id];
 });
-
 export const getComponentMetadata = cache((id: string): ComponentMetadata | undefined => {
   return componentRegistry.find((component) => component.id === id);
 });

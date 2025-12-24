@@ -1,0 +1,25 @@
+{
+  "id": "toast",
+  "name": "Toast",
+  "description": "A notification component for displaying temporary messages.",
+  "category": "experimental",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Toast",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [],
+  "tags": [
+    "notification",
+    "feedback",
+    "temporary"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "ARIA live regions",
+      "Role=\"status\"",
+      "Auto-dismiss support"
+    ]
+  }
+}

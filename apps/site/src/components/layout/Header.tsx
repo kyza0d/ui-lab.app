@@ -6,13 +6,14 @@ import { LandingThemeToggle } from "../landing/theme-toggle";
 import { SettingsPanel } from "../landing/settings-panel";
 import { Logo } from "../ui/logo";
 import { Badge, Divider, Input, Tabs, TabsList, TabsTrigger, CommandPalette } from "ui-lab-components";
+import { ElementsSearchHeader } from "../elements/ElementsSearchHeader";
+import { ElementsFilterPopover } from "../elements/ElementsFilterPopover";
 import { packageMetadata } from "ui-lab-registry";
 import { useApp } from "@/lib/app-context";
 import { cn } from "@/lib/utils";
 import { getComponentsGroupedByCategory, componentRegistry } from "@/lib/component-registry";
 import {
   FaChevronDown,
-  FaPaintbrush,
   FaPalette,
   FaFill,
   FaIcons,
@@ -35,12 +36,16 @@ import {
   SelectListBox,
 } from "ui-lab-components";
 import { HiX } from "react-icons/hi";
-import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, DOMAINS } from "@/lib/route-config";
+import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, getHeaderHeight, DOMAINS } from "@/lib/route-config";
 import { type Command } from "ui-lab-components";
+import { ElementsSortDropdown } from "../elements/ElementsSortDropdown";
+import { ElementsLayoutToggle } from "../elements/ElementsLayoutToggle";
 
 const navigationData = [
   { name: "documentation", label: "Documentation", isDropdown: true },
   { name: "components", label: "Components", isDropdown: true },
+  { name: "elements", label: "Elements" },
+  { name: "marketplace", label: "Marketplace" },
   { name: "tools", label: "Tools", isDropdown: true },
 ] as const;
 
@@ -94,7 +99,7 @@ function ToolsDropdown({
     <div
       className={cn(
         "absolute top-full left-0 z-50 bg-background-800",
-        "overflow-hidden flex rounded-xl border border-background-700",
+        "overflow-hidden flex rounded-xl",
         "shadow-lg w-96"
       )}
       style={{
@@ -194,7 +199,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       {isOpen && (
         <div
           className={cn(
-            "fixed top-15 left-0 right-0 z-50 pt-7 border-b-2 border-background-700/60 md:hidden",
+            "fixed top-15 left-0 right-0 z-50 pt-7 border-b border-background-700/60 md:hidden",
             "overflow-y-auto max-h-[calc(100vh-3.75rem)] bg-background-950 animate-in slide-in-from-top-2"
           )}
         >
@@ -266,7 +271,19 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 );
               }
 
-              return null;
+              const href = item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : `/components`;
+              return (
+                <Link
+                  key={item.name}
+                  href={href}
+                  onClick={onClose}
+                  className={cn(
+                    "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
             })}
             <Divider variant="dashed" className="my-3" />
           </div>
@@ -281,6 +298,8 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const isDocRoute = shouldShowHeaderTabs(pathname);
+  const isElementsRoute = shouldShowHeaderSearch(pathname);
+  const headerHeight = getHeaderHeight(pathname);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -296,6 +315,10 @@ export default function Header() {
   };
 
   const [stars, setStars] = useState<string>("—");
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--header-height', headerHeight);
+  }, [headerHeight]);
 
   useEffect(() => {
     fetch("https://api.github.com/repos/kyza0d/ui-lab.app")
@@ -417,33 +440,36 @@ export default function Header() {
 
   const activeTabValue = getActiveTabValue(pathname);
 
-
   return (
     <>
       {/* background bar */}
       <div
         className={cn(
-          "fixed inset-x-0 top-0 z-100 border-b-[2px] border-background-700",
-          pathname === "/" ? "bg-background-950" : "bg-background-900"
+          "fixed inset-x-0 top-0 z-100 border-b border-background-700",
+          pathname === "/" ? "bg-background-950" : "bg-background-950"
         )}
-        style={{ height: isDocRoute ? "var(--header-height)" : "3.75rem" }}
+        style={{ height: headerHeight }}
       />
 
       <header
         className="items-start justify-between flex flex-col max-w-(--page-width) fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-4"
-        style={{ height: isDocRoute ? "var(--header-height)" : "3.75rem" }}
+        style={{ height: headerHeight }}
       >
         <div className="flex justify-between w-full pt-2.5">
           <div className="flex items-center space-x-4 md:space-x-6">
             <Link
               href="/"
-              className="mr-6 mb-1 flex items-center transition-opacity hover:opacity-80"
+              className="mr-5 mb-1 flex items-center transition-opacity hover:opacity-80"
             >
               <Logo />
-              <span className="text-md font-semibold text-foreground-100">UI Lab</span>
-              <Badge className="ml-2 mt-1 border-0 bg-transparent px-2! text-xs! font-semibold" pill size="sm">
-                v{packageMetadata.version}
-              </Badge>
+              <span className="text-md font-semibold text-foreground-50 mr-6">UI Lab</span>
+              <Select className="w-fit">
+                <Select.Trigger className="relative h-7 pl-1 pr-3!" chevron={<div className="top-0 w-3 absolute flex items-center justify-center h-full border-l border-background-700"><FaChevronDown className="relative left-1" size={10} /></div>}>
+                  <Badge className="border-0 bg-transparent font-semibold" pill size="sm">
+                    v{packageMetadata.version}
+                  </Badge>
+                </Select.Trigger>
+              </Select>
             </Link>
             {/* Desktop navigation */}
             <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
@@ -478,7 +504,7 @@ export default function Header() {
                 return (
                   <Link
                     key={item.name}
-                    href={item.name === "documentation" ? "/docs" : `/components`}
+                    href={item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : `/components`}
                     className={cn(
                       "rounded-xl px-3 py-2 text-sm",
                       "hover:bg-background-800 hover:text-foreground-50"
@@ -511,16 +537,16 @@ export default function Header() {
             <LandingThemeToggle />
 
             {/* GitHub Stars Button */}
-            <a
-              href="https://github.com/kyza0d/ui-lab.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center space-x-1.5 rounded-xl bg-background-700 border border-background-600 px-3 py-1.5 text-xs font-medium text-foreground-50 transition-all hover:bg-background-600 md:flex"
-              aria-label="Star on GitHub"
-            >
-              <FaGithub />
-              <span>{stars}</span>
-            </a>
+            {/* <a */}
+            {/*   href="https://github.com/kyza0d/ui-lab.app" */}
+            {/*   target="_blank" */}
+            {/*   rel="noopener noreferrer" */}
+            {/*   className="hidden sm:flex items-center space-x-1.5 rounded-xl bg-background-700 border border-background-600 px-3 py-1.5 text-xs font-medium text-foreground-50 transition-all hover:bg-background-600 md:flex" */}
+            {/*   aria-label="Star on GitHub" */}
+            {/* > */}
+            {/*   <FaGithub /> */}
+            {/*   <span>{stars}</span> */}
+            {/* </a> */}
 
 
             {/* Mobile menu toggle */}
@@ -551,13 +577,31 @@ export default function Header() {
               <Input
                 placeholder="Search documentation"
                 prefixIcon={<FaMagnifyingGlass size={14} />}
-                className="w-[190] lg:w-[290]"
+                className="pl-10 pr-12 w-full bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
                 size="md"
                 onClick={() => setIsCommandPaletteOpen(true)}
                 readOnly
               />
             </div>
           </Tabs>
+        )}
+        {isElementsRoute && (
+          <div className="w-full grid grid-cols-[auto_1fr] items-center pb-3 pt-2 mt-1">
+
+            {/* Center: Prominent Search */}
+            <div className="flex justify-center">
+              <ElementsSearchHeader className="lg:w-[400px]" />
+            </div>
+
+            {/* Right: Layout & Actions */}
+            <div className="flex items-center justify-end gap-2">
+              <ElementsSortDropdown /> {/* New static UI element */}
+              <div className="h-4 w-[1px] bg-background-700 mx-1" />
+              <ElementsLayoutToggle /> {/* The requested layout option */}
+              <ElementsFilterPopover />
+            </div>
+
+          </div>
         )}
       </header>
 

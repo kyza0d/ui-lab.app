@@ -31,7 +31,8 @@ export const sourceUrls: Record<string, string> = {
   "tabs": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/tabs",
   "textarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/textarea",
   "toast": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/toast",
-  "tooltip": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/tooltip"
+  "tooltip": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/tooltip",
+  "scrollarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/ScrollArea"
 };
 
 // Categories
@@ -50,7 +51,20 @@ export type {
   StyleClass,
   ComponentStyles,
   ComponentSourceCode,
-  PackageMetadata
+  PackageMetadata,
+  Example,
+  ComponentExample,
+  ElementMetadata,
+  ElementVariant,
+  ElementFile,
+  ElementRegistry,
+  LayoutConfig,
+  ControlOption,
+  ControlDef,
+  ComponentVariant,
+  ComponentAccessibilityNote,
+  SiteComponentExample,
+  ComponentDetail
 } from './types.js';
 
 // Helpers
@@ -63,3 +77,15 @@ export {
   getAllComponentIds,
   getComponentCount
 } from './helpers.js';
+
+// Elements
+export {
+  elementRegistry,
+  elementsList,
+  getElementById,
+  getElementsByCategory,
+  getElementsByTag,
+  searchElements,
+  getAllCategories,
+  getAllTags
+} from './elements/index.js';

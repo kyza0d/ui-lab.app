@@ -1,10 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-import { extractAllComponentAPIs } from './extract-api';
-import { extractAllComponentStyles } from './extract-styles';
+import { extractAllComponentAPIs } from './generate-api-data';
+import { extractAllComponentStyles } from './generate-styles-data';
 import { extractAllComponentSources } from './extract-source';
 import { componentDependencies, coreNpmDependencies, corePeerDependencies } from '../src/component-dependencies';
+import { componentRegistry } from '../src/registry.js';
 import type { ComponentRegistry, ComponentAPI, ComponentStyles, ComponentSourceCode, ComponentDeps } from '../src/types';
 
 const __filename = fileURLToPath(import.meta.url);

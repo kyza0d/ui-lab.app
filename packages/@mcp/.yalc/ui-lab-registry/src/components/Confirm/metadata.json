@@ -1,0 +1,29 @@
+{
+  "id": "confirm",
+  "name": "Confirm",
+  "description": "A confirm dialog for critical user actions.",
+  "category": "action",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Confirm",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "modal",
+    "button",
+    "card"
+  ],
+  "tags": [
+    "dialog",
+    "confirm",
+    "safety"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Focus management",
+      "Clear action buttons",
+      "Alert dialog role"
+    ]
+  }
+}

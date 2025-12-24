@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, memo, useMemo } from "react";
+import { useEffect, useState, memo, useMemo } from "react";
 import Link from "next/link";
 import { useApp } from "@/lib/app-context";
-import { FaPalette, FaFont, FaRulerCombined, FaXmark, FaChevronDown, FaGear, FaBrush, FaSun, FaPaintbrush } from "react-icons/fa6";
-import { themes, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
+import { FaFont, FaRulerCombined, FaChevronDown, FaGear, FaBrush, FaSun, FaPaintbrush, FaCheck } from "react-icons/fa6";
+import { themes } from "@/constants/themes";
 import { type OklchColor, type SemanticColorType, type SemanticColorConfig, type HueRange, type GlobalColorAdjustments, oklchToCss } from "@/lib/color-utils";
 import { getScaleName } from "@/lib/config-generator";
 import { useThemeStorage } from "@/hooks/use-theme-storage";
 import { getSemanticColorSafely, getSemanticChromaLimit } from "@/lib/semantic-color-utils";
-import { Tabs, TabsList, TabsTrigger, TabsContent, Popover } from "ui-lab-components";
+import { Tabs, TabsList, TabsTrigger, TabsContent, Popover, Button } from "ui-lab-components";
 import { Slider } from "ui-lab-components";
 import { Divider } from "ui-lab-components";
 
@@ -57,6 +57,7 @@ interface ColorPickerProps {
   color: OklchColor;
   onChange: (color: OklchColor) => void;
   hueRange?: HueRange;
+  type: string;
 }
 
 const MICRO_LABEL = "text-[14px] font-semibold text-foreground-500";
@@ -82,15 +83,12 @@ const SettingsPanelContent = () => {
     isThemeInitialized,
     globalAdjustments,
     setGlobalAdjustments,
-    syntaxVariation,
-    setSyntaxVariation,
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
   const [localColors, setLocalColors] = useState(currentThemeColors || themes["Vitesse"].dark);
   const [expandedColor, setExpandedColor] = useState<string | null>(null);
   const [localGlobalAdjustments, setLocalGlobalAdjustments] = useState<GlobalColorAdjustments>(globalAdjustments);
-  const [localSyntaxVariation, setLocalSyntaxVariation] = useState(syntaxVariation);
 
   useEffect(() => {
     if (isThemeInitialized && currentThemeColors) {
@@ -103,12 +101,6 @@ const SettingsPanelContent = () => {
       setLocalGlobalAdjustments(globalAdjustments);
     }
   }, [isThemeInitialized, globalAdjustments]);
-
-  useEffect(() => {
-    if (isThemeInitialized) {
-      setLocalSyntaxVariation(syntaxVariation);
-    }
-  }, [isThemeInitialized, syntaxVariation]);
 
   const { applyAndPersistColors, applyAndPersistTypography, applyAndPersistLayout } =
     useThemeStorage({
@@ -131,14 +123,6 @@ const SettingsPanelContent = () => {
     setLocalGlobalAdjustments(updated);
     setGlobalAdjustments(updated);
     const updatedColors = { ...localColors, globalAdjustments: updated };
-    setLocalColors(updatedColors);
-    applyAndPersistColors(updatedColors);
-  };
-
-  const handleSyntaxVariationChange = (value: number) => {
-    setLocalSyntaxVariation(value);
-    setSyntaxVariation(value);
-    const updatedColors = { ...localColors, syntaxVariation: value };
     setLocalColors(updatedColors);
     applyAndPersistColors(updatedColors);
   };
@@ -194,9 +178,7 @@ const SettingsPanelContent = () => {
 
   return (
     <div className="w-[390px] h-[490px] select-none flex flex-col">
-      {/* Header */}
       <div className="pr-[8px] py-[2px] flex items-center justify-between border-b border-background-700">
-        {/* Segmented Sliding Tabs */}
         <Tabs variant="underline" value={activeTab} onValueChange={(value) => setActiveTab(value as ConfigTab)}>
           <TabsList className="h-[44px] border-none -mb-0.5">
             <TabsTrigger className="text-[14px] w-[100px]" value="colors" icon={<FaBrush size={14} />}>
@@ -212,8 +194,7 @@ const SettingsPanelContent = () => {
         </Tabs>
       </div>
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar  pt-[8px]">
+      <div className="flex-1 overflow-y-auto custom-scrollbar pt-[8px]">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as ConfigTab)}>
           <TabsContent value="colors" className="m-0 space-y-[8px]">
             <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
@@ -244,24 +225,6 @@ const SettingsPanelContent = () => {
                 />
               </div>
             </div>
-            <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
-              <div className={`${MICRO_LABEL} mb-3 flex items-center gap-2`}>
-                <FaBrush size={12} className="text-foreground-400" />
-                Syntax Highlighting
-              </div>
-              <div className="space-y-3">
-                <GlobalSlider
-                  label="Color Variation"
-                  value={localSyntaxVariation}
-                  min={-0.1}
-                  max={0.1}
-                  step={0.01}
-                  unit=""
-                  formatValue={(v) => `${v >= 0 ? '+' : ''}${v.toFixed(2)}`}
-                  onChange={handleSyntaxVariationChange}
-                />
-              </div>
-            </div>
             <Divider />
             <div className={`${MICRO_LABEL} px-2 pt-2 opacity-70`}>Core Colors</div>
             {(["background", "foreground", "accent"] as const).map((colorType) => (
@@ -279,16 +242,8 @@ const SettingsPanelContent = () => {
               <div className={`${MICRO_LABEL} px-2 mb-2 opacity-70`}>Semantic Layer</div>
               <div className="space-y-2">
                 {(["success", "danger", "warning", "info"] as const).map((colorType) => {
-                  const semanticColor = getSemanticColorSafely(
-                    localColors.semantic,
-                    colorType,
-                    currentThemeMode
-                  );
-                  const chromaLimit = getSemanticChromaLimit(
-                    localColors.semantic,
-                    colorType,
-                    currentThemeMode
-                  );
+                  const semanticColor = getSemanticColorSafely(localColors.semantic, colorType, currentThemeMode);
+                  const chromaLimit = getSemanticChromaLimit(localColors.semantic, colorType, currentThemeMode);
                   const hueRange = localColors.semantic?.[colorType]?.hueRange;
 
                   if (!semanticColor) return null;
@@ -375,7 +330,6 @@ const SettingsPanelContent = () => {
         </Tabs>
       </div>
 
-      {/* Footer - View Configuration Link */}
       <div className="border-t border-background-700 px-[8px] py-[6px] bg-background-800/50 flex items-center justify-between">
         <Link
           href="/config"
@@ -401,18 +355,32 @@ export const SettingsPanel = () => {
       contentClassName="p-0! rounded-[16px] overflow-hidden"
       content={<SettingsPanelContent />}
     >
-      <button
+      <Button
+        variant="ghost"
         className="rounded-xl p-2 hover:bg-theme-border/30"
         aria-label="Open settings"
         title="Open theme settings"
       >
         <FaPaintbrush />
-      </button>
+      </Button>
     </Popover>
   );
 };
 
+/**
+ * UPDATED COLOR ROW
+ * Now uses the same "vibrant preview" logic for the trigger button
+ */
 const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }: ColorRowProps) => {
+  // Use a vibrant version of the color for the UI indicator circle
+  const previewStyle = useMemo(() => ({
+    backgroundColor: oklchToCss({
+      l: 0.65,
+      c: 0.18,
+      h: color.h
+    })
+  }), [color.h]);
+
   return (
     <div>
       <div className={`mx-[6px] rounded-[12px] ${isExpanded ? "bg-background-700/40 border border-background-700" : "hover:bg-background-700/40 border border-transparent hover:border-background-700 active:bg-background-800/50"} mb-[8px] transition-all duration-300 overflow-hidden group`}>
@@ -421,9 +389,10 @@ const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }
           className="cursor-pointer w-full flex items-center gap-3 py-[10px] px-[10px] text-left outline-none"
         >
           <div className="relative">
+            {/* VIBRANT PREVIEW CIRCLE */}
             <div
-              className="w-7 h-7 rounded-[8px]"
-              style={{ backgroundColor: oklchToCss({ ...color, l: 0.55 }) }}
+              className="w-7 h-7 rounded-[8px] border border-white/10 shadow-sm"
+              style={previewStyle}
             />
           </div>
 
@@ -431,6 +400,7 @@ const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }
             <div className="text-[14px] font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
               {type}
             </div>
+            {/* Optional: Add a hex or hue value sub-label if needed */}
           </div>
 
           <div className={`mr-3 text-foreground-500 text-[10px] transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}>
@@ -439,11 +409,11 @@ const ColorRow = memo(({ type, color, isExpanded, onToggle, onChange, hueRange }
         </button>
 
         <div
-          className={`transition-all border-t border-background-700 duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden ${isExpanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}
+          className={`transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden ${isExpanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}
         >
-          <div className="px-3 pb-3 pt-0 space-y-4">
-            <div className="h-px w-full bg-background-700/30 mb-3" />
-            <ColorPicker color={color} onChange={onChange} hueRange={hueRange} />
+          <div className="px-3 pb-4 pt-0">
+            <div className="h-px w-full bg-background-700/30 mb-4" />
+            <ColorPicker type={type} color={color} onChange={onChange} hueRange={hueRange} />
           </div>
         </div>
       </div>
@@ -457,11 +427,10 @@ const SliderControl = memo(({ label, value, min, max, step, unit, onChange }: Sl
     <div className="space-y-2 group">
       <div className="flex justify-between items-end">
         <label className="text-[14px] font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">{label}</label>
-        <span className={`${VALUE_LABEL} border border-background-700 rounded-[8px] bg-background-800 px-1.5 py-0.5 rounded-[4px] text-foreground-300`}>
+        <span className={`${VALUE_LABEL} border border-background-700 rounded-[8px] bg-background-800 px-1.5 py-0.5 text-foreground-300`}>
           {value.toFixed(unit ? 2 : 3)}{unit}
         </span>
       </div>
-
       <Slider.Root
         value={[value]}
         onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
@@ -501,7 +470,7 @@ const TypeScaleSlider = memo(({ value, onChange, fontSizeScale }: TypeScaleSlide
   const scaleName = getScaleName(ratio);
 
   return (
-    <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3">
+    <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3 mx-[6px] mt-2">
       <div className="flex justify-between items-start px-4 pt-2">
         <label className="text-[14px] font-medium text-foreground-400">Type Scale</label>
         <div className="flex flex-col items-end text-right">
@@ -509,7 +478,6 @@ const TypeScaleSlider = memo(({ value, onChange, fontSizeScale }: TypeScaleSlide
           <span className={`${VALUE_LABEL} text-foreground-500`}>{ratio.toFixed(3)}</span>
         </div>
       </div>
-
       <div className="px-4 py-2 border-t border-background-700">
         <Slider.Root
           value={[ratio]}
@@ -524,50 +492,60 @@ const TypeScaleSlider = memo(({ value, onChange, fontSizeScale }: TypeScaleSlide
   );
 });
 
-const ColorPicker = memo(({ color, onChange, hueRange }: ColorPickerProps) => {
-  const constrainHue = (hue: number): number => {
-    if (!hueRange) return hue;
-    return Math.max(hueRange.min, Math.min(hueRange.max, hue));
+const ColorPicker = memo(({ color, onChange, hueRange, type }: ColorPickerProps) => {
+  const { currentThemeMode } = useApp(); // Access theme mode for adaptive previews
+
+  const swatches = useMemo(() => {
+    return Array.from({ length: 7 }, (_, i) => {
+      if (hueRange) {
+        return hueRange.min + (hueRange.max - hueRange.min) * (i / 6);
+      }
+      return (i * (360 / 7)) % 360;
+    });
+  }, [hueRange]);
+
+  // Adjust preview based on the color type
+  const getPresentationColor = (h: number) => {
+    if (type === "foreground") {
+      return oklchToCss({
+        l: currentThemeMode === "dark" ? 0.90 : 0.20, // Preview closer to actual result
+        c: 0.04, // Lower chroma preview for foreground
+        h: h
+      });
+    }
+    // Default for accent/semantic colors
+    return oklchToCss({
+      l: 0.65,
+      c: 0.18,
+      h: h
+    });
   };
 
-  const GradientSlider = ({ value, min, max, step, background, onChangeValue }: any) => (
-    <div className="space-y-1.5 flex items-center">
-      <div className="relative h-3 w-full rounded-[3px] shadow-inner ring-1 ring-white/10 overflow-visible group">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChangeValue(parseFloat(e.target.value))}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer z-10 appearance-none bg-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-8 [&::-webkit-slider-thumb]:rounded-[6px] [&::-webkit-slider-thumb]:bg-accent-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] [&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:-mt-2.5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-8 [&::-moz-range-thumb]:rounded-[6px] [&::-moz-range-thumb]:bg-accent-500 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2)] [&::-moz-range-thumb]:border-0 [&::-moz-range-track]:bg-transparent [&::-moz-range-track]:border-0"
-        />
-        <div className="absolute inset-0 rounded-[3px]" style={{ background }} />
-        <div
-          className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_4px_rgba(0,0,0,0.5)] pointer-events-none"
-          style={{ left: `${((value - min) / (max - min)) * 100}%` }}
-        />
-      </div>
-    </div>
-  );
-
   return (
-    <div className="space-y-3">
-      <GradientSlider
-        value={constrainHue(color.h)}
-        min={hueRange?.min ?? 0}
-        max={hueRange?.max ?? 360}
-        step={1}
-        background={
-          hueRange
-            ? `linear-gradient(to right, ${Array.from({ length: 11 }, (_, i) => {
-              const hue = hueRange.min + ((hueRange.max - hueRange.min) * i / 10);
-              return `oklch(60% 0.2 ${hue})`;
-            }).join(", ")})`
-            : `linear-gradient(to right, oklch(60% 0.2 0), oklch(60% 0.2 60), oklch(60% 0.2 120), oklch(60% 0.2 180), oklch(60% 0.2 240), oklch(60% 0.2 300), oklch(60% 0.2 360))`
-        }
-        onChangeValue={(h: number) => onChange({ ...color, h: constrainHue(h) })}
-      />
+    <div className="grid grid-cols-4 gap-2">
+      {swatches.map((h, i) => {
+        const isSelected = Math.abs(h - color.h) < 2;
+        const displayColor = getPresentationColor(h);
+
+        return (
+          <button
+            key={i}
+            onClick={() => onChange({ ...color, h })}
+            className={`relative h-10 rounded-lg transition-all hover:scale-105 active:scale-95 border-2 flex items-center justify-center ${isSelected
+              ? "border-accent-500 shadow-[0_0_10px_rgba(var(--accent-rgb),0.3)]"
+              : "border-background-700 hover:border-background-500"
+              }`}
+            style={{ backgroundColor: displayColor }}
+          >
+            {isSelected && (
+              <FaCheck
+                className={currentThemeMode === 'dark' && type === 'foreground' ? "text-black" : "text-white"}
+                size={10}
+              />
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 });

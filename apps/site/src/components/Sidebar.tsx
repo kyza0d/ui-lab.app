@@ -74,6 +74,11 @@ function getComponentSections(): SidebarSection[] {
     }));
 }
 
+function getTotalComponentCount(): number {
+  const groupedComponents = getComponentsGroupedByCategory();
+  return Object.values(groupedComponents).reduce((sum, components) => sum + components.length, 0);
+}
+
 export function getActiveSectionForPathname(pathname: string): MainNavItem {
   if (pathname.startsWith("/docs")) return "overview";
   if (pathname.startsWith("/agents-mcps")) {
@@ -270,11 +275,11 @@ export function Sidebar() {
   }, [activeNav]);
 
   return (
-    <aside className="hidden md:flex w-56 flex-col border-r border-background-700">
+    <aside className="hidden md:flex w-56 flex-col">
       {/* Fixed height container with sticky header + scrollable body */}
       <div className="flex flex-col h-screen sticky top-(--header-height)">
         {/* Sticky Top Navigation */}
-        <div className="border-b border-background-700 z-10">
+        <div className="z-10">
           <nav className="py-3 px-2 space-y-1">
             {mainNav.map((nav) => {
               let href = "/components";
@@ -305,14 +310,32 @@ export function Sidebar() {
                   key={nav.id}
                   href={href}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg",
+                    "flex border items-center gap-3 pl-1 pr-2 py-1 text-sm font-medium rounded-md",
                     isActive
-                      ? "text-foreground-50 bg-background-800"
-                      : "text-foreground-400 hover:text-foreground-200 hover:bg-background-800"
+                      ? "border-background-700 text-foreground-50 bg-background-800/70"
+                      : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
                   )}
                 >
-                  <Icon className="w-4 h-4" />
+                  <div className={
+                    cn(
+                      "w-8 h-8 rounded-md flex items-center justify-center",
+                      isActive ? "text-foreground-50 "
+                        : "text-foreground-400 ")}
+                  >
+
+                    <Icon className="w-4 h-4" />
+                  </div>
                   <span>{nav.label}</span>
+                  {nav.id === "components" && (
+                    <span className={cn(
+                      "ml-auto px-1 py-0.5 rounded text-xs font-bold",
+                      isActive
+                        ? "bg-accent-500/15 text-accent-400 border border-accent-500/20"
+                        : "border border-background-700 bg-background-800 text-foreground-300"
+                    )}>
+                      {getTotalComponentCount()}
+                    </span>
+                  )}
                 </Link>
               );
             })}

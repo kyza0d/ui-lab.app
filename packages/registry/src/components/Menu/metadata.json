@@ -1,0 +1,27 @@
+{
+  "id": "menu",
+  "name": "Menu",
+  "description": "A context menu for right-click actions.",
+  "category": "navigation",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Menu",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "popover"
+  ],
+  "tags": [
+    "menu",
+    "right-click",
+    "actions"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Keyboard accessible",
+      "Menu role",
+      "Focus management"
+    ]
+  }
+}
