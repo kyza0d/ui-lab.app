@@ -1,0 +1,37 @@
+{
+  "name": "ui-lab",
+  "version": "0.1.0",
+  "description": "CLI for installing ui-lab components",
+  "type": "module",
+  "bin": {
+    "ui-lab": "./dist/bin/ui-lab.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "dist/templates"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "commander": "^12.1.0",
+    "picocolors": "^1.1.1",
+    "ui-lab-registry": "file:.yalc/ui-lab-registry"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "ui-lab",
+    "cli",
+    "components",
+    "tailwind"
+  ],
+  "license": "MIT",
+  "yalcSig": "e472b3aa9cee04399ecd41fe33484650"
+}

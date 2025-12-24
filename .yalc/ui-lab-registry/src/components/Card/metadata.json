@@ -1,0 +1,27 @@
+{
+  "id": "card",
+  "name": "Card",
+  "description": "A card component for grouping related content.",
+  "category": "container",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Card",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "modal",
+    "divider"
+  ],
+  "tags": [
+    "container",
+    "grouping",
+    "layout"
+  ],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Semantic HTML structure",
+      "Proper heading hierarchy"
+    ]
+  }
+}

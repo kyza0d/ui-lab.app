@@ -26,7 +26,8 @@ export function ElementsGridClient({ elements }: ElementsGridClientProps) {
       {elements.map((element) => {
         const layoutConfig = getLayoutConfig(element);
         const firstVariant = element.variants[0];
-        const Element = firstVariant?.demoPath ? getDemoComponent(firstVariant.demoPath) : null;
+        const previewDemoPath = `${element.id}-preview`;
+        const Element = getDemoComponent(previewDemoPath) || (firstVariant?.demoPath ? getDemoComponent(firstVariant.demoPath) : null);
         const adaptiveProps = layoutConfig.previewConfig?.adaptiveProps ?? {};
 
         return (

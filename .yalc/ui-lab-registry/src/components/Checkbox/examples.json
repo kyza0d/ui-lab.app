@@ -1,0 +1,7 @@
+{
+  "01-basic-checkbox": {
+    "title": "Basic Checkbox",
+    "description": "A simple checkbox with a label. Use this as the standard checkbox input in your forms.",
+    "code": "import React from 'react';\nimport { Checkbox } from 'ui-lab-components';\n\nexport default function Example() {\n  const [checked, setChecked] = React.useState(false);\n\n  return (\n    <Checkbox\n      checked={checked}\n      onChange={(e) => setChecked(e.target.checked)}\n      label=\"Accept terms and conditions\"\n    />\n  );\n}"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "command-palette",
+  "name": "Command",
+  "description": "A searchable command palette for quick access to actions.",
+  "category": "action",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "CommandPalette",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "modal",
+    "input"
+  ],
+  "tags": [
+    "search",
+    "command",
+    "navigation"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Keyboard shortcuts",
+      "Search support",
+      "Focus management"
+    ]
+  }
+}

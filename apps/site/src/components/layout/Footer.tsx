@@ -5,7 +5,7 @@ import { Logo } from "@/components/ui/logo";
 
 export function Footer() {
   return (
-    <footer className="relative bg-background-950/80 border-x mx-auto border-t border-background-700 pb-10 pt-10 overflow-hidden">
+    <footer className="relative bg-background-950/80 mx-auto border-t border-background-700 pb-10 pt-10 overflow-hidden">
       <div className="absolute inset-0 bg-background-950/80 -z-10" />
 
       <div className="relative flex max-w-(--page-width) mx-auto z-10 px-2">
