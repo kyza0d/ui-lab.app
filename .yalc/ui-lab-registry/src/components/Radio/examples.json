@@ -1,0 +1,7 @@
+{
+  "01-basic-radio": {
+    "title": "Basic Radio",
+    "description": "A simple radio button option with a label. Use this for single-choice selection in forms and settings.",
+    "code": "import React from 'react';\nimport { Radio } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Radio value=\"option1\" label=\"Select this option\" />\n  );\n}"
+  }
+}

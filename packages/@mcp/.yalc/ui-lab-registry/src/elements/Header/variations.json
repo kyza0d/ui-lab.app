@@ -1,10 +1,46 @@
 {
   "01-basic": {
     "name": "Basic Header",
-    "description": "Simple header with logo and navigation links"
+    "description": "Simple header with logo and navigation links",
+    "demoPath": "header-basic",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\nimport { Header } from './layout/Header';\n\nexport function BasicHeader() {\n  return (\n    <div className=\"flex flex-col min-h-screen bg-background-950\">\n      <Header logoText=\"UI Lab\" />\n\n      <main className=\"flex-1\">\n        <div className=\"max-w-6xl mx-auto px-4 py-12\">\n          <div className=\"space-y-6\">\n            <div className=\"bg-background-800 rounded-lg border border-background-700 p-8\">\n              <div className=\"h-32 bg-background-700 rounded mb-4\" />\n              <div className=\"space-y-3\">\n                <div className=\"h-4 bg-background-700 rounded w-3/4\" />\n                <div className=\"h-4 bg-background-700 rounded w-5/6\" />\n                <div className=\"h-4 bg-background-700 rounded w-4/5\" />\n              </div>\n            </div>\n\n            <div className=\"grid grid-cols-3 gap-4\">\n              {[1, 2, 3].map((i) => (\n                <div key={i} className=\"bg-background-800 rounded-lg border border-background-700 p-6\">\n                  <div className=\"h-24 bg-background-700 rounded mb-4\" />\n                  <div className=\"space-y-2\">\n                    <div className=\"h-4 bg-background-700 rounded w-4/5\" />\n                    <div className=\"h-3 bg-background-700 rounded w-3/4\" />\n                  </div>\n                </div>\n              ))}\n            </div>\n\n            <div className=\"bg-background-800 rounded-lg border border-background-700 p-8\">\n              <div className=\"space-y-3\">\n                <div className=\"h-4 bg-background-700 rounded w-full\" />\n                <div className=\"h-4 bg-background-700 rounded w-full\" />\n                <div className=\"h-4 bg-background-700 rounded w-3/4\" />\n              </div>\n            </div>\n          </div>\n        </div>\n      </main>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "Header.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\n\ninterface HeaderProps {\n  logoText?: string;\n}\n\nexport function Header({ logoText = 'Logo' }: HeaderProps) {\n  return (\n    <header className=\"bg-background-800 border-b border-background-700\">\n      <div className=\"max-w-6xl mx-auto px-4 py-4 flex items-center justify-between\">\n        <div className=\"flex items-center gap-2\">\n          <div className=\"w-8 h-8 bg-accent-500 rounded-lg\" />\n          <span className=\"text-lg font-semibold text-foreground-50\">{logoText}</span>\n        </div>\n        <nav className=\"flex gap-1\">\n          <a href=\"#\" className=\"px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\">Home</a>\n          <a href=\"#\" className=\"px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\">About</a>\n          <a href=\"#\" className=\"px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\">Contact</a>\n        </nav>\n      </div>\n    </header>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   },
   "02-with-actions": {
     "name": "Header with Actions",
-    "description": "Header with logo, navigation, and action buttons"
+    "description": "Header with logo, navigation, and action buttons",
+    "demoPath": "header-actions",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\nimport { Header } from './layout/Header';\n\nexport function HeaderWithActions() {\n  return (\n    <div className=\"flex flex-col min-h-screen bg-background-950\">\n      <Header logoText=\"UI Lab\" />\n\n      <main className=\"flex-1\">\n        <div className=\"max-w-6xl mx-auto px-4 py-12\">\n          <div className=\"space-y-6\">\n            <div className=\"bg-background-800 rounded-lg border border-background-700 p-8\">\n              <div className=\"h-32 bg-background-700 rounded mb-4\" />\n              <div className=\"space-y-3\">\n                <div className=\"h-4 bg-background-700 rounded w-3/4\" />\n                <div className=\"h-4 bg-background-700 rounded w-5/6\" />\n                <div className=\"h-4 bg-background-700 rounded w-4/5\" />\n              </div>\n            </div>\n\n            <div className=\"grid grid-cols-2 md:grid-cols-4 gap-4\">\n              {[1, 2, 3, 4].map((i) => (\n                <div key={i} className=\"bg-background-800 rounded-lg border border-background-700 p-6\">\n                  <div className=\"h-20 bg-background-700 rounded mb-3\" />\n                  <div className=\"space-y-2\">\n                    <div className=\"h-3 bg-background-700 rounded w-4/5\" />\n                    <div className=\"h-2 bg-background-700 rounded w-3/4\" />\n                  </div>\n                </div>\n              ))}\n            </div>\n\n            <div className=\"bg-background-800 rounded-lg border border-background-700 p-8\">\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Content Section</h2>\n              <div className=\"space-y-3\">\n                <div className=\"h-4 bg-background-700 rounded w-full\" />\n                <div className=\"h-4 bg-background-700 rounded w-full\" />\n                <div className=\"h-4 bg-background-700 rounded w-3/4\" />\n              </div>\n            </div>\n          </div>\n        </div>\n      </main>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "Header.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\nimport { ActionButtons } from '../components/ActionButtons';\n\ninterface HeaderWithActionsProps {\n  logoText?: string;\n}\n\nexport function Header({ logoText = 'Logo' }: HeaderWithActionsProps) {\n  return (\n    <header className=\"bg-background-800 border-b border-background-700\">\n      <div className=\"max-w-6xl mx-auto px-4 py-4 flex items-center justify-between\">\n        <div className=\"flex items-center gap-2\">\n          <div className=\"w-8 h-8 bg-accent-500 rounded-lg\" />\n          <span className=\"text-lg font-semibold text-foreground-50\">{logoText}</span>\n        </div>\n        <nav className=\"hidden md:flex gap-1\">\n          <a href=\"#\" className=\"px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\">Home</a>\n          <a href=\"#\" className=\"px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\">Products</a>\n          <a href=\"#\" className=\"px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\">Documentation</a>\n        </nav>\n        <ActionButtons />\n      </div>\n    </header>\n  );\n}\n",
+        "isEntryPoint": false
+      },
+      {
+        "filename": "ActionButtons.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\nimport { FaUser, FaBell, FaGear } from 'react-icons/fa6';\n\nexport function ActionButtons() {\n  return (\n    <div className=\"flex items-center gap-2\">\n      <button className=\"p-2 text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\" title=\"Notifications\">\n        <FaBell className=\"w-5 h-5\" />\n      </button>\n      <button className=\"p-2 text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\" title=\"Settings\">\n        <FaGear className=\"w-5 h-5\" />\n      </button>\n      <button className=\"p-2 text-foreground-400 hover:text-foreground-300 hover:bg-background-700 rounded transition-colors\" title=\"User Profile\">\n        <FaUser className=\"w-5 h-5\" />\n      </button>\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   }
 }

@@ -1,0 +1,7 @@
+{
+  "01-basic-tooltip": {
+    "title": "Basic Tooltip",
+    "description": "A simple tooltip that appears on hover. Hover over the button to see the tooltip with helpful information.",
+    "code": "import React from 'react';\nimport { Tooltip } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Tooltip content=\"This is a helpful tooltip\">\n      <button>Hover me</button>\n    </Tooltip>\n  );\n}"
+  }
+}
