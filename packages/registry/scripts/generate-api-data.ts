@@ -4,6 +4,13 @@ import { fileURLToPath } from 'url';
 import { withCustomConfig, type ComponentDoc, type PropItem } from 'react-docgen-typescript';
 import type { PropDefinition, ComponentAPI } from '../src/types';
 import { componentRegistry } from '../src/registry.js';
+import {
+  loadApiCache,
+  saveApiCache,
+  getCachedAPI,
+  updateCacheEntry,
+  pruneCache,
+} from './cache-api-data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -112,19 +119,53 @@ export function extractComponentAPI(componentDirName: string): ComponentAPI | nu
 
 export function extractAllComponentAPIs(componentDirNames: string[]): Record<string, ComponentAPI> {
   const result: Record<string, ComponentAPI> = {};
+  let cache = loadApiCache();
+
+  const cachedCount = Object.keys(cache.files).length;
+  if (cachedCount > 0) {
+    console.log(`Loaded API cache with ${cachedCount} entries`);
+  }
+
+  let parsedCount = 0;
+  let cacheHitCount = 0;
 
   for (const dirName of componentDirNames) {
-    const api = extractComponentAPI(dirName);
-    if (api) {
-      const kebabId = toKebabCase(dirName);
-      result[kebabId] = api;
+    const kebabId = toKebabCase(dirName);
 
-      const metadata = componentRegistry[kebabId];
-      if (metadata?.examples) {
-        result[kebabId].examples = metadata.examples;
+    // Try to get cached API first
+    const cachedAPI = getCachedAPI(dirName, cache, COMPONENTS_DIR);
+    if (cachedAPI !== null) {
+      result[kebabId] = cachedAPI;
+      cacheHitCount++;
+    } else {
+      // Parse and cache
+      const api = extractComponentAPI(dirName);
+      if (api) {
+        result[kebabId] = api;
+        cache = updateCacheEntry(dirName, cache, api, COMPONENTS_DIR);
+        parsedCount++;
+      } else {
+        // Component parse failed, cache null result
+        cache = updateCacheEntry(dirName, cache, null, COMPONENTS_DIR);
       }
     }
+
+    // Add examples from registry metadata
+    const metadata = componentRegistry[kebabId];
+    if (metadata?.examples && result[kebabId]) {
+      result[kebabId].examples = metadata.examples;
+    }
   }
+
+  // Prune cache entries for deleted components
+  cache = pruneCache(cache, COMPONENTS_DIR);
+
+  // Save updated cache
+  saveApiCache(cache);
+
+  console.log(
+    `Cache: ${cacheHitCount} hits, ${parsedCount} parsed, total ${Object.keys(result).length} components`
+  );
 
   return result;
 }
