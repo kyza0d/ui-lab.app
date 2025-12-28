@@ -3,5 +3,10 @@
   "name": "Header",
   "description": "Navigation header with branding and navigation elements. Provides a consistent top navigation bar for layouts.",
   "category": "navigation",
-  "tags": ["header", "navigation", "layout", "branding"]
+  "tags": ["header", "navigation", "layout", "branding"],
+  "layout": {
+    "layoutClass": "header",
+    "columnSpan": 3,
+    "rowSpan": 1
+  }
 }

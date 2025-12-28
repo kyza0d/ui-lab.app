@@ -23,7 +23,7 @@ function getFilesInDirectory(dirPath) {
   }
 }
 
-function generateVariationMetadata(elementPath, variationKey, variationMeta) {
+function generateVariationMetadata(elementPath, elementName, variationKey, variationMeta) {
   const variationPath = path.join(elementPath, 'variations', variationKey);
 
   if (!fs.existsSync(variationPath)) {
@@ -84,12 +84,13 @@ function generateVariationMetadata(elementPath, variationKey, variationMeta) {
   }
 
   // Generate demo path from variation key
-  const demoPath = variationKey.replace(/^\d+-/, '').replace(/^header-/, 'header-').toLowerCase();
+  const elementPrefix = elementName.toLowerCase();
+  const demoPath = variationKey.replace(/^\d+-/, '').toLowerCase();
 
   return {
     name: variationMeta.name,
     description: variationMeta.description,
-    demoPath: `header-${demoPath.split('-').pop()}`,
+    demoPath: `${elementPrefix}-${demoPath}`,
     files,
   };
 }
@@ -115,7 +116,7 @@ function generateVariations(elementName) {
   const generatedVariations = {};
 
   for (const [variationKey, variationMeta] of Object.entries(variationsTemplate)) {
-    const variation = generateVariationMetadata(elementPath, variationKey, variationMeta);
+    const variation = generateVariationMetadata(elementPath, elementName, variationKey, variationMeta);
     if (variation) {
       generatedVariations[variationKey] = variation;
     }
@@ -129,6 +130,8 @@ function generateVariations(elementName) {
   return generatedVariations;
 }
 
-// Generate for Header element
+// Generate for Header and Sidebar elements
 const header = generateVariations('Header');
 console.log('Generated variations:', Object.keys(header));
+const sidebar = generateVariations('Sidebar');
+console.log('Generated variations:', Object.keys(sidebar));

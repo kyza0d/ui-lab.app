@@ -1,10 +1,12 @@
 import type { ElementRegistry } from '../types';
 import headerElement from './Header';
+import sidebarElement from './Sidebar';
 
 export type { ElementMetadata, ElementVariant } from '../types';
 
 export const elementRegistry: ElementRegistry = {
   [headerElement.id]: headerElement,
+  [sidebarElement.id]: sidebarElement,
 };
 
 export const elementsList = Object.values(elementRegistry);

@@ -76,7 +76,7 @@ export interface ElementVariant {
 }
 
 export interface LayoutConfig {
-  layoutClass: 'featured-header' | 'featured-sidebar' | 'featured-card' | 'default';
+  layoutClass: string;
   columnSpan: number;
   rowSpan: number;
   previewConfig?: {
@@ -95,7 +95,7 @@ export interface ElementMetadata {
   tags: string[];
   variants: ElementVariant[];
   componentDependencies?: string[];
-  layout?: LayoutConfig;
+  layout?: Partial<LayoutConfig>;
 }
 
 export interface ElementRegistry {

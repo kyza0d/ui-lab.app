@@ -21,7 +21,7 @@
   "02-with-actions": {
     "name": "Header with Actions",
     "description": "Header with logo, navigation, and action buttons",
-    "demoPath": "header-actions",
+    "demoPath": "header-with-actions",
     "files": [
       {
         "filename": "index.tsx",
