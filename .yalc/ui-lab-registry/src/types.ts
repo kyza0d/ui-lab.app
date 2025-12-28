@@ -95,7 +95,7 @@ export interface ElementMetadata {
   tags: string[];
   variants: ElementVariant[];
   componentDependencies?: string[];
-  layout?: LayoutConfig;
+  layout?: Partial<LayoutConfig>;
 }
 
 export interface ElementRegistry {

@@ -52,6 +52,10 @@
     "./elements/*/variations/*": {
       "import": "./dist/elements/*/variations/*/index.js",
       "types": "./dist/elements/*/variations/*/index.d.ts"
+    },
+    "./elements/*/manifest": {
+      "import": "./dist/elements/*/manifest.js",
+      "types": "./dist/elements/*/manifest.d.ts"
     }
   },
   "files": [
@@ -62,13 +66,13 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && tsc",
+    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && node scripts/generate-manifest.js && tsc",
     "type-check": "tsc --noEmit",
-    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js",
+    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && node scripts/generate-manifest.js",
     "validate": "tsx scripts/validate-registry.ts"
   },
   "dependencies": {
     "ui-lab-components": "file:.yalc/ui-lab-components"
   },
-  "yalcSig": "fbfacb7f294ebb9116b922281592ec1e"
+  "yalcSig": "49205595741c8260f846ff89b4e0bc47"
 }
