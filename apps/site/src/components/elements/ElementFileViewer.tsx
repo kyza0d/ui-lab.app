@@ -4,8 +4,11 @@ import { useState, useEffect } from "react";
 import { codeToHtml } from "shiki";
 import { transformerRenderIndentGuides } from "@shikijs/transformers";
 import { FaCheck, FaCopy } from "react-icons/fa6";
-import { generateThemePalettes, type OklchColor } from "@/lib/color-utils";
-import { generateShikiTheme, type ShikiTheme } from "@/lib/themes/shiki/generator";
+import { generateThemePalettes } from "@/lib/color-utils";
+import {
+  generateShikiTheme,
+  type ShikiTheme,
+} from "@/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/lib/themes/syntax-colors";
 import { useApp } from "@/lib/app-context";
 import type { ElementFile } from "ui-lab-registry";
@@ -16,12 +19,27 @@ interface ElementFileViewerProps {
   copied: boolean;
 }
 
-export function ElementFileViewer({ file, onCopy, copied }: ElementFileViewerProps) {
+export function ElementFileViewer({
+  file,
+  onCopy,
+  copied,
+}: ElementFileViewerProps) {
   const { currentThemeMode, currentThemeColors } = useApp();
   const [highlightedCode, setHighlightedCode] = useState("");
   const [isHighlighting, setIsHighlighting] = useState(true);
 
-  const escapeHtml = (s: string) => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c] || c));
+  const escapeHtml = (s: string) =>
+    s.replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;",
+        })[c] || c,
+    );
 
   const generateFallbackHtml = (code: string): string => {
     return `<pre><code style="display: block; padding: 1rem;">${escapeHtml(code)}</code></pre>`;
@@ -43,15 +61,19 @@ export function ElementFileViewer({ file, onCopy, copied }: ElementFileViewerPro
             currentThemeColors.semantic,
             currentThemeColors.accentChromaLimit ?? 0.3,
             currentThemeColors.accentEasing,
-            currentThemeColors.accentChromaScaling
+            currentThemeColors.accentChromaScaling,
           );
           const syntaxPalettes = generateSyntaxPalettes(
             currentThemeColors.background,
             currentThemeColors.accent,
             currentThemeMode,
-            currentThemeColors.syntaxVariation ?? 0
+            currentThemeColors.syntaxVariation ?? 0,
           );
-          theme = generateShikiTheme({ ...palettes, ...syntaxPalettes }, currentThemeMode, `custom-${currentThemeMode}`);
+          theme = generateShikiTheme(
+            { ...palettes, ...syntaxPalettes },
+            currentThemeMode,
+            `custom-${currentThemeMode}`,
+          );
         } else {
           theme = currentThemeMode === "light" ? "github-light" : "github-dark";
         }
@@ -61,7 +83,10 @@ export function ElementFileViewer({ file, onCopy, copied }: ElementFileViewerPro
           theme,
           transformers: [transformerRenderIndentGuides()],
         });
-        let styledHtml = html.replace(/<code>/, '<code style="display: block; padding: 1rem;">');
+        let styledHtml = html.replace(
+          /<code>/,
+          '<code style="display: block; padding: 1rem;">',
+        );
         styledHtml = styledHtml.replace(/background-color:\s*[^;]+;?/g, "");
         setHighlightedCode(styledHtml);
       } catch (error) {
@@ -85,7 +110,9 @@ export function ElementFileViewer({ file, onCopy, copied }: ElementFileViewerPro
         {copied ? <FaCheck size={16} /> : <FaCopy size={16} />}
       </button>
       {isHighlighting ? (
-        <div className="p-4 text-foreground-400 text-sm">Highlighting code...</div>
+        <div className="p-4 text-foreground-400 text-sm">
+          Highlighting code...
+        </div>
       ) : highlightedCode ? (
         <div
           className="overflow-x-auto text-sm [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:overflow-hidden [&_code]:text-foreground-300 [&_code]:whitespace-pre-wrap [&_code]:wrap-break-word"
@@ -94,7 +121,9 @@ export function ElementFileViewer({ file, onCopy, copied }: ElementFileViewerPro
           }}
         />
       ) : (
-        <pre className="overflow-x-auto text-sm text-foreground-300 p-4 whitespace-pre-wrap break-words">{file.code}</pre>
+        <pre className="overflow-x-auto text-sm text-foreground-300 p-4 whitespace-pre-wrap break-words">
+          {file.code}
+        </pre>
       )}
     </div>
   );

@@ -42,7 +42,7 @@ export default async function ElementsPage({ searchParams }: ElementsPageProps) 
   }
 
   return (
-    <div className='pt-60 max-w-6xl mx-auto '>
+    <div className='pt-60 max-w-5xl mx-auto '>
       <BreadcrumbsNav />
       <div className="w-full bg-background-950 mx-auto pb-12">
         <div className="space-y-4 mb-12">

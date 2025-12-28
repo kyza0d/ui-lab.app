@@ -35,7 +35,7 @@ export function ColorScale({ family }: ColorScaleProps) {
         </p>
       </div>
 
-      <div className="grid grid-rows-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-4 gap-3 pb-8 border-b border-background-700">
+      <div className="grid grid-rows-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 pb-8 border-b border-background-700">
         {shadesForFamily.map(renderSwatch)}
       </div>
     </div>

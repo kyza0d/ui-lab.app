@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "ui-lab-components";
 import { FaFolder, FaFolderOpen, FaFile, FaExpand } from "react-icons/fa6";
 import { ResizablePreviewContainer } from "../preview/ResizablePreviewContainer";
@@ -57,10 +57,10 @@ export function ElementPreviewContent({
     setInternalWidth(defaultWidth);
   }, [deviceVariant]);
 
-  const handleWidthChange = (newWidth: number) => {
+  const handleWidthChange = useCallback((newWidth: number) => {
     setInternalWidth(newWidth);
     onWidthChange?.(newWidth);
-  };
+  }, [onWidthChange]);
 
   // Build file tree from flat list of files
   const buildFileTree = (): FileNode[] => {

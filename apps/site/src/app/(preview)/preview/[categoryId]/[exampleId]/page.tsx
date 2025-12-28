@@ -1,6 +1,3 @@
-'use client';
-
-import { use } from 'react';
 import { Dashboard } from '@/lib/demos/dashboard';
 import { getElementById } from 'ui-lab-registry';
 import { getDemoComponent } from '@/lib/get-element-demo';
@@ -63,8 +60,8 @@ const exampleNames: Record<string, string> = {
   'marketing-7': 'FAQ',
 };
 
-export default function PreviewPage({ params }: PreviewPageProps) {
-  const { categoryId, exampleId } = use(params);
+export default async function PreviewPage({ params }: PreviewPageProps) {
+  const { categoryId, exampleId } = await params;
   const exampleName = exampleNames[exampleId] || exampleId;
 
   if (categoryId === 'elements') {

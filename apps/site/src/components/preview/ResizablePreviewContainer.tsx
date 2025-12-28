@@ -45,22 +45,34 @@ export function ResizablePreviewContainer({
 
   const minWidth = deviceVariant === "mobile" ? 375 : 640;
 
+  const widthRef = useRef(width);
+  const onWidthChangeRef = useRef(onWidthChange);
+
+  useEffect(() => {
+    widthRef.current = width;
+    onWidthChangeRef.current = onWidthChange;
+  }, [width, onWidthChange]);
+
   useEffect(() => {
     const updateMaxWidth = () => {
       if (wrapperRef.current?.parentElement) {
         const parentWidth = wrapperRef.current.parentElement.clientWidth;
         const constrainedMax = Math.floor(parentWidth * 0.95);
         setMaxWidth(Math.max(constrainedMax, minWidth + 100));
-        if (width > constrainedMax) {
-          onWidthChange(Math.min(width, constrainedMax));
+        
+        // Use refs to avoid dependency loop
+        if (widthRef.current > constrainedMax) {
+          onWidthChangeRef.current(Math.min(widthRef.current, constrainedMax));
         }
       }
     };
 
+    // Initial check
     updateMaxWidth();
+
     window.addEventListener("resize", updateMaxWidth);
     return () => window.removeEventListener("resize", updateMaxWidth);
-  }, [minWidth, width, onWidthChange]);
+  }, [minWidth]); // Removed width and onWidthChange from dependencies
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

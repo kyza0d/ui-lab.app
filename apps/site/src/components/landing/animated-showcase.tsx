@@ -6,8 +6,7 @@ import { useGSAP } from "@gsap/react";
 import {
   FaUser,
   FaRobot,
-  FaLayerGroup,
-  FaChartLine,
+  FaLayerGroup
 } from "react-icons/fa6";
 
 gsap.registerPlugin(useGSAP);
@@ -88,9 +87,9 @@ export function AnimatedShowcase({
       <div className="h-[calc(100vh-16rem)] ">
         {/* MCP Status Indicator - Floating above the UI */}
         {/* Skewed UI Container */}
-        <div className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 absolute perspective-1000">
+        <div className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute perspective-1000">
           {/* The "Generated" Interface */}
-          <div className="scale-170 transform-gpu">
+          <div className="scale-130 transform-gpu">
             <div
               ref={uiContainerRef}
               className="bg-background-900  border-[1px] border-background-700 w-[600px] h-[400px] rounded-[12px] overflow-hidden grid grid-cols-[30px_1fr]"

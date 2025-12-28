@@ -1,4 +1,5 @@
 import type { LayoutConfig } from 'ui-lab-registry';
+import { elementRegistry } from 'ui-lab-registry/elements';
 
 const DEFAULT_LAYOUT: LayoutConfig = {
   layoutClass: 'default',
@@ -6,25 +7,17 @@ const DEFAULT_LAYOUT: LayoutConfig = {
   rowSpan: 1,
 };
 
-const ELEMENT_LAYOUT_MAP: Record<string, Partial<LayoutConfig>> = {
-  header: {
-    layoutClass: 'featured-header',
-    columnSpan: 3,
-    rowSpan: 1,
-  },
-};
-
 export function getElementLayoutConfig(elementId: string): LayoutConfig {
-  const customLayout = ELEMENT_LAYOUT_MAP[elementId.toLowerCase()];
+  const element = elementRegistry[elementId.toLowerCase()];
 
-  if (!customLayout) {
+  if (!element?.layout) {
     return DEFAULT_LAYOUT;
   }
 
   return {
-    layoutClass: customLayout.layoutClass ?? DEFAULT_LAYOUT.layoutClass,
-    columnSpan: customLayout.columnSpan ?? DEFAULT_LAYOUT.columnSpan,
-    rowSpan: customLayout.rowSpan ?? DEFAULT_LAYOUT.rowSpan,
-    previewConfig: customLayout.previewConfig,
-  };
+    layoutClass: element.layout.layoutClass ?? DEFAULT_LAYOUT.layoutClass,
+    columnSpan: element.layout.columnSpan ?? DEFAULT_LAYOUT.columnSpan,
+    rowSpan: element.layout.rowSpan ?? DEFAULT_LAYOUT.rowSpan,
+    previewConfig: element.layout.previewConfig,
+  } as LayoutConfig;
 }
