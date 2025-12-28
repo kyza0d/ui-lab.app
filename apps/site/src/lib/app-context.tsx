@@ -1,8 +1,16 @@
-'use client'
+"use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { type SimpleThemeColors, DEFAULT_GLOBAL_ADJUSTMENTS } from "@/constants/themes";
+import {
+  type SimpleThemeColors,
+  DEFAULT_GLOBAL_ADJUSTMENTS,
+} from "@/constants/themes";
 import { themes } from "@/constants/themes";
-import { getSourceConfig } from "./theme-cache";
+import {
+  getSourceConfig,
+  validateThemeCache,
+  applyThemeCacheToDOM,
+  THEME_CACHE_KEY,
+} from "./theme-cache";
 import { ensureSemanticColorIntegrity } from "./semantic-color-utils";
 import { type GlobalColorAdjustments } from "./color-utils";
 
@@ -54,7 +62,7 @@ const defaultPreferences = {
 };
 
 function loadPreferencesFromStorage() {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
 
   const sourceConfig = getSourceConfig();
   if (!sourceConfig) return null;
@@ -75,47 +83,146 @@ function loadPreferencesFromStorage() {
     radius: sourceConfig.layout.radius,
     borderWidth: sourceConfig.layout.borderWidth,
     spacingScale: sourceConfig.layout.spacingScale,
-    globalAdjustments: sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
+    globalAdjustments:
+      sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
   };
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const savedPrefs = typeof window !== 'undefined' ? loadPreferencesFromStorage() : null;
   const [isSettingsPanelOpen, setIsSettingsPanelOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [currentThemeColors, setCurrentThemeColors] = useState<SimpleThemeColors | null>(savedPrefs?.colors ?? defaultPreferences.colors);
-  const [currentThemeMode, setCurrentThemeMode] = useState<"light" | "dark">(savedPrefs?.mode ?? defaultPreferences.mode);
+  const [currentThemeColors, setCurrentThemeColors] =
+    useState<SimpleThemeColors | null>(defaultPreferences.colors);
+  const [currentThemeMode, setCurrentThemeMode] = useState<"light" | "dark">(
+    defaultPreferences.mode,
+  );
   const [panelPosition, setPanelPosition] = useState({ x: 20, y: 80 });
   const [isThemeInitialized, setIsThemeInitialized] = useState(true);
-  const [fontSizeScale, setFontSizeScale] = useState(savedPrefs?.fontSizeScale ?? defaultPreferences.fontSizeScale);
-  const [fontWeightScale, setFontWeightScale] = useState(savedPrefs?.fontWeightScale ?? defaultPreferences.fontWeightScale);
-  const [typeSizeRatio, setTypeSizeRatio] = useState(savedPrefs?.typeSizeRatio ?? defaultPreferences.typeSizeRatio);
-  const [radius, setRadius] = useState(savedPrefs?.radius ?? defaultPreferences.radius);
-  const [borderWidth, setBorderWidth] = useState(savedPrefs?.borderWidth ?? defaultPreferences.borderWidth);
-  const [spacingScale, setSpacingScale] = useState(savedPrefs?.spacingScale ?? defaultPreferences.spacingScale);
-  const [globalAdjustments, setGlobalAdjustments] = useState<GlobalColorAdjustments>(savedPrefs?.globalAdjustments ?? defaultPreferences.globalAdjustments);
+  const [fontSizeScale, setFontSizeScale] = useState(
+    defaultPreferences.fontSizeScale,
+  );
+  const [fontWeightScale, setFontWeightScale] = useState(
+    defaultPreferences.fontWeightScale,
+  );
+  const [typeSizeRatio, setTypeSizeRatio] = useState(
+    defaultPreferences.typeSizeRatio,
+  );
+  const [radius, setRadius] = useState(defaultPreferences.radius);
+  const [borderWidth, setBorderWidth] = useState(
+    defaultPreferences.borderWidth,
+  );
+  const [spacingScale, setSpacingScale] = useState(
+    defaultPreferences.spacingScale,
+  );
+  const [globalAdjustments, setGlobalAdjustments] =
+    useState<GlobalColorAdjustments>(defaultPreferences.globalAdjustments);
 
-  const value: AppContextType = {
-    isSettingsPanelOpen, setIsSettingsPanelOpen,
-    isCommandPaletteOpen, setIsCommandPaletteOpen,
-    currentThemeColors, setCurrentThemeColors,
-    currentThemeMode, setCurrentThemeMode,
-    panelPosition, setPanelPosition,
+  useEffect(() => {
+    const savedPrefs = loadPreferencesFromStorage();
+    if (savedPrefs) {
+      setCurrentThemeColors(savedPrefs.colors);
+      setCurrentThemeMode(savedPrefs.mode);
+      setFontSizeScale(savedPrefs.fontSizeScale);
+      setFontWeightScale(savedPrefs.fontWeightScale);
+      setTypeSizeRatio(savedPrefs.typeSizeRatio);
+      setRadius(savedPrefs.radius);
+      setBorderWidth(savedPrefs.borderWidth);
+      setSpacingScale(savedPrefs.spacingScale);
+      setGlobalAdjustments(savedPrefs.globalAdjustments);
+    }
+  }, []);
+
+  // Sync state across windows
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === THEME_CACHE_KEY && e.newValue) {
+        try {
+          const cache = validateThemeCache(JSON.parse(e.newValue));
+          if (cache) {
+            // Apply to DOM
+            applyThemeCacheToDOM(cache);
+
+            // Update State
+            const config = cache.sourceConfig;
+
+            // Validate colors before setting
+            const validatedColors: SimpleThemeColors = {
+              ...config.colors,
+              semantic: config.colors.semantic
+                ? ensureSemanticColorIntegrity(config.colors.semantic)
+                : undefined,
+            };
+
+            setCurrentThemeColors(validatedColors);
+            setCurrentThemeMode(config.mode);
+            setFontSizeScale(config.typography.fontSizeScale);
+            setFontWeightScale(config.typography.fontWeightScale);
+            setTypeSizeRatio(config.typography.typeSizeRatio);
+            setRadius(config.layout.radius);
+            setBorderWidth(config.layout.borderWidth);
+            setSpacingScale(config.layout.spacingScale);
+            if (config.colors.globalAdjustments) {
+              setGlobalAdjustments(config.colors.globalAdjustments);
+            }
+          }
+        } catch (error) {
+          console.warn("[AppContext] Failed to sync storage change:", error);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
+  const value = React.useMemo<AppContextType>(() => ({
+    isSettingsPanelOpen,
+    setIsSettingsPanelOpen,
+    isCommandPaletteOpen,
+    setIsCommandPaletteOpen,
+    currentThemeColors,
+    setCurrentThemeColors,
+    currentThemeMode,
+    setCurrentThemeMode,
+    panelPosition,
+    setPanelPosition,
     isThemeInitialized,
-    fontSizeScale, setFontSizeScale,
-    fontWeightScale, setFontWeightScale,
-    typeSizeRatio, setTypeSizeRatio,
-    radius, setRadius,
-    borderWidth, setBorderWidth,
-    spacingScale, setSpacingScale,
-    globalAdjustments, setGlobalAdjustments,
-  };
+    fontSizeScale,
+    setFontSizeScale,
+    fontWeightScale,
+    setFontWeightScale,
+    typeSizeRatio,
+    setTypeSizeRatio,
+    radius,
+    setRadius,
+    borderWidth,
+    setBorderWidth,
+    spacingScale,
+    setSpacingScale,
+    globalAdjustments,
+    setGlobalAdjustments,
+  }), [
+    isSettingsPanelOpen,
+    isCommandPaletteOpen,
+    currentThemeColors,
+    currentThemeMode,
+    panelPosition,
+    isThemeInitialized,
+    fontSizeScale,
+    fontWeightScale,
+    typeSizeRatio,
+    radius,
+    borderWidth,
+    spacingScale,
+    globalAdjustments
+  ]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
 export function useApp() {
   const context = useContext(AppContext);
-  if (context === undefined) throw new Error("useApp must be used within an AppProvider");
+  if (context === undefined)
+    throw new Error("useApp must be used within an AppProvider");
   return context;
 }
