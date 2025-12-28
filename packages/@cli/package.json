@@ -21,7 +21,7 @@
     "@clack/prompts": "^0.9.1",
     "commander": "^12.1.0",
     "picocolors": "^1.1.1",
-    "ui-lab-registry": "file:.yalc/ui-lab-registry"
+    "ui-lab-registry": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
