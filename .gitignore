@@ -10,3 +10,4 @@ build
 apps/site/.yalc
 .vercel
 apps/site/src/lib/generated-*.ts
+packages/registry/.cache

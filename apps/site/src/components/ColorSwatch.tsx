@@ -28,10 +28,10 @@ export function ColorSwatch({ family, shade, oklch }: ColorSwatchProps) {
   }
 
   return (
-    <div className="flex flex-col w-full rounded-lg overflow-hidden h-full group border border-background-700">
+    <div className="flex flex-col p-1 bg-background-900 border border-background-700 w-full rounded-md overflow-hidden h-full group">
       {/* Color Preview - Fills width, fixed height for consistency */}
       <div
-        className="w-full h-18"
+        className="w-full h-30 rounded-md border border-background-700"
         style={{ backgroundColor: cssValue }}
         title={`${family} ${shade}`}
       />
@@ -40,7 +40,7 @@ export function ColorSwatch({ family, shade, oklch }: ColorSwatchProps) {
       <div className="flex flex-col text-xs">
 
         {/* Header: Shade + Hex */}
-        <div className="flex p-2 justify-between items-between border-t border-background-700">
+        <div className="flex p-1 mt-1 justify-between items-between">
           <span className="font-semibold text-foreground-200">{shade}</span>
           <button
             onClick={() => handleCopy(hexValue, 'hex')}

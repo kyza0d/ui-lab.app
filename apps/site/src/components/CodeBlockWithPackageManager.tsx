@@ -19,9 +19,10 @@ export function CodeBlockWithPackageManager({
   language = 'bash',
 }: CodeBlockWithPackageManagerProps) {
   return (
-    <div className="my-8 overflow-hidden pt-2 rounded border border-background-700 [&>div:last-child>div:first-child]:m-0! [&>div:last-child>div:first-child]:rounded-none! [&>div:last-child>div:first-child]:border-none!">
+    <div className="my-8 pt-2 [&>div:last-child>div:first-child]:m-0! "> <div className='px-4'>
       <PackageManagerTabs value={packageManager} onValueChange={onPackageManagerChange} />
-      <div className='border-t border-background-700'>
+    </div>
+      <div>
         <CodeBlock language={language}>{code}</CodeBlock>
       </div>
     </div>

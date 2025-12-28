@@ -352,28 +352,31 @@ export function Sidebar() {
               {sections.map((section) => (
                 <div key={section.label}>
                   <span className="text-sm text-foreground-200">{section.label}</span>
-                  <div className="space-y-0 mt-1.5">
-                    {section.items.map((item) => {
-                      const active = isItemActive(item.id, pathname, activeNav);
-                      const href = getHrefForItem(activeNav, item.id);
-                      return (
-                        <SidebarItemLink
-                          key={item.id}
-                          href={href}
-                          className={cn(
-                            "block px-3 py-1.5 text-sm rounded-md cursor-pointer",
-                            "transition-colors duration-300 ease-out",
-                            "hover:duration-0",
+                  <div className="relative mt-2.5">
+                    <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
+                    <div className="space-y-1 pl-3">
+                      {section.items.map((item) => {
+                        const active = isItemActive(item.id, pathname, activeNav);
+                        const href = getHrefForItem(activeNav, item.id);
+                        return (
+                          <SidebarItemLink
+                            key={item.id}
+                            href={href}
+                            className={cn(
+                              "block px-3 py-1.5 text-sm rounded-md cursor-pointer",
+                              "transition-colors duration-300 ease-out",
+                              "hover:duration-0",
 
-                            active
-                              ? "text-foreground-50 bg-background-800 font-medium"
-                              : cn("text-foreground-400", "hover:text-foreground-200 hover:bg-background-800/50")
-                          )}
-                        >
-                          {item.label}
-                        </SidebarItemLink>
-                      );
-                    })}
+                              active
+                                ? "text-foreground-50 bg-background-800 font-medium"
+                                : cn("text-foreground-400", "hover:text-foreground-200 hover:bg-background-800/50")
+                            )}
+                          >
+                            {item.label}
+                          </SidebarItemLink>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               ))}

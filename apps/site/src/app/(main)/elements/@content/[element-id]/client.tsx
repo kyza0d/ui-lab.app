@@ -24,7 +24,6 @@ interface ElementDetailClientProps {
 }
 
 export default function ElementDetailClient({ element, variantsWithCode, elementId }: ElementDetailClientProps) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<Record<number, 'preview' | 'code'>>({});
   const [activeFile, setActiveFile] = useState<Record<number, string>>({});
   const [copied, setCopied] = useState<Record<number, boolean>>({});
@@ -49,16 +48,8 @@ export default function ElementDetailClient({ element, variantsWithCode, element
   return (
     <div>
       <BreadcrumbsNav />
-      <div className="w-full bg-background-950 max-w-6xl mx-auto min-h-screen flex flex-col pt-32 pb-12">
+      <div className="w-full bg-background-950 max-w-5xl mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
-          <button
-            onClick={() => router.push('/elements')}
-            className="flex items-center gap-2 text-accent-500 hover:text-accent-400 mb-6 transition-colors"
-          >
-            <FaArrowLeft className="w-4 h-4" />
-            Back to Elements
-          </button>
-
           <div className="mb-12">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
