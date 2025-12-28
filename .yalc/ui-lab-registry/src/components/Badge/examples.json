@@ -1,7 +1,0 @@
-{
-  "01-basic-badge": {
-    "title": "Basic Badge",
-    "description": "A simple badge with default styling. Use this to display labels, tags, or status indicators in your interface.",
-    "code": "import React from 'react';\nimport { Badge } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Badge>New</Badge>;\n}"
-  }
-}
