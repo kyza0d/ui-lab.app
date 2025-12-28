@@ -8,9 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
-    "generate:docs": "node scripts/generate-docs.mjs",
-    "use:local": "yalc add ui-lab-components && yalc add ui-lab-registry && npm install",
-    "use:prod": "yalc remove ui-lab-components ui-lab-registry && pnpm add ui-lab-components && pnpm add ui-lab-registry"
+    "generate:docs": "node scripts/generate-docs.mjs"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
@@ -39,8 +37,8 @@
     "rehype-slug": "^6.0.0",
     "shiki": "^3.17.1",
     "three": "^0.182.0",
-    "ui-lab-components": "file:.yalc/ui-lab-components",
-    "ui-lab-registry": "file:.yalc/ui-lab-registry",
+    "ui-lab-components": "^0.1.0",
+    "ui-lab-registry": "^0.1.0",
     "use-debounce": "^10.0.6"
   },
   "devDependencies": {

@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
-    "ui-lab-registry": "file:.yalc/ui-lab-registry"
+    "ui-lab-registry": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

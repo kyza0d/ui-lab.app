@@ -72,7 +72,7 @@
     "validate": "tsx scripts/validate-registry.ts"
   },
   "dependencies": {
-    "ui-lab-components": "file:.yalc/ui-lab-components"
+    "ui-lab-components": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
