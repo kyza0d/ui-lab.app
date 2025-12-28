@@ -1,7 +1,0 @@
-{
-  "01-basic-popover": {
-    "title": "Basic Popover",
-    "description": "A simple popover with a trigger button. Use this to display contextual content or actions.",
-    "code": "import React from 'react';\nimport { Popover, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Popover content={<p className=\"text-sm\">This is popover content. It appears when you click the button.</p>}>\n      <Button>Click me</Button>\n    </Popover>\n  );\n}"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "01-basic-card": {
-    "title": "Basic Card",
-    "description": "A simple card container with header, body, and footer sections. Use this to group related content in your interface.",
-    "code": "import { Card } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Card>\n      <Card.Header>\n        <h3>Card Title</h3>\n      </Card.Header>\n      <Card.Body>\n        <p>This is the card content area where you can place any information or components.</p>\n      </Card.Body>\n      <Card.Footer>\n        <p>Footer content</p>\n      </Card.Footer>\n    </Card>\n  );\n}"
-  }
-}
