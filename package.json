@@ -15,14 +15,11 @@
     "type-check": "pnpm -r run type-check",
     "lint": "pnpm -r run lint",
     "clean": "pnpm -r run clean",
-    "publish": "pnpm publish -r",
-    "use:local": "node scripts/switch-packages.mjs local",
-    "use:prod": "node scripts/switch-packages.mjs prod",
-    "use:status": "node scripts/switch-packages.mjs status"
+    "publish": "pnpm publish -r"
   },
   "dependencies": {
     "next": "^16.0.10",
-    "ui-lab-registry": "^0.1.0"
+    "ui-lab-registry": "^0.1.5"
   },
   "devDependencies": {
     "typescript": "^5"
