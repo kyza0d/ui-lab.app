@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import Header from "@/components/layout/Header";
+import { HeaderClient } from "@/components/layout/HeaderClient";
 import { Footer } from "@/components/layout/Footer";
 
 export default function MainLayout({
@@ -9,14 +9,10 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <Suspense fallback={<div style={{ height: '3.75rem' }} />}>
-        <Header />
+      <Suspense fallback={null}>
+        <HeaderClient />
       </Suspense>
-      <Suspense fallback={<div />}>
-        <main className="flex-1">
-          {children}
-        </main>
-      </Suspense>
+      <main className="flex-1">{children}</main>
       <Footer />
     </>
   );
