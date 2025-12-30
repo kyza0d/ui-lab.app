@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { SidebarShell } from '@/components/SidebarShell';
 import { ElementsSidebarContent } from './ElementsSidebarContent';
 import { FaShapes, FaRectangleList, FaWindowRestore } from 'react-icons/fa6';
@@ -15,8 +14,12 @@ function getActiveNavFromPathname(pathname: string): ElementsNav {
   return 'elements';
 }
 
-export function ElementsSidebar({ elements }: { elements: ElementMetadata[] }) {
-  const pathname = usePathname();
+interface ElementsSidebarProps {
+  elements: ElementMetadata[];
+  pathname: string;
+}
+
+export function ElementsSidebar({ elements, pathname }: ElementsSidebarProps) {
   const activeNav = getActiveNavFromPathname(pathname);
 
   const mainNav = [

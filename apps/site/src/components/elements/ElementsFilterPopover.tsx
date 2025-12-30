@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Button, Popover } from 'ui-lab-components';
 import { ElementFilter } from './ElementFilter';
 import { FaSliders, FaX } from 'react-icons/fa6';
@@ -10,50 +9,30 @@ import { cn } from '@/lib/utils';
 
 interface ElementsFilterPopoverProps {
   className?: string;
+  selectedCategory?: string | null;
+  selectedTags?: string[];
+  onCategoryChange: (category: string | null) => void;
+  onTagsChange: (tags: string[]) => void;
+  onClearAll: () => void;
 }
 
-export function ElementsFilterPopover({ className }: ElementsFilterPopoverProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export function ElementsFilterPopover({
+  className,
+  selectedCategory = null,
+  selectedTags = [],
+  onCategoryChange,
+  onTagsChange,
+  onClearAll,
+}: ElementsFilterPopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const categories = useMemo(() => getAllCategories(), []);
   const tags = useMemo(() => getAllTags(), []);
 
-  const selectedCategory = searchParams.get('category') || null;
-  const selectedTags = useMemo(() => {
-    const tagsParam = searchParams.get('tags');
-    return tagsParam ? tagsParam.split(',').filter(Boolean) : [];
-  }, [searchParams]);
-
   const activeFilterCount = (selectedCategory ? 1 : 0) + selectedTags.length;
 
-  const handleCategoryChange = (category: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (category) {
-      params.set('category', category);
-    } else {
-      params.delete('category');
-    }
-    router.push(`${pathname}?${params.toString()}`);
-  };
-
-  const handleTagsChange = (newTags: string[]) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (newTags.length > 0) {
-      params.set('tags', newTags.join(','));
-    } else {
-      params.delete('tags');
-    }
-    router.push(`${pathname}?${params.toString()}`);
-  };
-
   const handleClearAll = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete('category');
-    params.delete('tags');
-    router.push(`${pathname}?${params.toString()}`);
+    onClearAll();
   };
 
   return (
@@ -77,10 +56,10 @@ export function ElementsFilterPopover({ className }: ElementsFilterPopoverProps)
           <ElementFilter
             categories={categories}
             selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
+            onCategoryChange={onCategoryChange}
             tags={tags}
             selectedTags={selectedTags}
-            onTagsChange={handleTagsChange}
+            onTagsChange={onTagsChange}
           />
 
           {activeFilterCount > 0 && (
