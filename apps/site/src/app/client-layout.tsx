@@ -12,13 +12,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     <Suspense fallback={null}>
       <AppProvider>
         <Suspense fallback={<div style={{ height: '3.75rem' }} />}>
-          <Header
-            pathname={pathname}
-            currentQuery=""
-            currentSort="newest"
-            selectedCategory={null}
-            selectedTags={[]}
-          />
+          <Header pathname={pathname} />
         </Suspense>
         <Suspense fallback={<div />}>
           <main className="flex-1">
