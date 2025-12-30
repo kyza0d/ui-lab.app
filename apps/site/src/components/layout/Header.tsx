@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { LandingThemeToggle } from "../landing/theme-toggle";
 import { SettingsPanel } from "../landing/settings-panel";
@@ -293,9 +293,32 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   );
 }
 
+interface HeaderProps {
+  pathname: string;
+  currentQuery?: string;
+  currentSort?: string;
+  selectedCategory?: string | null;
+  selectedTags?: string[];
+  onSearch?: (query: string) => void;
+  onSortChange?: (sort: string) => void;
+  onCategoryChange?: (category: string | null) => void;
+  onTagsChange?: (tags: string[]) => void;
+  onClearFilters?: () => void;
+}
+
 /* ---------- Main Header ---------- */
-export default function Header() {
-  const pathname = usePathname();
+export default function Header({
+  pathname,
+  currentQuery = '',
+  currentSort = 'newest',
+  selectedCategory = null,
+  selectedTags = [],
+  onSearch = () => {},
+  onSortChange = () => {},
+  onCategoryChange = () => {},
+  onTagsChange = () => {},
+  onClearFilters = () => {},
+}: HeaderProps) {
   const router = useRouter();
   const isDocRoute = shouldShowHeaderTabs(pathname);
   const isElementsRoute = shouldShowHeaderSearch(pathname);
@@ -590,15 +613,29 @@ export default function Header() {
 
             {/* Center: Prominent Search */}
             <div className="flex justify-center">
-              <ElementsSearchHeader className="lg:w-[400px]" />
+              <ElementsSearchHeader
+                className="lg:w-[400px]"
+                currentQuery={currentQuery}
+                pathname={pathname}
+                onSearch={onSearch}
+              />
             </div>
 
             {/* Right: Layout & Actions */}
             <div className="flex items-center justify-end gap-2">
-              <ElementsSortDropdown /> {/* New static UI element */}
+              <ElementsSortDropdown
+                currentSort={currentSort}
+                onSortChange={onSortChange}
+              />
               <div className="h-4 w-[1px] bg-background-700 mx-1" />
-              <ElementsLayoutToggle /> {/* The requested layout option */}
-              <ElementsFilterPopover />
+              <ElementsLayoutToggle />
+              <ElementsFilterPopover
+                selectedCategory={selectedCategory}
+                selectedTags={selectedTags}
+                onCategoryChange={onCategoryChange}
+                onTagsChange={onTagsChange}
+                onClearAll={onClearFilters}
+              />
             </div>
 
           </div>
