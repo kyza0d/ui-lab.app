@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { BreadcrumbsNav } from '@/components/layout/BreadcrumbsNav';
-import { FaArrowLeft } from 'react-icons/fa6';
+import { useState, useMemo } from 'react';
 import type { ElementMetadata, ElementFile } from 'ui-lab-registry';
+import { getElementById } from 'ui-lab-registry';
 import { ElementPreviewContent } from '@/components/elements/ElementPreview';
 import { getDemoComponent } from '@/lib/get-element-demo';
+import { getElementSourceCode } from '@/lib/get-element-source';
 
 interface VariantWithCode {
   name: string;
@@ -15,15 +14,25 @@ interface VariantWithCode {
   files?: ElementFile[];
   sourceCode: string | null;
   index: number;
+  variantId: string;
 }
 
 interface ElementDetailClientProps {
-  element: ElementMetadata;
-  variantsWithCode: VariantWithCode[];
-  elementId?: string;
+  elementId: string;
 }
 
-export default function ElementDetailClient({ element, variantsWithCode, elementId }: ElementDetailClientProps) {
+export default function ElementDetailClient({ elementId }: ElementDetailClientProps) {
+  const element = useMemo(() => getElementById(elementId), [elementId]);
+
+  const variantsWithCode = useMemo(() => {
+    if (!element) return [];
+    return element.variants.map((variant, index) => ({
+      ...variant,
+      sourceCode: variant.demoPath ? getElementSourceCode(variant.demoPath) : null,
+      index,
+      variantId: `variant-${index}`,
+    }));
+  }, [element]);
   const [activeTab, setActiveTab] = useState<Record<number, 'preview' | 'code'>>({});
   const [activeFile, setActiveFile] = useState<Record<number, string>>({});
   const [copied, setCopied] = useState<Record<number, boolean>>({});
@@ -45,9 +54,20 @@ export default function ElementDetailClient({ element, variantsWithCode, element
     setTimeout(() => setCopied(prev => ({ ...prev, [variantIndex]: false })), 2000);
   };
 
+  if (!element) {
+    return (
+      <div className="w-full bg-background-950 mx-auto pt-12 pb-12">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center py-12">
+            <p className="text-foreground-400">Element not found.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <BreadcrumbsNav />
       <div className="w-full bg-background-950 max-w-5xl mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
           <div className="mb-12">
@@ -85,7 +105,7 @@ export default function ElementDetailClient({ element, variantsWithCode, element
               const currentWidth = getWidth(variant.index);
 
               return (
-                <div key={variant.index} className="overflow-hidden">
+                <div key={variant.variantId} className="overflow-hidden">
                   <div>
                     <h3 className="text-lg font-semibold text-foreground-50 mb-2">{variant.name}</h3>
                     <p className="text-sm text-foreground-400">{variant.description}</p>
