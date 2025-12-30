@@ -1,3 +1,5 @@
+'use client';
+
 import { elementsList } from 'ui-lab-registry';
 
 function buildSourceCodeMap(): Record<string, string> {

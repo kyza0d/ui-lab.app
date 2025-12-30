@@ -1,3 +1,5 @@
+"use client";
+
 import { cache } from "react";
 import { Button } from "ui-lab-components";
 import { buttonDetail } from "ui-lab-registry/components/Button";
