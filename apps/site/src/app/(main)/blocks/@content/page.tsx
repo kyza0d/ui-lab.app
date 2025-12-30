@@ -1,4 +1,5 @@
 import { BreadcrumbsNav } from '@/components/layout/BreadcrumbsNav';
+import { BlocksPageClient } from '@/components/blocks/BlocksPageClient';
 
 export default function BlocksPage() {
   return (
@@ -12,13 +13,7 @@ export default function BlocksPage() {
               Reusable component combinations coming soon. Build faster with pre-composed patterns.
             </p>
           </div>
-
-          <div className="flex items-center justify-center py-24">
-            <div className="text-center">
-              <p className="text-lg text-foreground-300 mb-2">Blocks coming soon</p>
-              <p className="text-sm text-foreground-500">Check back soon for component combinations and patterns</p>
-            </div>
-          </div>
+          <BlocksPageClient />
         </div>
       </div>
     </div>
