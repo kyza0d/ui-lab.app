@@ -99,25 +99,25 @@ export function HeroSection({
   onCopy,
 }: HeroSectionProps) {
   return (
-    <div className="border-r-[2px] border-background-700 backdrop-blur-sm z-10">
-      <div className="p-[28px] h-full flex flex-col justify-center">
+    <div className="border-background-700 backdrop-blur-sm z-10">
+      <div className="p-[42px] mt-[46px] h-full flex flex-col justify-center">
         <div className="pl-[8px] relative -top-16 flex flex-col">
-          <span className="hidden bg-background-800 flex items-center gap-3 border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px] pr-[10px] py-[2px] mb-4">
-            <div className="p-[4px] bg-accent-500/10 rounded-[5px]">
-              <FaBook className="text-accent-500 w-4 h-4" />
+          <span className="flex h-[30px] items-center gap-[9px] border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px]  mb-4">
+            <div className="p-[4px] bg-background-800 rounded-[5px]">
+              <FaBook className="text-foreground-400 w-3 h-3" />
             </div>{" "}
-            Release Notes <FaArrowRightLong />
+            Release Notes <div className="flex items-center bg-background-800/60 border-l-[1px] rounded-r-[8px] pr-[10px] h-[30px] border-background-700 pl-[9px] font-bold">v0.1.5</div>
           </span>
-          <h1 className="leading-tight max-w-[23ch] pb-[9px] font-bold text-foreground-50 tracking-tight">
-            Build a beautiful'er web.
+          <h1 className="leading-tight max-w-[31ch] pb-[9px] font-bold text-foreground-200 tracking-tight">
+            <span className="-ml-2 bg-background-500/20 text-foreground-50 rounded-md px-2 mr-2 py-0.5">From vision to production</span>in no time. Built on gorgeous, AI-ready components.
           </h1>
-          <p className="text-sm text-foreground-400 w-[47ch] leading-relaxed">
+          <p className="text-sm text-foreground-400 w-[59ch] leading-relaxed">
             Accessible, production-ready React components with intelligent
             metadata that enable AI to generate perfectly consistent, beautiful
             code.
           </p>
           <div className="mt-9">
-            <Button size="sm" className="w-32 mr-2">
+            <Button variant="secondary" size="md" className="text-sm! w-32">
               Get Started
             </Button>
             <Button size="sm" variant="ghost">
@@ -169,8 +169,8 @@ export function HeroSection({
             </Button>
           </div>
 
-          <div className="space-y-3">
-            <div className="w-full grid grid-cols-2 gap-3">
+          <div className="hidden space-y-3">
+            <div className="w-200 grid grid-cols-2 gap-3">
               {[
                 {
                   Icon: TailwindSvg,
