@@ -100,7 +100,7 @@ function ToolsDropdown({
       className={cn(
         "absolute top-full left-0 z-50 bg-background-800",
         "overflow-hidden flex rounded-xl",
-        "shadow-lg w-96"
+        "w-96"
       )}
       style={{
         opacity: isOpen ? 1 : 0,
@@ -313,11 +313,11 @@ export default function Header({
   currentSort = 'newest',
   selectedCategory = null,
   selectedTags = [],
-  onSearch = () => {},
-  onSortChange = () => {},
-  onCategoryChange = () => {},
-  onTagsChange = () => {},
-  onClearFilters = () => {},
+  onSearch = () => { },
+  onSortChange = () => { },
+  onCategoryChange = () => { },
+  onTagsChange = () => { },
+  onClearFilters = () => { },
 }: HeaderProps) {
   const router = useRouter();
   const isDocRoute = shouldShowHeaderTabs(pathname);
@@ -339,9 +339,7 @@ export default function Header({
 
   const [stars, setStars] = useState<string>("—");
 
-  useEffect(() => {
-    document.documentElement.style.setProperty('--header-height', headerHeight);
-  }, [headerHeight]);
+  useEffect(() => document.documentElement.style.setProperty('--header-height', headerHeight), [headerHeight]);
 
   useEffect(() => {
     fetch("https://api.github.com/repos/kyza0d/ui-lab.app")

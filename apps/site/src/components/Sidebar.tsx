@@ -310,7 +310,7 @@ export function Sidebar() {
                   key={nav.id}
                   href={href}
                   className={cn(
-                    "flex border items-center gap-3 pl-1 pr-2 py-1 text-sm font-medium rounded-md",
+                    "flex border items-center gap-3 pl-1 pr-2 py-0.5 text-sm font-medium rounded-md",
                     isActive
                       ? "border-background-700 text-foreground-50 bg-background-800/70"
                       : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
