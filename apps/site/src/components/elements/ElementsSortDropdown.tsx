@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Select, SelectListBox } from 'ui-lab-components';
 import {
   FaSort,
@@ -17,20 +16,19 @@ const SORT_OPTIONS = [
   { label: 'Name (Z-A)', value: 'za', icon: <FaArrowUpZA /> },
 ];
 
-export function ElementsSortDropdown() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+interface ElementsSortDropdownProps {
+  currentSort?: string;
+  onSortChange: (sort: string) => void;
+}
 
-  // Get current sort from URL or default to 'newest'
-  const currentSort = searchParams.get('sort') || 'newest';
-
+export function ElementsSortDropdown({
+  currentSort = 'newest',
+  onSortChange,
+}: ElementsSortDropdownProps) {
   const handleSortChange = (key: string | number | null) => {
     if (key === null) return;
     const value = String(key);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('sort', value);
-    router.push(`${pathname}?${params.toString()}`);
+    onSortChange(value);
   };
 
   const selectedOption = SORT_OPTIONS.find(opt => opt.value === currentSort);
