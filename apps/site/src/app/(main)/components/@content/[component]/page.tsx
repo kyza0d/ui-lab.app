@@ -3,9 +3,10 @@ import { cacheLife } from "next/cache";
 
 const componentIds = [
   "button", "input", "label", "select", "textarea",
-  "checkbox", "radio", "badge", "tooltip", "popover", "form-wrapper",
+  "checkbox", "radio", "badge", "tooltip", "popover", "form",
   "toast", "modal", "tabs", "menu", "switch", "slider",
-  "progress", "card", "command-palette", "confirm", "divider", "frame"
+  "progress", "card", "command-palette", "confirm", "divider", "fold",
+  "group", "flex", "grid", "table", "breadcrumbs", "scrollarea", "gallery"
 ];
 
 export function generateStaticParams() {

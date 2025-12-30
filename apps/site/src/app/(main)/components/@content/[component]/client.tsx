@@ -7,15 +7,15 @@ import { Table, type Column } from "@/components/table";
 import { InlineCodeHighlight } from "@/components/InlineCodeHighlight";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex } from "ui-lab-components";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 import { FaGithub } from "react-icons/fa6";
 import { SiAdobe } from "react-icons/si";
 import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
 
 export function ComponentDetailClient({ componentId }: { componentId: string }) {
-  const component = getComponentById(componentId);
-  const metadata = getComponentMetadata(componentId);
+  const component = useMemo(() => getComponentById(componentId), [componentId]);
+  const metadata = useMemo(() => getComponentMetadata(componentId), [componentId]);
 
   if (!component) {
     return (
