@@ -30,6 +30,7 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa6";
+import { useElementsSearch } from "./ElementsHeaderClient";
 
 import {
   Select,
@@ -45,7 +46,7 @@ const navigationData = [
   { name: "documentation", label: "Documentation", isDropdown: true },
   { name: "components", label: "Components", isDropdown: true },
   { name: "elements", label: "Elements" },
-  { name: "marketplace", label: "Marketplace" },
+  // { name: "marketplace", label: "Marketplace" },
   { name: "tools", label: "Tools", isDropdown: true },
 ] as const;
 
@@ -295,30 +296,14 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
 interface HeaderProps {
   pathname: string;
-  currentQuery?: string;
-  currentSort?: string;
-  selectedCategory?: string | null;
-  selectedTags?: string[];
-  onSearch?: (query: string) => void;
-  onSortChange?: (sort: string) => void;
-  onCategoryChange?: (category: string | null) => void;
-  onTagsChange?: (tags: string[]) => void;
-  onClearFilters?: () => void;
 }
 
 /* ---------- Main Header ---------- */
 export default function Header({
   pathname,
-  currentQuery = '',
-  currentSort = 'newest',
-  selectedCategory = null,
-  selectedTags = [],
-  onSearch = () => { },
-  onSortChange = () => { },
-  onCategoryChange = () => { },
-  onTagsChange = () => { },
-  onClearFilters = () => { },
 }: HeaderProps) {
+  const elementsSearch = useElementsSearch();
+  const { currentQuery, currentSort, selectedCategory, selectedTags, onSearch, onSortChange, onCategoryChange, onTagsChange, onClearFilters } = elementsSearch;
   const router = useRouter();
   const isDocRoute = shouldShowHeaderTabs(pathname);
   const isElementsRoute = shouldShowHeaderSearch(pathname);
