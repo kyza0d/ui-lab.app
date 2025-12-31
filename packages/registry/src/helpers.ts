@@ -1,5 +1,6 @@
 import { componentRegistry } from './registry.js';
-import { categories } from './categories.js';
+import { categories, categoryMap } from './categories.js';
+import { getComponentsInOrder, getAllComponentsInOrder } from './component-order.js';
 import type { ComponentMetadata, ComponentCategory } from './types.js';
 
 export function getComponentById(id: string): ComponentMetadata | undefined {
@@ -10,10 +11,47 @@ export function getComponentsByCategory(category: ComponentCategory): ComponentM
   return Object.values(componentRegistry).filter(c => c.category === category);
 }
 
+/**
+ * Get components in order for a specific category.
+ */
+export function getComponentsInCategoryOrder(category: ComponentCategory): ComponentMetadata[] {
+  return getComponentsInOrder(category)
+    .map(id => componentRegistry[id])
+    .filter((c): c is ComponentMetadata => c !== undefined);
+}
+
+/**
+ * Get all categories in order (derived from categories object property order).
+ */
+export function getCategoriesInOrder(): ComponentCategory[] {
+  return Object.keys(categories) as ComponentCategory[];
+}
+
+/**
+ * Get all categories with their metadata in order.
+ */
+export function getCategoriesWithMetadata(): Array<{ id: ComponentCategory; metadata: typeof categoryMap[ComponentCategory] }> {
+  return getCategoriesInOrder().map(id => ({
+    id,
+    metadata: categoryMap[id],
+  }));
+}
+
 export function getComponentsGroupedByCategory(): Record<ComponentCategory, ComponentMetadata[]> {
   const grouped = {} as Record<ComponentCategory, ComponentMetadata[]>;
-  categories.forEach(cat => {
-    grouped[cat.id] = getComponentsByCategory(cat.id);
+  getCategoriesInOrder().forEach(catId => {
+    grouped[catId] = getComponentsByCategory(catId);
+  });
+  return grouped;
+}
+
+/**
+ * Get all components grouped by category, with components in defined order within each category.
+ */
+export function getComponentsGroupedByCategoryInOrder(): Record<ComponentCategory, ComponentMetadata[]> {
+  const grouped = {} as Record<ComponentCategory, ComponentMetadata[]>;
+  getCategoriesInOrder().forEach(catId => {
+    grouped[catId] = getComponentsInCategoryOrder(catId);
   });
   return grouped;
 }

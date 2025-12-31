@@ -36,7 +36,7 @@ export const sourceUrls: Record<string, string> = {
 };
 
 // Categories
-export { categories, categoryMap, categoryOrder } from './categories.js';
+export { categories, categoryMap } from './categories.js';
 
 // Types
 export type {
@@ -72,6 +72,10 @@ export {
   getComponentById,
   getComponentsByCategory,
   getComponentsGroupedByCategory,
+  getComponentsGroupedByCategoryInOrder,
+  getComponentsInCategoryOrder,
+  getCategoriesInOrder,
+  getCategoriesWithMetadata,
   getRelatedComponents,
   searchComponents,
   getAllComponentIds,
