@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm --filter @ui-lab/site run build",
+  "installCommand": "pnpm install",
+  "outputDirectory": "apps/site/.next"
+}
