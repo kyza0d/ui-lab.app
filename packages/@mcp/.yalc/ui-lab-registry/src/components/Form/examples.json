@@ -1,7 +1,0 @@
-{
-  "01-basic-form": {
-    "title": "Basic Form",
-    "description": "A simple form with input fields and submit button. Use this as the standard form container in your interface.",
-    "code": "import React from 'react';\nimport { Form, FormField } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Form\n      initialValues={{ name: '', email: '' }}\n      onSubmit={(values) => {\n        console.log('Form submitted:', values);\n      }}\n    >\n      <FormField name=\"name\" label=\"Name\" required>\n        {(context) => (\n          <input\n            type=\"text\"\n            value={context.values.name || ''}\n            onChange={(e) => context.setFieldValue('name', e.target.value)}\n            onBlur={() => context.setFieldTouched('name')}\n          />\n        )}\n      </FormField>\n      <FormField name=\"email\" label=\"Email\" required>\n        {(context) => (\n          <input\n            type=\"email\"\n            value={context.values.email || ''}\n            onChange={(e) => context.setFieldValue('email', e.target.value)}\n            onBlur={() => context.setFieldTouched('email')}\n          />\n        )}\n      </FormField>\n      <button type=\"submit\">Submit</button>\n    </Form>\n  );\n}"
-  }
-}
