@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { getComponentsByCategory, categoryMap, getCategoriesInOrder } from "@/lib/component-registry";
+import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/lib/component-registry";
 import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
 import { Divider, Gallery } from "ui-lab-components";
 import { GalleryItemWithPrefetch } from "./gallery-item";
@@ -49,7 +49,7 @@ export default function ComponentsPage() {
             {/* Organized Components by Category */}
             <div className="space-y-24">
               {getCategoriesInOrder().map((category) => {
-                const componentsInCategory = getComponentsByCategory(category);
+                const componentsInCategory = getComponentsInCategoryOrder(category);
                 if (componentsInCategory.length === 0) return null;
                 return (
                   <div key={category} className="space-y-4">

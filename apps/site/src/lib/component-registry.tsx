@@ -350,6 +350,25 @@ export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
     .map(id => componentRegistry.find(c => c.id === id))
     .filter(Boolean) as ComponentMetadata[]
 });
+const componentOrder: Record<ComponentCategory, string[]> = {
+  layout: ['grid', 'flex', 'gallery', 'divider', 'fold'],
+  composition: ['form', 'group'],
+  action: ['button', 'confirm'],
+  input: ['checkbox', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
+  information: ['badge', 'label', 'tooltip'],
+  feedback: ['popover', 'progress'],
+  navigation: ['breadcrumbs', 'menu', 'tabs'],
+  container: ['card', 'modal', 'scrollarea'],
+  data: ['table'],
+  experimental: ['toast'],
+};
+
+export const getComponentsInCategoryOrder = cache((category: ComponentCategory): ComponentMetadata[] => {
+  const componentIds = componentOrder[category] ?? [];
+  return componentIds
+    .map((id: string) => componentRegistry.find((c): c is ComponentMetadata => c.id === id))
+    .filter((c): c is ComponentMetadata => c !== undefined);
+});
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
   group: groupDetail,

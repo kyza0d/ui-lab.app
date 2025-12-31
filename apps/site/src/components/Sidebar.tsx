@@ -5,9 +5,10 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import {
-  getComponentsGroupedByCategory,
   categoryMap,
   getCategoriesInOrder,
+  getComponentsGroupedByCategory,
+  getComponentsInCategoryOrder,
   type ComponentCategory,
 } from "@/lib/component-registry";
 import { getSectionsForDomain } from "@/lib/sidebar-registry-resolver";
@@ -63,11 +64,10 @@ function getMainNav(activeNav?: MainNavItem): Array<{
 
 
 function getComponentSections(): SidebarSection[] {
-  const groupedComponents = getComponentsGroupedByCategory();
   return getCategoriesInOrder()
-    .map(category => [category, groupedComponents[category]] as const)
-    .filter(([, components]) => components.length > 0)
-    .map(([category, components]) => ({
+    .map(category => ({ category, components: getComponentsInCategoryOrder(category) }))
+    .filter(({ components }) => components.length > 0)
+    .map(({ category, components }) => ({
       label: categoryMap[category].label || category,
       items: components.map((comp) => ({
         id: comp.id,
