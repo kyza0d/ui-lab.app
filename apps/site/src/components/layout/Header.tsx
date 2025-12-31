@@ -458,7 +458,7 @@ export default function Header({
       />
 
       <header
-        className="items-start justify-between flex flex-col max-w-(--page-width) fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-4"
+        className={cn("items-start justify-between flex flex-col fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-4", pathname === "/" ? "max-w-[1100px]" : "max-w-(--page-width)")}
         style={{ height: headerHeight }}
       >
         <div className="flex justify-between w-full pt-2.5">
@@ -469,13 +469,6 @@ export default function Header({
             >
               <Logo />
               <span className="text-md font-semibold text-foreground-50 mr-6">UI Lab</span>
-              <Select className="w-fit">
-                <Select.Trigger className="relative h-7 pl-1 pr-3!" chevron={<div className="top-0 w-3 absolute flex items-center justify-center h-full border-l border-background-700"><FaChevronDown className="relative left-1" size={10} /></div>}>
-                  <Badge className="border-0 bg-transparent font-semibold" pill size="sm">
-                    v{packageMetadata.version}
-                  </Badge>
-                </Select.Trigger>
-              </Select>
             </Link>
             {/* Desktop navigation */}
             <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
