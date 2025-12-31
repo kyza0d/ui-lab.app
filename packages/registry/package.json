@@ -72,7 +72,8 @@
     "validate": "tsx scripts/validate-registry.ts"
   },
   "dependencies": {
-    "ui-lab-components": "^0.1.4"
+    "react-icons": "^5.5.0",
+    "ui-lab-components": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20",
