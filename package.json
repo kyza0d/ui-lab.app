@@ -15,11 +15,14 @@
     "type-check": "pnpm -r run type-check",
     "lint": "pnpm -r run lint",
     "clean": "pnpm -r run clean",
-    "publish": "pnpm publish -r"
+    "publish": "pnpm publish -r",
+    "versions:status": "node scripts/toggle-versions.js status",
+    "versions:to-workspace": "node scripts/toggle-versions.js to-workspace",
+    "versions:to-release": "node scripts/toggle-versions.js to-version"
   },
   "dependencies": {
     "next": "^16.0.10",
-    "ui-lab-registry": "workspace:*"
+    "ui-lab-registry": "0.1.6"
   },
   "devDependencies": {
     "typescript": "^5"
