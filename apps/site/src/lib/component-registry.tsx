@@ -66,12 +66,13 @@ import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
   categories,
+  getCategoriesInOrder,
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
 } from "ui-lab-registry";
 import { experimentalRegistry, type ExperimentalComponentMetadata } from "./experimental-registry";
 export type { ComponentCategory } from "ui-lab-registry";
-export { categories, categoryMap, categoryOrder } from "ui-lab-registry";
+export { categories, categoryMap, getCategoriesInOrder } from "ui-lab-registry";
 export interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
   experimental?: boolean;
@@ -337,8 +338,8 @@ export const getComponentsByCategory = cache((category: ComponentCategory): Comp
 });
 export const getComponentsGroupedByCategory = cache((): Record<ComponentCategory, ComponentMetadata[]> => {
   const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<ComponentCategory, ComponentMetadata[]>;
-  categories.forEach(cat => {
-    result[cat.id] = getComponentsByCategory(cat.id);
+  getCategoriesInOrder().forEach(catId => {
+    result[catId] = getComponentsByCategory(catId);
   });
   return result;
 });
