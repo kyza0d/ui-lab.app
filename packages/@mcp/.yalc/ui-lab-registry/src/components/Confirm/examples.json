@@ -1,7 +1,0 @@
-{
-  "01-basic-confirm": {
-    "title": "Basic Confirm",
-    "description": "A confirmation dialog for critical actions. Use this to prevent accidental deletions or destructive operations.",
-    "code": "import { Confirmation } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Confirmation\n      triggerLabel=\"Delete Account\"\n      title=\"Are you sure?\"\n      description=\"This action cannot be undone. All your data will be permanently deleted.\"\n      confirmLabel=\"Delete\"\n      cancelLabel=\"Cancel\"\n      onConfirm={() => console.log('Account deleted')}\n      onCancel={() => console.log('Cancelled')}\n    />\n  );\n}"
-  }
-}

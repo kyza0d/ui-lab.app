@@ -1,7 +1,0 @@
-{
-  "01-basic-label": {
-    "title": "Basic Label",
-    "description": "A simple label component associated with a form input. Use this to provide accessible labels for form elements.",
-    "code": "import React from 'react';\nimport { Label, Input } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div>\n      <Label htmlFor=\"name\">Name</Label>\n      <Input id=\"name\" placeholder=\"Enter your name\" />\n    </div>\n  );\n}"
-  }
-}
