@@ -2,10 +2,12 @@ import {
   FaCopy,
   FaCheck,
   FaBook,
-  FaArrowRightLong
+  FaArrowRightLong,
+  FaBox
 } from "react-icons/fa6";
 import { Select, Divider, Button } from "ui-lab-components";
 import { InlineCodeHighlight } from "@/components/InlineCodeHighlight";
+import Link from "next/link";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 
@@ -99,7 +101,7 @@ export function HeroSection({
   onCopy,
 }: HeroSectionProps) {
   return (
-    <div className="border-background-700 backdrop-blur-sm z-10">
+    <div className="backdrop-blur-sm z-10">
       <div className="p-[42px] mt-[46px] h-full flex flex-col justify-center">
         <div className="pl-[8px] relative -top-16 flex flex-col">
           <span className="flex h-[30px] items-center gap-[9px] border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px]  mb-4">
@@ -116,16 +118,20 @@ export function HeroSection({
             metadata that enable AI to generate perfectly consistent, beautiful
             code.
           </p>
-          <div className="mt-9">
-            <Button variant="secondary" size="md" className="text-sm! w-32">
-              Get Started
-            </Button>
-            <Button size="sm" variant="ghost">
-              Documentation
-            </Button>
+          <div className="mt-9 flex items-center gap-4">
+            <Link href="/docs">
+              <Button variant="secondary" size="md" className="text-sm! w-32">
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/components">
+              <Button variant="ghost" className="text-sm!">
+                <FaBox className="mr-4 " /> Components
+              </Button>
+            </Link>
           </div>
         </div>
-        <div className="absolute bottom-0 border-t-[2px] border-background-700 left-0 p-[12px] w-full">
+        <div className="absolute bottom-0 left-0 p-[12px] w-full">
           <div className="hidden flex items-center rounded mt-[30px] gap-3 bg-background-950 border-[2px] border-background-700 p-1 w-fit">
             <Select
               selectedKey={packageManager}

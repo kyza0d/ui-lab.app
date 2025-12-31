@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { Divider, Toaster } from "ui-lab-components";
 import Aura from "@/components/Aura";
 import { HeroSection } from "@/components/landing/hero-section";
-import { AnimatedShowcase } from "@/components/landing/animated-showcase";
 import { SecondarySection } from "@/components/landing/secondary-section";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
@@ -102,24 +101,13 @@ export default function Home() {
       <div className="fixed top-0 left-0 w-screen h-screen">
       </div>
       <main className="mx-auto relative h-full">
-        <div className="border-b-[2px] border-background-700">
-          <section className="bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[50vh_auto] border-[2px] border-y-0 border-background-700 overflow-hidden">
+        <div>
+          <section className="bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[50vh] border-[2px] border-y-0 border-background-700 overflow-hidden">
             <HeroSection
               packageManager={packageManager}
               onPackageManagerChange={setPackageManager}
               copied={copied}
               onCopy={handleCopy}
-            />
-            <AnimatedShowcase
-              containerRef={containerRef}
-              userChatRef={userChatRef}
-              aiChatRef={aiChatRef}
-              mcpStatusRef={mcpStatusRef}
-              uiContainerRef={uiContainerRef}
-              uiSidebarRef={uiSidebarRef}
-              uiHeaderRef={uiHeaderRef}
-              uiHeroRef={uiHeroRef}
-              uiChartRef={uiChartRef}
             />
           </section>
           <div className="bg-background-950 ml-auto border-[2px] border-b-0 border-background-700 overflow-hidden">
