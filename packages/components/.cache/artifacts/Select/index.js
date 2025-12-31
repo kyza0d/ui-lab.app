@@ -44,7 +44,7 @@ function cn(...inputs) {
 var Select_default = {};
 
 // src/components/Select/Select.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
+import { jsx } from "react/jsx-runtime";
 var SelectContext = React.createContext(null);
 function useSelectContext() {
   const context = React.useContext(SelectContext);
@@ -327,7 +327,7 @@ var SelectListBox = React.forwardRef(
         }
       }
     }, [isOpen]);
-    return /* @__PURE__ */ jsxs(
+    return /* @__PURE__ */ jsx(
       "ul",
       {
         ref: mergedRef,
@@ -336,15 +336,12 @@ var SelectListBox = React.forwardRef(
         className,
         onKeyDown: handleKeyDown,
         style: { outline: "none" },
-        children: [
-          "HELLO",
-          React.Children.map(children, (child) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child, { _focusedKey: focusedKey });
-            }
-            return child;
-          })
-        ]
+        children: React.Children.map(children, (child) => {
+          if (React.isValidElement(child)) {
+            return React.cloneElement(child, { _focusedKey: focusedKey });
+          }
+          return child;
+        })
       }
     );
   }
@@ -354,7 +351,7 @@ SelectListBox.displayName = "SelectListBox";
 // src/components/Select/Select.Trigger.tsx
 import * as React2 from "react";
 import { FaChevronDown } from "react-icons/fa6";
-import { jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx2, jsxs } from "react/jsx-runtime";
 var SelectTrigger = React2.forwardRef(
   ({ children, className, chevron }, ref) => {
     const {
@@ -380,7 +377,7 @@ var SelectTrigger = React2.forwardRef(
       onMouseEnter: () => handleHoverIntent(true),
       onMouseLeave: () => handleHoverIntent(false)
     } : {};
-    return /* @__PURE__ */ jsxs2(
+    return /* @__PURE__ */ jsxs(
       "button",
       __spreadProps(__spreadValues(__spreadValues({
         ref: mergedRef,
@@ -525,7 +522,7 @@ SearchableTrigger.displayName = "SearchableTrigger";
 import * as React3 from "react";
 import * as ReactDOM from "react-dom";
 import { useFloating, flip, shift, offset, size, autoUpdate } from "@floating-ui/react-dom";
-import { Fragment, jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx3, jsxs as jsxs2 } from "react/jsx-runtime";
 var SelectContent = React3.forwardRef(
   ({ children, className }, ref) => {
     const { isOpen, setIsOpen, triggerRef, maxItems, triggerMode, handleHoverIntent } = useSelectContext();
@@ -585,7 +582,7 @@ var SelectContent = React3.forwardRef(
       onMouseLeave: () => handleHoverIntent(false)
     } : {};
     return ReactDOM.createPortal(
-      /* @__PURE__ */ jsxs3(Fragment, { children: [
+      /* @__PURE__ */ jsxs2(Fragment, { children: [
         showContent && triggerMode !== "hover" && /* @__PURE__ */ jsx3(
           "div",
           {
@@ -735,7 +732,7 @@ var SearchableContent = React3.forwardRef(
       onMouseLeave: () => handleHoverIntent(false)
     } : {};
     return ReactDOM.createPortal(
-      /* @__PURE__ */ jsxs3(Fragment, { children: [
+      /* @__PURE__ */ jsxs2(Fragment, { children: [
         showContent && triggerMode !== "hover" && /* @__PURE__ */ jsx3(
           "div",
           {
@@ -743,7 +740,7 @@ var SearchableContent = React3.forwardRef(
             onClick: () => setIsOpen(false)
           }
         ),
-        isOpen && /* @__PURE__ */ jsxs3(
+        isOpen && /* @__PURE__ */ jsxs2(
           "div",
           __spreadProps(__spreadValues({
             ref: mergedRef,
@@ -790,9 +787,9 @@ SearchableContent.displayName = "SearchableContent";
 // src/components/Select/Select.Items.tsx
 import * as React4 from "react";
 import { FaCheck } from "react-icons/fa6";
-import { jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var SelectGroup = React4.forwardRef(
-  ({ children, title, className }, ref) => /* @__PURE__ */ jsxs4("div", { ref, className, children: [
+  ({ children, title, className }, ref) => /* @__PURE__ */ jsxs3("div", { ref, className, children: [
     title && /* @__PURE__ */ jsx4("div", { className: "px-2 py-1 text-xs font-medium text-foreground-400", children: title }),
     children
   ] })
@@ -801,7 +798,7 @@ SelectGroup.displayName = "SelectGroup";
 var SelectValue = React4.forwardRef(
   ({ placeholder = "Select an option", className, icon }, ref) => {
     const { selectedTextValue } = useSelectContext();
-    return /* @__PURE__ */ jsxs4("span", { ref, className: cn(Select_default.value, className), children: [
+    return /* @__PURE__ */ jsxs3("span", { ref, className: cn(Select_default.value, className), children: [
       icon && /* @__PURE__ */ jsx4("span", { className: Select_default.valueIcon, children: icon }),
       /* @__PURE__ */ jsx4("span", { className: Select_default.valueText, children: selectedTextValue || placeholder })
     ] });
@@ -862,7 +859,7 @@ var SelectItem = React4.forwardRef(
     if (!isVisible) {
       return null;
     }
-    return /* @__PURE__ */ jsxs4(
+    return /* @__PURE__ */ jsxs3(
       "li",
       {
         ref: mergedRef,
