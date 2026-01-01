@@ -37,7 +37,7 @@ function getMainNav(activeNav?: MainNavItem): Array<{
   label: string;
 }> {
   const allItems: Array<{ id: MainNavItem; label: string }> = [
-    { id: "overview", label: "UI Lab Overview" },
+    { id: "overview", label: "Overview" },
     { id: "design-system", label: "Design System" },
     { id: "components", label: "Components" },
   ];

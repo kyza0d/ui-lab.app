@@ -1,5 +1,6 @@
 export { Sidebar } from "./components/sidebar";
 export { SidebarShell } from "./components/sidebar-shell";
+export type { MainNavItem, NestedNavItem } from "./components/sidebar-shell";
 export { SidebarItemLink } from "./components/sidebar-item-link";
 export { BreadcrumbsNav } from "./components/breadcrumbs-nav";
 export * from "./lib/sidebar-registry-resolver";

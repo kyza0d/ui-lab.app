@@ -5,7 +5,7 @@ export type { PreviewContextType, PreviewActiveTab } from "./components/preview-
 export { PreviewHeader } from "./components/preview-header";
 export { PreviewProvider } from "./components/preview-provider";
 export { ResizablePreview } from "./components/resizable-preview";
-export { ResizablePreviewContainer } from "./components/resizable-preview-container";
+export { PreviewContainer } from "./components/resizable-preview-container";
 export { ResizablePreviewFrame } from "./components/resizable-preview-frame";
 export { DEVICE_PRESETS, calculateVariantFromWidth } from "./lib/preview-device-utils";
 export type { PreviewDeviceVariant } from "./lib/preview-device-utils";
