@@ -2,9 +2,8 @@
 
 import { useRef, useState } from "react";
 import { Divider, Toaster } from "ui-lab-components";
-import Aura from "@/components/Aura";
-import { HeroSection } from "@/components/landing/hero-section";
-import { SecondarySection } from "@/components/landing/secondary-section";
+import { Aura } from "@/shared";
+import { HeroSection, SecondarySection } from "@/features/landing";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 

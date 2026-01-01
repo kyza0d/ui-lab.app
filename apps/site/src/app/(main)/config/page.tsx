@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useApp } from "@/lib/app-context";
-import { generateFullThemeConfig } from "@/lib/config-generator";
-import { CodeDisplay } from "@/components/code-display";
+import { useApp } from "@/features/theme";
+import { generateFullThemeConfig } from "@/shared";
+import { CodeDisplay } from "@/features/docs";
 
 export default function ConfigPage() {
   const {

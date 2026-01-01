@@ -1,13 +1,13 @@
 import { ArrowRight } from "lucide-react";
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
-import { getDocBySlug } from "@/lib/docs";
-import { tocRegistry } from "@/lib/generated-toc-registry";
-import { mdxComponents } from '@/lib/mdx-components'
-import { TableOfContents } from "@/components/TableOfContents";
-import { Logo } from "@/components/ui/logo";
+import { getDocBySlug } from "@/features/docs";
+import { tocRegistry } from "@/features/docs";
+import { mdxComponents } from '@/features/docs'
+import { TableOfContents } from "@/features/docs";
+import { Logo } from "@/shared";
 import { RequirementsSection } from "./requirements-section";
-import { packageMetadata } from 'ui-lab-registry';
+import { packageMetadata } from 'ui-lab-registry/generated-data';
 
 const TailwindSvg = () => (
   <svg

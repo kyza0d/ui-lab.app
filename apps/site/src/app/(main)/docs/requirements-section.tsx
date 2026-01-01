@@ -1,6 +1,6 @@
 'use client';
 
-import { Table, type Column } from "@/components/table";
+import { Table, type Column } from "@/features/docs";
 
 interface Requirement {
   category: string;
@@ -19,7 +19,7 @@ export function RequirementsSection() {
   const requirementColumns: Column<Requirement>[] = [
     { key: "category", label: "Category" },
     { key: "technology", label: "Technology" },
-    { key: "minimum", label: "Minimum", render: (value) => <code className="text-foreground-400">{value}</code> },
+    { key: "minimum", label: "Minimum", render: (value: any) => <code className="text-foreground-400">{value}</code> },
   ];
 
   return (

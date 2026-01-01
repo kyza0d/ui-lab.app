@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { AppProvider } from '@/lib/app-context';
+import { AppProvider } from '@/features/theme';
 
 export default function PreviewLayout({
   children,

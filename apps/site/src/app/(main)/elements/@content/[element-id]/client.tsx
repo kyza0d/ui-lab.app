@@ -3,9 +3,9 @@
 import { useState, useMemo } from 'react';
 import type { ElementMetadata, ElementFile } from 'ui-lab-registry';
 import { getElementById } from 'ui-lab-registry';
-import { ElementPreviewContent } from '@/components/elements/ElementPreview';
-import { getDemoComponent } from '@/lib/get-element-demo';
-import { getElementSourceCode } from '@/lib/get-element-source';
+import { ElementPreviewContent } from '@/features/elements';
+import { getDemoComponent, getElementSourceCode } from '@/features/elements';
+import { PreviewDeviceVariant } from '@/features/preview';
 
 interface VariantWithCode {
   name: string;
@@ -36,7 +36,7 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
   const [activeTab, setActiveTab] = useState<Record<number, 'preview' | 'code'>>({});
   const [activeFile, setActiveFile] = useState<Record<number, string>>({});
   const [copied, setCopied] = useState<Record<number, boolean>>({});
-  const [deviceVariant, setDeviceVariant] = useState<Record<number, 'mobile' | 'desktop'>>({});
+  const [deviceVariant, setDeviceVariant] = useState<Record<number, PreviewDeviceVariant>>({});
   const [width, setWidth] = useState<Record<number, number>>({});
 
   const getActiveTab = (index: number) => activeTab[index] ?? 'preview';
@@ -46,7 +46,7 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
   };
   const getCopied = (index: number) => copied[index] ?? false;
   const getDeviceVariant = (index: number) => deviceVariant[index] ?? 'desktop';
-  const getWidth = (index: number) => width[index] ?? 1200;
+  const getWidth = (index: number) => width[index];
 
   const handleCopy = (code: string, variantIndex: number) => {
     navigator.clipboard.writeText(code);
@@ -148,14 +148,14 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
           {element.componentDependencies && element.componentDependencies.length > 0 && (
             <div className="mt-12 pt-12">
               <h3 className="text-lg font-semibold text-foreground-50 mb-4">Dependencies</h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="space-y-2">
                 {element.componentDependencies.map((dep) => (
-                  <span
+                  <div
                     key={dep}
-                    className="inline-block px-3 py-2 bg-background-800 text-foreground-300 rounded text-sm"
+                    className="text-sm text-foreground-400 px-3 py-2 bg-background-800 rounded border border-background-700"
                   >
                     {dep}
-                  </span>
+                  </div>
                 ))}
               </div>
             </div>

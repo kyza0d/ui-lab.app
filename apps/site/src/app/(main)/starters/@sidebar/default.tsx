@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
-import { ElementsSidebar } from '@/components/elements/ElementsSidebar';
+import { ElementsSidebar } from '@/features/elements';
 
 function SidebarSkeleton() {
   return (

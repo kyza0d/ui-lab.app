@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar } from "@/features/navigation";
 
 function SidebarContent() {
   return <Sidebar />;

@@ -1,6 +1,6 @@
 "use client";
 
-import { SettingsContent } from "@/components/settings/settings-content";
+import { SettingsContent } from "@/features/theme";
 
 export default function SettingsPopupPage() {
   return (

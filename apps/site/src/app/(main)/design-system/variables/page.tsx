@@ -1,10 +1,10 @@
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
-import { getDesignSystemDocBySlug } from '@/lib/docs'
-import { tocRegistry } from '@/lib/generated-toc-registry'
-import { mdxComponents } from '@/lib/mdx-components'
-import { TableOfContents } from '@/components/TableOfContents'
-import { packageMetadata } from 'ui-lab-registry'
+import { getDesignSystemDocBySlug } from '@/features/docs'
+import { tocRegistry } from '@/features/docs'
+import { mdxComponents } from '@/features/docs'
+import { TableOfContents } from '@/features/docs'
+import { packageMetadata } from 'ui-lab-registry/generated-data'
 
 export default async function VariablesPage() {
   const doc = await getDesignSystemDocBySlug('variables')

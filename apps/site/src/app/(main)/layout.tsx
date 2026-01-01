@@ -1,7 +1,9 @@
+"use client";
+
 import { Suspense } from 'react';
-import { HeaderClient } from "@/components/layout/HeaderClient";
-import { ElementsHeaderSetup } from "@/components/layout/ElementsHeaderClient";
-import { Footer } from "@/components/layout/Footer";
+import { HeaderClient } from "@/features/layout";
+import { ElementsHeaderSetup } from "@/features/layout";
+import { Footer } from "@/features/layout";
 
 export default function MainLayout({
   children,

@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
 import { cacheLife } from 'next/cache'
-import { getDocBySlug, getAllDocs } from '@/lib/docs'
-import { tocRegistry } from '@/lib/generated-toc-registry'
-import { mdxComponents } from '@/lib/mdx-components'
-import { TableOfContents } from '@/components/TableOfContents'
-import { packageMetadata } from 'ui-lab-registry'
+import { getDocBySlug, getAllDocs } from '@/features/docs'
+import { tocRegistry } from '@/features/docs'
+import { mdxComponents } from '@/features/docs'
+import { TableOfContents } from '@/features/docs'
+import { packageMetadata } from 'ui-lab-registry/generated-data'
 
 export async function generateStaticParams() {
   const docs = await getAllDocs()

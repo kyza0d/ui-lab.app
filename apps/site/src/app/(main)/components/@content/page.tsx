@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/lib/component-registry";
-import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
+import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/features/component-docs";
+import { BreadcrumbsNav } from "@/features/navigation";
 import { Divider, Gallery } from "ui-lab-components";
 import { GalleryItemWithPrefetch } from "./gallery-item";
 import {

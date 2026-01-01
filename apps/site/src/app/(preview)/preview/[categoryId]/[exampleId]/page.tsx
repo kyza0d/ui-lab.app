@@ -1,6 +1,6 @@
-import { Dashboard } from '@/lib/demos/dashboard';
+import { Dashboard } from '@/shared';
 import { getElementById } from 'ui-lab-registry';
-import { getDemoComponent } from '@/lib/get-element-demo';
+import { getDemoComponent } from '@/features/elements';
 
 interface PreviewPageProps {
   params: Promise<{
@@ -40,6 +40,19 @@ function PlaceholderContent({
   );
 }
 
+function DemoComponentRenderer({ component: DemoComponent, elementName, variantName }: { component: React.ComponentType<object> | null, elementName: string, variantName: string }) {
+  if (!DemoComponent) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-foreground-400">Demo not available for {elementName} - {variantName}</p>
+        </div>
+      </div>
+    );
+  }
+  return <DemoComponent />;
+}
+
 const exampleNames: Record<string, string> = {
   'saas-1': 'Dashboard',
   'saas-2': 'User Management',
@@ -76,15 +89,7 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
 
       return (
         <div className="w-screen h-screen bg-background-950 overflow-auto">
-          {DemoComponent ? (
-            <DemoComponent />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-foreground-400">Demo not available for {element.name} - {variant.name}</p>
-              </div>
-            </div>
-          )}
+          <DemoComponentRenderer component={DemoComponent} elementName={element.name} variantName={variant.name} />
         </div>
       );
     }
