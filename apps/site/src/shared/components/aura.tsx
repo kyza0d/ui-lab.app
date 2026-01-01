@@ -41,11 +41,11 @@ interface StarryAuraProps {
 }
 
 const StarryGridShader = ({
-  gridDensity = 120,
-  dotSize = 0.400,
+  gridDensity = 170,
+  dotSize = 0.200,
   twinkleSpeed = 1.50,
   twinkleSharpness = 0.50,
-  sparsity = 0.10,
+  sparsity = 0.05,
   baseOpacity = 0.010,
   accentOpacity = 0.300,
   bgVariable = '--background-900',

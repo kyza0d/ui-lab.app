@@ -34,7 +34,7 @@
 
 .button.primary {
   background-color: var(--accent-500);
-  color: var(--accent-50);
+  color: var(--color-white);
   border-color: var(--accent-500);
 
   @media (hover: hover) {
