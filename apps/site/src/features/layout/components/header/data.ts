@@ -4,7 +4,6 @@ import {
   FaIcons,
   FaWandMagicSparkles,
 } from "react-icons/fa6";
-import { getComponentsGroupedByCategory } from "@/features/component-docs";
 
 export const navigationData = [
   { name: "documentation", label: "Documentation", isDropdown: true },

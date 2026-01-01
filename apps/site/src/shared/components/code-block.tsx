@@ -8,7 +8,7 @@ import { generateShikiTheme, type ShikiTheme } from "@/features/theme/lib/themes
 import { generateSyntaxPalettes } from "@/features/theme/lib/themes/syntax-colors";
 import { useApp } from "@/features/theme/lib/app-context";
 import { CopyButton } from "./copy-button";
-import { FaArrowsUpDown } from "react-icons/fa6";
+import { FaSort } from "react-icons/fa6";
 import { cn } from "../lib/utils";
 
 const escapeHtml = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c] || c));
@@ -32,8 +32,6 @@ interface CodeBlockProps {
 }
 
 const MAX_HEIGHT_LINES = 20;
-const LINE_HEIGHT_PX = 20;
-const MAX_HEIGHT_PX = MAX_HEIGHT_LINES * LINE_HEIGHT_PX;
 
 export function CodeBlock({
   children,
@@ -178,9 +176,9 @@ export function CodeBlock({
   const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES;
 
   return (
-    <div className={cn("w-full rounded-md border border-background-700 bg-background-950 flex flex-col overflow-hidden", className)}>
+    <div className={cn("w-full h-210 rounded-md border border-background-700 bg-background-950 flex flex-col overflow-hidden", className)}>
       {(filename || heading) && (
-        <div className="flex-none flex text-xs font-semibold items-center justify-between border-b border-background-700 bg-background-900 px-3 py-1.5 text-foreground-400">
+        <div className="flex-none flex text-sm font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>
           {!heading && <span className="text-foreground-500">{language}</span>}
         </div>
@@ -188,12 +186,6 @@ export function CodeBlock({
 
       <div className="relative group flex-1 min-h-0 flex flex-col">
         <CopyButton code={children} />
-
-        {/* VIEWPORT 
-           1. overflow-y-auto: Allows vertical scrolling.
-           2. overflow-x-hidden: STRICTLY hides native horizontal bar (Fixes double scrollbar).
-           3. onWheel: Restores horizontal scrolling via trackpad.
-        */}
         <div
           ref={viewportRef}
           onScroll={handleScrollViewport}
@@ -211,7 +203,6 @@ export function CodeBlock({
             [&::-webkit-scrollbar-thumb:hover]:bg-background-600
           `}
           style={{
-            maxHeight: isExpanded ? 'none' : `${MAX_HEIGHT_PX}px`,
             overflowY: isExpanded ? 'auto' : 'hidden',
             maskImage: !isExpanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',
             WebkitMaskImage: !isExpanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',
@@ -223,7 +214,7 @@ export function CodeBlock({
           <div
             ref={scrollTrackRef}
             onScroll={handleScrollTrack}
-            className="flex-none w-full overflow-x-auto border-t border-background-800/50 bg-background-950/50 backdrop-blur-sm"
+            className="flex-none w-full overflow-x-auto bg-background-950/50 backdrop-blur-sm"
           >
             <div style={{ width: contentScrollWidth, height: '12px' }} />
           </div>
@@ -234,7 +225,7 @@ export function CodeBlock({
             onClick={() => setIsExpanded(true)}
             className="w-full px-4 flex items-center py-2 hover:bg-background-800 text-foreground-300 text-sm font-medium transition-colors border-t border-background-700"
           >
-            <FaArrowsUpDown className="text-foreground-400 inline mr-3" /> Show {hiddenCodeLines} more lines
+            <FaSort className="text-foreground-400 inline mr-3" /> Show {hiddenCodeLines} more lines
           </button>
         )}
       </div>

@@ -103,7 +103,7 @@ export default async function DocsPage() {
           </div>
 
           <div className="mb-10">
-            <div className="text-base font-medium text-foreground-50">UI Lab</div>
+            <div className="text-md font-medium text-foreground-50">What is UI Lab?</div>
             <div className="mt-1 text-foreground-300">
               Strict TypeScript component system for AI-augmented frontend development
             </div>

@@ -10,7 +10,7 @@ interface FloatingSettingsDialogProps {
   triggerRef?: React.RefObject<HTMLElement | null>;
 }
 
-export const FloatingSettingsDialog = ({
+export const SettingsDialog = ({
   isOpen,
   onOpenChange,
   triggerRef,

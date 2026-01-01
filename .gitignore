@@ -10,3 +10,7 @@ apps/site/.yalc
 apps/site/src/lib/generated-*.ts
 packages/registry/.cache
 .claude/
+.cache
+
+
+

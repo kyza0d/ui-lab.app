@@ -13,7 +13,7 @@ export interface DomainConfig {
 export const DOMAINS: Record<DomainId, DomainConfig> = {
   docs: {
     id: 'docs',
-    label: 'Documentation',
+    label: 'Foundations',
     icon: FaBook,
     headerType: 'tabs',
   },

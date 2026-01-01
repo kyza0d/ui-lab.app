@@ -41,13 +41,13 @@ type ConfigTab = "colors" | "typography" | "layout";
 
 interface ColorRowProps {
   type:
-    | "background"
-    | "foreground"
-    | "accent"
-    | "success"
-    | "danger"
-    | "warning"
-    | "info";
+  | "background"
+  | "foreground"
+  | "accent"
+  | "success"
+  | "danger"
+  | "warning"
+  | "info";
   color: OklchColor;
   isExpanded: boolean;
   onToggle: () => void;
@@ -686,12 +686,7 @@ const ColorPicker = memo(
             <button
               key={i}
               onClick={() => onChange({ ...color, h })}
-              className={`relative h-10 rounded-lg transition-all hover:scale-105 active:scale-95 border-2 flex items-center justify-center ${
-                isSelected
-                  ? "border-accent-500 shadow-[0_0_10px_rgba(var(--accent-rgb),0.3)]"
-                  : "border-background-700 hover:border-background-500"
-              }`}
-              style={{ backgroundColor: displayColor }}
+              className="relative h-10 rounded-[4px] transition-all hover:scale-105 active:scale-95 flex items-center justify-center" style={{ backgroundColor: displayColor }}
             >
               {isSelected && (
                 <FaCheck
