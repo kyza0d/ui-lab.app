@@ -39,7 +39,7 @@
   },
   "scripts": {
     "build": "vite build && npm run build:css",
-    "build:css": "npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css",
+    "build:css": "npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css || (echo 'Error: Failed to build CSS files' && exit 1)",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
     "test": "vitest",

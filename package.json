@@ -21,8 +21,7 @@
     "versions:to-release": "node scripts/toggle-versions.js to-version"
   },
   "dependencies": {
-    "next": "^16.0.10",
-    "ui-lab-registry": "0.1.6"
+    "next": "^16.0.10"
   },
   "devDependencies": {
     "typescript": "^5"
