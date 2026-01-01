@@ -5,15 +5,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-Package Manager: This project uses `pnpm` for package management.
+**Package Manager:** This project uses `pnpm` for package management.
 
-Development Setup: Use `pnpm dev` to start both frontend (Next.js with Turbopack) and backend (Convex) in parallel. For frontend-only work, use `pnpm dev:frontend`. For backend-only, use `pnpm dev:backend`. Run `pnpm predev` to ensure the Convex backend is ready before starting the frontend.
+**Development Setup:** Use `pnpm dev` to start both frontend (Next.js with Turbopack) and backend (Convex) in parallel. For frontend-only work, use `pnpm dev:frontend`. For backend-only, use `pnpm dev:backend`. Run `pnpm predev` to ensure the Convex backend is ready before starting the frontend.
 
-Build Commands: **NEVER run `pnpm build` unless explicitly asked by the user.** The build process is time-consuming and should only be executed when the user specifically requests it or when preparing for deployment.
+**Build Commands:** **NEVER run `pnpm build` unless explicitly asked by the user.** The build process is time-consuming and should only be executed when the user specifically requests it or when preparing for deployment.
 
-Testing & Quality: No specific test commands are configured. Linting is your primary quality check.
+**Testing & Quality:** No specific test commands are configured. Linting is your primary quality check.
 
-Code Style: NEVER use comments. Write self-documenting code with clear variable names, function names, and logical structure. Favor compact, efficient code by minimizing unnecessary spacing and newlines. Group logically related statements on the same lines when it enhances readability without sacrificing clarity. Prioritize concise implementations that are still easy to understand over verbose code with extensive formatting.
+**Code Style:** NEVER use comments. Write self-documenting code with clear variable names, function names, and logical structure. Favor compact, efficient code by minimizing unnecessary spacing and newlines. Group logically related statements on the same lines when it enhances readability without sacrificing clarity. Prioritize concise implementations that are still easy to understand over verbose code with extensive formatting.
+
+**File Naming:** Follow kebab-case for all file names (e.g., `use-prefetch-on-hover.ts`, `load-component-examples.ts`). Use PascalCase for component directories (e.g., `Button`, `Modal`). Directories use lowercase (e.g., `components`, `hooks`, `lib`, `utils`).
 
 ## Next.js Route Groups
 
@@ -29,30 +31,30 @@ EOF
 **Incorrect approach:**
 - Using `Write` tool with path `/path/to/\(main\)/elements/@content/page.tsx` creates wrong filenames
 
-## Component Examples Pattern (Scalable for all 30 Components)
+## Component Examples Pattern
 
 When adding example snippets to component detail pages, use this pattern for consistency and to enable automatic code loading from `examples.json`:
 
 **Structure:**
-1. Store example .tsx files in `packages/registry/src/components/[Component]/examples/` directory
-2. Each example exports `default` (React component) and `metadata` ({ title, description })
+1. Store example `.tsx` files in `packages/registry/src/components/[Component]/examples/` directory
+2. Each example exports `default` (React component) and `metadata` (`{ title, description }`)
 3. Generate `examples.json` during build with extracted code snippets
 4. In the component's `index.tsx`, define an `examplesData` array that maps examples to metadata
-5. Import the `loadComponentExamples` utility to merge component previews with code from JSON
+5. Import the `load-component-examples` utility to merge component previews with code from JSON
 
 **Implementation steps for a new component:**
 
 ```typescript
 // 1. In packages/registry/src/components/Button/index.tsx
-import Example1, { metadata as metadata1 } from './examples/01-basic button.js';
-import Example2, { metadata as metadata2 } from './examples/02-button variants.js';
+import Example1, { metadata as metadata1 } from './examples/01-basic-button.js';
+import Example2, { metadata as metadata2 } from './examples/02-button-variants.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 // 2. Define examplesData array
 const examplesData = [
-  { id: '01-basic button', Component: Example1, metadata: metadata1 },
-  { id: '02-button variants', Component: Example2, metadata: metadata2 },
+  { id: '01-basic-button', Component: Example1, metadata: metadata1 },
+  { id: '02-button-variants', Component: Example2, metadata: metadata2 },
   // ... add all examples
 ];
 
@@ -71,12 +73,12 @@ export const componentDetail: ComponentDetail = {
 **Benefits:**
 - Code snippets loaded at build-time from pre-generated JSON (no runtime I/O)
 - Examples render as components (interactive previews)
-- New examples don't require code changes—just add a .tsx file and regenerate JSON
-- Scalable pattern for all 30 components with minimal duplication
+- New examples don't require code changes—just add a `.tsx` file and regenerate JSON
+- Scalable pattern for all components with minimal duplication
 - Keep component files lightweight—code is resolved from external source
 
-**Utility:**
-- Location: `packages/registry/src/utils/load-component-examples.ts`
+**Utility Location:**
+`packages/registry/src/utils/load-component-examples.ts`
 - Maps `examplesData` array with component previews to `SiteComponentExample` array with code included
 - Gracefully handles missing code (defaults to empty string)
 
