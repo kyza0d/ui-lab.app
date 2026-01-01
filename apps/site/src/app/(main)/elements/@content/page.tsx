@@ -99,7 +99,7 @@ export default function ElementsPage() {
   }, [router]);
 
   return (
-    <div className='pt-60 max-w-5xl mx-auto '>
+    <div className='pt-60'>
       <BreadcrumbsNav />
       <div className="w-full bg-background-950 mx-auto pb-12">
         <div className="space-y-4 mb-12">
