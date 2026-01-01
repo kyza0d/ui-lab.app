@@ -572,9 +572,11 @@ pre.shiki .indent::before {
   --border: red;
   color: var(--accent-50)
 }
-
-
 */
+
+.button {
+  @apply text-sm!;
+}
 
 
 .switch {

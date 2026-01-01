@@ -1,18 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import {
   FaCopy,
   FaCheck,
   FaBook,
   FaBox,
-  FaPalette,
   FaTerminal
 } from "react-icons/fa6";
 import { Select, Button } from "ui-lab-components";
 import { Aura, InlineCodeHighlight } from "@/shared";
-import Link from "next/link";
-import { Showcase } from "./components/showcase";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 
@@ -110,10 +106,10 @@ function HeroSection({
       <div className="absolute flex gap-6 bottom-0 left-0 w-full px-[14px]">
         <div className="p-[12px] flex space-x-[28px] w-full">
           <div className="flex items-center gap-3 text-sm">
-            <div className="p-2.5 bg-background-800 border-[2px] border-background-700 rounded-[8px]"><FaTerminal className="w-3.5 h-3.5" /></div> Powerful CLI
+            <div className="p-2.5 bg-background-800 border-b-[2px] border-background-700 rounded-[8px]"><FaTerminal className="w-3.5 h-3.5" /></div> Powerful CLI
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <div className="p-2.5 bg-background-800 border-[2px] border-background-700 rounded-[8px]"><FaBox className="w-3.5 h-3.5" /></div> 40+ Components
+            <div className="p-2.5 bg-background-800 border-b-[2px] border-background-700 rounded-[8px]"><FaBox className="w-3.5 h-3.5" /></div> 40+ Components
           </div>
         </div>
       </div>
@@ -137,6 +133,7 @@ function HeroSection({
               metadata that enable AI to generate perfectly consistent, beautiful
               code.
             </p>
+            <Button className="mt-10 w-38" variant="primary">Get Started</Button>
           </div>
           <div className="hidden absolute bottom-0 left-0 p-[12px] w-140">
             <div className="flex justify-start items-center rounded-full mt-[30px] gap-3 bg-background-950 border-[2px] border-background-700 p-1">
@@ -236,30 +233,8 @@ function HeroSection({
   );
 }
 
-export function LandingPage() {
-  const [packageManager, setPackageManager] = useState<PackageManager>("npm");
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(installCommands[packageManager]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <>
-      <HeroSection
-        packageManager={packageManager}
-        onPackageManagerChange={setPackageManager}
-        copied={copied}
-        onCopy={handleCopy}
-      />
-      <Showcase />
-    </>
-  );
-}
-
 export { HeroSection };
 export { Showcase } from "./components/showcase";
 export { SettingsPanel } from "./components/settings-panel";
 export { LandingThemeToggle as ThemeToggle } from "./components/theme-toggle";
+export { NodeSection } from "./components/node-section";

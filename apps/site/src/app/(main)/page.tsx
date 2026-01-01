@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Toaster } from "ui-lab-components";
-import { HeroSection, Showcase } from "@/features/landing";
+import { HeroSection, Showcase, NodeSection } from "@/features/landing";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 
@@ -24,6 +24,7 @@ import {
   FaCopy,
 } from "react-icons/fa6";
 import Link from "next/link";
+import { Aura } from "@/shared";
 
 const features = [
   {
@@ -87,11 +88,12 @@ export default function Home() {
   return (
     <div ref={containerRef} className="pt-(--header-height) mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
       <Toaster />
-      <div className="fixed top-0 left-0 w-screen h-screen">
-      </div>
       <main className="mx-auto h-full max-w-[1100px]">
         <div>
-          <section className="grid-paper after:content-[''] bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[400px] border-[2px] border-y-0 border-background-700 ">
+          <div className="hidden fixed max-w-[1400px] border-x border-background-700 w-screen h-screen top-0 left-1/2 -translate-x-1/2">
+            <Aura />
+          </div>
+          <section className="border-x border-background-700 grid-paper after:content-[''] bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[400px]">
             <HeroSection
               packageManager={packageManager}
               onPackageManagerChange={setPackageManager}
@@ -101,9 +103,11 @@ export default function Home() {
           </section>
           <div className="after:absolute after:left-0 after:top-0 after:w-screen after:h-[2px] after:bg-background-500"></div>
 
-          <Showcase />
-          <div className="bg-background-950 ml-auto border-[2px] border-b-0 border-background-700 overflow-hidden">
-            <div className="grid px-[28px] grid-cols-2 gap-x-[24px] pt-[14px] space-y-[12px] bg-background-950 border-background-700 overflow-scroll">
+          <NodeSection>
+            <Showcase />
+          </NodeSection>
+          <NodeSection>
+            <div className="bg-background-950 border-t border-background-700 grid px-[28px] grid-cols-2 gap-x-[24px] pt-[14px] space-y-[12px] overflow-scroll">
               {features.map((feature, i) => {
                 const hasLink = !!feature.link;
                 const cardContent = (
@@ -143,7 +147,7 @@ export default function Home() {
                 return <div key={i}>{cardContent}</div>;
               })}
             </div>
-          </div>
+          </NodeSection>
         </div>
       </main>
     </div>
