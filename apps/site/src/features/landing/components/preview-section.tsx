@@ -25,12 +25,12 @@ const categories: Category[] = [
     name: "SaaS",
     icon: <FaShop />,
     examples: [
-      { id: "saas-1", name: "Dashboard", description: "Analytics dashboard with real-time metrics" },
-      { id: "saas-2", name: "User Management", description: "User administration interface" },
-      { id: "saas-3", name: "Billing", description: "Subscription and payment interface" },
-      { id: "saas-4", name: "Settings", description: "Application configuration panel" },
-      { id: "saas-5", name: "Notifications", description: "Alert and notification center" },
-      { id: "saas-6", name: "Team Collaboration", description: "Team workspace and sharing" },
+      { id: "saas-1", name: "Dashboard" },
+      { id: "saas-2", name: "User Management" },
+      { id: "saas-3", name: "Billing" },
+      { id: "saas-4", name: "Settings" },
+      { id: "saas-5", name: "Notifications" },
+      { id: "saas-6", name: "Team Collaboration" },
     ],
   },
   {
@@ -38,10 +38,10 @@ const categories: Category[] = [
     name: "Documentation",
     icon: <FaBook />,
     examples: [
-      { id: "docs-1", name: "API Reference", description: "API documentation interface" },
-      { id: "docs-2", name: "Component Showcase", description: "Component gallery and examples" },
-      { id: "docs-3", name: "Search Results", description: "Search and filter documentation" },
-      { id: "docs-4", name: "Code Examples", description: "Code snippet viewer" },
+      { id: "docs-1", name: "API Reference" },
+      { id: "docs-2", name: "Component Showcase" },
+      { id: "docs-3", name: "Search Results" },
+      { id: "docs-4", name: "Code Examples" },
     ],
   },
   {
@@ -49,13 +49,13 @@ const categories: Category[] = [
     name: "Marketing",
     icon: <FaArrowUp />,
     examples: [
-      { id: "marketing-1", name: "Landing Page", description: "Hero section with CTA" },
-      { id: "marketing-2", name: "Features Showcase", description: "Feature highlight section" },
-      { id: "marketing-3", name: "Pricing Table", description: "Pricing plans comparison" },
-      { id: "marketing-4", name: "Testimonials", description: "Customer testimonials section" },
-      { id: "marketing-5", name: "Blog Grid", description: "Blog post listing" },
-      { id: "marketing-6", name: "Case Study", description: "Case study showcase" },
-      { id: "marketing-7", name: "FAQ", description: "Frequently asked questions" },
+      { id: "marketing-1", name: "Landing Page" },
+      { id: "marketing-2", name: "Features Showcase" },
+      { id: "marketing-3", name: "Pricing Table" },
+      { id: "marketing-4", name: "Testimonials" },
+      { id: "marketing-5", name: "Blog Grid" },
+      { id: "marketing-6", name: "Case Study" },
+      { id: "marketing-7", name: "FAQ" },
     ],
   },
 ];
@@ -86,7 +86,7 @@ export function Example() {
   );
 }`;
 
-export function SecondarySection() {
+export function Showcase() {
   const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0].id);
   const [selectedExampleId, setSelectedExampleId] = useState(categories[0].examples[0].id);
 
@@ -106,15 +106,17 @@ export function SecondarySection() {
   };
 
   return (
-    <div className="bg-background-950 shadow-2xl ml-auto h-200 grid grid-cols-[400px_1fr] border-[2px] border-b-0 border-r-0 border-background-700 overflow-hidden">
+    <div className="bg-background-950 ml-auto h-200 grid grid-cols-[230px_1fr] border-[2px] border-b-0 border-background-700 overflow-hidden">
       <div className="border-r-[2px] h-200 overflow-y-scroll border-background-700 flex flex-col">
-        <div className="flex flex-col gap-2 p-3 flex-1">
+        <div className="flex flex-col gap-2 flex-1">
           {categories.map((category) => (
             <Fold
               key={category.id}
               title={
-                <div className="flex items-center gap-8">
-                  {category.icon}
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-background-800 border-background-700 rounded-[6px] border-[2px]">
+                    {category.icon}
+                  </div>
                   <div>
                     <div className="text-sm font-medium text-foreground-200">{category.name}</div>
                     <div className="text-sm text-foreground-400">{category.examples.length} examples</div>
@@ -137,9 +139,6 @@ export function SecondarySection() {
                       }`}
                   >
                     <strong className="font-medium">{example.name}</strong>
-                    {example.description && (
-                      <div className="text-sm text-foreground-400 mt-0.5">{example.description}</div>
-                    )}
                   </button>
                 ))}
               </div>
