@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { TableOfContents } from "@/components/TableOfContents";
-import { tocRegistry } from "@/lib/generated-toc-registry";
+import { TableOfContents } from "@/features/docs";
+import { tocRegistry } from "@/features/docs";
 
 export default function TroubleshootingPage() {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});

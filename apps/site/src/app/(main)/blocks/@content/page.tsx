@@ -1,5 +1,5 @@
-import { BreadcrumbsNav } from '@/components/layout/BreadcrumbsNav';
-import { BlocksPageClient } from '@/components/blocks/BlocksPageClient';
+import { BreadcrumbsNav } from '@/features/navigation';
+import { BlocksPageClient } from '@/features/blocks';
 
 export default function BlocksPage() {
   return (

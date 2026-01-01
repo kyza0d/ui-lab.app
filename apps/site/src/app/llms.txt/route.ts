@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { packageMetadata } from 'ui-lab-registry';
+import { packageMetadata } from 'ui-lab-registry/generated-data';
 
 export async function GET(request: NextRequest) {
   const llmsText = generateLLMsText();

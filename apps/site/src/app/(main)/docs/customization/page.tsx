@@ -1,7 +1,7 @@
 "use client";
 
-import { TableOfContents } from "@/components/TableOfContents";
-import { tocRegistry } from "@/lib/generated-toc-registry";
+import { TableOfContents } from "@/features/docs";
+import { tocRegistry } from "@/features/docs";
 
 export default function CustomizationPage() {
   const tocItems = tocRegistry["customization"] || [];

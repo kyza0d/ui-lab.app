@@ -1,17 +1,15 @@
 "use client";
 
-import { ComponentConfigurator } from "@/components/component-configurator";
-import { getComponentById, getComponentMetadata } from "@/lib/component-registry";
-import { TableOfContents } from "@/components/TableOfContents";
-import { Table, type Column } from "@/components/table";
-import { InlineCodeHighlight } from "@/components/InlineCodeHighlight";
-import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentConfigurator } from "@/features/component-docs";
+import { getComponentById, getComponentMetadata } from "@/features/component-docs";
+import { TableOfContents, Table, type Column } from "@/features/docs";
+import { CodeBlock, InlineCodeHighlight } from "@/shared";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 import { FaGithub } from "react-icons/fa6";
 import { SiAdobe } from "react-icons/si";
-import { BreadcrumbsNav } from "@/components/layout/BreadcrumbsNav";
+import { BreadcrumbsNav } from "@/features/navigation";
 
 export function ComponentDetailClient({ componentId }: { componentId: string }) {
   const component = useMemo(() => getComponentById(componentId), [componentId]);
@@ -201,14 +199,14 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "name",
       label: "Name",
-      render: (value) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
+      render: (value: any) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
     },
     {
       key: "type",
       label: "Type",
-      render: (value, row) => {
+      render: (value: any, row: any) => {
         if (row.enumValues && row.enumValues.length > 0) {
-          const enumCode = row.enumValues.map((v) => `"${v}"`).join(" | ");
+          const enumCode = row.enumValues.map((v: any) => `"${v}"`).join(" | ");
           return <InlineCodeHighlight code={enumCode} language="typescript" />;
         }
         return <InlineCodeHighlight code={value} language="typescript" />;
@@ -217,7 +215,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "required",
       label: "Required",
-      render: (value) => (
+      render: (value: any) => (
         <span className={value ? "text-danger-400" : "text-foreground-500"}>
           {value ? "Yes" : "No"}
         </span>
@@ -226,7 +224,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "defaultValue",
       label: "Default",
-      render: (value) => (
+      render: (value: any) => (
         value ? <InlineCodeHighlight code={value} language="typescript" /> : <span className="text-foreground-500">-</span>
       ),
     },
@@ -243,14 +241,14 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "name",
       label: "Name",
-      render: (value) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
+      render: (value: any) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
     },
     {
       key: "type",
       label: "Type",
-      render: (value, row) => {
+      render: (value: any, row: any) => {
         if (row.enumValues && row.enumValues.length > 0) {
-          const enumCode = row.enumValues.map((v) => `"${v}"`).join(" | ");
+          const enumCode = row.enumValues.map((v: any) => `"${v}"`).join(" | ");
           return <InlineCodeHighlight code={enumCode} language="typescript" />;
         }
         return <InlineCodeHighlight code={value} language="typescript" />;
@@ -259,7 +257,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "required",
       label: "Required",
-      render: (value) => (
+      render: (value: any) => (
         <span className={value ? "text-danger-400" : "text-foreground-500"}>
           {value ? "Yes" : "No"}
         </span>

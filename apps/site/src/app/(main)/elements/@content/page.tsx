@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useCallback, useMemo } from 'react';
-import { BreadcrumbsNav } from '@/components/layout/BreadcrumbsNav';
-import { ElementsGridClient } from '@/components/elements/ElementsGridClient';
-import { ElementsSearchHeader } from '@/components/elements/ElementsSearchHeader';
-import { ElementsSortDropdown } from '@/components/elements/ElementsSortDropdown';
-import { ElementsFilterPopover } from '@/components/elements/ElementsFilterPopover';
+import { BreadcrumbsNav } from '@/features/navigation';
+import { ElementsGridClient } from '@/features/elements';
+import { ElementsSearchHeader } from '@/features/elements';
+import { ElementsSortDropdown } from '@/features/elements';
+import { ElementsFilterPopover } from '@/features/elements';
 import { elementsList, getAllCategories, getAllTags, searchElements } from 'ui-lab-registry';
 import type { ElementMetadata } from 'ui-lab-registry';
 

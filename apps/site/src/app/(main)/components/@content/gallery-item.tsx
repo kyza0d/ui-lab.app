@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Gallery } from 'ui-lab-components';
-import { usePrefetchOnHover } from '@/hooks/usePrefetchOnHover';
+import { usePrefetchOnHover } from '@/shared';
 
 interface GalleryItemWithPrefetchProps {
   id: string;

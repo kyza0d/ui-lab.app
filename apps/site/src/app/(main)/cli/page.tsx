@@ -1,9 +1,9 @@
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
-import { getCliDocBySlug } from "@/lib/docs";
-import { mdxComponents } from '@/lib/mdx-components'
-import { TableOfContents } from "@/components/TableOfContents";
-import { packageMetadata } from 'ui-lab-registry'
+import { getCliDocBySlug } from "@/features/docs";
+import { mdxComponents } from '@/features/docs'
+import { TableOfContents } from "@/features/docs";
+import { packageMetadata } from 'ui-lab-registry/generated-data'
 
 export default async function CliPage() {
   const doc = await getCliDocBySlug('index');

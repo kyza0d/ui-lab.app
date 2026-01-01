@@ -1,4 +1,4 @@
-import { BreadcrumbsNav } from '@/components/layout/BreadcrumbsNav';
+import { BreadcrumbsNav } from '@/features/navigation';
 
 export default function StartersPage() {
   return (
