@@ -1,22 +1,17 @@
 "use client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
 import { Logo } from "@/shared";
-import { Badge, Divider, Input, Tabs, TabsList, TabsTrigger, CommandPalette } from "ui-lab-components";
-import { ElementsSearchHeader } from "@/features/elements";
-import { ElementsFilterPopover } from "@/features/elements";
-import { packageMetadata } from "ui-lab-registry";
+import { Input, Tabs, TabsList, TabsTrigger, CommandPalette, Select, SelectListBox } from "ui-lab-components";
+import { ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from "@/features/elements";
 import { useApp } from "@/features/theme";
 import { cn } from "@/shared";
-import { getComponentsGroupedByCategory, componentRegistry } from "@/features/component-docs";
+import { componentRegistry } from "@/features/component-docs";
 import {
   FaChevronDown,
-  FaPalette,
-  FaFill,
-  FaIcons,
-  FaWandMagicSparkles,
   FaBars,
   FaWrench,
   FaGithub,
@@ -28,270 +23,16 @@ import {
   FaTerminal,
   FaMoon,
   FaSun,
+  FaIcons,
 } from "react-icons/fa6";
-import { useElementsSearch } from "./elements-header-client";
-
-import {
-  Select,
-  SelectListBox,
-} from "ui-lab-components";
 import { HiX } from "react-icons/hi";
-import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, getHeaderHeight, DOMAINS } from "@/shared";
+import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, getHeaderHeight } from "@/shared";
 import { type Command } from "ui-lab-components";
-import { ElementsSortDropdown } from "@/features/elements";
-import { ElementsLayoutToggle } from "@/features/elements";
 
-const navigationData = [
-  { name: "documentation", label: "Documentation", isDropdown: true },
-  { name: "components", label: "Components", isDropdown: true },
-  { name: "elements", label: "Elements" },
-  // { name: "marketplace", label: "Marketplace" },
-  { name: "tools", label: "Tools", isDropdown: true },
-] as const;
-
-const documentationItems = [
-  { id: "overview", label: "Overview" },
-  { id: "installation", label: "Installation" },
-  { id: "usage", label: "Usage" },
-];
-
-const getDocumentationLink = (id: string) =>
-  id === "overview" ? "/docs" : `/docs/${id}`;
-
-const toolsItems = [
-  {
-    title: "Color Palette Generator",
-    description: "Generate beautiful color schemes.",
-    href: "/tools/color-palette",
-    icon: FaPalette,
-  },
-  {
-    title: "Gradient Generator",
-    description: "Create smooth CSS gradients easily.",
-    href: "/tools/gradient",
-    icon: FaFill,
-  },
-  {
-    title: "Icon Finder",
-    description: "Search and copy any icon instantly.",
-    href: "/tools/icons",
-    icon: FaIcons,
-  },
-  {
-    title: "CSS Gradient Animator",
-    description: "Animate gradients with pure CSS.",
-    href: "/tools/css-animator",
-    icon: FaWandMagicSparkles,
-  },
-];
-
-/* ---------- Tools Dropdown (desktop) ---------- */
-function ToolsDropdown({
-  isOpen,
-  onMouseEnter,
-  onMouseLeave,
-}: {
-  isOpen: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-}) {
-  return (
-    <div
-      className={cn(
-        "absolute top-full left-0 z-50 bg-background-800",
-        "overflow-hidden flex rounded-xl",
-        "w-96"
-      )}
-      style={{
-        opacity: isOpen ? 1 : 0,
-        pointerEvents: isOpen ? "auto" : "none",
-      }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <div className="w-full px-2 pb-2">
-        <div className="grid gap-0 grid-cols-1">
-          <div className="flex flex-col">
-            <span className="flex text-sm items-center h-13 px-3 text-foreground-50">
-              <FaWrench className="mr-3" /> Utilities
-            </span>
-            <Divider variant="dashed" className="mt-0 mb-2" />
-            <div className="flex flex-col space-y-1 mt-2">
-              {toolsItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.title}
-                    href={item.href}
-                    className={cn(
-                      "rounded-lg p-1",
-                      "text-foreground-300 hover:bg-background-700",
-                      "flex items-center gap-3 group"
-                    )}
-                  >
-                    <div className="group-hover:bg-background-600 w-10 h-10 rounded-lg bg-background-800/50 flex items-center justify-center">
-                      <Icon className="h-5 w-5 text-foreground-100" />
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="font-semibold text-foreground-50 text-sm">
-                        {item.title}
-                      </div>
-                      <div className="text-sm text-foreground-400 mt-0.5">
-                        {item.description}
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Mobile menu */
-interface MobileMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const [expanded, setExpanded] = useState<string | null>(null);
-
-  const getMenuItems = (
-    itemName: string
-  ): Array<{ label: string; href: string; description?: string }> => {
-    switch (itemName) {
-      case "documentation":
-        return documentationItems.map((i) => ({
-          label: i.label,
-          href: getDocumentationLink(i.id),
-        }));
-      case "components": {
-        const grouped = getComponentsGroupedByCategory();
-        const all: Array<{ label: string; href: string }> = [];
-        Object.values(grouped).forEach((list) =>
-          list.forEach((c) => all.push({ label: c.name, href: `/components/${c.id}` }))
-        );
-        return all;
-      }
-      case "tools":
-        return toolsItems.map((t) => ({
-          label: t.title,
-          description: t.description,
-          href: t.href,
-        }));
-      default:
-        return [];
-    }
-  };
-
-  return (
-    <>
-      <div
-        className={cn(
-          "fixed inset-0 z-30 bg-background-950/80 transition-opacity md:hidden"
-        )}
-        style={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none" }}
-        onClick={onClose}
-      />
-      {isOpen && (
-        <div
-          className={cn(
-            "fixed top-15 left-0 right-0 z-50 pt-7 border-b border-background-700/60 md:hidden",
-            "overflow-y-auto max-h-[calc(100vh-3.75rem)] bg-background-950 animate-in slide-in-from-top-2"
-          )}
-        >
-          <div className="flex flex-col px-2 py-4 space-y-1">
-            {navigationData.map((item) => {
-              const hasDropdown = "isDropdown" in item && item.isDropdown;
-
-              if (hasDropdown) {
-                const subItems = getMenuItems(item.name);
-                return (
-                  <div key={item.name} className="flex flex-col">
-                    <button
-                      onClick={() =>
-                        setExpanded((prev) => (prev === item.name ? null : item.name))
-                      }
-                      className={cn(
-                        "flex w-full items-center justify-between rounded-lg px-3 py-2",
-                        "font-medium hover:bg-background-800"
-                      )}
-                    >
-                      <span>{item.label}</span>
-                      <FaChevronDown
-                        className={cn(
-                          "h-2.5 w-2.5 text-foreground-300",
-                          expanded === item.name && "rotate-180"
-                        )}
-                      />
-                    </button>
-
-                    {expanded === item.name && (
-                      <div className="flex flex-col mx-2 mb-2 rounded-lg">
-                        <div className="py-3 space-y-2 text-sm">
-                          {subItems.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              onClick={onClose}
-                              className={cn(
-                                "flex flex-col rounded-md px-3 py-2 hover:bg-background-800 text-foreground-300"
-                              )}
-                            >
-                              <div className="font-semibold">{sub.label}</div>
-                              {sub.description && (
-                                <div className="text-sm text-foreground-400">
-                                  {sub.description}
-                                </div>
-                              )}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-
-              if ("href" in item) {
-                return (
-                  <Link
-                    key={item.name}
-                    href={(item as any).href}
-                    onClick={onClose}
-                    className={cn(
-                      "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              }
-
-              const href = item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : `/components`;
-              return (
-                <Link
-                  key={item.name}
-                  href={href}
-                  onClick={onClose}
-                  className={cn(
-                    "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-            <Divider variant="dashed" className="my-3" />
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
+import { useElementsSearch } from "./elements-search";
+import { ToolsDropdown } from "./tools-dropdown";
+import { MobileMenu } from "./mobile-menu";
+import { navigationData, toolsItems } from "./data";
 
 interface HeaderProps {
   pathname: string;
@@ -320,10 +61,11 @@ export default function Header({
     hideTimeoutRef.current = setTimeout(() => setIsToolsOpen(false), 200);
   };
 
-  const [stars, setStars] = useState<string>("—");
+  // const [stars, setStars] = useState<string>("—");
 
   useEffect(() => document.documentElement.style.setProperty('--header-height', headerHeight), [headerHeight]);
 
+  /*
   useEffect(() => {
     fetch("https://api.github.com/repos/kyza0d/ui-lab.app")
       .then((res) => {
@@ -339,6 +81,7 @@ export default function Header({
         setStars("12.4k");
       });
   }, []);
+  */
 
   const commands: Command[] = useMemo(() => {
     const cmds: Command[] = [];
@@ -531,19 +274,6 @@ export default function Header({
           <div className="flex items-center">
             <ThemeToggle />
             <SettingsPanel />
-
-            {/* GitHub Stars Button */}
-            {/* <a */}
-            {/*   href="https://github.com/kyza0d/ui-lab.app" */}
-            {/*   target="_blank" */}
-            {/*   rel="noopener noreferrer" */}
-            {/*   className="hidden sm:flex items-center space-x-1.5 rounded-xl bg-background-700 border border-background-600 px-3 py-1.5 text-xs font-medium text-foreground-50 transition-all hover:bg-background-600 md:flex" */}
-            {/*   aria-label="Star on GitHub" */}
-            {/* > */}
-            {/*   <FaGithub /> */}
-            {/*   <span>{stars}</span> */}
-            {/* </a> */}
-
 
             {/* Mobile menu toggle */}
             <button
