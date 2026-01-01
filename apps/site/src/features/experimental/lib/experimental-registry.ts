@@ -19,7 +19,7 @@ export const experimentalRegistry: ExperimentalComponentMetadata[] = [
     id: "frame",
     name: "Frame",
     description: "A decorative border/frame component for wrapping and highlighting content.",
-    category: "experimental",
+    category: "container",
     relatedComponents: [],
     tags: ["frame", "border", "decorator", "wrapper"],
     accessibility: {

@@ -58,19 +58,21 @@ import { Progress } from "ui-lab-components";
 import { Divider } from "ui-lab-components";
 import { Fold } from "ui-lab-components";
 import { Gallery } from "ui-lab-components";
-// import { Frame } from "@/components/experimental";
+import { Frame } from "@/components/Frame";
+import Example1, { metadata as metadata1 } from "@/components/Frame/examples/01-default-frame";
+import examplesJson from "@/components/Frame/examples/examples.json";
 import { ScrollArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
 import { FaBell, FaCircleQuestion, FaComputerMouse, FaFile, FaImage, FaInfo, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
-  categories,
   getCategoriesInOrder,
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
 } from "ui-lab-registry";
 import { experimentalRegistry, type ExperimentalComponentMetadata } from "@/features/experimental/lib/experimental-registry";
+import React from "react";
 export type { ComponentCategory } from "ui-lab-registry";
 export { categories, categoryMap, getCategoriesInOrder } from "ui-lab-registry";
 export interface ComponentMetadata extends RegistryMetadata {
@@ -290,11 +292,11 @@ const previews: Record<string, React.ReactNode> = {
       ))}
     </Gallery>
   ),
-  // frame: (
-  //   <Frame>
-  //     <p className="text-sm text-foreground-300">Framed content</p>
-  //   </Frame>
-  // ),
+  frame: (
+    <Frame variant="accent" padding="medium">
+      <p className="text-sm text-foreground-300">Framed content</p>
+    </Frame>
+  ),
   scrollarea: (
     <ScrollArea maxHeight="200px">
       <div className="flex items-center justify-center h-22">
@@ -358,7 +360,7 @@ const componentOrder: Record<ComponentCategory, string[]> = {
   information: ['badge', 'label', 'tooltip'],
   feedback: ['popover', 'progress'],
   navigation: ['breadcrumbs', 'menu', 'tabs'],
-  container: ['card', 'modal', 'scrollarea'],
+  container: ['card', 'modal', 'scrollarea', 'frame'],
   data: ['table'],
   experimental: ['toast'],
 };
@@ -369,6 +371,52 @@ export const getComponentsInCategoryOrder = cache((category: ComponentCategory):
     .map((id: string) => componentRegistry.find((c): c is ComponentMetadata => c.id === id))
     .filter((c): c is ComponentMetadata => c !== undefined);
 });
+const frameExamplesData = [
+  { id: '01-default-frame', Component: Example1, metadata: metadata1 },
+];
+
+const frameBasicCode = `import { Frame } from "@/components/Frame";
+
+export function Example() {
+  return (
+    <Frame variant="default" padding="medium">
+      <p className="text-foreground-300">Framed content</p>
+    </Frame>
+  );
+}`;
+
+const frameDetail: ComponentDetail = {
+  id: 'frame',
+  name: 'Frame',
+  description: 'A decorative border/frame component for wrapping and highlighting content.',
+  overview: (
+    <div className="space-y-4 text-foreground-300">
+      <p>
+        The Frame component is a decorative wrapper that adds a styled border around content. It provides multiple visual variants and padding options to suit different design needs.
+      </p>
+      <p>
+        Use frames to highlight important content, create visual separation, or add decorative elements to your interface. The component is fully responsive and supports custom path builders for advanced shape customization.
+      </p>
+    </div>
+  ),
+  examples: [
+    {
+      id: 'preview',
+      title: 'Preview',
+      description: 'Adjust props to customize the component',
+      code: frameBasicCode,
+      preview: <Frame variant="accent" padding="medium"><p className="text-sm text-foreground-300">Framed content</p></Frame>,
+    },
+    ...frameExamplesData.map((example, index) => ({
+      id: `example-${index + 1}`,
+      title: example.metadata.title,
+      description: example.metadata.description,
+      code: (examplesJson as Record<string, any>)[example.id]?.code || '',
+      preview: React.createElement(example.Component),
+    })),
+  ],
+};
+
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
   group: groupDetail,
@@ -399,7 +447,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   divider: dividerDetail,
   fold: foldDetail,
   gallery: galleryDetail,
-  // frame: frameDetail,
+  frame: frameDetail,
   scrollarea: scrollareaDetail,
 };
 export const getComponentById = cache((id: string): ComponentDetail | undefined => {
