@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const DOCS_DIR = path.join(__dirname, '../content/docs');
 const DESIGN_SYSTEM_DIR = path.join(__dirname, '../content/design-system');
-const OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-toc-registry.ts');
+const OUTPUT_FILE = path.join(__dirname, '../src/features/docs/lib/generated-toc-registry.ts');
 
 function extractHeadings(markdown) {
   const headingRegex = /^(#{2,6})\s+(.+)$/gm;

@@ -17,8 +17,8 @@ const CONTENT_DOMAINS = {
   'design-system': path.join(__dirname, '../content/design-system'),
 };
 
-const OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-sidebar-registry.ts');
-const LEGACY_OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-docs.ts');
+const OUTPUT_FILE = path.join(__dirname, '../src/features/navigation/lib/generated-sidebar-registry.ts');
+const LEGACY_OUTPUT_FILE = path.join(__dirname, '../src/features/docs/lib/generated-docs.ts');
 const TOC_GENERATOR = path.join(__dirname, './generate-toc-registry.mjs');
 const BREADCRUMB_GENERATOR = path.join(__dirname, './generate-breadcrumb-registry.mjs');
 

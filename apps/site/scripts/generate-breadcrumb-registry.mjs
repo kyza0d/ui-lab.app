@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CONTENT_BASE = path.join(__dirname, '../content');
-const OUTPUT_FILE = path.join(__dirname, '../src/lib/generated-breadcrumb-registry.ts');
+const OUTPUT_FILE = path.join(__dirname, '../src/features/navigation/lib/generated-breadcrumb-registry.ts');
 
 const DOMAIN_CONFIG = {
   docs: {

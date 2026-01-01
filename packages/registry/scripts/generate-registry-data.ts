@@ -72,6 +72,12 @@ function getPackageMetadata(): { version: string } {
   }
 }
 
+function toKebabCase(pascalCase: string): string {
+  return pascalCase
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .toLowerCase();
+}
+
 function generateDataFile(
   apiData: Record<string, ComponentAPI>,
   stylesData: Record<string, ComponentStyles>,
@@ -122,7 +128,8 @@ async function main() {
 
   const reactAriaUrls: Record<string, string> = {};
   for (const id of componentIds) {
-    reactAriaUrls[id] = REACT_ARIA_PLACEHOLDERS[id] || '';
+    const kebabId = toKebabCase(id);
+    reactAriaUrls[kebabId] = REACT_ARIA_PLACEHOLDERS[kebabId] || '';
   }
 
   console.log('Extracting package metadata...');
@@ -134,10 +141,11 @@ async function main() {
   console.log('\nSummary:');
   console.log('--------');
   for (const id of componentIds) {
-    const hasApi = id in apiData;
-    const hasStyles = id in stylesData;
-    const hasSource = id in sourceData;
-    const hasReactAria = reactAriaUrls[id] !== '';
+    const kebabId = toKebabCase(id);
+    const hasApi = kebabId in apiData;
+    const hasStyles = kebabId in stylesData;
+    const hasSource = kebabId in sourceData;
+    const hasReactAria = reactAriaUrls[kebabId] !== '';
     console.log(
       `${id}: API=${hasApi ? '✓' : '✗'} Styles=${hasStyles ? '✓' : '✗'} Source=${hasSource ? '✓' : '✗'} ReactAria=${hasReactAria ? '✓' : '-'}`
     );

@@ -2430,37 +2430,37 @@ export const generatedSourceCode: Record<string, ComponentSourceCode> = {
 };
 
 export const reactAriaUrls: Record<string, string> = {
-  "Badge": "",
-  "Breadcrumbs": "",
-  "Button": "",
-  "Card": "",
-  "Checkbox": "",
-  "CommandPalette": "",
-  "Confirmation": "",
-  "Divider": "",
-  "EasingPreview": "",
-  "Flex": "",
-  "Fold": "",
-  "Form": "",
-  "Gallery": "",
-  "Grid": "",
-  "Group": "",
-  "Input": "",
-  "Label": "",
-  "Menu": "",
-  "Modal": "",
-  "Popover": "",
-  "Progress": "",
-  "Radio": "",
-  "ScrollArea": "",
-  "Select": "",
-  "Slider": "",
-  "Switch": "",
-  "Table": "",
-  "Tabs": "",
-  "Textarea": "",
-  "Toast": "",
-  "Tooltip": ""
+  "badge": "",
+  "breadcrumbs": "https://react-spectrum.adobe.com/react-aria/useBreadcrumbs.html",
+  "button": "https://react-spectrum.adobe.com/react-aria/useButton.html",
+  "card": "",
+  "checkbox": "https://react-spectrum.adobe.com/react-aria/useCheckbox.html",
+  "command-palette": "",
+  "confirmation": "",
+  "divider": "",
+  "easing-preview": "",
+  "flex": "",
+  "fold": "",
+  "form": "",
+  "gallery": "",
+  "grid": "",
+  "group": "",
+  "input": "https://react-spectrum.adobe.com/react-aria/useTextField.html",
+  "label": "https://react-spectrum.adobe.com/react-aria/useLabel.html",
+  "menu": "https://react-spectrum.adobe.com/react-aria/useMenu.html",
+  "modal": "https://react-spectrum.adobe.com/react-aria/useDialog.html",
+  "popover": "https://react-spectrum.adobe.com/react-aria/usePopover.html",
+  "progress": "https://react-spectrum.adobe.com/react-aria/useProgressBar.html",
+  "radio": "https://react-spectrum.adobe.com/react-aria/useRadioGroup.html",
+  "scroll-area": "",
+  "select": "https://react-spectrum.adobe.com/react-aria/useSelect.html",
+  "slider": "https://react-spectrum.adobe.com/react-aria/useSlider.html",
+  "switch": "https://react-spectrum.adobe.com/react-aria/useSwitch.html",
+  "table": "https://react-spectrum.adobe.com/react-aria/useTable.html",
+  "tabs": "https://react-spectrum.adobe.com/react-aria/useTabs.html",
+  "textarea": "https://react-spectrum.adobe.com/react-aria/useTextField.html",
+  "toast": "",
+  "tooltip": "https://react-spectrum.adobe.com/react-aria/useTooltip.html"
 };
 
 export const generatedComponentDependencies: Record<string, ComponentDeps> = {
@@ -2645,5 +2645,5 @@ export const generatedCorePeerDependencies = [
 ];
 
 export const packageMetadata: PackageMetadata = {
-  "version": "0.1.5"
+  "version": "0.1.6"
 };
