@@ -3,12 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useState, useCallback, useMemo } from 'react';
 import { BreadcrumbsNav } from '@/features/navigation';
-import { ElementsGridClient } from '@/features/elements';
-import { ElementsSearchHeader } from '@/features/elements';
-import { ElementsSortDropdown } from '@/features/elements';
-import { ElementsFilterPopover } from '@/features/elements';
 import { elementsList, getAllCategories, getAllTags, searchElements } from 'ui-lab-registry';
 import type { ElementMetadata } from 'ui-lab-registry';
+import { ElementsGridClient } from '@/features/elements';
 
 function sortElements(elements: ElementMetadata[], sortBy: string): ElementMetadata[] {
   const sorted = [...elements];
@@ -29,9 +26,6 @@ export default function ElementsPage() {
   const [sortBy, setSortBy] = useState('newest');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-  const categories = useMemo(() => getAllCategories(), []);
-  const tags = useMemo(() => getAllTags(), []);
 
   const filteredElements = useMemo(() => {
     let elements = elementsList;
@@ -101,7 +95,7 @@ export default function ElementsPage() {
   return (
     <div className='pt-60'>
       <BreadcrumbsNav />
-      <div className="w-full bg-background-950 mx-auto pb-12">
+      <div className="max-w-4xl w-full bg-background-950 mx-auto pb-12">
         <div className="space-y-4 mb-12">
           <h2 className="text-4xl font-bold text-foreground-50">Elements</h2>
           <p className="text-foreground-400 max-w-2xl">
@@ -109,24 +103,6 @@ export default function ElementsPage() {
           </p>
         </div>
         <div className="space-y-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <ElementsSearchHeader
-              className="md:flex-1 md:max-w-96"
-              currentQuery={searchQuery}
-              pathname="/elements"
-              onSearch={handleSearch}
-            />
-            <div className="flex gap-2">
-              <ElementsSortDropdown currentSort={sortBy} onSortChange={handleSortChange} />
-              <ElementsFilterPopover
-                selectedCategory={selectedCategory}
-                selectedTags={selectedTags}
-                onCategoryChange={handleCategoryChange}
-                onTagsChange={handleTagsChange}
-                onClearAll={handleClearAll}
-              />
-            </div>
-          </div>
           <ElementsGridClient elements={filteredElements} />
         </div>
       </div>

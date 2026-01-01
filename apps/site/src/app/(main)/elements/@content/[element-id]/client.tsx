@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import type { ElementMetadata, ElementFile } from 'ui-lab-registry';
+import type { ElementFile } from 'ui-lab-registry';
 import { getElementById } from 'ui-lab-registry';
 import { ElementPreviewContent } from '@/features/elements';
 import { getDemoComponent, getElementSourceCode } from '@/features/elements';
 import { PreviewDeviceVariant } from '@/features/preview';
+import { Divider } from 'ui-lab-components';
 
 interface VariantWithCode {
   name: string;
@@ -35,7 +36,6 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
   }, [element]);
   const [activeTab, setActiveTab] = useState<Record<number, 'preview' | 'code'>>({});
   const [activeFile, setActiveFile] = useState<Record<number, string>>({});
-  const [copied, setCopied] = useState<Record<number, boolean>>({});
   const [deviceVariant, setDeviceVariant] = useState<Record<number, PreviewDeviceVariant>>({});
   const [width, setWidth] = useState<Record<number, number>>({});
 
@@ -44,15 +44,8 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
     const files = variant.files || [];
     return activeFile[index] || files.find(f => f.isEntryPoint)?.filename || files[0]?.filename || '';
   };
-  const getCopied = (index: number) => copied[index] ?? false;
   const getDeviceVariant = (index: number) => deviceVariant[index] ?? 'desktop';
   const getWidth = (index: number) => width[index];
-
-  const handleCopy = (code: string, variantIndex: number) => {
-    navigator.clipboard.writeText(code);
-    setCopied({ ...copied, [variantIndex]: true });
-    setTimeout(() => setCopied(prev => ({ ...prev, [variantIndex]: false })), 2000);
-  };
 
   if (!element) {
     return (
@@ -68,17 +61,14 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
 
   return (
     <div>
-      <div className="w-full bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
+      <div className="w-full max-w-4xl bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
-          <div className="mb-12">
+          <div className="mb-28">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
                 <h1 className="text-4xl font-bold text-foreground-50 mb-2">{element.name}</h1>
                 <p className="text-foreground-400 max-w-2xl">{element.description}</p>
               </div>
-              <span className="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium bg-background-700 text-foreground-300 whitespace-nowrap">
-                {element.category}
-              </span>
             </div>
 
             {element.tags.length > 0 && (
@@ -86,7 +76,7 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
                 {element.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-block px-2.5 py-1 text-xs bg-background-800 text-foreground-400 rounded"
+                    className="inline-block px-2.5 py-1 text-sm bg-background-900 border border-background-700 text-foreground-400 rounded"
                   >
                     {tag}
                   </span>
@@ -95,12 +85,11 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
             )}
           </div>
 
-          <div className="space-y-8 flex-1">
+          <div className="space-y-32 flex-1">
             {variantsWithCode.map((variant) => {
               const DemoComponent = variant.demoPath ? getDemoComponent(variant.demoPath) : null;
               const currentTab = getActiveTab(variant.index);
               const currentFile = getActiveFile(variant.index, variant);
-              const isCopied = getCopied(variant.index);
               const currentDeviceVariant = getDeviceVariant(variant.index);
               const currentWidth = getWidth(variant.index);
 
@@ -119,11 +108,6 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
                         files={variant.files}
                         activeFile={currentFile}
                         setActiveFile={(filename) => setActiveFile({ ...activeFile, [variant.index]: filename })}
-                        copied={isCopied}
-                        onCopy={() => {
-                          const file = variant.files?.find(f => f.filename === currentFile);
-                          if (file) handleCopy(file.code, variant.index);
-                        }}
                         DemoComponent={DemoComponent}
                         deviceVariant={currentDeviceVariant}
                         onDeviceVariantChange={(dev) => setDeviceVariant({ ...deviceVariant, [variant.index]: dev })}
@@ -147,12 +131,13 @@ export default function ElementDetailClient({ elementId }: ElementDetailClientPr
 
           {element.componentDependencies && element.componentDependencies.length > 0 && (
             <div className="mt-12 pt-12">
-              <h3 className="text-lg font-semibold text-foreground-50 mb-4">Dependencies</h3>
+              <h4 className="text-lg font-semibold text-foreground-50 mb-4">Dependencies</h4>
+              <Divider color='default' className='my-6' />
               <div className="space-y-2">
                 {element.componentDependencies.map((dep) => (
                   <div
                     key={dep}
-                    className="text-sm text-foreground-400 px-3 py-2 bg-background-800 rounded border border-background-700"
+                    className="text-sm w-fit text-foreground-400 px-3 py-2 bg-background-800 rounded border border-background-700"
                   >
                     {dep}
                   </div>

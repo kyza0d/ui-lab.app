@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "ui-lab-components";
 import { FaFolder, FaFolderOpen, FaFile, FaExpand } from "react-icons/fa6";
-import { ResizablePreviewContainer, DEVICE_PRESETS, calculateVariantFromWidth, PreviewDeviceVariant } from "@/features/preview";
+import { PreviewContainer, DEVICE_PRESETS, calculateVariantFromWidth, PreviewDeviceVariant } from "@/features/preview";
 import { CodeBlock } from "@/shared/components/code-block";
 import { useExternalWindow } from "@/shared";
 import type { ElementFile } from "ui-lab-registry";
@@ -16,8 +16,6 @@ interface ElementPreviewProps {
   files: ElementFile[];
   activeFile: string;
   setActiveFile: (filename: string) => void;
-  copied: boolean;
-  onCopy: () => void;
   DemoComponent?: React.ComponentType;
   deviceVariant?: DeviceVariant;
   onDeviceVariantChange?: (variant: DeviceVariant) => void;
@@ -39,8 +37,6 @@ export function ElementPreviewContent({
   files,
   activeFile,
   setActiveFile,
-  copied,
-  onCopy,
   DemoComponent,
   deviceVariant = "desktop",
   onDeviceVariantChange,
@@ -50,26 +46,12 @@ export function ElementPreviewContent({
   variantIndex,
 }: ElementPreviewProps) {
   const [internalWidth, setInternalWidth] = useState(width ?? DEVICE_PRESETS[deviceVariant]);
-  const [internalDeviceVariant, setInternalDeviceVariant] = useState<DeviceVariant>(deviceVariant);
   const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());
   const { openWindow } = useExternalWindow();
 
-  // Calculate which device variant the current width represents
   const displayVariant = calculateVariantFromWidth(internalWidth);
 
-  useEffect(() => {
-    if (width !== undefined) {
-      setInternalWidth(width);
-    }
-  }, [width]);
-
-  // When device variant prop changes, update internal state and width
-  useEffect(() => {
-    setInternalDeviceVariant(deviceVariant);
-    if (width === undefined) {
-      setInternalWidth(DEVICE_PRESETS[deviceVariant]);
-    }
-  }, [deviceVariant, width]);
+  useEffect(() => { if (width !== undefined) setInternalWidth(width), [width] });
 
   const handleWidthChange = useCallback((newWidth: number) => {
     setInternalWidth(newWidth);
@@ -79,7 +61,6 @@ export function ElementPreviewContent({
   const handleDeviceVariantChange = useCallback((device: DeviceVariant) => {
     const newWidth = DEVICE_PRESETS[device];
     setInternalWidth(newWidth);
-    setInternalDeviceVariant(device);
     onDeviceVariantChange?.(device);
     onWidthChange?.(newWidth);
   }, [onDeviceVariantChange, onWidthChange]);
@@ -126,7 +107,7 @@ export function ElementPreviewContent({
           <div key={fullPath} className="select-none">
             <button
               onClick={() => toggleFolder(fullPath)}
-              className="flex items-center gap-1.5 w-full px-2 py-1 text-sm hover:bg-background-700 rounded"
+              className="flex items-center gap-1.5 w-full px-2 py-1 text-sm hover:bg-background-700"
             >
               {isOpen ? <FaFolderOpen size={14} /> : <FaFolder size={14} />}
               <span className="text-foreground-300">{node.name}</span>
@@ -145,7 +126,7 @@ export function ElementPreviewContent({
           key={node.filename}
           onClick={() => node.filename && setActiveFile(node.filename)}
           className={`
-            flex items-center gap-1.5 w-full px-2 py-1 text-sm rounded
+            flex items-center gap-1.5 w-full px-2 py-1 text-sm
             ${isActive
               ? "bg-accent-500 text-foreground-50"
               : "hover:bg-background-700 text-foreground-400"
@@ -173,8 +154,8 @@ export function ElementPreviewContent({
   };
 
   return (
-    <div className="w-full max-w-5xl h-[70vh] overflow-hidden">
-      <ResizablePreviewContainer
+    <div className="w-full max-w-5xl h-full overflow-hidden">
+      <PreviewContainer
         deviceVariant={displayVariant}
         width={internalWidth}
         onWidthChange={handleWidthChange}
@@ -192,36 +173,35 @@ export function ElementPreviewContent({
         }
       >
         {variant === "preview" && DemoComponent ? (
-          <DemoComponent />
+          <div className="border-x border-background-700">
+            <DemoComponent />
+          </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4 p-4 w-full overflow-hidden">
+          <div className="flex  w-full h-full overflow-hidden">
             {files.length > 1 && (
-              <div className="bg-background-800 border border-background-700 rounded-lg p-3 overflow-y-auto h-full flex-shrink-0">
-                <div className="text-xs font-semibold text-foreground-400 uppercase tracking-wider mb-3">
-                  Files
-                </div>
+              <div className="w-60 shrink-0 border-r border-background-700 overflow-y-auto p-3">
                 <div className="space-y-0.5">
                   {renderTree(fileTree)}
                 </div>
               </div>
             )}
 
-            <div className="flex flex-col w-full h-full min-w-0 overflow-hidden gap-3">
+            <div className="flex-1 flex flex-col min-w-0">
               {files.length === 1 && (
-                <div className="text-sm font-mono text-foreground-400 flex-shrink-0">
+                <div className="text-sm font-mono text-foreground-400 px-4 py-3 border-b border-background-700 shrink-0">
                   {currentFile.filename}
                 </div>
               )}
 
-              <div className="flex-1 min-h-0 overflow-hidden">
-                <CodeBlock language={currentFile.language} filename={currentFile.filename}>
+              <div className="max-h-220">
+                <CodeBlock className="border-0 h-full" language={currentFile.language} filename={currentFile.filename}>
                   {currentFile.code}
                 </CodeBlock>
               </div>
             </div>
           </div>
         )}
-      </ResizablePreviewContainer>
+      </PreviewContainer>
     </div>
   );
 }
