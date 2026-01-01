@@ -26,6 +26,10 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./generated-data": {
+      "import": "./dist/generated-data.js",
+      "types": "./dist/generated-data.d.ts"
+    },
     "./components": {
       "import": "./dist/components/index.js",
       "types": "./dist/components/index.d.ts"

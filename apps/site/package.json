@@ -11,6 +11,7 @@
     "generate:docs": "node scripts/generate-docs.mjs"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^2.1.6",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@fontsource-variable/karla": "^5.2.8",
     "@fontsource/geist-mono": "^5.2.7",
