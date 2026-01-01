@@ -1,29 +1,47 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn, FadeContainer, getHeaderHeight } from '@/shared';
+import { FaChevronDown } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
 
-interface MainNavItem {
+export interface NestedNavItem {
+  id: string;
+  label: string;
+  href: string;
+  description?: string;
+}
+
+export interface MainNavItem {
   id: string;
   label: string;
   href: string;
   icon: IconType;
-  badge?: React.ReactNode;
+  children?: NestedNavItem[];
+  isExpandable?: boolean;
 }
 
 interface SidebarShellProps {
   mainNav: MainNavItem[];
   activeNav: string;
   contextualContent: React.ReactNode;
+  activeCategory?: string | null;
 }
 
-export function SidebarShell({ mainNav, activeNav, contextualContent }: SidebarShellProps) {
+export function SidebarShell({ mainNav, activeNav, contextualContent, activeCategory }: SidebarShellProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
   const headerHeight = getHeaderHeight(pathname);
+  const [expandedNavItems, setExpandedNavItems] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (pathname.startsWith('/elements')) {
+      setExpandedNavItems(new Set(['elements']));
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -44,6 +62,15 @@ export function SidebarShell({ mainNav, activeNav, contextualContent }: SidebarS
     return () => container.removeEventListener('scroll', handleScroll);
   }, [activeNav]);
 
+  const toggleNavItem = (navId: string) => {
+    setExpandedNavItems((prev) => {
+      const next = new Set(prev);
+      if (next.has(navId)) next.delete(navId);
+      else next.add(navId);
+      return next;
+    });
+  };
+
   return (
     <aside className="hidden md:flex w-56 flex-col">
       <div className="flex flex-col sticky" style={{ top: headerHeight }}>
@@ -51,7 +78,68 @@ export function SidebarShell({ mainNav, activeNav, contextualContent }: SidebarS
           <nav className="py-3 px-2 space-y-1">
             {mainNav.map((nav) => {
               const isActive = activeNav === nav.id;
+              const isExpanded = expandedNavItems.has(nav.id);
               const Icon = nav.icon;
+
+              if (nav.isExpandable) {
+                return (
+                  <div key={nav.id}>
+                    <button
+                      onClick={() => {
+                        toggleNavItem(nav.id);
+                        router.push(nav.href);
+                      }}
+                      className={cn(
+                        'w-full flex border items-center gap-3 pl-1 pr-2 py-1 text-sm font-medium rounded-md',
+                        isActive
+                          ? 'border-background-700 text-foreground-50 bg-background-800/70'
+                          : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          'w-8 h-8 rounded-md flex items-center justify-center',
+                          isActive ? 'text-foreground-50' : 'text-foreground-400'
+                        )}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="flex-1 text-left">{nav.label}</span>
+                      <FaChevronDown
+                        className={cn(
+                          'w-3 h-3 transition-transform',
+                          !isExpanded && '-rotate-90'
+                        )}
+                      />
+                    </button>
+
+                    {isExpanded && nav.children && (
+                      <div className="relative mt-1 ml-3">
+                        <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600" />
+                        <div className="space-y-0.5 pl-3">
+                          {nav.children.map((child) => {
+                            const isChildActive = activeCategory === child.id;
+                            return (
+                              <Link
+                                key={child.id}
+                                href={child.href}
+                                className={cn(
+                                  'block px-3 py-1.5 text-sm rounded-md pl-2.5',
+                                  isChildActive
+                                    ? 'border-accent-500 text-foreground-50 bg-background-800 font-medium'
+                                    : 'border-background-600 text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
 
               return (
                 <Link
@@ -73,7 +161,6 @@ export function SidebarShell({ mainNav, activeNav, contextualContent }: SidebarS
                     <Icon className="w-4 h-4" />
                   </div>
                   <span>{nav.label}</span>
-                  {nav.badge}
                 </Link>
               );
             })}
@@ -83,7 +170,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent }: SidebarS
         <FadeContainer className="flex-1 mb-26">
           <div
             ref={scrollContainerRef}
-            className="overflow-y-auto py-5 px-5 h-full"
+            className="overflow-y-auto py-5 h-full"
           >
             {contextualContent}
           </div>

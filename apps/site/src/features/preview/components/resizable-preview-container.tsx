@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { Button, Group } from "ui-lab-components";
+import { Button, Group, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { FaMobile, FaDesktop, FaTablet, FaFile } from "react-icons/fa6";
 
 export type PreviewDeviceVariant = "mobile" | "tablet" | "desktop";
@@ -23,7 +23,7 @@ interface ResizablePreviewContainerProps {
   previewClassName?: string;
 }
 
-export function ResizablePreviewContainer({
+export function PreviewContainer({
   children,
   deviceVariant = "desktop",
   width,
@@ -114,10 +114,10 @@ export function ResizablePreviewContainer({
   };
 
   const renderPreviewContent = () => (
-    <div className="flex flex-col items-center w-full py-4">
+    <div className="flex flex-col items-center w-full">
       <div ref={wrapperRef} className="relative max-w-full" style={{ width }}>
         <div
-          className={`relative bg-background-950 border-[2px] border-background-700 rounded-[12px] overflow-auto ${previewClassName}`}
+          className={`relative overflow-auto ${previewClassName}`}
         >
           <div className="w-full h-full">{children}</div>
         </div>
@@ -139,67 +139,56 @@ export function ResizablePreviewContainer({
   );
 
   return (
-    <div className={`flex flex-col h-full bg-background-900/50 overflow-hidden ${className}`}>
-      <div className="flex border-b border-background-700 h-16 items-center px-6 justify-between flex-shrink-0">
-        <div className="flex items-center gap-3">
+    <div className={`px-[12px] pt-[18px] flex flex-col h-full overflow-hidden ${className}`}>
+      <div className="flex items-end justify-between flex-shrink-0">
+        <div className="flex items-center gap-3 px-5">
           {leftContent}
-          <div className="flex gap-2">
-            <Button
-              onClick={() => onTabChange("preview")}
-              variant={activeTab === "preview" ? "primary" : "outline"}
-              size="sm"
-            >
-              Preview
-            </Button>
-            <Button
-              onClick={() => onTabChange("code")}
-              variant={activeTab === "code" ? "primary" : "outline"}
-              size="sm"
-            >
-              Code
-            </Button>
-          </div>
           {prompt && (
-            <Button
-              className="gap-2"
-              variant="outline"
+            <button
+              className="flex cursor-pointer items-center gap-2 text-sm! text-foreground-100!"
               onClick={onPromptClick}
             >
-              <FaFile size={14} />
+              <div className="bg-background-700 p-1.5 rounded-[4px]"><FaFile className="text-foreground-300" size={12} /></div>
               Prompt
-            </Button>
+            </button>
           )}
+          <Tabs variant="underline" value={activeTab} onValueChange={(value) => onTabChange(value as "preview" | "code")}>
+            <TabsList>
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+              <TabsTrigger value="code">Code</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-2">
           <Group variant="outline" spacing="tight">
             <Group.Button
-              variant={deviceVariant === "mobile" ? "primary" : "ghost"}
+              variant={deviceVariant === "mobile" ? "secondary" : "ghost"}
               onClick={() => onDeviceVariantChange("mobile")}
               title="Mobile (375px)"
             >
-              <FaMobile size={14} />
+              <FaMobile size={13} />
             </Group.Button>
             <Group.Button
-              variant={deviceVariant === "tablet" ? "primary" : "ghost"}
+              variant={deviceVariant === "tablet" ? "secondary" : "ghost"}
               onClick={() => onDeviceVariantChange("tablet")}
               title="Tablet (800px)"
             >
-              <FaTablet size={14} />
+              <FaTablet size={13} />
             </Group.Button>
             <Group.Button
-              variant={deviceVariant === "desktop" ? "primary" : "ghost"}
+              variant={deviceVariant === "desktop" ? "secondary" : "ghost"}
               onClick={() => onDeviceVariantChange("desktop")}
               title="Desktop (1024px)"
             >
-              <FaDesktop size={14} />
+              <FaDesktop size={13} />
             </Group.Button>
           </Group>
           {rightContent}
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto bg-background-950 p-[12px]">
+      <div className="border border-background-700 rounded-md">
         {activeTab === "preview" ? renderPreviewContent() : children}
       </div>
     </div>

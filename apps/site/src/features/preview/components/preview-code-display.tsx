@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { FaExpand } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
 import { CodeBlock } from "@/shared/components/code-block";
-import { ResizablePreviewContainer } from "./resizable-preview-container";
+import { PreviewContainer } from "./resizable-preview-container";
 import { useExternalWindow } from "@/shared/hooks/use-external-window";
 
 interface PreviewCodeDisplayProps {
@@ -54,7 +54,7 @@ export function PreviewCodeDisplay({
   };
 
   return (
-    <ResizablePreviewContainer
+    <PreviewContainer
       deviceVariant={displayVariant}
       width={width}
       onWidthChange={onWidthChange}
@@ -72,7 +72,8 @@ export function PreviewCodeDisplay({
       }
       previewClassName={previewClassName}
     >
-      {activeTab === "preview" ? previewContent : <CodeBlock language={language}>{code}</CodeBlock>}
-    </ResizablePreviewContainer>
+      {activeTab === "preview" ? previewContent :
+        <CodeBlock className="border-0" language={language}>{code}</CodeBlock>}
+    </PreviewContainer>
   );
 }
