@@ -89,9 +89,9 @@ export default function Home() {
       <Toaster />
       <div className="fixed top-0 left-0 w-screen h-screen">
       </div>
-      <main className="mx-auto relative h-full max-w-[1100px]">
+      <main className="mx-auto h-full max-w-[1100px]">
         <div>
-          <section className="relative bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[600px] border-[2px] border-y-0 border-background-700 overflow-hidden">
+          <section className="grid-paper after:content-[''] bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[400px] border-[2px] border-y-0 border-background-700 ">
             <HeroSection
               packageManager={packageManager}
               onPackageManagerChange={setPackageManager}
@@ -99,9 +99,8 @@ export default function Home() {
               onCopy={handleCopy}
             />
           </section>
+          <div className="after:absolute after:left-0 after:top-0 after:w-screen after:h-[2px] after:bg-background-500"></div>
 
-          <div className="border-x h-90 border-background-700">
-          </div>
           <Showcase />
           <div className="bg-background-950 ml-auto border-[2px] border-b-0 border-background-700 overflow-hidden">
             <div className="grid px-[28px] grid-cols-2 gap-x-[24px] pt-[14px] space-y-[12px] bg-background-950 border-background-700 overflow-scroll">

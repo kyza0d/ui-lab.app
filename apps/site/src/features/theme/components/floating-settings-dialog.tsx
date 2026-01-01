@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { useFloating, offset, flip, shift, Placement } from "@floating-ui/react-dom";
+import { useRef, useState, useLayoutEffect, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { SettingsContent } from "./settings/settings-content";
 
 interface FloatingSettingsDialogProps {
@@ -10,50 +10,118 @@ interface FloatingSettingsDialogProps {
   triggerRef?: React.RefObject<HTMLElement | null>;
 }
 
+// Fixed dimensions (matches w-100 and h-143)
+const DIALOG_WIDTH = 400;
+const DIALOG_HEIGHT = 572;
+const GAP = 12;
+const EDGE_PADDING = 16;
+
 export const SettingsDialog = ({
   isOpen,
   onOpenChange,
   triggerRef,
 }: FloatingSettingsDialogProps) => {
+  // ---------------------------------------------------------------------------
+  // State
+  // ---------------------------------------------------------------------------
+  const [mounted, setMounted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  
+  // Position is separate from drag offset
+  const [basePosition, setBasePosition] = useState<{ top: number; left: number } | null>(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [cumulativeOffset, setCumulativeOffset] = useState({ x: 0, y: 0 });
-  const dragStateRef = useRef({
-    startX: 0,
-    startY: 0,
-    baseOffsetX: 0,
-    baseOffsetY: 0,
-  });
+  
+  // Refs for drag math
+  const dragStartRef = useRef<{ startX: number; startY: number; initialOffsetX: number; initialOffsetY: number } | null>(null);
 
-  const { floatingStyles } = useFloating({
-    placement: "bottom-end" as Placement,
-    middleware: [
-      offset(10),
-      flip({ padding: 8 }),
-      shift({ padding: 8 }),
-    ],
-    elements: {
-      reference: triggerRef?.current || undefined,
-    },
-  });
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+  // ---------------------------------------------------------------------------
+  // Positioning Logic (Viewport Relative)
+  // ---------------------------------------------------------------------------
+  useLayoutEffect(() => {
+    if (!isOpen || !triggerRef?.current || !mounted) {
+      if (!isOpen) {
+        setBasePosition(null);
+        setDragOffset({ x: 0, y: 0 });
+      }
+      return;
+    }
+
+    const calculatePosition = () => {
+      // Because we use a Portal, we are GUARANTEED to be in the window coordinate space.
+      // We can trust getBoundingClientRect() and window.inner* implicitly.
+      const triggerRect = triggerRef.current!.getBoundingClientRect();
+      const viewportW = window.innerWidth;
+      const viewportH = window.innerHeight;
+
+      // 1. Horizontal: Center
+      let left = triggerRect.left + (triggerRect.width / 2) - (DIALOG_WIDTH / 2);
+
+      // Clamp Horizontal
+      if (left < EDGE_PADDING) left = EDGE_PADDING;
+      if (left + DIALOG_WIDTH > viewportW - EDGE_PADDING) {
+        left = viewportW - DIALOG_WIDTH - EDGE_PADDING;
+      }
+
+      // 2. Vertical: Below
+      let top = triggerRect.bottom + GAP;
+
+      // Flip if overflow bottom
+      if (top + DIALOG_HEIGHT > viewportH - EDGE_PADDING) {
+        const topAbove = triggerRect.top - DIALOG_HEIGHT - GAP;
+        
+        // If it fits above, go above
+        if (topAbove >= EDGE_PADDING) {
+          top = topAbove;
+        } else {
+          // If it fits neither, use the side with more space
+          // or just clamp it to fit the viewport as best as possible
+          if (top + DIALOG_HEIGHT > viewportH) {
+             top = viewportH - DIALOG_HEIGHT - EDGE_PADDING;
+          }
+        }
+      }
+
+      setBasePosition({ top, left });
+    };
+
+    calculatePosition();
+
+    const handleResizeScroll = () => calculatePosition();
+    window.addEventListener("resize", handleResizeScroll);
+    window.addEventListener("scroll", handleResizeScroll, { capture: true });
+
+    return () => {
+      window.removeEventListener("resize", handleResizeScroll);
+      window.removeEventListener("scroll", handleResizeScroll, { capture: true });
+    };
+  }, [isOpen, triggerRef, mounted]);
+
+  // ---------------------------------------------------------------------------
+  // Drag Logic
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     if (!isDragging) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const deltaX = e.clientX - dragStateRef.current.startX;
-      const deltaY = e.clientY - dragStateRef.current.startY;
+      if (!dragStartRef.current) return;
+      
+      const deltaX = e.clientX - dragStartRef.current.startX;
+      const deltaY = e.clientY - dragStartRef.current.startY;
 
-      setCumulativeOffset({
-        x: dragStateRef.current.baseOffsetX + deltaX,
-        y: dragStateRef.current.baseOffsetY + deltaY,
+      setDragOffset({
+        x: dragStartRef.current.initialOffsetX + deltaX,
+        y: dragStartRef.current.initialOffsetY + deltaY,
       });
     };
 
     const handleMouseUp = () => {
-      dragStateRef.current.baseOffsetX = cumulativeOffset.x;
-      dragStateRef.current.baseOffsetY = cumulativeOffset.y;
       setIsDragging(false);
+      dragStartRef.current = null;
     };
 
     document.addEventListener("mousemove", handleMouseMove);
@@ -63,47 +131,57 @@ export const SettingsDialog = ({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging, cumulativeOffset]);
+  }, [isDragging]);
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
-    if (target.closest("[data-drag-handle]")) {
-      dragStateRef.current.startX = e.clientX;
-      dragStateRef.current.startY = e.clientY;
-      // baseOffset is already set from previous drag or stays at 0
-      setIsDragging(true);
-      e.preventDefault();
-    }
+    if (!target.closest("[data-drag-handle]")) return;
+
+    e.preventDefault();
+    setIsDragging(true);
+    dragStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      initialOffsetX: dragOffset.x,
+      initialOffsetY: dragOffset.y,
+    };
   };
 
-  if (!isOpen) return null;
+  if (!mounted || !isOpen) return null;
 
-  // Use transform to move the dialog while preserving floatingStyles
-  const dialogStyle = {
-    ...floatingStyles,
-    transform: `translate(${cumulativeOffset.x}px, ${cumulativeOffset.y}px)`,
-  };
+  const isReady = basePosition !== null;
+  const top = (basePosition?.top ?? 0) + dragOffset.y;
+  const left = (basePosition?.left ?? 0) + dragOffset.x;
 
-  return (
+  // ---------------------------------------------------------------------------
+  // Render via Portal (Safely escapes any parent transforms)
+  // ---------------------------------------------------------------------------
+  return createPortal(
     <>
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-[9998]"
-          onClick={() => onOpenChange(false)}
-        />
-      )}
+      <div
+        className="fixed inset-0 z-[9998]"
+        onClick={() => onOpenChange(false)}
+      />
       <div
         ref={dialogRef}
-        style={dialogStyle}
-        className="fixed z-[9999] w-100 h-143 rounded-[16px] border border-background-600 bg-background-900/95 backdrop-blur-md shadow-2xl flex flex-col overflow-hidden"
+        onMouseDown={handleDragStart}
+        style={{
+          position: "fixed",
+          top,
+          left,
+          width: DIALOG_WIDTH,
+          height: DIALOG_HEIGHT,
+          opacity: isReady ? 1 : 0,
+          pointerEvents: isReady ? "auto" : "none",
+        }}
+        className="fixed z-[9999] rounded-[16px] border border-background-600 bg-background-900/95 backdrop-blur-md shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
-        onMouseDown={handleMouseDown}
       >
         <div
           data-drag-handle
           className="h-10 shrink-0 bg-gradient-to-b from-background-800/50 to-background-900/50 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center px-4 select-none hover:bg-background-800/70 transition-colors"
         >
-          <span className="text-sm font-semibold text-foreground-400">
+          <span className="text-sm font-semibold text-foreground-400 pointer-events-none">
             Theme Settings
           </span>
         </div>
@@ -112,6 +190,7 @@ export const SettingsDialog = ({
           <SettingsContent />
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 };
