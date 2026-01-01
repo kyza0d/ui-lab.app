@@ -2,24 +2,30 @@
 
 import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
-import Header from "@/components/layout/Header";
-import { AppProvider } from "@/lib/app-context";
+import { HeaderClient } from "@/features/layout";
+import { AppProvider } from "@/features/theme";
+
+export function RootLayoutClient({ children }: { children: React.ReactNode }) {
+  return (
+    <AppProvider>
+      {children}
+    </AppProvider>
+  );
+}
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
     <Suspense fallback={null}>
-      <AppProvider>
-        <Suspense fallback={<div style={{ height: '3.75rem' }} />}>
-          <Header pathname={pathname} />
-        </Suspense>
-        <Suspense fallback={<div />}>
-          <main className="flex-1">
-            {children}
-          </main>
-        </Suspense>
-      </AppProvider>
+      <Suspense fallback={<div style={{ height: '3.75rem' }} />}>
+        <HeaderClient />
+      </Suspense>
+      <Suspense fallback={<div />}>
+        <main className="flex-1">
+          {children}
+        </main>
+      </Suspense>
     </Suspense>
   );
 }
