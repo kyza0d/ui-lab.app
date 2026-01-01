@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import "ui-lab-components/styles.css"
@@ -7,7 +6,7 @@ import "./globals.css";
 import "@fontsource-variable/karla";
 import "@fontsource-variable/jetbrains-mono";
 
-import { AppProvider } from "@/lib/app-context";
+import { RootLayoutClient } from "./client-layout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,9 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <AppProvider>
-          {children}
-        </AppProvider>
+        <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
   );
