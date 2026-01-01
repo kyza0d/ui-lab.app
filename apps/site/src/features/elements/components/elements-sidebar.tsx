@@ -1,10 +1,12 @@
 'use client';
 
+import { useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { SidebarShell } from '@/features/navigation';
-import { ElementsSidebarContent } from './elements-sidebar-content';
-import { FaShapes, FaRectangleList, FaWindowRestore } from 'react-icons/fa6';
-import { cn } from '@/shared';
-import type { ElementMetadata } from 'ui-lab-registry';
+import { ElementsList } from './elements-sidebar-content';
+import { FaShapes, FaRectangleList, FaWindowRestore, FaBorderAll, FaFolderTree } from 'react-icons/fa6';
+import type { ElementMetadata, ElementCategoryId } from 'ui-lab-registry';
+import { getCategoriesWithElements } from 'ui-lab-registry';
 
 type ElementsNav = 'elements' | 'blocks' | 'starters';
 
@@ -21,37 +23,56 @@ interface ElementsSidebarProps {
 
 export function ElementsSidebar({ elements, pathname }: ElementsSidebarProps) {
   const activeNav = getActiveNavFromPathname(pathname);
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams.get('category') as ElementCategoryId | null;
 
-  const mainNav = [
-    { id: 'elements', label: 'Elements', href: '/elements', icon: FaShapes },
-    { id: 'blocks', label: 'Blocks', href: '/blocks', icon: FaRectangleList },
-    { id: 'starters', label: 'Starters', href: '/starters', icon: FaWindowRestore },
-  ].map((nav) => ({
-    ...nav,
-    badge:
-      nav.id === 'elements' ? (
-        <span
-          className={cn(
-            'ml-auto px-1 py-0.5 rounded text-xs font-bold',
-            activeNav === 'elements'
-              ? 'bg-accent-500/15 text-accent-400 border border-accent-500/20'
-              : 'border border-background-700 bg-background-800 text-foreground-300'
-          )}
-        >
-          {elements.length}
-        </span>
-      ) : undefined,
-  }));
+  const categoriesWithElements = useMemo(
+    () => getCategoriesWithElements(elements),
+    [elements]
+  );
+
+  const mainNav = useMemo(
+    () => [
+      {
+        id: 'elements',
+        label: 'Elements',
+        href: '/elements',
+        icon: FaShapes,
+        isExpandable: true,
+        children: categoriesWithElements.map(({ category }) => ({
+          id: category.id,
+          label: category.label,
+          href: `/elements?category=${category.id}`,
+          description: category.description,
+        })),
+      },
+      {
+        id: 'blocks',
+        label: 'Blocks',
+        href: '/blocks',
+        icon: FaBorderAll,
+      },
+      {
+        id: 'starters',
+        label: 'Starters',
+        href: '/starters',
+        icon: FaFolderTree,
+      },
+    ],
+    [categoriesWithElements]
+  );
 
   return (
     <SidebarShell
       mainNav={mainNav}
       activeNav={activeNav}
+      activeCategory={activeCategory}
       contextualContent={
-        <ElementsSidebarContent
+        <ElementsList
           activeNav={activeNav}
           elements={elements}
           pathname={pathname}
+          activeCategory={activeCategory}
         />
       }
     />
