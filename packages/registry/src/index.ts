@@ -91,8 +91,16 @@ export {
   getElementsByTag,
   searchElements,
   getAllCategories,
-  getAllTags
+  getAllTags,
+  elementCategories,
+  elementCategoryMapping,
+  getCategoryForElement,
+  getCategoryDefinition,
+  groupElementsByCategory,
+  getElementsInCategory,
+  getCategoriesWithElements
 } from './elements/index.js';
+export type { ElementCategoryId, ElementCategoryDefinition } from './elements/index.js';
 
 // Element components
 export { BasicHeader, HeaderWithActions, demoComponents as headerDemoComponents } from './elements/Header';

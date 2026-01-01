@@ -3,6 +3,16 @@ import headerElement from './Header';
 import sidebarElement from './Sidebar';
 
 export type { ElementMetadata, ElementVariant } from '../types';
+export type { ElementCategoryId, ElementCategoryDefinition } from './categories';
+export {
+  elementCategories,
+  elementCategoryMapping,
+  getCategoryForElement,
+  getCategoryDefinition,
+  groupElementsByCategory,
+  getElementsInCategory,
+  getCategoriesWithElements,
+} from './categories';
 
 export const elementRegistry: ElementRegistry = {
   [headerElement.id]: headerElement,
