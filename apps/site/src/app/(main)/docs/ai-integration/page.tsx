@@ -2,6 +2,7 @@
 
 import { TableOfContents } from "@/features/docs";
 import { tocRegistry } from "@/features/docs";
+import { Button } from "ui-lab-components";
 
 export default function AIIntegrationPage() {
   const tocItems = tocRegistry["ai-integration"] || [];
@@ -40,7 +41,7 @@ export default function AIIntegrationPage() {
             <p className="text-foreground-300">
               This allows AI assistants to generate code that follows UI Lab conventions and best practices without needing to reverse-engineer from examples.
             </p>
-          </div>
+          </button>
 
           <div className="border-t border-background-700 my-16"></div>
 

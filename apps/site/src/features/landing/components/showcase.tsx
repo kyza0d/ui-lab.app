@@ -106,7 +106,7 @@ export function Showcase() {
   };
 
   return (
-    <div className="bg-background-950 ml-auto h-200 grid grid-cols-[230px_1fr] border-[2px] border-b-0 border-background-700 overflow-hidden">
+    <div className="bg-background-950 ml-auto h-200 grid grid-cols-[230px_1fr] border-t-[2px] border-b-0 border-background-700 overflow-hidden">
       <div className="border-r-[2px] h-200 overflow-y-scroll border-background-700 flex flex-col">
         <div className="flex flex-col gap-2 flex-1">
           {categories.map((category) => (

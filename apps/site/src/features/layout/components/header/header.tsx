@@ -192,7 +192,7 @@ export default function Header({
       {/* background bar */}
       <div
         className={cn(
-          "fixed inset-x-0 top-0 z-100 border-b border-background-700",
+          "fixed inset-x-0 top-0 z-50 border-b border-background-700",
           pathname === "/" ? "bg-background-950" : "bg-background-950"
         )}
         style={{ height: headerHeight }}
@@ -343,6 +343,14 @@ export default function Header({
 
           </div>
         )}
+
+        <div className={cn(
+          "absolute h-20 border-x border-background-700 bottom-0 left-1/2 -translate-x-1/2 w-[1100px] pointer-events-none",
+          pathname === "/" ? "visible" : "hidden"
+        )}>
+          <div className="absolute bottom-0 left-0 w-[16px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 -translate-x-1/2 translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-[17px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 translate-x-1/2 translate-y-1/2" />
+        </div>
       </header>
 
       <CommandPalette
