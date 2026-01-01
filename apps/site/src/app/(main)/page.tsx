@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Divider, Toaster } from "ui-lab-components";
-import { Aura } from "@/shared";
-import { HeroSection, SecondarySection } from "@/features/landing";
+import { Toaster } from "ui-lab-components";
+import { HeroSection, Showcase } from "@/features/landing";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 
@@ -75,15 +74,6 @@ const features = [
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const userChatRef = useRef<HTMLDivElement>(null);
-  const aiChatRef = useRef<HTMLDivElement>(null);
-  const mcpStatusRef = useRef<HTMLDivElement>(null);
-  const uiContainerRef = useRef<HTMLDivElement>(null);
-  const uiSidebarRef = useRef<HTMLDivElement>(null);
-  const uiHeaderRef = useRef<HTMLDivElement>(null);
-  const uiHeroRef = useRef<HTMLDivElement>(null);
-  const uiChartRef = useRef<HTMLDivElement>(null);
-
   const [copied, setCopied] = useState(false);
   const [packageManager, setPackageManager] = useState<PackageManager>("pnpm");
 
@@ -95,13 +85,13 @@ export default function Home() {
   };
 
   return (
-    <div ref={containerRef} className="pt-(--header-height) max-w-[1100px] mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
+    <div ref={containerRef} className="pt-(--header-height) mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
       <Toaster />
       <div className="fixed top-0 left-0 w-screen h-screen">
       </div>
-      <main className="mx-auto relative h-full">
+      <main className="mx-auto relative h-full max-w-[1100px]">
         <div>
-          <section className="bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[50vh] border-[2px] border-y-0 border-background-700 overflow-hidden">
+          <section className="relative bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[600px] border-[2px] border-y-0 border-background-700 overflow-hidden">
             <HeroSection
               packageManager={packageManager}
               onPackageManagerChange={setPackageManager}
@@ -109,6 +99,10 @@ export default function Home() {
               onCopy={handleCopy}
             />
           </section>
+
+          <div className="border-x h-90 border-background-700">
+          </div>
+          <Showcase />
           <div className="bg-background-950 ml-auto border-[2px] border-b-0 border-background-700 overflow-hidden">
             <div className="grid px-[28px] grid-cols-2 gap-x-[24px] pt-[14px] space-y-[12px] bg-background-950 border-background-700 overflow-scroll">
               {features.map((feature, i) => {
@@ -151,7 +145,6 @@ export default function Home() {
               })}
             </div>
           </div>
-          <SecondarySection />
         </div>
       </main>
     </div>

@@ -2,11 +2,12 @@ import {
   FaCopy,
   FaCheck,
   FaBook,
-  FaArrowRightLong,
-  FaBox
+  FaBox,
+  FaPalette,
+  FaTerminal
 } from "react-icons/fa6";
-import { Select, Divider, Button } from "ui-lab-components";
-import { InlineCodeHighlight } from "@/shared";
+import { Select, Button } from "ui-lab-components";
+import { Aura, InlineCodeHighlight } from "@/shared";
 import Link from "next/link";
 
 type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
@@ -101,129 +102,130 @@ export function HeroSection({
   onCopy,
 }: HeroSectionProps) {
   return (
-    <div className="backdrop-blur-sm z-10">
-      <div className="p-[42px] mt-[46px] h-full flex flex-col justify-center">
-        <div className="pl-[8px] relative -top-16 flex flex-col">
-          <span className="flex h-[30px] items-center gap-[9px] border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px]  mb-4">
-            <div className="p-[4px] bg-background-800 rounded-[5px]">
-              <FaBook className="text-foreground-400 w-3 h-3" />
-            </div>{" "}
-            Release Notes <div className="flex items-center bg-background-800/60 border-l-[1px] rounded-r-[8px] pr-[10px] h-[30px] border-background-700 pl-[9px] font-bold">v0.1.5</div>
-          </span>
-          <h1 className="leading-tight max-w-[31ch] pb-[9px] font-bold text-foreground-200 tracking-tight">
-            <span className="-ml-2 bg-background-500/20 text-foreground-50 rounded-md px-2 mr-2 py-0.5">From vision to production</span>in no time. Built on gorgeous, AI-ready components.
-          </h1>
-          <p className="text-sm text-foreground-400 w-[59ch] leading-relaxed">
-            Accessible, production-ready React components with intelligent
-            metadata that enable AI to generate perfectly consistent, beautiful
-            code.
-          </p>
-          <div className="mt-9 flex items-center gap-4">
-            <Link href="/docs">
-              <Button variant="secondary" size="md" className="text-sm! w-32">
-                Get Started
-              </Button>
-            </Link>
-            <Link href="/components">
-              <Button variant="ghost" className="text-sm!">
-                <FaBox className="mr-4 " /> Components
-              </Button>
-            </Link>
-          </div>
+    <>
+      <div className="absolute flex gap-6 bottom-0 left-6 p-[12px] w-140">
+        <div className="flex items-center gap-3">
+          <div className="p-1.5 bg-background-800 border-[2px] border-background-700 rounded-[4px]"><FaTerminal className="w-3.5 h-3.5" /></div> Powerful CLI
         </div>
-        <div className="absolute bottom-0 left-0 p-[12px] w-full">
-          <div className="hidden flex items-center rounded mt-[30px] gap-3 bg-background-950 border-[2px] border-background-700 p-1 w-fit">
-            <Select
-              selectedKey={packageManager}
-              defaultValue={packageManager}
-              onSelectionChange={(key) => onPackageManagerChange(key as PackageManager)}
-            >
-              <Select.Trigger className="min-w-[40px] px-3 py-2 text-sm bg-background-800 border-[2px] border-background-600 rounded">
-                <Select.Value />
-              </Select.Trigger>
-              <Select.Content>
-                <Select.Item value="npm" textValue="npm">
-                  npm
-                </Select.Item>
-                <Select.Item value="pnpm" textValue="pnpm">
-                  pnpm
-                </Select.Item>
-                <Select.Item value="yarn" textValue="yarn">
-                  yarn
-                </Select.Item>
-                <Select.Item value="bun" textValue="bun">
-                  bun
-                </Select.Item>
-              </Select.Content>
-            </Select>
-            <InlineCodeHighlight
-              code={installCommands[packageManager]}
-              language="bash"
-              className="text-foreground-100 whitespace-nowrap"
-            />
-            <Button
-              onClick={onCopy}
-              variant="ghost"
-              className="p-2! hover:bg-background-800 rounded transition-colors shrink-0"
-              title="Copy to clipboard"
-            >
-              {copied ? (
-                <FaCheck size={16} className="text-accent-500" />
-              ) : (
-                <FaCopy size={16} className="text-foreground-400" />
-              )}
-            </Button>
+        <div className="flex items-center gap-3">
+          <div className="p-1.5 bg-background-800 border-[2px] border-background-700 rounded-[4px]"><FaBox className="w-3.5 h-3.5" /></div> 40+ Components
+        </div>
+      </div>
+      <div className="backdrop-blur-sm  z-10 rounded-xl border border-background-700 rounded-t-none! border-t-0! mx-4 mb-16 overflow-hidden">
+        <div className="p-[22px] h-full flex flex-col justify-center">
+          <div>
+            <Aura />
           </div>
+          <div className="pl-[8px] flex flex-col">
+            <span className="flex h-[30px] items-center gap-[9px] border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px]  mb-4">
+              <div className="p-[4px] bg-background-800 rounded-[5px]">
+                <FaBook className="text-foreground-400 w-3 h-3" />
+              </div>{" "}
+              Release Notes <div className="flex items-center bg-background-800/60 border-l-[1px] rounded-r-[8px] pr-[10px] h-[30px] border-background-700 pl-[9px] font-bold">v0.1.5</div>
+            </span>
+            <h1 className="leading-tight max-w-[31ch] pb-[9px] font-bold text-foreground-200 tracking-tight">
+              From vision to production in no time. Built on gorgeous, AI-ready components.
+            </h1>
+            <p className="text-sm text-foreground-400 w-[59ch] leading-relaxed">
+              Accessible, production-ready React components with intelligent
+              metadata that enable AI to generate perfectly consistent, beautiful
+              code.
+            </p>
+          </div>
+          <div className="hidden absolute bottom-0 left-0 p-[12px] w-140">
+            <div className="flex justify-start items-center rounded-full mt-[30px] gap-3 bg-background-950 border-[2px] border-background-700 p-1">
+              <Select
+                className="w-fit"
+                selectedKey={packageManager}
+                defaultValue={packageManager}
+                onSelectionChange={(key) => onPackageManagerChange(key as PackageManager)}
+              >
+                <Select.Trigger className="w-28 px-3 py-2 text-sm bg-background-800 border-[2px] border-background-600 rounded-full">
+                  <Select.Value />
+                </Select.Trigger>
+                <Select.Content>
+                  <Select.Item value="npm" textValue="npm">
+                    npm
+                  </Select.Item>
+                  <Select.Item value="pnpm" textValue="pnpm">
+                    pnpm
+                  </Select.Item>
+                  <Select.Item value="yarn" textValue="yarn">
+                    yarn
+                  </Select.Item>
+                  <Select.Item value="bun" textValue="bun">
+                    bun
+                  </Select.Item>
+                </Select.Content>
+              </Select>
+              <InlineCodeHighlight
+                code={installCommands[packageManager]}
+                language="bash"
+                className="text-foreground-100 whitespace-nowrap"
+              />
+              <Button
+                onClick={onCopy}
+                variant="ghost"
+                className="p-2! mr-0.5 ml-auto hover:bg-background-800 rounded-full transition-colors shrink-0"
+                title="Copy to clipboard"
+              >
+                {copied ? (
+                  <FaCheck size={16} className="text-accent-500" />
+                ) : (
+                  <FaCopy size={16} className="text-foreground-400" />
+                )}
+              </Button>
+            </div>
 
-          <div className="hidden space-y-3">
-            <div className="w-200 grid grid-cols-2 gap-3">
-              {[
-                {
-                  Icon: TailwindSvg,
-                  name: "Tailwind CSS",
-                  version: "v4.1",
-                  link: "https://tailwindcss.com",
-                },
-                {
-                  Icon: ReactSvg,
-                  name: "React",
-                  version: "v19.1",
-                  link: "https://react.dev",
-                },
-                {
-                  Icon: ReactAriaSvg,
-                  name: "React Aria",
-                  version: "v1.9",
-                  link: "https://react-spectrum.adobe.com/react-aria/",
-                },
-                {
-                  Icon: TypeScriptSvg,
-                  name: "TypeScript",
-                  version: "v5.8",
-                  link: "https://www.typescriptlang.org",
-                },
-              ].map(({ Icon, name, version, link }) => (
-                <a
-                  key={name}
-                  href={link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative flex justify-start items-start flex-row gap-8 px-[9px] pl-[14px] pt-[9px] h-[90px] rounded-lg border-[2px] border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-background-600 hover:bg-background-800 cursor-pointer"
-                >
-                  <Icon />
-                  <div>
-                    <div className="text-sm font-medium text-foreground-200">
-                      {name}
+            <div className="hidden space-y-3">
+              <div className="w-140 grid grid-cols-2 gap-3">
+                {[
+                  {
+                    Icon: TailwindSvg,
+                    name: "Tailwind CSS",
+                    version: "v4.1",
+                    link: "https://tailwindcss.com",
+                  },
+                  {
+                    Icon: ReactSvg,
+                    name: "React",
+                    version: "v19.1",
+                    link: "https://react.dev",
+                  },
+                  {
+                    Icon: ReactAriaSvg,
+                    name: "React Aria",
+                    version: "v1.9",
+                    link: "https://react-spectrum.adobe.com/react-aria/",
+                  },
+                  {
+                    Icon: TypeScriptSvg,
+                    name: "TypeScript",
+                    version: "v5.8",
+                    link: "https://www.typescriptlang.org",
+                  },
+                ].map(({ Icon, name, version, link }) => (
+                  <a
+                    key={name}
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex justify-start items-start flex-row gap-8 px-[9px] pl-[14px] pt-[9px] h-[90px] rounded-lg border-[2px] border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-background-600 hover:bg-background-800 cursor-pointer"
+                  >
+                    <Icon />
+                    <div>
+                      <div className="text-sm font-medium text-foreground-200">
+                        {name}
+                      </div>
+                      <div className="text-sm text-foreground-400">{version}</div>
                     </div>
-                    <div className="text-sm text-foreground-400">{version}</div>
-                  </div>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-    </div>
+    </>
   );
 }
