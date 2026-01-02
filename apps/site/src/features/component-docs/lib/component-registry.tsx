@@ -122,17 +122,17 @@ const previews: Record<string, React.ReactNode> = {
   ),
   input: (
     <div className="flex flex-col gap-2 max-w-sm">
-      <Input size="sm" placeholder="Small input" />
+      <Input size="sm" placeholder="Small input" aria-label="Example input" />
     </div>
   ),
   label: (
     <div className="flex flex-col gap-4">
-      <Label>Default Label</Label>
+      <Label aria-label="Example Label">Default Label</Label>
     </div>
   ),
   textarea: (
     <div className="flex flex-col gap-2 max-w-sm">
-      <TextArea size="sm" placeholder="Small textarea" />
+      <TextArea size="sm" placeholder="Small textarea" aria-label="Example textarea" />
     </div>
   ),
   select: (
@@ -153,29 +153,29 @@ const previews: Record<string, React.ReactNode> = {
   ),
   switch: (
     <div className="flex flex-col items-center gap-3">
-      <Switch size="sm" defaultSelected={false} />
-      <Switch size="sm" defaultSelected={true} />
+      <Switch aria-label="Menu Example" size="sm" defaultSelected={false} />
+      <Switch aria-label="Menu Example" size="sm" defaultSelected={true} />
     </div>
   ),
   checkbox: (
     <div className="flex flex-col gap-3">
-      <Checkbox label="Unchecked" />
-      <Checkbox label="Checked" checked />
+      <Checkbox aria-label="Menu Example" label="Unchecked" />
+      <Checkbox aria-label="Menu Example" label="Checked" checked />
     </div>
   ),
   radio: (
     <div className="flex flex-col gap-3">
-      <Radio label="Unchecked" />
-      <Radio label="Checked" checked />
+      <Radio aria-label="Menu Example" label="Unchecked" />
+      <Radio aria-label="Menu Example" label="Checked" checked />
     </div>
   ),
   badge: (
     <div className="flex flex-wrap">
-      <Badge><FaInfo className="inline mr-2 mb-0.5" />Badge</Badge>
+      <Badge aria-label="Badge Example"><FaInfo className="inline mr-2 mb-0.5" />Badge</Badge>
     </div>
   ),
   breadcrumbs: (
-    <Breadcrumbs>
+    <Breadcrumbs aria-label="Example Breadcrumbs">
       <Breadcrumb>Home</Breadcrumb>
       <Breadcrumb>Products</Breadcrumb>
       <Breadcrumb>Electronics</Breadcrumb>
@@ -184,7 +184,7 @@ const previews: Record<string, React.ReactNode> = {
   tooltip: (
     <div className="flex items-center justify-center h-22">
       <Tooltip content="Hover information">
-        <FaCircleQuestion className="w-9 h-9 text-accent-500 cursor-help" />
+        <FaCircleQuestion className="w-9 h-9 text-accent-500 cursor-help" aria-label="Help question" />
       </Tooltip>
     </div>
   ),
@@ -201,17 +201,17 @@ const previews: Record<string, React.ReactNode> = {
   ),
   'form': (
     <div className="flex items-center justify-center h-22">
-      <FaPencil className="w-9 h-9 text-accent-500" />
+      <FaPencil className="w-9 h-9 text-accent-500" aria-label="Form" />
     </div>
   ),
   toast: (
     <div className="flex items-center justify-center h-22">
-      <FaBell className="w-9 h-9 text-accent-500" />
+      <FaBell className="w-9 h-9 text-accent-500" aria-label="Toast notification" />
     </div>
   ),
   modal: (
     <div className="flex items-center justify-center h-22">
-      <FaWindowRestore className="w-9 h-9 text-accent-500" />
+      <FaWindowRestore className="w-9 h-9 text-accent-500" aria-label="Modal window" />
     </div>
   ),
   tabs: (
@@ -238,33 +238,33 @@ const previews: Record<string, React.ReactNode> = {
   ),
   slider: (
     <div className="w-48">
-      <Slider.Root min={0} max={100} defaultValue={[50]} />
+      <Slider.Root min={0} max={100} defaultValue={[50]} aria-label="Example slider" />
     </div>
   ),
   progress: (
     <div className="w-48 space-y-2">
-      <Progress value={60} size="md" />
+      <Progress aria-label="Progress Preview" value={60} size="md" label="Progress" />
     </div>
   ),
   card: (
     <div className="flex items-center justify-center h-22">
-      <FaRectangleList className="w-9 h-9 text-accent-500" />
+      <FaRectangleList className="w-9 h-9 text-accent-500" aria-label="Card component" />
     </div>
   ),
   'command-palette': (
     <div className="flex items-center justify-center h-22">
-      <FaKeyboard className="w-9 h-9 text-accent-500" />
+      <FaKeyboard className="w-9 h-9 text-accent-500" aria-label="Command palette" />
     </div>
   ),
   confirm: (
     <div className="flex items-center justify-center h-22">
-      <FaShieldHalved className="w-9 h-9 text-accent-500" />
+      <FaShieldHalved className="w-9 h-9 text-accent-500" aria-label="Confirm action" />
     </div>
   ),
   divider: (
     <div className="space-y-8 min-w-40">
-      <Divider className="mb-4" variant="solid" size="md" color="default" />
-      <Divider variant="dashed" size="md" color="subtle" />
+      <Divider className="mb-4" variant="solid" size="md" color="default" aria-label="Solid divider" />
+      <Divider variant="dashed" size="md" color="subtle" aria-label="Dashed divider" />
     </div>
   ),
   fold: (
@@ -278,7 +278,7 @@ const previews: Record<string, React.ReactNode> = {
   ),
   page: (
     <div className="flex items-center justify-center h-22">
-      <FaFile className="w-9 h-9 text-accent-500" />
+      <FaFile className="w-9 h-9 text-accent-500" aria-label="Page document" />
     </div>
   ),
   gallery: (
@@ -286,7 +286,7 @@ const previews: Record<string, React.ReactNode> = {
       {[1, 2, 3].map((i) => (
         <Gallery.Item key={i} className="p-4">
           <Gallery.View aspectRatio="5/5">
-            <FaImage />
+            <FaImage aria-label="Gallery image" />
           </Gallery.View>
         </Gallery.Item>
       ))}
@@ -300,7 +300,7 @@ const previews: Record<string, React.ReactNode> = {
   scrollarea: (
     <ScrollArea maxHeight="200px">
       <div className="flex items-center justify-center h-22">
-        <FaComputerMouse className="w-9 h-9 text-accent-500" />
+        <FaComputerMouse className="w-9 h-9 text-accent-500" aria-label="Scrollable content" />
       </div>
     </ScrollArea>
   ),

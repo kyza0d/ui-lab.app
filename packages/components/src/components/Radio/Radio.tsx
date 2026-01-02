@@ -144,11 +144,17 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
 
     const inputRef = React.useRef<HTMLInputElement>(null);
 
+    // Extract aria-label from props if provided, fallback to label if it's a string
+    const ariaLabelFromProps = props["aria-label"];
+    const ariaLabelValue =
+      ariaLabelFromProps ||
+      (typeof label === "string" ? label : undefined);
+
     const { inputProps } = useRadio(
       {
         value,
         isDisabled: disabled,
-        "aria-label": typeof label === "string" ? label : undefined,
+        ...(ariaLabelValue && { "aria-label": ariaLabelValue }),
       },
       state,
       inputRef
