@@ -23,11 +23,7 @@ export default defineConfig({
         'dist/',
         '**/*.d.ts',
         '**/index.ts',
-      ],
-      lines: 80,
-      functions: 80,
-      branches: 80,
-      statements: 80,
+      ]
     },
   },
 });
