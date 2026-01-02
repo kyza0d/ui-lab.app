@@ -16,7 +16,8 @@ export default function MainLayout({
         <ElementsHeaderSetup />
       </Suspense>
       <HeaderClient />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {children}</main>
       <Footer />
     </>
   );

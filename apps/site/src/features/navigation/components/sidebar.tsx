@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef, useMemo, memo } from "react";
+import { ScrollArea } from "ui-lab-components";
 import { cn, FadeContainer, usePrefetchOnHover } from "@/shared";
 import {
   categoryMap,
@@ -257,7 +258,7 @@ export function Sidebar() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const container = scrollContainerRef.current;
+    const container = scrollContainerRef.current?.querySelector('[data-radix-scroll-area-viewport]');
     if (!container) return;
 
     const storageKey = `sidebar-scroll-${activeNav}`;
@@ -345,11 +346,8 @@ export function Sidebar() {
 
         {/* Scrollable Contextual Content */}
         <FadeContainer className="flex-1 mb-26">
-          <div
-            ref={scrollContainerRef}
-            className="overflow-y-auto py-5 px-5 h-full"
-          >
-            <div className="space-y-8">
+          <ScrollArea ref={scrollContainerRef} className="h-full">
+            <div className="py-5 px-5 space-y-8">
               {sections.map((section) => (
                 <div key={section.label}>
                   <span className="text-sm text-foreground-200">{section.label}</span>
@@ -382,7 +380,7 @@ export function Sidebar() {
                 </div>
               ))}
             </div>
-          </div>
+          </ScrollArea>
         </FadeContainer>
       </div>
     </aside>

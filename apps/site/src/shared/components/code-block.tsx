@@ -171,12 +171,21 @@ export function CodeBlock({
     setTotalCodeLines(lines);
   }, [children]);
 
+  useEffect(() => {
+    if (totalCodeLines > MAX_HEIGHT_LINES) {
+      const hidden = totalCodeLines - MAX_HEIGHT_LINES;
+      setIsExpanded(hidden < 30);
+    } else {
+      setIsExpanded(false);
+    }
+  }, [totalCodeLines]);
+
   const hasHorizontalOverflow = contentScrollWidth > viewportWidth;
   const hiddenCodeLines = totalCodeLines - MAX_HEIGHT_LINES;
-  const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES;
+  const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES && hiddenCodeLines >= 30;
 
   return (
-    <div className={cn("w-full h-210 rounded-md border border-background-700 bg-background-950 flex flex-col overflow-hidden", className)}>
+    <div className={cn("w-full max-h-210 rounded-md border border-background-700 bg-background-950 flex flex-col overflow-hidden", className)}>
       {(filename || heading) && (
         <div className="flex-none flex text-sm font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>

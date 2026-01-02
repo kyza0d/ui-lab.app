@@ -199,14 +199,14 @@ export default function Header({
       />
 
       <header
-        className={cn("items-start justify-between flex flex-col fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-4", pathname === "/" ? "max-w-[1100px]" : "max-w-(--page-width)")}
+        className={cn("items-start justify-between flex flex-col fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-6", pathname === "/" ? "max-w-[1100px]" : "max-w-(--page-width)")}
         style={{ height: headerHeight }}
       >
         <div className="flex justify-between w-full pt-2.5">
           <div className="flex items-center space-x-4 md:space-x-6">
             <Link
               href="/"
-              className="mr-5 mb-1 flex items-center transition-opacity hover:opacity-80"
+              className="mr-5 flex items-center transition-opacity hover:opacity-80"
             >
               <Logo />
               <span className="text-md font-semibold text-foreground-50 mr-6">UI Lab</span>
@@ -348,8 +348,8 @@ export default function Header({
           "absolute h-20 border-x border-background-700 bottom-0 left-1/2 -translate-x-1/2 w-[1100px] pointer-events-none",
           pathname === "/" ? "visible" : "hidden"
         )}>
-          <div className="absolute bottom-0 left-0 w-[16px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 -translate-x-1/2 translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-[17px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 translate-x-1/2 translate-y-1/2" />
+          <div className="absolute bottom-px -left-px w-[16px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 -translate-x-1/2 translate-y-1/2" />
+          <div className="absolute bottom-px -right-px w-[17px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 translate-x-1/2 translate-y-1/2" />
         </div>
       </header>
 

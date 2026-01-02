@@ -26,11 +26,15 @@ export function NodeSection({
       {showNodes && (
         <>
           <div
-            className="absolute top-[-8px] left-0 w-[16px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 -translate-x-1/2"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-0.5 border-background-700 bg-background-700"
             aria-hidden="true"
           />
           <div
-            className="absolute top-[-8px] right-0 w-[17px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 translate-x-1/2"
+            className="absolute top-[-7px] -left-px w-[16px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 -translate-x-1/2"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute top-[-7px] -right-px w-[17px] h-[16px] rounded-[5px] border-[2px] border-background-700 bg-background-950 translate-x-1/2"
             aria-hidden="true"
           />
         </>
