@@ -8,13 +8,11 @@ import { Plugin } from 'vite';
 const excludeTestsPlugin = (): Plugin => ({
   name: 'exclude-tests',
   resolveId(id) {
-    // Prevent resolution of test files
     if (id.match(/\.(test|spec)\.(ts|tsx)$/)) {
       return { id: '', external: true };
     }
   },
-  transform(code, id) {
-    // Remove test file imports
+  transform(_code, id) {
     if (id.includes('tests/') || id.match(/\.(test|spec)\.(ts|tsx)$/)) {
       return { code: 'export {};' };
     }

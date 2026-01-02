@@ -55,8 +55,16 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     });
 
     const inputRef = React.useRef<HTMLInputElement>(null);
+
+    // Extract aria-label from props if provided
+    const { "aria-label": ariaLabel, "aria-labelledby": ariaLabelledby, ...otherProps } = props;
+
     const { inputProps, isSelected } = useSwitch(
-      { isDisabled },
+      {
+        isDisabled,
+        ...(ariaLabel && { "aria-label": ariaLabel }),
+        ...(ariaLabelledby && { "aria-labelledby": ariaLabelledby }),
+      },
       state,
       inputRef
     );
@@ -107,7 +115,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           type="checkbox"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           {...mergeProps(inputProps, focusProps, hoverProps)}
-          {...props}
+          {...otherProps}
         />
       </div>
     );
