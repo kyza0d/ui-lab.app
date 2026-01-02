@@ -14,7 +14,7 @@ type ResponsiveColumns = {
   xl?: number
 }
 
-type LayoutType = "grid" | "masonry"
+type LayoutType = "grid"
 
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   columns?: number | ResponsiveColumns
@@ -96,6 +96,10 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
       ...style,
     }
 
+    // Ensure accessible name: aria-label, aria-labelledby, or text content
+    const ariaLabel = props["aria-label"] || props["aria-labelledby"]
+    const hasAccessibleName = ariaLabel || React.Children.count(children) > 0
+
     const commonProps = mergeProps(
       focusProps,
       hoverProps,
@@ -106,6 +110,7 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
         "data-focus-visible": isFocusVisible || undefined,
         "data-hovered": isHovered || undefined,
         "data-pressed": isPressed || undefined,
+        ...(!hasAccessibleName && { "aria-label": "Gallery item" }),
         ...props,
       }
     )
