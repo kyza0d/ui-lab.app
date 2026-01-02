@@ -1,11 +1,15 @@
 import { Gallery } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-gallery';
+import Example1, { metadata as metadata1 } from './examples/01-basic-gallery.js';
+import Example2, { metadata as metadata2 } from './examples/02-masonry-gallery.js';
+import Example3, { metadata as metadata3 } from './examples/03-advanced-masonry.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
   { id: '01-basic-gallery', Component: Example1, metadata: metadata1 },
+  { id: '02-masonry-gallery', Component: Example2, metadata: metadata2 },
+  { id: '03-advanced-masonry', Component: Example3, metadata: metadata3 },
 ];
 
 const galleryControls: ControlDef[] = [
