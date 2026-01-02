@@ -97,7 +97,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     defaultPreferences.mode,
   );
   const [panelPosition, setPanelPosition] = useState({ x: 20, y: 80 });
-  const [isThemeInitialized, setIsThemeInitialized] = useState(true);
+  const [isThemeInitialized, setIsThemeInitialized] = useState(false);
   const [fontSizeScale, setFontSizeScale] = useState(
     defaultPreferences.fontSizeScale,
   );
@@ -130,6 +130,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setSpacingScale(savedPrefs.spacingScale);
       setGlobalAdjustments(savedPrefs.globalAdjustments);
     }
+    setIsThemeInitialized(true);
   }, []);
 
   // Sync state across windows

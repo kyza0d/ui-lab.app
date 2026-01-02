@@ -88,12 +88,14 @@ export default function Home() {
   return (
     <div ref={containerRef} className="pt-(--header-height) mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
       <Toaster />
-      <main className="mx-auto h-full max-w-[1100px]">
+      <main className="mx-auto h-full max-w-[1100px] ">
+        <div className="fixed h-full bg-background-950 border-x border-background-700 w-screen top-0 left-1/2 -translate-x-1/2">
+          <div className="grid-paper" />
+        </div>
+        <div className="fixed max-w-[94vw] bg-background-950 border-x border-background-700 w-screen h-screen top-0 left-1/2 -translate-x-1/2">
+        </div>
         <div>
-          <div className="hidden fixed max-w-[1400px] border-x border-background-700 w-screen h-screen top-0 left-1/2 -translate-x-1/2">
-            <Aura />
-          </div>
-          <section className="border-x border-background-700 grid-paper after:content-[''] bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[400px]">
+          <section className="border-x border-background-700 relative isolate after:content-[''] bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[400px]">
             <HeroSection
               packageManager={packageManager}
               onPackageManagerChange={setPackageManager}

@@ -103,25 +103,23 @@ function HeroSection({
 }: HeroSectionProps) {
   return (
     <>
-      <div className="absolute flex gap-6 bottom-0 left-0 w-full px-[14px]">
-        <div className="p-[12px] flex space-x-[28px] w-full">
-          <div className="flex items-center gap-3 text-sm">
-            <div className="p-2.5 bg-background-800 border-b-[2px] border-background-700 rounded-[8px]"><FaTerminal className="w-3.5 h-3.5" /></div> Powerful CLI
+      <div className="z-10 rounded-t-none! border-t-0! overflow-hidden">
+        <div className="relative border-background-700 mx-auto h-full flex flex-col justify-center">
+          <Aura />
+          <div className="absolute flex gap-6 bottom-0 left-0 w-full">
+            <div className="p-[12px] flex space-x-[28px] w-full">
+              <div className="flex items-center gap-3 text-sm">
+                <FaTerminal className="w-3.5 h-3.5" /> Powerful CLI
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                <FaBox className="w-3.5 h-3.5" /> 40+ Components
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-3 text-sm">
-            <div className="p-2.5 bg-background-800 border-b-[2px] border-background-700 rounded-[8px]"><FaBox className="w-3.5 h-3.5" /></div> 40+ Components
-          </div>
-        </div>
-      </div>
-      <div className="z-10  rounded-t-none! border-t-0! mx-4 mb-[60px] overflow-hidden">
-        <div className="p-[22px] h-full flex flex-col justify-center">
-          <div className="hidden">
-            <Aura />
-          </div>
-          <div className="pl-[8px] flex flex-col">
+          <div className="pl-[8px] flex items-center text-center flex-col">
             <span className="flex h-[30px] items-center gap-[9px] bg-background-950 border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px]  mb-4">
-              <div className="p-[4px] bg-background-800 rounded-[5px]">
-                <FaBook className="text-foreground-400 w-3 h-3" />
+              <div className="p-[4px] rounded-[5px]">
+                <FaBook className="text-foreground-400 w-4 h-4" />
               </div>{" "}
               Release Notes <div className="flex items-center bg-background-800/60 border-l-[1px] rounded-r-[8px] pr-[10px] h-[30px] border-background-700 pl-[9px] font-bold">v0.1.5</div>
             </span>
@@ -133,7 +131,10 @@ function HeroSection({
               metadata that enable AI to generate perfectly consistent, beautiful
               code.
             </p>
-            <Button className="mt-10 w-38" variant="primary">Get Started</Button>
+            <div className="flex gap-3">
+              <Button className="mt-10 py-2 w-38" variant="primary">Get Started</Button>
+              <Button className="mt-10 py-2" variant="secondary">View Components</Button>
+            </div>
           </div>
           <div className="hidden absolute bottom-0 left-0 p-[12px] w-140">
             <div className="flex justify-start items-center rounded-full mt-[30px] gap-3 bg-background-950 border-[2px] border-background-700 p-1">
