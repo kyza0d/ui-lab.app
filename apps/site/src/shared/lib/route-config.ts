@@ -16,6 +16,7 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     label: 'Foundations',
     icon: FaBook,
     headerType: 'tabs',
+    headerHeight: '7rem'
   },
   'agents-mcps': {
     id: 'agents-mcps',

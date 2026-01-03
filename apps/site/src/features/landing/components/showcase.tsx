@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FaArrowUp, FaBook, FaShop, FaStar } from "react-icons/fa6";
-import { Fold, Grid, Button, Input, Checkbox, Radio, Badge, Card, Select, SelectListBox, Slider, Gallery } from "ui-lab-components";
+import { Fold, Grid, Button, Input, Checkbox, Radio, Badge, Card, Select, SelectListBox, Slider, Gallery, ScrollArea } from "ui-lab-components";
 import { PreviewProvider, PreviewContent } from "@/features/preview";
 
 interface Example {
@@ -209,7 +209,7 @@ export function Showcase() {
 
   return (
     <div className="bg-background-950 ml-auto h-200 grid grid-cols-[230px_1fr] border-t-[2px] border-b-0 border-background-700 overflow-hidden">
-      <div className="h-200 border-r-[2px] overflow-y-scroll border-background-700 flex flex-col">
+      <ScrollArea className="h-200 border-r-[2px] border-background-700" maxHeight="100%">
         <div className="flex flex-col gap-2 flex-1">
           <button
             onClick={handleCoreClick}
@@ -267,7 +267,7 @@ export function Showcase() {
             ))}
           </div>
         </div>
-      </div>
+      </ScrollArea>
 
       <div className="overflow-auto flex flex-col">
         {isCore ? (

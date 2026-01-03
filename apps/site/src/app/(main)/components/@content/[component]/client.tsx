@@ -268,8 +268,8 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
   return (
     <div className="space-y-8">
       {api.props && api.props.length > 0 && (
-        <div id="api-props" className="scroll-mt-20">
-          <h3 className="text-lg font-semibold text-foreground-50 mb-4">Props</h3>
+        <div id="api-props" className="scroll-mt-20 mb-18">
+          <h4 className="pb-4 text-lg font-semibold text-foreground-50 mb-4">Props</h4>
           <Table<PropData>
             data={api.props}
             columns={propsColumns}
@@ -279,11 +279,11 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
 
       {api.subComponents && Object.keys(api.subComponents).length > 0 && (
         <div id="api-subcomponents" className="scroll-mt-20">
-          <h3 className="mt-12 text-lg font-semibold text-foreground-50">Sub-Components</h3>
+          <h4 className="mt-12 text-lg font-semibold text-foreground-50">Sub-Components</h4>
           <div className="space-y-6">
             {Object.entries(api.subComponents).map(([subComponentName, subProps]: [string, any]) => (
               <div key={subComponentName} id={`api-${subComponentName}`} className="space-y-3 mt-20 first:mt-8 scroll-mt-20">
-                <h4 className="font-semibold text-foreground-100">
+                <h4 className="pl-2 pb-4 font-semibold text-foreground-100">
                   <InlineCodeHighlight code={subComponentName} language="typescript" />
                 </h4>
                 {subProps && subProps.length > 0 ? (

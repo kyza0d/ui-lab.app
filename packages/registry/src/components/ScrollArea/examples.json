@@ -2,6 +2,6 @@
   "01-basic-scrollarea": {
     "title": "Basic ScrollArea",
     "description": "A simple scrollable container with fixed height. Use this to display overflow content in a constrained space.",
-    "code": "import { ScrollArea } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <ScrollArea style={{ height: '200px', width: '300px' }}>\n      <div>\n        <p>This is scrollable content.</p>\n        <p>Add more content here to see scrolling in action.</p>\n        <p>The ScrollArea component manages overflow elegantly.</p>\n        <p>You can scroll through all of this content.</p>\n        <p>Perfect for constrained layouts.</p>\n      </div>\n    </ScrollArea>\n  );\n}"
+    "code": "import { ScrollArea } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className='overflow-hidden' style={{ height: '200px', width: '300px' }}>\n      <ScrollArea>\n        <div>\n          <p>This is scrollable content.</p>\n          <p>Add more content here to see scrolling in action.</p>\n          <p>The ScrollArea component manages overflow elegantly.</p>\n          <p>You can scroll through all of this content.</p>\n          <p>Perfect for constrained layouts.</p>\n        </div>\n      </ScrollArea>\n    </div>\n  );\n}"
   }
 }

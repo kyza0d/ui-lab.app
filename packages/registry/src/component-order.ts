@@ -7,7 +7,7 @@ import type { ComponentCategory } from './types.js';
  */
 export const componentOrder: Record<ComponentCategory, string[]> = {
   layout: ['grid', 'flex', 'gallery', 'divider', 'fold'],
-  composition: ['form', 'group'],
+  composition: ['form', 'group', 'list'],
   action: ['button', 'confirm'],
   input: ['checkbox', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
   information: ['badge', 'label', 'tooltip'],

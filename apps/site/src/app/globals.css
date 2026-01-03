@@ -252,8 +252,8 @@
 
   --h1-font-size: var(--text-4xl);
 
-  --header-height: 3.75rem;
-  --page-width: 1550px;
+  --header-height: 7.0rem;
+  --page-width: 1250px;
   /* --indent-offset: 3px; */
 }
 
@@ -276,7 +276,42 @@
   width: 23px;
   height: 23px;
 }
-@layer utilities {
+@layer base {
+
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0 0 0.6rem 0 ;
+      font-weight: 600;
+    }
+
+    h1 {
+      margin: 0rem 0 0.6rem 0 ;
+      font-size: var(--text-xl) !important;
+      line-height: 1.4;
+      font-weight: 700
+    }
+
+    h2 {
+      margin: 0rem 0 0.4rem 0 ;
+      font-size: var(--text-xl) !important;
+    }
+
+
+    h3 {
+      margin: 0 0 0 0 ;
+      font-size: var(--text-lg) !important;
+    }
+
+    h4 {
+      margin: 00 0 0 ;
+      font-size: var(--text-md) !important;
+    }
+
+
+    p {
+      font-size: var(--text-sm);
+      max-width: 65ch;
+      margin: 0 0 0.4rem 0;
+    }
   /* Override rounded utilities to use dynamic CSS variables */
   .rounded {
     border-radius: var(--radius-base);
@@ -587,46 +622,6 @@ pre.shiki .indent::before {
   @apply font-semibold
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0 0 0.6rem 0 ;
-  font-weight: 600;
-}
-
-h1 {
-  margin: 0rem 0 0.6rem 0 ;
-  font-size: var(--text-xl) !important;
-  line-height: 1.4;
-  font-weight: 700
-}
-
-h2 {
-  margin: 0rem 0 0.4rem 0 ;
-  font-size: var(--text-xl) !important;
-}
-
-
-h3 {
-  margin: 0 0 0 0 ;
-  font-size: var(--text-lg) !important;
-}
-
-h4 {
-  margin: 00 0 0 ;
-  font-size: var(--text-md) !important;
-}
-
-
-p {
-  font-size: var(--text-sm);
-  max-width: 65ch;
-  margin: 0 0 0.4rem 0;
-}
-
 .grid-paper {
   position: relative;
   width: 100%;
@@ -641,11 +636,11 @@ p {
   z-index: -1;
   
   background-color: var(--color-background-500);
-  opacity: 0.20; 
+  opacity: 0.30; 
   
   /* Mask Logic */
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3Epath%7Bstroke:%23ffffff;stroke-width:1;stroke-linecap:square%7D%3C/style%3E%3C/defs%3E%3Cpath d='M21 25h8 M25 21v8' /%3E%3Cg stroke-dasharray='4 4'%3E%3Cpath d='M25 17 V0' /%3E%3Cpath d='M25 33 V50' /%3E%3Cpath d='M17 25 H0' /%3E%3Cpath d='M33 25 H50' /%3E%3C/g%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3Epath%7Bstroke:%23ffffff;stroke-width:1;stroke-linecap:square%7D%3C/style%3E%3C/defs%3E%3Cpath d='M21 25h8 M25 21v8' /%3E%3Cg stroke-dasharray='4 4'%3E%3Cpath d='M25 17 V0' /%3E%3Cpath d='M25 33 V50' /%3E%3Cpath d='M17 25 H0' /%3E%3Cpath d='M33 25 H50' /%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='25' height='25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3Epath%7Bstroke:%23ffffff;stroke-width:1;stroke-linecap:square%7D%3C/style%3E%3C/defs%3E%3Cpath d='M21 25h8 M25 21v8' /%3E%3Cg stroke-dasharray='4 4'%3E%3Cpath d='M25 17 V0' /%3E%3Cpath d='M25 33 V50' /%3E%3Cpath d='M17 25 H0' /%3E%3Cpath d='M33 25 H25' /%3E%3C/g%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg width='25' height='25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3Epath%7Bstroke:%23ffffff;stroke-width:1;stroke-linecap:square%7D%3C/style%3E%3C/defs%3E%3Cpath d='M21 25h8 M25 21v8' /%3E%3Cg stroke-dasharray='4 4'%3E%3Cpath d='M25 17 V0' /%3E%3Cpath d='M25 33 V50' /%3E%3Cpath d='M17 25 H0' /%3E%3Cpath d='M33 25 H25' /%3E%3C/g%3E%3C/svg%3E");
   -webkit-mask-repeat: repeat;
   mask-repeat: repeat;
   pointer-events: none;

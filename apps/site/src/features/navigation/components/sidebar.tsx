@@ -258,7 +258,7 @@ export function Sidebar() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const container = scrollContainerRef.current?.querySelector('[data-radix-scroll-area-viewport]');
+    const container = scrollContainerRef.current;
     if (!container) return;
 
     const storageKey = `sidebar-scroll-${activeNav}`;
@@ -335,7 +335,7 @@ export function Sidebar() {
                         ? "bg-accent-500/15 text-accent-400 border border-accent-500/20"
                         : "border border-background-700 bg-background-800 text-foreground-300"
                     )}>
-                      {totalComponentCount}
+                      {getTotalComponentCount()}
                     </span>
                   )}
                 </Link>
@@ -346,7 +346,11 @@ export function Sidebar() {
 
         {/* Scrollable Contextual Content */}
         <FadeContainer className="flex-1 mb-26">
-          <ScrollArea ref={scrollContainerRef} className="h-full">
+          <ScrollArea
+            ref={scrollContainerRef}
+            className="h-[calc(100%-1rem)]"
+            maxHeight="100%"
+          >
             <div className="py-5 px-5 space-y-8">
               {sections.map((section) => (
                 <div key={section.label}>

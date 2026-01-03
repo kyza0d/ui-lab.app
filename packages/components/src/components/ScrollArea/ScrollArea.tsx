@@ -36,7 +36,6 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
     const [thumbPosition, setThumbPosition] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ origin: 0, scrollOrigin: 0 });
-    const [isReady, setIsReady] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -304,7 +303,6 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
 
     useLayoutEffect(() => {
       updateScrollbar();
-      setIsReady(true);
 
       const resizeObserver = new ResizeObserver(() => {
         requestAnimationFrame(updateScrollbar);
@@ -364,18 +362,19 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
     const showOpacity = needsScrollbar && (isHoveredRight || isDragging || isScrolling) ? 1 : 0;
 
     if (direction === "horizontal") {
+      const { style: propsStyle, ...restProps } = props;
       return (
         <div
           ref={mergedRef}
           className={cn(styles.root, styles.horizontal, className)}
           style={{
             maxWidth,
-            visibility: isReady ? "visible" : "hidden",
+            ...propsStyle,
           }}
           onMouseMove={handleContainerMouseMove}
           onMouseLeave={handleContainerMouseLeave}
           data-dragging={isDragging ? "true" : "false"}
-          {...props}
+          {...restProps}
         >
           <div
             ref={contentRef}
@@ -389,14 +388,15 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
             {children}
           </div>
 
-          {needsScrollbar && (
-            <div
-              className={styles.track}
-              style={{
-                opacity: showOpacity,
-              }}
-              onMouseDown={handleTrackClick}
-            >
+          <div
+            className={styles.track}
+            style={{
+              opacity: showOpacity,
+              pointerEvents: needsScrollbar ? "auto" : "none",
+            }}
+            onMouseDown={handleTrackClick}
+          >
+            {needsScrollbar && (
               <div
                 ref={thumbRef}
                 className={styles.thumb}
@@ -406,24 +406,25 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
                 }}
                 onMouseDown={handleMouseDown}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       );
     }
 
+    const { style: propsStyle, ...restProps } = props;
     return (
       <div
         ref={mergedRef}
         className={cn(styles.root, styles.vertical, className)}
         style={{
           maxHeight,
-          visibility: isReady ? "visible" : "hidden",
+          ...propsStyle,
         }}
         onMouseMove={handleContainerMouseMove}
         onMouseLeave={handleContainerMouseLeave}
         data-dragging={isDragging ? "true" : "false"}
-        {...props}
+        {...restProps}
       >
         <div
           ref={contentRef}
@@ -436,14 +437,15 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
           {children}
         </div>
 
-        {needsScrollbar && (
-          <div
-            className={styles.track}
-            style={{
-              opacity: showOpacity,
-            }}
-            onMouseDown={handleTrackClick}
-          >
+        <div
+          className={styles.track}
+          style={{
+            opacity: showOpacity,
+            pointerEvents: needsScrollbar ? "auto" : "none",
+          }}
+          onMouseDown={handleTrackClick}
+        >
+          {needsScrollbar && (
             <div
               ref={thumbRef}
               className={styles.thumb}
@@ -453,8 +455,8 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
               }}
               onMouseDown={handleMouseDown}
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   }

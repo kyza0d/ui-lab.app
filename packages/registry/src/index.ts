@@ -20,6 +20,7 @@ export const sourceUrls: Record<string, string> = {
   "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Group",
   "input": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Input",
   "label": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Label",
+  "list": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/List",
   "menu": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Menu",
   "modal": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Modal",
   "popover": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Popover",

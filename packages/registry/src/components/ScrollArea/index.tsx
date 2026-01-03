@@ -75,8 +75,8 @@ export const scrollareaDetail: ComponentDetail = {
         </ScrollArea>
       ),
       controls: scrollareaControls,
-      renderPreview: (props: any) => (
-        <ScrollArea maxHeight={props.maxHeight} >
+      renderPreview: () => (
+        <ScrollArea style={{ height: "200px" }}>
           <div className="p-4 space-y-2" >
             {
               Array.from({ length: 20 }).map((_, i) => (

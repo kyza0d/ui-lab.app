@@ -276,16 +276,6 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Basic Gallery",
         "description": "A simple gallery with multiple items in a grid layout. Use this for displaying collections of images or content.",
         "code": "import { Gallery } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Gallery columns={3} gap=\"md\">\n      <Gallery.Item>\n        <Gallery.View aspectRatio=\"1/1\">\n          <div style={{ background: '#e0e0e0', width: '100%', height: '100%' }} />\n        </Gallery.View>\n      </Gallery.Item>\n      <Gallery.Item>\n        <Gallery.View aspectRatio=\"1/1\">\n          <div style={{ background: '#d0d0d0', width: '100%', height: '100%' }} />\n        </Gallery.View>\n      </Gallery.Item>\n      <Gallery.Item>\n        <Gallery.View aspectRatio=\"1/1\">\n          <div style={{ background: '#c0c0c0', width: '100%', height: '100%' }} />\n        </Gallery.View>\n      </Gallery.Item>\n    </Gallery>\n  );\n}"
-    },
-    {
-        "title": "Masonry Layout",
-        "description": "A masonry layout that packs items efficiently based on their height. Ideal for mixed aspect ratio content.",
-        "code": "import { Gallery } from 'ui-lab-components';\n\nconst items = [\n  { id: 1, height: 300, color: '#e0e0e0' },\n  { id: 2, height: 400, color: '#d0d0d0' },\n  { id: 3, height: 250, color: '#c0c0c0' },\n  { id: 4, height: 350, color: '#b0b0b0' },\n  { id: 5, height: 200, color: '#a0a0a0' },\n  { id: 6, height: 450, color: '#909090' },\n];\n\nexport default function Example() {\n  return (\n    <Gallery layout=\"masonry\" columns={3} gap=\"md\">\n      {items.map((item) => (\n        <Gallery.Item key={item.id}>\n           <div style={{\n              backgroundColor: item.color,\n              height: item.height,\n              width: '100%',\n              borderRadius: 8\n            }} />\n        </Gallery.Item>\n      ))}\n    </Gallery>\n  );\n}"
-    },
-    {
-        "title": "Spanning Grid Layout",
-        "description": "A mosaic grid layout with items spanning multiple columns and rows.",
-        "code": "import { Gallery } from 'ui-lab-components';\n\nconst items = [\n  { id: 1, colSpan: 2, rowSpan: 2, color: '#e0e0e0', title: 'Main Feature' },\n  { id: 2, colSpan: 1, rowSpan: 1, color: '#d0d0d0', title: 'Item 2' },\n  { id: 3, colSpan: 1, rowSpan: 1, color: '#c0c0c0', title: 'Item 3' },\n  { id: 4, colSpan: 1, rowSpan: 2, color: '#b0b0b0', title: 'Tall Item' },\n  { id: 5, colSpan: 2, rowSpan: 1, color: '#a0a0a0', title: 'Wide Item' },\n  { id: 6, colSpan: 1, rowSpan: 1, color: '#909090', title: 'Item 6' },\n];\n\nexport default function Example() {\n  return (\n    <Gallery columns={4} gap=\"md\" style={{ gridAutoRows: '200px' }}>\n      {items.map((item) => (\n        <Gallery.Item\n          key={item.id}\n          columnSpan={item.colSpan}\n          rowSpan={item.rowSpan}\n        >\n          <div\n            style={{\n              backgroundColor: item.color,\n              width: '100%',\n              height: '100%',\n              borderRadius: '8px',\n              display: 'flex',\n              alignItems: 'center',\n              justifyContent: 'center',\n              color: '#333',\n              fontWeight: 'bold'\n            }}\n          >\n            {item.title}\n          </div>\n        </Gallery.Item>\n      ))}\n    </Gallery>\n  );\n}"
     }
 ],
   },
@@ -374,6 +364,28 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Basic Label",
         "description": "A simple label component associated with a form input. Use this to provide accessible labels for form elements.",
         "code": "import React from 'react';\nimport { Label, Input } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div>\n      <Label htmlFor=\"name\">Name</Label>\n      <Input id=\"name\" placeholder=\"Enter your name\" />\n    </div>\n  );\n}"
+    }
+],
+  },
+
+  list: {
+    id: "list",
+    name: "List",
+    description: "Compound component for displaying item collections with selection and actions.",
+    category: "composition",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "List",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["card","table"],
+    tags: ["list","items","collections","selection","actions"],
+    accessibility: {"hasAriaSupport":true,"notes":["Uses list role for semantic structure","Supports interactive items with keyboard navigation","Proper ARIA labels for selection states"]},
+    examples: [
+    {
+        "title": "Basic List",
+        "description": "A simple list displaying basic items with selection and interaction support.",
+        "code": "import { List } from 'ui-lab-components';\nimport { Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <List ariaLabel=\"Basic List Example\">\n      <List.Header>\n        <h2>Items</h2>\n      </List.Header>\n      <List.Item interactive>Item One</List.Item>\n      <List.Item interactive>Item Two</List.Item>\n      <List.Item interactive>Item Three</List.Item>\n      <List.Footer align=\"center\">\n        <Button variant=\"primary\" size=\"sm\">\n          Load More\n        </Button>\n      </List.Footer>\n    </List>\n  );\n}"
     }
 ],
   },
@@ -505,7 +517,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic ScrollArea",
         "description": "A simple scrollable container with fixed height. Use this to display overflow content in a constrained space.",
-        "code": "import { ScrollArea } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <ScrollArea style={{ height: '200px', width: '300px' }}>\n      <div>\n        <p>This is scrollable content.</p>\n        <p>Add more content here to see scrolling in action.</p>\n        <p>The ScrollArea component manages overflow elegantly.</p>\n        <p>You can scroll through all of this content.</p>\n        <p>Perfect for constrained layouts.</p>\n      </div>\n    </ScrollArea>\n  );\n}"
+        "code": "import { ScrollArea } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className='overflow-hidden' style={{ height: '200px', width: '300px' }}>\n      <ScrollArea>\n        <div>\n          <p>This is scrollable content.</p>\n          <p>Add more content here to see scrolling in action.</p>\n          <p>The ScrollArea component manages overflow elegantly.</p>\n          <p>You can scroll through all of this content.</p>\n          <p>Perfect for constrained layouts.</p>\n        </div>\n      </ScrollArea>\n    </div>\n  );\n}"
     }
 ],
   },
