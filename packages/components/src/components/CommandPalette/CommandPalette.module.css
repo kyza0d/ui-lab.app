@@ -24,11 +24,7 @@
     justify-content: center;
     overflow: hidden;
     padding-top: 20vh;
-  }
-
-  .backdrop {
-    position: absolute;
-    inset: 0;
+    /* Apply backdrop styles directly to avoid creating a containing block that disrupts sticky elements */
     background-color: var(--overlay);
     backdrop-filter: blur(4px);
   }
@@ -55,7 +51,7 @@
   .search {
     display: flex;
     border-bottom: var(--border-width-base) solid var(--border-default);
-    @apply p-2
+    @apply p-2;
   }
 
   .search-container {
@@ -65,7 +61,7 @@
 
   .search-icon {
     position: absolute;
-    left: 0.50rem;
+    left: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
     width: 1rem;
@@ -106,7 +102,9 @@
     color: var(--fg-muted);
     border: none;
     cursor: pointer;
-    transition: background-color 0.15s, color 0.15s;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
   }
 
   .search-clear:hover {

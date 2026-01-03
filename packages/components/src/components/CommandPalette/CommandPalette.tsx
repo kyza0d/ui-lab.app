@@ -1,14 +1,19 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { createPortal } from "react-dom";
-import { useModalOverlay } from "@react-aria/overlays";
 import { useOverlayTriggerState } from "@react-stately/overlays";
 import { useDialog } from "@react-aria/dialog";
 import { useSearchField } from "@react-aria/searchfield";
 import { useSearchFieldState } from "@react-stately/searchfield";
 import { FocusScope } from "@react-aria/focus";
-import { filterDOMProps, mergeProps } from "@react-aria/utils";
+import { filterDOMProps } from "@react-aria/utils";
 import { cn } from "@/lib/utils";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Card } from "../Card";
@@ -111,7 +116,7 @@ function PaletteSearchInput({
       placeholder,
     },
     state,
-    inputRef
+    inputRef,
   );
 
   // Handle input change directly to ensure filtering works
@@ -120,7 +125,7 @@ function PaletteSearchInput({
       const value = e.currentTarget.value;
       onSearchChange(value);
     },
-    [onSearchChange]
+    [onSearchChange],
   );
 
   return (
@@ -174,14 +179,10 @@ function CommandListItemSimple({
     >
       <div className={cn("item-content", styles["item-content"])}>
         {command.icon && (
-          <div className={styles["item-icon"]}>
-            {command.icon}
-          </div>
+          <div className={styles["item-icon"]}>{command.icon}</div>
         )}
         <div className={styles["item-labels"]}>
-          <div className={styles["item-label"]}>
-            {command.label}
-          </div>
+          <div className={styles["item-label"]}>{command.label}</div>
           {command.description && (
             <div className={styles["item-description"]}>
               {command.description}
@@ -190,7 +191,11 @@ function CommandListItemSimple({
         </div>
       </div>
       {command.shortcut && (
-        <Badge size="sm" variant="default" className="ml-3 flex-shrink-0 font-mono">
+        <Badge
+          size="sm"
+          variant="default"
+          className="ml-3 flex-shrink-0 font-mono"
+        >
           {command.shortcut}
         </Badge>
       )}
@@ -231,14 +236,12 @@ function CommandList({
   return (
     <div
       ref={listRef}
-      className={cn('list', styles["list"])}
+      className={cn("list", styles["list"])}
       role="listbox"
       aria-label="Commands"
     >
       {commands.length === 0 ? (
-        <div className={styles["empty"]}>
-          {emptyMessage}
-        </div>
+        <div className={styles["empty"]}>{emptyMessage}</div>
       ) : (
         commands.map((command, idx) => (
           <CommandListItemSimple
@@ -272,7 +275,7 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
       contentClassName,
       overlayClassName,
     },
-    ref
+    ref,
   ) => {
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -337,7 +340,7 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
           setLoading(false);
         }
       },
-      [closeOnExecute, onCommandExecute, overlayState]
+      [closeOnExecute, onCommandExecute, overlayState],
     );
 
     // Filter and sort commands based on search query
@@ -370,13 +373,13 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
           case "ArrowDown":
             event.preventDefault();
             setSelectedIndex((prev) =>
-              prev < filteredCommands.length - 1 ? prev + 1 : 0
+              prev < filteredCommands.length - 1 ? prev + 1 : 0,
             );
             break;
           case "ArrowUp":
             event.preventDefault();
             setSelectedIndex((prev) =>
-              prev > 0 ? prev - 1 : filteredCommands.length - 1
+              prev > 0 ? prev - 1 : filteredCommands.length - 1,
             );
             break;
           case "Enter":
@@ -394,7 +397,13 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
 
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [overlayState.isOpen, filteredCommands, selectedIndex, handleExecuteCommand, overlayState]);
+    }, [
+      overlayState.isOpen,
+      filteredCommands,
+      selectedIndex,
+      handleExecuteCommand,
+      overlayState,
+    ]);
 
     // Reset selection when search changes
     useEffect(() => {
@@ -408,14 +417,22 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
       }
     }, [overlayState.isOpen]);
 
-    // Modal and dialog behavior
-    const { modalProps, underlayProps } = useModalOverlay(
-      { isDismissable: true },
-      overlayState,
-      modalRef
+    // Dialog behavior for accessibility
+    const { dialogProps } = useDialog(
+      { "aria-label": "Command palette" },
+      modalRef,
     );
 
-    const { dialogProps } = useDialog({}, modalRef);
+    // Handle click outside to dismiss (without scroll locking)
+    const handleOverlayClick = useCallback(
+      (e: React.MouseEvent) => {
+        // Only close if clicking directly on the overlay, not on children
+        if (e.target === e.currentTarget) {
+          overlayState.close();
+        }
+      },
+      [overlayState],
+    );
 
     if (!mounted || !overlayState.isOpen) {
       return null;
@@ -424,20 +441,16 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
     return createPortal(
       <FocusScope contain restoreFocus>
         <div
-          {...filterDOMProps(underlayProps)}
           className={cn(styles["palette"], styles["overlay"], overlayClassName)}
+          onClick={handleOverlayClick}
         >
-          {/* Backdrop overlay */}
-          <div className={styles["backdrop"]} />
-
           {/* Command Palette content */}
           <Card
-            {...filterDOMProps(mergeProps(modalProps, dialogProps))}
+            {...filterDOMProps(dialogProps)}
             ref={modalRef}
             className={cn("content", styles["content"], className)}
             role="dialog"
             aria-modal="true"
-            aria-label="Command palette"
           >
             <Card.Header className={styles["search"]}>
               {/* Search Input */}
@@ -458,7 +471,6 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
                 loading={loading}
                 emptyMessage={emptyStateMessage}
               />
-
             </div>
             <Card.Footer className={styles["footer"]}>
               {/* Footer hint */}
@@ -479,9 +491,9 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
           </Card>
         </div>
       </FocusScope>,
-      document.body
+      document.body,
     );
-  }
+  },
 );
 
 CommandPalette.displayName = "CommandPalette";
