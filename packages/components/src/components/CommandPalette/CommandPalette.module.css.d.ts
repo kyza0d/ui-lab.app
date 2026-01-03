@@ -16,6 +16,7 @@ export interface Styles {
   "item-labels": string;
   "item-label": string;
   "item-description": string;
+  "category-header": string;
   empty: string;
   footer: string;
 }

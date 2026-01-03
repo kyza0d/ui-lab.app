@@ -212,26 +212,34 @@ function CommandList({
   onSelect,
   loading,
   emptyMessage,
+  showCategories,
 }: {
   commands: Command[];
   selectedIndex: number;
   onSelect: (command: Command) => void;
   loading: boolean;
   emptyMessage: string;
+  showCategories?: boolean;
 }) {
   const listRef = useRef<HTMLDivElement>(null);
 
   // Scroll selected item into view
   useEffect(() => {
     if (listRef.current) {
-      const items = listRef.current.children;
-      if (items[selectedIndex]) {
-        (items[selectedIndex] as HTMLElement).scrollIntoView({
+      // We need to account for category headers which are also children
+      // The logic below assumes children are only items.
+      // With category headers, we can't just use index.
+      // Better approach: querySelector for the selected item?
+      const selectedItem = listRef.current.querySelector(
+        '[aria-selected="true"]',
+      );
+      if (selectedItem) {
+        (selectedItem as HTMLElement).scrollIntoView({
           block: "nearest",
         });
       }
     }
-  }, [selectedIndex]);
+  }, [selectedIndex, commands]); // Added commands dependency
 
   return (
     <div
@@ -243,14 +251,28 @@ function CommandList({
       {commands.length === 0 ? (
         <div className={styles["empty"]}>{emptyMessage}</div>
       ) : (
-        commands.map((command, idx) => (
-          <CommandListItemSimple
-            key={command.id}
-            command={command}
-            isSelected={idx === selectedIndex}
-            onSelect={onSelect}
-          />
-        ))
+        commands.map((command, idx) => {
+          const prev = commands[idx - 1];
+          const showHeader =
+            showCategories &&
+            command.category &&
+            (!prev || prev.category !== command.category);
+
+          return (
+            <React.Fragment key={command.id}>
+              {showHeader && (
+                <div className={styles["category-header"]}>
+                  {command.category}
+                </div>
+              )}
+              <CommandListItemSimple
+                command={command}
+                isSelected={idx === selectedIndex}
+                onSelect={onSelect}
+              />
+            </React.Fragment>
+          );
+        })
       )}
     </div>
   );
@@ -343,6 +365,18 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
       [closeOnExecute, onCommandExecute, overlayState],
     );
 
+    // Determine category order based on original commands array
+    const categoryOrder = useMemo(() => {
+      const order = new Map<string, number>();
+      let idx = 0;
+      commands.forEach((c) => {
+        if (c.category && !order.has(c.category)) {
+          order.set(c.category, idx++);
+        }
+      });
+      return order;
+    }, [commands]);
+
     // Filter and sort commands based on search query
     const filteredCommands = useMemo(() => {
       const query = searchQuery.toLowerCase().trim();
@@ -351,15 +385,37 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
         return commands;
       }
 
-      return commands
+      const results = commands
         .map((command) => ({
           command,
           score: scoreCommandRelevance(command, query),
         }))
-        .filter(({ score }) => score > 0)
-        .sort((a, b) => b.score - a.score)
-        .map(({ command }) => command);
-    }, [commands, searchQuery]);
+        .filter(({ score }) => score > 0);
+
+      if (showCategories) {
+        results.sort((a, b) => {
+          // Sort by category first
+          const catA = a.command.category;
+          const catB = b.command.category;
+
+          if (catA !== catB) {
+            if (!catA) return 1; // No category goes last
+            if (!catB) return -1;
+
+            const orderA = categoryOrder.get(catA) ?? Infinity;
+            const orderB = categoryOrder.get(catB) ?? Infinity;
+            return orderA - orderB;
+          }
+
+          // Then by score
+          return b.score - a.score;
+        });
+      } else {
+        results.sort((a, b) => b.score - a.score);
+      }
+
+      return results.map(({ command }) => command);
+    }, [commands, searchQuery, showCategories, categoryOrder]);
 
     // Manage keyboard navigation state manually
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -470,6 +526,7 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
                 onSelect={handleExecuteCommand}
                 loading={loading}
                 emptyMessage={emptyStateMessage}
+                showCategories={showCategories}
               />
             </div>
             <Card.Footer className={styles["footer"]}>

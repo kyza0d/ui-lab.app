@@ -178,6 +178,15 @@
     white-space: nowrap;
   }
 
+  .category-header {
+    @apply px-2 py-1.5 mt-2 first:mt-0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   /* Empty State */
   .empty {
     padding: 1.5rem 1rem;
