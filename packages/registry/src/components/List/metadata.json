@@ -1,0 +1,21 @@
+{
+  "id": "list",
+  "name": "List",
+  "description": "Compound component for displaying item collections with selection and actions.",
+  "category": "composition",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "List",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": ["card", "table"],
+  "tags": ["list", "items", "collections", "selection", "actions"],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Uses list role for semantic structure",
+      "Supports interactive items with keyboard navigation",
+      "Proper ARIA labels for selection states"
+    ]
+  }
+}
