@@ -39,6 +39,9 @@ export const sourceUrls: Record<string, string> = {
 // Categories
 export { categories, categoryMap } from './categories.js';
 
+// Component Order
+export { componentOrder, getComponentsInOrder } from './component-order.js';
+
 // Types
 export type {
   ComponentMetadata,

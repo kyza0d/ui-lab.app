@@ -1,6 +1,33 @@
 import type { ComponentRegistry } from './types.js';
 
 export const componentRegistry: ComponentRegistry = {
+  anchor: {
+    id: "anchor",
+    name: "Anchor",
+    description: "A styled link component with custom underline animation and popover preview on hover.",
+    category: "information",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Anchor",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["popover","breadcrumbs"],
+    tags: ["navigation","interactive","link"],
+    accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible with focus visible states","Built on Popover for accessible overlay handling","Screen reader friendly"]},
+    examples: [
+    {
+        "title": "Basic Anchor",
+        "description": "A simple anchor component with custom underline. Hover to see the popover preview.",
+        "code": "import React from 'react';\nimport { Anchor } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Anchor>\n      Learn more about this topic\n      <Anchor.Preview>\n        <div className=\"text-sm\">Preview content</div>\n      </Anchor.Preview>\n    </Anchor>\n  );\n}"
+    },
+    {
+        "title": "Anchor with Rich Preview",
+        "description": "Anchor component displaying a richer preview content on hover.",
+        "code": "import React from 'react';\nimport { Anchor } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"space-y-4\">\n      <p>\n        This is a paragraph with an{' '}\n        <Anchor>\n          React documentation\n          <Anchor.Preview>\n            <div className=\"space-y-2 max-w-xs\">\n              <div className=\"font-semibold\">React Documentation</div>\n              <p className=\"text-xs opacity-90\">\n                Learn about React's component model and hooks for building interactive user interfaces.\n              </p>\n            </div>\n          </Anchor.Preview>\n        </Anchor>\n        {' '}link embedded in the text.\n      </p>\n    </div>\n  );\n}"
+    }
+],
+  },
+
   badge: {
     id: "badge",
     name: "Badge",
@@ -188,6 +215,16 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Basic Divider",
         "description": "A simple horizontal divider separating content sections. Use this to create visual separation between different areas of your interface.",
         "code": "import React from 'react';\nimport { Divider } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"text-foreground-300\">Content above</div>\n      <Divider />\n      <div className=\"text-foreground-300\">Content below</div>\n    </div>\n  );\n}"
+    },
+    {
+        "title": "Pattern Variants",
+        "description": "Dividers support three distinct pattern styles: solid for continuous lines, dashed for rectangular segments, and dotted for circular dots.",
+        "code": "import React from 'react';\nimport { Divider } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"space-y-6 w-full\">\n      <div className=\"space-y-2\">\n        <span className=\"text-xs text-foreground-400\">Solid</span>\n        <Divider variant=\"solid\" />\n      </div>\n      <div className=\"space-y-2\">\n        <span className=\"text-xs text-foreground-400\">Dashed</span>\n        <Divider variant=\"dashed\" />\n      </div>\n      <div className=\"space-y-2\">\n        <span className=\"text-xs text-foreground-400\">Dotted</span>\n        <Divider variant=\"dotted\" />\n      </div>\n    </div>\n  );\n}"
+    },
+    {
+        "title": "Vertical Orientation",
+        "description": "Vertical dividers separate side-by-side content. All pattern variants work in both horizontal and vertical orientations.",
+        "code": "import React from 'react';\nimport { Divider } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"flex items-center gap-4 h-16\">\n      <span className=\"text-foreground-300\">First</span>\n      <Divider orientation=\"vertical\" variant=\"solid\" spacing=\"none\" />\n      <span className=\"text-foreground-300\">Second</span>\n      <Divider orientation=\"vertical\" variant=\"dashed\" spacing=\"none\" />\n      <span className=\"text-foreground-300\">Third</span>\n      <Divider orientation=\"vertical\" variant=\"dotted\" spacing=\"none\" />\n      <span className=\"text-foreground-300\">Fourth</span>\n    </div>\n  );\n}"
     }
 ],
   },

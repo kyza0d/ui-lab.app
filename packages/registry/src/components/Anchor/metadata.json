@@ -1,0 +1,28 @@
+{
+  "id": "anchor",
+  "name": "Anchor",
+  "description": "A styled link component with custom underline animation and popover preview on hover.",
+  "category": "information",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Anchor",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "popover",
+    "breadcrumbs"
+  ],
+  "tags": [
+    "navigation",
+    "interactive",
+    "link"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Keyboard accessible with focus visible states",
+      "Built on Popover for accessible overlay handling",
+      "Screen reader friendly"
+    ]
+  }
+}

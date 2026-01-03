@@ -115,6 +115,9 @@ export type { ConfirmationProps } from "./components/Confirmation";
 export { Breadcrumbs, Breadcrumb } from "./components/Breadcrumbs";
 export type { BreadcrumbsProps, BreadcrumbItemProps } from "./components/Breadcrumbs";
 
+export { Anchor } from "./components/Anchor";
+export type { AnchorProps, AnchorPreviewProps } from "./components/Anchor";
+
 export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gallery";
 export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";
 
