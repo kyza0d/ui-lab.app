@@ -23,7 +23,7 @@ import {
   FaBookOpen,
 } from "react-icons/fa6";
 
-export type MainNavItem = "overview" | "components" | "design-system" | "agents-mcps" | "agents-mcps-introduction" | "agents-mcps-workflows" | "agents-mcps-references" | "cli-getting-started" | "cli-advanced";
+export type MainNavItem = "overview" | "components-core" | "design-system" | "agents-mcps" | "agents-mcps-introduction" | "agents-mcps-workflows" | "agents-mcps-references" | "cli-getting-started" | "cli-advanced";
 
 interface SidebarSection {
   label: string;
@@ -38,9 +38,8 @@ function getMainNav(activeNav?: MainNavItem): Array<{
   label: string;
 }> {
   const allItems: Array<{ id: MainNavItem; label: string }> = [
-    { id: "overview", label: "Overview" },
+    { id: "overview", label: "UI Lab Overview" },
     { id: "design-system", label: "Design System" },
-    { id: "components", label: "Components" },
   ];
 
   if (activeNav?.startsWith("agents-mcps")) {
@@ -56,6 +55,10 @@ function getMainNav(activeNav?: MainNavItem): Array<{
       { id: "cli-getting-started", label: "Getting Started" },
       { id: "cli-advanced", label: "Advanced" },
     ];
+  }
+
+  if (activeNav?.startsWith("components")) {
+    return [];
   }
 
   return allItems;
@@ -82,6 +85,7 @@ function getTotalComponentCount(): number {
 
 export function getActiveSectionForPathname(pathname: string): MainNavItem {
   if (pathname.startsWith("/docs")) return "overview";
+  if (pathname.startsWith("/components")) return "components-core";
   if (pathname.startsWith("/agents-mcps")) {
     if (pathname === "/agents-mcps" || pathname.includes("/introduction") || pathname.includes("/installation") || pathname.includes("/quick-start") || pathname.includes("/core-concepts")) {
       return "agents-mcps-introduction";
@@ -104,7 +108,7 @@ export function getActiveSectionForPathname(pathname: string): MainNavItem {
     return "cli-getting-started";
   }
   if (pathname.startsWith("/design-system")) return "design-system";
-  return "components";
+  return "overview";
 }
 
 const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
@@ -115,7 +119,7 @@ const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
   "cli-getting-started": ["Getting Started"],
   "cli-advanced": ["Advanced"],
   "overview": null,
-  "components": null,
+  "components-core": null,
   "design-system": null,
 };
 
@@ -155,6 +159,8 @@ export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
     case "overview":
       sections = getSectionsForDomain("docs");
       break;
+    case "components-core":
+      return getComponentSections();
     case "agents-mcps-introduction":
     case "agents-mcps-workflows":
     case "agents-mcps-references":
@@ -167,7 +173,6 @@ export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
     case "design-system":
       sections = getSectionsForDomain("design-system");
       break;
-    case "components":
     default:
       return getComponentSections();
   }
@@ -184,6 +189,8 @@ export function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
   switch (activeNav) {
     case "overview":
       return itemId === "introduction" ? "/docs" : `/docs/${itemId}`;
+    case "components-core":
+      return itemId === "overview" ? "/components" : `/components/${itemId}`;
     case "agents-mcps-introduction":
     case "agents-mcps-workflows":
     case "agents-mcps-references":
@@ -193,7 +200,6 @@ export function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
       return itemId === "introduction" ? "/cli" : `/cli/${itemId}`;
     case "design-system":
       return itemId === "overview" ? "/design-system" : `/design-system/${itemId}`;
-    case "components":
     default:
       return itemId === "overview" ? "/components" : `/components/${itemId}`;
   }
@@ -254,7 +260,6 @@ export function Sidebar() {
   const activeNav = getActiveSectionForPathname(pathname);
   const mainNav = getMainNav(activeNav);
   const sections = useMemo(() => getSectionsForNav(activeNav), [activeNav]);
-  const totalComponentCount = useMemo(() => getTotalComponentCount(), []);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -281,11 +286,13 @@ export function Sidebar() {
       {/* Fixed height container with sticky header + scrollable body */}
       <div className="flex flex-col h-screen sticky top-(--header-height)">
         {/* Sticky Top Navigation */}
+        {mainNav.length > 0 && (
         <div className="z-10">
           <nav className="py-3 px-2 space-y-1">
             {mainNav.map((nav) => {
               let href = "/components";
               if (nav.id === "overview") href = "/docs";
+              else if (nav.id === "components-core") href = "/components";
               else if (nav.id === "agents-mcps-introduction") href = "/agents-mcps";
               else if (nav.id === "agents-mcps-workflows") href = "/agents-mcps/designing-ai-workflows";
               else if (nav.id === "agents-mcps-references") href = "/agents-mcps/mcps-overview";
@@ -297,12 +304,12 @@ export function Sidebar() {
 
               const iconMap: Record<string, any> = {
                 "overview": FaPaperclip,
+                "components-core": FaShapes,
                 "agents-mcps-introduction": FaFlag,
                 "agents-mcps-workflows": FaArrowsSplitUpAndLeft,
                 "agents-mcps-references": FaBookOpen,
                 "cli-getting-started": FaTerminal,
                 "cli-advanced": FaTerminal,
-                components: FaShapes,
                 "design-system": FaPaintbrush,
               };
               const Icon = iconMap[nav.id];
@@ -328,9 +335,9 @@ export function Sidebar() {
                     <Icon className="w-4 h-4" />
                   </div>
                   <span>{nav.label}</span>
-                  {nav.id === "components" && (
+                  {nav.id === "components-core" && (
                     <span className={cn(
-                      "ml-auto px-1 py-0.5 rounded text-xs font-bold",
+                      "ml-auto px-1 py-0.5 rounded-sm text-xs font-bold",
                       isActive
                         ? "bg-accent-500/15 text-accent-400 border border-accent-500/20"
                         : "border border-background-700 bg-background-800 text-foreground-300"
@@ -343,6 +350,7 @@ export function Sidebar() {
             })}
           </nav>
         </div>
+        )}
 
         {/* Scrollable Contextual Content */}
         <FadeContainer className="flex-1 mb-26">

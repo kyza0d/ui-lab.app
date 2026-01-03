@@ -7,7 +7,7 @@ import {
 
 export const navigationData = [
   { name: "documentation", label: "Documentation", isDropdown: true },
-  { name: "components", label: "Components", isDropdown: true },
+  { name: "components", label: "Components" },
   { name: "elements", label: "Elements" },
   // { name: "marketplace", label: "Marketplace" },
   { name: "tools", label: "Tools", isDropdown: true },

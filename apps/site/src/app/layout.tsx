@@ -6,7 +6,7 @@ import "./globals.css";
 import "@fontsource-variable/karla";
 import "@fontsource-variable/jetbrains-mono";
 
-import { RootLayoutClient } from "./client-layout";
+import { RootLayoutClient } from "./client";
 
 export const metadata: Metadata = {
   title: "Create Next App",

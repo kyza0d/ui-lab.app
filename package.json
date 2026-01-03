@@ -24,6 +24,6 @@
     "next": "^16.0.10"
   },
   "devDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }
