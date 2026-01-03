@@ -3,6 +3,7 @@
 import { cache } from "react";
 import { Button } from "ui-lab-components";
 import { buttonDetail } from "ui-lab-registry/components/Button";
+import { anchorDetail } from "ui-lab-registry/components/Anchor";
 import { badgeDetail } from "ui-lab-registry/components/Badge";
 import { breadcrumbsDetail } from "ui-lab-registry/components/Breadcrumbs";
 import { cardDetail } from "ui-lab-registry/components/Card";
@@ -38,16 +39,14 @@ import { Group } from "ui-lab-components";
 import { Flex } from "ui-lab-components";
 import { Grid } from "ui-lab-components";
 import { Table } from "ui-lab-components";
-import {
-  Select,
-  SelectListBox,
-} from "ui-lab-components";
+import { Select, SelectListBox } from "ui-lab-components";
 import { Input } from "ui-lab-components";
 import { Label } from "ui-lab-components";
 import { TextArea } from "ui-lab-components";
 import { Checkbox } from "ui-lab-components";
 import { Radio } from "ui-lab-components";
 import { Badge } from "ui-lab-components";
+import { Anchor } from "ui-lab-components";
 import { Breadcrumbs, Breadcrumb } from "ui-lab-components";
 import { Tooltip } from "ui-lab-components";
 import { Popover } from "ui-lab-components";
@@ -61,19 +60,35 @@ import { Fold } from "ui-lab-components";
 import { Gallery } from "ui-lab-components";
 import { List } from "ui-lab-components";
 import { Frame } from "@/components/Frame";
-import Example1, { metadata as metadata1 } from "@/components/Frame/examples/01-default-frame";
+import Example1, {
+  metadata as metadata1,
+} from "@/components/Frame/examples/01-default-frame";
 import examplesJson from "@/components/Frame/examples/examples.json";
 import { ScrollArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
-import { FaBell, FaCircleQuestion, FaComputerMouse, FaFile, FaImage, FaInfo, FaList, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
+import {
+  FaBell,
+  FaCircleQuestion,
+  FaComputerMouse,
+  FaFile,
+  FaImage,
+  FaInfo,
+  FaList,
+  FaRectangleList,
+  FaWindowRestore,
+} from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
   getCategoriesInOrder,
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
+  getComponentsInOrder,
 } from "ui-lab-registry";
-import { experimentalRegistry, type ExperimentalComponentMetadata } from "@/features/experimental/lib/experimental-registry";
+import {
+  experimentalRegistry,
+  type ExperimentalComponentMetadata,
+} from "@/features/experimental/lib/experimental-registry";
 import React from "react";
 export type { ComponentCategory } from "ui-lab-registry";
 export { categories, categoryMap, getCategoriesInOrder } from "ui-lab-registry";
@@ -97,24 +112,34 @@ const previews: Record<string, React.ReactNode> = {
   ),
   flex: (
     <Flex align="center" direction="column" gap="sm">
-      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">1</div>
-      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">2</div>
-      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">3</div>
+      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
+        1
+      </div>
+      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
+        2
+      </div>
+      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
+        3
+      </div>
     </Flex>
   ),
   grid: (
     <Grid columns="3" gap="sm">
-      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">1</div>
-      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">2</div>
-      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">3</div>
+      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
+        1
+      </div>
+      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
+        2
+      </div>
+      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
+        3
+      </div>
     </Grid>
   ),
   table: (
     <div className="w-full overflow-hidden">
       <Table
-        data={[
-          { name: "Alice", email: "alice@example.com" },
-        ]}
+        data={[{ name: "Alice", email: "alice@example.com" }]}
         columns={[
           { key: "name", label: "Name" },
           { key: "email", label: "Email" },
@@ -134,7 +159,11 @@ const previews: Record<string, React.ReactNode> = {
   ),
   textarea: (
     <div className="flex flex-col gap-2 max-w-sm">
-      <TextArea size="sm" placeholder="Small textarea" aria-label="Example textarea" />
+      <TextArea
+        size="sm"
+        placeholder="Small textarea"
+        aria-label="Example textarea"
+      />
     </div>
   ),
   select: (
@@ -145,9 +174,15 @@ const previews: Record<string, React.ReactNode> = {
         </Select.Trigger>
         <Select.Content>
           <SelectListBox>
-            <Select.Item key="option1" value="option1">Option 1</Select.Item>
-            <Select.Item key="option2" value="option2">Option 2</Select.Item>
-            <Select.Item key="option3" value="option3">Option 3</Select.Item>
+            <Select.Item key="option1" value="option1">
+              Option 1
+            </Select.Item>
+            <Select.Item key="option2" value="option2">
+              Option 2
+            </Select.Item>
+            <Select.Item key="option3" value="option3">
+              Option 3
+            </Select.Item>
           </SelectListBox>
         </Select.Content>
       </Select>
@@ -173,8 +208,19 @@ const previews: Record<string, React.ReactNode> = {
   ),
   badge: (
     <div className="flex flex-wrap">
-      <Badge aria-label="Badge Example"><FaInfo className="inline mr-2 mb-0.5" />Badge</Badge>
+      <Badge aria-label="Badge Example">
+        <FaInfo className="inline mr-2 mb-0.5" />
+        Badge
+      </Badge>
     </div>
+  ),
+  anchor: (
+    <Anchor>
+      Click me
+      <Anchor.Preview>
+        Hover to preview
+      </Anchor.Preview>
+    </Anchor>
   ),
   breadcrumbs: (
     <Breadcrumbs aria-label="Example Breadcrumbs">
@@ -186,34 +232,39 @@ const previews: Record<string, React.ReactNode> = {
   tooltip: (
     <div className="flex items-center justify-center h-22">
       <Tooltip content="Hover information">
-        <FaCircleQuestion className="w-9 h-9 text-accent-500 cursor-help" aria-label="Help question" />
+        <FaCircleQuestion
+          className="w-9 h-9 text-accent-500 cursor-help"
+          aria-label="Help question"
+        />
       </Tooltip>
     </div>
   ),
   popover: (
     <div className="flex items-center justify-center h-22">
       <Popover content="Click to show">
-        <Button
-          variant="secondary"
-        >
-          Click Me
-        </Button>
+        <Button variant="secondary">Click Me</Button>
       </Popover>
     </div>
   ),
-  'form': (
+  form: (
     <div className="flex items-center justify-center h-22">
       <FaPencil className="w-9 h-9 text-accent-500" aria-label="Form" />
     </div>
   ),
   toast: (
     <div className="flex items-center justify-center h-22">
-      <FaBell className="w-9 h-9 text-accent-500" aria-label="Toast notification" />
+      <FaBell
+        className="w-9 h-9 text-accent-500"
+        aria-label="Toast notification"
+      />
     </div>
   ),
   modal: (
     <div className="flex items-center justify-center h-22">
-      <FaWindowRestore className="w-9 h-9 text-accent-500" aria-label="Modal window" />
+      <FaWindowRestore
+        className="w-9 h-9 text-accent-500"
+        aria-label="Modal window"
+      />
     </div>
   ),
   tabs: (
@@ -225,7 +276,7 @@ const previews: Record<string, React.ReactNode> = {
       </TabsList>
     </Tabs>
   ),
-  'menu': (
+  menu: (
     <div className="flex items-center justify-center h-22">
       <Menu>
         <Menu.Trigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-menu">
@@ -240,33 +291,57 @@ const previews: Record<string, React.ReactNode> = {
   ),
   slider: (
     <div className="w-48">
-      <Slider.Root min={0} max={100} defaultValue={[50]} aria-label="Example slider" />
+      <Slider.Root
+        min={0}
+        max={100}
+        defaultValue={[50]}
+        aria-label="Example slider"
+      />
     </div>
   ),
   progress: (
     <div className="w-48 space-y-2">
-      <Progress aria-label="Progress Preview" value={60} size="md" label="Progress" />
+      <Progress
+        aria-label="Progress Preview"
+        value={60}
+        size="md"
+        label="Progress"
+      />
     </div>
   ),
   card: (
     <div className="flex items-center justify-center h-22">
-      <FaRectangleList className="w-9 h-9 text-accent-500" aria-label="Card component" />
+      <FaRectangleList
+        className="w-9 h-9 text-accent-500"
+        aria-label="Card component"
+      />
     </div>
   ),
-  'command-palette': (
+  "command-palette": (
     <div className="flex items-center justify-center h-22">
-      <FaKeyboard className="w-9 h-9 text-accent-500" aria-label="Command palette" />
+      <FaKeyboard
+        className="w-9 h-9 text-accent-500"
+        aria-label="Command palette"
+      />
     </div>
   ),
   confirm: (
     <div className="flex items-center justify-center h-22">
-      <FaShieldHalved className="w-9 h-9 text-accent-500" aria-label="Confirm action" />
+      <FaShieldHalved
+        className="w-9 h-9 text-accent-500"
+        aria-label="Confirm action"
+      />
     </div>
   ),
   divider: (
     <div className="space-y-8 min-w-40">
-      <Divider className="mb-4" variant="solid" size="md" color="default" aria-label="Solid divider" />
-      <Divider variant="dashed" size="md" color="subtle" aria-label="Dashed divider" />
+      <Divider
+        className="mb-4"
+        variant="solid"
+        size="md"
+        aria-label="Solid divider"
+      />
+      <Divider variant="dashed" size="md" aria-label="Dashed divider" />
     </div>
   ),
   fold: (
@@ -302,7 +377,10 @@ const previews: Record<string, React.ReactNode> = {
   scrollarea: (
     <ScrollArea maxHeight="200px">
       <div className="flex items-center justify-center h-22">
-        <FaComputerMouse className="w-9 h-9 text-accent-500" aria-label="Scrollable content" />
+        <FaComputerMouse
+          className="w-9 h-9 text-accent-500"
+          aria-label="Scrollable content"
+        />
       </div>
     </ScrollArea>
   ),
@@ -313,73 +391,79 @@ const previews: Record<string, React.ReactNode> = {
   ),
 };
 export const componentRegistry: ComponentMetadata[] = [
-  ...Object.entries(registryData).map(
-    ([id, metadata]) => ({
-      ...metadata,
-      preview: previews[id] || <div />,
-    })
-  ),
-  ...(!registryData.table ? [{
-    id: "table",
-    name: tableDetail.name,
-    description: tableDetail.description,
-    category: 'data' as const,
-    source: {
-      packageName: 'ui-lab-components' as const,
-      exportName: 'Table',
-      packagePath: 'src/components/table.tsx',
-    },
-    relatedComponents: ['card'],
-    preview: previews.table || <div />,
-  }] : []),
+  ...Object.entries(registryData).map(([id, metadata]) => ({
+    ...metadata,
+    preview: previews[id] || <div />,
+  })),
+  ...(!registryData.table
+    ? [
+      {
+        id: "table",
+        name: tableDetail.name,
+        description: tableDetail.description,
+        category: "data" as const,
+        source: {
+          packageName: "ui-lab-components" as const,
+          exportName: "Table",
+          packagePath: "src/components/table.tsx",
+        },
+        relatedComponents: ["card"],
+        preview: previews.table || <div />,
+      },
+    ]
+    : []),
   ...experimentalRegistry.map((metadata: ExperimentalComponentMetadata) => ({
     ...metadata,
     source: {
-      packageName: 'ui-lab-components' as const,
+      packageName: "ui-lab-components" as const,
       exportName: metadata.id.charAt(0).toUpperCase() + metadata.id.slice(1),
       packagePath: `src/components/experimental/${metadata.id}`,
     },
     preview: previews[metadata.id] || <div />,
-  }))
+  })),
 ];
-export const getComponentsByCategory = cache((category: ComponentCategory): ComponentMetadata[] => {
-  return componentRegistry.filter(c => c.category === category)
-});
-export const getComponentsGroupedByCategory = cache((): Record<ComponentCategory, ComponentMetadata[]> => {
-  const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<ComponentCategory, ComponentMetadata[]>;
-  getCategoriesInOrder().forEach(catId => {
-    result[catId] = getComponentsByCategory(catId);
-  });
-  return result;
-});
+export const getComponentsByCategory = cache(
+  (category: ComponentCategory): ComponentMetadata[] => {
+    return componentRegistry.filter((c) => c.category === category);
+  },
+);
+export const getComponentsGroupedByCategory = cache(
+  (): Record<ComponentCategory, ComponentMetadata[]> => {
+    const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<
+      ComponentCategory,
+      ComponentMetadata[]
+    >;
+    getCategoriesInOrder().forEach((catId) => {
+      result[catId] = getComponentsByCategory(catId);
+    });
+    return result;
+  },
+);
 export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
-  const component = componentRegistry.find(c => c.id === id)
-  if (!component) return []
+  const component = componentRegistry.find((c) => c.id === id);
+  if (!component) return [];
   return component.relatedComponents
-    .map(id => componentRegistry.find(c => c.id === id))
-    .filter(Boolean) as ComponentMetadata[]
+    .map((id) => componentRegistry.find((c) => c.id === id))
+    .filter(Boolean) as ComponentMetadata[];
 });
-const componentOrder: Record<ComponentCategory, string[]> = {
-  layout: ['grid', 'flex', 'gallery', 'divider', 'fold'],
-  composition: ['form', 'group', 'list'],
-  action: ['button', 'confirm'],
-  input: ['checkbox', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
-  information: ['badge', 'label', 'tooltip'],
-  feedback: ['popover', 'progress'],
-  navigation: ['breadcrumbs', 'menu', 'tabs'],
-  container: ['card', 'modal', 'scrollarea', 'frame'],
-  data: ['table'],
-  experimental: ['toast'],
-};
+export const getComponentsInCategoryOrder = cache(
+  (category: ComponentCategory): ComponentMetadata[] => {
+    let componentIds = getComponentsInOrder(category);
 
-export const getComponentsInCategoryOrder = cache((category: ComponentCategory): ComponentMetadata[] => {
-  const componentIds = componentOrder[category] ?? [];
-  return componentIds
-    .map((id: string) => componentRegistry.find((c): c is ComponentMetadata => c.id === id))
-    .filter((c): c is ComponentMetadata => c !== undefined);
-});
+    // Add site-specific components to their categories
+    if (category === "container") {
+      componentIds = [...componentIds, "frame"];
+    }
+
+    return componentIds
+      .map((id: string) =>
+        componentRegistry.find((c): c is ComponentMetadata => c.id === id),
+      )
+      .filter((c): c is ComponentMetadata => c !== undefined);
+  },
+);
 const frameExamplesData = [
-  { id: '01-default-frame', Component: Example1, metadata: metadata1 },
+  { id: "01-default-frame", Component: Example1, metadata: metadata1 },
 ];
 
 const frameBasicCode = `import { Frame } from "@/components/Frame";
@@ -393,32 +477,42 @@ export function Example() {
 }`;
 
 const frameDetail: ComponentDetail = {
-  id: 'frame',
-  name: 'Frame',
-  description: 'A decorative border/frame component for wrapping and highlighting content.',
+  id: "frame",
+  name: "Frame",
+  description:
+    "A decorative border/frame component for wrapping and highlighting content.",
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
-        The Frame component is a decorative wrapper that adds a styled border around content. It provides multiple visual variants and padding options to suit different design needs.
+        The Frame component is a decorative wrapper that adds a styled border
+        around content. It provides multiple visual variants and padding options
+        to suit different design needs.
       </p>
       <p>
-        Use frames to highlight important content, create visual separation, or add decorative elements to your interface. The component is fully responsive and supports custom path builders for advanced shape customization.
+        Use frames to highlight important content, create visual separation, or
+        add decorative elements to your interface. The component is fully
+        responsive and supports custom path builders for advanced shape
+        customization.
       </p>
     </div>
   ),
   examples: [
     {
-      id: 'preview',
-      title: 'Preview',
-      description: 'Adjust props to customize the component',
+      id: "preview",
+      title: "Preview",
+      description: "Adjust props to customize the component",
       code: frameBasicCode,
-      preview: <Frame variant="accent" padding="medium"><p className="text-sm text-foreground-300">Framed content</p></Frame>,
+      preview: (
+        <Frame variant="accent" padding="medium">
+          <p className="text-sm text-foreground-300">Framed content</p>
+        </Frame>
+      ),
     },
     ...frameExamplesData.map((example, index) => ({
       id: `example-${index + 1}`,
       title: example.metadata.title,
       description: example.metadata.description,
-      code: (examplesJson as Record<string, any>)[example.id]?.code || '',
+      code: (examplesJson as Record<string, any>)[example.id]?.code || "",
       preview: React.createElement(example.Component),
     })),
   ],
@@ -426,6 +520,7 @@ const frameDetail: ComponentDetail = {
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
+  anchor: anchorDetail,
   group: groupDetail,
   flex: flexDetail,
   grid: gridDetail,
@@ -440,13 +535,13 @@ const componentDetails: Record<string, ComponentDetail> = {
   breadcrumbs: breadcrumbsDetail,
   tooltip: tooltipDetail,
   popover: popoverDetail,
-  "form": formDetail,
+  form: formDetail,
   toast: toastDetail,
   modal: modalDetail,
   slider: sliderDetail,
   progress: progressDetail,
   tabs: tabsDetail,
-  "menu": menuDetail,
+  menu: menuDetail,
   switch: switchDetail,
   card: cardDetail,
   "command-palette": commandPaletteDetail,
@@ -458,10 +553,14 @@ const componentDetails: Record<string, ComponentDetail> = {
   scrollarea: scrollareaDetail,
   list: listDetail,
 };
-export const getComponentById = cache((id: string): ComponentDetail | undefined => {
-  return componentDetails[id];
-});
+export const getComponentById = cache(
+  (id: string): ComponentDetail | undefined => {
+    return componentDetails[id];
+  },
+);
 
-export const getComponentMetadata = cache((id: string): ComponentMetadata | undefined => {
-  return componentRegistry.find((component) => component.id === id);
-});
+export const getComponentMetadata = cache(
+  (id: string): ComponentMetadata | undefined => {
+    return componentRegistry.find((component) => component.id === id);
+  },
+);

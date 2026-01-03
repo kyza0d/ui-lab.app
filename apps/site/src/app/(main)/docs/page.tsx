@@ -79,7 +79,7 @@ export default async function DocsPage() {
     { Icon: TailwindSvg, name: "Tailwind CSS", version: "v4.1", link: "https://tailwindcss.com" },
     { Icon: ReactAriaSvg, name: "React Aria", version: "v1.9", link: "https://react-spectrum.adobe.com/react-aria/" },
     { Icon: ReactSvg, name: "React", version: "v19.1", link: "https://react.dev" },
-    { Icon: TypeScriptSvg, name: "TypeScript", version: "v5.8", link: "https://www.typescriptlang.org" },
+    { Icon: TypeScriptSvg, name: "TypeScript", version: "v5.9", link: "https://www.typescriptlang.org" },
   ];
 
   return (

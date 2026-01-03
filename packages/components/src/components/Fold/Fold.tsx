@@ -18,14 +18,17 @@ const FoldContext = React.createContext<FoldContextValue | null>(null);
 const useFoldContext = () => {
   const context = React.useContext(FoldContext);
   if (!context) {
-    throw new Error("Fold compound components must be used within a Fold component");
+    throw new Error(
+      "Fold compound components must be used within a Fold component",
+    );
   }
   return context;
 };
 
 // --- Sub-components ---
 
-export interface FoldTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface FoldTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
@@ -33,7 +36,10 @@ const FoldTrigger = React.forwardRef<HTMLButtonElement, FoldTriggerProps>(
   ({ children, className, ...props }, ref) => {
     const { state, isDisabled } = useFoldContext();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
-    React.useImperativeHandle(ref, () => triggerRef.current as HTMLButtonElement);
+    React.useImperativeHandle(
+      ref,
+      () => triggerRef.current as HTMLButtonElement,
+    );
 
     const { buttonProps, isPressed } = useButton(
       {
@@ -41,10 +47,19 @@ const FoldTrigger = React.forwardRef<HTMLButtonElement, FoldTriggerProps>(
         onPress: () => state.toggle(),
         // Filter out form-related props that useButton doesn't support
         ...Object.fromEntries(
-          Object.entries(props).filter(([key]) => !['formAction', 'formEncType', 'formMethod', 'formNoValidate', 'formTarget'].includes(key))
+          Object.entries(props).filter(
+            ([key]) =>
+              ![
+                "formAction",
+                "formEncType",
+                "formMethod",
+                "formNoValidate",
+                "formTarget",
+              ].includes(key),
+          ),
         ),
       },
-      triggerRef
+      triggerRef,
     );
 
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
@@ -63,18 +78,13 @@ const FoldTrigger = React.forwardRef<HTMLButtonElement, FoldTriggerProps>(
       >
         <span className={styles.title}>{children}</span>
         <span className={styles.icon}>
-          <svg
-            viewBox="0 0 16 16"
-            width="16"
-            height="16"
-            fill="currentColor"
-          >
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
             <path d="M4.47 6.47a.75.75 0 000 1.06l3.5 3.5a.75.75 0 001.06 0l3.5-3.5a.75.75 0 00-1.06-1.06L8 9.44 5.53 6.97a.75.75 0 00-1.06 0z" />
           </svg>
         </span>
       </button>
     );
-  }
+  },
 );
 FoldTrigger.displayName = "Fold.Trigger";
 
@@ -97,30 +107,29 @@ const FoldContent = React.forwardRef<HTMLDivElement, FoldContentProps>(
         <div className={styles.contentInner}>{children}</div>
       </div>
     );
-  }
+  },
 );
 FoldContent.displayName = "Fold.Content";
 
 // Updated FoldDivider to allow customization
 const FoldDivider = React.forwardRef<HTMLDivElement, DividerProps>(
-  ({ className, spacing = "none", color = "default", ...props }, ref) => {
+  ({ className, spacing = "none", ...props }, ref) => {
     return (
       <Divider
         ref={ref}
         className={cn("mt-2", className)}
         spacing={spacing}
-        color={color}
         {...props}
       />
     );
-  }
+  },
 );
 FoldDivider.displayName = "Fold.Divider";
 
-
 // --- Main Fold Component ---
 
-export interface FoldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "onChange"> {
+export interface FoldProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "onChange"> {
   title?: React.ReactNode; // Made optional for compound usage
   isExpanded?: boolean;
   defaultExpanded?: boolean;
@@ -144,7 +153,7 @@ const FoldRoot = React.forwardRef<HTMLDivElement, FoldProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const state = useToggleState({
       isSelected: isExpanded,
@@ -166,29 +175,39 @@ const FoldRoot = React.forwardRef<HTMLDivElement, FoldProps>(
         </div>
       </FoldContext.Provider>
     );
-  }
+  },
 );
 FoldRoot.displayName = "Fold";
 
 // Compatibility wrapper to support both old API and new Compound API
-const Fold = React.forwardRef<HTMLDivElement, FoldProps & { Trigger?: typeof FoldTrigger; Content?: typeof FoldContent; Divider?: typeof FoldDivider }>((props, ref) => {
-  const { title, children, triggerClassName, contentClassName, ...rootProps } = props;
+const Fold = React.forwardRef<
+  HTMLDivElement,
+  FoldProps & {
+    Trigger?: typeof FoldTrigger;
+    Content?: typeof FoldContent;
+    Divider?: typeof FoldDivider;
+  }
+>((props, ref) => {
+  const { title, children, triggerClassName, contentClassName, ...rootProps } =
+    props;
 
   // If title is provided, use the "Preset" structure (Backward Compatibility)
   if (title !== undefined) {
     const childrenArray = React.Children.toArray(children);
     const customDivider = childrenArray.find(
-      (child) => React.isValidElement(child) && child.type === FoldDivider
+      (child) => React.isValidElement(child) && child.type === FoldDivider,
     );
     const filteredChildren = childrenArray.filter(
-      (child) => !(React.isValidElement(child) && child.type === FoldDivider)
+      (child) => !(React.isValidElement(child) && child.type === FoldDivider),
     );
 
     return (
       <FoldRoot ref={ref} {...rootProps}>
         <FoldTrigger className={triggerClassName}>{title}</FoldTrigger>
         {customDivider || <FoldDivider />}
-        <FoldContent className={contentClassName}>{filteredChildren}</FoldContent>
+        <FoldContent className={contentClassName}>
+          {filteredChildren}
+        </FoldContent>
       </FoldRoot>
     );
   }
@@ -199,7 +218,9 @@ const Fold = React.forwardRef<HTMLDivElement, FoldProps & { Trigger?: typeof Fol
       {children}
     </FoldRoot>
   );
-}) as React.ForwardRefExoticComponent<FoldProps & React.RefAttributes<HTMLDivElement>> & {
+}) as React.ForwardRefExoticComponent<
+  FoldProps & React.RefAttributes<HTMLDivElement>
+> & {
   Trigger: typeof FoldTrigger;
   Content: typeof FoldContent;
   Divider: typeof FoldDivider;

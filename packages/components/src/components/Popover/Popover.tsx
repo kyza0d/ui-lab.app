@@ -262,14 +262,27 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
       [refs]
     );
 
+    // Convert React Aria's onPress to onClick for native HTML elements
+    const nativeProps = React.useMemo(() => {
+      const props: any = { ...triggerProps };
+      if (props.onPress && typeof props.onPress === 'function') {
+        const onPress = props.onPress;
+        props.onClick = (e: React.MouseEvent) => {
+          onPress({ target: e.currentTarget, type: 'press', pointerType: 'mouse', ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, altKey: e.altKey });
+        };
+        delete props.onPress;
+      }
+      return props;
+    }, [triggerProps]);
+
     const triggerElement = React.isValidElement(children)
       ? React.cloneElement(children as React.ReactElement<{ className?: string; ref?: React.Ref<HTMLButtonElement | HTMLDivElement> }>, {
-        ...triggerProps,
+        ...nativeProps,
         className: cn((children as React.ReactElement<{ className?: string }>).props.className, className),
         ref: mergedTriggerRef,
       })
       : (
-        <div ref={mergedTriggerRef} {...triggerProps} className={cn("inline-block", className)}>
+        <div ref={mergedTriggerRef} {...nativeProps} className={cn("inline-block", className)}>
           {children}
         </div>
       );
@@ -291,6 +304,9 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
               style={{
                 ...floatingStyles,
                 visibility: isPositioned ? 'visible' : 'hidden',
+                minWidth: '200px',
+                maxWidth: '400px',
+                width: 'max-content',
               }}
             >
               {content}

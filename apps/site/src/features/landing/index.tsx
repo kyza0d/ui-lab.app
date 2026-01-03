@@ -6,7 +6,10 @@ import {
   FaBook,
   FaBox,
   FaBrain,
-  FaPaintbrush
+  FaPaintbrush,
+  FaBoxOpen,
+  FaBoxArchive,
+  FaEye
 } from "react-icons/fa6";
 import { Select, Button } from "ui-lab-components";
 import { InlineCodeHighlight } from "@/shared";
@@ -44,7 +47,7 @@ function HeroSection({
                 <FaPaintbrush className="w-3.5 h-3.5" /> Customization
               </div>
               <div className="flex items-center gap-3 text-sm">
-                <FaBox className="w-3.5 h-3.5" /> Accessible
+                <FaEye className="w-3.5 h-3.5" /> Accessible
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <FaBrain className="w-3.5 h-3.5" /> LLM Enabled
@@ -71,7 +74,7 @@ function HeroSection({
             <div className="flex gap-3">
               <Button className="mt-10 flex justify-evenly w-38 gap-[4px]" variant="secondary">
                 Foundation</Button>
-              <Button className="mt-10 py-2" variant="secondary">View Components</Button>
+              <Button className="mt-10 py-2" variant="secondary"><FaBoxArchive className="mr-4 text-foreground-400" /> View Components</Button>
             </div>
           </div>
         </div>

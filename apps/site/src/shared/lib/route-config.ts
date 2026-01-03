@@ -1,6 +1,6 @@
 import { FaBook, FaPlug, FaTerminal, FaShapes } from 'react-icons/fa6';
 
-export type DomainId = 'docs' | 'agents-mcps' | 'cli' | 'elements';
+export type DomainId = 'docs' | 'components' | 'agents-mcps' | 'cli' | 'elements';
 
 export interface DomainConfig {
   id: DomainId;
@@ -15,6 +15,13 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     id: 'docs',
     label: 'Foundations',
     icon: FaBook,
+    headerType: 'tabs',
+    headerHeight: '7rem'
+  },
+  components: {
+    id: 'components',
+    label: 'Components',
+    icon: FaShapes,
     headerType: 'tabs',
     headerHeight: '7rem'
   },
@@ -51,7 +58,7 @@ export const ROUTES: Record<string, RouteConfig> = {
   },
   components: {
     path: '/components',
-    domainId: 'docs',
+    domainId: 'components',
   },
   'design-system': {
     path: '/design-system',

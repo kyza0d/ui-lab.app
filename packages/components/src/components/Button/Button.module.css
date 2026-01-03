@@ -14,7 +14,8 @@
     cursor: pointer;
     border: var(--border-width-base) solid var(--background-700);
     border-radius: var(--radius-md);
-    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out;
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out, filter 0.15s ease-out;
+    filter: brightness(100%);
 
     &:focus-visible {
       outline: 2px solid var(--blue);
@@ -37,16 +38,14 @@
   color: var(--color-white);
   border-color: var(--accent-500);
 
-  @media (hover: hover) {
-    &:hover:not(:disabled) {
-      background-color: var(--accent-400);
-      border-color: var(--accent-400);
-    }
+  &:hover:not(:disabled) {
+    filter: brightness(106%);
+    transition: filter 0.20s var(--ease-gentle-ease);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--accent-400);
-    border-color: var(--accent-400);
+    background-color: var(--accent-500);
+    transition: background-color 0.20s var(--ease-gentle-ease);
   }
 }
 
@@ -56,12 +55,14 @@
   border-color: var(--background-700);
 
   &:hover:not(:disabled) {
-    background-color: var(--background-700);
+    filter: brightness(104%);
+    transition: filter 0.20s var(--ease-gentle-ease);
     border-color: var(--background-700);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--background-600);
+    background-color: var(--background-800);
+    transition: background-color 0.20s var(--ease-gentle-ease);
     border-color: var(--background-600);
   }
 }

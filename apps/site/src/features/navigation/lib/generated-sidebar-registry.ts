@@ -26,6 +26,7 @@ interface DomainRegistry {
 
 export interface SidebarRegistry {
   docs: DomainRegistry;
+  components: DomainRegistry;
   'agents-mcps': DomainRegistry;
   cli: DomainRegistry;
   'design-system': DomainRegistry;
@@ -122,6 +123,11 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "category": "Development"
       }
 },
+    navSectionMap: null,
+  },
+  components: {
+    sections: [],
+    fileMap: {},
     navSectionMap: null,
   },
   'agents-mcps': {
