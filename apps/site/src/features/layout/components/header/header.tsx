@@ -209,10 +209,10 @@ export default function Header({
               className="mr-5 flex items-center transition-opacity hover:opacity-80"
             >
               <Logo />
-              <span className="text-md font-semibold text-foreground-50 mr-6">UI Lab</span>
+              <span className="text-md font-semibold text-foreground-50 mr-8">UI Lab</span>
             </Link>
             {/* Desktop navigation */}
-            <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
+            <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center space-x-2 lg:space-x-4">
               {navigationData.map((item) => {
                 if (item.name === "tools") {
                   return (
