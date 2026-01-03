@@ -123,3 +123,13 @@ export type { ScrollAreaProps } from "./components/ScrollArea";
 
 export { Table } from "./components/Table";
 export type { TableProps, Column } from "./components/Table";
+
+export { List } from "./components/List";
+export type {
+  ListContainerProps,
+  ListHeaderProps,
+  ListItemProps,
+  ListActionGroupProps,
+  ListDividerProps,
+  ListFooterProps,
+} from "./components/List";

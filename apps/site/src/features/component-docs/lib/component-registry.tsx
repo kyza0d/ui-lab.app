@@ -32,6 +32,7 @@ import { tableDetail } from "ui-lab-registry/components/Table";
 import { tabsDetail } from "ui-lab-registry/components/Tabs";
 import { textareaDetail } from "ui-lab-registry/components/Textarea";
 import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
+import { listDetail } from "ui-lab-registry/components/List";
 
 import { Group } from "ui-lab-components";
 import { Flex } from "ui-lab-components";
@@ -58,12 +59,13 @@ import { Progress } from "ui-lab-components";
 import { Divider } from "ui-lab-components";
 import { Fold } from "ui-lab-components";
 import { Gallery } from "ui-lab-components";
+import { List } from "ui-lab-components";
 import { Frame } from "@/components/Frame";
 import Example1, { metadata as metadata1 } from "@/components/Frame/examples/01-default-frame";
 import examplesJson from "@/components/Frame/examples/examples.json";
 import { ScrollArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
-import { FaBell, FaCircleQuestion, FaComputerMouse, FaFile, FaImage, FaInfo, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
+import { FaBell, FaCircleQuestion, FaComputerMouse, FaFile, FaImage, FaInfo, FaList, FaRectangleList, FaWindowRestore } from "react-icons/fa6";
 import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
@@ -304,6 +306,11 @@ const previews: Record<string, React.ReactNode> = {
       </div>
     </ScrollArea>
   ),
+  list: (
+    <div className="flex items-center justify-center h-22">
+      <FaList className="w-9 h-9 text-accent-500" aria-label="Page document" />
+    </div>
+  ),
 };
 export const componentRegistry: ComponentMetadata[] = [
   ...Object.entries(registryData).map(
@@ -354,7 +361,7 @@ export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
 });
 const componentOrder: Record<ComponentCategory, string[]> = {
   layout: ['grid', 'flex', 'gallery', 'divider', 'fold'],
-  composition: ['form', 'group'],
+  composition: ['form', 'group', 'list'],
   action: ['button', 'confirm'],
   input: ['checkbox', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
   information: ['badge', 'label', 'tooltip'],
@@ -449,10 +456,12 @@ const componentDetails: Record<string, ComponentDetail> = {
   gallery: galleryDetail,
   frame: frameDetail,
   scrollarea: scrollareaDetail,
+  list: listDetail,
 };
 export const getComponentById = cache((id: string): ComponentDetail | undefined => {
   return componentDetails[id];
 });
+
 export const getComponentMetadata = cache((id: string): ComponentMetadata | undefined => {
   return componentRegistry.find((component) => component.id === id);
 });
