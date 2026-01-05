@@ -38,19 +38,24 @@ export function GalleryItemWithPrefetch({
         key={id}
         href={href}
         className='group hover:bg-background-900/50'
+        orientation='horizontal'
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onClick={() => onPress(href)}
       >
         <Gallery.View
-          style={{ aspectRatio: 'auto' }}
-          className="px-4 flex bg-transparent items-center justify-center min-h-40 group-hover:border-background-600 border-b border-background-700 gallery-preview"
+          className="min-w-60 flex items-center justify-center relative bg-transparent min-h-40 group-hover:border-background-600 border-r border-background-700"
         >
-          {preview}
+          <div className='w-full px-4 gap-2 flex items-center justify-center'>
+            {preview}
+          </div>
+          <div className='absolute top-0 left-0 w-full h-full'>
+            <div className='hidden grid-paper' />
+          </div>
         </Gallery.View>
 
         <Gallery.Body>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <h4>{name}</h4>
             {experimental && (
               <span className="inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded">
@@ -58,7 +63,7 @@ export function GalleryItemWithPrefetch({
               </span>
             )}
           </div>
-          <p className="text-sm text-foreground-400 line-clamp-2">
+          <p className="text-sm">
             {description}
           </p>
         </Gallery.Body>

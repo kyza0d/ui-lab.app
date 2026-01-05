@@ -95,7 +95,7 @@ export default function ElementsPage() {
   return (
     <div className='pt-60'>
       <BreadcrumbsNav />
-      <div className="max-w-4xl w-full bg-background-950 mx-auto pb-12">
+      <div className="w-full bg-background-950 mx-auto pb-12">
         <div className="space-y-4 mb-12">
           <h2 className="text-4xl font-bold text-foreground-50">Elements</h2>
           <p className="text-foreground-400 max-w-2xl">

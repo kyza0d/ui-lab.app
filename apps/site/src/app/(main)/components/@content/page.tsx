@@ -36,7 +36,7 @@ export default function ComponentsPage() {
     <div>
       {/* Breadcrumbs */}
       <BreadcrumbsNav />
-      <div className="w-full bg-background-950 mx-auto max-w-4xl pt-48 pb-12">
+      <div className="w-full px-4 bg-background-950 pt-48 pb-12">
         <main className="w-full">
           <div>
             {/* Page Header */}
@@ -69,7 +69,7 @@ export default function ComponentsPage() {
                     </div>
                     <Divider className="mb-8 mt-4" />
                     {/* Components Grid */}
-                    <Gallery columns={{ base: 1, md: 2, lg: 3 }}>
+                    <Gallery columns={{ md: 1, lg: 2 }}>
                       {componentsInCategory.map((component) => (
                         <GalleryItemWithPrefetch
                           key={component.id}

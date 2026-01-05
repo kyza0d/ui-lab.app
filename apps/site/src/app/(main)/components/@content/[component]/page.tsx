@@ -1,4 +1,4 @@
-import { ComponentDetailClient } from "./client";
+import { ComponentClient } from "./client";
 import { cacheLife } from "next/cache";
 
 const componentIds = [
@@ -22,5 +22,5 @@ export default async function ComponentDetailPage({
   cacheLife('hours');
 
   const { component: componentId } = await params;
-  return <ComponentDetailClient componentId={componentId} />;
+  return <ComponentClient componentId={componentId} />;
 }
