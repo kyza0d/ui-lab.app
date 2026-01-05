@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Card } from "../Card";
 import { Badge } from "../Badge";
-import styles from "./CommandPalette.module.css";
+import styles from "./Command.module.css";
 
 export interface Command {
   id: string;
@@ -279,10 +279,10 @@ function CommandList({
 }
 
 /**
- * Command Palette component that provides keyboard-accessible command execution
+ * Command component that provides keyboard-accessible command execution
  * with search, categories, and keyboard navigation using react-aria hooks.
  */
-const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
+const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
   (
     {
       open = false,
@@ -553,6 +553,7 @@ const CommandPalette = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
   },
 );
 
-CommandPalette.displayName = "CommandPalette";
+Command.displayName = "Command";
 
-export { CommandPalette };
+export { Command };
+export { Command as CommandPalette };

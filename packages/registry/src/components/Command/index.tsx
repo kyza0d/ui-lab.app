@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { CommandPalette, Button } from 'ui-lab-components';
+import { Command, Button, type Command as CommandType } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaKeyboard } from 'react-icons/fa6';
-import Example1, { metadata as metadata1 } from './examples/01-basic-command-palette.js';
+import Example1, { metadata as metadata1 } from './examples/01-basic-command.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 export function getPreview(): React.ReactNode {
   return (
     <div className="flex items-center justify-center h-22">
-      <FaKeyboard className="w-9 h-9 text-accent-500" aria-label="Command palette" />
+      <FaKeyboard className="w-9 h-9 text-background-700" aria-label="Command" />
     </div>
   );
 }
 
 const examplesData = [
-  { id: '01-basic-command-palette', Component: Example1, metadata: metadata1 },
+  { id: '01-basic-command', Component: Example1, metadata: metadata1 },
 ];
 
-const commandPaletteControls: ControlDef[] = [
+const commandControls: ControlDef[] = [
   {
     name: 'open',
     label: 'Open',
@@ -27,7 +27,7 @@ const commandPaletteControls: ControlDef[] = [
   },
 ];
 
-const commandPaletteBasicCode = `import { CommandPalette, Button } from "ui-lab-components";
+const commandBasicCode = `import { Command, Button } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -55,7 +55,7 @@ export function Example() {
       <Button onClick={() => setOpen(true)}>
         Open Palette
       </Button>
-      <CommandPalette
+      <Command
         open={open}
         onOpenChange={setOpen}
         commands={commands}
@@ -64,7 +64,7 @@ export function Example() {
   );
 }`;
 
-const CommandPalettePreview = () => {
+const CommandPreview = () => {
   const [open, setOpen] = useState(false);
   const commands = [
     {
@@ -85,12 +85,12 @@ const CommandPalettePreview = () => {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Palette</Button>
-      <CommandPalette open={open} onOpenChange={setOpen} commands={commands} />
+      <Command open={open} onOpenChange={setOpen} commands={commands} />
     </>
   );
 };
 
-const CommandPaletteRenderPreview = (props: any) => {
+const CommandRenderPreview = (props: any) => {
   const [open, setOpen] = useState(props.open ?? false);
   const commands = [
     {
@@ -111,7 +111,7 @@ const CommandPaletteRenderPreview = (props: any) => {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Palette</Button>
-      <CommandPalette
+      <Command
         open={open}
         onOpenChange={(value) => {
           setOpen(value);
@@ -123,8 +123,8 @@ const CommandPaletteRenderPreview = (props: any) => {
   );
 };
 
-export const commandPaletteDetail: ComponentDetail = {
-  id: 'command-palette',
+export const commandDetail: ComponentDetail = {
+  id: 'command',
   name: 'Command',
   description: 'A searchable command palette for quick access to actions.',
   overview: (
@@ -142,10 +142,10 @@ export const commandPaletteDetail: ComponentDetail = {
       id: 'preview',
       title: 'Preview',
       description: 'Adjust props to customize the component',
-      code: commandPaletteBasicCode,
-      preview: <CommandPalettePreview />,
-      controls: commandPaletteControls,
-      renderPreview: CommandPaletteRenderPreview,
+      code: commandBasicCode,
+      preview: <CommandPreview />,
+      controls: commandControls,
+      renderPreview: CommandRenderPreview,
     },
     ...loadComponentExamples(examplesData, examplesJson),
   ],
@@ -153,12 +153,12 @@ export const commandPaletteDetail: ComponentDetail = {
     {
       id: 'default',
       name: 'Default',
-      description: 'Basic command palette with search functionality.',
-      code: commandPaletteBasicCode,
-      preview: <CommandPalettePreview />,
+      description: 'Basic command with search functionality.',
+      code: commandBasicCode,
+      preview: <CommandPreview />,
     },
   ],
 };
 
-export { commandPaletteControls };
+export { commandControls };
 export * from './examples';

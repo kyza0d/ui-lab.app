@@ -10,7 +10,7 @@ export const sourceUrls: Record<string, string> = {
   "button": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Button",
   "card": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Card",
   "checkbox": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Checkbox",
-  "command-palette": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Command-Palette",
+  "command": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/CommandPalette",
   "confirmation": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Confirmation",
   "divider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Divider",
   "flex": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Flex",

@@ -92,8 +92,8 @@ export * as Slider from "./components/Slider";
 export { Divider, dividerVariants } from "./components/Divider";
 export type { DividerProps } from "./components/Divider";
 
-export { CommandPalette } from "./components/CommandPalette";
-export type { CommandPaletteProps, Command } from "./components/CommandPalette";
+export { Command, Command as CommandPalette } from "./components/Command";
+export type { CommandPaletteProps, Command as CommandType } from "./components/Command";
 
 export { Confirmation } from "./components/Confirmation";
 export type { ConfirmationProps } from "./components/Confirmation";

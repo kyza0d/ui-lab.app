@@ -10,7 +10,7 @@ export const componentDependencies: Record<string, ComponentDeps> = {
   'button': { npm: [], internal: [] },
   'card': { npm: [], internal: [] },
   'checkbox': { npm: [], internal: ['label'] },
-  'command-palette': { npm: ['cmdk'], internal: ['card', 'badge', 'divider'] },
+  'command': { npm: ['cmdk'], internal: ['card', 'badge', 'divider'] },
   'confirm': { npm: [], internal: ['modal', 'button', 'card'] },
   'divider': { npm: [], internal: [] },
   'flex': { npm: [], internal: [] },

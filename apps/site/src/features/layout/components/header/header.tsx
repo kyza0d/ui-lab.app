@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
 import { Logo } from "@/shared";
-import { Input, Tabs, TabsList, TabsTrigger, CommandPalette, Select, SelectListBox } from "ui-lab-components";
+import { Input, Tabs, TabsList, TabsTrigger, Command, Select, SelectListBox } from "ui-lab-components";
 import { ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from "@/features/elements";
 import { useApp } from "@/features/theme";
 import { cn } from "@/shared";
@@ -27,7 +27,7 @@ import {
 } from "react-icons/fa6";
 import { HiX } from "react-icons/hi";
 import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, getHeaderHeight } from "@/shared";
-import { type Command } from "ui-lab-components";
+import { type Command as CommandType } from "ui-lab-components";
 
 import { useElementsSearch } from "./elements-search";
 import { ToolsDropdown } from "./tools-dropdown";
@@ -353,7 +353,7 @@ export default function Header({
         </div>
       </header>
 
-      <CommandPalette
+      <Command
         open={isCommandPaletteOpen}
         onOpenChange={setIsCommandPaletteOpen}
         commands={commands}

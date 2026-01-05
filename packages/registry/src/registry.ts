@@ -158,8 +158,8 @@ export const componentRegistry: ComponentRegistry = {
 ],
   },
 
-  "command-palette": {
-    id: "command-palette",
+  command: {
+    id: "command",
     name: "Command",
     description: "A searchable command palette for quick access to actions.",
     category: "action",

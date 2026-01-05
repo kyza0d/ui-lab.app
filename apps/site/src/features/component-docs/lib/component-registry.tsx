@@ -23,7 +23,7 @@ import { popoverDetail, getPreview as getPopoverPreview } from "ui-lab-registry/
 import { confirmDetail, getPreview as getConfirmPreview } from "ui-lab-registry/components/Confirm";
 import { progressDetail, getPreview as getProgressPreview } from "ui-lab-registry/components/Progress";
 import { radioDetail, getPreview as getRadioPreview } from "ui-lab-registry/components/Radio";
-import { commandPaletteDetail, getPreview as getCommandPalettePreview } from "ui-lab-registry/components/CommandPalette";
+import { commandDetail, getPreview as getCommandPreview } from "ui-lab-registry/components/Command";
 import { scrollareaDetail, getPreview as getScrollAreaPreview } from "ui-lab-registry/components/ScrollArea";
 import { selectDetail, getPreview as getSelectPreview } from "ui-lab-registry/components/Select";
 import { sliderDetail, getPreview as getSliderPreview } from "ui-lab-registry/components/Slider";
@@ -38,6 +38,12 @@ import { Frame } from "@/components/Frame";
 import Example1, {
   metadata as metadata1,
 } from "@/components/Frame/examples/01-default-frame";
+import Example2, {
+  metadata as metadata2,
+} from "@/components/Frame/examples/02-tooltip-example";
+import Example3, {
+  metadata as metadata3,
+} from "@/components/Frame/examples/03-sidebar-tab";
 import examplesJson from "@/components/Frame/examples/examples.json";
 import { ComponentDetail } from "@/types/component";
 import { FaFile } from "react-icons/fa6";
@@ -84,7 +90,7 @@ const previews: Record<string, React.ReactNode> = {
   slider: getSliderPreview(),
   progress: getProgressPreview(),
   card: getCardPreview(),
-  "command-palette": getCommandPalettePreview(),
+  command: getCommandPreview(),
   confirm: getConfirmPreview(),
   divider: getDividerPreview(),
   fold: getFoldPreview(),
@@ -177,6 +183,8 @@ export const getComponentsInCategoryOrder = cache(
 );
 const frameExamplesData = [
   { id: "01-default-frame", Component: Example1, metadata: metadata1 },
+  { id: "02-tooltip-example", Component: Example2, metadata: metadata1 },
+  { id: "03-sidebar-tab", Component: Example3, metadata: metadata1 },
 ];
 
 const frameBasicCode = `import { Frame } from "@/components/Frame";
@@ -256,7 +264,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   menu: menuDetail,
   switch: switchDetail,
   card: cardDetail,
-  "command-palette": commandPaletteDetail,
+  command: commandDetail,
   confirm: confirmDetail,
   divider: dividerDetail,
   fold: foldDetail,
