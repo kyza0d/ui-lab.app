@@ -21,7 +21,7 @@ import {
   type GlobalColorAdjustments,
   oklchToCss,
 } from "../../lib/color-utils";
-import { getScaleName } from "@/shared/lib/config-generator";
+
 import { useThemeStorage } from "../../hooks/use-theme-storage";
 import {
   getSemanticColorSafely,
@@ -41,13 +41,13 @@ type ConfigTab = "colors" | "typography" | "layout";
 
 interface ColorRowProps {
   type:
-  | "background"
-  | "foreground"
-  | "accent"
-  | "success"
-  | "danger"
-  | "warning"
-  | "info";
+    | "background"
+    | "foreground"
+    | "accent"
+    | "success"
+    | "danger"
+    | "warning"
+    | "info";
   color: OklchColor;
   isExpanded: boolean;
   onToggle: () => void;
@@ -78,12 +78,6 @@ interface SliderControlProps {
   onChange: (value: number) => void;
 }
 
-interface TypeScaleSliderProps {
-  value?: number;
-  onChange: (ratio: number) => void;
-  fontSizeScale: number;
-}
-
 interface ColorPickerProps {
   color: OklchColor;
   onChange: (color: OklchColor) => void;
@@ -91,8 +85,10 @@ interface ColorPickerProps {
   type: string;
 }
 
-const MICRO_LABEL = "text-[14px] font-semibold text-foreground-500";
-const VALUE_LABEL = "text-[12px] text-foreground-300";
+// Use text-sm (15px static) for labels and text-xs (14px static) for values
+// These sizes are now enforced at the CSS level with minimum constraints
+const MICRO_LABEL = "text-sm font-semibold text-foreground-500";
+const VALUE_LABEL = "text-xs text-foreground-300";
 
 export const SettingsContent = () => {
   const {
@@ -190,7 +186,7 @@ export const SettingsContent = () => {
         light: { color: newColor, chromaLimit: 0.25 },
         dark: { color: newColor, chromaLimit: 0.25 },
       };
-      const modeKey = currentThemeMode as 'light' | 'dark';
+      const modeKey = currentThemeMode as "light" | "dark";
       semantic[semanticType] = {
         ...existing,
         [modeKey]: {
@@ -216,7 +212,7 @@ export const SettingsContent = () => {
     >;
     const existing = semantic[type];
     if (existing) {
-      const modeKey = currentThemeMode as 'light' | 'dark';
+      const modeKey = currentThemeMode as "light" | "dark";
       semantic[type] = {
         ...existing,
         [modeKey]: { ...existing[modeKey], chromaLimit },
@@ -237,21 +233,21 @@ export const SettingsContent = () => {
         >
           <TabsList className="h-[44px] border-none -mb-0.5">
             <TabsTrigger
-              className="text-[14px] w-[100px]"
+              className="text-sm w-[100px]"
               value="colors"
               icon={<FaBrush size={14} />}
             >
               Theme
             </TabsTrigger>
             <TabsTrigger
-              className="text-[14px] w-[100px]"
+              className="text-sm w-[100px]"
               value="typography"
               icon={<FaFont size={14} />}
             >
               Type
             </TabsTrigger>
             <TabsTrigger
-              className="text-[14px] w-[100px]"
+              className="text-sm w-[100px]"
               value="layout"
               icon={<FaRulerCombined size={14} />}
             >
@@ -372,33 +368,7 @@ export const SettingsContent = () => {
           </TabsContent>
 
           <TabsContent value="typography" className="px-[6px] m-0 space-y-2">
-            <TypeScaleSlider
-              value={typeSizeRatio}
-              onChange={(ratio) =>
-                applyAndPersistTypography({
-                  fontSizeScale,
-                  fontWeightScale,
-                  typeSizeRatio: ratio,
-                })
-              }
-              fontSizeScale={fontSizeScale}
-            />
             <div className="px-4 space-y-3 pt-2">
-              <SliderControl
-                label="Global Scale"
-                value={fontSizeScale}
-                min={0.85}
-                max={1.15}
-                step={0.05}
-                unit="x"
-                onChange={(scale) =>
-                  applyAndPersistTypography({
-                    fontSizeScale: scale,
-                    fontWeightScale,
-                    typeSizeRatio,
-                  })
-                }
-              />
               <SliderControl
                 label="Weight Multiplier"
                 value={fontWeightScale}
@@ -470,7 +440,7 @@ export const SettingsContent = () => {
       <div className="border-t border-background-700 px-[8px] py-[6px] bg-background-800/50 flex items-center justify-between shrink-0">
         <Link
           href="/config"
-          className="ml-auto inline-flex cursor-pointer items-center justify-center rounded-lg text-[14px] px-[10px] py-[5px] border border-background-600 bg-background-700 text-foreground-300 hover:text-foreground-50 hover:bg-background-600 active:bg-accent-400 gap-2"
+          className="ml-auto inline-flex cursor-pointer items-center justify-center rounded-lg text-sm px-[10px] py-[5px] border border-background-600 bg-background-700 text-foreground-300 hover:text-foreground-50 hover:bg-background-600 active:bg-accent-400 gap-2"
         >
           <FaGear className="mr-2" />
           Configuration
@@ -517,13 +487,13 @@ const ColorRow = memo(
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <div className="text-[14px] font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
+              <div className="text-sm font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
                 {type}
               </div>
             </div>
 
             <div
-              className={`mr-3 text-foreground-500 text-[10px] transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+              className={`mr-3 text-foreground-500 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
             >
               <FaChevronDown size={13} />
             </div>
@@ -554,7 +524,7 @@ const SliderControl = memo(
     return (
       <div className="space-y-2 group">
         <div className="flex justify-between items-end">
-          <label className="text-[14px] font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
+          <label className="text-sm font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
             {label}
           </label>
           <span
@@ -591,11 +561,11 @@ const GlobalSlider = memo(
     return (
       <div className="space-y-1.5 group">
         <div className="flex justify-between items-center">
-          <label className="text-[12px] font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
+          <label className="text-xs font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
             {label}
           </label>
           <span
-            className={`text-[11px] px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-500" : "text-accent-400 bg-accent-900/30"}`}
+            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-500" : "text-accent-400 bg-accent-900/30"}`}
           >
             {formatValue(value)}
           </span>
@@ -608,41 +578,6 @@ const GlobalSlider = memo(
           step={step}
           size="sm"
         />
-      </div>
-    );
-  },
-);
-
-const TypeScaleSlider = memo(
-  ({ value, onChange, fontSizeScale }: TypeScaleSliderProps) => {
-    const ratio = value ?? 1.2;
-    const scaleName = getScaleName(ratio);
-
-    return (
-      <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3 mx-[6px] mt-2">
-        <div className="flex justify-between items-start px-4 pt-2">
-          <label className="text-[14px] font-medium text-foreground-400">
-            Type Scale
-          </label>
-          <div className="flex flex-col items-end text-right">
-            <span className="text-[14px] font-semibold text-foreground-100">
-              {scaleName}
-            </span>
-            <span className={`${VALUE_LABEL} text-foreground-500`}>
-              {ratio.toFixed(3)}
-            </span>
-          </div>
-        </div>
-        <div className="px-4 py-2 border-t border-background-700">
-          <Slider.Root
-            value={[ratio]}
-            onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
-            min={1.067}
-            max={1.2}
-            step={0.001}
-            size="md"
-          />
-        </div>
       </div>
     );
   },
@@ -686,7 +621,8 @@ const ColorPicker = memo(
             <button
               key={i}
               onClick={() => onChange({ ...color, h })}
-              className="relative h-10 rounded-[4px] transition-all hover:scale-105 active:scale-95 flex items-center justify-center" style={{ backgroundColor: displayColor }}
+              className="relative h-10 rounded-[4px] transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
+              style={{ backgroundColor: displayColor }}
             >
               {isSelected && (
                 <FaCheck

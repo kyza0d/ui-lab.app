@@ -22,7 +22,7 @@ const DEFAULT_COLORS: SimpleThemeColors = {
   accent: { h: 210, c: 0.15, l: 0.5 },
 };
 const DEFAULT_TYPOGRAPHY: TypographyConfig = { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2 };
-const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.5, borderWidth: 2, spacingScale: 0.90 };
+const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.5, borderWidth: 2, spacingScale: 0.9 };
 
 function buildConfig(source: ThemeSourceConfig | null, mode: "light" | "dark"): ThemeConfig {
   return {

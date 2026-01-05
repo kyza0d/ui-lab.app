@@ -9,6 +9,7 @@ export const navigationData = [
   { name: "documentation", label: "Documentation", isDropdown: true },
   { name: "components", label: "Components" },
   { name: "elements", label: "Elements" },
+  { name: "development", label: "Development" },
   // { name: "marketplace", label: "Marketplace" },
   { name: "tools", label: "Tools", isDropdown: true },
 ] as const;

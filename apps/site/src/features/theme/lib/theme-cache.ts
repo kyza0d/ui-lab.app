@@ -49,7 +49,7 @@ function getDefaultSourceConfig(mode: "light" | "dark"): ThemeSourceConfig {
       accent: { h: 210, c: 0.15, l: 0.5 },
     },
     typography: { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2 },
-    layout: { radius: 0.2, borderWidth: 1, spacingScale: 1 },
+    layout: { radius: 0.5, borderWidth: 2, spacingScale: 0.9 },
     mode,
   };
 }
