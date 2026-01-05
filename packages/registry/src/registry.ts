@@ -24,6 +24,11 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Anchor with Rich Preview",
         "description": "Anchor component displaying a richer preview content on hover.",
         "code": "import React from 'react';\nimport { Anchor } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"space-y-4\">\n      <p>\n        This is a paragraph with an{' '}\n        <Anchor>\n          React documentation\n          <Anchor.Preview>\n            <div className=\"space-y-2 max-w-xs\">\n              <div className=\"font-semibold\">React Documentation</div>\n              <p className=\"text-xs opacity-90\">\n                Learn about React's component model and hooks for building interactive user interfaces.\n              </p>\n            </div>\n          </Anchor.Preview>\n        </Anchor>\n        {' '}link embedded in the text.\n      </p>\n    </div>\n  );\n}"
+    },
+    {
+        "title": "Anchor Underline Variations",
+        "description": "Customizing the anchor underline style using the Anchor.Underline compound component.",
+        "code": "import React from 'react';\nimport { Anchor } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"flex flex-col gap-6 items-start\">\n      <div className=\"space-y-2\">\n        <h4 className=\"text-sm font-medium text-foreground-300\">Solid (Default)</h4>\n        <Anchor>\n          Solid Underline\n          <Anchor.Underline variant=\"solid\" />\n          <Anchor.Preview>\n            <div className=\"text-sm\">Default solid underline</div>\n          </Anchor.Preview>\n        </Anchor>\n      </div>\n\n      <div className=\"space-y-2\">\n        <h4 className=\"text-sm font-medium text-foreground-300\">Dashed</h4>\n        <Anchor>\n          Dashed Underline\n          <Anchor.Underline variant=\"dashed\" />\n          <Anchor.Preview>\n            <div className=\"text-sm\">Dashed underline variant</div>\n          </Anchor.Preview>\n        </Anchor>\n      </div>\n\n      <div className=\"space-y-2\">\n        <h4 className=\"text-sm font-medium text-foreground-300\">Dotted</h4>\n        <Anchor>\n          Dotted Underline\n          <Anchor.Underline variant=\"dotted\" />\n          <Anchor.Preview>\n            <div className=\"text-sm\">Dotted underline variant</div>\n          </Anchor.Preview>\n        </Anchor>\n      </div>\n      \n       <div className=\"space-y-2\">\n        <h4 className=\"text-sm font-medium text-foreground-300\">Custom Color</h4>\n        <Anchor>\n          Colored Underline\n          <Anchor.Underline style={{ background: '#3b82f6' }} />\n          <Anchor.Preview>\n            <div className=\"text-sm\">Underline with custom inline style</div>\n          </Anchor.Preview>\n        </Anchor>\n      </div>\n    </div>\n  );\n}"
     }
 ],
   },
@@ -269,28 +274,6 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Basic Fold",
         "description": "An expandable/collapsible disclosure component. Use this to show and hide content sections while maintaining accessibility and keyboard support.",
         "code": "import React from 'react';\nimport { Fold } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Fold title=\"What is a Fold component?\">\n      <p className=\"text-foreground-300\">\n        A Fold component is a disclosure widget that expands and collapses content.\n        It's built with React Aria for full accessibility support.\n      </p>\n    </Fold>\n  );\n}"
-    }
-],
-  },
-
-  form: {
-    id: "form",
-    name: "Form",
-    description: "A Form component for organizing form elements.",
-    category: "composition",
-    source: {
-  "packageName": "ui-lab-components",
-  "exportName": "Form",
-  "packagePath": "dist/index.d.ts"
-},
-    relatedComponents: ["input","button","label"],
-    tags: ["form","composition","layout"],
-    accessibility: {"hasAriaSupport":true,"notes":["Semantic form structure","Proper grouping of elements"]},
-    examples: [
-    {
-        "title": "Basic Form",
-        "description": "A simple form with input fields and submit button. Use this as the standard form container in your interface.",
-        "code": "import React from 'react';\nimport { Form, FormField } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Form\n      initialValues={{ name: '', email: '' }}\n      onSubmit={(values) => {\n        console.log('Form submitted:', values);\n      }}\n    >\n      <FormField name=\"name\" label=\"Name\" required>\n        {(context) => (\n          <input\n            type=\"text\"\n            value={context.values.name || ''}\n            onChange={(e) => context.setFieldValue('name', e.target.value)}\n            onBlur={() => context.setFieldTouched('name')}\n          />\n        )}\n      </FormField>\n      <FormField name=\"email\" label=\"Email\" required>\n        {(context) => (\n          <input\n            type=\"email\"\n            value={context.values.email || ''}\n            onChange={(e) => context.setFieldValue('email', e.target.value)}\n            onBlur={() => context.setFieldTouched('email')}\n          />\n        )}\n      </FormField>\n      <button type=\"submit\">Submit</button>\n    </Form>\n  );\n}"
     }
 ],
   },
