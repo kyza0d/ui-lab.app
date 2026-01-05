@@ -41,7 +41,7 @@ export default function AIIntegrationPage() {
             <p className="text-foreground-300">
               This allows AI assistants to generate code that follows UI Lab conventions and best practices without needing to reverse-engineer from examples.
             </p>
-          </button>
+          </div>
 
           <div className="border-t border-background-700 my-16"></div>
 

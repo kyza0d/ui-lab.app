@@ -9,7 +9,7 @@ export function getPreview(): React.ReactNode {
   return (
     <div className="flex items-center gap-3">
       <div style={{ backgroundColor: "var(--background-700)" }} className='w-5 h-5 flex items-center justify-center rounded-full border border-background-600'>
-        <div style={{ background: "var(--background-500)", width: 8, height: 8, margin: "-1px 1px 0 0" }} className='rounded-full' />
+        <div style={{ background: "var(--background-500)", width: 8, height: 8, margin: "0px 1px 0 0" }} className='rounded-full' />
       </div>
       <div style={{ width: 80, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
     </div >
