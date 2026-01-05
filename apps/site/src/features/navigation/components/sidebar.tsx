@@ -38,7 +38,7 @@ function getMainNav(activeNav?: MainNavItem): Array<{
   label: string;
 }> {
   const allItems: Array<{ id: MainNavItem; label: string }> = [
-    { id: "overview", label: "UI Lab Overview" },
+    { id: "overview", label: "Introduction" },
     { id: "design-system", label: "Design System" },
   ];
 
@@ -52,7 +52,7 @@ function getMainNav(activeNav?: MainNavItem): Array<{
 
   if (activeNav?.startsWith("cli")) {
     return [
-      { id: "cli-getting-started", label: "Getting Started" },
+      { id: "cli-getting-started", label: "Introduction" },
       { id: "cli-advanced", label: "Advanced" },
     ];
   }
@@ -287,69 +287,69 @@ export function Sidebar() {
       <div className="flex flex-col h-screen sticky top-(--header-height)">
         {/* Sticky Top Navigation */}
         {mainNav.length > 0 && (
-        <div className="z-10">
-          <nav className="py-3 px-2 space-y-1">
-            {mainNav.map((nav) => {
-              let href = "/components";
-              if (nav.id === "overview") href = "/docs";
-              else if (nav.id === "components-core") href = "/components";
-              else if (nav.id === "agents-mcps-introduction") href = "/agents-mcps";
-              else if (nav.id === "agents-mcps-workflows") href = "/agents-mcps/designing-ai-workflows";
-              else if (nav.id === "agents-mcps-references") href = "/agents-mcps/mcps-overview";
-              else if (nav.id === "cli-getting-started") href = "/cli";
-              else if (nav.id === "cli-advanced") href = "/cli/hooks";
-              else if (nav.id === "design-system") href = "/design-system";
+          <div className="z-10">
+            <nav className="py-3 px-2 space-y-1">
+              {mainNav.map((nav) => {
+                let href = "/components";
+                if (nav.id === "overview") href = "/docs";
+                else if (nav.id === "components-core") href = "/components";
+                else if (nav.id === "agents-mcps-introduction") href = "/agents-mcps";
+                else if (nav.id === "agents-mcps-workflows") href = "/agents-mcps/designing-ai-workflows";
+                else if (nav.id === "agents-mcps-references") href = "/agents-mcps/mcps-overview";
+                else if (nav.id === "cli-getting-started") href = "/cli";
+                else if (nav.id === "cli-advanced") href = "/cli/hooks";
+                else if (nav.id === "design-system") href = "/design-system";
 
-              const isActive = activeNav === nav.id;
+                const isActive = activeNav === nav.id;
 
-              const iconMap: Record<string, any> = {
-                "overview": FaPaperclip,
-                "components-core": FaShapes,
-                "agents-mcps-introduction": FaFlag,
-                "agents-mcps-workflows": FaArrowsSplitUpAndLeft,
-                "agents-mcps-references": FaBookOpen,
-                "cli-getting-started": FaTerminal,
-                "cli-advanced": FaTerminal,
-                "design-system": FaPaintbrush,
-              };
-              const Icon = iconMap[nav.id];
+                const iconMap: Record<string, any> = {
+                  "overview": FaPaperclip,
+                  "components-core": FaShapes,
+                  "agents-mcps-introduction": FaFlag,
+                  "agents-mcps-workflows": FaArrowsSplitUpAndLeft,
+                  "agents-mcps-references": FaBookOpen,
+                  "cli-getting-started": FaTerminal,
+                  "cli-advanced": FaTerminal,
+                  "design-system": FaPaintbrush,
+                };
+                const Icon = iconMap[nav.id];
 
-              return (
-                <Link
-                  key={nav.id}
-                  href={href}
-                  className={cn(
-                    "flex border items-center gap-3 pl-1 pr-2 py-0.5 text-sm font-medium rounded-md",
-                    isActive
-                      ? "border-background-700 text-foreground-50 bg-background-800/70"
-                      : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
-                  )}
-                >
-                  <div className={
-                    cn(
-                      "w-8 h-8 rounded-md flex items-center justify-center",
-                      isActive ? "text-foreground-50 "
-                        : "text-foreground-400 ")}
-                  >
-
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <span>{nav.label}</span>
-                  {nav.id === "components-core" && (
-                    <span className={cn(
-                      "ml-auto px-1 py-0.5 rounded-sm text-xs font-bold",
+                return (
+                  <Link
+                    key={nav.id}
+                    href={href}
+                    className={cn(
+                      "flex border items-center gap-3 pl-1 pr-2 py-0.5 text-sm font-medium rounded-md",
                       isActive
-                        ? "bg-accent-500/15 text-accent-400 border border-accent-500/20"
-                        : "border border-background-700 bg-background-800 text-foreground-300"
-                    )}>
-                      {getTotalComponentCount()}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+                        ? "border-background-700 text-foreground-50 bg-background-800/70"
+                        : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
+                    )}
+                  >
+                    <div className={
+                      cn(
+                        "w-8 h-8 rounded-md flex items-center justify-center",
+                        isActive ? "text-foreground-50 "
+                          : "text-foreground-400 ")}
+                    >
+
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span>{nav.label}</span>
+                    {nav.id === "components-core" && (
+                      <span className={cn(
+                        "ml-auto px-1 py-0.5 rounded-sm text-xs font-bold",
+                        isActive
+                          ? "bg-accent-500/15 text-accent-400 border border-accent-500/20"
+                          : "border border-background-700 bg-background-800 text-foreground-300"
+                      )}>
+                        {getTotalComponentCount()}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         )}
 
         {/* Scrollable Contextual Content */}

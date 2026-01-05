@@ -13,6 +13,7 @@ import {
 } from "./theme-cache";
 import { ensureSemanticColorIntegrity } from "./semantic-color-utils";
 import { type GlobalColorAdjustments } from "./color-utils";
+import { useThemeConfiguration } from "../hooks/use-theme-configuration";
 
 export interface AppContextType {
   isSettingsPanelOpen: boolean;
@@ -55,9 +56,9 @@ const defaultPreferences = {
   fontSizeScale: 1,
   fontWeightScale: 1,
   typeSizeRatio: 1.2,
-  radius: 0.2,
-  borderWidth: 1,
-  spacingScale: 1,
+  radius: 0.5,
+  borderWidth: 2,
+  spacingScale: 0.9,
   globalAdjustments: DEFAULT_GLOBAL_ADJUSTMENTS,
 };
 
@@ -86,6 +87,17 @@ function loadPreferencesFromStorage() {
     globalAdjustments:
       sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
   };
+}
+
+function ThemeConfigurationApplier() {
+  const { fontSizeScale, fontWeightScale, typeSizeRatio, radius, borderWidth, spacingScale } = useApp();
+
+  useThemeConfiguration({
+    typography: { fontSizeScale, fontWeightScale, typeSizeRatio },
+    layout: { radius, borderWidth, spacingScale },
+  });
+
+  return null;
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
@@ -218,7 +230,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     globalAdjustments
   ]);
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={value}>
+    <ThemeConfigurationApplier />
+    {children}
+  </AppContext.Provider>;
 }
 
 export function useApp() {
