@@ -18,16 +18,16 @@ import {
 } from "react-icons/fa6";
 
 const categoryIcons: Record<string, React.ReactNode> = {
-  input: <FaKeyboard className="inline-block w-full h-full" />,
-  information: <FaCircleInfo className="inline-block w-full h-full" />,
-  feedback: <FaBell className="inline-block w-full h-full" />,
-  navigation: <FaCompass className="inline-block w-full h-full" />,
-  container: <FaLayerGroup className="inline-block w-full h-full" />,
-  action: <FaHandPointer className="inline-block w-full h-full" />,
-  composition: <FaPuzzlePiece className="inline-block w-full h-full" />,
-  layout: <FaTableCells className="inline-block w-full h-full" />,
-  data: <FaChartBar className="inline-block w-full h-full" />,
-  experimental: <FaFlask className="inline-block w-full h-full" />,
+  input: <FaKeyboard className="inline-block w-5 h-5" />,
+  information: <FaCircleInfo className="inline-block w-5 h-5" />,
+  feedback: <FaBell className="inline-block w-5 h-5" />,
+  navigation: <FaCompass className="inline-block w-5 h-5" />,
+  container: <FaLayerGroup className="inline-block w-5 h-5" />,
+  action: <FaHandPointer className="inline-block w-5 h-5" />,
+  composition: <FaPuzzlePiece className="inline-block w-5 h-5" />,
+  layout: <FaTableCells className="inline-block w-5 h-5" />,
+  data: <FaChartBar className="inline-block w-5 h-5" />,
+  experimental: <FaFlask className="inline-block w-5 h-5" />,
 };
 
 export default function ComponentsPage() {
@@ -55,14 +55,14 @@ export default function ComponentsPage() {
                   <div key={category} className="space-y-4">
                     {/* Category Header */}
                     <div className="mb-4 flex items-center">
-                      <div className="w-20 h-20 p-7 mr-6 rounded-md bg-background-700/50 text-foreground-500 flex items-center justify-center">
-                        {categoryIcons[category]}
-                      </div>
                       <div>
                         <h4 className="text-2xl pt-2 font-semibold text-foreground-50 flex items-center">
+                          <div className="text-foreground-500 mr-4 mb-0.5">
+                            {categoryIcons[category]}
+                          </div>
                           {categoryMap[category].label}
                         </h4>
-                        <p className="text-sm w-[47ch] text-foreground-400 mt-2 flex items-start">
+                        <p className="text-sm w-[47ch] text-foreground-400 mt-3 flex items-start">
                           {categoryMap[category].description}
                         </p>
                       </div>

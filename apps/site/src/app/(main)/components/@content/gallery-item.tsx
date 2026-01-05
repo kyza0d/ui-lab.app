@@ -63,7 +63,7 @@ export function GalleryItemWithPrefetch({
               </span>
             )}
           </div>
-          <p className="text-sm">
+          <p className="text-foreground-400 text-sm">
             {description}
           </p>
         </Gallery.Body>

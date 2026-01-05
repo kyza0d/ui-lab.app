@@ -87,9 +87,8 @@ export default async function DocsPage() {
       <div className="flex flex-col lg:flex-row justify-between gap-0">
         <main className="w-full mx-auto max-w-2xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
           {/* Version badge */}
-          <div className="mb-8 flex items-center gap-4 text-foreground-400">
-            <span className="inline-flex items-center gap-2 rounded border border-background-700 px-2 py-0.5 text-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+          <div className="mb-8 flex items-center ml-4 gap-4 text-foreground-400">
+            <span className="inline-flex items-center gap-2 py-0.5 text-sm">
               v{packageMetadata.version}
             </span>
             <span>·</span>
