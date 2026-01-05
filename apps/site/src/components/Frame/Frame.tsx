@@ -1,91 +1,99 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
-import styles from "./Frame.module.css";
+import React, { useId } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/shared";
 
-export interface FrameProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-  variant?: "default" | "accent" | "subtle";
-  padding?: "none" | "small" | "medium" | "large";
-  pathBuilder?: (width: number, height: number) => string;
-  notchSize?: number;
+const frameVariants = cva("relative w-full group isolate", {
+  variants: {
+    variant: {
+      default: "text-zinc-500",
+      accent: "text-emerald-500",
+    },
+    padding: {
+      none: "p-0",
+      small: "p-2",
+      medium: "p-4",
+      large: "p-6",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    padding: "medium",
+  },
+});
+
+export interface FrameProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+  VariantProps<typeof frameVariants> {
+  path?: string;
+  pathWidth?: number;
 }
 
-const defaultPathBuilder = (width: number, height: number) => {
-  return `M 0,0 L ${width},0 L ${width},${height} L 0,${height} Z`;
-};
-
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
-  ({ children, variant = "default", padding = "medium", pathBuilder = defaultPathBuilder, notchSize = 0, className = "", style, ...props }, ref) => {
-    const internalRef = useRef<HTMLDivElement>(null);
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const path = React.useMemo(() => {
-      if (dimensions.width === 0 || dimensions.height === 0) return "";
-      return pathBuilder(dimensions.width, dimensions.height);
-    }, [pathBuilder, dimensions]);
+  ({ children, variant, padding, className, style, path, pathWidth = 0, ...props }, ref) => {
+    const maskId = useId();
 
-    useLayoutEffect(() => {
-      if (!internalRef.current) return;
-
-      const element = internalRef.current;
-
-      const measureElement = () => {
-        const width = element.offsetWidth || element.clientWidth;
-        const height = element.offsetHeight || element.clientHeight;
-        if (width > 0 && height > 0) {
-          setDimensions({ width, height });
-        }
-      };
-
-      measureElement();
-
-      const observer = new ResizeObserver((entries) => {
-        for (let entry of entries) {
-          const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
-          setDimensions({ width, height });
-        }
-      });
-
-      observer.observe(element);
-      return () => observer.disconnect();
-    }, []);
-
-    const frameClassName = [
-      styles.frame,
-      styles[`variant-${variant}`],
-      styles[`padding-${padding}`],
-      className
-    ].filter(Boolean).join(" ");
+    // Define stroke width here to easily calculate the inset
+    const borderStroke = 3;
+    const halfStroke = borderStroke / 2;
 
     return (
       <div
-        ref={internalRef}
-        className={frameClassName}
-        style={{ ...style, "--frame-notch-size": `${notchSize}px` } as React.CSSProperties}
+        ref={ref}
+        className={cn(frameVariants({ variant, padding }), className)}
+        style={{
+          maskImage: path ? `url(#${maskId})` : undefined,
+          WebkitMaskImage: path ? `url(#${maskId})` : undefined,
+          ...style,
+        }}
         {...props}
       >
-        {/* Background layer: Clipped to the path */}
-        <div
-          className={styles.background}
-          style={{ clipPath: path ? `path('${path}')` : undefined }}
-        />
-
-        {/* SVG Overlay: ViewBox is synced to exact container dimensions */}
         <svg
-          className={styles.svgOverlay}
-          viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-          preserveAspectRatio="none"
-          aria-hidden="true"
+          className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d={path}
-            className={styles.pathStroke}
-            vectorEffect="non-scaling-stroke"
+          <defs>
+            <mask id={maskId}>
+              <rect width="100%" height="100%" fill="white" rx="24" />
+              {path && (
+                <svg x="50%" y="0" overflow="visible">
+                  <path
+                    d={path}
+                    fill="black"
+                    transform={`translate(-${pathWidth / 2}, 0)`}
+                  />
+                </svg>
+              )}
+            </mask>
+          </defs>
+
+          <rect
+            x={halfStroke}
+            y={halfStroke}
+            width={`calc(100% - ${borderStroke}px)`}
+            height={`calc(100% - ${borderStroke}px)`}
+            rx="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={borderStroke}
+            mask={`url(#${maskId})`}
+            className="border-zinc-800"
           />
+
+          {/* Layer 2: The Notch Path Stroke */}
+          {path && (
+            <svg x="50%" y="0" overflow="visible">
+              <path
+                d={path}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="5.5"
+                transform={`translate(-${pathWidth / 2}, 0)`}
+              />
+            </svg>
+          )}
         </svg>
 
-        {/* Content layer: Z-indexed above the background and SVG */}
-        <div className={styles.content}>
-          {children}
-        </div>
+        <div className="relative z-10">{children}</div>
       </div>
     );
   }
