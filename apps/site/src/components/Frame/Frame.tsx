@@ -26,23 +26,38 @@ export interface FrameProps
   VariantProps<typeof frameVariants> {
   path?: string;
   pathWidth?: number;
+  side?: "top" | "bottom" | "left" | "right";
+  cornerRadius?: number;
+  fill?: string;
+  shapeMode?: "indent" | "extend";
 }
 
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
-  ({ children, variant, padding, className, style, path, pathWidth = 0, ...props }, ref) => {
+  ({ children, variant, padding, className, style, path, pathWidth = 0, side = "top", cornerRadius = 24, fill, shapeMode = "indent", ...props }, ref) => {
     const maskId = useId();
+    const borderMaskId = `border-${maskId}`;
+    const bgMaskId = `bg-${maskId}`;
 
     // Define stroke width here to easily calculate the inset
     const borderStroke = 3;
     const halfStroke = borderStroke / 2;
+
+    const positionMap = {
+      top: { x: "50%", y: "0", rotate: 0 },
+      bottom: { x: "50%", y: "100%", rotate: 180 },
+      left: { x: "0", y: "50%", rotate: -90 },
+      right: { x: "100%", y: "50%", rotate: 90 },
+    };
+
+    const { x, y, rotate } = positionMap[side];
 
     return (
       <div
         ref={ref}
         className={cn(frameVariants({ variant, padding }), className)}
         style={{
-          maskImage: path ? `url(#${maskId})` : undefined,
-          WebkitMaskImage: path ? `url(#${maskId})` : undefined,
+          maskImage: path && shapeMode === "indent" ? `url(#${maskId})` : undefined,
+          WebkitMaskImage: path && shapeMode === "indent" ? `url(#${maskId})` : undefined,
           ...style,
         }}
         {...props}
@@ -52,43 +67,95 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
+            {/* Mask for the Content/Background: Cuts the path shape (curvature) */}
             <mask id={maskId}>
-              <rect width="100%" height="100%" fill="white" rx="24" />
+              <rect width="100%" height="100%" fill="white" rx={cornerRadius} />
               {path && (
-                <svg x="50%" y="0" overflow="visible">
-                  <path
-                    d={path}
-                    fill="black"
-                    transform={`translate(-${pathWidth / 2}, 0)`}
-                  />
+                <svg x={x} y={y} overflow="visible">
+                  <g transform={`rotate(${rotate})`}>
+                    <path
+                      d={path}
+                      fill="black"
+                      transform={`translate(-${pathWidth / 2}, 0)`}
+                    />
+                  </g>
+                </svg>
+              )}
+            </mask>
+
+            {/* Mask for the Border: Cuts a clean gap for the stroke connection */}
+            <mask id={borderMaskId}>
+              <rect width="100%" height="100%" fill="white" rx={cornerRadius} />
+              {path && (
+                <svg x={x} y={y} overflow="visible">
+                  <g transform={`rotate(${rotate})`}>
+                    <rect
+                      x={-pathWidth / 2}
+                      y={-borderStroke * 2}
+                      width={pathWidth}
+                      height={borderStroke * 4}
+                      fill="black"
+                    />
+                  </g>
+                </svg>
+              )}
+            </mask>
+
+            {/* Mask for the Background Fill (Union or Difference) */}
+            <mask id={bgMaskId}>
+              <rect width="100%" height="100%" fill="white" rx={cornerRadius} />
+              {path && (
+                <svg x={x} y={y} overflow="visible">
+                  <g transform={`rotate(${rotate})`}>
+                    <path
+                      d={path}
+                      fill={shapeMode === "extend" ? "white" : "black"}
+                      transform={`translate(-${pathWidth / 2}, 0)`}
+                    />
+                  </g>
                 </svg>
               )}
             </mask>
           </defs>
 
+          {/* Background Fill Layer */}
+          {fill && (
+            <rect
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+              fill={fill}
+              mask={`url(#${bgMaskId})`}
+            />
+          )}
+
+          {/* Border Stroke Layer */}
           <rect
             x={halfStroke}
             y={halfStroke}
             width={`calc(100% - ${borderStroke}px)`}
             height={`calc(100% - ${borderStroke}px)`}
-            rx="24"
+            rx={cornerRadius}
             fill="none"
             stroke="currentColor"
             strokeWidth={borderStroke}
-            mask={`url(#${maskId})`}
+            mask={`url(#${borderMaskId})`}
             className="border-zinc-800"
           />
 
-          {/* Layer 2: The Notch Path Stroke */}
+          {/* Layer 2: The Notch/Tab Path Stroke */}
           {path && (
-            <svg x="50%" y="0" overflow="visible">
-              <path
-                d={path}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="5.5"
-                transform={`translate(-${pathWidth / 2}, 0)`}
-              />
+            <svg x={x} y={y} overflow="visible">
+              <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
+                <path
+                  d={path}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={borderStroke}
+                  transform={`translate(-${pathWidth / 2}, ${borderStroke / 2})`}
+                />
+              </g>
             </svg>
           )}
         </svg>
