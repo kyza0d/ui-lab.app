@@ -45,7 +45,6 @@
 
   .track {
     position: absolute;
-    cursor: pointer;
     z-index: 10;
     transition-property: opacity;
     transition-duration: 200ms;
@@ -71,17 +70,12 @@
     position: absolute;
     border-radius: var(--radius-md);
     background-color: var(--background-700);
-    cursor: grab;
     transition-property: background-color;
     transition-duration: 150ms;
   }
 
   .thumb:hover {
     background-color: var(--background-600);
-  }
-
-  .thumb:active {
-    cursor: grabbing;
   }
 
   .root[data-dragging="true"] .thumb {
