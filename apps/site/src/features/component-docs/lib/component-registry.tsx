@@ -2,82 +2,45 @@
 
 import { cache } from "react";
 import { Button } from "ui-lab-components";
-import { buttonDetail } from "ui-lab-registry/components/Button";
-import { anchorDetail } from "ui-lab-registry/components/Anchor";
-import { badgeDetail } from "ui-lab-registry/components/Badge";
-import { breadcrumbsDetail } from "ui-lab-registry/components/Breadcrumbs";
-import { cardDetail } from "ui-lab-registry/components/Card";
-import { checkboxDetail } from "ui-lab-registry/components/Checkbox";
-import { dividerDetail } from "ui-lab-registry/components/Divider";
-import { flexDetail } from "ui-lab-registry/components/Flex";
-import { foldDetail } from "ui-lab-registry/components/Fold";
-import { formDetail } from "ui-lab-registry/components/Form";
-import { galleryDetail } from "ui-lab-registry/components/Gallery";
-import { gridDetail } from "ui-lab-registry/components/Grid";
-import { groupDetail } from "ui-lab-registry/components/Group";
-import { inputDetail } from "ui-lab-registry/components/Input";
-import { labelDetail } from "ui-lab-registry/components/Label";
-import { menuDetail } from "ui-lab-registry/components/Menu";
-import { toastDetail } from "ui-lab-registry/components/Toast";
-import { modalDetail } from "ui-lab-registry/components/Modal";
-import { popoverDetail } from "ui-lab-registry/components/Popover";
-import { confirmDetail } from "ui-lab-registry/components/Confirm";
-import { progressDetail } from "ui-lab-registry/components/Progress";
-import { radioDetail } from "ui-lab-registry/components/Radio";
-import { commandPaletteDetail } from "ui-lab-registry/components/CommandPalette";
-import { scrollareaDetail } from "ui-lab-registry/components/ScrollArea";
-import { selectDetail } from "ui-lab-registry/components/Select";
-import { sliderDetail } from "ui-lab-registry/components/Slider";
-import { switchDetail } from "ui-lab-registry/components/Switch";
-import { tableDetail } from "ui-lab-registry/components/Table";
-import { tabsDetail } from "ui-lab-registry/components/Tabs";
-import { textareaDetail } from "ui-lab-registry/components/Textarea";
-import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
-import { listDetail } from "ui-lab-registry/components/List";
+import { buttonDetail, getPreview as getButtonPreview } from "ui-lab-registry/components/Button";
+import { anchorDetail, getPreview as getAnchorPreview } from "ui-lab-registry/components/Anchor";
+import { badgeDetail, getPreview as getBadgePreview } from "ui-lab-registry/components/Badge";
+import { breadcrumbsDetail, getPreview as getBreadcrumbsPreview } from "ui-lab-registry/components/Breadcrumbs";
+import { cardDetail, getPreview as getCardPreview } from "ui-lab-registry/components/Card";
+import { checkboxDetail, getPreview as getCheckboxPreview } from "ui-lab-registry/components/Checkbox";
+import { dividerDetail, getPreview as getDividerPreview } from "ui-lab-registry/components/Divider";
+import { flexDetail, getPreview as getFlexPreview } from "ui-lab-registry/components/Flex";
+import { foldDetail, getPreview as getFoldPreview } from "ui-lab-registry/components/Fold";
+import { galleryDetail, getPreview as getGalleryPreview } from "ui-lab-registry/components/Gallery";
+import { gridDetail, getPreview as getGridPreview } from "ui-lab-registry/components/Grid";
+import { groupDetail, getPreview as getGroupPreview } from "ui-lab-registry/components/Group";
+import { inputDetail, getPreview as getInputPreview } from "ui-lab-registry/components/Input";
+import { labelDetail, getPreview as getLabelPreview } from "ui-lab-registry/components/Label";
+import { menuDetail, getPreview as getMenuPreview } from "ui-lab-registry/components/Menu";
+import { toastDetail, getPreview as getToastPreview } from "ui-lab-registry/components/Toast";
+import { modalDetail, getPreview as getModalPreview } from "ui-lab-registry/components/Modal";
+import { popoverDetail, getPreview as getPopoverPreview } from "ui-lab-registry/components/Popover";
+import { confirmDetail, getPreview as getConfirmPreview } from "ui-lab-registry/components/Confirm";
+import { progressDetail, getPreview as getProgressPreview } from "ui-lab-registry/components/Progress";
+import { radioDetail, getPreview as getRadioPreview } from "ui-lab-registry/components/Radio";
+import { commandPaletteDetail, getPreview as getCommandPalettePreview } from "ui-lab-registry/components/CommandPalette";
+import { scrollareaDetail, getPreview as getScrollAreaPreview } from "ui-lab-registry/components/ScrollArea";
+import { selectDetail, getPreview as getSelectPreview } from "ui-lab-registry/components/Select";
+import { sliderDetail, getPreview as getSliderPreview } from "ui-lab-registry/components/Slider";
+import { switchDetail, getPreview as getSwitchPreview } from "ui-lab-registry/components/Switch";
+import { tableDetail, getPreview as getTablePreview } from "ui-lab-registry/components/Table";
+import { tabsDetail, getPreview as getTabsPreview } from "ui-lab-registry/components/Tabs";
+import { textareaDetail, getPreview as getTextareaPreview } from "ui-lab-registry/components/Textarea";
+import { tooltipDetail, getPreview as getTooltipPreview } from "ui-lab-registry/components/Tooltip";
+import { listDetail, getPreview as getListPreview } from "ui-lab-registry/components/List";
 
-import { Group } from "ui-lab-components";
-import { Flex } from "ui-lab-components";
-import { Grid } from "ui-lab-components";
-import { Table } from "ui-lab-components";
-import { Select, SelectListBox } from "ui-lab-components";
-import { Input } from "ui-lab-components";
-import { Label } from "ui-lab-components";
-import { TextArea } from "ui-lab-components";
-import { Checkbox } from "ui-lab-components";
-import { Radio } from "ui-lab-components";
-import { Badge } from "ui-lab-components";
-import { Anchor } from "ui-lab-components";
-import { Breadcrumbs, Breadcrumb } from "ui-lab-components";
-import { Tooltip } from "ui-lab-components";
-import { Popover } from "ui-lab-components";
-import { Slider } from "ui-lab-components";
-import { Tabs, TabsList, TabsTrigger } from "ui-lab-components";
-import { Menu } from "ui-lab-components";
-import { Switch } from "ui-lab-components";
-import { Progress } from "ui-lab-components";
-import { Divider } from "ui-lab-components";
-import { Fold } from "ui-lab-components";
-import { Gallery } from "ui-lab-components";
-import { List } from "ui-lab-components";
 import { Frame } from "@/components/Frame";
 import Example1, {
   metadata as metadata1,
 } from "@/components/Frame/examples/01-default-frame";
 import examplesJson from "@/components/Frame/examples/examples.json";
-import { ScrollArea } from "ui-lab-components";
 import { ComponentDetail } from "@/types/component";
-import {
-  FaBell,
-  FaCircleQuestion,
-  FaComputerMouse,
-  FaFile,
-  FaImage,
-  FaInfo,
-  FaList,
-  FaRectangleList,
-  FaWindowRestore,
-} from "react-icons/fa6";
-import { FaPencil, FaKeyboard, FaShieldHalved } from "react-icons/fa6";
+import { FaFile } from "react-icons/fa6";
 import {
   componentRegistry as registryData,
   getCategoriesInOrder,
@@ -97,299 +60,49 @@ export interface ComponentMetadata extends RegistryMetadata {
   experimental?: boolean;
 }
 const previews: Record<string, React.ReactNode> = {
-  button: (
-    <div className="flex flex-wrap gap-2">
-      <Button size="sm">Small</Button>
-    </div>
-  ),
-  group: (
-    <div className="flex flex-wrap gap-2">
-      <Group>
-        <Group.Button>Save</Group.Button>
-        <Group.Button variant="outline">Cancel</Group.Button>
-      </Group>
-    </div>
-  ),
-  flex: (
-    <Flex align="center" direction="column" gap="sm">
-      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
-        1
-      </div>
-      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
-        2
-      </div>
-      <div className="h-7 w-12 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
-        3
-      </div>
-    </Flex>
-  ),
-  grid: (
-    <Grid columns="3" gap="sm">
-      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
-        1
-      </div>
-      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
-        2
-      </div>
-      <div className="h-16 bg-background-800 rounded flex items-center justify-center text-foreground-300 text-sm font-medium">
-        3
-      </div>
-    </Grid>
-  ),
-  table: (
-    <div className="w-full overflow-hidden">
-      <Table
-        data={[{ name: "Alice", email: "alice@example.com" }]}
-        columns={[
-          { key: "name", label: "Name" },
-          { key: "email", label: "Email" },
-        ]}
-      />
-    </div>
-  ),
-  input: (
-    <div className="flex flex-col gap-2 max-w-sm">
-      <Input size="sm" placeholder="Small input" aria-label="Example input" />
-    </div>
-  ),
-  label: (
-    <div className="flex flex-col gap-4">
-      <Label aria-label="Example Label">Default Label</Label>
-    </div>
-  ),
-  textarea: (
-    <div className="flex flex-col gap-2 max-w-sm">
-      <TextArea
-        size="sm"
-        placeholder="Small textarea"
-        aria-label="Example textarea"
-      />
-    </div>
-  ),
-  select: (
-    <div className="flex items-center justify-center h-22">
-      <Select>
-        <Select.Trigger className="w-48">
-          <Select.Value placeholder="Select an option" />
-        </Select.Trigger>
-        <Select.Content>
-          <SelectListBox>
-            <Select.Item key="option1" value="option1">
-              Option 1
-            </Select.Item>
-            <Select.Item key="option2" value="option2">
-              Option 2
-            </Select.Item>
-            <Select.Item key="option3" value="option3">
-              Option 3
-            </Select.Item>
-          </SelectListBox>
-        </Select.Content>
-      </Select>
-    </div>
-  ),
-  switch: (
-    <div className="flex flex-col items-center gap-3">
-      <Switch aria-label="Menu Example" size="sm" defaultSelected={false} />
-      <Switch aria-label="Menu Example" size="sm" defaultSelected={true} />
-    </div>
-  ),
-  checkbox: (
-    <div className="flex flex-col gap-3">
-      <Checkbox aria-label="Menu Example" label="Unchecked" />
-      <Checkbox aria-label="Menu Example" label="Checked" checked />
-    </div>
-  ),
-  radio: (
-    <div className="flex flex-col gap-3">
-      <Radio aria-label="Menu Example" label="Unchecked" />
-      <Radio aria-label="Menu Example" label="Checked" checked />
-    </div>
-  ),
-  badge: (
-    <div className="flex flex-wrap">
-      <Badge aria-label="Badge Example">
-        <FaInfo className="inline mr-2 mb-0.5" />
-        Badge
-      </Badge>
-    </div>
-  ),
-  anchor: (
-    <Anchor>
-      Click me
-      <Anchor.Preview>
-        Hover to preview
-      </Anchor.Preview>
-    </Anchor>
-  ),
-  breadcrumbs: (
-    <Breadcrumbs aria-label="Example Breadcrumbs">
-      <Breadcrumb>Home</Breadcrumb>
-      <Breadcrumb>Products</Breadcrumb>
-      <Breadcrumb>Electronics</Breadcrumb>
-    </Breadcrumbs>
-  ),
-  tooltip: (
-    <div className="flex items-center justify-center h-22">
-      <Tooltip content="Hover information">
-        <FaCircleQuestion
-          className="w-9 h-9 text-accent-500 cursor-help"
-          aria-label="Help question"
-        />
-      </Tooltip>
-    </div>
-  ),
-  popover: (
-    <div className="flex items-center justify-center h-22">
-      <Popover content="Click to show">
-        <Button variant="secondary">Click Me</Button>
-      </Popover>
-    </div>
-  ),
-  form: (
-    <div className="flex items-center justify-center h-22">
-      <FaPencil className="w-9 h-9 text-accent-500" aria-label="Form" />
-    </div>
-  ),
-  toast: (
-    <div className="flex items-center justify-center h-22">
-      <FaBell
-        className="w-9 h-9 text-accent-500"
-        aria-label="Toast notification"
-      />
-    </div>
-  ),
-  modal: (
-    <div className="flex items-center justify-center h-22">
-      <FaWindowRestore
-        className="w-9 h-9 text-accent-500"
-        aria-label="Modal window"
-      />
-    </div>
-  ),
-  tabs: (
-    <Tabs defaultValue="tab1">
-      <TabsList>
-        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-        <TabsTrigger value="tab3">Tab 3</TabsTrigger>
-      </TabsList>
-    </Tabs>
-  ),
-  menu: (
-    <div className="flex items-center justify-center h-22">
-      <Menu>
-        <Menu.Trigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-menu">
-          Right click
-        </Menu.Trigger>
-        <Menu.Content>
-          <Menu.Item>Copy</Menu.Item>
-          <Menu.Item>Paste</Menu.Item>
-        </Menu.Content>
-      </Menu>
-    </div>
-  ),
-  slider: (
-    <div className="w-48">
-      <Slider.Root
-        min={0}
-        max={100}
-        defaultValue={[50]}
-        aria-label="Example slider"
-      />
-    </div>
-  ),
-  progress: (
-    <div className="w-48 space-y-2">
-      <Progress
-        aria-label="Progress Preview"
-        value={60}
-        size="md"
-        label="Progress"
-      />
-    </div>
-  ),
-  card: (
-    <div className="flex items-center justify-center h-22">
-      <FaRectangleList
-        className="w-9 h-9 text-accent-500"
-        aria-label="Card component"
-      />
-    </div>
-  ),
-  "command-palette": (
-    <div className="flex items-center justify-center h-22">
-      <FaKeyboard
-        className="w-9 h-9 text-accent-500"
-        aria-label="Command palette"
-      />
-    </div>
-  ),
-  confirm: (
-    <div className="flex items-center justify-center h-22">
-      <FaShieldHalved
-        className="w-9 h-9 text-accent-500"
-        aria-label="Confirm action"
-      />
-    </div>
-  ),
-  divider: (
-    <div className="space-y-8 min-w-40">
-      <Divider
-        className="mb-4"
-        variant="solid"
-        size="md"
-        aria-label="Solid divider"
-      />
-      <Divider variant="dashed" size="md" aria-label="Dashed divider" />
-    </div>
-  ),
-  fold: (
-    <div className="w-full max-w-sm">
-      <Fold title="Expandable content" defaultExpanded={false}>
-        <p className="text-foreground-300 text-sm">
-          Click to reveal hidden content
-        </p>
-      </Fold>
-    </div>
-  ),
+  button: getButtonPreview(),
+  group: getGroupPreview(),
+  flex: getFlexPreview(),
+  grid: getGridPreview(),
+  table: getTablePreview(),
+  input: getInputPreview(),
+  label: getLabelPreview(),
+  textarea: getTextareaPreview(),
+  select: getSelectPreview(),
+  switch: getSwitchPreview(),
+  checkbox: getCheckboxPreview(),
+  radio: getRadioPreview(),
+  badge: getBadgePreview(),
+  anchor: getAnchorPreview(),
+  breadcrumbs: getBreadcrumbsPreview(),
+  tooltip: getTooltipPreview(),
+  popover: getPopoverPreview(),
+  toast: getToastPreview(),
+  modal: getModalPreview(),
+  tabs: getTabsPreview(),
+  menu: getMenuPreview(),
+  slider: getSliderPreview(),
+  progress: getProgressPreview(),
+  card: getCardPreview(),
+  "command-palette": getCommandPalettePreview(),
+  confirm: getConfirmPreview(),
+  divider: getDividerPreview(),
+  fold: getFoldPreview(),
   page: (
     <div className="flex items-center justify-center h-22">
       <FaFile className="w-9 h-9 text-accent-500" aria-label="Page document" />
     </div>
   ),
-  gallery: (
-    <Gallery columns={3}>
-      {[1, 2, 3].map((i) => (
-        <Gallery.Item key={i} className="p-4">
-          <Gallery.View aspectRatio="5/5">
-            <FaImage aria-label="Gallery image" />
-          </Gallery.View>
-        </Gallery.Item>
-      ))}
-    </Gallery>
-  ),
+  gallery: getGalleryPreview(),
   frame: (
     <Frame variant="accent" padding="medium">
       <p className="text-sm text-foreground-300">Framed content</p>
     </Frame>
   ),
-  scrollarea: (
-    <ScrollArea maxHeight="200px">
-      <div className="flex items-center justify-center h-22">
-        <FaComputerMouse
-          className="w-9 h-9 text-accent-500"
-          aria-label="Scrollable content"
-        />
-      </div>
-    </ScrollArea>
-  ),
-  list: (
-    <div className="flex items-center justify-center h-22">
-      <FaList className="w-9 h-9 text-accent-500" aria-label="Page document" />
-    </div>
-  ),
+  scrollarea: getScrollAreaPreview(),
+  list: getListPreview(),
 };
+
 export const componentRegistry: ComponentMetadata[] = [
   ...Object.entries(registryData).map(([id, metadata]) => ({
     ...metadata,
@@ -535,7 +248,6 @@ const componentDetails: Record<string, ComponentDetail> = {
   breadcrumbs: breadcrumbsDetail,
   tooltip: tooltipDetail,
   popover: popoverDetail,
-  form: formDetail,
   toast: toastDetail,
   modal: modalDetail,
   slider: sliderDetail,
