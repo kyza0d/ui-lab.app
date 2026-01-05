@@ -1,8 +1,18 @@
+import React from 'react';
 import { Confirmation } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
+import { FaShieldHalved } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-confirm.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="flex items-center justify-center h-22">
+      <FaShieldHalved className="w-9 h-9 text-background-700" aria-label="Confirm action" />
+    </div>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-confirm', Component: Example1, metadata: metadata1 },

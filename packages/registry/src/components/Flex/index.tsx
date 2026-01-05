@@ -1,8 +1,18 @@
+import React from 'react';
 import { Flex } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-flex.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <>
+      <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
+      <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
+    </>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [

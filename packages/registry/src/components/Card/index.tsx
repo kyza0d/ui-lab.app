@@ -1,8 +1,21 @@
+import React from 'react';
 import { Card } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
+import { FaRectangleList } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-card.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="flex items-center justify-center h-22">
+      <FaRectangleList
+        className="w-9 h-9 text-accent-500"
+        aria-label="Card component"
+      />
+    </div>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-card', Component: Example1, metadata: metadata1 },
