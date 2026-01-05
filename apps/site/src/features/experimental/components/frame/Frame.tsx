@@ -47,7 +47,12 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
       <div
         ref={internalRef}
         className={frameClassName}
-        style={{ ...style, "--frame-notch-size": `${notchSize}px` } as React.CSSProperties}
+        style={{
+          ...style,
+          "--frame-notch-size": `${notchSize}px`,
+          "--frame-path": path ? `'${path}'` : undefined,
+          background: style?.background ?? "var(--frame-bg, transparent)",
+        } as React.CSSProperties}
         {...props}
       >
         {/* Background layer: Clipped to the path */}
@@ -56,7 +61,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           style={{ clipPath: path ? `path('${path}')` : undefined }}
         />
 
-        {/* SVG Overlay: ViewBox is synced to exact container dimensions */}
+        {/* SVG Overlay for stroke */}
         <svg
           className={styles.svgOverlay}
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
@@ -70,8 +75,11 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           />
         </svg>
 
-        {/* Content layer: Z-indexed above the background and SVG */}
-        <div className={styles.content}>
+        {/* Content layer: Now also clipped to prevent overflow visibility */}
+        <div
+          className={styles.content}
+          style={{ clipPath: path ? `path('${path}')` : undefined }}
+        >
           {children}
         </div>
       </div>
