@@ -85,6 +85,14 @@
     border-color: var(--border-focus);
   }
 
+  .item[data-orientation="horizontal"] {
+    flex-direction: row;
+  }
+
+  .item[data-orientation="horizontal"] .view {
+    width: var(--gallery-horizontal-view-width, 200px);
+  }
+
   .view {
     --aspect-ratio: var(--gallery-aspect-ratio, 16/9);
     --background: var(--background-950);

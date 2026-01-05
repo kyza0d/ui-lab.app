@@ -28,6 +28,7 @@ interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
   onPress?: (href?: string) => void
   columnSpan?: number
   rowSpan?: number
+  orientation?: "vertical" | "horizontal"
 }
 
 interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -71,7 +72,7 @@ GalleryRoot.displayName = "Gallery"
 
 // Gallery Item Component
 const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
-  ({ href, onPress, columnSpan, rowSpan, className, style, children, ...props }, ref) => {
+  ({ href, onPress, columnSpan, rowSpan, orientation = "vertical", className, style, children, ...props }, ref) => {
     const elementRef = React.useRef<HTMLElement>(null)
     const combinedRef = (node: HTMLElement | null) => {
       (elementRef as React.MutableRefObject<HTMLElement | null>).current = node
@@ -110,6 +111,7 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
         "data-focus-visible": isFocusVisible || undefined,
         "data-hovered": isHovered || undefined,
         "data-pressed": isPressed || undefined,
+        "data-orientation": orientation,
         ...(!hasAccessibleName && { "aria-label": "Gallery item" }),
         ...props,
       }
