@@ -1,8 +1,18 @@
+import React from 'react';
 import { Progress } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-progress';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div style={{ width: "60%" }} className="relative rounded-md">
+      <div className='w-full rounded-md bg-background-700 left-0 absolute h-2' />
+      <div style={{ width: "50%", background: "var(--background-600)" }} className='left-0 absolute rounded-md h-2' />
+    </div>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-progress', Component: Example1, metadata: metadata1 },

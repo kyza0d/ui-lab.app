@@ -1,8 +1,29 @@
-import { Grid } from 'ui-lab-components';
+import React from 'react';
+import { Divider, Grid } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-grid';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <>
+      <div className="w-full flex flex-col gap-2">
+        {/* Row 1: Equal Columns */}
+        <div className="flex gap-2">
+          <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
+          <div className="w-16 h-10 border border-background-700 rounded bg-background-950" />
+        </div>
+
+        {/* Row 2: Asymmetrical Columns */}
+        <div className="flex gap-2">
+          <div className="w-12 h-10 border border-background-700 rounded bg-background-950" />
+          <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
+        </div>
+      </div>
+    </>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-grid', Component: Example1, metadata: metadata1 },

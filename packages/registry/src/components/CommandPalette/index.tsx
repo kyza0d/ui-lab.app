@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { CommandPalette, Button } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
+import { FaKeyboard } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-command-palette.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="flex items-center justify-center h-22">
+      <FaKeyboard className="w-9 h-9 text-accent-500" aria-label="Command palette" />
+    </div>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-command-palette', Component: Example1, metadata: metadata1 },

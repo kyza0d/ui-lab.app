@@ -1,3 +1,4 @@
+import React from 'react';
 import { Divider } from "ui-lab-components";
 import { ControlDef, ComponentDetail } from "@/types";
 import Example1, {
@@ -11,6 +12,16 @@ import Example3, {
 } from "./examples/03-vertical-divider.js";
 import examplesJson from "./examples.json";
 import { loadComponentExamples } from "../../utils/load-component-examples";
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className='w-full'>
+      <Divider variant="solid" size="sm" className='mb-4' />
+      <Divider variant="dashed" size="md" className='mb-4' />
+      <Divider variant="dotted" size="md" />
+    </div>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [

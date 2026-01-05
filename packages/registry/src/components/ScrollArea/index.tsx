@@ -1,8 +1,20 @@
+import React from 'react';
 import { ScrollArea } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
+import { FaComputerMouse } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-scrollarea.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <ScrollArea maxHeight="200px">
+      <div className="flex items-center justify-center h-22">
+        <FaComputerMouse className="w-9 h-9 text-accent-500" aria-label="Scrollable content" />
+      </div>
+    </ScrollArea>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-scrollarea', Component: Example1, metadata: metadata1 },

@@ -1,8 +1,19 @@
+import React from 'react';
 import { Label } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-label.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className='flex flex-col'>
+      <div style={{ width: "50%", backgroundColor: "var(--background-500)", opacity: 0.1 }} className='ml-2 mb-2 rounded-md h-2'></div>
+      <div style={{ width: 140, height: 30 }} className="w-full flex bg-background-950 pl-2 pr-4 items-center border border-background-700 rounded-md">
+      </div>
+    </div>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-label', Component: Example1, metadata: metadata1 },

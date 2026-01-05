@@ -1,8 +1,25 @@
+import React from 'react';
 import { Fold } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-fold.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+import { FaChevronDown } from 'react-icons/fa6';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="w-full flex flex-col gap-2 max-w-sm">
+      <div className='h-8 flex border-b border-background-700'>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mt-2 h-2'></div>
+        <FaChevronDown size={10} className='text-foreground-500 ml-auto mt-1 ' />
+      </div>
+      <div className='h-8 flex border-b border-background-700'>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mt-2 h-2'></div>
+        <FaChevronDown size={10} className='text-foreground-500 ml-auto mt-1 ' />
+      </div>
+    </div>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [

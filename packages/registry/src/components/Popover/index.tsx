@@ -5,6 +5,16 @@ import Example1, { metadata as metadata1 } from './examples/01-basic-popover.js'
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="flex items-center justify-center h-22">
+      <Popover content="Click to show">
+        <Button variant="secondary">Click Me</Button>
+      </Popover>
+    </div>
+  );
+}
+
 const examplesData = [
   { id: '01-basic-popover', Component: Example1, metadata: metadata1 },
 ];

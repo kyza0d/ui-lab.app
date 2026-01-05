@@ -1,8 +1,20 @@
+import React from 'react';
 import { TextArea } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-textarea.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className='flex flex-col'>
+      <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 ml-2 mb-2 rounded-md h-2'></div>
+      <div style={{ width: 140, height: 60 }} className="w-full flex bg-background-950 pl-2 pt-2 pr-4 border border-background-700 rounded-md">
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+      </div>
+    </div>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [

@@ -15,7 +15,6 @@ export const sourceUrls: Record<string, string> = {
   "divider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Divider",
   "flex": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Flex",
   "fold": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Fold",
-  "form": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Form",
   "grid": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Grid",
   "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Group",
   "input": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Input",
