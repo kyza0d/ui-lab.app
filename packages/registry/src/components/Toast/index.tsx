@@ -3,6 +3,7 @@
 import React from 'react';
 import { toast, Toaster } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
+import { FaBell } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-toast.js';
 import Example2, { metadata as metadata2 } from './examples/02-success-toast.js';
 import Example3, { metadata as metadata3 } from './examples/03-destructive-toast.js';
@@ -10,6 +11,14 @@ import Example4, { metadata as metadata4 } from './examples/04-info-toast.js';
 import Example5, { metadata as metadata5 } from './examples/05-warning-toast.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="flex items-center justify-center h-22">
+      <FaBell className="w-9 h-9 text-accent-500" aria-label="Toast notification" />
+    </div>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [

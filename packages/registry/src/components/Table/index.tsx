@@ -1,8 +1,23 @@
+import React from 'react';
 import { Table } from "ui-lab-components";
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-table.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="w-full overflow-hidden">
+      <Table
+        data={[{ name: "Alice", email: "alice@example.com" }]}
+        columns={[
+          { key: "name", label: "Name" },
+          { key: "email", label: "Email" },
+        ]}
+      />
+    </div>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [

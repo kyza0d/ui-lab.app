@@ -1,8 +1,25 @@
+import React from 'react';
 import { Menu } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-menu.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div className="flex items-center justify-center h-22">
+      <Menu>
+        <Menu.Trigger className="px-4 py-2 rounded-lg bg-background-700 text-foreground-50 hover:bg-background-600 transition-colors text-sm cursor-menu">
+          Right click
+        </Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Copy</Menu.Item>
+          <Menu.Item>Paste</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    </div>
+  );
+}
 
 const examplesData = [
   { id: '01-basic-menu', Component: Example1, metadata: metadata1 },

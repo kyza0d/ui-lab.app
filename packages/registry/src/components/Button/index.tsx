@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-button.js';
@@ -6,6 +7,14 @@ import Example3, { metadata as metadata3 } from './examples/03-outline-button.js
 import Example4, { metadata as metadata4 } from './examples/04-ghost-button.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+
+export function getPreview(): React.ReactNode {
+  return (
+    <div style={{ width: 80, height: 30 }} className="w-full flex bg-background-900 items-center justify-center border border-background-700 rounded-md">
+      <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+    </div>
+  );
+}
 
 // Define examplesData locally
 const examplesData = [
