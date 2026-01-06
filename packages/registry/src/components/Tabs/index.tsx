@@ -8,10 +8,10 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 export function getPreview(): React.ReactNode {
   return (
     <div style={{ width: 160, height: 42, padding: '0px 6px' }} className="w-full relative gap-2 flex items-center justify-center border-b border-background-700 ">
-      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-50 rounded-sm h-3'></div>
+      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-50 rounded-sm h-2'></div>
       <div style={{ width: "36%", height: 3, backgroundColor: "var(--background-500)" }} className='absolute bottom-0 left-0 opacity-50'></div>
-      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-3'></div>
-      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-3'></div>
+      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-2'></div>
+      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-2'></div>
     </div>
   );
 }

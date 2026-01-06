@@ -11,11 +11,10 @@ export const componentOrder: Record<ComponentCategory, string[]> = {
   action: ['button', 'confirm', 'command', 'anchor'],
   input: ['checkbox', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
   information: ['badge', 'label', 'tooltip'],
-  feedback: ['popover', 'progress'],
+  feedback: ['popover', 'progress', 'toast'],
   navigation: ['breadcrumbs', 'menu', 'tabs'],
   container: ['card', 'modal', 'scrollarea'],
   data: ['table'],
-  experimental: ['toast'],
 };
 
 /**

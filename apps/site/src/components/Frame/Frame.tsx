@@ -147,7 +147,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           {/* Layer 2: The Notch/Tab Path Stroke */}
           {path && (
             <svg x={x} y={y} overflow="visible">
-              <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
+              <g transform={`rotate(${rotate}) scale(1.010, 0.995)`}>
                 <path
                   d={path}
                   fill="none"

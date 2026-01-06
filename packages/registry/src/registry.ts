@@ -678,7 +678,8 @@ export const componentRegistry: ComponentRegistry = {
     id: "toast",
     name: "Toast",
     description: "A notification component for displaying temporary messages.",
-    category: "experimental",
+    category: "feedback",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Toast",
