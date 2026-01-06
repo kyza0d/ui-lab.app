@@ -59,12 +59,6 @@ export const categories = {
     label: 'Data',
     description: 'Components for displaying and interacting with datasets, such as tables, lists, and data visualizations.',
   },
-  experimental: {
-    id: 'experimental',
-    name: 'Experimental Components',
-    label: 'Experimental',
-    description: 'Unstable components in active development; APIs may change or be removed.',
-  },
 } as const;
 
 /**
