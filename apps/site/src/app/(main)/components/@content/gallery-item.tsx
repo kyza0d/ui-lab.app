@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Gallery } from 'ui-lab-components';
+import { Gallery, Tooltip } from 'ui-lab-components';
 import { usePrefetchOnHover } from '@/shared';
+import { FaFlask } from 'react-icons/fa6';
 
 interface GalleryItemWithPrefetchProps {
   id: string;
@@ -55,12 +56,14 @@ export function GalleryItemWithPrefetch({
         </Gallery.View>
 
         <Gallery.Body>
-          <div className="flex items-center gap-1">
+          <div className="relative flex items-center gap-1">
             <h4>{name}</h4>
             {experimental && (
-              <span className="inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded">
-                Experimental
-              </span>
+              <Tooltip content="Experimental: Not fully implemented and requires testing" position="top" showArrow>
+                <span className="absolute right-0 top-0 inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
+                  <FaFlask size={14} />
+                </span>
+              </Tooltip>
             )}
           </div>
           <p className="text-foreground-400 text-sm">
