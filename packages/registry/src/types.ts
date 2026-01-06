@@ -7,8 +7,7 @@ export type ComponentCategory =
   | 'action'
   | 'composition'
   | 'layout'
-  | 'data'
-  | 'experimental';
+  | 'data';
 
 export interface ComponentSource {
   packageName: 'ui-lab-components';
@@ -119,6 +118,7 @@ export interface ComponentMetadata {
   styles?: ComponentStyles;
   examples?: ComponentExample[];
   example?: Example;
+  experimental?: boolean;
 }
 
 export interface ComponentRegistry {
