@@ -20,6 +20,7 @@ interface ComponentMetadata {
   name: string;
   description: string;
   category: string;
+  experimental?: boolean;
   source: {
     packageName: string;
     exportName: string;
@@ -71,7 +72,7 @@ function generateRegistryContent(components: Record<string, ComponentEntry>): st
     name: ${JSON.stringify(metadata.name)},
     description: ${JSON.stringify(metadata.description)},
     category: ${JSON.stringify(metadata.category)},
-    source: ${JSON.stringify(metadata.source, null, 2)},
+    ${metadata.experimental ? `experimental: ${JSON.stringify(metadata.experimental)},\n    ` : ''}source: ${JSON.stringify(metadata.source, null, 2)},
     relatedComponents: ${JSON.stringify(metadata.relatedComponents)},
     tags: ${JSON.stringify(metadata.tags)},
     accessibility: ${JSON.stringify(metadata.accessibility)},
