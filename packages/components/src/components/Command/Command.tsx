@@ -20,7 +20,7 @@ import { Card } from "../Card";
 import { Badge } from "../Badge";
 import styles from "./Command.module.css";
 
-export interface Command {
+interface Command {
   id: string;
   label: string;
   description?: string;
@@ -31,7 +31,7 @@ export interface Command {
   action: () => void | Promise<void>;
 }
 
-export interface CommandPaletteProps {
+interface CommandPaletteProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   commands?: Command[];
@@ -45,6 +45,8 @@ export interface CommandPaletteProps {
   overlayClassName?: string;
   enableSmartSearch?: boolean;
 }
+
+export type { CommandPaletteProps };
 
 /**
  * Search ranking utility: Scores command relevance to query
