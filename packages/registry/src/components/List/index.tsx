@@ -1,7 +1,6 @@
 import React from 'react';
 import { List, Button } from 'ui-lab-components';
 import { ComponentDetail } from '@/types';
-import { FaList } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
