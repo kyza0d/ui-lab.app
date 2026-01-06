@@ -32,4 +32,21 @@ export const experimentalRegistry: ExperimentalComponentMetadata[] = [
     },
     experimental: true,
   },
+  {
+    id: "toast",
+    name: "Toast",
+    description: "A notification component for displaying temporary messages.",
+    category: "feedback",
+    relatedComponents: [],
+    tags: ["notification", "feedback", "temporary"],
+    accessibility: {
+      hasAriaSupport: true,
+      notes: [
+        "ARIA live regions",
+        "Role=\"status\"",
+        "Auto-dismiss support"
+      ],
+    },
+    experimental: true,
+  },
 ];

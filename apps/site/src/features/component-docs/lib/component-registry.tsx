@@ -83,7 +83,6 @@ const previews: Record<string, React.ReactNode> = {
   breadcrumbs: getBreadcrumbsPreview(),
   tooltip: getTooltipPreview(),
   popover: getPopoverPreview(),
-  toast: getToastPreview(),
   modal: getModalPreview(),
   tabs: getTabsPreview(),
   menu: getMenuPreview(),
@@ -105,15 +104,20 @@ const previews: Record<string, React.ReactNode> = {
       <p className="text-sm text-foreground-300">Framed content</p>
     </Frame>
   ),
+  toast: getToastPreview(),
   scrollarea: getScrollAreaPreview(),
   list: getListPreview(),
 };
 
+const experimentalIds = new Set(experimentalRegistry.map((c) => c.id));
+
 export const componentRegistry: ComponentMetadata[] = [
-  ...Object.entries(registryData).map(([id, metadata]) => ({
-    ...metadata,
-    preview: previews[id] || <div />,
-  })),
+  ...Object.entries(registryData)
+    .filter(([id]) => !experimentalIds.has(id))
+    .map(([id, metadata]) => ({
+      ...metadata,
+      preview: previews[id] || <div />,
+    })),
   ...(!registryData.table
     ? [
       {
