@@ -15,6 +15,7 @@ export const componentDependencies: Record<string, ComponentDeps> = {
   'divider': { npm: [], internal: [] },
   'flex': { npm: [], internal: [] },
   'fold': { npm: ['gsap', '@gsap/react'], internal: [] },
+  'frame': { npm: [], internal: [] },
   'form': { npm: [], internal: ['input', 'label'] },
   'gallery': { npm: [], internal: ['card'] },
   'grid': { npm: [], internal: [] },
@@ -34,7 +35,7 @@ export const componentDependencies: Record<string, ComponentDeps> = {
   'textarea': { npm: [], internal: ['label'] },
   'toast': { npm: [], internal: [] },
   'tooltip': { npm: ['@floating-ui/react-dom'], internal: [] },
-  'scrollarea': { npm: [], internal: [] },
+  'scroll': { npm: [], internal: [] },
 }
 
 /**

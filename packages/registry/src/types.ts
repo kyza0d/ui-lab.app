@@ -130,6 +130,7 @@ export interface CategoryDefinition {
   name: string;
   label: string;
   description: string;
+  iconName: string;
 }
 
 export interface StarterPreset {

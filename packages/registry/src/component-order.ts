@@ -13,7 +13,7 @@ export const componentOrder: Record<ComponentCategory, string[]> = {
   information: ['badge', 'label', 'tooltip'],
   feedback: ['popover', 'progress', 'toast'],
   navigation: ['breadcrumbs', 'menu', 'tabs'],
-  container: ['card', 'modal', 'scrollarea'],
+  container: ['card', 'modal', 'scroll', 'frame'],
   data: ['table'],
 };
 
