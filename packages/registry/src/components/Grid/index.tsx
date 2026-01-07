@@ -7,7 +7,7 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 
 export function getPreview(): React.ReactNode {
   return (
-    <>
+    <div style={{ width: '60%' }}>
       <div className="w-full flex flex-col gap-2">
         {/* Row 1: Equal Columns */}
         <div className="flex gap-2">
@@ -21,7 +21,7 @@ export function getPreview(): React.ReactNode {
           <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

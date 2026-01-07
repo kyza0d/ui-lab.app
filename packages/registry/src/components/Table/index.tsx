@@ -7,14 +7,58 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div className="w-full overflow-hidden">
-      <Table
-        data={[{ name: "Alice", email: "alice@example.com" }]}
-        columns={[
-          { key: "name", label: "Name" },
-          { key: "email", label: "Email" },
-        ]}
-      />
+    <div style={{ width: "70%" }} className='w-full'>
+      <div style={{ width: "60%" }} className="flex py-1 px-1 mb-2 rounded-sm overflow-hidden border border-background-700 flex flex-col">
+        <div style={{ width: 46, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-2'></div>
+      </div>
+      <div className="flex rounded-sm overflow-hidden border border-background-700 flex flex-col max-w-sm">
+        <div className='w-full bg-background-800 flex items-center gap-1 flex'>
+          <div style={{ width: "26%" }} className='h-5 flex items-center pl-1'>
+            <div style={{ width: 24, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+          </div>
+          <div style={{ width: "26%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+            <div style={{ width: 14, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+          </div>
+          <div style={{ width: "52%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+            <div style={{ width: 34, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+          </div>
+        </div>
+        <div className='flex flex-col'>
+          <div className='w-full border-b border-background-700 flex items-center gap-1 flex'>
+            <div style={{ width: "26%" }} className='h-5 flex items-center pl-1'>
+              <div style={{ width: 22, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+            <div style={{ width: "26%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+              <div style={{ width: 22, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+            <div style={{ width: "52%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+              <div style={{ width: 40, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+          </div>
+          <div className='w-full border-b border-background-700 flex items-center gap-1 flex'>
+            <div style={{ width: "26%" }} className='h-5 flex items-center pl-1'>
+              <div style={{ width: 16, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+            <div style={{ width: "26%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+              <div style={{ width: 15, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+            <div style={{ width: "52%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+              <div style={{ width: 36, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+          </div>
+          <div className='w-full flex items-center gap-1 flex'>
+            <div style={{ width: "26%" }} className='h-5 flex items-center pl-1'>
+              <div style={{ width: 26, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+            <div style={{ width: "26%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+              <div style={{ width: 18, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+            <div style={{ width: "52%" }} className='h-5 flex items-center pl-1 border-l border-background-700'>
+              <div style={{ width: 35, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

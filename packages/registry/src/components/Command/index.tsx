@@ -9,7 +9,7 @@ import { FaSearch } from 'react-icons/fa';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div style={{ width: "60%" }} className="rounded-md overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
+    <div style={{ width: "60%" }} className="rounded-sm overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
       <div className='h-8 gap-2 flex border-b border-background-700'>
         <FaSearch style={{ marginTop: 10 }} size={10} className='text-foreground-500 opacity-50 ml-2' />
       </div>

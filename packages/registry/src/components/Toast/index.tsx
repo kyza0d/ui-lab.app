@@ -3,7 +3,7 @@
 import React from 'react';
 import { toast, Toaster } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import { FaBell } from 'react-icons/fa6';
+import { FaBell, FaX } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-toast.js';
 import Example2, { metadata as metadata2 } from './examples/02-success-toast.js';
 import Example3, { metadata as metadata3 } from './examples/03-destructive-toast.js';
@@ -11,11 +11,17 @@ import Example4, { metadata as metadata4 } from './examples/04-info-toast.js';
 import Example5, { metadata as metadata5 } from './examples/05-warning-toast.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+import { FaInfoCircle } from 'react-icons/fa';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div className="flex items-center justify-center h-22">
-      <FaBell className="w-9 h-9 text-accent-500" aria-label="Toast notification" />
+    <div style={{ width: "84%", height: 40 }} className="relative w-full gap-3 flex px-2 bg-background-900 items-center justify-center border border-background-700 rounded-sm">
+      <FaX size={7} style={{ color: "var(--foreground-500)" }} className='absolute top-2 right-2 ml-auto' />
+      <FaInfoCircle size={16} color="var(--background-500)" />
+      <div className='flex flex-col gap-2 w-full'>
+        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-2'></div>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-2'></div>
+      </div>
     </div>
   );
 }

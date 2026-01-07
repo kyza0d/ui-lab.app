@@ -1,0 +1,7 @@
+{
+  "01-basic-scroll": {
+    "title": "Basic Scroll",
+    "description": "A simple scrollable container with fixed height. Use this to display overflow content in a constrained space.",
+    "code": "import { Scroll } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className='overflow-hidden' style={{ height: '200px', width: '300px' }}>\n      <Scroll>\n        <div>\n          <p>This is scrollable content.</p>\n          <p>Add more content here to see scrolling in action.</p>\n          <p>The Scroll component manages overflow elegantly.</p>\n          <p>You can scroll through all of this content.</p>\n          <p>Perfect for constrained layouts.</p>\n        </div>\n      </Scroll>\n    </div>\n  );\n}"
+  }
+}

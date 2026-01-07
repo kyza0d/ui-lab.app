@@ -1,0 +1,24 @@
+{
+  "id": "scroll",
+  "name": "Scroll",
+  "description": "A scroll area component with custom scrollbars for overflowing content.",
+  "category": "container",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Scroll",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [],
+  "tags": [
+    "scroll",
+    "overflow",
+    "layout",
+    "scrollbar"
+  ],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Custom scrollbar implementation for visual consistency"
+    ]
+  }
+}

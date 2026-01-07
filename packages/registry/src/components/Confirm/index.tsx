@@ -1,15 +1,32 @@
 import React from 'react';
 import { Confirmation } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import { FaShieldHalved } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-confirm.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+import { FaCheck, FaX } from 'react-icons/fa6';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div className="flex items-center justify-center h-22">
-      <FaShieldHalved className="w-9 h-9 text-background-700" aria-label="Confirm action" />
+    <div style={{ width: "70%" }} className="rounded-sm overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
+      <div className='pl-2 pt-3'>
+        <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-3 mb-2'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
+        <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
+      </div>
+
+      <div className='mt-4 border-t border-background-700 flex items-center py-1 gap-1 flex'>
+        <div style={{ width: "35%", backgroundColor: "var(--background-800)" }} className='ml-auto flex items-center 
+           rounded-xs h-4 gap-2 pl-1'>
+          <FaX size={8} style={{ color: "var(--foreground-500)" }} />
+          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-md pr-1 h-1'></div>
+        </div>
+        <div style={{ width: "35%", marginRight: 2, backgroundColor: "var(--background-800)" }} className='flex items-center 
+           rounded-xs h-4 gap-2 pl-1'>
+          <FaCheck size={10} style={{ color: "var(--foreground-500)" }} />
+          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-md h-1'></div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -39,20 +56,20 @@ const confirmControls: ControlDef[] = [
   },
 ];
 
-const confirmBasicCode = `import { Confirm } from "ui-lab-components";
+const confirmBasicCode = `import {Confirm} from "ui-lab-components";
 
-export function Example() {
+          export function Example() {
   return (
-    <Confirm
-      triggerLabel="Delete Account"
-      title="Are you sure?"
-      description="This action cannot be undone."
-      confirmLabel="Delete"
-      cancelLabel="Cancel"
-      onConfirm={() => console.log('Confirmed')}
-      onCancel={() => console.log('Cancelled')}
-    />
-  );
+          <Confirm
+            triggerLabel="Delete Account"
+            title="Are you sure?"
+            description="This action cannot be undone."
+            confirmLabel="Delete"
+            cancelLabel="Cancel"
+            onConfirm={() => console.log('Confirmed')}
+            onCancel={() => console.log('Cancelled')}
+          />
+          );
 }`;
 
 export const confirmDetail: ComponentDetail = {
