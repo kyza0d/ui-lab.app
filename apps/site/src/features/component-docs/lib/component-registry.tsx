@@ -24,7 +24,7 @@ import { confirmDetail, getPreview as getConfirmPreview } from "ui-lab-registry/
 import { progressDetail, getPreview as getProgressPreview } from "ui-lab-registry/components/Progress";
 import { radioDetail, getPreview as getRadioPreview } from "ui-lab-registry/components/Radio";
 import { commandDetail, getPreview as getCommandPreview } from "ui-lab-registry/components/Command";
-import { scrollareaDetail, getPreview as getScrollAreaPreview } from "ui-lab-registry/components/ScrollArea";
+import { scrollDetail, getPreview as getScrollPreview } from "ui-lab-registry/components/Scroll";
 import { selectDetail, getPreview as getSelectPreview } from "ui-lab-registry/components/Select";
 import { sliderDetail, getPreview as getSliderPreview } from "ui-lab-registry/components/Slider";
 import { switchDetail, getPreview as getSwitchPreview } from "ui-lab-registry/components/Switch";
@@ -33,18 +33,7 @@ import { tabsDetail, getPreview as getTabsPreview } from "ui-lab-registry/compon
 import { textareaDetail, getPreview as getTextareaPreview } from "ui-lab-registry/components/Textarea";
 import { tooltipDetail, getPreview as getTooltipPreview } from "ui-lab-registry/components/Tooltip";
 import { listDetail, getPreview as getListPreview } from "ui-lab-registry/components/List";
-
-import { Frame } from "@/components/Frame";
-import Example1, {
-  metadata as metadata1,
-} from "@/components/Frame/examples/01-default-frame";
-import Example2, {
-  metadata as metadata2,
-} from "@/components/Frame/examples/02-tooltip-example";
-import Example3, {
-  metadata as metadata3,
-} from "@/components/Frame/examples/03-sidebar-tab";
-import examplesJson from "@/components/Frame/examples/examples.json";
+import { frameDetail, getPreview as getFramePreview } from "ui-lab-registry/components/Frame";
 import { ComponentDetail } from "@/types/component";
 import { FaFile } from "react-icons/fa6";
 import {
@@ -53,6 +42,7 @@ import {
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
   getComponentsInOrder,
+  getCategoryIcon,
 } from "ui-lab-registry";
 import {
   experimentalRegistry,
@@ -60,7 +50,7 @@ import {
 } from "@/features/experimental/lib/experimental-registry";
 import React from "react";
 export type { ComponentCategory } from "ui-lab-registry";
-export { categories, categoryMap, getCategoriesInOrder } from "ui-lab-registry";
+export { categories, categoryMap, getCategoriesInOrder, getCategoryIcon } from "ui-lab-registry";
 export interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
   experimental?: boolean;
@@ -99,13 +89,9 @@ const previews: Record<string, React.ReactNode> = {
     </div>
   ),
   gallery: getGalleryPreview(),
-  frame: (
-    <Frame variant="accent" padding="medium">
-      <p className="text-sm text-foreground-300">Framed content</p>
-    </Frame>
-  ),
+  frame: getFramePreview(),
   toast: getToastPreview(),
-  scrollarea: getScrollAreaPreview(),
+  scroll: getScrollPreview(),
   list: getListPreview(),
 };
 
@@ -171,12 +157,7 @@ export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
 });
 export const getComponentsInCategoryOrder = cache(
   (category: ComponentCategory): ComponentMetadata[] => {
-    let componentIds = getComponentsInOrder(category);
-
-    // Add site-specific components to their categories
-    if (category === "container") {
-      componentIds = [...componentIds, "frame"];
-    }
+    const componentIds = getComponentsInOrder(category);
 
     return componentIds
       .map((id: string) =>
@@ -185,63 +166,6 @@ export const getComponentsInCategoryOrder = cache(
       .filter((c): c is ComponentMetadata => c !== undefined);
   },
 );
-const frameExamplesData = [
-  { id: "01-default-frame", Component: Example1, metadata: metadata1 },
-  { id: "02-tooltip-example", Component: Example2, metadata: metadata1 },
-  { id: "03-sidebar-tab", Component: Example3, metadata: metadata1 },
-];
-
-const frameBasicCode = `import { Frame } from "@/components/Frame";
-
-export function Example() {
-  return (
-    <Frame variant="default" padding="medium">
-      <p className="text-foreground-300">Framed content</p>
-    </Frame>
-  );
-}`;
-
-const frameDetail: ComponentDetail = {
-  id: "frame",
-  name: "Frame",
-  description:
-    "A decorative border/frame component for wrapping and highlighting content.",
-  overview: (
-    <div className="space-y-4 text-foreground-300">
-      <p>
-        The Frame component is a decorative wrapper that adds a styled border
-        around content. It provides multiple visual variants and padding options
-        to suit different design needs.
-      </p>
-      <p>
-        Use frames to highlight important content, create visual separation, or
-        add decorative elements to your interface. The component is fully
-        responsive and supports custom path builders for advanced shape
-        customization.
-      </p>
-    </div>
-  ),
-  examples: [
-    {
-      id: "preview",
-      title: "Preview",
-      description: "Adjust props to customize the component",
-      code: frameBasicCode,
-      preview: (
-        <Frame variant="accent" padding="medium">
-          <p className="text-sm text-foreground-300">Framed content</p>
-        </Frame>
-      ),
-    },
-    ...frameExamplesData.map((example, index) => ({
-      id: `example-${index + 1}`,
-      title: example.metadata.title,
-      description: example.metadata.description,
-      code: (examplesJson as Record<string, any>)[example.id]?.code || "",
-      preview: React.createElement(example.Component),
-    })),
-  ],
-};
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
@@ -274,7 +198,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   fold: foldDetail,
   gallery: galleryDetail,
   frame: frameDetail,
-  scrollarea: scrollareaDetail,
+  scroll: scrollDetail,
   list: listDetail,
 };
 export const getComponentById = cache(
