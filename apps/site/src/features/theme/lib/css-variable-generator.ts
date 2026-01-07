@@ -100,7 +100,8 @@ function computeRadiusVars(layout: ThemeConfig['layout']): Record<string, string
 
 function computeBorderVars(layout: ThemeConfig['layout']): Record<string, string> {
   const vars: Record<string, string> = {};
-  const borderScaleFactor = layout.borderWidth / 1;
+  const baseBorderRef = 1;
+  const borderScaleFactor = layout.borderWidth / baseBorderRef;
 
   BORDER_DEFS.forEach(({ name, value }) => {
     const scaledValue = value * borderScaleFactor;

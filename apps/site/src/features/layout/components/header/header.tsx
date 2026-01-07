@@ -2,37 +2,28 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
+import { CommandPalette } from "@/features/command-palette";
 import { Logo } from "@/shared";
-import { Input, Tabs, TabsList, TabsTrigger, Command, Select, SelectListBox } from "ui-lab-components";
+import { Input, Tabs, TabsList, TabsTrigger, Select, SelectListBox } from "ui-lab-components";
 import { ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from "@/features/elements";
 import { useApp } from "@/features/theme";
 import { cn } from "@/shared";
-import { componentRegistry } from "@/features/component-docs";
 import {
   FaChevronDown,
   FaBars,
-  FaWrench,
-  FaGithub,
   FaMagnifyingGlass,
   FaBagShopping,
   FaTree,
-  FaBook,
-  FaPlug,
-  FaTerminal,
-  FaMoon,
-  FaSun,
-  FaIcons,
 } from "react-icons/fa6";
 import { HiX } from "react-icons/hi";
 import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, getHeaderHeight } from "@/shared";
-import { type Command as CommandType } from "ui-lab-components";
 
 import { useElementsSearch } from "./elements-search";
 import { ToolsDropdown } from "./tools-dropdown";
 import { MobileMenu } from "./mobile-menu";
-import { navigationData, toolsItems } from "./data";
+import { navigationData } from "./data";
 
 interface HeaderProps {
   pathname: string;
@@ -50,7 +41,7 @@ export default function Header({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { isCommandPaletteOpen, setIsCommandPaletteOpen, currentThemeMode, setCurrentThemeMode } = useApp();
+  const { setIsCommandPaletteOpen } = useApp();
 
   const handleMouseEnter = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -64,126 +55,6 @@ export default function Header({
   // const [stars, setStars] = useState<string>("—");
 
   useEffect(() => document.documentElement.style.setProperty('--header-height', headerHeight), [headerHeight]);
-
-  /*
-  useEffect(() => {
-    fetch("https://api.github.com/repos/kyza0d/ui-lab.app")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch");
-        return res.json();
-      })
-      .then((data) => {
-        const count = data.stargazers_count || 0;
-        setStars(count > 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString());
-      })
-      .catch((err) => {
-        console.error("Failed to load GitHub stars:", err);
-        setStars("12.4k");
-      });
-  }, []);
-  */
-
-  const commands: Command[] = useMemo(() => {
-    const cmds: Command[] = [];
-
-    cmds.push({
-      id: "docs-overview",
-      label: "Documentation Overview",
-      description: "View the documentation home page",
-      category: "Documentation",
-      icon: <FaBook className="w-4 h-4" />,
-      keywords: ["docs", "overview", "documentation"],
-      action: () => router.push("/docs"),
-    });
-
-    cmds.push({
-      id: "docs-installation",
-      label: "Installation Guide",
-      description: "How to install and set up UI Lab",
-      category: "Documentation",
-      icon: <FaBook className="w-4 h-4" />,
-      keywords: ["install", "setup", "guide"],
-      action: () => router.push("/docs/installation"),
-    });
-
-    cmds.push({
-      id: "docs-usage",
-      label: "Usage Guide",
-      description: "Learn how to use UI Lab components",
-      category: "Documentation",
-      icon: <FaBook className="w-4 h-4" />,
-      keywords: ["usage", "how-to", "guide"],
-      action: () => router.push("/docs/usage"),
-    });
-
-    componentRegistry.forEach((component) => {
-      cmds.push({
-        id: `component-${component.id}`,
-        label: component.name,
-        description: component.description,
-        category: "Components",
-        icon: <FaIcons className="w-4 h-4" />,
-        keywords: [component.id, component.name.toLowerCase()],
-        action: () => router.push(`/components/${component.id}`),
-      });
-    });
-
-    toolsItems.forEach((tool) => {
-      cmds.push({
-        id: `tool-${tool.title.toLowerCase().replace(/\s+/g, "-")}`,
-        label: tool.title,
-        description: tool.description,
-        category: "Tools",
-        icon: <FaWrench className="w-4 h-4" />,
-        keywords: [tool.title.toLowerCase()],
-        action: () => router.push(tool.href),
-      });
-    });
-
-    cmds.push({
-      id: "agents-mcps",
-      label: "Agents & MCPs",
-      description: "View agents and MCP documentation",
-      category: "Navigation",
-      icon: <FaPlug className="w-4 h-4" />,
-      keywords: ["agents", "mcps", "plugins"],
-      action: () => router.push("/agents-mcps"),
-    });
-
-    cmds.push({
-      id: "cli",
-      label: "CLI",
-      description: "View CLI documentation",
-      category: "Navigation",
-      icon: <FaTerminal className="w-4 h-4" />,
-      keywords: ["cli", "command", "terminal"],
-      action: () => router.push("/cli"),
-    });
-
-    cmds.push({
-      id: "github",
-      label: "GitHub Repository",
-      description: "Open UI Lab on GitHub",
-      category: "Navigation",
-      icon: <FaGithub className="w-4 h-4" />,
-      keywords: ["github", "source", "repo"],
-      action: () => {
-        window.open("https://github.com/kyza0d/ui-lab.app", "_blank");
-      },
-    });
-
-    cmds.push({
-      id: "theme-toggle",
-      label: `Switch to ${currentThemeMode === "light" ? "Dark" : "Light"} Mode`,
-      description: `Toggle between light and dark themes`,
-      category: "Settings",
-      icon: currentThemeMode === "light" ? <FaMoon className="w-4 h-4" /> : <FaSun className="w-4 h-4" />,
-      keywords: ["theme", "dark", "light", "mode"],
-      action: () => setCurrentThemeMode(currentThemeMode === "light" ? "dark" : "light"),
-    });
-
-    return cmds;
-  }, [router, currentThemeMode, setCurrentThemeMode]);
 
   const activeTabValue = getActiveTabValue(pathname);
 
@@ -353,13 +224,7 @@ export default function Header({
         </div>
       </header>
 
-      <Command
-        open={isCommandPaletteOpen}
-        onOpenChange={setIsCommandPaletteOpen}
-        commands={commands}
-        placeholder="Search commands, components, docs..."
-        showCategories={true}
-      />
+      <CommandPalette />
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </>

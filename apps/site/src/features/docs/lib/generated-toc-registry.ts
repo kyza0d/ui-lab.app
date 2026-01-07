@@ -440,14 +440,19 @@ export const tocRegistry: TocRegistry = {
   ],
   "index": [
     {
+      "id": "design-system-overview",
+      "title": "Design System Overview",
+      "level": 2
+    },
+    {
       "id": "quick-start",
       "title": "Quick Start",
-      "level": 2
+      "level": 3
     },
     {
       "id": "core-pillars",
       "title": "Core Pillars",
-      "level": 2
+      "level": 3
     },
     {
       "id": "foundation",
