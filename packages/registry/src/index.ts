@@ -15,6 +15,7 @@ export const sourceUrls: Record<string, string> = {
   "divider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Divider",
   "flex": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Flex",
   "fold": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Fold",
+  "frame": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Frame",
   "grid": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Grid",
   "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Group",
   "input": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Input",
@@ -32,7 +33,7 @@ export const sourceUrls: Record<string, string> = {
   "textarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/TextArea",
   "toast": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Toast",
   "tooltip": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Tooltip",
-  "scrollarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/ScrollArea"
+  "scroll": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Scroll"
 };
 
 // Categories
@@ -84,6 +85,9 @@ export {
   getAllComponentIds,
   getComponentCount
 } from './helpers.js';
+
+// Category utilities
+export { getCategoryIcon } from './utils/get-category-icon.js';
 
 // Elements
 export {
