@@ -16,6 +16,9 @@ export type { FlexProps } from "./components/Flex";
 export { Fold } from "./components/Fold";
 export type { FoldProps } from "./components/Fold";
 
+export { Frame } from "./components/Frame";
+export type { FrameProps } from "./components/Frame";
+
 export { Grid } from "./components/Grid";
 export type { GridProps } from "./components/Grid";
 
@@ -107,8 +110,8 @@ export type { AnchorProps, AnchorPreviewProps } from "./components/Anchor";
 export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gallery";
 export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";
 
-export { ScrollArea } from "./components/ScrollArea";
-export type { ScrollAreaProps } from "./components/ScrollArea";
+export { Scroll } from "./components/Scroll";
+export type { ScrollProps } from "./components/Scroll";
 
 export { Table } from "./components/Table";
 export type { TableProps, Column } from "./components/Table";

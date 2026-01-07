@@ -1,0 +1,19 @@
+{
+  "id": "frame",
+  "name": "Frame",
+  "description": "A decorative border/frame component with advanced SVG path support for custom shapes.",
+  "category": "container",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Frame",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": ["card", "modal"],
+  "tags": ["container", "decorative", "border", "svg", "custom-shapes"],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Decorative SVG elements are properly hidden from assistive technology"
+    ]
+  }
+}
