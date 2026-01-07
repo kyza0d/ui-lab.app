@@ -4,12 +4,26 @@ import { ComponentConfigurator } from "@/features/component-docs";
 import { getComponentById, getComponentMetadata } from "@/features/component-docs";
 import { TableOfContents, Table, type Column } from "@/features/docs";
 import { CodeBlock, InlineCodeHighlight } from "@/shared";
-import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex } from "ui-lab-components";
+import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip, Divider } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
-import { FaGithub } from "react-icons/fa6";
+import { FaFlask, FaGithub } from "react-icons/fa6";
 import { SiAdobe } from "react-icons/si";
 import { BreadcrumbsNav } from "@/features/navigation";
+
+const ReactAriaSvg = () => (
+  <svg
+    viewBox="200 206 800 790"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="text-background-500 w-5 h-5"
+  >
+    <path
+      d="M720.67 205.995C867.583 205.995 986.679 325.091 986.68 472.003C986.68 590.753 908.865 691.325 801.446 725.521L979.312 948.055C994.438 966.98 980.963 995 956.736 995H795.612C778.743 995 762.715 987.629 751.734 974.823L697.365 911.421L493.126 653.39C457.134 607.918 489.518 540.979 547.511 540.977L720.67 540.971C758.758 540.971 789.635 510.091 789.635 472.003C789.634 433.915 758.758 403.038 720.67 403.038H429.939C404.955 403.038 388.623 391.886 373.994 373.623L277.349 252.966C262.194 234.045 275.664 205.996 299.905 205.995H720.67Z M396.605 720.706C407.798 705.406 430.443 704.843 442.381 719.568L503.816 797.018H502.786L535.569 838.934C548.074 854.358 549.943 877.191 538.047 893.09L476.638 972.545C465.692 986.707 448.803 995 430.903 995H242.276C218.18 995 204.665 967.248 219.523 948.278L337.992 797.018H337.923L396.605 720.706Z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 export function ComponentClient({ componentId }: { componentId: string }) {
   const component = useMemo(() => getComponentById(componentId), [componentId]);
@@ -88,12 +102,37 @@ export function ComponentClient({ componentId }: { componentId: string }) {
               <div className="flex items-center gap-3">
                 <h2 className="font-bold text-foreground-50">{component.name}</h2>
                 {metadata?.experimental && (
-                  <span className="inline-block px-2 py-1 text-sm font-semibold bg-accent-500/20 text-accent-300 rounded">
-                    Experimental
-                  </span>
+                  <div className='ml-auto'>
+                    <Tooltip content="Experimental: Not fully implemented and requires testing" position="left" showArrow>
+                      <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
+                        <FaFlask size={14} />
+                      </span>
+                    </Tooltip>
+                  </div>
                 )}
               </div>
-              <p className="text-md text-foreground-400">{component.description}</p>
+              <p className="text-md text-foreground-400 max-w-[66ch]">{component.description}</p>
+              <div className="-ml-2 flex gap-3 flex-row mb-8 mt-4">
+                {sourceUrls[componentId] && (
+                  <Button
+                    variant="outline"
+                    onClick={() => window.open(sourceUrls[componentId], '_blank')}
+                  >
+                    <FaGithub size={19} className="mr-4 text-foreground-400" /> Source
+                  </Button>
+                )}
+                {reactAriaUrls[componentId] && (
+                  <Button
+                    variant="outline"
+                    onClick={() => window.open(reactAriaUrls[componentId], '_blank')}
+                  >
+                    <div className="mr-4">
+                      <ReactAriaSvg />
+                    </div>
+                    React Aria
+                  </Button>
+                )}
+              </div>
             </div>
             {firstExample && (
               <div className="space-y-4 mb-12">
@@ -118,26 +157,6 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                   <TabsTrigger className="text-sm" value="api">API</TabsTrigger>
                   <TabsTrigger className="text-sm" value="styles">Styles</TabsTrigger>
                 </TabsList>
-                <div className="space-x-2">
-                  {sourceUrls[componentId] && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => window.open(sourceUrls[componentId], '_blank')}
-                    >
-                      <FaGithub className="mr-4 text-foreground-400" /> Source
-                    </Button>
-                  )}
-                  {reactAriaUrls[componentId] && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => window.open(reactAriaUrls[componentId], '_blank')}
-                    >
-                      <SiAdobe className="mr-4 text-foreground-400" /> React Aria
-                    </Button>
-                  )}
-                </div>
               </Flex>
               <TabsContent value="examples" className="mt-6">
                 <section className="scroll-mt-20">

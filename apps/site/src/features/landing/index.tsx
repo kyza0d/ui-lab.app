@@ -73,7 +73,7 @@ function HeroSection({
             </p>
             <div className="flex gap-3">
               <Button className="mt-10 flex justify-evenly w-38 gap-[4px]" variant="secondary">
-                Foundation</Button>
+                Learn More</Button>
               <Button className="mt-10 py-2" variant="secondary"><FaBoxArchive className="mr-4 text-foreground-400" /> View Components</Button>
             </div>
           </div>

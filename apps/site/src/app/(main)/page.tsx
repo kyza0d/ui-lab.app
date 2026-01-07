@@ -77,7 +77,7 @@ const TailwindSvg = () => (
   <SiTailwindcss className="w-8 h-8 text-background-500" />
 );
 
-const ReactAriaSvg = () => (
+export const ReactAriaSvg = () => (
   <svg
     viewBox="200 206 800 790"
     fill="none"

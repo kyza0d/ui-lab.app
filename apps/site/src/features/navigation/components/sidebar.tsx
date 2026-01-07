@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef, useMemo, memo } from "react";
-import { ScrollArea } from "ui-lab-components";
+import { Scroll } from "ui-lab-components";
 import { cn, FadeContainer, usePrefetchOnHover } from "@/shared";
 import {
   categoryMap,
@@ -354,7 +354,7 @@ export function Sidebar() {
 
         {/* Scrollable Contextual Content */}
         <FadeContainer className="flex-1 mb-26">
-          <ScrollArea
+          <Scroll
             ref={scrollContainerRef}
             className="h-[calc(100%-1rem)]"
             maxHeight="100%"
@@ -392,7 +392,7 @@ export function Sidebar() {
                 </div>
               ))}
             </div>
-          </ScrollArea>
+          </Scroll>
         </FadeContainer>
       </div>
     </aside>

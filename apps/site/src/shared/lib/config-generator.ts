@@ -23,7 +23,7 @@ export function getScaleName(ratio: number): string {
   const entries = Object.entries(scaleNameMap);
   const closest = entries.reduce((prev, curr) =>
     Math.abs((curr[0] as unknown as number) - ratio) <
-    Math.abs((prev[0] as unknown as number) - ratio)
+      Math.abs((prev[0] as unknown as number) - ratio)
       ? curr
       : prev,
   );
@@ -642,6 +642,31 @@ function generateRadiusScaleCSS(radius: number): string {
 }
 
 /**
+ * Generates border-width scale CSS with proportional scaling
+ */
+function generateBorderWidthScaleCSS(borderWidth: number): string {
+  const baseBorderScale = [
+    { name: "none", value: 0 },
+    { name: "thin", value: 1 },
+    { name: "base", value: 1 },
+    { name: "2", value: 2 },
+    { name: "4", value: 4 },
+    { name: "8", value: 8 },
+  ];
+
+  const baseBorderRef = 1;
+  const borderScaleFactor = borderWidth / baseBorderRef;
+  const lines: string[] = [];
+
+  baseBorderScale.forEach(({ name, value }) => {
+    const scaledValue = value * borderScaleFactor;
+    lines.push(`  --border-width-${name}: ${scaledValue.toFixed(1)}px;`);
+  });
+
+  return lines.join("\n");
+}
+
+/**
  * Generates fluid spacing CSS with clamp-based scaling
  * @param spacingScale - Spacing scale factor (0.75 - 1.25)
  * @returns CSS variables for fluid spacing
@@ -729,6 +754,7 @@ export function generateFullThemeConfig(
   const colorCSS = generateColorPaletteCSS(colors, mode);
   const fontWeightCSS = generateFontWeightCSS(fontWeightScale);
   const radiusCSS = generateRadiusScaleCSS(radius);
+  const borderWidthCSS = generateBorderWidthScaleCSS(borderWidth);
   const spacingCSS = generateFluidSpacingCSS(spacingScale);
 
   return `@import "tailwindcss";
@@ -757,7 +783,7 @@ ${spacingCSS}
 
 ${radiusCSS}
 
-  --default-border-width: ${borderWidth}px;
+${borderWidthCSS}
 }
 
 ${SEMANTIC_HTML_STYLES}`;

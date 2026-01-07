@@ -1,34 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/features/component-docs";
+import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder, getCategoryIcon } from "@/features/component-docs";
 import { BreadcrumbsNav } from "@/features/navigation";
 import { Divider, Gallery } from "ui-lab-components";
 import { GalleryItemWithPrefetch } from "./gallery-item";
-import {
-  FaKeyboard,        // input
-  FaCircleInfo,      // information
-  FaBell,            // feedback
-  FaCompass,         // navigation
-  FaLayerGroup,      // container
-  FaHandPointer,      // action
-  FaPuzzlePiece,     // composition
-  FaTableCells,      // layout
-  FaChartBar,        // data
-  FaFlask,           // experimental
-} from "react-icons/fa6";
-
-const categoryIcons: Record<string, React.ReactNode> = {
-  input: <FaKeyboard className="inline-block w-5 h-5" />,
-  information: <FaCircleInfo className="inline-block w-5 h-5" />,
-  feedback: <FaBell className="inline-block w-5 h-5" />,
-  navigation: <FaCompass className="inline-block w-5 h-5" />,
-  container: <FaLayerGroup className="inline-block w-5 h-5" />,
-  action: <FaHandPointer className="inline-block w-5 h-5" />,
-  composition: <FaPuzzlePiece className="inline-block w-5 h-5" />,
-  layout: <FaTableCells className="inline-block w-5 h-5" />,
-  data: <FaChartBar className="inline-block w-5 h-5" />,
-  experimental: <FaFlask className="inline-block w-5 h-5" />,
-};
 
 export default function ComponentsPage() {
   const router = useRouter();
@@ -41,7 +16,7 @@ export default function ComponentsPage() {
           <div>
             {/* Page Header */}
             <div className="space-y-4 mb-18">
-              <h2 className="text-4xl font-bold text-foreground-50">Components</h2>
+              <h2 className="font-bold text-foreground-50">Components</h2>
               <p className="text-foreground-400">
                 Explore our collection of reusable, accessible components. Click on any component to view details, examples, and code.
               </p>
@@ -56,9 +31,9 @@ export default function ComponentsPage() {
                     {/* Category Header */}
                     <div className="mb-4 flex items-center">
                       <div>
-                        <h4 className="text-2xl pt-2 font-semibold text-foreground-50 flex items-center">
+                        <h4 className="pt-2 font-semibold text-foreground-50 flex items-center">
                           <div className="text-foreground-500 mr-4 mb-0.5">
-                            {categoryIcons[category]}
+                            {getCategoryIcon(category as any)}
                           </div>
                           {categoryMap[category].label}
                         </h4>
