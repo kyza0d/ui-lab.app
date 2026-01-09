@@ -125,3 +125,13 @@ export type {
   ListDividerProps,
   ListFooterProps,
 } from "./components/List";
+
+export { ThemeProvider, useThemeVariables } from "./providers/ThemeProvider";
+export type { ThemeContextType } from "./providers/ThemeProvider";
+
+export { useTheme, useThemeMode } from "./providers/useTheme";
+
+export { extractThemeVariables, applyThemeCSSVariables } from "./providers/extractThemeVars";
+export type { ThemeConfig, OklchColor, ColorPalette, ColorShade, ThemePalettes } from "./providers/extractThemeVars";
+
+export { generateThemeScript } from "./providers/themeScript";
