@@ -403,122 +403,112 @@ export function generateConfigMessage(
  * Uses a more compact header scale for better visual hierarchy
  */
 const SEMANTIC_HTML_STYLES = `
-h1 {
-  font-size: var(--text-3xl);
-  line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-tight);
-}
+  h1 {
+    font-size: var(--text-3xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+  }
 
-h2 {
-  font-size: var(--text-2xl);
-  line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--letter-spacing-tight);
-}
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-tight);
+  }
 
-h3 {
-  font-size: var(--text-xl);
-  line-height: var(--line-height-snug);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--letter-spacing-snug);
-}
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--line-height-snug);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-snug);
+  }
 
-h4 {
-  font-size: var(--text-lg);
-  line-height: var(--line-height-snug);
-  font-weight: var(--font-weight-medium);
-}
+  h4 {
+    font-size: var(--text-lg);
+    line-height: var(--line-height-snug);
+    font-weight: var(--font-weight-medium);
+  }
 
-h5 {
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-  font-weight: var(--font-weight-medium);
-}
+  h5 {
+    font-size: var(--text-base);
+    line-height: var(--line-height-normal);
+    font-weight: var(--font-weight-medium);
+  }
 
-h6 {
-  font-size: var(--text-base);
-  line-height: var(--line-height-normal);
-  font-weight: var(--font-weight-medium);
-}
+  h6 {
+    font-size: var(--text-base);
+    line-height: var(--line-height-normal);
+    font-weight: var(--font-weight-medium);
+  }
 
-p {
-  font-size: var(--text-base);
-  line-height: var(--line-height-relaxed);
-  font-weight: var(--font-weight-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
+  p {
+    font-size: var(--text-base);
+    line-height: var(--line-height-relaxed);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: var(--letter-spacing-normal);
+  }
 
-small {
-  font-size: var(--text-sm);
-  line-height: var(--line-height-normal);
-  font-weight: var(--font-weight-normal);
-}
+  small {
+    font-size: var(--text-sm);
+    line-height: var(--line-height-normal);
+    font-weight: var(--font-weight-normal);
+  }
 
-strong,
-b {
-  font-weight: var(--font-weight-bold);
-}
+  strong,
+  b {
+    font-weight: var(--font-weight-bold);
+  }
 
-em,
-i {
-  font-style: italic;
-}
+  em,
+  i {
+    font-style: italic;
+  }
 
-a {
-  color: var(--color-foreground-300);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
+  a {
+    color: var(--color-foreground-300);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
 
-a:hover {
-  color: var(--color-accent-400);
-}
+  a:hover {
+    color: var(--color-accent-400);
+  }
 
-code {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  background-color: var(--color-background-800);
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--radius-xs);
-}
+  code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    background-color: var(--color-background-800);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-xs);
+  }
 
-pre {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  background-color: var(--color-background-800);
-  padding: 1rem;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  line-height: var(--line-height-normal);
-}
+  pre {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    background-color: var(--color-background-800);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    line-height: var(--line-height-normal);
+  }
 
-pre code {
-  background-color: transparent;
-  padding: 0;
-  font-size: inherit;
-}
+  pre code {
+    background-color: transparent;
+    padding: 0;
+    font-size: inherit;
+  }
 
-ul,
-ol {
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
+  ul,
+  ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
 
-li {
-  margin-bottom: 0.5rem;
-  line-height: var(--line-height-normal);
-}
-
-blockquote {
-  border-left: 4px solid var(--color-accent-500);
-  padding-left: 1rem;
-  margin-left: 0;
-  color: var(--color-foreground-400);
-  font-style: italic;
-  line-height: var(--line-height-relaxed);
-  font-size: var(--text-lg);
-}`;
+  li {
+    margin-bottom: 0.5rem;
+    line-height: var(--line-height-normal);
+  }`;
 
 /**
  * Generates typography CSS based on type scale ratio
@@ -561,6 +551,7 @@ function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
 
   const lines: string[] = [];
   const paletteNames = ["background", "foreground", "accent"] as const;
+  const semanticNames = ["success", "danger", "warning", "info"] as const;
   const shades = [
     50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950,
   ] as const;
@@ -573,11 +564,28 @@ function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
       if (color) {
         const oklchString = `oklch(${(color.l * 100).toFixed(1)}% ${color.c.toFixed(3)} ${color.h.toFixed(1)})`;
         lines.push(
-          `  --color-${paletteName}-${shade}: var(--${paletteName}-${shade}, ${oklchString});`,
+          `  --color-${paletteName}-${shade}: ${oklchString};`,
         );
       }
     });
   });
+
+  if (palettes.semantic) {
+    semanticNames.forEach((semanticName) => {
+      const palette = palettes.semantic[semanticName];
+      if (palette) {
+        shades.forEach((shade) => {
+          const color = palette[shade];
+          if (color) {
+            const oklchString = `oklch(${(color.l * 100).toFixed(1)}% ${color.c.toFixed(3)} ${color.h.toFixed(1)})`;
+            lines.push(
+              `  --color-${semanticName}-${shade}: ${oklchString};`,
+            );
+          }
+        });
+      }
+    });
+  }
 
   return lines.join("\n");
 }
@@ -758,6 +766,7 @@ export function generateFullThemeConfig(
   const spacingCSS = generateFluidSpacingCSS(spacingScale);
 
   return `@import "tailwindcss";
+@import "ui-lab-components/styles.css";
 
 @theme {
 ${typographyCSS}
@@ -786,5 +795,6 @@ ${radiusCSS}
 ${borderWidthCSS}
 }
 
-${SEMANTIC_HTML_STYLES}`;
+@layer base {${SEMANTIC_HTML_STYLES}
+}`;
 }

@@ -127,7 +127,6 @@
   --color-aura-2: var(--accent-300);  /* Mid vibrant blue-magenta shift */
   --color-aura-3: var(--accent-500);  /* Bold electric cyan-blue (surreal neon pop) */
 
-  /* Vitesse Dark Theme Fallback Colors - matches defaultPreferences */
   --color-background-50: var(--background-50, oklch(16.0% 0.000 0.0));
   --color-background-100: var(--background-100, oklch(29.0% 0.000 0.0));
   --color-background-200: var(--background-200, oklch(31.0% 0.000 0.0));
@@ -139,7 +138,6 @@
   --color-background-800: var(--background-800, oklch(91.0% 0.000 0.0));
   --color-background-900: var(--background-900, oklch(93.0% 0.000 0.0));
   --color-background-950: var(--background-950, oklch(94.0% 0.000 0.0));
-
   --color-foreground-50: var(--foreground-50, oklch(16.0% 0.000 0.0));
   --color-foreground-100: var(--foreground-100, oklch(29.0% 0.000 0.0));
   --color-foreground-200: var(--foreground-200, oklch(31.0% 0.000 0.0));
@@ -151,7 +149,6 @@
   --color-foreground-800: var(--foreground-800, oklch(91.0% 0.000 0.0));
   --color-foreground-900: var(--foreground-900, oklch(93.0% 0.000 0.0));
   --color-foreground-950: var(--foreground-950, oklch(94.0% 0.000 0.0));
-
   --color-accent-50: var(--accent-50, oklch(16.0% 0.000 0.0));
   --color-accent-100: var(--accent-100, oklch(29.0% 0.000 0.0));
   --color-accent-200: var(--accent-200, oklch(31.0% 0.000 0.0));
@@ -163,8 +160,6 @@
   --color-accent-800: var(--accent-800, oklch(91.0% 0.000 0.0));
   --color-accent-900: var(--accent-900, oklch(93.0% 0.000 0.0));
   --color-accent-950: var(--accent-950, oklch(94.0% 0.000 0.0));
-
-  /* Semantic Colors - Success (50-950) */
   --color-success-50: var(--success-50, oklch(16.0% 0.000 142.0));
   --color-success-100: var(--success-100, oklch(29.0% 0.016 142.0));
   --color-success-200: var(--success-200, oklch(31.0% 0.032 142.0));
@@ -176,8 +171,6 @@
   --color-success-800: var(--success-800, oklch(91.0% 0.157 142.0));
   --color-success-900: var(--success-900, oklch(93.0% 0.160 142.0));
   --color-success-950: var(--success-950, oklch(94.0% 0.160 142.0));
-
-  /* Semantic Colors - Danger (50-950) */
   --color-danger-50: var(--danger-50, oklch(16.0% 0.000 25.0));
   --color-danger-100: var(--danger-100, oklch(29.0% 0.015 25.0));
   --color-danger-200: var(--danger-200, oklch(31.0% 0.030 25.0));
@@ -189,8 +182,6 @@
   --color-danger-800: var(--danger-800, oklch(91.0% 0.147 25.0));
   --color-danger-900: var(--danger-900, oklch(93.0% 0.150 25.0));
   --color-danger-950: var(--danger-950, oklch(94.0% 0.150 25.0));
-
-  /* Semantic Colors - Warning (50-950) */
   --color-warning-50: var(--warning-50, oklch(16.0% 0.000 65.0));
   --color-warning-100: var(--warning-100, oklch(29.0% 0.015 65.0));
   --color-warning-200: var(--warning-200, oklch(31.0% 0.030 65.0));
@@ -202,8 +193,6 @@
   --color-warning-800: var(--warning-800, oklch(91.0% 0.147 65.0));
   --color-warning-900: var(--warning-900, oklch(93.0% 0.150 65.0));
   --color-warning-950: var(--warning-950, oklch(94.0% 0.150 65.0));
-
-  /* Semantic Colors - Info (50-950) */
   --color-info-50: var(--info-50, oklch(16.0% 0.000 255.0));
   --color-info-100: var(--info-100, oklch(29.0% 0.015 255.0));
   --color-info-200: var(--info-200, oklch(31.0% 0.030 255.0));
@@ -315,7 +304,7 @@
     max-width: 65ch;
     margin: 0 0 0.4rem 0;
   }
-  /* Override rounded utilities to use dynamic CSS variables */
+
   .rounded {
     border-radius: var(--radius-base);
   }
