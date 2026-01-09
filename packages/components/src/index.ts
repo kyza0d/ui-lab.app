@@ -129,6 +129,8 @@ export type {
 export { ThemeProvider, useThemeVariables } from "./providers/ThemeProvider";
 export type { ThemeContextType } from "./providers/ThemeProvider";
 
+export { ThemeScriptInjector } from "./providers/ThemeScriptInjector";
+
 export { useTheme, useThemeMode } from "./providers/useTheme";
 
 export { extractThemeVariables, applyThemeCSSVariables } from "./providers/extractThemeVars";

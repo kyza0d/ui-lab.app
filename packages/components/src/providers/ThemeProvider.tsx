@@ -24,9 +24,6 @@ interface StoredThemeConfig {
 function injectThemeScript(): void {
   if (typeof document === 'undefined') return
 
-  const head = document.head
-  if (!head) return
-
   const scriptId = 'theme-provider-script'
   if (document.getElementById(scriptId)) return
 
@@ -34,8 +31,15 @@ function injectThemeScript(): void {
   script.id = scriptId
   script.type = 'text/javascript'
   script.textContent = generateThemeScript()
-  script.nonce = ''
-  head.insertBefore(script, head.firstChild)
+  if (script.nonce) script.nonce = ''
+
+  // Try to insert at the very beginning of head
+  const head = document.head
+  if (head && head.firstChild) {
+    head.insertBefore(script, head.firstChild)
+  } else if (head) {
+    head.appendChild(script)
+  }
 }
 
 function convertToUnderlyingVariables(colorPalette: Record<string, string>): Record<string, string> {
@@ -75,13 +79,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [darkPalette, setDarkPalette] = useState<Record<string, string> | null>(null)
 
   const setThemeMode = (mode: 'light' | 'dark') => {
+    // Update DOM immediately to prevent visual flashing
+    if (typeof window !== 'undefined') {
+      try {
+        document.documentElement.setAttribute('data-theme', mode)
+      } catch (e) {
+        console.warn('[ThemeProvider] Failed to set data-theme attribute:', e)
+      }
+    }
+
+    // Update state and variables
     setThemeModeState(mode)
 
     if (typeof window === 'undefined') return
 
     try {
-      document.documentElement.setAttribute('data-theme', mode)
-
       let palette = darkPalette
 
       if (!darkPalette) {
@@ -95,8 +107,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (palette && Object.keys(palette).length > 0) {
         const adjusted = invertPaletteForMode(palette, mode)
         const underlying = convertToUnderlyingVariables(adjusted)
-        setCssVariables(adjusted)
+        // Apply CSS variables immediately to DOM
         applyThemeCSSVariables(underlying)
+        // Update state after DOM is updated
+        setCssVariables(adjusted)
 
         try {
           const stored: StoredThemeConfig = {
@@ -125,16 +139,44 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
       if (saved) {
-        const data = JSON.parse(saved) as StoredThemeConfig
-        setThemeModeState(data.themeMode)
-        document.documentElement.setAttribute('data-theme', data.themeMode)
-
-        if (data.cssVariables && Object.keys(data.cssVariables).length > 0) {
-          setCssVariables(data.cssVariables)
-          const underlying = convertToUnderlyingVariables(data.cssVariables)
-          applyThemeCSSVariables(underlying)
+        try {
+          const data = JSON.parse(saved) as StoredThemeConfig
+          // Validate the saved data
+          if (data && (data.themeMode === 'light' || data.themeMode === 'dark')) {
+            setThemeModeState(data.themeMode)
+            // Ensure theme is applied to DOM (the inline script should have done this, but sync it)
+            document.documentElement.setAttribute('data-theme', data.themeMode)
+            if (data.cssVariables && Object.keys(data.cssVariables).length > 0) {
+              setCssVariables(data.cssVariables)
+              setDarkPalette(data.cssVariables)
+              // Re-apply CSS variables to DOM to ensure consistency
+              const underlying = convertToUnderlyingVariables(data.cssVariables)
+              applyThemeCSSVariables(underlying)
+            }
+          } else {
+            throw new Error('Invalid saved theme data')
+          }
+        } catch (parseError) {
+          console.warn('[ThemeProvider] Failed to parse saved theme:', parseError)
+          // Clear invalid cache
+          try {
+            localStorage.removeItem(STORAGE_KEY)
+          } catch (e) {
+            // Ignore removal errors
+          }
+          // Fall back to extracting theme from CSS
+          const { cssVariables: extracted } = extractThemeVariables('dark')
+          if (Object.keys(extracted).length > 0) {
+            setDarkPalette(extracted)
+            setCssVariables(extracted)
+            const underlying = convertToUnderlyingVariables(extracted)
+            applyThemeCSSVariables(underlying)
+          }
+          setThemeModeState('dark')
+          document.documentElement.setAttribute('data-theme', 'dark')
         }
       } else {
+        // No saved theme, extract from CSS or use dark as default
         const { cssVariables: extracted } = extractThemeVariables('dark')
         if (Object.keys(extracted).length > 0) {
           setDarkPalette(extracted)
@@ -142,10 +184,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           const underlying = convertToUnderlyingVariables(extracted)
           applyThemeCSSVariables(underlying)
         }
+        setThemeModeState('dark')
         document.documentElement.setAttribute('data-theme', 'dark')
       }
     } catch (e) {
       console.warn('[ThemeProvider] Failed to initialize theme:', e)
+      setThemeModeState('dark')
       document.documentElement.setAttribute('data-theme', 'dark')
     } finally {
       setIsThemeInitialized(true)
@@ -180,8 +224,8 @@ export function useThemeVariables(): ThemeContextType {
       cssVariables: {},
       isThemeInitialized: false,
       themeMode: 'dark',
-      setThemeMode: () => {},
-      toggleThemeMode: () => {},
+      setThemeMode: () => { },
+      toggleThemeMode: () => { },
     }
   }
   return context
