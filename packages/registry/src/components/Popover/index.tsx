@@ -1,16 +1,33 @@
 import React from 'react';
-import { Button, Popover } from 'ui-lab-components';
+import { Button, Frame, Popover } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-popover.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
+import { FaQuestion } from 'react-icons/fa6';
+
+const TAIL_WIDTH = 18;
+const TAIL_PATH = "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
 
 export function getPreview(): React.ReactNode {
   return (
-    <div className="flex items-center justify-center h-22">
-      <Popover content="Click to show">
-        <Button variant="secondary">Click Me</Button>
-      </Popover>
+    <div className='flex flex-col items-center gap-3'>
+      <div className='w-24 gap-3 flex'>
+        <Frame
+          side="bottom"
+          shapeMode="extend"
+          cornerRadius={4}
+          path={TAIL_PATH}
+          pathWidth={TAIL_WIDTH}
+          fill="var(--color-background-900)"
+          padding="small"
+        >
+          <div className='w-20 h-3 bg-background-500 opacity-10 rounded-md' />
+        </Frame>
+      </div>
+      <div className='w-7 h-7 flex items-center px-2 rounded-sm bg-background-900 border border-background-700'>
+        <FaQuestion size={12} className='text-background-500' />
+      </div>
     </div>
   );
 }

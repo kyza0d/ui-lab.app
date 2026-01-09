@@ -26,6 +26,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./styles.css": "./dist/styles.css",
     "./generated-data": {
       "import": "./dist/generated-data.js",
       "types": "./dist/generated-data.d.ts"
@@ -70,7 +71,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && node scripts/generate-manifest.js && tsc",
+    "build": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && node scripts/generate-manifest.js && npm run build:css && tsc",
+    "build:css": "pnpm exec postcss src/styles.css -o dist/styles.css",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && node scripts/generate-variations.js && node scripts/generate-manifest.js",
     "validate": "tsx scripts/validate-registry.ts"
@@ -80,10 +82,15 @@
     "ui-lab-components": "workspace:*"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^19",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.0",
+    "postcss-load-config": "^6.0.1",
     "react": "^19",
     "react-docgen-typescript": "^2.2.2",
+    "tailwindcss": "^4.1.11",
     "tsx": "^4.7.0",
     "typescript": "^5"
   }
