@@ -29,7 +29,7 @@ export function getPreview(): React.ReactNode {
         </div>
       </div>
 
-      <div style={{ backgroundColor: "var(--background-800)" }} className='border-t border-background-700 flex items-center h-5 px-2 gap-1 flex'>
+      <div style={{ backgroundColor: "var(--background-800)" }} className='border-t border-background-700 items-center h-5 px-2 gap-1 flex'>
         <div style={{ width: "30%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2'></div>
         <div style={{ width: "30%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2'></div>
         <div style={{ width: "20%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='ml-auto rounded-md h-2'></div>
