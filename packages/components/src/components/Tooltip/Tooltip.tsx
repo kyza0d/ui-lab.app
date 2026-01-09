@@ -1,18 +1,60 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTooltipTrigger, useTooltip, mergeProps } from "react-aria";
+import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 import { cn } from "@/lib/utils";
 import { useTooltipTriggerState } from "react-stately";
+import { Frame } from "../Frame";
 
-const ARROW_SIZE = 12;
-const ARROW_MASK_THICKNESS = 2;
+const ARROW_PATH = "M 0 0 L 6 -12 L 12 0";
+const ARROW_WIDTH = 12;
 const TOOLTIP_GAP = 8;
 const ARROW_POSITIONING_SIZE = 6;
 const DEFAULT_SHOW_DELAY_MS = 200;
 
 type TooltipPosition = "top" | "right" | "bottom" | "left";
+
+const getFrameSide = (position: TooltipPosition): "top" | "right" | "bottom" | "left" => {
+  switch (position) {
+    case "top":
+      return "bottom";
+    case "bottom":
+      return "top";
+    case "left":
+      return "right";
+    case "right":
+      return "left";
+  }
+};
+
+const placementMap: Record<TooltipPosition, "top" | "bottom" | "left" | "right"> = {
+  top: "top",
+  bottom: "bottom",
+  left: "left",
+  right: "right",
+};
+
+/**
+ * Maps placement to initial transform for directional entrance animation.
+ * When animating in, the component slides from its placement direction toward the center.
+ * For example, "top" placement slides up (-Y) and fades in.
+ */
+const getInitialTransform = (placement: string): string => {
+  switch (placement) {
+    case "top":
+      return "translateY(3px) scale(0.95)";
+    case "bottom":
+      return "translateY(-3px) scale(0.95)";
+    case "left":
+      return "translateX(3px) scale(0.95)";
+    case "right":
+      return "translateX(-3px) scale(0.95)";
+    default:
+      return "scale(0.95)";
+  }
+};
 
 export interface TooltipProps {
   children: React.ReactNode;
@@ -27,183 +69,12 @@ export interface TooltipProps {
   showArrow?: boolean;
 }
 
-interface ArrowLineSegment {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-}
-
-interface TooltipArrowProps {
-  position: TooltipPosition;
-}
-
-const TooltipArrow = ({ position }: TooltipArrowProps) => {
-  const [borderWidth, setBorderWidth] = React.useState(1);
-
-  React.useEffect(() => {
-    const root = document.documentElement;
-    const borderWidthStr = getComputedStyle(root).getPropertyValue("--border-width-base").trim();
-    const width = parseFloat(borderWidthStr) || 1;
-    setBorderWidth(width);
-  }, []);
-
-  /**
-   * Calculate SVG polygon points for the arrow triangle.
-   * Creates a triangle pointing in the specified direction.
-   */
-  const getArrowPoints = (): string => {
-    const halfSize = ARROW_SIZE / 2;
-
-    switch (position) {
-      case "top":
-        return `${halfSize},${ARROW_SIZE} 0,0 ${ARROW_SIZE},0`;
-      case "bottom":
-        return `${halfSize},0 0,${ARROW_SIZE} ${ARROW_SIZE},${ARROW_SIZE}`;
-      case "left":
-        return `${ARROW_SIZE},${halfSize} 0,0 0,${ARROW_SIZE}`;
-      case "right":
-        return `0,${halfSize} ${ARROW_SIZE},0 ${ARROW_SIZE},${ARROW_SIZE}`;
-    }
-  };
-
-  /**
-   * Calculate border lines for the arrow.
-   * Excludes the edge that connects to the tooltip to avoid double borders.
-   */
-  const getBorderLines = (): ArrowLineSegment[] => {
-    const halfSize = ARROW_SIZE / 2;
-
-    switch (position) {
-      case "top":
-        return [
-          { x1: halfSize, y1: ARROW_SIZE, x2: 0, y2: 0 },
-          { x1: halfSize, y1: ARROW_SIZE, x2: ARROW_SIZE, y2: 0 },
-        ];
-      case "bottom":
-        return [
-          { x1: halfSize, y1: 0, x2: 0, y2: ARROW_SIZE },
-          { x1: halfSize, y1: 0, x2: ARROW_SIZE, y2: ARROW_SIZE },
-        ];
-      case "left":
-        return [
-          { x1: ARROW_SIZE, y1: halfSize, x2: 0, y2: 0 },
-          { x1: ARROW_SIZE, y1: halfSize, x2: 0, y2: ARROW_SIZE },
-        ];
-      case "right":
-        return [
-          { x1: 0, y1: halfSize, x2: ARROW_SIZE, y2: 0 },
-          { x1: 0, y1: halfSize, x2: ARROW_SIZE, y2: ARROW_SIZE },
-        ];
-    }
-  };
-
-  /**
-   * Calculate positioning styles for the arrow relative to the tooltip.
-   * Accounts for border width and positions the arrow at the tooltip edge.
-   */
-  const getArrowStyles = (): React.CSSProperties => {
-    const borderOffset = borderWidth / 2;
-
-    switch (position) {
-      case "top":
-        return {
-          top: `calc(100% + ${borderOffset}px)`,
-          left: "50%",
-          transform: `translateX(-50%) translateY(-${borderOffset}px)`,
-        };
-      case "bottom":
-        return {
-          bottom: `calc(100% + ${borderOffset}px)`,
-          left: "50%",
-          transform: `translateX(-50%) translateY(${borderOffset}px)`,
-        };
-      case "left":
-        return {
-          left: `calc(100% + ${borderOffset}px)`,
-          top: "50%",
-          transform: `translateY(-50%) translateX(-${borderOffset}px)`,
-        };
-      case "right":
-        return {
-          right: `calc(100% + ${borderOffset}px)`,
-          top: "50%",
-          transform: `translateY(-50%) translateX(${borderOffset}px)`,
-        };
-    }
-  };
-
-  /**
-   * Get the connecting edge mask based on arrow position.
-   * This hides the tooltip border at the arrow connection point.
-   */
-  const getMaskRect = (): React.ReactNode => {
-    switch (position) {
-      case "top":
-        return (
-          <rect x="0" y={ARROW_SIZE - ARROW_MASK_THICKNESS} width={ARROW_SIZE} height={ARROW_MASK_THICKNESS} fill="black" />
-        );
-      case "bottom":
-        return <rect x="0" y="0" width={ARROW_SIZE} height={ARROW_MASK_THICKNESS} fill="black" />;
-      case "left":
-        return (
-          <rect x={ARROW_SIZE - ARROW_MASK_THICKNESS} y="0" width={ARROW_MASK_THICKNESS} height={ARROW_SIZE} fill="black" />
-        );
-      case "right":
-        return <rect x="0" y="0" width={ARROW_MASK_THICKNESS} height={ARROW_SIZE} fill="black" />;
-    }
-  };
-
-  return (
-    <svg
-      width={ARROW_SIZE}
-      height={ARROW_SIZE}
-      viewBox={`0 0 ${ARROW_SIZE} ${ARROW_SIZE}`}
-      className="absolute pointer-events-none"
-      style={getArrowStyles()}
-    >
-      <defs>
-        <mask id={`arrow-mask-${position}`}>
-          {/* White base covers entire SVG */}
-          <rect width={ARROW_SIZE} height={ARROW_SIZE} fill="white" />
-          {/* Black area reveals the tooltip beneath the connecting edge */}
-          {getMaskRect()}
-        </mask>
-      </defs>
-
-      {/* Arrow fill with mask applied */}
-      <polygon
-        points={getArrowPoints()}
-        fill="var(--color-background-900)"
-        mask={`url(#arrow-mask-${position})`}
-      />
-
-      {/* Border lines on outer edges only */}
-      {getBorderLines().map((line, idx) => (
-        <line
-          key={idx}
-          x1={line.x1}
-          y1={line.y1}
-          x2={line.x2}
-          y2={line.y2}
-          stroke="var(--color-background-700)"
-          strokeWidth={borderWidth}
-          strokeLinecap="round"
-        />
-      ))}
-    </svg>
-  );
-};
-
-interface TooltipCoordinates {
-  top: number;
-  left: number;
-}
 
 /**
  * Tooltip component that displays additional information on hover or focus.
  * Uses React Aria hooks for accessibility with custom positioning and styling.
  * Supports positioning in four directions with smooth animations.
+ * Uses Frame component for arrow rendering via SVG-based system.
  */
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
   (
@@ -223,6 +94,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
   ) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     // Create state using React Aria's state management
     const state = useTooltipTriggerState({
@@ -240,55 +112,38 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     );
     const { tooltipProps: ariaTooltipProps } = useTooltip({}, state);
 
-    // Track tooltip position for custom positioning logic
-    const [tooltipPosition, setTooltipPosition] = React.useState<TooltipCoordinates>({
-      top: 0,
-      left: 0,
+    // Setup floating-ui positioning
+    const { refs, floatingStyles, placement } = useFloating({
+      placement: placementMap[position],
+      whileElementsMounted: autoUpdate,
+      middleware: [
+        offset(TOOLTIP_GAP + ARROW_POSITIONING_SIZE),
+        flip(),
+        shift({ padding: 8 }),
+      ],
     });
 
-    /**
-     * Calculate tooltip position based on trigger element and position preference.
-     * Positions the tooltip with appropriate spacing and arrow alignment.
-     */
-    useEffect(() => {
-      if (!state.isOpen || !triggerRef.current) return;
+    // Check if tooltip is positioned
+    const isPositioned = floatingStyles.transform !== undefined;
 
-      const triggerRect = triggerRef.current.getBoundingClientRect();
-      let top = 0;
-      let left = 0;
-
-      switch (position) {
-        case "top":
-          top = triggerRect.top + window.scrollY - TOOLTIP_GAP - ARROW_POSITIONING_SIZE;
-          left = triggerRect.left + window.scrollX + triggerRect.width / 2;
-          break;
-        case "bottom":
-          top = triggerRect.bottom + window.scrollY + TOOLTIP_GAP + ARROW_POSITIONING_SIZE;
-          left = triggerRect.left + window.scrollX + triggerRect.width / 2;
-          break;
-        case "left":
-          top = triggerRect.top + window.scrollY + triggerRect.height / 2;
-          left = triggerRect.left + window.scrollX - TOOLTIP_GAP - ARROW_POSITIONING_SIZE;
-          break;
-        case "right":
-          top = triggerRect.top + window.scrollY + triggerRect.height / 2;
-          left = triggerRect.right + window.scrollX + TOOLTIP_GAP + ARROW_POSITIONING_SIZE;
-          break;
+    // Trigger animation when tooltip is opened and positioned
+    React.useEffect(() => {
+      if (state.isOpen && isPositioned) {
+        setIsAnimating(true);
       }
+    }, [state.isOpen, isPositioned]);
 
-      setTooltipPosition({ top, left });
-    }, [state.isOpen, position]);
+    // Reset animation state when closing
+    React.useEffect(() => {
+      if (!state.isOpen) {
+        setIsAnimating(false);
+      }
+    }, [state.isOpen]);
 
-    /**
-     * CSS classes for positioning the tooltip container based on direction.
-     * Applies negative transforms to properly center the tooltip relative to trigger.
-     */
-    const positionClasses: Record<TooltipPosition, string> = {
-      top: "-translate-x-1/2 -translate-y-full",
-      bottom: "-translate-x-1/2 translate-y-0",
-      left: "-translate-y-1/2 -translate-x-full",
-      right: "-translate-y-1/2 translate-x-0",
-    };
+    // Merge trigger ref with floating-ui reference setter
+    useLayoutEffect(() => {
+      refs.setReference(triggerRef.current);
+    }, [refs]);
 
     return (
       <>
@@ -303,24 +158,39 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         {state.isOpen &&
           createPortal(
             <div
-              ref={tooltipRef}
+              ref={(el) => {
+                (tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+                refs.setFloating(el);
+              }}
               {...mergeProps(tooltipProps, ariaTooltipProps)}
-              className={cn("absolute pointer-events-none z-50 transition-opacity", positionClasses[position], {
-                "opacity-100": state.isOpen,
-              })}
+              className="absolute pointer-events-none z-50"
               style={{
-                top: `${tooltipPosition.top}px`,
-                left: `${tooltipPosition.left}px`,
+                ...floatingStyles,
+                pointerEvents: "none",
               }}
             >
               <div
-                className={cn(
-                  "relative bg-background-900 text-foreground-50 text-sm px-3 py-2 rounded-lg whitespace-nowrap shadow-lg border border-background-700",
-                  contentClassName
-                )}
+                style={{
+                  opacity: isAnimating ? 1 : 0,
+                  transform: isAnimating ? "scale(1)" : getInitialTransform(placement),
+                  transition: "opacity 0.15s ease-out, transform 0.15s ease-out",
+                  pointerEvents: isAnimating ? "auto" : "none",
+                }}
               >
-                {content}
-                {showArrow && <TooltipArrow position={position} />}
+                <Frame
+                  side={showArrow ? getFrameSide(position) : position}
+                  shapeMode={showArrow ? "extend" : undefined}
+                  path={showArrow ? ARROW_PATH : undefined}
+                  pathWidth={showArrow ? ARROW_WIDTH : undefined}
+                  fill="var(--color-background-900)"
+                  borderColor="var(--color-background-700)"
+                  cornerRadius={8}
+                  padding="none"
+                  className={cn("w-auto text-foreground-50 text-sm whitespace-nowrap shadow-lg", contentClassName)}
+                  style={{ padding: "0.5rem 0.75rem" }}
+                >
+                  {content}
+                </Frame>
               </div>
             </div>,
             document.body

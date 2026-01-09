@@ -6,13 +6,47 @@ import { useOverlayTrigger, useDialog, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
 import { cn } from "@/lib/utils";
+import { Frame } from "../Frame";
 
-const ARROW_SIZE = 12;
-const ARROW_MASK_THICKNESS = 2;
+const ARROW_PATH = "M 0 0 L 6 -12 L 12 0";
+const ARROW_WIDTH = 12;
 const POPOVER_GAP = 8;
 const ARROW_POSITIONING_SIZE = 6;
 
 type PopoverPosition = "top" | "right" | "bottom" | "left";
+
+const getFrameSide = (position: PopoverPosition): "top" | "right" | "bottom" | "left" => {
+  switch (position) {
+    case "top":
+      return "bottom";
+    case "bottom":
+      return "top";
+    case "left":
+      return "right";
+    case "right":
+      return "left";
+  }
+};
+
+/**
+ * Maps placement to initial transform for directional entrance animation.
+ * When animating in, the component slides from its placement direction toward the center.
+ * For example, "top" placement slides up (-Y) and fades in.
+ */
+const getInitialTransform = (placement: string): string => {
+  switch (placement) {
+    case "top":
+      return "translateY(3px) scale(0.95)";
+    case "bottom":
+      return "translateY(-3px) scale(0.95)";
+    case "left":
+      return "translateX(3px) scale(0.95)";
+    case "right":
+      return "translateX(-3px) scale(0.95)";
+    default:
+      return "scale(0.95)";
+  }
+};
 
 export interface PopoverProps {
   children: React.ReactNode;
@@ -25,151 +59,13 @@ export interface PopoverProps {
   showArrow?: boolean;
 }
 
-interface ArrowLineSegment {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-}
-
-interface PopoverArrowProps {
-  position: PopoverPosition;
-}
-
-const PopoverArrow = ({ position }: PopoverArrowProps) => {
-  const [borderWidth, setBorderWidth] = React.useState(1);
-
-  React.useEffect(() => {
-    const root = document.documentElement;
-    const borderWidthStr = getComputedStyle(root).getPropertyValue("--border-width-base").trim();
-    const width = parseFloat(borderWidthStr) || 1;
-    setBorderWidth(width);
-  }, []);
-
-  const getArrowPoints = (): string => {
-    const halfSize = ARROW_SIZE / 2;
-    switch (position) {
-      case "top":
-        return `${halfSize},${ARROW_SIZE} 0,0 ${ARROW_SIZE},0`;
-      case "bottom":
-        return `${halfSize},0 0,${ARROW_SIZE} ${ARROW_SIZE},${ARROW_SIZE}`;
-      case "left":
-        return `${ARROW_SIZE},${halfSize} 0,0 0,${ARROW_SIZE}`;
-      case "right":
-        return `0,${halfSize} ${ARROW_SIZE},0 ${ARROW_SIZE},${ARROW_SIZE}`;
-    }
-  };
-
-  const getBorderLines = (): ArrowLineSegment[] => {
-    const halfSize = ARROW_SIZE / 2;
-    switch (position) {
-      case "top":
-        return [
-          { x1: halfSize, y1: ARROW_SIZE, x2: 0, y2: 0 },
-          { x1: halfSize, y1: ARROW_SIZE, x2: ARROW_SIZE, y2: 0 },
-        ];
-      case "bottom":
-        return [
-          { x1: halfSize, y1: 0, x2: 0, y2: ARROW_SIZE },
-          { x1: halfSize, y1: 0, x2: ARROW_SIZE, y2: ARROW_SIZE },
-        ];
-      case "left":
-        return [
-          { x1: ARROW_SIZE, y1: halfSize, x2: 0, y2: 0 },
-          { x1: ARROW_SIZE, y1: halfSize, x2: 0, y2: ARROW_SIZE },
-        ];
-      case "right":
-        return [
-          { x1: 0, y1: halfSize, x2: ARROW_SIZE, y2: 0 },
-          { x1: 0, y1: halfSize, x2: ARROW_SIZE, y2: ARROW_SIZE },
-        ];
-    }
-  };
-
-  const getArrowStyles = (): React.CSSProperties => {
-    const borderOffset = borderWidth / 2;
-    switch (position) {
-      case "top":
-        return {
-          top: `calc(100% + ${borderOffset}px)`,
-          left: "50%",
-          transform: `translateX(-50%) translateY(-${borderOffset}px)`,
-        };
-      case "bottom":
-        return {
-          bottom: `calc(100% + ${borderOffset}px)`,
-          left: "50%",
-          transform: `translateX(-50%) translateY(${borderOffset}px)`,
-        };
-      case "left":
-        return {
-          left: `calc(100% + ${borderOffset}px)`,
-          top: "50%",
-          transform: `translateY(-50%) translateX(-${borderOffset}px)`,
-        };
-      case "right":
-        return {
-          right: `calc(100% + ${borderOffset}px)`,
-          top: "50%",
-          transform: `translateY(-50%) translateX(${borderOffset}px)`,
-        };
-    }
-  };
-
-  const getMaskRect = (): React.ReactNode => {
-    switch (position) {
-      case "top":
-        return <rect x="0" y={ARROW_SIZE - ARROW_MASK_THICKNESS} width={ARROW_SIZE} height={ARROW_MASK_THICKNESS} fill="black" />;
-      case "bottom":
-        return <rect x="0" y="0" width={ARROW_SIZE} height={ARROW_MASK_THICKNESS} fill="black" />;
-      case "left":
-        return <rect x={ARROW_SIZE - ARROW_MASK_THICKNESS} y="0" width={ARROW_MASK_THICKNESS} height={ARROW_SIZE} fill="black" />;
-      case "right":
-        return <rect x="0" y="0" width={ARROW_MASK_THICKNESS} height={ARROW_SIZE} fill="black" />;
-    }
-  };
-
-  return (
-    <svg
-      width={ARROW_SIZE}
-      height={ARROW_SIZE}
-      viewBox={`0 0 ${ARROW_SIZE} ${ARROW_SIZE}`}
-      className="absolute pointer-events-none"
-      style={getArrowStyles()}
-    >
-      <defs>
-        <mask id={`popover-arrow-mask-${position}`}>
-          <rect width={ARROW_SIZE} height={ARROW_SIZE} fill="white" />
-          {getMaskRect()}
-        </mask>
-      </defs>
-      <polygon
-        points={getArrowPoints()}
-        fill="var(--color-background-900)"
-        mask={`url(#popover-arrow-mask-${position})`}
-      />
-      {getBorderLines().map((line, idx) => (
-        <line
-          key={idx}
-          x1={line.x1}
-          y1={line.y1}
-          x2={line.x2}
-          y2={line.y2}
-          stroke="var(--color-background-700)"
-          strokeWidth={borderWidth}
-          strokeLinecap="round"
-        />
-      ))}
-    </svg>
-  );
-};
-
 const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
   ({ children, content, position = "bottom", className, contentClassName, isOpen: controlledIsOpen, onOpenChange, showArrow = false }, ref) => {
     const triggerRef = React.useRef<HTMLDivElement>(null);
     const popoverContentRef = React.useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = React.useState(false);
     const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null);
+    const [isAnimating, setIsAnimating] = React.useState(false);
 
     const state = useOverlayTriggerState({
       isOpen: controlledIsOpen,
@@ -201,6 +97,20 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     });
 
     const isPositioned = floatingStyles.transform !== undefined;
+
+    // Trigger animation when popover is opened and positioned
+    React.useEffect(() => {
+      if (state.isOpen && isPositioned) {
+        setIsAnimating(true);
+      }
+    }, [state.isOpen, isPositioned]);
+
+    // Reset animation state when closing
+    React.useEffect(() => {
+      if (!state.isOpen) {
+        setIsAnimating(false);
+      }
+    }, [state.isOpen]);
 
     React.useLayoutEffect(() => {
       refs.setReference(triggerRef.current);
@@ -297,20 +207,41 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
         {state.isOpen &&
           createPortal(
             <div
-              {...mergeProps(overlayProps, dialogProps)}
               ref={mergedContentRef}
-              role="dialog"
-              className={cn("relative pointer-events-auto bg-background-900 text-foreground-50 text-sm p-3 rounded-lg shadow-lg border border-background-700", contentClassName)}
               style={{
                 ...floatingStyles,
-                visibility: isPositioned ? 'visible' : 'hidden',
-                minWidth: '200px',
-                maxWidth: '400px',
-                width: 'max-content',
+                pointerEvents: "none",
               }}
             >
-              {content}
-              {showArrow && <PopoverArrow position={position as PopoverPosition} />}
+              <div
+                style={{
+                  opacity: isAnimating ? 1 : 0,
+                  transform: isAnimating ? "scale(1)" : getInitialTransform(placement),
+                  transition: 'opacity 0.2s ease-out, transform 0.2s ease-out',
+                  pointerEvents: isAnimating ? 'auto' : 'none',
+                }}
+              >
+                <Frame
+                  {...mergeProps(overlayProps, dialogProps)}
+                  role="dialog"
+                  side={showArrow ? getFrameSide(position) : position}
+                  shapeMode={showArrow ? "extend" : undefined}
+                  path={showArrow ? ARROW_PATH : undefined}
+                  pathWidth={showArrow ? ARROW_WIDTH : undefined}
+                  fill="var(--color-background-900)"
+                  borderColor="var(--color-background-700)"
+                  cornerRadius={8}
+                  padding="none"
+                  className={cn("w-max pointer-events-auto text-foreground-50 text-sm shadow-lg", contentClassName)}
+                  style={{
+                    minWidth: '200px',
+                    maxWidth: '400px',
+                    padding: '0.75rem',
+                  }}
+                >
+                  {content}
+                </Frame>
+              </div>
             </div>,
             portalContainer!
           )}
