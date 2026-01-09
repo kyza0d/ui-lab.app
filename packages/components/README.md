@@ -33,6 +33,8 @@ npm install react react-dom
 
 ## Quick Start
 
+### Option 1: Direct CSS Import (Simplest)
+
 ```tsx
 import { Button, Input, Card } from 'ui-lab-components';
 import 'ui-lab-components/styles.css';
@@ -46,6 +48,39 @@ export default function App() {
   );
 }
 ```
+
+### Option 2: PostCSS Import (For CSS Files)
+
+If you have a CSS file in your project and want to avoid JavaScript imports, you can directly import UILab styles via PostCSS:
+
+**Step 1: In your main CSS file:**
+
+```css
+@import "tailwindcss";
+@import "ui-lab-components/styles.css";
+
+/* Your global styles */
+body {
+  /* ... */
+}
+```
+
+**Step 2: Import the components in your JavaScript:**
+
+```tsx
+import { Button, Input, Card } from 'ui-lab-components';
+
+export default function App() {
+  return (
+    <Card>
+      <Input placeholder="Enter your name" />
+      <Button>Submit</Button>
+    </Card>
+  );
+}
+```
+
+This approach lets PostCSS resolve the full path to `ui-lab-components/styles.css` through the package.json exports, keeping all your styles centralized in CSS files rather than scattered across JavaScript imports.
 
 ## Components
 

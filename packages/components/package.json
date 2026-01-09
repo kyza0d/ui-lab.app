@@ -27,9 +27,14 @@
     ".": {
       "import": "./dist/ui-lab-ui.es.js",
       "require": "./dist/ui-lab-ui.umd.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "style": "./dist/styles.css"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./postcss": {
+      "import": "./dist/postcss-ui-lab.mjs",
+      "types": "./dist/postcss-ui-lab.d.mts"
+    }
   },
   "files": [
     "dist"
@@ -38,8 +43,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build && npm run build:css",
+    "build": "vite build && npm run build:css && npm run build:postcss",
     "build:css": "npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css || (echo 'Error: Failed to build CSS files' && exit 1)",
+    "build:postcss": "cp src/postcss-ui-lab.mjs dist/postcss-ui-lab.mjs",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
     "test": "vitest",
