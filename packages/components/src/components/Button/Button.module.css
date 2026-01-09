@@ -2,6 +2,18 @@
 
 @layer components {
   .button {
+    /* 1. Define Component API (Defaults) */
+    /* We default to the look of your standard/secondary button */
+    --btn-bg: var(--background-800);
+    --btn-fg: var(--foreground-50);
+    --btn-border: var(--background-700);
+    
+    /* 2. Map Styles to Variables */
+    background-color: var(--btn-bg);
+    color: var(--btn-fg);
+    border: var(--border-width-base) solid var(--btn-border);
+    
+    /* Layout & Typo */
     @apply px-3 py-1.5;
     display: inline-flex;
     align-items: center;
@@ -12,9 +24,10 @@
     line-height: var(--leading-snug);
     user-select: none;
     cursor: pointer;
-    border: var(--border-width-base) solid var(--background-700);
     border-radius: var(--radius-md);
-    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out, filter 0.15s ease-out;
+    
+    /* Transitions & Filters */
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out, filter 0.15s ease-out, color 0.15s ease-out;
     filter: brightness(100%);
 
     &:focus-visible {
@@ -25,94 +38,78 @@
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      filter: none; /* Prevent brightness shifts on disabled */
     }
 
     &:active:not(:disabled) {
       transform: scale(0.97);
     }
-  }
-}
-
-.button.primary {
-  background-color: var(--accent-500);
-  color: var(--color-white);
-  border-color: var(--accent-500);
-
-  &:hover:not(:disabled) {
-    filter: brightness(106%);
-    transition: filter 0.20s var(--ease-gentle-ease);
-  }
-
-  &:active:not(:disabled) {
-    background-color: var(--accent-500);
-    transition: background-color 0.20s var(--ease-gentle-ease);
-  }
-}
-
-.button.secondary {
-  background-color: var(--background-800);
-  color: var(--foreground-50);
-  border-color: var(--background-700);
-
-  &:hover:not(:disabled) {
-    filter: brightness(104%);
-    transition: filter 0.20s var(--ease-gentle-ease);
-    border-color: var(--background-700);
-  }
-
-  &:active:not(:disabled) {
-    background-color: var(--background-800);
-    transition: background-color 0.20s var(--ease-gentle-ease);
-    border-color: var(--background-600);
-  }
-}
-
-.button.outline {
-  --border-hover: var(--background-700);
-  outline: 1px solid var(--background-700);
-  background-color: transparent;
-  color: var(--foreground-50);
-
-  &:hover:not(:disabled) {
-    background-color: var(--background-800);
-    border-color: var(--background-700);
-  }
-
-  &:active:not(:disabled) {
-    background-color: var(--background-700);
-    border-color: var(--background-600);
-  }
-}
-
-.button.ghost {
-  background-color: transparent;
-  color: var(--foreground-50);
-  border-color: transparent;
-
-  @media (hover: hover) {
+    
+    /* HOVER STRATEGY:
+       By using brightness filters, the consumer only needs to set the 
+       background color, and hover states are generated automatically.
+    */
     &:hover:not(:disabled) {
-      background-color: var(--background-800);
-      border-color: transparent;
+      filter: brightness(106%); 
+      border-color: var(--btn-border); /* Ensures border follows suit if needed */
     }
   }
 
-  &:active:not(:disabled) {
-    background-color: var(--background-700);
-    border-color: transparent;
+  /* --- VARIANTS --- */
+  /* Note: We only update the variables here */
+
+  .button.primary {
+    --btn-bg: var(--accent-500);
+    --btn-fg: var(--color-white);
+    --btn-border: var(--accent-500);
   }
-}
 
-.button.sm {
-  @apply px-2.5 py-1 text-sm;
-  font-size: var(--text-sm);
-}
+  .button.secondary {
+    /* These match the defaults defined in .button, 
+       but we redeclare them to be explicit if defaults change */
+    --btn-bg: var(--background-800);
+    --btn-fg: var(--foreground-50);
+    --btn-border: var(--background-700);
+  }
 
-.button.md {
-  @apply px-3 py-1.5;
-  font-size: var(--text-md);
-}
+  .button.outline {
+    --btn-bg: transparent;
+    --btn-fg: var(--foreground-50);
+    --btn-border: var(--background-700);
+    
+    /* Outline specific hover override if you want distinct behavior */
+    &:hover:not(:disabled) {
+       background-color: var(--background-800); /* Optional: explicit hover bg */
+    }
+  }
 
-.button.lg {
-  @apply px-4 py-2 text-lg;
-  font-size: var(--text-lg);
+  .button.ghost {
+    --btn-bg: transparent;
+    --btn-fg: var(--foreground-50);
+    --btn-border: transparent;
+
+    /* Ghost usually needs a distinct hover bg, brightness filter might not be enough on transparent */
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background-color: var(--background-800);
+      }
+    }
+  }
+
+  /* --- SIZES --- */
+  
+  .button.sm {
+    @apply px-2.5 py-1 text-sm;
+    font-size: var(--text-sm);
+  }
+
+  .button.md {
+    @apply px-3 py-1.5;
+    font-size: var(--text-md);
+  }
+
+  .button.lg {
+    @apply px-4 py-2 text-lg;
+    font-size: var(--text-lg);
+  }
 }
