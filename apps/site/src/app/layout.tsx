@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "ui-lab-components/styles.css"
+import "ui-lab-registry/styles.css"
 import "./globals.css";
 
 import "@fontsource-variable/karla";

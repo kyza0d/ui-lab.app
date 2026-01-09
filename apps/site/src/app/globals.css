@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@source "./src";
+@source "../../packages/registry/src";
+@source "../../packages/components/src";
+
 @font-face {
   font-family: "Ioskeley Mono";
   src: url("/assets/fonts/monospace/IoskeleyMono-Regular.ttf") format("truetype");

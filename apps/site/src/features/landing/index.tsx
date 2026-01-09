@@ -58,7 +58,7 @@ function HeroSection({
             </p>
           </div>
           <div className="pl-[8px] flex items-center text-center flex-col">
-            <span className="flex h-[30px] items-center gap-[9px] bg-background-950 border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm w-fit pl-[2px]  mb-4">
+            <span className="flex h-[32px] w-60 items-center justify-between gap-[9px] bg-background-950 border-[2px] border-background-700 rounded-[8px] text-foreground-300 text-sm pl-[2px]  mb-4">
               <div className="p-[4px] rounded-[5px]">
                 <FaBook className="text-foreground-400 w-4 h-4" />
               </div>{" "}
