@@ -30,10 +30,9 @@ export function ResizablePreview({
     const updateMaxWidth = () => {
       if (wrapperRef.current?.parentElement) {
         const parentWidth = wrapperRef.current.parentElement.clientWidth;
-        const constrainedMax = Math.floor(parentWidth * 0.95);
-        setMaxWidth(constrainedMax);
-        if (width > constrainedMax) {
-          onWidthChange(Math.min(width, constrainedMax));
+        setMaxWidth(parentWidth);
+        if (width > parentWidth) {
+          onWidthChange(parentWidth);
         }
       }
     };

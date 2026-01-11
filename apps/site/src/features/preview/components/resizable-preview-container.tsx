@@ -57,11 +57,10 @@ export function PreviewContainer({
     const updateMaxWidth = () => {
       if (wrapperRef.current?.parentElement) {
         const parentWidth = wrapperRef.current.parentElement.clientWidth;
-        const constrainedMax = Math.floor(parentWidth * 0.95);
-        setMaxWidth(constrainedMax);
+        setMaxWidth(parentWidth);
 
-        if (widthRef.current > constrainedMax) {
-          onWidthChangeRef.current(Math.min(widthRef.current, constrainedMax));
+        if (widthRef.current > parentWidth) {
+          onWidthChangeRef.current(Math.min(widthRef.current, parentWidth));
         }
       }
     };
