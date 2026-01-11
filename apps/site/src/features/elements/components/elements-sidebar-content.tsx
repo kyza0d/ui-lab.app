@@ -125,7 +125,7 @@ export function ElementsList({
                     <SidebarItemLink
                       key={`${element.id}-${index}`}
                       href={href}
-                      className="block px-3 py-1 text-sm rounded-md cursor-pointer transition-colors text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50"
+                      className="block px-3 text-sm rounded-md cursor-pointer transition-colors text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50"
                     >
                       {variant.name}
                     </SidebarItemLink>

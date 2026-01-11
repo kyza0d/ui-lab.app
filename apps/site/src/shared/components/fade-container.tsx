@@ -13,9 +13,14 @@ export function FadeContainer({ children, className }: FadeContainerProps) {
         className="pointer-events-none absolute top-0 bottom-0 left-0 z-10"
         style={{
           right: 8,
-          background: `
-            linear-gradient(to bottom, var(--background-950) 0%, transparent 24px),
-            linear-gradient(to top, var(--background-950) 0%, transparent 24px)
+          backgroundColor: "var(--background-950)",
+          WebkitMaskImage: `
+            linear-gradient(to bottom, black 0%, transparent 24px),
+            linear-gradient(to top, black 0%, transparent 24px)
+          `,
+          maskImage: `
+            linear-gradient(to bottom, black 0%, transparent 24px),
+            linear-gradient(to top, black 0%, transparent 24px)
           `,
         }}
         aria-hidden="true"

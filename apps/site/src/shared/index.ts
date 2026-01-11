@@ -17,7 +17,7 @@ export { usePrefetchOnHover } from "./hooks/use-prefetch-on-hover";
 
 // Utilities
 export * from "./lib/config-generator";
-export { getHeaderHeight, shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, DOMAINS } from "./lib/route-config";
+export { getHeaderHeight, shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, shouldApplyRevealCollapse, DOMAINS } from "./lib/route-config";
 export * from "./lib/typography-utils";
 export { useCodeHighlight } from "./lib/use-code-highlight";
 export { cn } from "./lib/utils";

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* @import "ui-lab-components/styles.css"; */
 
 @source "./src";
 @source "../../packages/registry/src";
@@ -245,24 +246,11 @@
 
   --h1-font-size: var(--text-4xl);
 
-  --header-height: 6.8rem;
+  --header-height: 7rem;
   --page-width: 1350px;
   /* --indent-offset: 3px; */
 }
 
-
-::selection {
-  background-color: color-mix(in srgb, var(--color-accent-500) 10%, transparent);
-  color: var(--color-accent-500)
-}
-::-moz-selection {
-  background-color: color-mix(in srgb, var(--color-accent-500) 10%, transparent);
-  color: var(--color-accent-500)
-}
-
-* {
-  /* caret-color: var(--color-accent-700) */
-}
 
 .accent-icon {
   color: var(--color-accent-400, oklch(55.0% 0.075 142.5));
@@ -486,6 +474,13 @@ body {
   color: var(--color-foreground-300);
   font-family: var(--font-sans);
   font-weight: var(--font-weight-medium);
+}
+
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 /* Emphasis Styles */
