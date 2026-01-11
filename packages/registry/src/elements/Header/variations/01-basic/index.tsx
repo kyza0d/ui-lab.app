@@ -7,7 +7,7 @@ export function BasicHeader() {
       <Header logoText="UI Lab" />
 
       <main className="flex-1">
-        <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="mx-auto px-4 py-12">
           <div className="space-y-6">
             <div className="bg-background-800 rounded-lg border border-background-700 p-8">
               <div className="h-32 bg-background-700 rounded mb-4" />

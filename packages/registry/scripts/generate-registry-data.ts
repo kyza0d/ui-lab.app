@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 
 const REGISTRY_PATH = path.resolve(__dirname, '../src/registry.ts');
 const GENERATED_DATA_PATH = path.resolve(__dirname, '../src/generated-data.ts');
-const COMPONENTS_DIR = path.resolve(__dirname, '../../components/src/components');
+const COMPONENTS_DIR = path.resolve(__dirname, '../../@ui/src/components');
 const PACKAGE_JSON_PATH = path.resolve(__dirname, '../package.json');
 
 const REACT_ARIA_PLACEHOLDERS: Record<string, string> = {

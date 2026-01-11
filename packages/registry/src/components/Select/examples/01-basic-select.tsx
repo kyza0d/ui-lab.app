@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, SelectListBox } from 'ui-lab-components';
+import { Select } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Select',
@@ -13,11 +13,11 @@ export default function Example() {
         <Select.Value placeholder="Select an option" />
       </Select.Trigger>
       <Select.Content>
-        <SelectListBox>
+        <Select.List>
           <Select.Item value="option1">Option 1</Select.Item>
           <Select.Item value="option2">Option 2</Select.Item>
           <Select.Item value="option3">Option 3</Select.Item>
-        </SelectListBox>
+        </Select.List>
       </Select.Content>
     </Select>
   );

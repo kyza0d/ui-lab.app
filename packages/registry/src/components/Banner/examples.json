@@ -1,0 +1,27 @@
+{
+  "01-basic-banner": {
+    "title": "Basic Banner",
+    "description": "A neutral note banner using background shades instead of semantic colors. The default banner variant for general-purpose messaging.",
+    "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"note\" size=\"md\">\n      This is a note banner. Use it for general-purpose messages and information without semantic intent.\n    </Banner>\n  );\n}"
+  },
+  "02-success-banner": {
+    "title": "Success Banner",
+    "description": "A success banner variant. Use this to indicate successful completion of an action.",
+    "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"success\" size=\"md\">\n      Success! Your changes have been saved.\n    </Banner>\n  );\n}"
+  },
+  "03-warning-banner": {
+    "title": "Warning Banner",
+    "description": "A warning banner variant. Use this to alert users about potential issues or deprecated features.",
+    "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"warning\" size=\"md\">\n      Warning: Please review your settings before proceeding.\n    </Banner>\n  );\n}"
+  },
+  "04-dismissible-banner": {
+    "title": "Dismissible Banner",
+    "description": "A dismissible banner with danger variant. Use this for critical alerts that users can dismiss.",
+    "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  const [isVisible, setIsVisible] = React.useState(true);\n\n  if (!isVisible) {\n    return <div className=\"text-foreground-300\">Banner dismissed</div>;\n  }\n\n  return (\n    <Banner\n      variant=\"danger\"\n      size=\"md\"\n      isDismissible={true}\n      onDismiss={() => setIsVisible(false)}\n    >\n      Error: A critical issue has occurred. Please take action.\n    </Banner>\n  );\n}"
+  },
+  "05-structured-banner": {
+    "title": "Structured Banner",
+    "description": "A banner with structured content using Title and Body compound components for semantic and organized layouts.",
+    "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"info\" size=\"md\">\n      <Banner.Title>New Feature Available</Banner.Title>\n      <Banner.Body>\n        We've added support for dark mode. Check out the settings panel to try it out!\n      </Banner.Body>\n    </Banner>\n  );\n}"
+  }
+}

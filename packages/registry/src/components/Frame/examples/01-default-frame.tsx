@@ -9,7 +9,7 @@ import { Frame } from 'ui-lab-components';
 const LIQUID_WIDTH = 180;
 const LIQUID_PATH = "M 0 0 C 36 0 36 44 90 44 C 144 44 144 0 180 0";
 
-const Example1 = () => {
+const DefaultFrame = () => {
   return (
     <div className="flex items-center justify-center min-h-[400px] bg-background-950">
       <div className="relative w-full max-w-sm group">
@@ -30,4 +30,4 @@ const Example1 = () => {
   );
 };
 
-export default Example1;
+export default DefaultFrame;

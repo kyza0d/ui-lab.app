@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, SelectListBox } from 'ui-lab-components';
+import { Select } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-select.js';
 import examplesJson from './examples.json';
@@ -24,7 +24,7 @@ const selectControls: ControlDef[] = [
   { name: "disabled", label: "Disabled", type: "toggle", defaultValue: false },
 ];
 
-const selectBasicCode = `import { Select, SelectListBox } from "ui-lab-components";
+const selectBasicCode = `import { Select } from "ui-lab-components";
 
 export function Example() {
   return (
@@ -33,11 +33,11 @@ export function Example() {
         <Select.Value placeholder="Select an option" />
       </Select.Trigger>
       <Select.Content>
-        <SelectListBox>
+        <Select.List>
           <Select.Item value="option1">Option 1</Select.Item>
           <Select.Item value="option2">Option 2</Select.Item>
           <Select.Item value="option3">Option 3</Select.Item>
-        </SelectListBox>
+        </Select.List>
       </Select.Content>
     </Select>
   );
@@ -65,11 +65,11 @@ export const selectDetail: ComponentDetail = {
             <Select.Value placeholder="Select an option" />
           </Select.Trigger>
           <Select.Content>
-            <SelectListBox>
+            <Select.List>
               <Select.Item value="option1">Option 1</Select.Item>
               <Select.Item value="option2">Option 2</Select.Item>
               <Select.Item value="option3">Option 3</Select.Item>
-            </SelectListBox>
+            </Select.List>
           </Select.Content>
         </Select>
       ),
@@ -80,11 +80,11 @@ export const selectDetail: ComponentDetail = {
             <Select.Value placeholder={props.placeholder} />
           </Select.Trigger>
           <Select.Content>
-            <SelectListBox>
+            <Select.List>
               <Select.Item value="option1">Option 1</Select.Item>
               <Select.Item value="option2">Option 2</Select.Item>
               <Select.Item value="option3">Option 3</Select.Item>
-            </SelectListBox>
+            </Select.List>
           </Select.Content>
         </Select>
       ),
@@ -103,11 +103,11 @@ export const selectDetail: ComponentDetail = {
             <Select.Value placeholder="Select an option" />
           </Select.Trigger>
           <Select.Content>
-            <SelectListBox>
+            <Select.List>
               <Select.Item value="option1">Option 1</Select.Item>
               <Select.Item value="option2">Option 2</Select.Item>
               <Select.Item value="option3">Option 3</Select.Item>
-            </SelectListBox>
+            </Select.List>
           </Select.Content>
         </Select>
       ),

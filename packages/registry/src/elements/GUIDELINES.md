@@ -230,7 +230,7 @@ interface HeaderProps {
 export function Header({ logoText = 'Logo' }: HeaderProps) {
   return (
     <header className="bg-background-800 border-b border-background-700">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="mx-auto px-4 py-4 flex items-center justify-between">
         {/* Header content */}
       </div>
     </header>
