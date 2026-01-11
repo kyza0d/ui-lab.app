@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { BreadcrumbsNav } from '@/features/navigation';
 import { elementsList, getAllCategories, getAllTags, searchElements } from 'ui-lab-registry';
 import type { ElementMetadata } from 'ui-lab-registry';
-import { ElementsGridClient } from '@/features/elements';
+import { ElementsGridClient, ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from '@/features/elements';
 
 function sortElements(elements: ElementMetadata[], sortBy: string): ElementMetadata[] {
   const sorted = [...elements];
@@ -93,9 +93,9 @@ export default function ElementsPage() {
   }, [router]);
 
   return (
-    <div className='pt-60'>
+    <div className='pl-12 mt-38 pt-(header-height)'>
       <BreadcrumbsNav />
-      <div className="w-full max-w-4xl bg-background-950 mx-auto pb-12">
+      <div className="w-full bg-background-950  px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
           <h2 className="font-bold text-foreground-50">Elements</h2>
           <p className="text-foreground-400 max-w-2xl">
@@ -103,6 +103,31 @@ export default function ElementsPage() {
           </p>
         </div>
         <div className="space-y-6">
+          <div className="grid grid-cols-[400px_1fr] items-center pb-3 pt-2">
+            <div className="flex justify-center">
+              <ElementsSearchHeader
+                className="lg:w-[400px]"
+                currentQuery={searchQuery}
+                pathname="/elements"
+                onSearch={handleSearch}
+              />
+            </div>
+            <div className="flex items-center justify-end gap-2">
+              <ElementsSortDropdown
+                currentSort={sortBy}
+                onSortChange={handleSortChange}
+              />
+              <div className="h-4 w-[1px] bg-background-700 mx-1" />
+              <ElementsLayoutToggle />
+              <ElementsFilterPopover
+                selectedCategory={selectedCategory}
+                selectedTags={selectedTags}
+                onCategoryChange={handleCategoryChange}
+                onTagsChange={handleTagsChange}
+                onClearAll={handleClearAll}
+              />
+            </div>
+          </div>
           <ElementsGridClient elements={filteredElements} />
         </div>
       </div>

@@ -63,7 +63,7 @@ export default function ElementDetailClient({
   if (!element) {
     return (
       <div className="w-full bg-background-950 mx-auto pt-12 pb-12">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="mx-auto px-4">
           <div className="text-center py-12">
             <p className="text-foreground-400">Element not found.</p>
           </div>
@@ -73,8 +73,8 @@ export default function ElementDetailClient({
   }
 
   return (
-    <div>
-      <div className="w-full max-w-4xl bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
+    <div className="pl-12 pt-(header-height)">
+      <div className="w-full bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
           <div className="mb-28">
             <div className="flex items-start justify-between gap-4 mb-4">
@@ -125,8 +125,8 @@ export default function ElementDetailClient({
 
                   <div>
                     {variant.files &&
-                    variant.files.length > 0 &&
-                    DemoComponent ? (
+                      variant.files.length > 0 &&
+                      DemoComponent ? (
                       <ElementPreviewContent
                         variant={currentTab}
                         setVariant={(tab) =>

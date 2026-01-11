@@ -11,7 +11,7 @@ export default function ComponentsPage() {
     <div className="pl-12">
       {/* Breadcrumbs */}
       <BreadcrumbsNav />
-      <div className="w-full px-4 bg-background-950 pt-34 pb-12">
+      <div className="w-full px-4 pt-34 pb-12">
         <main className="w-full">
           <div>
             {/* Page Header */}
