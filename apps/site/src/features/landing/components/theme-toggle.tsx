@@ -24,10 +24,17 @@ export const LandingThemeToggle = () => {
   const toggleTheme = () => {
     const nextMode = currentThemeMode === "light" ? "dark" : "light";
     const colors = currentThemeColors || themes["Vitesse"][nextMode];
+
+    document.documentElement.classList.add("theme-transition");
+
     setCurrentThemeMode(nextMode);
     setCurrentThemeColors(colors);
     applyAndPersistMode(nextMode);
     applyAndPersistColors(colors);
+
+    setTimeout(() => {
+      document.documentElement.classList.remove("theme-transition");
+    }, 300);
   };
 
   if (!isClient) {

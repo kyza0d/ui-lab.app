@@ -7,7 +7,6 @@ import { ThemeToggle, SettingsPanel } from "@/features/landing";
 import { CommandPalette } from "@/features/command-palette";
 import { Logo } from "@/shared";
 import { Input, Tabs, TabsList, TabsTrigger, Select, Button, Badge, Divider } from "ui-lab-components";
-import { ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from "@/features/elements";
 import { useApp } from "@/features/theme";
 import { cn } from "@/shared";
 import {
@@ -18,9 +17,8 @@ import {
   FaTree
 } from "react-icons/fa6";
 import { HiX } from "react-icons/hi";
-import { shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, getHeaderHeight } from "@/shared";
+import { getActiveTabValue, getDomainsWithTabs, getHeaderHeight, shouldApplyRevealCollapse } from "@/shared";
 
-import { useElementsSearch } from "./elements-search";
 import { MobileMenu } from "./mobile-menu";
 import { navigationData } from "./data";
 import { Command } from "lucide-react";
@@ -32,11 +30,7 @@ interface HeaderProps {
 export default function Header({
   pathname,
 }: HeaderProps) {
-  const elementsSearch = useElementsSearch();
-  const { currentQuery, currentSort, selectedCategory, selectedTags, onSearch, onSortChange, onCategoryChange, onTagsChange, onClearFilters } = elementsSearch;
-  const router = useRouter();
-  const isDocRoute = shouldShowHeaderTabs(pathname);
-  const isElementsRoute = shouldShowHeaderSearch(pathname);
+  const hasRevealCollapse = shouldApplyRevealCollapse(pathname);
   const headerHeight = getHeaderHeight(pathname);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -46,13 +40,12 @@ export default function Header({
 
   useEffect(() => {
     const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
-    // When hidden (collapsed), height is 60px (tabs only). When visible, full height.
-    const visibleHeight = isDocRoute && !isHeaderVisible && isDesktop ? "60px" : headerHeight;
+    const visibleHeight = hasRevealCollapse && !isHeaderVisible && isDesktop ? "53px" : headerHeight;
     document.documentElement.style.setProperty('--header-height', visibleHeight);
-  }, [headerHeight, isHeaderVisible, isDocRoute]);
+  }, [headerHeight, isHeaderVisible, hasRevealCollapse]);
 
   useEffect(() => {
-    if (!isDocRoute || typeof window === "undefined") return;
+    if (!hasRevealCollapse || typeof window === "undefined") return;
 
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
     if (!isDesktop) return;
@@ -98,7 +91,7 @@ export default function Header({
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("wheel", handleWheel);
     };
-  }, [isDocRoute, pathname]);
+  }, [hasRevealCollapse, pathname]);
 
   const activeTabValue = getActiveTabValue(pathname);
 
@@ -110,19 +103,19 @@ export default function Header({
           "fixed inset-x-0 top-0 z-50 border-b border-background-700",
           pathname === "/" ? "bg-background-950" : "bg-background-950"
         )}
-        style={{ height: isDocRoute && !isHeaderVisible ? "52px" : headerHeight }}
+        style={{ height: hasRevealCollapse && !isHeaderVisible ? "53px" : headerHeight }}
       />
 
       <header
         className={cn("items-start justify-between flex flex-col fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-6", pathname === "/" ? "max-w-[1100px]" : "max-w-(--page-width)")}
         style={{
-          height: isDocRoute && !isHeaderVisible ? "52px" : headerHeight,
+          height: hasRevealCollapse && !isHeaderVisible ? "53px" : headerHeight,
         }}
       >
         <div
-          className={cn("flex justify-between w-full pt-2.5", isDocRoute && "md:absolute md:top-0 left-0md:z-50")}
+          className={cn("flex justify-between w-full pt-2.5", hasRevealCollapse && "md:absolute md:top-0 left-0md:z-50")}
           style={{
-            transform: isDocRoute && !isHeaderVisible ? "translateY(-100%)" : "translateY(0)",
+            transform: hasRevealCollapse && !isHeaderVisible ? "translateY(-100%)" : "translateY(0)",
             transitionTimingFunction: "var(--ease-gentle-ease)",
           }}
         >
@@ -165,17 +158,17 @@ export default function Header({
           </div>
 
         </div>
-        <div className="absolute flex items-center gap-2 bottom-2 right-3">
+        <div className="z-20 absolute flex items-center gap-2 bottom-2 right-3">
           <div className="relative">
             <Input
-              placeholder="Search documentation"
+              placeholder="Search"
               prefixIcon={<FaMagnifyingGlass size={14} />}
-              className="pl-10 pr-12 w-full bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
+              className="pl-10 pr-12 w-42 bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
               size="md"
               onClick={() => setIsCommandPaletteOpen(true)}
               readOnly
             />
-            <Badge className="absolute top-1/2 -translate-y-1/2 right-2 w-10 rounded gap-1 bg-background-700 border-none" size="sm" icon={<Command size={9} />}> K </Badge>
+            <Badge className="absolute top-1/2 -translate-y-1/2 right-2 w-10 rounded-[9px] gap-1 bg-background-700/50 border border-background-700" size="sm" icon={<Command className="mt-px" size={12} strokeWidth={2.4} />}> K </Badge>
           </div>
           {/* Right side: Settings, Theme Toggle */}
           <div className="flex items-center">
@@ -195,8 +188,8 @@ export default function Header({
             </button>
           </div>
         </div>
-        {isDocRoute && activeTabValue && (
-          <div className="absolute bottom-0 left-0 md:px-6 w-full">
+        {hasRevealCollapse && activeTabValue && (
+          <div className="absolute bottom-0 left-0 md:px-2 w-full">
             <Tabs className="w-fit" value={activeTabValue} variant="underline">
               <TabsList>
                 {getDomainsWithTabs().map((domain) => {
@@ -211,38 +204,6 @@ export default function Header({
                 })}
               </TabsList>
             </Tabs>
-          </div>
-        )}
-        {isElementsRoute && (
-          <div className="w-full grid grid-cols-[auto_1fr] items-center pb-3 pt-2 mt-1">
-
-            {/* Center: Prominent Search */}
-            <div className="flex justify-center">
-              <ElementsSearchHeader
-                className="lg:w-[400px]"
-                currentQuery={currentQuery}
-                pathname={pathname}
-                onSearch={onSearch}
-              />
-            </div>
-
-            {/* Right: Layout & Actions */}
-            <div className="flex items-center justify-end gap-2">
-              <ElementsSortDropdown
-                currentSort={currentSort}
-                onSortChange={onSortChange}
-              />
-              <div className="h-4 w-[1px] bg-background-700 mx-1" />
-              <ElementsLayoutToggle />
-              <ElementsFilterPopover
-                selectedCategory={selectedCategory}
-                selectedTags={selectedTags}
-                onCategoryChange={onCategoryChange}
-                onTagsChange={onTagsChange}
-                onClearAll={onClearFilters}
-              />
-            </div>
-
           </div>
         )}
 
