@@ -15,9 +15,6 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <Suspense fallback={null}>
-      <Suspense fallback={<div style={{ height: '3.75rem' }} />}>
-        <HeaderClient />
-      </Suspense>
       <Suspense fallback={<div />}>
         <main className="flex-1">
           {children}

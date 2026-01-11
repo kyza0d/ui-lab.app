@@ -48,6 +48,8 @@ export default function OverviewPage() {
               </section>
             </div>
           </div>
+
+          </div>
         </main>
         <div className="w-full lg:w-auto">
         </div>

@@ -9,8 +9,7 @@ import {
   categoryMap,
   getCategoriesInOrder,
   getComponentsGroupedByCategory,
-  getComponentsInCategoryOrder,
-  type ComponentCategory,
+  getComponentsInCategoryOrder
 } from "@/features/component-docs";
 import { getSectionsForDomain } from "../lib/sidebar-registry-resolver";
 import {
@@ -255,7 +254,6 @@ const SidebarItemLink = memo(function SidebarItemLink({
 });
 
 export function Sidebar() {
-  const router = useRouter();
   const pathname = usePathname();
   const activeNav = getActiveSectionForPathname(pathname);
   const mainNav = getMainNav(activeNav);
@@ -282,7 +280,7 @@ export function Sidebar() {
   }, [activeNav]);
 
   return (
-    <aside className="hidden md:flex w-56 flex-col">
+    <aside className="hidden md:flex w-62 flex-col">
       {/* Fixed height container with sticky header + scrollable body */}
       <div className="flex flex-col h-screen sticky top-(--header-height)">
         {/* Sticky Top Navigation */}
@@ -321,14 +319,14 @@ export function Sidebar() {
                     className={cn(
                       "flex border items-center gap-3 pl-1 pr-2 py-0.5 text-sm font-medium rounded-md",
                       isActive
-                        ? "border-background-700 text-foreground-50 bg-background-800/70"
+                        ? "border-background-700 text-foreground-200 bg-background-800/70"
                         : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
                     )}
                   >
                     <div className={
                       cn(
                         "w-8 h-8 rounded-md flex items-center justify-center",
-                        isActive ? "text-foreground-50 "
+                        isActive ? "text-foreground-200"
                           : "text-foreground-400 ")}
                     >
 
@@ -353,16 +351,16 @@ export function Sidebar() {
         )}
 
         {/* Scrollable Contextual Content */}
-        <FadeContainer className="flex-1 mb-26">
+        <FadeContainer className="flex-1">
           <Scroll
             ref={scrollContainerRef}
-            className="h-[calc(100%-1rem)]"
+            className="h-[calc(100vh-var(--header-height))]"
             maxHeight="100%"
           >
             <div className="py-5 px-5 space-y-8">
               {sections.map((section) => (
                 <div key={section.label}>
-                  <span className="text-sm text-foreground-200">{section.label}</span>
+                  <span className="text-sm text-foreground-400">{section.label}</span>
                   <div className="relative mt-2.5">
                     <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                     <div className="space-y-1 pl-3">
@@ -380,7 +378,7 @@ export function Sidebar() {
 
                               active
                                 ? "text-foreground-50 bg-background-800 font-medium"
-                                : cn("text-foreground-400", "hover:text-foreground-200 hover:bg-background-800/50")
+                                : cn("text-foreground-200", "hover:text-foreground-200 hover:bg-background-800/50")
                             )}
                           >
                             {item.label}

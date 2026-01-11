@@ -1,34 +1,29 @@
-"use client";
-
-import { TableOfContents } from "@/features/docs";
-import { tocRegistry } from "@/features/docs";
+import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 
 export default function BestPracticesPage() {
-  const tocItems = tocRegistry["best-practices"] || [];
 
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-        {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-4xl font-bold text-foreground-50 mb-4">Best practices</h1>
-          <p className="text-lg text-foreground-300">
-            Patterns and guidelines for building scalable, maintainable interfaces with UI Lab components.
-          </p>
-        </div>
+        <main>
+          <DocumentationHeader
+            title="Best practices"
+            description="Patterns and guidelines for building scalable, maintainable interfaces with UI Lab components."
+          />
 
-        {/* Component Composition */}
-        <div id="component-composition" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Component composition</h2>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Use compound components effectively</h3>
-          <p className="text-foreground-300 mb-4">
-            Components like Card, Dialog, and Tabs use the compound component pattern. Leverage their slots to build consistent layouts:
-          </p>
+          <div id="doc-content">
+            {/* Component Composition */}
+            <div id="component-composition" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">Component composition</h2>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { Card, Button } from '@ui-lab/core';
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Use compound components effectively</h3>
+              <p className="text-foreground-300 mb-4">
+                Components like Card, Dialog, and Tabs use the compound component pattern. Leverage their slots to build consistent layouts:
+              </p>
+
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { Card, Button } from '@ui-lab/core';
 
 // ✅ Use compound components
 export default function UserCard({ user }) {
@@ -47,19 +42,19 @@ export default function UserCard({ user }) {
     </Card>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <p className="text-foreground-300 mb-4">
-            This approach maintains consistent spacing and semantic structure across your app.
-          </p>
+              <p className="text-foreground-300 mb-4">
+                This approach maintains consistent spacing and semantic structure across your app.
+              </p>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Wrap components for project-specific needs</h3>
-          <p className="text-foreground-300 mb-4">
-            Create wrapper components for common patterns in your project:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Wrap components for project-specific needs</h3>
+              <p className="text-foreground-300 mb-4">
+                Create wrapper components for common patterns in your project:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`// components/PrimaryButton.tsx
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`// components/PrimaryButton.tsx
 import { Button, type ButtonProps } from '@ui-lab/core';
 
 export default function PrimaryButton(props: ButtonProps) {
@@ -96,26 +91,26 @@ export default function FormField({
     </div>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <p className="text-foreground-300">
-            Wrapper components let you enforce patterns and reduce repetition without forking component source.
-          </p>
-        </div>
+              <p className="text-foreground-300">
+                Wrapper components let you enforce patterns and reduce repetition without forking component source.
+              </p>
+            </div>
 
-        <div className="border-t border-background-700 my-16"></div>
+            <div className="border-t border-background-700 my-16"></div>
 
-        {/* State Management */}
-        <div id="state-management" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">State management</h2>
+            {/* State Management */}
+            <div id="state-management" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">State management</h2>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Keep component state simple</h3>
-          <p className="text-foreground-300 mb-4">
-            UI Lab components are controlled components. Manage form state with React hooks or your state management solution:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Keep component state simple</h3>
+              <p className="text-foreground-300 mb-4">
+                UI Lab components are controlled components. Manage form state with React hooks or your state management solution:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { useState } from 'react';
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { useState } from 'react';
 import { Button, Input, Card } from '@ui-lab/core';
 
 export default function ContactForm() {
@@ -194,15 +189,15 @@ export default function ContactForm() {
     </Card>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Separate concerns with custom hooks</h3>
-          <p className="text-foreground-300 mb-4">
-            Extract form logic into custom hooks for reuse:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Separate concerns with custom hooks</h3>
+              <p className="text-foreground-300 mb-4">
+                Extract form logic into custom hooks for reuse:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`// hooks/useForm.ts
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`// hooks/useForm.ts
 import { useState } from 'react';
 
 export function useForm(onSubmit) {
@@ -249,22 +244,22 @@ export default function SignupForm() {
     </form>
   );
 }`}</code></pre>
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <div className="border-t border-background-700 my-16"></div>
+            <div className="border-t border-background-700 my-16"></div>
 
-        {/* Performance */}
-        <div id="performance-optimization" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Performance optimization</h2>
+            {/* Performance */}
+            <div id="performance-optimization" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">Performance optimization</h2>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Use React.memo for list items</h3>
-          <p className="text-foreground-300 mb-4">
-            When rendering long lists, memoize list items to prevent unnecessary re-renders:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Use React.memo for list items</h3>
+              <p className="text-foreground-300 mb-4">
+                When rendering long lists, memoize list items to prevent unnecessary re-renders:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { memo } from 'react';
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { memo } from 'react';
 import { Card, Button } from '@ui-lab/core';
 
 const ListItem = memo(function ListItem({ item, onDelete }) {
@@ -290,15 +285,15 @@ export default function ItemList({ items, onDelete }) {
     </div>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Lazy load dialogs and modals</h3>
-          <p className="text-foreground-300 mb-4">
-            Use dynamic imports for heavy components shown conditionally:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Lazy load dialogs and modals</h3>
+              <p className="text-foreground-300 mb-4">
+                Use dynamic imports for heavy components shown conditionally:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { lazy, Suspense, useState } from 'react';
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { lazy, Suspense, useState } from 'react';
 import { Button } from '@ui-lab/core';
 
 const SettingsDialog = lazy(() => import('./SettingsDialog'));
@@ -319,15 +314,15 @@ export default function App() {
     </>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Minimize className computations</h3>
-          <p className="text-foreground-300 mb-4">
-            Avoid computing className inline. Move it outside render:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Minimize className computations</h3>
+              <p className="text-foreground-300 mb-4">
+                Avoid computing className inline. Move it outside render:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`// ❌ Don't do this - className computed every render
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`// ❌ Don't do this - className computed every render
 export default function Item({ isActive }) {
   return (
     <div className={isActive ? 'bg-accent-500' : 'bg-background-800'}>
@@ -343,22 +338,22 @@ const itemClassName = (isActive: boolean) =>
 export default function Item({ isActive }) {
   return <div className={itemClassName(isActive)}>Item</div>;
 }`}</code></pre>
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <div className="border-t border-background-700 my-16"></div>
+            <div className="border-t border-background-700 my-16"></div>
 
-        {/* Type Safety */}
-        <div id="typescript-best-practices" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">TypeScript best practices</h2>
+            {/* Type Safety */}
+            <div id="typescript-best-practices" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">TypeScript best practices</h2>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Type component props properly</h3>
-          <p className="text-foreground-300 mb-4">
-            Always define props interfaces for better type safety and documentation:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Type component props properly</h3>
+              <p className="text-foreground-300 mb-4">
+                Always define props interfaces for better type safety and documentation:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { Button, Card } from '@ui-lab/core';
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { Button, Card } from '@ui-lab/core';
 
 interface UserCardProps {
   userId: string;
@@ -387,15 +382,15 @@ export default function UserCard({
     </Card>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Extend component prop types</h3>
-          <p className="text-foreground-300 mb-4">
-            Reuse UI Lab component types when creating wrappers:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Extend component prop types</h3>
+              <p className="text-foreground-300 mb-4">
+                Reuse UI Lab component types when creating wrappers:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { Button, type ButtonProps } from '@ui-lab/core';
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { Button, type ButtonProps } from '@ui-lab/core';
 
 interface PrimaryButtonProps extends ButtonProps {
   icon?: React.ReactNode;
@@ -412,22 +407,22 @@ export default function PrimaryButton({
     </Button>
   );
 }`}</code></pre>
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <div className="border-t border-background-700 my-16"></div>
+            <div className="border-t border-background-700 my-16"></div>
 
-        {/* Responsive Design */}
-        <div id="responsive-design" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Responsive design</h2>
+            {/* Responsive Design */}
+            <div id="responsive-design" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">Responsive design</h2>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Use Tailwind responsive prefixes</h3>
-          <p className="text-foreground-300 mb-4">
-            Build responsive layouts with Tailwind's responsive utilities:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Use Tailwind responsive prefixes</h3>
+              <p className="text-foreground-300 mb-4">
+                Build responsive layouts with Tailwind's responsive utilities:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`import { Card, Button } from '@ui-lab/core';
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`import { Card, Button } from '@ui-lab/core';
 
 export default function Dashboard() {
   return (
@@ -446,33 +441,33 @@ export default function Dashboard() {
     </div>
   );
 }`}</code></pre>
-          </div>
+              </div>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Test on real devices</h3>
-          <p className="text-foreground-300 mb-4">
-            Browser DevTools responsive mode is helpful, but test on real devices. Common breakpoints:
-          </p>
-          <ul className="space-y-2 text-foreground-300 ml-4">
-            <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">sm: 640px</code> — Small phones</li>
-            <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">md: 768px</code> — Tablets</li>
-            <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">lg: 1024px</code> — Laptops</li>
-            <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">xl: 1280px</code> — Desktops</li>
-          </ul>
-        </div>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Test on real devices</h3>
+              <p className="text-foreground-300 mb-4">
+                Browser DevTools responsive mode is helpful, but test on real devices. Common breakpoints:
+              </p>
+              <ul className="space-y-2 text-foreground-300 ml-4">
+                <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">sm: 640px</code> — Small phones</li>
+                <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">md: 768px</code> — Tablets</li>
+                <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">lg: 1024px</code> — Laptops</li>
+                <li>• <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">xl: 1280px</code> — Desktops</li>
+              </ul>
+            </div>
 
-        <div className="border-t border-background-700 my-16"></div>
+            <div className="border-t border-background-700 my-16"></div>
 
-        {/* Common Patterns */}
-        <div id="common-patterns" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Common patterns</h2>
+            {/* Common Patterns */}
+            <div id="common-patterns" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">Common patterns</h2>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Conditional rendering</h3>
-          <p className="text-foreground-300 mb-4">
-            Use concise conditional rendering:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Conditional rendering</h3>
+              <p className="text-foreground-300 mb-4">
+                Use concise conditional rendering:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`// ✅ Good
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`// ✅ Good
 {isLoading && <div>Loading...</div>}
 {error && <p className="text-destructive-500">{error}</p>}
 {data && <Card>{data.name}</Card>}
@@ -481,15 +476,15 @@ export default function Dashboard() {
 {isLoading ? <div>Loading...</div> : null}
 {error ? <p>{error}</p> : null}
 {data ? <Card>{data.name}</Card> : null}`}</code></pre>
-          </div>
+              </div>
 
-          <h3 className="text-lg font-semibold text-foreground-100 mb-4">Event handler naming</h3>
-          <p className="text-foreground-300 mb-4">
-            Name handlers consistently with handle prefix:
-          </p>
+              <h3 className="text-lg font-semibold text-foreground-100 mb-4">Event handler naming</h3>
+              <p className="text-foreground-300 mb-4">
+                Name handlers consistently with handle prefix:
+              </p>
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`export default function Form() {
+              <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+                <pre className="text-sm text-foreground-300"><code>{`export default function Form() {
   const handleSubmit = (e) => { /* ... */ };
   const handleReset = () => { /* ... */ };
   const handleInputChange = (e) => { /* ... */ };
@@ -504,37 +499,35 @@ export default function Dashboard() {
     </form>
   );
 }`}</code></pre>
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <div className="border-t border-background-700 my-16"></div>
+            <div className="border-t border-background-700 my-16"></div>
 
-        {/* Next Steps */}
-        <div id="next-steps" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Next steps</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a href="/docs/accessibility" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-              <h3 className="text-foreground-50 font-semibold mb-2">Accessibility</h3>
-              <p className="text-foreground-400 text-sm">Ensure your implementations are accessible to all users.</p>
-            </a>
-            <a href="/docs/customization" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-              <h3 className="text-foreground-50 font-semibold mb-2">Customization</h3>
-              <p className="text-foreground-400 text-sm">Learn how to customize and extend components for your needs.</p>
-            </a>
-            <a href="/docs/troubleshooting" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-              <h3 className="text-foreground-50 font-semibold mb-2">Troubleshooting</h3>
-              <p className="text-foreground-400 text-sm">Find solutions to common issues and frequently asked questions.</p>
-            </a>
-            <a href="/docs/ai-integration" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-              <h3 className="text-foreground-50 font-semibold mb-2">AI Integration</h3>
-              <p className="text-foreground-400 text-sm">Use AI tools to generate components that follow these patterns.</p>
-            </a>
+            {/* Next Steps */}
+            <div id="next-steps" className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground-50 mb-6">Next steps</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="/docs/accessibility" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+                  <h3 className="text-foreground-50 font-semibold mb-2">Accessibility</h3>
+                  <p className="text-foreground-400 text-sm">Ensure your implementations are accessible to all users.</p>
+                </a>
+                <a href="/docs/customization" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+                  <h3 className="text-foreground-50 font-semibold mb-2">Customization</h3>
+                  <p className="text-foreground-400 text-sm">Learn how to customize and extend components for your needs.</p>
+                </a>
+                <a href="/docs/troubleshooting" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+                  <h3 className="text-foreground-50 font-semibold mb-2">Troubleshooting</h3>
+                  <p className="text-foreground-400 text-sm">Find solutions to common issues and frequently asked questions.</p>
+                </a>
+                <a href="/docs/ai-integration" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+                  <h3 className="text-foreground-50 font-semibold mb-2">AI Integration</h3>
+                  <p className="text-foreground-400 text-sm">Use AI tools to generate components that follow these patterns.</p>
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
         </main>
-        <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
-        </div>
       </div>
     </div>
   );

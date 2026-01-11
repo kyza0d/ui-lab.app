@@ -1,55 +1,21 @@
 "use client";
 
-import { TableOfContents } from "@/features/docs";
-import { tocRegistry } from "@/features/docs";
+import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 
 export default function CustomizationPage() {
-  const tocItems = tocRegistry["customization"] || [];
 
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
         <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-        {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-4xl font-bold text-foreground-50 mb-4">Customization</h1>
-          <p className="text-lg text-foreground-300">
-            Customize UI Lab's design system to match your brand and requirements using Tailwind CSS design tokens.
-          </p>
-        </div>
+        <DocumentationHeader
 
-        {/* Design Tokens Overview */}
-        <div id="design-tokens" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Design tokens</h2>
-          <p className="text-foreground-300 mb-6">
-            UI Lab uses Tailwind CSS design tokens (CSS variables) to control all visual aspects. Modify tokens in your <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">globals.css</code> file to customize the entire design system:
-          </p>
+          title="Customization"
 
-          <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-            <pre className="text-sm text-foreground-300"><code>{`/* globals.css */
-@theme {
-  --color-base-50: #ffffff;
-  --color-base-100: #f8f8f8;
-  --color-base-200: #efefef;
-  /* ... continues to 950 */
+          description="Customizing and extending UI Lab components for your needs."
 
-  --spacing: 0.25rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-full: 9999px;
+        />
 
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Fira Code', monospace;
-}`}</code></pre>
-          </div>
-
-          <p className="text-foreground-300">
-            All components automatically use these tokens. Change a single token and it updates across your entire application.
-          </p>
-        </div>
-
-        <div className="border-t border-background-700 my-16"></div>
 
         {/* Color System */}
         <div id="color-system" className="mb-16">
@@ -405,10 +371,9 @@ html[data-theme="light"] {
             </a>
           </div>
         </div>
-        </main>
-        <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+
         </div>
+        </main>
       </div>
     </div>
   );

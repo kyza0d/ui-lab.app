@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { HeaderClient } from "@/features/layout";
 import { ElementsHeaderSetup } from "@/features/layout";
 import { Footer } from "@/features/layout";
+import { NodeSection } from '@/features/landing';
 
 export default function MainLayout({
   children,

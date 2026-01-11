@@ -1,49 +1,22 @@
 "use client";
 
-import { TableOfContents } from "@/features/docs";
-import { tocRegistry } from "@/features/docs";
+import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 import { Button } from "ui-lab-components";
 
 export default function AIIntegrationPage() {
-  const tocItems = tocRegistry["ai-integration"] || [];
 
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
         <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-          {/* Header */}
-          <div className="mb-16">
-            <h1 className="text-4xl font-bold text-foreground-50 mb-4">AI integration</h1>
-            <p className="text-lg text-foreground-300">
-              Use UI Lab with language models to generate production-ready component code. LLMs.txt provides structured documentation that AI understands.
-            </p>
-          </div>
+          <DocumentationHeader
 
-          {/* What is LLMs.txt */}
-          <div id="what-is-llms-txt" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">What is LLMs.txt</h2>
-            <p className="text-foreground-300 mb-6">
-              LLMs.txt is a structured, machine-readable documentation format designed for language models. It provides complete component APIs, usage patterns, and constraints in a format that AI tools can reliably understand and use.
-            </p>
+            title="AI integration"
 
-            <p className="text-foreground-300 mb-4">
-              UI Lab includes a comprehensive <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">LLMs.txt</code> file that documents:
-            </p>
-            <ul className="space-y-2 text-foreground-300 ml-4 mb-6">
-              <li>• Complete component interfaces with all props and their types</li>
-              <li>• Variant options and their semantic meanings</li>
-              <li>• Accessibility requirements and ARIA attributes</li>
-              <li>• Common usage patterns and best practices</li>
-              <li>• Design system constraints (spacing, colors, typography)</li>
-              <li>• Integration examples for complex components</li>
-            </ul>
+            description="Specifications and patterns for integrating AI capabilities with UI Lab components."
 
-            <p className="text-foreground-300">
-              This allows AI assistants to generate code that follows UI Lab conventions and best practices without needing to reverse-engineer from examples.
-            </p>
-          </div>
+          />
 
-          <div className="border-t border-background-700 my-16"></div>
 
           {/* Finding LLMs.txt */}
           <div id="accessing-llms-txt" className="mb-16">
@@ -338,10 +311,9 @@ components. Keep the same data structure and logic.`}</code></pre>
               </a>
             </div>
           </div>
+
+          </div>
         </main>
-        <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
-        </div>
       </div>
     </div>
   );

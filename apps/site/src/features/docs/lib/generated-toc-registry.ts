@@ -12,224 +12,94 @@ export type TocRegistry = Record<string, TocItem[]>;
 export const tocRegistry: TocRegistry = {
   "best-practices": [
     {
-      "id": "table-of-contents",
-      "title": "Table of Contents",
+      "id": "general-usage",
+      "title": "General Usage",
       "level": 2
     },
     {
-      "id": "component-usage",
-      "title": "Component Usage",
+      "id": "command-organization",
+      "title": "Command Organization",
+      "level": 3
+    },
+    {
+      "id": "error-handling",
+      "title": "Error Handling",
+      "level": 3
+    },
+    {
+      "id": "performance",
+      "title": "Performance",
+      "level": 3
+    },
+    {
+      "id": "hooks-best-practices",
+      "title": "Hooks Best Practices",
       "level": 2
     },
     {
-      "id": "importing-components",
-      "title": "Importing Components",
+      "id": "validation-hooks",
+      "title": "Validation Hooks",
       "level": 3
     },
     {
-      "id": "importing-styles",
-      "title": "Importing Styles",
+      "id": "side-effects",
+      "title": "Side Effects",
       "level": 3
     },
     {
-      "id": "component-props",
-      "title": "Component Props",
-      "level": 3
-    },
-    {
-      "id": "variants-sizes",
-      "title": "Variants & Sizes",
-      "level": 3
-    },
-    {
-      "id": "event-handlers",
-      "title": "Event Handlers",
-      "level": 3
-    },
-    {
-      "id": "controlled-vs-uncontrolled",
-      "title": "Controlled vs Uncontrolled",
-      "level": 3
-    },
-    {
-      "id": "accessibility",
-      "title": "Accessibility",
+      "id": "skills-best-practices",
+      "title": "Skills Best Practices",
       "level": 2
     },
     {
-      "id": "keyboard-navigation",
-      "title": "Keyboard Navigation",
+      "id": "single-responsibility",
+      "title": "Single Responsibility",
       "level": 3
     },
     {
-      "id": "screen-reader-support",
-      "title": "Screen Reader Support",
+      "id": "documentation",
+      "title": "Documentation",
       "level": 3
     },
     {
-      "id": "focus-management",
-      "title": "Focus Management",
+      "id": "error-handling-2",
+      "title": "Error Handling",
       "level": 3
     },
     {
-      "id": "testing-accessibility",
-      "title": "Testing Accessibility",
-      "level": 3
-    },
-    {
-      "id": "common-accessibility-issues",
-      "title": "Common Accessibility Issues",
-      "level": 3
-    },
-    {
-      "id": "styling-components",
-      "title": "Styling Components",
+      "id": "agents-best-practices",
+      "title": "Agents Best Practices",
       "level": 2
     },
     {
-      "id": "using-css-variables-for-theming",
-      "title": "Using CSS Variables for Theming",
+      "id": "clear-instructions",
+      "title": "Clear Instructions",
       "level": 3
     },
     {
-      "id": "overriding-styles-safely",
-      "title": "Overriding Styles Safely",
+      "id": "tool-selection",
+      "title": "Tool Selection",
       "level": 3
     },
     {
-      "id": "tailwind-classes",
-      "title": "Tailwind Classes",
+      "id": "error-recovery",
+      "title": "Error Recovery",
       "level": 3
     },
     {
-      "id": "dark-mode",
-      "title": "Dark Mode",
-      "level": 3
-    },
-    {
-      "id": "type-safety",
-      "title": "Type Safety",
+      "id": "mcp-servers-best-practices",
+      "title": "MCP Servers Best Practices",
       "level": 2
     },
     {
-      "id": "prop-types",
-      "title": "Prop Types",
+      "id": "server-design",
+      "title": "Server Design",
       "level": 3
     },
     {
-      "id": "discriminated-unions",
-      "title": "Discriminated Unions",
+      "id": "resource-management",
+      "title": "Resource Management",
       "level": 3
-    },
-    {
-      "id": "strict-mode-benefits",
-      "title": "Strict Mode Benefits",
-      "level": 3
-    },
-    {
-      "id": "component-composition",
-      "title": "Component Composition",
-      "level": 2
-    },
-    {
-      "id": "compound-components",
-      "title": "Compound Components",
-      "level": 3
-    },
-    {
-      "id": "composition-over-inheritance",
-      "title": "Composition Over Inheritance",
-      "level": 3
-    },
-    {
-      "id": "wrapper-components",
-      "title": "Wrapper Components",
-      "level": 3
-    },
-    {
-      "id": "state-management",
-      "title": "State Management",
-      "level": 2
-    },
-    {
-      "id": "react-hooks",
-      "title": "React Hooks",
-      "level": 3
-    },
-    {
-      "id": "react-aria-hooks",
-      "title": "React Aria Hooks",
-      "level": 3
-    },
-    {
-      "id": "avoiding-state-issues",
-      "title": "Avoiding State Issues",
-      "level": 3
-    },
-    {
-      "id": "performance-optimization",
-      "title": "Performance Optimization",
-      "level": 2
-    },
-    {
-      "id": "code-splitting",
-      "title": "Code Splitting",
-      "level": 3
-    },
-    {
-      "id": "memoization",
-      "title": "Memoization",
-      "level": 3
-    },
-    {
-      "id": "bundle-size",
-      "title": "Bundle Size",
-      "level": 3
-    },
-    {
-      "id": "testing",
-      "title": "Testing",
-      "level": 2
-    },
-    {
-      "id": "unit-testing",
-      "title": "Unit Testing",
-      "level": 3
-    },
-    {
-      "id": "interaction-testing",
-      "title": "Interaction Testing",
-      "level": 3
-    },
-    {
-      "id": "accessibility-testing",
-      "title": "Accessibility Testing",
-      "level": 3
-    },
-    {
-      "id": "development-workflow",
-      "title": "Development Workflow",
-      "level": 2
-    },
-    {
-      "id": "setup",
-      "title": "Setup",
-      "level": 3
-    },
-    {
-      "id": "testing-changes",
-      "title": "Testing Changes",
-      "level": 3
-    },
-    {
-      "id": "code-style",
-      "title": "Code Style",
-      "level": 3
-    },
-    {
-      "id": "summary",
-      "title": "Summary",
-      "level": 2
     }
   ],
   "cli-guide": [
@@ -440,110 +310,252 @@ export const tocRegistry: TocRegistry = {
   ],
   "index": [
     {
-      "id": "design-system-overview",
-      "title": "Design System Overview",
+      "id": "why-this-matters",
+      "title": "Why This Matters",
       "level": 2
     },
     {
-      "id": "quick-start",
-      "title": "Quick Start",
-      "level": 3
-    },
-    {
-      "id": "core-pillars",
-      "title": "Core Pillars",
-      "level": 3
-    },
-    {
-      "id": "foundation",
-      "title": "Foundation",
-      "level": 3
-    },
-    {
-      "id": "tokens",
-      "title": "Tokens",
-      "level": 3
-    },
-    {
-      "id": "components",
-      "title": "Components",
-      "level": 3
-    },
-    {
-      "id": "guidelines",
-      "title": "Guidelines",
-      "level": 3
-    },
-    {
-      "id": "design-philosophy",
-      "title": "Design Philosophy",
+      "id": "what-youll-learn",
+      "title": "What You'll Learn",
       "level": 2
     },
     {
-      "id": "perceptual-uniformity",
-      "title": "Perceptual Uniformity",
+      "id": "for-claude-users",
+      "title": "For Claude Users",
       "level": 3
     },
     {
-      "id": "semantic-over-visual",
-      "title": "Semantic Over Visual",
+      "id": "for-ai-developers-agent-builders",
+      "title": "For AI Developers & Agent Builders",
       "level": 3
     },
     {
-      "id": "accessibility-first",
-      "title": "Accessibility First",
-      "level": 3
-    },
-    {
-      "id": "rhythm-and-consistency",
-      "title": "Rhythm and Consistency",
-      "level": 3
-    },
-    {
-      "id": "key-features",
-      "title": "Key Features",
+      "id": "core-concepts-three-pillars",
+      "title": "Core Concepts: Three Pillars",
       "level": 2
     },
     {
-      "id": "accessibility",
-      "title": "Accessibility",
+      "id": "1-component-registry",
+      "title": "1. Component Registry",
+      "level": 3
+    },
+    {
+      "id": "2-design-guidelines",
+      "title": "2. Design Guidelines",
+      "level": 3
+    },
+    {
+      "id": "when-to-use-button",
+      "title": "When to Use Button",
       "level": 2
     },
     {
-      "id": "related-documentation",
-      "title": "Related Documentation",
+      "id": "vs-link",
+      "title": "vs. Link",
+      "level": 3
+    },
+    {
+      "id": "variants",
+      "title": "Variants",
+      "level": 3
+    },
+    {
+      "id": "3-llmstxt-format",
+      "title": "3. LLMs.txt Format",
+      "level": 3
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "level": 2
+    },
+    {
+      "id": "props",
+      "title": "Props",
+      "level": 3
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "level": 3
+    },
+    {
+      "id": "key-features-for-ai",
+      "title": "Key Features for AI",
+      "level": 2
+    },
+    {
+      "id": "type-safety",
+      "title": "Type Safety",
+      "level": 3
+    },
+    {
+      "id": "semantic-theming",
+      "title": "Semantic Theming",
+      "level": 3
+    },
+    {
+      "id": "composability-patterns",
+      "title": "Composability Patterns",
+      "level": 3
+    },
+    {
+      "id": "accessibility-built-in",
+      "title": "Accessibility Built-In",
+      "level": 3
+    },
+    {
+      "id": "documentation-structure",
+      "title": "Documentation Structure",
+      "level": 2
+    },
+    {
+      "id": "quick-navigation",
+      "title": "Quick Navigation",
+      "level": 2
+    },
+    {
+      "id": "philosophy-beautiful-by-default",
+      "title": "Philosophy: Beautiful by Default",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
       "level": 2
     }
   ],
-  "installation": [
+  "docs-index": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "level": 2
+    },
+    {
+      "id": "core-values",
+      "title": "Core values",
+      "level": 2
+    },
     {
       "id": "who-this-is-for",
       "title": "Who this is for",
       "level": 2
     },
     {
-      "id": "interactive-installation",
-      "title": "Interactive Installation",
+      "id": "installation",
+      "title": "Installation",
       "level": 2
     },
     {
-      "id": "manual-installation",
-      "title": "Manual Installation",
+      "id": "your-first-component",
+      "title": "Your first component",
       "level": 2
     },
     {
-      "id": "install-dependencies",
-      "title": "Install Dependencies",
+      "id": "common-patterns",
+      "title": "Common patterns",
       "level": 2
     },
     {
-      "id": "import-styles",
-      "title": "Import Styles",
+      "id": "login-form",
+      "title": "Login form",
+      "level": 3
+    },
+    {
+      "id": "dashboard-widget",
+      "title": "Dashboard widget",
+      "level": 3
+    },
+    {
+      "id": "whats-next",
+      "title": "What's next?",
+      "level": 2
+    }
+  ],
+  "installation": [
+    {
+      "id": "prerequisites",
+      "title": "Prerequisites",
       "level": 2
     },
     {
-      "id": "import-and-use",
-      "title": "Import and Use",
+      "id": "building-the-mcp-server",
+      "title": "Building the MCP Server",
+      "level": 2
+    },
+    {
+      "id": "1-install-dependencies",
+      "title": "1. Install Dependencies",
+      "level": 3
+    },
+    {
+      "id": "2-build-the-mcp-server",
+      "title": "2. Build the MCP Server",
+      "level": 3
+    },
+    {
+      "id": "3-verify-build",
+      "title": "3. Verify Build",
+      "level": 3
+    },
+    {
+      "id": "installation-for-claude-code",
+      "title": "Installation for Claude Code",
+      "level": 2
+    },
+    {
+      "id": "1-update-claude-code-mcp-configuration",
+      "title": "1. Update Claude Code MCP Configuration",
+      "level": 3
+    },
+    {
+      "id": "2-restart-claude-code",
+      "title": "2. Restart Claude Code",
+      "level": 3
+    },
+    {
+      "id": "3-verify-installation",
+      "title": "3. Verify Installation",
+      "level": 3
+    },
+    {
+      "id": "installation-for-claude-desktop",
+      "title": "Installation for Claude Desktop",
+      "level": 2
+    },
+    {
+      "id": "1-update-claude-desktop-config",
+      "title": "1. Update Claude Desktop Config",
+      "level": 3
+    },
+    {
+      "id": "2-restart-claude-desktop",
+      "title": "2. Restart Claude Desktop",
+      "level": 3
+    },
+    {
+      "id": "development-workflow",
+      "title": "Development Workflow",
+      "level": 2
+    },
+    {
+      "id": "watch-mode",
+      "title": "Watch Mode",
+      "level": 3
+    },
+    {
+      "id": "testing",
+      "title": "Testing",
+      "level": 3
+    },
+    {
+      "id": "type-checking",
+      "title": "Type Checking",
+      "level": 3
+    },
+    {
+      "id": "available-tools",
+      "title": "Available Tools",
       "level": 2
     },
     {
@@ -552,23 +564,18 @@ export const tocRegistry: TocRegistry = {
       "level": 2
     },
     {
-      "id": "components-dont-render-or-styles-look-wrong",
-      "title": "Components don't render or styles look wrong",
+      "id": "mcp-server-wont-start",
+      "title": "MCP Server Won't Start",
       "level": 3
     },
     {
-      "id": "postcss-error-during-build",
-      "title": "PostCSS error during build",
+      "id": "typescript-compilation-errors",
+      "title": "TypeScript Compilation Errors",
       "level": 3
     },
     {
-      "id": "styles-still-not-applying",
-      "title": "Styles still not applying",
-      "level": 3
-    },
-    {
-      "id": "still-having-issues",
-      "title": "Still having issues?",
+      "id": "tools-not-available-in-claude-code",
+      "title": "Tools Not Available in Claude Code",
       "level": 3
     },
     {
@@ -1542,6 +1549,83 @@ export const tocRegistry: TocRegistry = {
       "level": 2
     }
   ],
+  "design-system-index": [
+    {
+      "id": "design-system-overview",
+      "title": "Design System Overview",
+      "level": 2
+    },
+    {
+      "id": "quick-start",
+      "title": "Quick Start",
+      "level": 3
+    },
+    {
+      "id": "core-pillars",
+      "title": "Core Pillars",
+      "level": 3
+    },
+    {
+      "id": "foundation",
+      "title": "Foundation",
+      "level": 3
+    },
+    {
+      "id": "tokens",
+      "title": "Tokens",
+      "level": 3
+    },
+    {
+      "id": "components",
+      "title": "Components",
+      "level": 3
+    },
+    {
+      "id": "guidelines",
+      "title": "Guidelines",
+      "level": 3
+    },
+    {
+      "id": "design-philosophy",
+      "title": "Design Philosophy",
+      "level": 2
+    },
+    {
+      "id": "perceptual-uniformity",
+      "title": "Perceptual Uniformity",
+      "level": 3
+    },
+    {
+      "id": "semantic-over-visual",
+      "title": "Semantic Over Visual",
+      "level": 3
+    },
+    {
+      "id": "accessibility-first",
+      "title": "Accessibility First",
+      "level": 3
+    },
+    {
+      "id": "rhythm-and-consistency",
+      "title": "Rhythm and Consistency",
+      "level": 3
+    },
+    {
+      "id": "key-features",
+      "title": "Key Features",
+      "level": 2
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "level": 2
+    },
+    {
+      "id": "related-documentation",
+      "title": "Related Documentation",
+      "level": 2
+    }
+  ],
   "spacing": [
     {
       "id": "spacing-scale",
@@ -2282,6 +2366,2411 @@ export const tocRegistry: TocRegistry = {
     {
       "id": "further-resources",
       "title": "Further Resources",
+      "level": 2
+    }
+  ],
+  "agents": [
+    {
+      "id": "what-are-agents",
+      "title": "What are Agents?",
+      "level": 2
+    },
+    {
+      "id": "agent-architecture",
+      "title": "Agent Architecture",
+      "level": 2
+    },
+    {
+      "id": "creating-an-agent",
+      "title": "Creating an Agent",
+      "level": 2
+    },
+    {
+      "id": "running-agents",
+      "title": "Running Agents",
+      "level": 2
+    },
+    {
+      "id": "integration-with-skills-and-hooks",
+      "title": "Integration with Skills and Hooks",
+      "level": 2
+    },
+    {
+      "id": "advanced-topics",
+      "title": "Advanced Topics",
+      "level": 2
+    }
+  ],
+  "commands": [
+    {
+      "id": "component-commands",
+      "title": "Component Commands",
+      "level": 2
+    },
+    {
+      "id": "ui-lab-add",
+      "title": "ui-lab add",
+      "level": 3
+    },
+    {
+      "id": "ui-lab-list",
+      "title": "ui-lab list",
+      "level": 3
+    },
+    {
+      "id": "configuration-commands",
+      "title": "Configuration Commands",
+      "level": 2
+    },
+    {
+      "id": "ui-lab-config",
+      "title": "ui-lab config",
+      "level": 3
+    },
+    {
+      "id": "documentation-commands",
+      "title": "Documentation Commands",
+      "level": 2
+    },
+    {
+      "id": "ui-lab-docs",
+      "title": "ui-lab docs",
+      "level": 3
+    },
+    {
+      "id": "coming-soon",
+      "title": "Coming Soon",
+      "level": 2
+    }
+  ],
+  "configuration": [
+    {
+      "id": "configuration-overview",
+      "title": "Configuration Overview",
+      "level": 2
+    },
+    {
+      "id": "coming-soon",
+      "title": "Coming Soon",
+      "level": 2
+    }
+  ],
+  "hooks": [
+    {
+      "id": "what-are-hooks",
+      "title": "What are Hooks?",
+      "level": 2
+    },
+    {
+      "id": "available-hook-types",
+      "title": "Available Hook Types",
+      "level": 2
+    },
+    {
+      "id": "pretooluse",
+      "title": "PreToolUse",
+      "level": 3
+    },
+    {
+      "id": "posttooluse",
+      "title": "PostToolUse",
+      "level": 3
+    },
+    {
+      "id": "creating-a-custom-hook",
+      "title": "Creating a Custom Hook",
+      "level": 2
+    },
+    {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "level": 2
+    }
+  ],
+  "cli-index": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "level": 2
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "level": 2
+    }
+  ],
+  "mcp-servers": [
+    {
+      "id": "what-are-mcp-servers",
+      "title": "What are MCP Servers?",
+      "level": 2
+    },
+    {
+      "id": "server-types",
+      "title": "Server Types",
+      "level": 2
+    },
+    {
+      "id": "tool-servers",
+      "title": "Tool Servers",
+      "level": 3
+    },
+    {
+      "id": "resource-servers",
+      "title": "Resource Servers",
+      "level": 3
+    },
+    {
+      "id": "building-an-mcp-server",
+      "title": "Building an MCP Server",
+      "level": 2
+    },
+    {
+      "id": "configuration",
+      "title": "Configuration",
+      "level": 2
+    },
+    {
+      "id": "related-resources",
+      "title": "Related Resources",
+      "level": 2
+    }
+  ],
+  "quick-start": [
+    {
+      "id": "your-first-agent",
+      "title": "Your First Agent",
+      "level": 2
+    },
+    {
+      "id": "step-1-import-required-components",
+      "title": "Step 1: Import Required Components",
+      "level": 3
+    },
+    {
+      "id": "step-2-create-an-agent",
+      "title": "Step 2: Create an Agent",
+      "level": 3
+    },
+    {
+      "id": "step-3-handle-agent-responses",
+      "title": "Step 3: Handle Agent Responses",
+      "level": 3
+    },
+    {
+      "id": "common-patterns",
+      "title": "Common Patterns",
+      "level": 2
+    },
+    {
+      "id": "simple-question-answer",
+      "title": "Simple Question-Answer",
+      "level": 3
+    },
+    {
+      "id": "multi-turn-conversations",
+      "title": "Multi-turn Conversations",
+      "level": 3
+    },
+    {
+      "id": "tool-integration",
+      "title": "Tool Integration",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "skills": [
+    {
+      "id": "what-are-skills",
+      "title": "What are Skills?",
+      "level": 2
+    },
+    {
+      "id": "anatomy-of-a-skill",
+      "title": "Anatomy of a Skill",
+      "level": 2
+    },
+    {
+      "id": "creating-a-skill",
+      "title": "Creating a Skill",
+      "level": 2
+    },
+    {
+      "id": "using-skills",
+      "title": "Using Skills",
+      "level": 2
+    },
+    {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "level": 2
+    }
+  ],
+  "api-reference": [
+    {
+      "id": "core-types",
+      "title": "Core Types",
+      "level": 2
+    },
+    {
+      "id": "message",
+      "title": "Message",
+      "level": 3
+    },
+    {
+      "id": "agent",
+      "title": "Agent",
+      "level": 3
+    },
+    {
+      "id": "tool",
+      "title": "Tool",
+      "level": 3
+    },
+    {
+      "id": "toolcall",
+      "title": "ToolCall",
+      "level": 3
+    },
+    {
+      "id": "agent-api",
+      "title": "Agent API",
+      "level": 2
+    },
+    {
+      "id": "useagent-hook",
+      "title": "useAgent Hook",
+      "level": 3
+    },
+    {
+      "id": "send",
+      "title": "send()",
+      "level": 3
+    },
+    {
+      "id": "reset",
+      "title": "reset()",
+      "level": 3
+    },
+    {
+      "id": "mcp-server-api",
+      "title": "MCP Server API",
+      "level": 2
+    },
+    {
+      "id": "mcpserver",
+      "title": "MCPServer",
+      "level": 3
+    },
+    {
+      "id": "serverregistertool",
+      "title": "server.registerTool()",
+      "level": 3
+    },
+    {
+      "id": "serverderegistertool",
+      "title": "server.deregisterTool()",
+      "level": 3
+    },
+    {
+      "id": "mcp-client-api",
+      "title": "MCP Client API",
+      "level": 2
+    },
+    {
+      "id": "mcpclient",
+      "title": "MCPClient",
+      "level": 3
+    },
+    {
+      "id": "clientgettools",
+      "title": "client.getTools()",
+      "level": 3
+    },
+    {
+      "id": "clientcalltool",
+      "title": "client.callTool()",
+      "level": 3
+    },
+    {
+      "id": "clientcalltoolstream",
+      "title": "client.callToolStream()",
+      "level": 3
+    },
+    {
+      "id": "error-handling",
+      "title": "Error Handling",
+      "level": 2
+    },
+    {
+      "id": "mcperror",
+      "title": "MCPError",
+      "level": 3
+    },
+    {
+      "id": "error-handling-example",
+      "title": "Error Handling Example",
+      "level": 3
+    },
+    {
+      "id": "memory-management",
+      "title": "Memory Management",
+      "level": 2
+    },
+    {
+      "id": "memoryconfig",
+      "title": "MemoryConfig",
+      "level": 3
+    },
+    {
+      "id": "memory-types",
+      "title": "Memory Types",
+      "level": 3
+    },
+    {
+      "id": "events",
+      "title": "Events",
+      "level": 2
+    },
+    {
+      "id": "agent-events",
+      "title": "Agent Events",
+      "level": 3
+    },
+    {
+      "id": "streaming",
+      "title": "Streaming",
+      "level": 2
+    },
+    {
+      "id": "streaming-responses",
+      "title": "Streaming Responses",
+      "level": 3
+    },
+    {
+      "id": "rate-limiting",
+      "title": "Rate Limiting",
+      "level": 2
+    },
+    {
+      "id": "rate-limit-headers",
+      "title": "Rate Limit Headers",
+      "level": 3
+    },
+    {
+      "id": "pagination",
+      "title": "Pagination",
+      "level": 2
+    },
+    {
+      "id": "list-operations",
+      "title": "List Operations",
+      "level": 3
+    },
+    {
+      "id": "versioning",
+      "title": "Versioning",
+      "level": 2
+    },
+    {
+      "id": "changelog",
+      "title": "Changelog",
+      "level": 2
+    },
+    {
+      "id": "v100",
+      "title": "v1.0.0",
+      "level": 3
+    },
+    {
+      "id": "support",
+      "title": "Support",
+      "level": 2
+    }
+  ],
+  "component-registry-reference": [
+    {
+      "id": "registry-data-structure",
+      "title": "Registry Data Structure",
+      "level": 2
+    },
+    {
+      "id": "component-object",
+      "title": "Component Object",
+      "level": 3
+    },
+    {
+      "id": "variantinfo",
+      "title": "VariantInfo",
+      "level": 3
+    },
+    {
+      "id": "propdefinition",
+      "title": "PropDefinition",
+      "level": 3
+    },
+    {
+      "id": "accessibilityinfo",
+      "title": "AccessibilityInfo",
+      "level": 3
+    },
+    {
+      "id": "compositioninfo",
+      "title": "CompositionInfo",
+      "level": 3
+    },
+    {
+      "id": "designinfo",
+      "title": "DesignInfo",
+      "level": 3
+    },
+    {
+      "id": "sourceinfo",
+      "title": "SourceInfo",
+      "level": 3
+    },
+    {
+      "id": "component-categories",
+      "title": "Component Categories",
+      "level": 2
+    },
+    {
+      "id": "api-reference",
+      "title": "API Reference",
+      "level": 2
+    },
+    {
+      "id": "typescript-imports",
+      "title": "TypeScript Imports",
+      "level": 3
+    },
+    {
+      "id": "registry-methods",
+      "title": "Registry Methods",
+      "level": 3
+    },
+    {
+      "id": "list",
+      "title": "`list()`",
+      "level": 4
+    },
+    {
+      "id": "findid-string",
+      "title": "`find(id: string)`",
+      "level": 4
+    },
+    {
+      "id": "findbycategorycategory-string",
+      "title": "`findByCategory(category: string)`",
+      "level": 4
+    },
+    {
+      "id": "searchquery-string",
+      "title": "`search(query: string)`",
+      "level": 4
+    },
+    {
+      "id": "getcomponentpropscomponentid-string",
+      "title": "`getComponentProps(componentId: string)`",
+      "level": 4
+    },
+    {
+      "id": "getvariantscomponentid-string",
+      "title": "`getVariants(componentId: string)`",
+      "level": 4
+    },
+    {
+      "id": "getaccessibilitycomponentid-string",
+      "title": "`getAccessibility(componentId: string)`",
+      "level": 4
+    },
+    {
+      "id": "common-components",
+      "title": "Common Components",
+      "level": 2
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "level": 3
+    },
+    {
+      "id": "input",
+      "title": "Input",
+      "level": 3
+    },
+    {
+      "id": "flex",
+      "title": "Flex",
+      "level": 3
+    },
+    {
+      "id": "grid",
+      "title": "Grid",
+      "level": 3
+    },
+    {
+      "id": "accessing-the-registry-programmatically",
+      "title": "Accessing the Registry Programmatically",
+      "level": 2
+    },
+    {
+      "id": "javascripttypescript",
+      "title": "JavaScript/TypeScript",
+      "level": 3
+    },
+    {
+      "id": "json-export",
+      "title": "JSON Export",
+      "level": 3
+    },
+    {
+      "id": "validation",
+      "title": "Validation",
+      "level": 2
+    },
+    {
+      "id": "validate-component-props",
+      "title": "Validate Component Props",
+      "level": 3
+    },
+    {
+      "id": "validate-component-composition",
+      "title": "Validate Component Composition",
+      "level": 3
+    },
+    {
+      "id": "llmstxt-format",
+      "title": "LLMs.txt Format",
+      "level": 2
+    },
+    {
+      "id": "mcp-server-access",
+      "title": "MCP Server Access",
+      "level": 2
+    },
+    {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "level": 2
+    },
+    {
+      "id": "for-ai-systems",
+      "title": "For AI Systems",
+      "level": 3
+    },
+    {
+      "id": "for-registry-maintainers",
+      "title": "For Registry Maintainers",
+      "level": 3
+    },
+    {
+      "id": "updating-the-registry",
+      "title": "Updating the Registry",
+      "level": 2
+    },
+    {
+      "id": "version-history",
+      "title": "Version History",
+      "level": 2
+    }
+  ],
+  "core-concepts": [
+    {
+      "id": "agent-lifecycle",
+      "title": "Agent Lifecycle",
+      "level": 2
+    },
+    {
+      "id": "messages-and-communication",
+      "title": "Messages and Communication",
+      "level": 2
+    },
+    {
+      "id": "context-and-memory",
+      "title": "Context and Memory",
+      "level": 2
+    },
+    {
+      "id": "tools-and-functions",
+      "title": "Tools and Functions",
+      "level": 2
+    },
+    {
+      "id": "model-context-protocol-mcp",
+      "title": "Model Context Protocol (MCP)",
+      "level": 2
+    },
+    {
+      "id": "agent-types",
+      "title": "Agent Types",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "custom-mcps": [
+    {
+      "id": "mcp-server-basics",
+      "title": "MCP Server Basics",
+      "level": 2
+    },
+    {
+      "id": "server-structure",
+      "title": "Server Structure",
+      "level": 3
+    },
+    {
+      "id": "tool-definition",
+      "title": "Tool Definition",
+      "level": 3
+    },
+    {
+      "id": "creating-a-simple-mcp-server",
+      "title": "Creating a Simple MCP Server",
+      "level": 2
+    },
+    {
+      "id": "step-1-define-your-tools",
+      "title": "Step 1: Define Your Tools",
+      "level": 3
+    },
+    {
+      "id": "step-2-implement-tool-handlers",
+      "title": "Step 2: Implement Tool Handlers",
+      "level": 3
+    },
+    {
+      "id": "step-3-create-and-start-server",
+      "title": "Step 3: Create and Start Server",
+      "level": 3
+    },
+    {
+      "id": "advanced-features",
+      "title": "Advanced Features",
+      "level": 2
+    },
+    {
+      "id": "streaming-responses",
+      "title": "Streaming Responses",
+      "level": 3
+    },
+    {
+      "id": "resource-management",
+      "title": "Resource Management",
+      "level": 3
+    },
+    {
+      "id": "error-handling",
+      "title": "Error Handling",
+      "level": 3
+    },
+    {
+      "id": "authentication",
+      "title": "Authentication",
+      "level": 3
+    },
+    {
+      "id": "testing-your-mcp",
+      "title": "Testing Your MCP",
+      "level": 2
+    },
+    {
+      "id": "unit-tests",
+      "title": "Unit Tests",
+      "level": 3
+    },
+    {
+      "id": "integration-tests",
+      "title": "Integration Tests",
+      "level": 3
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment",
+      "level": 2
+    },
+    {
+      "id": "docker-deployment",
+      "title": "Docker Deployment",
+      "level": 3
+    },
+    {
+      "id": "environment-configuration",
+      "title": "Environment Configuration",
+      "level": 3
+    },
+    {
+      "id": "monitoring",
+      "title": "Monitoring",
+      "level": 3
+    },
+    {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "design-guidelines-reference": [
+    {
+      "id": "core-principles",
+      "title": "Core Principles",
+      "level": 2
+    },
+    {
+      "id": "1-beautiful-by-default",
+      "title": "1. Beautiful by Default",
+      "level": 3
+    },
+    {
+      "id": "2-semantic-over-visual",
+      "title": "2. Semantic Over Visual",
+      "level": 3
+    },
+    {
+      "id": "3-composition-over-configuration",
+      "title": "3. Composition Over Configuration",
+      "level": 3
+    },
+    {
+      "id": "4-accessibility-as-foundation",
+      "title": "4. Accessibility as Foundation",
+      "level": 3
+    },
+    {
+      "id": "component-selection-guide",
+      "title": "Component Selection Guide",
+      "level": 2
+    },
+    {
+      "id": "when-to-use-button-vs-link",
+      "title": "When to Use: Button vs. Link",
+      "level": 3
+    },
+    {
+      "id": "when-to-use-input-vs-textarea",
+      "title": "When to Use: Input vs. TextArea",
+      "level": 3
+    },
+    {
+      "id": "when-to-use-tabs-vs-menu",
+      "title": "When to Use: Tabs vs. Menu",
+      "level": 3
+    },
+    {
+      "id": "when-to-use-modal-vs-popover",
+      "title": "When to Use: Modal vs. Popover",
+      "level": 3
+    },
+    {
+      "id": "when-to-use-toast-vs-tooltip",
+      "title": "When to Use: Toast vs. Tooltip",
+      "level": 3
+    },
+    {
+      "id": "variant-selection-guide",
+      "title": "Variant Selection Guide",
+      "level": 2
+    },
+    {
+      "id": "button-variants",
+      "title": "Button Variants",
+      "level": 3
+    },
+    {
+      "id": "form-field-states",
+      "title": "Form Field States",
+      "level": 3
+    },
+    {
+      "id": "composition-patterns",
+      "title": "Composition Patterns",
+      "level": 2
+    },
+    {
+      "id": "form-pattern",
+      "title": "Form Pattern",
+      "level": 3
+    },
+    {
+      "id": "card-pattern",
+      "title": "Card Pattern",
+      "level": 3
+    },
+    {
+      "id": "button-group-pattern",
+      "title": "Button Group Pattern",
+      "level": 3
+    },
+    {
+      "id": "modal-pattern",
+      "title": "Modal Pattern",
+      "level": 3
+    },
+    {
+      "id": "list-pattern",
+      "title": "List Pattern",
+      "level": 3
+    },
+    {
+      "id": "responsive-design-guidelines",
+      "title": "Responsive Design Guidelines",
+      "level": 2
+    },
+    {
+      "id": "mobile-first-approach",
+      "title": "Mobile-First Approach",
+      "level": 3
+    },
+    {
+      "id": "breakpoints",
+      "title": "Breakpoints",
+      "level": 3
+    },
+    {
+      "id": "typography-scaling",
+      "title": "Typography Scaling",
+      "level": 3
+    },
+    {
+      "id": "spacing-scaling",
+      "title": "Spacing Scaling",
+      "level": 3
+    },
+    {
+      "id": "color-theming-guidelines",
+      "title": "Color & Theming Guidelines",
+      "level": 2
+    },
+    {
+      "id": "color-tokens",
+      "title": "Color Tokens",
+      "level": 3
+    },
+    {
+      "id": "token-categories",
+      "title": "Token Categories",
+      "level": 3
+    },
+    {
+      "id": "dark-mode",
+      "title": "Dark Mode",
+      "level": 3
+    },
+    {
+      "id": "accessibility-guidelines",
+      "title": "Accessibility Guidelines",
+      "level": 2
+    },
+    {
+      "id": "for-ai-code-generation",
+      "title": "For AI Code Generation",
+      "level": 3
+    },
+    {
+      "id": "performance-guidelines",
+      "title": "Performance Guidelines",
+      "level": 2
+    },
+    {
+      "id": "use-flex-and-grid-over-divs",
+      "title": "Use `Flex` and `Grid` Over DIVs",
+      "level": 3
+    },
+    {
+      "id": "lazy-load-heavy-components",
+      "title": "Lazy Load Heavy Components",
+      "level": 3
+    },
+    {
+      "id": "use-container-queries",
+      "title": "Use Container Queries",
+      "level": 3
+    },
+    {
+      "id": "common-mistakes-to-avoid",
+      "title": "Common Mistakes to Avoid",
+      "level": 2
+    },
+    {
+      "id": "-overusing-customization",
+      "title": "❌ Overusing Customization",
+      "level": 3
+    },
+    {
+      "id": "-nesting-components-wrong",
+      "title": "❌ Nesting Components Wrong",
+      "level": 3
+    },
+    {
+      "id": "-missing-aria-labels",
+      "title": "❌ Missing ARIA Labels",
+      "level": 3
+    },
+    {
+      "id": "-hardcoding-values",
+      "title": "❌ Hardcoding Values",
+      "level": 3
+    },
+    {
+      "id": "-ignoring-dark-mode",
+      "title": "❌ Ignoring Dark Mode",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "designing-ai-workflows": [
+    {
+      "id": "workflow-architecture",
+      "title": "Workflow Architecture",
+      "level": 2
+    },
+    {
+      "id": "planning-your-workflow",
+      "title": "Planning Your Workflow",
+      "level": 2
+    },
+    {
+      "id": "define-clear-objectives",
+      "title": "Define Clear Objectives",
+      "level": 3
+    },
+    {
+      "id": "map-user-interactions",
+      "title": "Map User Interactions",
+      "level": 3
+    },
+    {
+      "id": "error-handling-and-recovery",
+      "title": "Error Handling and Recovery",
+      "level": 2
+    },
+    {
+      "id": "performance-optimization",
+      "title": "Performance Optimization",
+      "level": 2
+    },
+    {
+      "id": "state-management",
+      "title": "State Management",
+      "level": 2
+    },
+    {
+      "id": "monitoring-and-analytics",
+      "title": "Monitoring and Analytics",
+      "level": 2
+    },
+    {
+      "id": "example-customer-support-workflow",
+      "title": "Example: Customer Support Workflow",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "examples-use-cases": [
+    {
+      "id": "customer-support-assistant",
+      "title": "Customer Support Assistant",
+      "level": 2
+    },
+    {
+      "id": "components",
+      "title": "Components",
+      "level": 3
+    },
+    {
+      "id": "workflow",
+      "title": "Workflow",
+      "level": 3
+    },
+    {
+      "id": "benefits",
+      "title": "Benefits",
+      "level": 3
+    },
+    {
+      "id": "content-creation-assistant",
+      "title": "Content Creation Assistant",
+      "level": 2
+    },
+    {
+      "id": "use-cases",
+      "title": "Use Cases",
+      "level": 3
+    },
+    {
+      "id": "key-features",
+      "title": "Key Features",
+      "level": 3
+    },
+    {
+      "id": "data-analysis-agent",
+      "title": "Data Analysis Agent",
+      "level": 2
+    },
+    {
+      "id": "capabilities",
+      "title": "Capabilities",
+      "level": 3
+    },
+    {
+      "id": "integration-points",
+      "title": "Integration Points",
+      "level": 3
+    },
+    {
+      "id": "personal-assistant-agent",
+      "title": "Personal Assistant Agent",
+      "level": 2
+    },
+    {
+      "id": "responsibilities",
+      "title": "Responsibilities",
+      "level": 3
+    },
+    {
+      "id": "smart-features",
+      "title": "Smart Features",
+      "level": 3
+    },
+    {
+      "id": "e-commerce-recommendation-agent",
+      "title": "E-Commerce Recommendation Agent",
+      "level": 2
+    },
+    {
+      "id": "functionality",
+      "title": "Functionality",
+      "level": 3
+    },
+    {
+      "id": "result",
+      "title": "Result",
+      "level": 3
+    },
+    {
+      "id": "code-review-agent",
+      "title": "Code Review Agent",
+      "level": 2
+    },
+    {
+      "id": "tasks",
+      "title": "Tasks",
+      "level": 3
+    },
+    {
+      "id": "benefits-2",
+      "title": "Benefits",
+      "level": 3
+    },
+    {
+      "id": "document-processing-agent",
+      "title": "Document Processing Agent",
+      "level": 2
+    },
+    {
+      "id": "capabilities-2",
+      "title": "Capabilities",
+      "level": 3
+    },
+    {
+      "id": "applications",
+      "title": "Applications",
+      "level": 3
+    },
+    {
+      "id": "multi-agent-systems",
+      "title": "Multi-Agent Systems",
+      "level": 2
+    },
+    {
+      "id": "patterns",
+      "title": "Patterns",
+      "level": 3
+    },
+    {
+      "id": "example-research-assistant",
+      "title": "Example: Research Assistant",
+      "level": 3
+    },
+    {
+      "id": "real-time-collaboration",
+      "title": "Real-Time Collaboration",
+      "level": 2
+    },
+    {
+      "id": "interactive-workflows",
+      "title": "Interactive Workflows",
+      "level": 3
+    },
+    {
+      "id": "getting-started-with-examples",
+      "title": "Getting Started with Examples",
+      "level": 2
+    },
+    {
+      "id": "step-1-choose-your-use-case",
+      "title": "Step 1: Choose Your Use Case",
+      "level": 3
+    },
+    {
+      "id": "step-2-design-your-workflow",
+      "title": "Step 2: Design Your Workflow",
+      "level": 3
+    },
+    {
+      "id": "step-3-build-and-test",
+      "title": "Step 3: Build and Test",
+      "level": 3
+    },
+    {
+      "id": "step-4-optimize",
+      "title": "Step 4: Optimize",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "getting-started-with-claude": [
+    {
+      "id": "what-youll-build",
+      "title": "What You'll Build",
+      "level": 2
+    },
+    {
+      "id": "step-1-set-up-your-project",
+      "title": "Step 1: Set Up Your Project",
+      "level": 2
+    },
+    {
+      "id": "step-2-know-what-components-are-available",
+      "title": "Step 2: Know What Components Are Available",
+      "level": 2
+    },
+    {
+      "id": "step-3-tell-claude-about-ui-lab",
+      "title": "Step 3: Tell Claude About UI Lab",
+      "level": 2
+    },
+    {
+      "id": "option-a-simple-reference-quick-start",
+      "title": "Option A: Simple Reference (Quick Start)",
+      "level": 3
+    },
+    {
+      "id": "option-b-detailed-reference-better-results",
+      "title": "Option B: Detailed Reference (Better Results)",
+      "level": 3
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "level": 2
+    },
+    {
+      "id": "form-components",
+      "title": "Form Components",
+      "level": 2
+    },
+    {
+      "id": "design-guidelines",
+      "title": "Design Guidelines",
+      "level": 2
+    },
+    {
+      "id": "available-design-classes",
+      "title": "Available Design Classes",
+      "level": 2
+    },
+    {
+      "id": "option-c-use-mcp-server-integration-best",
+      "title": "Option C: Use MCP Server Integration (Best)",
+      "level": 3
+    },
+    {
+      "id": "step-4-write-your-prompt",
+      "title": "Step 4: Write Your Prompt",
+      "level": 2
+    },
+    {
+      "id": "step-5-review-the-generated-code",
+      "title": "Step 5: Review the Generated Code",
+      "level": 2
+    },
+    {
+      "id": "step-6-customize-if-needed",
+      "title": "Step 6: Customize if Needed",
+      "level": 2
+    },
+    {
+      "id": "add-a-success-state",
+      "title": "Add a success state",
+      "level": 3
+    },
+    {
+      "id": "change-the-styling",
+      "title": "Change the styling",
+      "level": 3
+    },
+    {
+      "id": "add-more-fields",
+      "title": "Add more fields",
+      "level": 3
+    },
+    {
+      "id": "integrate-with-an-api",
+      "title": "Integrate with an API",
+      "level": 3
+    },
+    {
+      "id": "common-prompting-patterns",
+      "title": "Common Prompting Patterns",
+      "level": 2
+    },
+    {
+      "id": "pattern-1-feature-request",
+      "title": "Pattern 1: Feature Request",
+      "level": 3
+    },
+    {
+      "id": "pattern-2-styling-request",
+      "title": "Pattern 2: Styling Request",
+      "level": 3
+    },
+    {
+      "id": "pattern-3-composition-request",
+      "title": "Pattern 3: Composition Request",
+      "level": 3
+    },
+    {
+      "id": "pattern-4-accessibility-fix",
+      "title": "Pattern 4: Accessibility Fix",
+      "level": 3
+    },
+    {
+      "id": "tips-for-better-results",
+      "title": "Tips for Better Results",
+      "level": 2
+    },
+    {
+      "id": "whats-next",
+      "title": "What's Next",
+      "level": 2
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting",
+      "level": 2
+    },
+    {
+      "id": "claude-generates-invalid-prop-names",
+      "title": "Claude generates invalid prop names",
+      "level": 3
+    },
+    {
+      "id": "generated-code-doesnt-compile",
+      "title": "Generated code doesn't compile",
+      "level": 3
+    },
+    {
+      "id": "styling-doesnt-match-your-design",
+      "title": "Styling doesn't match your design",
+      "level": 3
+    },
+    {
+      "id": "accessibility-issues",
+      "title": "Accessibility issues",
+      "level": 3
+    }
+  ],
+  "agents-mcps-index": [
+    {
+      "id": "why-this-matters",
+      "title": "Why This Matters",
+      "level": 2
+    },
+    {
+      "id": "what-youll-learn",
+      "title": "What You'll Learn",
+      "level": 2
+    },
+    {
+      "id": "for-claude-users",
+      "title": "For Claude Users",
+      "level": 3
+    },
+    {
+      "id": "for-ai-developers-agent-builders",
+      "title": "For AI Developers & Agent Builders",
+      "level": 3
+    },
+    {
+      "id": "core-concepts-three-pillars",
+      "title": "Core Concepts: Three Pillars",
+      "level": 2
+    },
+    {
+      "id": "1-component-registry",
+      "title": "1. Component Registry",
+      "level": 3
+    },
+    {
+      "id": "2-design-guidelines",
+      "title": "2. Design Guidelines",
+      "level": 3
+    },
+    {
+      "id": "when-to-use-button",
+      "title": "When to Use Button",
+      "level": 2
+    },
+    {
+      "id": "vs-link",
+      "title": "vs. Link",
+      "level": 3
+    },
+    {
+      "id": "variants",
+      "title": "Variants",
+      "level": 3
+    },
+    {
+      "id": "3-llmstxt-format",
+      "title": "3. LLMs.txt Format",
+      "level": 3
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "level": 2
+    },
+    {
+      "id": "props",
+      "title": "Props",
+      "level": 3
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "level": 3
+    },
+    {
+      "id": "key-features-for-ai",
+      "title": "Key Features for AI",
+      "level": 2
+    },
+    {
+      "id": "type-safety",
+      "title": "Type Safety",
+      "level": 3
+    },
+    {
+      "id": "semantic-theming",
+      "title": "Semantic Theming",
+      "level": 3
+    },
+    {
+      "id": "composability-patterns",
+      "title": "Composability Patterns",
+      "level": 3
+    },
+    {
+      "id": "accessibility-built-in",
+      "title": "Accessibility Built-In",
+      "level": 3
+    },
+    {
+      "id": "documentation-structure",
+      "title": "Documentation Structure",
+      "level": 2
+    },
+    {
+      "id": "quick-navigation",
+      "title": "Quick Navigation",
+      "level": 2
+    },
+    {
+      "id": "philosophy-beautiful-by-default",
+      "title": "Philosophy: Beautiful by Default",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "integrations": [
+    {
+      "id": "common-integration-patterns",
+      "title": "Common Integration Patterns",
+      "level": 2
+    },
+    {
+      "id": "api-integration",
+      "title": "API Integration",
+      "level": 3
+    },
+    {
+      "id": "database-integration",
+      "title": "Database Integration",
+      "level": 3
+    },
+    {
+      "id": "message-queue-integration",
+      "title": "Message Queue Integration",
+      "level": 3
+    },
+    {
+      "id": "third-party-service-integration",
+      "title": "Third-Party Service Integration",
+      "level": 2
+    },
+    {
+      "id": "email-services",
+      "title": "Email Services",
+      "level": 3
+    },
+    {
+      "id": "analytics-services",
+      "title": "Analytics Services",
+      "level": 3
+    },
+    {
+      "id": "payment-processing",
+      "title": "Payment Processing",
+      "level": 3
+    },
+    {
+      "id": "document-storage",
+      "title": "Document Storage",
+      "level": 3
+    },
+    {
+      "id": "authentication-methods",
+      "title": "Authentication Methods",
+      "level": 2
+    },
+    {
+      "id": "api-keys",
+      "title": "API Keys",
+      "level": 3
+    },
+    {
+      "id": "oauth-20",
+      "title": "OAuth 2.0",
+      "level": 3
+    },
+    {
+      "id": "mtls",
+      "title": "mTLS",
+      "level": 3
+    },
+    {
+      "id": "error-handling-in-integrations",
+      "title": "Error Handling in Integrations",
+      "level": 2
+    },
+    {
+      "id": "retry-logic",
+      "title": "Retry Logic",
+      "level": 3
+    },
+    {
+      "id": "fallback-strategies",
+      "title": "Fallback Strategies",
+      "level": 3
+    },
+    {
+      "id": "circuit-breaker",
+      "title": "Circuit Breaker",
+      "level": 3
+    },
+    {
+      "id": "rate-limiting",
+      "title": "Rate Limiting",
+      "level": 2
+    },
+    {
+      "id": "token-bucket",
+      "title": "Token Bucket",
+      "level": 3
+    },
+    {
+      "id": "leaky-bucket",
+      "title": "Leaky Bucket",
+      "level": 3
+    },
+    {
+      "id": "data-synchronization",
+      "title": "Data Synchronization",
+      "level": 2
+    },
+    {
+      "id": "event-driven-sync",
+      "title": "Event-Driven Sync",
+      "level": 3
+    },
+    {
+      "id": "polling",
+      "title": "Polling",
+      "level": 3
+    },
+    {
+      "id": "testing-integrations",
+      "title": "Testing Integrations",
+      "level": 2
+    },
+    {
+      "id": "mock-external-services",
+      "title": "Mock External Services",
+      "level": 3
+    },
+    {
+      "id": "integration-tests",
+      "title": "Integration Tests",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "introduction": [
+    {
+      "id": "what-are-ai-agents",
+      "title": "What are AI Agents?",
+      "level": 2
+    },
+    {
+      "id": "what-is-the-model-context-protocol",
+      "title": "What is the Model Context Protocol?",
+      "level": 2
+    },
+    {
+      "id": "key-concepts",
+      "title": "Key Concepts",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "llms-txt-format-reference": [
+    {
+      "id": "what-is-llmstxt",
+      "title": "What is LLMs.txt?",
+      "level": 2
+    },
+    {
+      "id": "benefits",
+      "title": "Benefits",
+      "level": 3
+    },
+    {
+      "id": "format-structure",
+      "title": "Format Structure",
+      "level": 2
+    },
+    {
+      "id": "document-header",
+      "title": "Document Header",
+      "level": 3
+    },
+    {
+      "id": "component-section",
+      "title": "Component Section",
+      "level": 3
+    },
+    {
+      "id": "componentname",
+      "title": "ComponentName",
+      "level": 2
+    },
+    {
+      "id": "import",
+      "title": "Import",
+      "level": 3
+    },
+    {
+      "id": "props",
+      "title": "Props",
+      "level": 3
+    },
+    {
+      "id": "variants",
+      "title": "Variants",
+      "level": 3
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "level": 3
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "level": 3
+    },
+    {
+      "id": "composition",
+      "title": "Composition",
+      "level": 3
+    },
+    {
+      "id": "complete-example-button-component",
+      "title": "Complete Example: Button Component",
+      "level": 2
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "level": 2
+    },
+    {
+      "id": "import-2",
+      "title": "Import",
+      "level": 3
+    },
+    {
+      "id": "props-2",
+      "title": "Props",
+      "level": 3
+    },
+    {
+      "id": "variants-2",
+      "title": "Variants",
+      "level": 3
+    },
+    {
+      "id": "examples-2",
+      "title": "Examples",
+      "level": 3
+    },
+    {
+      "id": "accessibility-2",
+      "title": "Accessibility",
+      "level": 3
+    },
+    {
+      "id": "composition-2",
+      "title": "Composition",
+      "level": 3
+    },
+    {
+      "id": "design-tokens",
+      "title": "Design Tokens",
+      "level": 3
+    },
+    {
+      "id": "format-sections-explained",
+      "title": "Format Sections Explained",
+      "level": 2
+    },
+    {
+      "id": "component-header",
+      "title": "Component Header",
+      "level": 3
+    },
+    {
+      "id": "componentname-2",
+      "title": "ComponentName",
+      "level": 2
+    },
+    {
+      "id": "description",
+      "title": "Description",
+      "level": 3
+    },
+    {
+      "id": "import-section",
+      "title": "Import Section",
+      "level": 3
+    },
+    {
+      "id": "import-3",
+      "title": "Import",
+      "level": 3
+    },
+    {
+      "id": "props-section",
+      "title": "Props Section",
+      "level": 3
+    },
+    {
+      "id": "props-3",
+      "title": "Props",
+      "level": 3
+    },
+    {
+      "id": "variants-section",
+      "title": "Variants Section",
+      "level": 3
+    },
+    {
+      "id": "variants-3",
+      "title": "Variants",
+      "level": 3
+    },
+    {
+      "id": "examples-section",
+      "title": "Examples Section",
+      "level": 3
+    },
+    {
+      "id": "examples-3",
+      "title": "Examples",
+      "level": 3
+    },
+    {
+      "id": "accessibility-section",
+      "title": "Accessibility Section",
+      "level": 3
+    },
+    {
+      "id": "accessibility-3",
+      "title": "Accessibility",
+      "level": 3
+    },
+    {
+      "id": "composition-section",
+      "title": "Composition Section",
+      "level": 3
+    },
+    {
+      "id": "composition-3",
+      "title": "Composition",
+      "level": 3
+    },
+    {
+      "id": "design-tokens-section",
+      "title": "Design Tokens Section",
+      "level": 3
+    },
+    {
+      "id": "design-tokens-2",
+      "title": "Design Tokens",
+      "level": 3
+    },
+    {
+      "id": "complete-file-template",
+      "title": "Complete File Template",
+      "level": 2
+    },
+    {
+      "id": "button-2",
+      "title": "Button",
+      "level": 2
+    },
+    {
+      "id": "input",
+      "title": "Input",
+      "level": 2
+    },
+    {
+      "id": "other-components",
+      "title": "[Other components...]",
+      "level": 2
+    },
+    {
+      "id": "generating-llmstxt",
+      "title": "Generating LLMs.txt",
+      "level": 2
+    },
+    {
+      "id": "command-line",
+      "title": "Command Line",
+      "level": 3
+    },
+    {
+      "id": "programmatically",
+      "title": "Programmatically",
+      "level": 3
+    },
+    {
+      "id": "in-your-documentation",
+      "title": "In Your Documentation",
+      "level": 3
+    },
+    {
+      "id": "using-llmstxt-with-claude",
+      "title": "Using LLMs.txt with Claude",
+      "level": 2
+    },
+    {
+      "id": "in-system-prompt",
+      "title": "In System Prompt",
+      "level": 3
+    },
+    {
+      "id": "in-user-prompt",
+      "title": "In User Prompt",
+      "level": 3
+    },
+    {
+      "id": "with-mcp-server",
+      "title": "With MCP Server",
+      "level": 3
+    },
+    {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "level": 2
+    },
+    {
+      "id": "for-component-authors",
+      "title": "For Component Authors",
+      "level": 3
+    },
+    {
+      "id": "for-ai-prompts",
+      "title": "For AI Prompts",
+      "level": 3
+    },
+    {
+      "id": "format-conventions",
+      "title": "Format Conventions",
+      "level": 3
+    },
+    {
+      "id": "common-components-in-llmstxt",
+      "title": "Common Components in LLMs.txt",
+      "level": 2
+    },
+    {
+      "id": "button-3",
+      "title": "Button",
+      "level": 3
+    },
+    {
+      "id": "input-2",
+      "title": "Input",
+      "level": 3
+    },
+    {
+      "id": "select",
+      "title": "Select",
+      "level": 3
+    },
+    {
+      "id": "flexgrid",
+      "title": "Flex/Grid",
+      "level": 3
+    },
+    {
+      "id": "formformfield",
+      "title": "Form/FormField",
+      "level": 3
+    },
+    {
+      "id": "modaldialog",
+      "title": "Modal/Dialog",
+      "level": 3
+    },
+    {
+      "id": "card",
+      "title": "Card",
+      "level": 3
+    },
+    {
+      "id": "validation",
+      "title": "Validation",
+      "level": 2
+    },
+    {
+      "id": "checking-llmstxt-format",
+      "title": "Checking LLMs.txt Format",
+      "level": 3
+    },
+    {
+      "id": "requirements",
+      "title": "Requirements",
+      "level": 3
+    },
+    {
+      "id": "version-history",
+      "title": "Version History",
+      "level": 2
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting",
+      "level": 2
+    },
+    {
+      "id": "claude-doesnt-use-the-right-component",
+      "title": "Claude doesn't use the right component",
+      "level": 3
+    },
+    {
+      "id": "generated-code-has-wrong-props",
+      "title": "Generated code has wrong props",
+      "level": 3
+    },
+    {
+      "id": "components-missing-from-llmstxt",
+      "title": "Components missing from LLMs.txt",
+      "level": 3
+    },
+    {
+      "id": "formatting-issues-in-prompt",
+      "title": "Formatting issues in prompt",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "mcps-overview": [
+    {
+      "id": "architecture",
+      "title": "Architecture",
+      "level": 2
+    },
+    {
+      "id": "core-components",
+      "title": "Core Components",
+      "level": 3
+    },
+    {
+      "id": "message-types",
+      "title": "Message Types",
+      "level": 3
+    },
+    {
+      "id": "tool-definition",
+      "title": "Tool Definition",
+      "level": 4
+    },
+    {
+      "id": "tool-call",
+      "title": "Tool Call",
+      "level": 4
+    },
+    {
+      "id": "tool-response",
+      "title": "Tool Response",
+      "level": 4
+    },
+    {
+      "id": "protocol-flow",
+      "title": "Protocol Flow",
+      "level": 2
+    },
+    {
+      "id": "resource-types",
+      "title": "Resource Types",
+      "level": 2
+    },
+    {
+      "id": "apis",
+      "title": "APIs",
+      "level": 3
+    },
+    {
+      "id": "databases",
+      "title": "Databases",
+      "level": 3
+    },
+    {
+      "id": "file-systems",
+      "title": "File Systems",
+      "level": 3
+    },
+    {
+      "id": "real-time-data",
+      "title": "Real-Time Data",
+      "level": 3
+    },
+    {
+      "id": "security-considerations",
+      "title": "Security Considerations",
+      "level": 2
+    },
+    {
+      "id": "authentication",
+      "title": "Authentication",
+      "level": 3
+    },
+    {
+      "id": "authorization",
+      "title": "Authorization",
+      "level": 3
+    },
+    {
+      "id": "input-validation",
+      "title": "Input Validation",
+      "level": 3
+    },
+    {
+      "id": "performance-optimization",
+      "title": "Performance Optimization",
+      "level": 2
+    },
+    {
+      "id": "caching",
+      "title": "Caching",
+      "level": 3
+    },
+    {
+      "id": "batching",
+      "title": "Batching",
+      "level": 3
+    },
+    {
+      "id": "streaming",
+      "title": "Streaming",
+      "level": 3
+    },
+    {
+      "id": "error-handling",
+      "title": "Error Handling",
+      "level": 2
+    },
+    {
+      "id": "error-types",
+      "title": "Error Types",
+      "level": 3
+    },
+    {
+      "id": "recovery-strategies",
+      "title": "Recovery Strategies",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "prompting-strategies": [
+    {
+      "id": "system-prompts",
+      "title": "System Prompts",
+      "level": 2
+    },
+    {
+      "id": "writing-effective-system-prompts",
+      "title": "Writing Effective System Prompts",
+      "level": 3
+    },
+    {
+      "id": "few-shot-prompting",
+      "title": "Few-Shot Prompting",
+      "level": 2
+    },
+    {
+      "id": "chain-of-thought-prompting",
+      "title": "Chain-of-Thought Prompting",
+      "level": 2
+    },
+    {
+      "id": "role-based-prompting",
+      "title": "Role-Based Prompting",
+      "level": 2
+    },
+    {
+      "id": "constraint-based-prompting",
+      "title": "Constraint-Based Prompting",
+      "level": 2
+    },
+    {
+      "id": "dynamic-prompting",
+      "title": "Dynamic Prompting",
+      "level": 2
+    },
+    {
+      "id": "testing-and-refinement",
+      "title": "Testing and Refinement",
+      "level": 2
+    },
+    {
+      "id": "anti-patterns-to-avoid",
+      "title": "Anti-Patterns to Avoid",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "setup": [
+    {
+      "id": "prerequisites",
+      "title": "Prerequisites",
+      "level": 2
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "level": 2
+    }
+  ],
+  "state-management": [
+    {
+      "id": "types-of-state",
+      "title": "Types of State",
+      "level": 2
+    },
+    {
+      "id": "conversation-state",
+      "title": "Conversation State",
+      "level": 3
+    },
+    {
+      "id": "agent-state",
+      "title": "Agent State",
+      "level": 3
+    },
+    {
+      "id": "user-context",
+      "title": "User Context",
+      "level": 3
+    },
+    {
+      "id": "application-state",
+      "title": "Application State",
+      "level": 3
+    },
+    {
+      "id": "state-storage-strategies",
+      "title": "State Storage Strategies",
+      "level": 2
+    },
+    {
+      "id": "in-memory-state",
+      "title": "In-Memory State",
+      "level": 3
+    },
+    {
+      "id": "session-storage",
+      "title": "Session Storage",
+      "level": 3
+    },
+    {
+      "id": "local-storage",
+      "title": "Local Storage",
+      "level": 3
+    },
+    {
+      "id": "backend-storage",
+      "title": "Backend Storage",
+      "level": 3
+    },
+    {
+      "id": "state-updates",
+      "title": "State Updates",
+      "level": 2
+    },
+    {
+      "id": "immutable-updates",
+      "title": "Immutable Updates",
+      "level": 3
+    },
+    {
+      "id": "batching-updates",
+      "title": "Batching Updates",
+      "level": 3
+    },
+    {
+      "id": "async-state-management",
+      "title": "Async State Management",
+      "level": 3
+    },
+    {
+      "id": "cleanup-and-memory-management",
+      "title": "Cleanup and Memory Management",
+      "level": 2
+    },
+    {
+      "id": "session-cleanup",
+      "title": "Session Cleanup",
+      "level": 3
+    },
+    {
+      "id": "memory-optimization",
+      "title": "Memory Optimization",
+      "level": 3
+    },
+    {
+      "id": "debugging-state",
+      "title": "Debugging State",
+      "level": 2
+    },
+    {
+      "id": "state-snapshots",
+      "title": "State Snapshots",
+      "level": 3
+    },
+    {
+      "id": "state-validation",
+      "title": "State Validation",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "level": 2
+    }
+  ],
+  "understanding-component-registry": [
+    {
+      "id": "the-problem-it-solves",
+      "title": "The Problem It Solves",
+      "level": 2
+    },
+    {
+      "id": "whats-in-the-registry",
+      "title": "What's in the Registry",
+      "level": 2
+    },
+    {
+      "id": "core-sections-explained",
+      "title": "Core Sections Explained",
+      "level": 2
+    },
+    {
+      "id": "1-identity",
+      "title": "1. Identity",
+      "level": 3
+    },
+    {
+      "id": "2-variants-with-semantics",
+      "title": "2. Variants with Semantics",
+      "level": 3
+    },
+    {
+      "id": "3-props-with-context",
+      "title": "3. Props with Context",
+      "level": 3
+    },
+    {
+      "id": "4-accessibility-guarantees",
+      "title": "4. Accessibility Guarantees",
+      "level": 3
+    },
+    {
+      "id": "5-composition-rules",
+      "title": "5. Composition Rules",
+      "level": 3
+    },
+    {
+      "id": "6-design-system-integration",
+      "title": "6. Design System Integration",
+      "level": 3
+    },
+    {
+      "id": "how-ai-uses-the-registry",
+      "title": "How AI Uses the Registry",
+      "level": 2
+    },
+    {
+      "id": "1-discovery-phase",
+      "title": "1. Discovery Phase",
+      "level": 3
+    },
+    {
+      "id": "2-selection-phase",
+      "title": "2. Selection Phase",
+      "level": 3
+    },
+    {
+      "id": "3-composition-phase",
+      "title": "3. Composition Phase",
+      "level": 3
+    },
+    {
+      "id": "4-accessibility-phase",
+      "title": "4. Accessibility Phase",
+      "level": 3
+    },
+    {
+      "id": "5-code-generation",
+      "title": "5. Code Generation",
+      "level": 3
+    },
+    {
+      "id": "why-this-approach-works",
+      "title": "Why This Approach Works",
+      "level": 2
+    },
+    {
+      "id": "for-ai-systems",
+      "title": "For AI Systems",
+      "level": 3
+    },
+    {
+      "id": "for-developers",
+      "title": "For Developers",
+      "level": 3
+    },
+    {
+      "id": "registry-structure-in-the-codebase",
+      "title": "Registry Structure in the Codebase",
+      "level": 2
+    },
+    {
+      "id": "accessing-the-registry",
+      "title": "Accessing the Registry",
+      "level": 2
+    },
+    {
+      "id": "programmatically-javascripttypescript",
+      "title": "Programmatically (JavaScript/TypeScript)",
+      "level": 3
+    },
+    {
+      "id": "via-llmstxt",
+      "title": "Via LLMs.txt",
+      "level": 3
+    },
+    {
+      "id": "via-mcp-server",
+      "title": "Via MCP Server",
+      "level": 3
+    },
+    {
+      "id": "extending-the-registry",
+      "title": "Extending the Registry",
+      "level": 2
+    },
+    {
+      "id": "design-philosophy",
+      "title": "Design Philosophy",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
       "level": 2
     }
   ]

@@ -1,6 +1,6 @@
 'use client';
 
-import { Select, SelectListBox } from 'ui-lab-components';
+import { Select } from 'ui-lab-components';
 import {
   FaSort,
   FaClock,
@@ -51,7 +51,7 @@ export function ElementsSortDropdown({
       </Select.Trigger>
 
       <Select.Content>
-        <SelectListBox>
+        <Select.List>
           {SORT_OPTIONS.map((option) => (
             <Select.Item
               key={option.value}
@@ -62,7 +62,7 @@ export function ElementsSortDropdown({
               {option.label}
             </Select.Item>
           ))}
-        </SelectListBox>
+        </Select.List>
       </Select.Content>
     </Select>
   );

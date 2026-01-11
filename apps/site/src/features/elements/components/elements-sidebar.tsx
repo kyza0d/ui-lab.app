@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SidebarShell } from '@/features/navigation';
 import { ElementsList } from './elements-sidebar-content';
-import { FaShapes, FaRectangleList, FaWindowRestore, FaBorderAll, FaFolderTree } from 'react-icons/fa6';
+import { FaShapes, FaRectangleList, FaWindowRestore, FaBorderAll, FaFolderTree, FaFlag } from 'react-icons/fa6';
 import type { ElementMetadata, ElementCategoryId } from 'ui-lab-registry';
 import { getCategoriesWithElements } from 'ui-lab-registry';
 
@@ -47,16 +47,16 @@ export function ElementsSidebar({ elements, pathname }: ElementsSidebarProps) {
         })),
       },
       {
+        id: 'starters',
+        label: 'Starters',
+        href: '/starters',
+        icon: FaFlag,
+      },
+      {
         id: 'blocks',
         label: 'Blocks',
         href: '/blocks',
         icon: FaBorderAll,
-      },
-      {
-        id: 'starters',
-        label: 'Starters',
-        href: '/starters',
-        icon: FaFolderTree,
       },
     ],
     [categoriesWithElements]

@@ -94,11 +94,11 @@ export function ComponentClient({ componentId }: { componentId: string }) {
   return (
     <div>
       <BreadcrumbsNav />
-      <div className="w-full max-w-6xl mx-auto text-foreground-100 ">
+      <div className="w-full mx-auto text-foreground-100 ">
         <Toaster />
         <div className="flex flex-col lg:flex-row justify-between gap-0">
           <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-            <div className="space-y-2 min-h-32 mt-28">
+            <div className="space-y-2 min-h-32 mt-(--header-height)">
               <div className="flex items-center gap-3">
                 <h2 className="font-bold text-foreground-50">{component.name}</h2>
                 {metadata?.experimental && (

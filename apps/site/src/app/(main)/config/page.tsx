@@ -53,7 +53,7 @@ export default function ConfigPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-8 py-12">
+      <div className="mx-auto px-8 py-12">
         {/* Configuration Display */}
         {isLoading ? (
           <div className="rounded-[12px] border-[2px] border-background-700 bg-background-900 p-8 flex items-center justify-center min-h-[400px]">

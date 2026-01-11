@@ -2,12 +2,10 @@ import { ArrowRight } from "lucide-react";
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
 import { getDocBySlug } from "@/features/docs";
-import { tocRegistry } from "@/features/docs";
 import { mdxComponents } from '@/features/docs'
-import { TableOfContents } from "@/features/docs";
 import { Logo } from "@/shared";
 import { RequirementsSection } from "./requirements-section";
-import { packageMetadata } from 'ui-lab-registry/generated-data';
+import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 
 const TailwindSvg = () => (
   <svg
@@ -19,7 +17,6 @@ const TailwindSvg = () => (
     className="w-5 h-5"
   >
     <defs>
-      {/* Removed the gradient since we're using a solid variable color */}
     </defs>
     <path
       d="M128 0C93.867 0 72.533 17.067 64 51.2 76.8 34.133 91.733 27.733 108.8 32c9.737 2.434 16.697 9.499 24.401 17.318C145.751 62.057 160.275 76.8 192 76.8c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C174.249 14.743 159.725 0 128 0ZM64 76.8C29.867 76.8 8.533 93.867 0 128c12.8-17.067 27.733-23.467 44.8-19.2 9.737 2.434 16.697 9.499 24.401 17.318C81.751 138.857 96.275 153.6 128 153.6c34.133 0 55.467-17.067 64-51.2-12.8 17.067-27.733 23.467-44.8 19.2-9.737-2.434-16.697-9.499-24.401-17.318C110.249 91.543 95.725 76.8 64 76.8Z"
@@ -50,19 +47,26 @@ const TypeScriptSvg = () => (
       fill="var(--background-500)"
     />
     <path
-      d="M150.518 200.475v27.62c4.492 2.302 9.805 4.028 15.938 5.179 6.133 1.151 12.597 1.726 19.393 1.726 6.622 0 12.914-.633 18.874-1.899 5.96-1.266 11.187-3.352 15.678-6.257 4.492-2.906 8.048-6.704 10.669-11.394 2.62-4.689 3.93-10.486 3.93-17.391 0-5.006-.749-9.394-2.246-13.163a30.748 30.748 0 0 0-6.479-10.055c-2.821-2.935-6.205-5.567-10.149-7.898-3.945-2.33-8.394-4.531-13.347-6.602-3.628-1.497-6.881-2.949-9.761-4.359-2.879-1.41-5.327-2.848-7.342-4.316-2.016-1.467-3.571-3.021-4.665-4.661-1.094-1.64-1.641-3.495-1.641-5.567 0-1.899.489-3.61 1.468-5.135s2.362-2.834 4.147-3.927c1.785-1.094 3.973-1.942 6.565-2.547 2.591-.604 5.471-.906 8.638-.906 2.304 0 4.737.173 7.299.518 2.563.345 5.14.877 7.732 1.597a53.669 53.669 0 0 1 7.558 2.719 41.7 41.7 0 0 1 6.781 3.797v-25.807c-4.204-1.611-8.797-2.805-13.778-3.582-4.981-.777-10.697-1.165-17.147-1.165-6.565 0-12.784.705-18.658 2.115-5.874 1.409-11.043 3.61-15.506 6.602-4.463 2.993-7.99 6.805-10.582 11.437-2.591 4.632-3.887 10.17-3.887 16.615 0 8.228 2.375 15.248 7.127 21.06 4.751 5.811 11.963 10.731 21.638 14.759a291.458 291.458 0 0 1 10.625 4.575c3.283 1.496 6.119 3.049 8.509 4.66 2.39 1.611 4.276 3.366 5.658 5.265 1.382 1.899 2.073 4.057 2.073 6.474a9.901 9.901 0 0 1-1.296 4.963c-.863 1.524-2.174 2.848-3.93 3.97-1.756 1.122-3.945 1.999-6.565 2.632-2.62.633-5.687.95-9.2.95-5.989 0-11.92-1.05-17.794-3.151-5.875-2.1-11.317-5.25-16.327-9.451Zm-46.036-68.733H140V109H41v22.742h35.345V233h28.137V131.742Z"
+      d="M150.518 200.475V128h27.857v71.904h42.268V200.475Zm-58.914-125.99c0 17.706-10.299 31.524-24.633 31.524-14.314 0-24.632-13.818-24.632-31.524 0-17.688 10.318-31.525 24.632-31.525 14.334 0 24.633 13.837 24.633 31.525Zm-59.54 128.85l2.16-16.868c6.253 3.74 16.884 7.303 27.151 7.303 14.314 0 21.151-5.649 21.151-15.795 0-9.629-7.5-13.228-21.303-18.508l-5.202-2.237C64.725 133.746 48.3 121.747 48.3 99.062c0-20.063 15.3-35.245 39.357-35.245 16.886 0 29.023 5.868 36.885 13.228l-16.04 12.752c-4.822-3.623-11.663-7.265-20.845-7.265-10.65 0-17.45 5.302-17.45 13.018 0 9.087 5.651 12.786 18.701 18.414l5.202 2.239c17.124 7.379 33.55 19.378 33.55 41.772 0 23.916-18.923 36.75-44.517 36.75-19.703 0-34.16-6.348-42.876-14.666Z"
       fill="white"
     />
   </svg>
 );
 
-const DocLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <a
-    href={href}
-    className="inline-flex items-center gap-1.5 text-foreground-400 underline underline-offset-4 transition-colors hover:text-foreground-100"
-  >
+const TypeScript = () => (
+  <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" className="w-5 h-5">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+  </svg>
+);
+
+interface DocLink {
+  href: string;
+  children: string;
+}
+
+const DocLink = ({ href, children }: DocLink) => (
+  <a href={href} className="text-accent-400 hover:text-accent-300 transition-colors">
     {children}
-    <ArrowRight size={13} className="mt-0.5" />
   </a>
 );
 
@@ -70,46 +74,33 @@ export default async function DocsPage() {
   const doc = await getDocBySlug('index');
 
   if (!doc) {
-    return <div>Documentation not found</div>;
+    return (
+      <div className="w-full text-foreground-100">
+        <div className="flex flex-col lg:flex-row justify-between gap-0">
+          <main>
+            <div className="text-red-500">Documentation not found</div>
+          </main>
+        </div>
+      </div>
+    )
   }
 
-  const tocItems = tocRegistry['index'] || [];
-
-  const techStack = [
-    { Icon: TailwindSvg, name: "Tailwind CSS", version: "v4.1", link: "https://tailwindcss.com" },
-    { Icon: ReactAriaSvg, name: "React Aria", version: "v1.9", link: "https://react-spectrum.adobe.com/react-aria/" },
-    { Icon: ReactSvg, name: "React", version: "v19.1", link: "https://react.dev" },
-    { Icon: TypeScriptSvg, name: "TypeScript", version: "v5.9", link: "https://www.typescriptlang.org" },
-  ];
-
   return (
-    <div className="w-full max-w-6xl mx-auto text-foreground-100">
+    <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-2xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-          {/* Version badge */}
-          <div className="mb-8 flex items-center ml-4 gap-4 text-foreground-400">
-            <span className="inline-flex items-center gap-2 py-0.5 text-sm">
-              v{packageMetadata.version}
-            </span>
-            <span>·</span>
-            <span>06 Dec 2025</span>
-            <span>·</span>
-            <span>Build 2f8e9a1</span>
-          </div>
+        <main>
+          <DocumentationHeader
+            title={doc.metadata.title}
+            description={doc.metadata.description}
+          />
 
-          <div className="w-full h-50 bg-linear-to-b border border-background-700 from-background-900 to-background-950 rounded-xl mb-12  relative overflow-hidden">
+
+          <div className="h-50 bg-linear-to-b border border-background-700 from-background-900 to-background-950 rounded-xl mb-12  relative overflow-hidden">
             <Logo className="absolute text-foreground-500 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-90" />
+            {/* <div className="grid-paper z-0" /> */}
           </div>
 
-          <div className="mb-10">
-            <div className="text-md font-medium text-foreground-50">What is UI Lab?</div>
-            <div className="mt-1 text-foreground-300">
-              Strict TypeScript component system for AI-augmented frontend development
-            </div>
-          </div>
-
-          {/* MDX Content */}
-          <div className="prose dark:prose-invert prose-lg max-w-none">
+          <div id="doc-content" className="prose dark:prose-invert prose-lg max-w-none">
             <MDXRemote
               source={doc.content}
               components={mdxComponents}
@@ -117,16 +108,19 @@ export default async function DocsPage() {
             />
           </div>
 
-          <div className="h-px bg-background-800 my-12"></div>
-
-          {/* Tech Stack*/}
-          <section id="tech-stack" className="mb-12">
-            <div className="mb-6 font-semibold text-foreground-50">Tech stack</div>
-            <div className="grid grid-cols-2 gap-6">
-              {techStack.map(({ Icon, name, version, link }) => (
+          {/* Requirements section */}
+          <section id="requirements" className="max-w-xl space-y-6 my-12">
+            <h2 className="text-xl font-semibold text-foreground-50">Dependencies & compatibility</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { Icon: TailwindSvg, name: 'Tailwind CSS', version: '>=3.0' },
+                { Icon: ReactSvg, name: 'React', version: '>=19.0' },
+                { Icon: ReactAriaSvg, name: 'React Aria', version: 'Latest' },
+                { Icon: TypeScriptSvg, name: 'TypeScript', version: 'Optional' },
+              ].map(({ Icon, name, version }) => (
                 <a
                   key={name}
-                  href={link}
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative flex  justify-end flex-col gap-4 px-3 py-2 h-28 rounded-lg border border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-foreground-600 hover:bg-background-800 cursor-pointer"
@@ -145,33 +139,8 @@ export default async function DocsPage() {
 
           {/* Requirements table */}
           <RequirementsSection />
-
-          <div className="h-px bg-background-800 my-12"></div>
-
-          {/* Navigation section */}
-          <section id="documentation" className="space-y-6 text-sm">
-            <div className="font-semibold text-foreground-50">Documentation</div>
-            <div className="space-y-3 text-foreground-400">
-              <DocLink href="/docs/installation">
-                Installation – CLI setup and Tailwind integration
-              </DocLink>
-              <DocLink href="/docs/ai-integration">
-                AI integration – llms.txt specification and prompting patterns
-              </DocLink>
-              <DocLink href="/docs/theming">
-                Theming reference – complete token contract
-              </DocLink>
-              <DocLink href="/docs/components">
-                Component API – exhaustive prop tables and variants
-              </DocLink>
-              <DocLink href="/changelog">
-                Changelog – version history and migration guides
-              </DocLink>
-            </div>
-          </section>
         </main>
         <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
         </div>
       </div>
     </div>

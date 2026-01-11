@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { TableOfContents } from "@/features/docs";
-import { tocRegistry } from "@/features/docs";
+import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 
 export default function TroubleshootingPage() {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
 
-  const tocItems = tocRegistry["troubleshooting"] || [];
 
   const toggleItem = (id: string) => {
     setExpandedItems((prev) => ({
@@ -37,94 +35,14 @@ export default function TroubleshootingPage() {
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
         <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-        {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-4xl font-bold text-foreground-50 mb-4">Troubleshooting & FAQ</h1>
-          <p className="text-lg text-foreground-300">
-            Solutions to common issues and frequently asked questions about UI Lab.
-          </p>
-        </div>
+        <DocumentationHeader
 
-        {/* Installation Issues */}
-        <div id="installation-issues" className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground-50 mb-6">Installation issues</h2>
+          title="Troubleshooting"
 
-          <div className="space-y-3">
-            <FAQItem id="install-1" title="Module not found: '@ui-lab/core'">
-              <div className="space-y-3">
-                <p>
-                  This error occurs when the package isn't installed or the node_modules are out of sync.
-                </p>
-                <p className="font-semibold">Solution:</p>
-                <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-3">
-                  <pre className="text-sm text-foreground-300">
-                    <code>{`# Clear cache and reinstall
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install
+          description="Common issues, solutions, and debugging tips for UI Lab."
 
-# Or with pnpm
-pnpm store prune
-rm -rf node_modules pnpm-lock.yaml
-pnpm install`}</code>
-                  </pre>
-                </div>
-                <p>
-                  Ensure <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">@ui-lab/core</code> is listed in your <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">package.json</code> dependencies.
-                </p>
-              </div>
-            </FAQItem>
+        />
 
-            <FAQItem id="install-2" title="Tailwind CSS not working after installing UI Lab">
-              <div className="space-y-3">
-                <p>
-                  This usually means Tailwind's content configuration doesn't include UI Lab components.
-                </p>
-                <p className="font-semibold">Solution:</p>
-                <p>Update your <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">tailwind.config.js</code>:</p>
-                <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-3">
-                  <pre className="text-sm text-foreground-300"><code>{`export default {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/@ui-lab/core/**/*.js", // Add this line
-  ],
-  theme: { /* ... */ },
-};`}</code></pre>
-                </div>
-                <p>
-                  Then restart your dev server: <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">npm run dev</code>
-                </p>
-              </div>
-            </FAQItem>
-
-            <FAQItem id="install-3" title="Global styles not loading">
-              <div className="space-y-3">
-                <p>
-                  If components render but lack styling, your global CSS import might be missing.
-                </p>
-                <p className="font-semibold">Solution:</p>
-                <p>Ensure <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">globals.css</code> is imported in your app root:</p>
-                <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-3">
-                  <pre className="text-sm text-foreground-300"><code>{`// app/layout.tsx (Next.js)
-import './globals.css';
-
-export default function RootLayout({ children }) {
-  return <html>{children}</html>;
-}
-
-// src/main.tsx (Vite)
-import './globals.css';
-import App from './App';
-import { createRoot } from 'react-dom/client';
-
-createRoot(document.getElementById('root')).render(<App />);`}</code></pre>
-                </div>
-              </div>
-            </FAQItem>
-          </div>
-        </div>
-
-        <div className="border-t border-background-700 my-16"></div>
 
         {/* Styling Issues */}
         <div id="styling-issues" className="mb-16">
@@ -451,10 +369,9 @@ function MyButton(props) {
             </div>
           </div>
         </div>
-        </main>
-        <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+
         </div>
+        </main>
       </div>
     </div>
   );

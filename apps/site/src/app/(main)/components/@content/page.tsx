@@ -8,15 +8,15 @@ import { GalleryItemWithPrefetch } from "./gallery-item";
 export default function ComponentsPage() {
   const router = useRouter();
   return (
-    <div>
+    <div className="pl-12">
       {/* Breadcrumbs */}
       <BreadcrumbsNav />
-      <div className="w-full px-4 bg-background-950 pt-48 pb-12">
+      <div className="w-full px-4 bg-background-950 pt-34 pb-12">
         <main className="w-full">
           <div>
             {/* Page Header */}
-            <div className="space-y-4 mb-18">
-              <h2 className="font-bold text-foreground-50">Components</h2>
+            <div className="space-y-4 mb-10 mt-12">
+              <h3 className="font-bold text-foreground-50">Components</h3>
               <p className="text-foreground-400">
                 Explore our collection of reusable, accessible components. Click on any component to view details, examples, and code.
               </p>

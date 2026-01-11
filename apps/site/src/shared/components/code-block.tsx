@@ -185,7 +185,7 @@ export function CodeBlock({
   const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES && hiddenCodeLines >= 30;
 
   return (
-    <div className={cn("w-full max-h-210 rounded-md border border-background-700 bg-background-950 flex flex-col overflow-hidden", className)}>
+    <div className={cn("max-h-210 rounded-md border border-background-700 flex flex-col overflow-hidden", className)}>
       {(filename || heading) && (
         <div className="flex-none flex text-sm font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>
@@ -200,8 +200,8 @@ export function CodeBlock({
           onScroll={handleScrollViewport}
           onWheel={handleWheel}
           className={`
-            w-full overflow-y-auto overflow-x-hidden
-            [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:w-fit [&_pre]:min-w-full 
+            overflow-y-auto overflow-x-hidden
+            [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:w-fit 
             [&_code]:text-foreground-300 [&_code]:whitespace-pre
             
             /* Custom Vertical Scrollbar Styling */

@@ -19,7 +19,7 @@ export const SettingsPanel = () => {
         title="Open theme settings"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <FaGear className="text-foreground-300" />
+        <FaGear size={16} className="text-foreground-300" />
       </Button>
       <SettingsDialog
         isOpen={isOpen}

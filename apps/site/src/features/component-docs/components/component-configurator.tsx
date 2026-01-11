@@ -6,7 +6,6 @@ import { CodeBlock } from "@/shared/components/code-block";
 import { Button, EasingPreview, EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "ui-lab-components";
 import {
   Select,
-  SelectListBox,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -138,7 +137,7 @@ export function ComponentConfigurator({
 
               <TabsContent value="preview" className="overflow-hidden mt-0">
                 <div
-                  className={cn("px-10 py-16", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                  className={cn("px-10 py-30 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                   style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
                 >
                   {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
@@ -171,7 +170,7 @@ export function ComponentConfigurator({
           {hidePreviewToggle && (
             <div className="overflow-hidden">
               <div
-                className={cn("p-8", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                className={cn("p-10", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                 style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
               >
                 {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
@@ -205,13 +204,13 @@ export function ComponentConfigurator({
                           <Select.Value />
                         </Select.Trigger>
                         <Select.Content>
-                          <SelectListBox>
+                          <Select.List>
                             {control.options?.map((option) => (
                               <Select.Item key={String(option.value)} value={String(option.value)}>
                                 {option.label}
                               </Select.Item>
                             ))}
-                          </SelectListBox>
+                          </Select.List>
                         </Select.Content>
                       </Select>
                     )}
@@ -268,7 +267,7 @@ export function ComponentConfigurator({
                       </div>
                     </Select.Trigger>
                     <Select.Content>
-                      <SelectListBox>
+                      <Select.List>
                         {EASING_KEYS.map((easing: EasingKey) => (
                           <Select.Item key={easing} value={easing}>
                             <div className="flex items-center gap-2">
@@ -277,7 +276,7 @@ export function ComponentConfigurator({
                             </div>
                           </Select.Item>
                         ))}
-                      </SelectListBox>
+                      </Select.List>
                     </Select.Content>
                   </Select>
                 </div>

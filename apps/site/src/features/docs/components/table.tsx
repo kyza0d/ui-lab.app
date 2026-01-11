@@ -47,7 +47,7 @@ export function Table<T extends Record<string, any>>({
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-xl">
       {showFilters && filterableColumns.length > 0 && (
         <div className="mb-4 p-4 bg-background-900 rounded-lg border border-background-800">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

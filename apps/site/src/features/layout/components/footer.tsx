@@ -64,7 +64,7 @@ export function Footer() {
       <div className="pt-6 border-t border-background-700">
         <div className="flex justify-between w-full max-w-(--page-width) mx-auto ">
           <p className="text-sm text-foreground-500">
-            © 2025 UI Lab. all rights reserved.
+            © 2026 UI Lab. all rights reserved.
           </p>
           <p className="text-sm text-foreground-500">
             Built with care
