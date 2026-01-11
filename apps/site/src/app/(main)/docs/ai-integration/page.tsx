@@ -311,8 +311,6 @@ components. Keep the same data structure and logic.`}</code></pre>
               </a>
             </div>
           </div>
-
-          </div>
         </main>
       </div>
     </div>

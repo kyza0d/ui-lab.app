@@ -1,9 +1,10 @@
-import React from 'react'
-import { CodeBlock, CodeBlockWithPackageManager, InstallationFlow, FadeContainer, InlineCodeHighlight } from '@/shared'
+import { CodeBlock, CodeBlockWithPackageManager, InstallationFlow } from '@/shared'
 import Image from 'next/image'
 import Timeline from '../components/timeline'
 import MarkdownTable from '../components/markdown-table'
 import ColorPaletteGrid from '@/features/theme/components/color-palette-grid'
+import { Banner, BannerTitle, BannerBody } from '../components/mdx/client-banner'
+import { Anchor, AnchorPreview, AnchorUnderline } from '../components/mdx/client-anchor'
 
 export const mdxComponents = {
   h1: ({ children, id }: any) => (
@@ -111,11 +112,12 @@ export const mdxComponents = {
   hr: () => (
     <hr className="my-8 border-t border-background-700" />
   ),
-
   CodeBlock,
   CodeBlockWithPackageManager,
   InstallationFlow,
   Timeline,
   MarkdownTable,
-  ColorPaletteGrid
+  ColorPaletteGrid,
+  Anchor: Object.assign(Anchor, { Preview: AnchorPreview, Underline: AnchorUnderline }),
+  Banner: Object.assign(Banner, { Title: BannerTitle, Body: BannerBody }),
 }

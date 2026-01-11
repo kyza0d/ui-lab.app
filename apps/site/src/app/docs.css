@@ -1,3 +1,5 @@
+@reference "tailwindcss"
+
 #docs h1,
 #docs h2,
 #docs h3,
@@ -34,3 +36,15 @@
 #docs ul {
   margin: 0.4rem 0 2.6rem 0;
 }
+
+#docs .banner {
+  @apply mt-12 mb-4
+}
+
+#docs .banner-content p, #docs .trigger p {
+  @apply m-0
+}
+
+#docs .banner-title {
+  @apply m-0 mb-2
+} 

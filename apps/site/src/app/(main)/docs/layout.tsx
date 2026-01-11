@@ -1,6 +1,5 @@
 import { DocsLayout } from "@/features/docs";
 import { getTocItemsForSection } from "@/features/docs/lib/get-toc-items";
-import { NodeSection } from "@/features/landing";
 
 export default async function Layout({
   children,

@@ -23,7 +23,7 @@ export function RequirementsSection() {
   ];
 
   return (
-    <section id="runtime-requirements" className="text-sm">
+    <section className="text-sm">
       <div className="mb-6 font-semibold text-foreground-50">Runtime requirements</div>
       <Table<Requirement> data={requirementData} columns={requirementColumns} />
     </section>

@@ -14,7 +14,7 @@ interface DocsLayoutProps {
 export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
 
   return (
-    <div className="max-w-(--page-width) mx-auto pt-4 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] min-h-[calc(100vh-var(--header-height))]">
+    <div className="max-w-(--page-width) mx-auto pb-12 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] min-h-[calc(100vh-var(--header-height))]">
       <Sidebar />
       <div id="docs" className={cn(
         "w-full max-w-4xl mx-auto flex items-center justify-center mt-(--header-height)",

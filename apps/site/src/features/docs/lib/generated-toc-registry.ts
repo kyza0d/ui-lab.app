@@ -467,8 +467,8 @@ export const tocRegistry: TocRegistry = {
       "level": 3
     },
     {
-      "id": "whats-next",
-      "title": "What's next?",
+      "id": "next-steps",
+      "title": "Next steps",
       "level": 2
     }
   ],

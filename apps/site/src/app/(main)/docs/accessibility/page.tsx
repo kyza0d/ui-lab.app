@@ -335,8 +335,6 @@ button:focus {
               </a>
             </div>
           </div>
-
-          </div>
         </main>
       </div>
     </div>

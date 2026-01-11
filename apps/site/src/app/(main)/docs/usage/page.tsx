@@ -14,8 +14,6 @@ export default function UsagePage() {
             description="How to use and integrate UI Lab components in your project."
 
           />
-
-
         </main>
         <div className="w-full lg:w-auto">
         </div>

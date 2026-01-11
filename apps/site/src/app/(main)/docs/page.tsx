@@ -95,8 +95,8 @@ export default async function DocsPage() {
           />
 
 
-          <div className="h-50 bg-linear-to-b border border-background-700 from-background-900 to-background-950 rounded-xl mb-12  relative overflow-hidden">
-            <Logo className="absolute text-foreground-500 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-90" />
+          <div className="h-50 border border-background-700 rounded-xl mb-12  relative overflow-hidden">
+            <Logo className="absolute text-foreground-200 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-90" />
             {/* <div className="grid-paper z-0" /> */}
           </div>
 
