@@ -1,4 +1,5 @@
-import React from 'react';
+"use client"
+
 import { Sidebar } from './layout/Sidebar';
 
 export function SidebarWithContent() {

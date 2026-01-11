@@ -1,0 +1,10 @@
+{
+  "01-basic": {
+    "name": "Basic Sidebar",
+    "description": "Simple sidebar with navigation links and logout button"
+  },
+  "02-with-content": {
+    "name": "Sidebar with Content",
+    "description": "Sidebar with dashboard content area showing stats and charts"
+  }
+}
