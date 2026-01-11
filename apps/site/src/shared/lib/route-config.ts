@@ -16,14 +16,14 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     label: 'Foundations',
     icon: FaBook,
     headerType: 'tabs',
-    headerHeight: '7rem'
+    headerHeight: '6.8rem'
   },
   components: {
     id: 'components',
     label: 'Components',
     icon: FaShapes,
     headerType: 'tabs',
-    headerHeight: '7rem'
+    headerHeight: '6.8rem'
   },
   'agents-mcps': {
     id: 'agents-mcps',
@@ -116,6 +116,6 @@ export const shouldShowHeaderSearch = (pathname: string): boolean => {
 
 export const getHeaderHeight = (pathname: string): string => {
   const domainId = getDomainForPathname(pathname);
-  if (!domainId) return '3.75rem';
-  return DOMAINS[domainId]?.headerHeight || '6.75rem';
+  if (!domainId) return '3.4rem';
+  return DOMAINS[domainId]?.headerHeight || '6.8rem';
 };

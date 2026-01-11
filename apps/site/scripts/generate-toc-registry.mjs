@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename);
 
 const DOCS_DIR = path.join(__dirname, '../content/docs');
 const DESIGN_SYSTEM_DIR = path.join(__dirname, '../content/design-system');
+const CLI_DIR = path.join(__dirname, '../content/cli');
+const AGENTS_MCPS_DIR = path.join(__dirname, '../content/agents-mcps');
 const OUTPUT_FILE = path.join(__dirname, '../src/features/docs/lib/generated-toc-registry.ts');
 
 function extractHeadings(markdown) {
@@ -36,7 +38,7 @@ function extractHeadings(markdown) {
   return headings;
 }
 
-function processDirectory(dir, tocRegistry) {
+function processDirectory(dir, tocRegistry, section) {
   if (!fs.existsSync(dir)) {
     return 0;
   }
@@ -54,11 +56,18 @@ function processDirectory(dir, tocRegistry) {
       const headings = extractHeadings(markdown);
 
       if (headings.length > 0) {
-        tocRegistry[slug] = headings.map((h) => ({
+        const headingsArray = headings.map((h) => ({
           id: h.id,
           title: h.title,
           level: h.level,
         }));
+
+        tocRegistry[slug] = headingsArray;
+
+        if (slug === 'index' && section) {
+          tocRegistry[`${section}-index`] = headingsArray;
+        }
+
         totalHeadings += headings.length;
       }
     } catch (error) {
@@ -74,12 +83,16 @@ function generateTocRegistry() {
   let totalHeadings = 0;
   let totalFiles = 0;
 
-  totalHeadings += processDirectory(DOCS_DIR, tocRegistry);
-  totalHeadings += processDirectory(DESIGN_SYSTEM_DIR, tocRegistry);
+  totalHeadings += processDirectory(DOCS_DIR, tocRegistry, 'docs');
+  totalHeadings += processDirectory(DESIGN_SYSTEM_DIR, tocRegistry, 'design-system');
+  totalHeadings += processDirectory(CLI_DIR, tocRegistry, 'cli');
+  totalHeadings += processDirectory(AGENTS_MCPS_DIR, tocRegistry, 'agents-mcps');
 
   const docsFiles = fs.existsSync(DOCS_DIR) ? fs.readdirSync(DOCS_DIR).filter((f) => f.endsWith('.mdx')).length : 0;
   const dsFiles = fs.existsSync(DESIGN_SYSTEM_DIR) ? fs.readdirSync(DESIGN_SYSTEM_DIR).filter((f) => f.endsWith('.mdx')).length : 0;
-  totalFiles = docsFiles + dsFiles;
+  const cliFiles = fs.existsSync(CLI_DIR) ? fs.readdirSync(CLI_DIR).filter((f) => f.endsWith('.mdx')).length : 0;
+  const amFiles = fs.existsSync(AGENTS_MCPS_DIR) ? fs.readdirSync(AGENTS_MCPS_DIR).filter((f) => f.endsWith('.mdx')).length : 0;
+  totalFiles = docsFiles + dsFiles + cliFiles + amFiles;
 
   // Generate TypeScript file
   const output = `// This file is auto-generated. Do not edit manually.

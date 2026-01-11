@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { themes, useApp, useThemeStorage } from "@/features/theme";
-import { FaMoon, FaSun } from "react-icons/fa6";
+import { FaCircleHalfStroke, FaMoon, FaSun } from "react-icons/fa6";
 
 export const LandingThemeToggle = () => {
   const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors, isThemeInitialized } = useApp();
@@ -33,7 +33,7 @@ export const LandingThemeToggle = () => {
   if (!isClient) {
     return (
       <button className="z-[250] cursor-pointer rounded-xl hover:bg-theme-border/30 p-2" aria-label="Switch theme">
-        <FaMoon />
+        <FaMoon size={17} />
       </button>
     );
   }
@@ -47,7 +47,7 @@ export const LandingThemeToggle = () => {
       aria-label={`Switch to ${nextMode} theme`}
       title={`Current: ${currentThemeMode} → Next: ${nextMode}`}
     >
-      {currentThemeMode === "light" ? <FaMoon /> : <FaSun />}
+      < FaCircleHalfStroke />
     </button>
   );
 };

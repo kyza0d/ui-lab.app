@@ -45,7 +45,7 @@ export function GalleryItemWithPrefetch({
         onClick={() => onPress(href)}
       >
         <Gallery.View
-          className="min-w-60 flex items-center justify-center relative bg-transparent min-h-40 group-hover:border-background-600 border-r border-background-700"
+          className="min-w-52 flex items-center justify-center relative bg-transparent min-h-40 group-hover:border-background-600 border-r border-background-700"
         >
           <div className='w-full px-4 gap-2 flex items-center justify-center'>
             {preview}

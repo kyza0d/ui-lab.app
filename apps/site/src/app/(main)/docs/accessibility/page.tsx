@@ -1,62 +1,21 @@
 "use client";
 
-import { TableOfContents } from "@/features/docs";
-import { tocRegistry } from "@/features/docs";
+import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 
 export default function AccessibilityPage() {
-  const tocItems = tocRegistry["accessibility"] || [];
 
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-2xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-          {/* Header */}
-          <div className="mb-16">
-            <h1 className="text-4xl font-bold text-foreground-50 mb-4">Accessibility</h1>
-            <p className="text-lg text-foreground-300">
-              UI Lab components are built with accessibility first. Learn what's included and how to ensure your implementations remain accessible.
-            </p>
-          </div>
+        <main>
+          <DocumentationHeader
 
-          {/* Built-in A11y */}
-          <div id="built-in-accessibility-features" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Built-in accessibility features</h2>
-            <p className="text-foreground-300 mb-6">
-              All UI Lab components are built to meet WCAG 2.1 Level AA standards by default. This includes:
-            </p>
+            title="Accessibility"
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Semantic HTML</h3>
-            <p className="text-foreground-300 mb-6">
-              Components use semantic HTML elements (<code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">&lt;button&gt;</code>, <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">&lt;input&gt;</code>, <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">&lt;label&gt;</code>, etc) instead of divs with custom behaviors. This ensures assistive technologies understand component purpose.
-            </p>
+            description="Accessibility features and guidelines for building inclusive interfaces."
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Keyboard navigation</h3>
-            <p className="text-foreground-300 mb-6">
-              All interactive components are fully keyboard accessible. Use Tab to navigate, Enter/Space to activate, Arrow keys for navigation in lists.
-            </p>
+          />
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">ARIA attributes</h3>
-            <p className="text-foreground-300 mb-6">
-              Components automatically set appropriate ARIA attributes. For example, Button includes <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">aria-disabled</code> when disabled, and Input sets <code className="bg-background-900 text-foreground-200 px-2 py-1 rounded text-sm">aria-invalid</code> when in an error state.
-            </p>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Color contrast</h3>
-            <p className="text-foreground-300 mb-6">
-              All text and interactive elements meet WCAG AA contrast requirements (4.5:1 for text, 3:1 for large text and UI components).
-            </p>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Focus management</h3>
-            <p className="text-foreground-300 mb-6">
-              Components maintain visible focus indicators for keyboard navigation. The focus ring is always visible and has sufficient contrast.
-            </p>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Screen reader support</h3>
-            <p className="text-foreground-300 mb-6">
-              Components provide appropriate labels and announcements for screen readers. Buttons announce their purpose, form fields announce labels and error states.
-            </p>
-          </div>
-
-          <div className="border-t border-background-700 my-16"></div>
 
           {/* Forms and Labels */}
           <div id="forms-and-labels" className="mb-16">
@@ -376,10 +335,9 @@ button:focus {
               </a>
             </div>
           </div>
+
+          </div>
         </main>
-        <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
-        </div>
       </div>
     </div>
   );

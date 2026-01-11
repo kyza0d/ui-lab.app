@@ -1,12 +1,16 @@
 import { DocsLayout } from "@/features/docs";
+import { getTocItemsForSection } from "@/features/docs/lib/get-toc-items";
+import { NodeSection } from "@/features/landing";
 
-export default function Layout({
+export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const tocItems = getTocItemsForSection('docs');
+
   return (
-    <DocsLayout>
+    <DocsLayout tocItems={tocItems}>
       {children}
     </DocsLayout>
   );

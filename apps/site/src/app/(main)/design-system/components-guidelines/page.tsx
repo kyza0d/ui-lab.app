@@ -1,21 +1,18 @@
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import rehypeSlug from 'rehype-slug'
 import { getDesignSystemDocBySlug } from '@/features/docs'
-import { tocRegistry } from '@/features/docs'
 import { mdxComponents } from '@/features/docs'
-import { TableOfContents } from '@/features/docs'
-import { packageMetadata } from 'ui-lab-registry/generated-data'
+import { DocumentationHeader } from '@/features/docs/components/documentation-header'
 
-export default async function ComponentGuidelinesPage() {
-  const doc = await getDesignSystemDocBySlug('component-guidelines')
-  const tocItems = tocRegistry['component-guidelines'] || []
+export default async function ComponentsGuidelinesPage() {
+  const doc = await getDesignSystemDocBySlug('components-guidelines')
 
   if (!doc) {
     return (
       <div className="w-full text-foreground-100">
         <div className="flex flex-col lg:flex-row justify-between gap-0">
           <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-            <div className="text-red-500">Component Guidelines documentation not found</div>
+            <div className="text-red-500">Components guidelines documentation not found</div>
           </main>
         </div>
       </div>
@@ -25,29 +22,11 @@ export default async function ComponentGuidelinesPage() {
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
-          <div className="mb-8 flex items-center gap-4 text-foreground-400">
-            <span className="inline-flex items-center gap-2 rounded border border-background-700 px-2 py-0.5 text-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-              v{packageMetadata.version}
-            </span>
-            <span>·</span>
-            <span>{doc.metadata.category || 'Design System'}</span>
-          </div>
-
-          <div className="mb-10">
-            <div className="text-base font-medium text-foreground-50">{doc.metadata.title}</div>
-            {doc.metadata.description && (
-              <div className="mt-1 text-foreground-300">
-                {doc.metadata.description}
-              </div>
-            )}
-            {doc.metadata.publishedOn && (
-              <div className="mt-3 text-sm text-foreground-500">
-                Published: {new Date(doc.metadata.publishedOn).toLocaleDateString()}
-              </div>
-            )}
-          </div>
+        <main>
+          <DocumentationHeader
+            title={doc.metadata.title}
+            description={doc.metadata.description}
+          />
 
           <div className="h-px bg-background-800 my-12"></div>
 
@@ -60,13 +39,10 @@ export default async function ComponentGuidelinesPage() {
           </div>
 
           <div className="mt-20 text-sm text-foreground-500">
-            © 2025 UI Lab • Built for humans and machines
+            © 2026 UI Lab • Built for humans and machines
           </div>
         </main>
 
-        <div className="w-full lg:w-auto">
-          {tocItems.length > 0 && <TableOfContents items={tocItems} />}
-        </div>
       </div>
     </div>
   );

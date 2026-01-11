@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { Button, Group, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
+import { Group, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { FaMobile, FaDesktop, FaTablet, FaFile } from "react-icons/fa6";
 
 export type PreviewDeviceVariant = "mobile" | "tablet" | "desktop";
@@ -148,7 +148,7 @@ export function PreviewContainer({
               className="flex cursor-pointer items-center gap-2 text-sm! text-foreground-100!"
               onClick={onPromptClick}
             >
-              <div className="bg-background-700 p-1.5 rounded-[4px]"><FaFile className="text-foreground-300" size={12} /></div>
+              <FaFile className="text-foreground-300" size={12} />
               Prompt
             </button>
           )}

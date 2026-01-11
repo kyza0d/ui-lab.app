@@ -1,41 +1,15 @@
 "use client";
 
 import {
-  FaCopy,
-  FaCheck,
   FaBook,
-  FaBox,
   FaBrain,
   FaPaintbrush,
-  FaBoxOpen,
   FaBoxArchive,
   FaEye
 } from "react-icons/fa6";
-import { Select, Button } from "ui-lab-components";
-import { InlineCodeHighlight } from "@/shared";
+import { Button } from "ui-lab-components";
 
-type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
-
-const installCommands: Record<PackageManager, string> = {
-  npm: "npm install ui-lab-components",
-  pnpm: "pnpm install ui-lab-components",
-  yarn: "yarn add ui-lab-components",
-  bun: "bun add ui-lab-components",
-};
-
-interface HeroSectionProps {
-  packageManager: PackageManager;
-  onPackageManagerChange: (pm: PackageManager) => void;
-  copied: boolean;
-  onCopy: () => void;
-}
-
-function HeroSection({
-  packageManager,
-  onPackageManagerChange,
-  copied,
-  onCopy,
-}: HeroSectionProps) {
+function HeroSection() {
   return (
     <>
       <div className="z-10 rounded-t-none! border-t-0! overflow-hidden">
@@ -71,56 +45,13 @@ function HeroSection({
               Accessible, production-ready React components with intelligent
               metadata that enable AI to generate perfectly consistent interfaces.
             </p>
-            <div className="flex gap-3">
-              <Button className="mt-10 flex justify-evenly w-38 gap-[4px]" variant="secondary">
-                Learn More</Button>
-              <Button className="mt-10 py-2" variant="secondary"><FaBoxArchive className="mr-4 text-foreground-400" /> View Components</Button>
+            <div className="flex gap-3 mt-10">
+              <Button className="flex justify-evenly gap-[4px]" variant="primary">
+                Get Started</Button>
+              <Button className="py-2" variant="secondary"><FaBoxArchive className="mr-4 text-foreground-400" /> View Components</Button>
             </div>
           </div>
         </div>
-      </div>
-      <div className="hidden flex justify-start items-center rounded-full mt-[30px] gap-3 bg-background-950 border-[2px] border-background-700 p-1">
-        <Select
-          className="w-fit"
-          selectedKey={packageManager}
-          defaultValue={packageManager}
-          onSelectionChange={(key) => onPackageManagerChange(key as PackageManager)}
-        >
-          <Select.Trigger className="w-28 px-3 py-2 text-sm bg-background-800 border-[2px] border-background-600 rounded-full">
-            <Select.Value />
-          </Select.Trigger>
-          <Select.Content>
-            <Select.Item value="npm" textValue="npm">
-              npm
-            </Select.Item>
-            <Select.Item value="pnpm" textValue="pnpm">
-              pnpm
-            </Select.Item>
-            <Select.Item value="yarn" textValue="yarn">
-              yarn
-            </Select.Item>
-            <Select.Item value="bun" textValue="bun">
-              bun
-            </Select.Item>
-          </Select.Content>
-        </Select>
-        <InlineCodeHighlight
-          code={installCommands[packageManager]}
-          language="bash"
-          className="text-foreground-100 whitespace-nowrap"
-        />
-        <Button
-          onClick={onCopy}
-          variant="ghost"
-          className="p-2! mr-0.5 ml-auto hover:bg-background-800 rounded-full transition-colors shrink-0"
-          title="Copy to clipboard"
-        >
-          {copied ? (
-            <FaCheck size={16} className="text-accent-500" />
-          ) : (
-            <FaCopy size={16} className="text-foreground-400" />
-          )}
-        </Button>
       </div>
     </>
   );

@@ -49,7 +49,7 @@ export const mdxComponents = {
         </CodeBlock>
       )
     }
-    return <pre className="bg-background-900 p-4 rounded overflow-x-auto">{children}</pre>
+    return <pre className="bg-background-900 rounded">{children}</pre>
   },
   code: ({ children, className }: any) => {
     const isInline = !className
@@ -88,7 +88,7 @@ export const mdxComponents = {
   ),
   table: ({ children }: any) => (
     <div className="overflow-x-auto my-4">
-      <table className="min-w-full border-collapse border border-background-700">
+      <table className="border-collapse border border-background-700">
         {children}
       </table>
     </div>

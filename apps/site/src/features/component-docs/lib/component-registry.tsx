@@ -1,9 +1,10 @@
 "use client";
 
 import { cache } from "react";
-import { Button } from "ui-lab-components";
+import { Button, Banner } from "ui-lab-components";
 import { buttonDetail, getPreview as getButtonPreview } from "ui-lab-registry/components/Button";
 import { anchorDetail, getPreview as getAnchorPreview } from "ui-lab-registry/components/Anchor";
+import { bannerDetail, getPreview as getBannerPreview } from "ui-lab-registry/components/Banner";
 import { badgeDetail, getPreview as getBadgePreview } from "ui-lab-registry/components/Badge";
 import { breadcrumbsDetail, getPreview as getBreadcrumbsPreview } from "ui-lab-registry/components/Breadcrumbs";
 import { cardDetail, getPreview as getCardPreview } from "ui-lab-registry/components/Card";
@@ -68,6 +69,7 @@ const previews: Record<string, React.ReactNode> = {
   switch: getSwitchPreview(),
   checkbox: getCheckboxPreview(),
   radio: getRadioPreview(),
+  banner: getBannerPreview(),
   badge: getBadgePreview(),
   anchor: getAnchorPreview(),
   breadcrumbs: getBreadcrumbsPreview(),
@@ -180,6 +182,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   select: selectDetail,
   checkbox: checkboxDetail,
   radio: radioDetail,
+  banner: bannerDetail,
   badge: badgeDetail,
   breadcrumbs: breadcrumbsDetail,
   tooltip: tooltipDetail,
