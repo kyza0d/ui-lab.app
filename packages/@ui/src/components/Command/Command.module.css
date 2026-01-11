@@ -1,0 +1,220 @@
+@reference "tailwindcss";
+
+@layer components {
+  .palette {
+    --bg-default: var(--background-950);
+    --bg-hover: var(--background-800);
+    --bg-selected: var(--background-800);
+    --border-default: var(--background-700);
+    --fg-default: var(--foreground-50);
+    --fg-muted: var(--foreground-500);
+    --fg-icon: var(--foreground-400);
+    --overlay: rgb(0 0 0 / 0.2);
+    --list-background: var(--background-950);
+    --footer-background: var(--background-800);
+  }
+
+  /* Overlay Container */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 20vh;
+    /* Apply backdrop styles directly to avoid creating a containing block that disrupts sticky elements */
+    background-color: var(--overlay);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Content */
+  .content {
+    position: relative;
+    @apply m-2;
+    background-color: var(--bg-default);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    margin-inline: 1rem;
+    max-width: 28rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    animation: fadeInZoomIn 0.2s ease-out;
+  }
+
+  .inner {
+    @apply px-2;
+    overflow: hidden;
+  }
+
+  /* Search Section */
+  .search {
+    display: flex;
+    border-bottom: var(--border-width-base) solid var(--border-default);
+    @apply p-2;
+  }
+
+  .search-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    color: var(--fg-muted);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: var(--fg-default);
+    padding-left: 2rem;
+    padding-block: 0.5rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+  }
+
+  .search-input::placeholder {
+    color: var(--fg-muted);
+  }
+
+  .search-input:focus {
+    outline: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.25rem;
+    border-radius: var(--radius-lg);
+    background-color: transparent;
+    color: var(--fg-muted);
+    border: none;
+    cursor: pointer;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+
+  .search-clear:hover {
+    background-color: var(--bg-hover);
+    color: var(--fg-icon);
+  }
+
+  /* List Section */
+  .list {
+    @apply p-0.5 space-y-2;
+    background-color: var(--list-background);
+    height: 44dvh;
+    overflow-y: auto;
+  }
+
+  .item {
+    display: flex;
+    @apply px-2 py-0.5;
+    border-radius: 0.375rem;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+
+  .item:hover {
+    background-color: var(--bg-hover);
+  }
+
+  .item[aria-selected="true"] {
+    background-color: var(--bg-selected);
+  }
+
+  .item-content {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--fg-icon);
+  }
+
+  .item-labels {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-label {
+    font-size: 0.875rem;
+    color: var(--fg-default);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .item-description {
+    color: var(--fg-muted);
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .category-header {
+    @apply px-2 py-1.5 mt-2 first:mt-0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Empty State */
+  .empty {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+
+  /* Footer */
+  .footer {
+    @apply px-1.5 py-2 gap-2;
+    width: 100%;
+    background-color: var(--footer-background);
+    border-top: 1px solid var(--border-default);
+    display: flex;
+    align-items: center;
+    justify-content: flex-between;
+  }
+
+  /* Animations */
+  @keyframes fadeInZoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "name": "ui-lab-components",
+  "version": "0.1.5",
+  "description": "A collection of beautiful, accessible React components built with React Aria and Tailwind CSS",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/ui-lab-ui.umd.js",
+  "module": "./dist/ui-lab-ui.es.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "tailwindcss",
+    "accessibility",
+    "a11y"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyza0d/ui-lab.app"
+  },
+  "homepage": "https://github.com/kyza0d/ui-lab.app#readme",
+  "bugs": {
+    "url": "https://github.com/kyza0d/ui-lab.app/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/ui-lab-ui.es.js",
+      "require": "./dist/ui-lab-ui.umd.js",
+      "types": "./dist/index.d.ts",
+      "style": "./dist/styles.css"
+    },
+    "./theme-script": {
+      "import": "./dist/theme-script.es.js",
+      "types": "./dist/providers/themeScript.d.ts"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./postcss": {
+      "import": "./dist/postcss-ui-lab.mjs",
+      "types": "./dist/postcss-ui-lab.d.mts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build && npm run build:css && npm run build:postcss",
+    "build:css": "npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css || (echo 'Error: Failed to build CSS files' && exit 1)",
+    "build:postcss": "cp src/postcss-ui-lab.mjs dist/postcss-ui-lab.mjs",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest --run",
+    "test:coverage": "vitest --coverage"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest-axe": "^3.5.9",
+    "@types/node": "^20.14.12",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/ui": "^1.6.0",
+    "jest-axe": "^8.0.0",
+    "jsdom": "^27.3.0",
+    "postcss-cli": "^11.0.0",
+    "postcss-load-config": "^6.0.1",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5",
+    "vite": "^5.3.4",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.1"
+  },
+  "dependencies": {
+    "@floating-ui/react-dom": "^2.1.6",
+    "@gsap/react": "^2.1.2",
+    "@react-aria/dialog": "^3.5.14",
+    "@react-aria/focus": "^3.17.1",
+    "@react-aria/interactions": "^3.21.3",
+    "@react-aria/listbox": "^3.13.5",
+    "@react-aria/overlays": "^3.22.0",
+    "@react-aria/searchfield": "^3.7.9",
+    "@react-aria/utils": "^3.24.2",
+    "@react-stately/list": "^3.10.6",
+    "@react-stately/overlays": "^3.6.7",
+    "@react-stately/searchfield": "^3.5.5",
+    "@react-stately/slider": "^3.7.2",
+    "@react-stately/toggle": "^3.9.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "gsap": "^3.12.2",
+    "lucide-react": "^0.525.0",
+    "postcss": "^8.5.6",
+    "react-aria": "^3.44.0",
+    "react-icons": "^5.5.0",
+    "react-stately": "^3.42.0"
+  }
+}

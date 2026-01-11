@@ -1,0 +1,146 @@
+@reference "tailwindcss";
+
+@layer components {
+  .banner {
+    --background: var(--background-900);
+    --foreground: var(--info-50);
+    --border: var(--info-800);
+
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+    font-family: inherit;
+    font-size: var(--text-md);
+    line-height: var(--leading-normal);
+    background-color: var(--background);
+    color: var(--foreground);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  .iconContainer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+  }
+
+  .icon {
+    @apply mr-4;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: currentColor;
+  }
+
+  .dismiss {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: transparent;
+    color: currentColor;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.15s ease-out;
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+
+  .title {
+    font-weight: var(--font-weight-semibold);
+    font-size: inherit;
+    line-height: var(--leading-tight);
+    margin: 0;
+  }
+
+  .body {
+    font-weight: var(--font-weight-normal);
+    font-size: inherit;
+    line-height: var(--leading-normal);
+    margin: 0;
+    opacity: 0.9;
+  }
+}
+
+.banner.note {
+  --background: var(--background-900);
+  --foreground: var(--foreground-200);
+  --border: var(--background-700);
+}
+
+.banner.note .icon {
+  color: var(--background-400);
+}
+
+.banner.info {
+  --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
+  --foreground: var(--foreground-200);
+  --border: color-mix(in srgb, var(--info-600) 30%, var(--background-900));
+}
+
+.banner.info .icon {
+  color: var(--info-600);
+}
+
+.banner.success {
+  --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
+  --foreground: var(--foreground-200);
+  --border: color-mix(in srgb, var(--success-600) 30%, var(--background-900));
+}
+
+.banner.success .icon {
+  color: var(--success-600);
+}
+
+.banner.warning {
+  --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
+  --foreground: var(--foreground-200);
+  --border: color-mix(in srgb, var(--warning-600) 30%, var(--background-900));
+}
+
+.banner.warning .icon {
+  color: var(--warning-600);
+}
+
+.banner.danger {
+  --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
+  --foreground: var(--foreground-200);
+  --border: color-mix(in srgb, var(--danger-600) 30%, var(--background-900));
+}
+
+.banner.danger .icon {
+  color: var(--danger-600);
+}
+
+.banner.sm {
+  @apply px-3 py-2;
+  font-size: var(--text-sm);
+}
+
+.banner.md {
+  @apply px-4 py-3;
+  font-size: var(--text-sm);
+}
+
+.banner.lg {
+  @apply px-6 py-4;
+  font-size: var(--text-lg);
+}

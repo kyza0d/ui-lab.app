@@ -1,0 +1,78 @@
+@reference "tailwindcss";
+
+@layer components {
+  /* Container */
+  .group {
+    --background: var(--background-950);
+    --border: var(--background-700);
+
+    display: flex;
+    width: fit-content;
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  /* Orientations */
+  .group.horizontal {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .group.vertical {
+    flex-direction: column;
+  }
+
+  /* Spacing */
+  .group.tight {
+    gap: 0;
+  }
+
+  .group.normal {
+    gap: var(--spacing-1);
+  }
+
+  .group.relaxed {
+    gap: var(--spacing-2);
+  }
+
+  /* Variants */
+  .group.ghost {
+    --background: transparent;
+    --border: transparent;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .itemWrapper {
+    /* Spacing is handled by group's gap property */
+  }
+
+  /* Override child component styles when in group */
+  /* Remove all borders and rounded corners for seamless group appearance */
+  .itemWrapper .groupItem,
+  .groupInputWrapper input,
+  .itemWrapper .groupItem .groupSelectWrapper {
+    border-radius: 0;
+    border: none;
+    outline: none;
+  }
+
+  /* Add borders to separate items (except last item) */
+  /* Right border for horizontal orientation */
+  .group.horizontal .itemWrapper:not(:last-child) {
+    border-right: var(--border-width-base) solid var(--border);
+  }
+
+  /* Bottom border for vertical orientation */
+  .group.vertical .itemWrapper:not(:last-child) {
+    border-bottom: var(--border-width-base) solid var(--border);
+  }
+
+  /* Full width buttons in vertical orientation */
+  .group.vertical .itemWrapper .groupItem {
+    width: 100%;
+    height: 100%;
+  }
+}
