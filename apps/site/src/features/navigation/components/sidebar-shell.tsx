@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { cn, FadeContainer, getHeaderHeight } from '@/shared';
+import { cn, FadeContainer } from '@/shared';
 import { FaChevronDown } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
 
@@ -34,7 +34,6 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
-  const headerHeight = getHeaderHeight(pathname);
   const [expandedNavItems, setExpandedNavItems] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -72,10 +71,10 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
   };
 
   return (
-    <aside className="hidden md:flex w-56 flex-col">
-      <div className="flex flex-col sticky" style={{ top: headerHeight }}>
+    <aside className="hidden md:flex w-56 flex-col h-screen">
+      <div className="flex flex-col sticky pt-2 top-(--header-height)" >
         <div className="z-10">
-          <nav className="py-3 px-2 space-y-1">
+          <nav className="px-2 space-y-1">
             {mainNav.map((nav) => {
               const isActive = activeNav === nav.id;
               const isExpanded = expandedNavItems.has(nav.id);
@@ -114,7 +113,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                     </button>
 
                     {isExpanded && nav.children && (
-                      <div className="relative mt-1 ml-3">
+                      <div className="relative ml-3">
                         <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600" />
                         <div className="space-y-0.5 pl-3">
                           {nav.children.map((child) => {
@@ -170,7 +169,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
         <FadeContainer className="flex-1 mb-26">
           <div
             ref={scrollContainerRef}
-            className="overflow-y-auto py-5 h-full"
+            className="overflow-y-auto py-3 h-full"
           >
             {contextualContent}
           </div>
