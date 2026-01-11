@@ -6,7 +6,7 @@ import type { ComponentSourceCode } from '../src/types';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const COMPONENTS_DIR = path.resolve(__dirname, '../../components/src/components');
+const COMPONENTS_DIR = path.resolve(__dirname, '../../@ui/src/components');
 
 function toKebabCase(pascalCase: string): string {
   return pascalCase

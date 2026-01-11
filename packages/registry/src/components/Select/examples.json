@@ -2,6 +2,6 @@
   "01-basic-select": {
     "title": "Basic Select",
     "description": "A simple dropdown select component with options. Use this for form inputs and user choices.",
-    "code": "import React from 'react';\nimport { Select, SelectListBox } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Select>\n      <Select.Trigger>\n        <Select.Value placeholder=\"Select an option\" />\n      </Select.Trigger>\n      <Select.Content>\n        <SelectListBox>\n          <Select.Item value=\"option1\">Option 1</Select.Item>\n          <Select.Item value=\"option2\">Option 2</Select.Item>\n          <Select.Item value=\"option3\">Option 3</Select.Item>\n        </SelectListBox>\n      </Select.Content>\n    </Select>\n  );\n}"
+    "code": "import React from 'react';\nimport { Select } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Select>\n      <Select.Trigger>\n        <Select.Value placeholder=\"Select an option\" />\n      </Select.Trigger>\n      <Select.Content>\n        <Select.List>\n          <Select.Item value=\"option1\">Option 1</Select.Item>\n          <Select.Item value=\"option2\">Option 2</Select.Item>\n          <Select.Item value=\"option3\">Option 3</Select.Item>\n        </Select.List>\n      </Select.Content>\n    </Select>\n  );\n}"
   }
 }

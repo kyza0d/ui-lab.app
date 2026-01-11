@@ -8,7 +8,7 @@ interface HeaderWithActionsProps {
 export function Header({ logoText = 'Logo' }: HeaderWithActionsProps) {
   return (
     <header className="bg-background-800 border-b border-background-700">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-accent-500 rounded-lg" />
           <span className="text-lg font-semibold text-foreground-50">{logoText}</span>

@@ -1,0 +1,22 @@
+{
+  "id": "banner",
+  "name": "Banner",
+  "description": "A full-width banner component for displaying important information, notifications, or messages. Can be used at the top of pages or within documentation as alerts and notices.",
+  "category": "information",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Banner",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": ["card", "alert", "badge"],
+  "tags": ["notification", "layout", "visual", "full-width"],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Supports keyboard navigation for dismiss button",
+      "Semantic HTML structure",
+      "ARIA labels for accessibility",
+      "Focus management for interactive elements"
+    ]
+  }
+}

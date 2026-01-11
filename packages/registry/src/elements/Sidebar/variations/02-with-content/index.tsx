@@ -14,7 +14,7 @@ export function SidebarWithContent() {
 
         {/* Main Content */}
         <div className="flex-1 overflow-auto">
-          <div className="max-w-6xl mx-auto px-8 py-8">
+          <div className="mx-auto px-8 py-8">
             <div className="space-y-6">
               {/* Stats Grid */}
               <div className="grid grid-cols-3 gap-4">
