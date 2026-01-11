@@ -55,6 +55,48 @@ export const componentRegistry: ComponentRegistry = {
 ],
   },
 
+  banner: {
+    id: "banner",
+    name: "Banner",
+    description: "A full-width banner component for displaying important information, notifications, or messages. Can be used at the top of pages or within documentation as alerts and notices.",
+    category: "information",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Banner",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["card","alert","badge"],
+    tags: ["notification","layout","visual","full-width"],
+    accessibility: {"hasAriaSupport":true,"notes":["Supports keyboard navigation for dismiss button","Semantic HTML structure","ARIA labels for accessibility","Focus management for interactive elements"]},
+    examples: [
+    {
+        "title": "Basic Banner",
+        "description": "A neutral note banner using background shades instead of semantic colors. The default banner variant for general-purpose messaging.",
+        "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"note\" size=\"md\">\n      This is a note banner. Use it for general-purpose messages and information without semantic intent.\n    </Banner>\n  );\n}"
+    },
+    {
+        "title": "Success Banner",
+        "description": "A success banner variant. Use this to indicate successful completion of an action.",
+        "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"success\" size=\"md\">\n      Success! Your changes have been saved.\n    </Banner>\n  );\n}"
+    },
+    {
+        "title": "Warning Banner",
+        "description": "A warning banner variant. Use this to alert users about potential issues or deprecated features.",
+        "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"warning\" size=\"md\">\n      Warning: Please review your settings before proceeding.\n    </Banner>\n  );\n}"
+    },
+    {
+        "title": "Dismissible Banner",
+        "description": "A dismissible banner with danger variant. Use this for critical alerts that users can dismiss.",
+        "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  const [isVisible, setIsVisible] = React.useState(true);\n\n  if (!isVisible) {\n    return <div className=\"text-foreground-300\">Banner dismissed</div>;\n  }\n\n  return (\n    <Banner\n      variant=\"danger\"\n      size=\"md\"\n      isDismissible={true}\n      onDismiss={() => setIsVisible(false)}\n    >\n      Error: A critical issue has occurred. Please take action.\n    </Banner>\n  );\n}"
+    },
+    {
+        "title": "Structured Banner",
+        "description": "A banner with structured content using Title and Body compound components for semantic and organized layouts.",
+        "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"info\" size=\"md\">\n      <Banner.Title>New Feature Available</Banner.Title>\n      <Banner.Body>\n        We've added support for dark mode. Check out the settings panel to try it out!\n      </Banner.Body>\n    </Banner>\n  );\n}"
+    }
+],
+  },
+
   breadcrumbs: {
     id: "breadcrumbs",
     name: "Breadcrumbs",
@@ -295,7 +337,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Featured Card Frame",
         "description": "A card frame with a curved top cutout for featured images or hero content.",
-        "code": "import { Frame } from 'ui-lab-components';\n\n// The SVG path definition for the curve\nconst LIQUID_WIDTH = 180;\nconst LIQUID_PATH = \"M 0 0 C 36 0 36 44 90 44 C 144 44 144 0 180 0\";\n\nconst Example1 = () => {\n  return (\n    <div className=\"flex items-center justify-center min-h-[400px] bg-background-950\">\n      <div className=\"relative w-full max-w-sm group\">\n\n        {/* 1. The Frame Component with the Path Prop */}\n        <Frame\n          path={LIQUID_PATH}\n          pathWidth={LIQUID_WIDTH}\n          className=\"text-background-700  bg-background-700/20 shadow-2xl backdrop-blur-sm\"\n          style={{ color: \"var(--background-700)\" }}\n        >\n          {/* Minimal Content */}\n          <div className=\"w-100 h-50 flex flex-col h-full p-17 text-center\">\n          </div>\n        </Frame>\n      </div>\n    </div>\n  );\n};\n\nexport default Example1;"
+        "code": "import { Frame } from 'ui-lab-components';\n\n// The SVG path definition for the curve\nconst LIQUID_WIDTH = 180;\nconst LIQUID_PATH = \"M 0 0 C 36 0 36 44 90 44 C 144 44 144 0 180 0\";\n\nconst DefaultFrame = () => {\n  return (\n    <div className=\"flex items-center justify-center min-h-[400px] bg-background-950\">\n      <div className=\"relative w-full max-w-sm group\">\n\n        {/* 1. The Frame Component with the Path Prop */}\n        <Frame\n          path={LIQUID_PATH}\n          pathWidth={LIQUID_WIDTH}\n          className=\"text-background-700  bg-background-700/20 shadow-2xl backdrop-blur-sm\"\n          style={{ color: \"var(--background-700)\" }}\n        >\n          {/* Minimal Content */}\n          <div className=\"w-100 h-50 flex flex-col h-full p-17 text-center\">\n          </div>\n        </Frame>\n      </div>\n    </div>\n  );\n};\n\nexport default DefaultFrame;"
     },
     {
         "title": "Tooltip Frame",
@@ -591,7 +633,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Select",
         "description": "A simple dropdown select component with options. Use this for form inputs and user choices.",
-        "code": "import React from 'react';\nimport { Select, SelectListBox } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Select>\n      <Select.Trigger>\n        <Select.Value placeholder=\"Select an option\" />\n      </Select.Trigger>\n      <Select.Content>\n        <SelectListBox>\n          <Select.Item value=\"option1\">Option 1</Select.Item>\n          <Select.Item value=\"option2\">Option 2</Select.Item>\n          <Select.Item value=\"option3\">Option 3</Select.Item>\n        </SelectListBox>\n      </Select.Content>\n    </Select>\n  );\n}"
+        "code": "import React from 'react';\nimport { Select } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Select>\n      <Select.Trigger>\n        <Select.Value placeholder=\"Select an option\" />\n      </Select.Trigger>\n      <Select.Content>\n        <Select.List>\n          <Select.Item value=\"option1\">Option 1</Select.Item>\n          <Select.Item value=\"option2\">Option 2</Select.Item>\n          <Select.Item value=\"option3\">Option 3</Select.Item>\n        </Select.List>\n      </Select.Content>\n    </Select>\n  );\n}"
     }
 ],
   },

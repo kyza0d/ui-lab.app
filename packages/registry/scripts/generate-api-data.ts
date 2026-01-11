@@ -15,9 +15,9 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const COMPONENTS_DIR = path.resolve(__dirname, '../../components/src/components');
+const COMPONENTS_DIR = path.resolve(__dirname, '../../@ui/src/components');
 
-const parser = withCustomConfig(path.resolve(__dirname, '../../components/tsconfig.json'), {
+const parser = withCustomConfig(path.resolve(__dirname, '../../@ui/tsconfig.json'), {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,

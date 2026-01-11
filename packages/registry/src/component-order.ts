@@ -10,7 +10,7 @@ export const componentOrder: Record<ComponentCategory, string[]> = {
   composition: ['form', 'group', 'list'],
   action: ['button', 'confirm', 'command', 'anchor'],
   input: ['checkbox', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
-  information: ['badge', 'label', 'tooltip'],
+  information: ['banner', 'badge', 'label', 'tooltip'],
   feedback: ['popover', 'progress', 'toast'],
   navigation: ['breadcrumbs', 'menu', 'tabs'],
   container: ['card', 'modal', 'scroll', 'frame'],
