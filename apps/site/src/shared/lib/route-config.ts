@@ -13,17 +13,15 @@ export interface DomainConfig {
 export const DOMAINS: Record<DomainId, DomainConfig> = {
   docs: {
     id: 'docs',
-    label: 'Foundations',
+    label: 'Documentation',
     icon: FaBook,
     headerType: 'tabs',
-    headerHeight: '6.8rem'
   },
   components: {
     id: 'components',
     label: 'Components',
     icon: FaShapes,
     headerType: 'tabs',
-    headerHeight: '6.8rem'
   },
   'agents-mcps': {
     id: 'agents-mcps',
@@ -42,7 +40,6 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     label: 'Elements',
     icon: FaShapes,
     headerType: 'search',
-    headerHeight: '9rem',
   },
 };
 
@@ -99,6 +96,13 @@ export const shouldShowHeaderTabs = (pathname: string): boolean => {
   return domain?.headerType === 'tabs' || false;
 };
 
+export const shouldApplyRevealCollapse = (pathname: string): boolean => {
+  const domainId = getDomainForPathname(pathname);
+  if (!domainId) return false;
+  const domain = DOMAINS[domainId];
+  return domain?.headerType === 'tabs' || domainId === 'elements';
+};
+
 export const getActiveTabValue = (pathname: string): string | undefined => {
   const domainId = getDomainForPathname(pathname);
   return domainId;
@@ -117,5 +121,5 @@ export const shouldShowHeaderSearch = (pathname: string): boolean => {
 export const getHeaderHeight = (pathname: string): string => {
   const domainId = getDomainForPathname(pathname);
   if (!domainId) return '3.4rem';
-  return DOMAINS[domainId]?.headerHeight || '6.8rem';
+  return DOMAINS[domainId]?.headerHeight || '7rem';
 };
