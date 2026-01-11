@@ -98,24 +98,24 @@ function generateVariationMetadata(elementPath, elementName, variationKey, varia
 function generateVariations(elementName) {
   const elementPath = path.join(__dirname, '..', 'src', 'elements', elementName);
   const metadataPath = path.join(elementPath, 'metadata.json');
-  const variationsTemplatePath = path.join(elementPath, 'variations.json');
+  const variationsMetadataPath = path.join(elementPath, 'variations.metadata.json');
 
   if (!fs.existsSync(metadataPath)) {
     console.error(`metadata.json not found for ${elementName}`);
     process.exit(1);
   }
 
-  if (!fs.existsSync(variationsTemplatePath)) {
-    console.error(`variations.json not found for ${elementName}`);
+  if (!fs.existsSync(variationsMetadataPath)) {
+    console.error(`variations.metadata.json not found for ${elementName}`);
     process.exit(1);
   }
 
   const metadata = JSON.parse(readFileContent(metadataPath));
-  const variationsTemplate = JSON.parse(readFileContent(variationsTemplatePath));
+  const variationsMetadata = JSON.parse(readFileContent(variationsMetadataPath));
 
   const generatedVariations = {};
 
-  for (const [variationKey, variationMeta] of Object.entries(variationsTemplate)) {
+  for (const [variationKey, variationMeta] of Object.entries(variationsMetadata)) {
     const variation = generateVariationMetadata(elementPath, elementName, variationKey, variationMeta);
     if (variation) {
       generatedVariations[variationKey] = variation;

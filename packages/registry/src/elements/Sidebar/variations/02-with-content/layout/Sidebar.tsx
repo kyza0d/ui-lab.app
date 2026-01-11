@@ -1,4 +1,5 @@
 import React from 'react';
+import { List, Divider } from 'ui-lab-components';
 
 interface SidebarProps {
   activeItem?: string;
@@ -24,28 +25,36 @@ export function Sidebar({ activeItem = 'dashboard' }: SidebarProps) {
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-        {menuItems.map((item) => {
-          const isActive = activeItem === item.id;
-          return (
-            <a
-              key={item.id}
-              href="#"
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive
-                  ? 'bg-accent-500 text-foreground-50'
-                  : 'text-foreground-400 hover:text-foreground-300 hover:bg-background-700'
-              }`}
-            >
-              <div className="w-5 h-5 bg-background-700 rounded flex-shrink-0" />
-              <span className="text-sm font-medium">{item.label}</span>
-            </a>
-          );
-        })}
+      <nav className="flex-1 overflow-y-auto">
+        <List ariaLabel="Navigation" className="p-4 space-y-2">
+          {menuItems.map((item) => {
+            const isActive = activeItem === item.id;
+            return (
+              <List.Item
+                key={item.id}
+                interactive
+                selected={isActive}
+                className={`px-4 py-3 rounded-lg transition-colors ${
+                  isActive
+                    ? 'bg-accent-500 text-foreground-50'
+                    : 'text-foreground-400 hover:text-foreground-300 hover:bg-background-700'
+                }`}
+              >
+                <a
+                  href="#"
+                  className="flex items-center gap-3 w-full"
+                >
+                  <div className="w-5 h-5 bg-background-700 rounded flex-shrink-0" />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </a>
+              </List.Item>
+            );
+          })}
+        </List>
       </nav>
 
       {/* User Section */}
-      <div className="p-4 border-t border-background-700 space-y-3">
+      <div className="p-4 border-t border-background-700">
         <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-background-700">
           <div className="w-8 h-8 bg-accent-500 rounded-full flex-shrink-0" />
           <div className="flex-1 min-w-0">

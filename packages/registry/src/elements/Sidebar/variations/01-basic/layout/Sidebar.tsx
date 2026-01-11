@@ -13,7 +13,7 @@ import {
   FiHelpCircle,
   FiBriefcase
 } from 'react-icons/fi';
-import { Divider } from 'ui-lab-components';
+import { Divider, List } from 'ui-lab-components';
 
 interface SidebarProps {
   activeItem?: string;
@@ -80,30 +80,22 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 px-4 py-6 space-y-8 overflow-y-auto overflow-x-hidden custom-scrollbar">
-        {/* Main Section */}
-        <div className="space-y-2">
-          {!isCollapsed && (
-            <p className="px-3 text-xs font-bold text-foreground-500 uppercase tracking-wider mb-3 animate-in fade-in duration-300">
-              Menu
-            </p>
-          )}
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
+        <List ariaLabel="Main navigation" className="px-4 py-6 space-y-2">
           {mainNavItems.map((item) => (
             <NavItem key={item.id} item={item} isActive={activeItem === item.id} isCollapsed={isCollapsed} />
           ))}
+        </List>
+
+        <div className="px-4 my-4">
+          <List.Divider />
         </div>
 
-        {/* Secondary Section */}
-        <div className="space-y-2">
-          {!isCollapsed && (
-            <p className="px-3 text-xs font-bold text-foreground-500 uppercase tracking-wider mb-3 animate-in fade-in duration-300">
-              General
-            </p>
-          )}
+        <List ariaLabel="Secondary navigation" className="px-4 py-2 space-y-2">
           {secondaryNavItems.map((item) => (
             <NavItem key={item.id} item={item} isActive={activeItem === item.id} isCollapsed={isCollapsed} />
           ))}
-        </div>
+        </List>
       </nav>
 
       {/* Footer */}
@@ -116,8 +108,8 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
 
         <button
           className={`
-            w-full flex items-center gap-4 px-3 py-3 
-            text-foreground-400 hover:text-red-400 hover:bg-red-500/10 
+            w-full flex items-center gap-4 px-3 py-3
+            text-foreground-400 hover:text-red-400 hover:bg-red-500/10
             rounded-xl transition-all duration-200 group
             ${isCollapsed ? 'justify-center' : ''}
           `}
@@ -130,12 +122,6 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
             </span>
           )}
         </button>
-
-        {!isCollapsed && (
-          <div className="px-3 pt-2 text-center animate-in fade-in duration-500">
-            <p className="text-xs text-foreground-600 font-medium">v1.2.0</p>
-          </div>
-        )}
       </div>
     </aside>
   );
