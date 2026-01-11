@@ -10,7 +10,6 @@ interface FloatingSettingsDialogProps {
   triggerRef?: React.RefObject<HTMLElement | null>;
 }
 
-// Fixed dimensions (matches w-100 and h-143)
 const DIALOG_WIDTH = 400;
 const DIALOG_HEIGHT = 572;
 const GAP = 12;
@@ -21,17 +20,14 @@ export const SettingsDialog = ({
   onOpenChange,
   triggerRef,
 }: FloatingSettingsDialogProps) => {
-  // ---------------------------------------------------------------------------
-  // State
-  // ---------------------------------------------------------------------------
   const [mounted, setMounted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
-  
+
   // Position is separate from drag offset
   const [basePosition, setBasePosition] = useState<{ top: number; left: number } | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  
+
   // Refs for drag math
   const dragStartRef = useRef<{ startX: number; startY: number; initialOffsetX: number; initialOffsetY: number } | null>(null);
 
@@ -73,7 +69,7 @@ export const SettingsDialog = ({
       // Flip if overflow bottom
       if (top + DIALOG_HEIGHT > viewportH - EDGE_PADDING) {
         const topAbove = triggerRect.top - DIALOG_HEIGHT - GAP;
-        
+
         // If it fits above, go above
         if (topAbove >= EDGE_PADDING) {
           top = topAbove;
@@ -81,7 +77,7 @@ export const SettingsDialog = ({
           // If it fits neither, use the side with more space
           // or just clamp it to fit the viewport as best as possible
           if (top + DIALOG_HEIGHT > viewportH) {
-             top = viewportH - DIALOG_HEIGHT - EDGE_PADDING;
+            top = viewportH - DIALOG_HEIGHT - EDGE_PADDING;
           }
         }
       }
@@ -109,7 +105,7 @@ export const SettingsDialog = ({
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!dragStartRef.current) return;
-      
+
       const deltaX = e.clientX - dragStartRef.current.startX;
       const deltaY = e.clientY - dragStartRef.current.startY;
 
@@ -179,7 +175,7 @@ export const SettingsDialog = ({
       >
         <div
           data-drag-handle
-          className="h-10 shrink-0 bg-gradient-to-b from-background-800/50 to-background-900/50 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center px-4 select-none hover:bg-background-800/70 transition-colors"
+          className="h-10 shrink-0 bg-background-800 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center px-4 select-none hover:bg-background-800/70 transition-colors"
         >
           <span className="text-sm font-semibold text-foreground-400 pointer-events-none">
             Theme Settings

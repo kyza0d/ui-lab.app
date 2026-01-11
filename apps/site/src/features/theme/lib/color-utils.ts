@@ -20,7 +20,7 @@ export const SCALE_RANGES: Record<ColorRole, ScaleRange> = {
 export interface ChromaBounds { min: number; max: number }
 export const CHROMA_BOUNDARIES: Record<ColorRole, ChromaBounds> = {
   background: { min: 0.008, max: 0.18 },
-  foreground: { min: 0.01, max: 0.12 },
+  foreground: { min: 0.025, max: 0.14 },
   accent: { min: 0.01, max: 0.32 },
   success: { min: 0.01, max: 0.28 },
   danger: { min: 0.01, max: 0.28 },
@@ -36,6 +36,7 @@ export interface GlobalColorAdjustments {
 export const DEFAULT_GLOBAL_ADJUSTMENTS: GlobalColorAdjustments = { lightnessShift: 0, chromaBoost: 1.0 };
 
 export function clampChromaToRole(chroma: number, role: ColorRole): number {
+  if (chroma === 0) return 0;
   const bounds = CHROMA_BOUNDARIES[role];
   return Math.max(bounds.min, Math.min(bounds.max, chroma));
 }

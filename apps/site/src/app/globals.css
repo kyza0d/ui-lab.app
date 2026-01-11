@@ -245,8 +245,8 @@
 
   --h1-font-size: var(--text-4xl);
 
-  --header-height: 7.0rem;
-  --page-width: 1250px;
+  --header-height: 6.8rem;
+  --page-width: 1350px;
   /* --indent-offset: 3px; */
 }
 
@@ -301,7 +301,7 @@
 
   p {
     font-size: var(--text-sm);
-    max-width: 65ch;
+    max-width: 80ch;
     margin: 0 0 0.4rem 0;
   }
 
@@ -531,6 +531,7 @@ pre.shiki .indent::before {
   --background: var(--accent-50);
 }
 
+
 .button.outline {
   background: linear-gradient(to bottom, var(--accent-500), var(--accent-400)) padding-box, linear-gradient(to bottom, var(--accent-100), var(--accent-400)) border-box;
   box-shadow: 0 0 0 2px var(--accent-400), 0 4px 4px 0 rgba(0, 10, 31, 0.2);
@@ -539,10 +540,11 @@ pre.shiki .indent::before {
 }
 */
 
-.button {
-  @apply text-sm!;
+@layer components {
+  .button.md {
+    font-size: var(--text-sm)
+  }
 }
-
 
 .switch {
   --track-background-unchecked: var(--background-950);

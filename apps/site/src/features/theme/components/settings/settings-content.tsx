@@ -41,13 +41,13 @@ type ConfigTab = "colors" | "typography" | "layout";
 
 interface ColorRowProps {
   type:
-    | "background"
-    | "foreground"
-    | "accent"
-    | "success"
-    | "danger"
-    | "warning"
-    | "info";
+  | "background"
+  | "foreground"
+  | "accent"
+  | "success"
+  | "danger"
+  | "warning"
+  | "info";
   color: OklchColor;
   isExpanded: boolean;
   onToggle: () => void;
@@ -169,8 +169,9 @@ export const SettingsContent = () => {
 
     if (type === "background") {
       updated.background = {
-        ...newColor,
-        c: Math.max(newColor.c, MIN_BACKGROUND_CHROMA),
+        l: newColor.l,
+        c: newColor.c === 0 ? 0 : Math.max(newColor.c, MIN_BACKGROUND_CHROMA),
+        h: newColor.h,
       };
     } else if (type === "foreground") {
       updated.foreground = newColor;
@@ -461,13 +462,13 @@ const ColorRow = memo(
   }: ColorRowProps) => {
     const previewStyle = useMemo(
       () => ({
-        backgroundColor: oklchToCss({
-          l: 0.65,
-          c: 0.18,
-          h: color.h,
-        }),
+        backgroundColor: oklchToCss(
+          color.c <= 0.005
+            ? { l: 1, c: 0, h: 0 }
+            : { l: 0.65, c: 0.18, h: color.h },
+        ),
       }),
-      [color.h],
+      [color.h, color.c],
     );
 
     return (
@@ -588,13 +589,17 @@ const ColorPicker = memo(
     const { currentThemeMode } = useApp();
 
     const swatches = useMemo(() => {
-      return Array.from({ length: 7 }, (_, i) => {
+      const hueSwatches = Array.from({ length: 7 }, (_, i) => {
         if (hueRange) {
           return hueRange.min + (hueRange.max - hueRange.min) * (i / 6);
         }
         return (i * (360 / 7)) % 360;
       });
-    }, [hueRange]);
+      if (type === "background" || type === "foreground") {
+        return [...hueSwatches, null];
+      }
+      return hueSwatches;
+    }, [hueRange, type]);
 
     const getPresentationColor = (h: number) => {
       if (type === "foreground") {
@@ -614,13 +619,25 @@ const ColorPicker = memo(
     return (
       <div className="grid grid-cols-4 gap-2">
         {swatches.map((h, i) => {
-          const isSelected = Math.abs(h - color.h) < 2;
-          const displayColor = getPresentationColor(h);
+          const isNeutral = h === null;
+          const isSelected = color.c <= 0.005
+            ? isNeutral
+            : !isNeutral && Math.abs(h - color.h) < 2;
+          const displayColor = isNeutral
+            ? oklchToCss({ l: 1, c: 0, h: 0 })
+            : getPresentationColor(h);
 
           return (
             <button
               key={i}
-              onClick={() => onChange({ ...color, h })}
+              onClick={() => {
+                if (isNeutral) {
+                  onChange({ l: 1, c: 0, h: 180 });
+                } else {
+                  const defaultChroma = type === "foreground" ? 0.01 : 0.008;
+                  onChange({ ...color, c: color.c === 0 ? defaultChroma : color.c, h });
+                }
+              }}
               className="relative h-10 rounded-[4px] transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
               style={{ backgroundColor: displayColor }}
             >
