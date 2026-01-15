@@ -3,6 +3,18 @@ import rehypeSlug from 'rehype-slug'
 import { getDesignSystemDocBySlug } from '@/features/docs'
 import { mdxComponents } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { generateMetadata as generateSiteMetadata } from '@/shared'
+
+export async function generateMetadata() {
+  const doc = await getDesignSystemDocBySlug('variables')
+  if (!doc) {
+    return generateSiteMetadata({ title: 'Variables' })
+  }
+  return generateSiteMetadata({
+    title: doc.metadata.title,
+    description: doc.metadata.description,
+  })
+}
 
 export default async function VariablesPage() {
   const doc = await getDesignSystemDocBySlug('variables')

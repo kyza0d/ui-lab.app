@@ -3,6 +3,18 @@ import rehypeSlug from 'rehype-slug'
 import { getDesignSystemDocBySlug } from '@/features/docs'
 import { mdxComponents } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { generateMetadata as generateSiteMetadata } from '@/shared'
+
+export async function generateMetadata() {
+  const doc = await getDesignSystemDocBySlug('components-guidelines')
+  if (!doc) {
+    return generateSiteMetadata({ title: 'Component Guidelines' })
+  }
+  return generateSiteMetadata({
+    title: doc.metadata.title,
+    description: doc.metadata.description,
+  })
+}
 
 export default async function ComponentsGuidelinesPage() {
   const doc = await getDesignSystemDocBySlug('components-guidelines')

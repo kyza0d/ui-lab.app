@@ -3,6 +3,18 @@ import rehypeSlug from 'rehype-slug'
 import { getDesignSystemDocBySlug } from '@/features/docs'
 import { mdxComponents } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { generateMetadata as generateSiteMetadata } from '@/shared'
+
+export async function generateMetadata() {
+  const doc = await getDesignSystemDocBySlug('tokens')
+  if (!doc) {
+    return generateSiteMetadata({ title: 'Design Tokens' })
+  }
+  return generateSiteMetadata({
+    title: doc.metadata.title,
+    description: doc.metadata.description,
+  })
+}
 
 export default async function TokensPage() {
   const doc = await getDesignSystemDocBySlug('tokens')

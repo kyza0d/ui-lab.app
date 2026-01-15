@@ -5,6 +5,8 @@ import { cacheLife } from 'next/cache'
 import { getDocBySlug, getAllDocs } from '@/features/docs'
 import { mdxComponents } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { generateMetadata as generateSiteMetadata } from '@/shared'
+import { extractDocMetadata } from '@/shared/lib/metadata-extractors'
 
 export async function generateStaticParams() {
   const docs = await getAllDocs()
@@ -19,17 +21,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const doc = await getDocBySlug(slug)
 
   if (!doc) {
-    return { title: 'Not Found' }
+    return generateSiteMetadata({ title: 'Not Found' })
   }
 
-  return {
-    title: doc.metadata.title,
-    description: doc.metadata.description,
-    openGraph: {
-      title: doc.metadata.title,
-      description: doc.metadata.description,
-    },
-  }
+  const extracted = extractDocMetadata(doc.metadata)
+  return generateSiteMetadata({
+    title: extracted.title,
+    description: extracted.description,
+    keywords: extracted.keywords,
+  })
 }
 
 export default async function DocPage({ params }: { params: Promise<{ slug: string }> }) {

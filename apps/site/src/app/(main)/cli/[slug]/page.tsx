@@ -4,6 +4,7 @@ import rehypeSlug from 'rehype-slug'
 import { getCliDocBySlug, getAllCliDocs } from '@/features/docs'
 import { mdxComponents } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { generateMetadata as generateSiteMetadata } from '@/shared'
 
 export async function generateStaticParams() {
   const docs = await getAllCliDocs()
@@ -15,17 +16,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const doc = await getCliDocBySlug(slug)
 
   if (!doc) {
-    return { title: 'Not Found' }
+    return generateSiteMetadata({ title: 'Not Found' })
   }
 
-  return {
+  return generateSiteMetadata({
     title: doc.metadata.title,
     description: doc.metadata.description,
-    openGraph: {
-      title: doc.metadata.title,
-      description: doc.metadata.description,
-    },
-  }
+  })
 }
 
 export default async function CliDocPage({ params }: { params: Promise<{ slug: string }> }) {

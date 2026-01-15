@@ -1,5 +1,8 @@
 import { DocsLayout } from "@/features/docs";
 import { getTocItemsForSection } from "@/features/docs/lib/get-toc-items";
+import { generateMetadata } from "@/shared";
+
+export const metadata = generateMetadata({ pathname: '/cli' });
 
 export default async function Layout({
   children,
