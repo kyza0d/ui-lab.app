@@ -15,43 +15,37 @@
     font-size: var(--text-sm);
     background-color: var(--background);
     color: var(--foreground);
-    border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-md);
   }
 }
 
 .badge.default {
-  --background: var(--background-800);
+  --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
   --foreground: var(--background-300);
-  --border: var(--background-600);
 }
 
 .badge.success {
-  --background: var(--success-100);
-  --foreground: var(--success-800);
-  --border: var(--success-300);
+  --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
+  --foreground: var(--success-600);
 }
 
 .badge.warning {
-  --background: var(--warning-100);
-  --foreground: var(--warning-800);
-  --border: var(--warning-300);
+  --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
+  --foreground: var(--warning-600);
 }
 
 .badge.danger {
-  --background: var(--danger-100);
-  --foreground: var(--danger-800);
-  --border: var(--danger-300);
+  --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
+  --foreground: var(--danger-600);
 }
 
 .badge.info {
-  --background: var(--info-100);
-  --foreground: var(--info-800);
-  --border: var(--info-300);
+  --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
+  --foreground: var(--info-600);
 }
 
 .badge.sm {
-  @apply px-1 py-0.5;
+  @apply px-0.5 py-0.5;
   font-size: var(--text-sm);
 }
 

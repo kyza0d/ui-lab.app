@@ -1,5 +1,7 @@
 declare const styles: {
-  base: string;
+  "checkbox-root": string;
+  checkbox: string;
+  "checkbox-indeterminate": string;
   "size-sm": string;
   "size-md": string;
   "size-lg": string;

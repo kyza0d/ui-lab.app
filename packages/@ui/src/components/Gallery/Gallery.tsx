@@ -14,10 +14,19 @@ type ResponsiveColumns = {
   xl?: number
 }
 
+type ResponsiveRows = {
+  base?: number
+  sm?: number
+  md?: number
+  lg?: number
+  xl?: number
+}
+
 type LayoutType = "grid"
 
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   columns?: number | ResponsiveColumns
+  rows?: number | ResponsiveRows
   gap?: number | string
   layout?: LayoutType
   columnWidth?: number | string
@@ -39,11 +48,17 @@ interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, gap, layout = "grid", columnWidth, className, style, children, ...props }, ref) => {
+  ({ columns = 3, rows, gap, layout = "grid", columnWidth, className, style, children, ...props }, ref) => {
     const columnValue = typeof columns === "number" ? columns : columns.base ?? 3
     const responsiveColumns = typeof columns === "object" ? columns : {}
+
+    const rowValue = typeof rows === "number" ? rows : rows?.base
+    const responsiveRows = typeof rows === "object" ? rows : {}
+
     const gapValue = typeof gap === "number" ? `${gap / 16}rem` : gap
     const columnWidthValue = typeof columnWidth === "number" ? `${columnWidth}px` : columnWidth
+
+    const formatRowValue = (val?: number) => val ? `repeat(${val}, minmax(0, 1fr))` : undefined
 
     const cssVariables = {
       "--gallery-columns": columnValue,
@@ -51,6 +66,11 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
       "--gallery-columns-md": responsiveColumns.md,
       "--gallery-columns-lg": responsiveColumns.lg,
       "--gallery-columns-xl": responsiveColumns.xl,
+      "--gallery-rows": formatRowValue(rowValue),
+      "--gallery-rows-sm": formatRowValue(responsiveRows.sm),
+      "--gallery-rows-md": formatRowValue(responsiveRows.md),
+      "--gallery-rows-lg": formatRowValue(responsiveRows.lg),
+      "--gallery-rows-xl": formatRowValue(responsiveRows.xl),
       "--gallery-gap": gapValue,
       "--gallery-column-width": columnWidthValue,
     } as React.CSSProperties

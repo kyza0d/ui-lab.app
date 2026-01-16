@@ -1,5 +1,6 @@
 export interface Styles {
   button: string;
+  "default": string;
   "primary": string;
   "secondary": string;
   "outline": string;

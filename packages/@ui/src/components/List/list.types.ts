@@ -1,4 +1,5 @@
 import React from 'react';
+import { DividerProps } from '@/components/Divider';
 
 export interface ListContainerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   ariaLabel: string;
@@ -24,7 +25,7 @@ export interface ListActionGroupProps extends React.HTMLAttributes<HTMLDivElemen
   children: React.ReactNode;
 }
 
-export interface ListDividerProps extends React.HTMLAttributes<HTMLHRElement> {}
+export interface ListDividerProps extends DividerProps {}
 
 export interface ListFooterProps extends React.HTMLAttributes<HTMLElement> {
   align?: 'center' | 'flex-start' | 'flex-end';

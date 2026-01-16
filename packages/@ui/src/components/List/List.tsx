@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Divider as FoldDivider } from '@/components/Divider';
 import styles from './List.module.css';
 import {
   ListContainerProps,
@@ -71,12 +72,11 @@ const ActionGroup = React.forwardRef<HTMLDivElement, ListActionGroupProps>(
 );
 ActionGroup.displayName = 'List.ActionGroup';
 
-const Divider = React.forwardRef<HTMLHRElement, ListDividerProps>(
+const Divider = React.forwardRef<HTMLDivElement, ListDividerProps>(
   ({ className, ...props }, ref) => (
-    <hr
+    <FoldDivider
       ref={ref}
-      className={cn(styles.divider, className)}
-      aria-hidden="true"
+      className={className}
       {...props}
     />
   )

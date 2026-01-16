@@ -67,8 +67,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-size={size}
           className={cn(
             styles.input,
-            hasPrefix && "pl-10",
-            hasSuffix && "pr-10",
+            hasPrefix && "pl-8",
+            hasSuffix && "pr-8",
             className
           )}
           // Merge React Aria focus props + user props

@@ -7,9 +7,11 @@
 
   .gallery[data-layout="grid"] {
     --columns: var(--gallery-columns, 3);
+    --rows: var(--gallery-rows);
 
     display: grid;
     grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    grid-template-rows: var(--rows, none);
     gap: var(--gap);
   }
 
@@ -29,24 +31,28 @@
   @media (min-width: 640px) {
     .gallery[data-layout="grid"] {
       --columns: var(--gallery-columns-sm, var(--gallery-columns, 3));
+      --rows: var(--gallery-rows-sm, var(--gallery-rows));
     }
   }
 
   @media (min-width: 768px) {
     .gallery[data-layout="grid"] {
       --columns: var(--gallery-columns-md, var(--gallery-columns-sm, var(--gallery-columns, 3)));
+      --rows: var(--gallery-rows-md, var(--gallery-rows-sm, var(--gallery-rows)));
     }
   }
 
   @media (min-width: 1024px) {
     .gallery[data-layout="grid"] {
       --columns: var(--gallery-columns-lg, var(--gallery-columns-md, var(--gallery-columns-sm, var(--gallery-columns, 3))));
+      --rows: var(--gallery-rows-lg, var(--gallery-rows-md, var(--gallery-rows-sm, var(--gallery-rows))));
     }
   }
 
   @media (min-width: 1280px) {
     .gallery[data-layout="grid"] {
       --columns: var(--gallery-columns-xl, var(--gallery-columns-lg, var(--gallery-columns-md, var(--gallery-columns-sm, var(--gallery-columns, 3)))));
+      --rows: var(--gallery-rows-xl, var(--gallery-rows-lg, var(--gallery-rows-md, var(--gallery-rows-sm, var(--gallery-rows)))));
     }
   }
 
@@ -58,14 +64,13 @@
 
     display: flex;
     flex-direction: column;
-    background-color: var(--background);
+    background: var(--background);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
   }
 
   .item:focus {
@@ -99,7 +104,7 @@
 
     position: relative;
     aspect-ratio: var(--aspect-ratio);
-    background-color: var(--background);
+    background: var(--background);
     overflow: hidden;
   }
 

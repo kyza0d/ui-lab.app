@@ -112,8 +112,8 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     const displayChecked = isControlled ? checked : internalChecked;
 
     return (
-      <div className="w-full" ref={ref}>
-        <div className="flex items-start gap-3">
+      <div ref={ref} className={cn("checkbox-root", styles['checkbox-root'])}>
+        <div className={cn(styles['checkbox-container'], sizeMap[size])}>
           <input
             ref={inputRef}
             type="checkbox"
@@ -129,8 +129,8 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
             className={cn(
-              styles.base,
-              sizeMap[size],
+              'checkbox',
+              styles.checkbox,
               isIndeterminate && styles.indeterminate,
               className
             )}
@@ -142,19 +142,41 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             data-pressed={isPressed ? "true" : undefined}
             {...domProps}
           />
-          {label && (
-            <label
-              htmlFor={id}
-              className={cn(
-                styles.label,
-                labelSizeMap[size],
-                disabled && styles["label-disabled"]
-              )}
+          {displayChecked && !isIndeterminate && (
+            <svg
+              className={styles['checkbox-checkmark']}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              {label}
-            </label>
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          )}
+          {isIndeterminate && (
+            <svg
+              className={styles['checkbox-indeterminate']}
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            </svg>
           )}
         </div>
+        {label && (
+          <label
+            htmlFor={id}
+            className={cn(
+              styles.label,
+              labelSizeMap[size],
+              disabled && styles["label-disabled"]
+            )}
+          >
+            {label}
+          </label>
+        )}
         {helperText && (
           <p
             className={cn(

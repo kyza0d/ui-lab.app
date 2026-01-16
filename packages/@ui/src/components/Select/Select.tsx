@@ -259,6 +259,11 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       [ref, triggerRef]
     )
 
+    const childrenArray = React.Children.toArray(children)
+    const trigger = childrenArray.find(child => React.isValidElement(child) && (child.type as any)?.displayName === 'SelectTrigger')
+    const contentItems = childrenArray.filter(child => React.isValidElement(child) && ((child.type as any)?.displayName === 'SelectContent' || (child.type as any)?.displayName === 'SearchableContent'))
+    const otherContent = childrenArray.filter(child => !React.isValidElement(child) || ((child.type as any)?.displayName !== 'SelectTrigger' && (child.type as any)?.displayName !== 'SelectContent' && (child.type as any)?.displayName !== 'SearchableContent'))
+
     return (
       <SelectContext.Provider
         value={{
@@ -291,7 +296,9 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
         }}
       >
         <div ref={rootRef} className={cn('select', styles.select, className)} {...triggerProps}>
-          {children}
+          {trigger}
+          {contentItems}
+          {otherContent}
         </div>
       </SelectContext.Provider>
     )
