@@ -107,13 +107,13 @@ export function ElementPreviewContent({
           <div key={fullPath} className="select-none">
             <button
               onClick={() => toggleFolder(fullPath)}
-              className="flex items-center gap-1.5 w-full px-2 py-1 text-sm hover:bg-background-700"
+              className="flex items-center gap-1.5 w-full mb-2 px-2 py-2 text-sm hover:bg-background-700"
             >
               {isOpen ? <FaFolderOpen size={14} /> : <FaFolder size={14} />}
               <span className="text-foreground-300">{node.name}</span>
             </button>
             {isOpen && (
-              <div className="ml-4 border-l border-background-600">
+              <div className="ml-4">
                 {renderTree(node.children, fullPath)}
               </div>
             )}
@@ -126,9 +126,9 @@ export function ElementPreviewContent({
           key={node.filename}
           onClick={() => node.filename && setActiveFile(node.filename)}
           className={`
-            flex items-center gap-1.5 w-full px-2 py-1 text-sm
+            flex items-center gap-1.5 w-full px-2 py-2 text-sm
             ${isActive
-              ? "bg-accent-500 text-foreground-50"
+              ? "bg-background-800 text-foreground-50"
               : "hover:bg-background-700 text-foreground-400"
             }
           `}

@@ -4,7 +4,7 @@ export default function StartersPage() {
   return (
     <div>
       <BreadcrumbsNav />
-      <div className="w-full bg-background-950 mx-auto pt-32 pb-12">
+      <div className="w-full bg-background-950 mx-auto pt-32 pb-12   h-500">
         <div className="mx-auto px-4">
           <div className="space-y-4 mb-12">
             <h2 className="text-4xl font-bold text-foreground-50">Starters</h2>

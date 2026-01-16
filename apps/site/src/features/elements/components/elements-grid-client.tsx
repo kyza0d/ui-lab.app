@@ -1,8 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { Gallery } from 'ui-lab-components';
-import { getDemoComponent } from '@/features/elements';
 import { getLayoutConfig } from '@/features/elements';
+import { getPreviewComponent } from '@/features/elements/lib/get-element-preview';
 import { PreviewContainer } from './preview-container';
 import type { ElementMetadata } from 'ui-lab-registry';
 
@@ -22,13 +22,10 @@ export function ElementsGridClient({ elements }: ElementsGridClientProps) {
   }
 
   return (
-    <Gallery columns={5} gap="1.5rem">
+    <Gallery columns={5} layout='grid' gap="1.5rem" className='flex-1 h-300'>
       {elements.map((element) => {
         const layoutConfig = getLayoutConfig(element);
-        const firstVariant = element.variants[0];
-        const previewDemoPath = `${element.id}-preview`;
-        const Element = getDemoComponent(previewDemoPath) || (firstVariant?.demoPath ? getDemoComponent(firstVariant.demoPath) : null);
-        const adaptiveProps = layoutConfig.previewConfig?.adaptiveProps ?? {};
+        const PreviewComponent = getPreviewComponent(element.id);
 
         return (
           <Gallery.Item
@@ -36,10 +33,12 @@ export function ElementsGridClient({ elements }: ElementsGridClientProps) {
             columnSpan={layoutConfig.columnSpan}
             rowSpan={layoutConfig.rowSpan}
             onPress={() => router.push(`/elements/${element.id}`)}
-            className="overflow-hidden hover:border-accent-500 transition-colors"
+            className="overflow-hidden"
           >
-            <PreviewContainer element={element} layoutConfig={layoutConfig}>
-              {Element ? (<Element {...adaptiveProps} />) : (
+            <PreviewContainer layoutConfig={layoutConfig}>
+              {PreviewComponent ? (
+                <PreviewComponent />
+              ) : (
                 <div className="text-foreground-500">Preview</div>
               )}
             </PreviewContainer>

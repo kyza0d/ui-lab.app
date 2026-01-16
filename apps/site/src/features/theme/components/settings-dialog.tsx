@@ -48,34 +48,24 @@ export const SettingsDialog = ({
     }
 
     const calculatePosition = () => {
-      // Because we use a Portal, we are GUARANTEED to be in the window coordinate space.
-      // We can trust getBoundingClientRect() and window.inner* implicitly.
       const triggerRect = triggerRef.current!.getBoundingClientRect();
       const viewportW = window.innerWidth;
       const viewportH = window.innerHeight;
 
-      // 1. Horizontal: Center
       let left = triggerRect.left + (triggerRect.width / 2) - (DIALOG_WIDTH / 2);
-
-      // Clamp Horizontal
       if (left < EDGE_PADDING) left = EDGE_PADDING;
       if (left + DIALOG_WIDTH > viewportW - EDGE_PADDING) {
         left = viewportW - DIALOG_WIDTH - EDGE_PADDING;
       }
-
-      // 2. Vertical: Below
       let top = triggerRect.bottom + GAP;
 
       // Flip if overflow bottom
       if (top + DIALOG_HEIGHT > viewportH - EDGE_PADDING) {
         const topAbove = triggerRect.top - DIALOG_HEIGHT - GAP;
 
-        // If it fits above, go above
         if (topAbove >= EDGE_PADDING) {
           top = topAbove;
         } else {
-          // If it fits neither, use the side with more space
-          // or just clamp it to fit the viewport as best as possible
           if (top + DIALOG_HEIGHT > viewportH) {
             top = viewportH - DIALOG_HEIGHT - EDGE_PADDING;
           }

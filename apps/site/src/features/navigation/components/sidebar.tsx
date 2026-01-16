@@ -18,11 +18,9 @@ import {
   FaTerminal,
   FaPaperclip,
   FaFlag,
-  FaArrowsSplitUpAndLeft,
-  FaBookOpen,
 } from "react-icons/fa6";
 
-export type MainNavItem = "overview" | "components-core" | "design-system" | "agents-mcps" | "agents-mcps-introduction" | "agents-mcps-workflows" | "agents-mcps-references" | "cli-getting-started" | "cli-advanced";
+export type MainNavItem = "overview" | "components-core" | "design-system" | "agents-mcps" | "agents-mcps-introduction" | "cli-getting-started"
 
 interface SidebarSection {
   label: string;
@@ -44,15 +42,12 @@ function getMainNav(activeNav?: MainNavItem): Array<{
   if (activeNav?.startsWith("agents-mcps")) {
     return [
       { id: "agents-mcps-introduction", label: "Introduction" },
-      { id: "agents-mcps-workflows", label: "Workflows" },
-      { id: "agents-mcps-references", label: "References" },
     ];
   }
 
   if (activeNav?.startsWith("cli")) {
     return [
-      { id: "cli-getting-started", label: "Introduction" },
-      { id: "cli-advanced", label: "Advanced" },
+      { id: "cli-getting-started", label: "Introduction" }
     ];
   }
 
@@ -86,23 +81,14 @@ export function getActiveSectionForPathname(pathname: string): MainNavItem {
   if (pathname.startsWith("/docs")) return "overview";
   if (pathname.startsWith("/components")) return "components-core";
   if (pathname.startsWith("/agents-mcps")) {
-    if (pathname === "/agents-mcps" || pathname.includes("/introduction") || pathname.includes("/installation") || pathname.includes("/quick-start") || pathname.includes("/core-concepts")) {
+    if (pathname === "/agents-mcps" || pathname.startsWith("/agents-mcps/getting-started") || pathname.includes("/introduction") || pathname.includes("/installation") || pathname.includes("/quick-start") || pathname.includes("/core-concepts")) {
       return "agents-mcps-introduction";
-    }
-    if (pathname.includes("/designing-ai-workflows") || pathname.includes("/prompting-strategies") || pathname.includes("/state-management") || pathname.includes("/examples-use-cases")) {
-      return "agents-mcps-workflows";
-    }
-    if (pathname.includes("/mcps-overview") || pathname.includes("/custom-mcps") || pathname.includes("/integrations") || pathname.includes("/api-reference")) {
-      return "agents-mcps-references";
     }
     return "agents-mcps-introduction";
   }
   if (pathname.startsWith("/cli")) {
     if (pathname === "/cli" || pathname.includes("/introduction") || pathname.includes("/installation") || pathname.includes("/commands") || pathname.includes("/quick-start")) {
       return "cli-getting-started";
-    }
-    if (pathname.includes("/hooks") || pathname.includes("/skills") || pathname.includes("/agents") || pathname.includes("/mcp-servers") || pathname.includes("/configuration") || pathname.includes("/best-practices")) {
-      return "cli-advanced";
     }
     return "cli-getting-started";
   }
@@ -112,11 +98,8 @@ export function getActiveSectionForPathname(pathname: string): MainNavItem {
 
 const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
   "agents-mcps": null,
-  "agents-mcps-introduction": ["Getting Started"],
-  "agents-mcps-workflows": ["Building Workflows"],
-  "agents-mcps-references": ["Reference", "Technical Reference"],
+  "agents-mcps-introduction": null,
   "cli-getting-started": ["Getting Started"],
-  "cli-advanced": ["Advanced"],
   "overview": null,
   "components-core": null,
   "design-system": null,
@@ -161,12 +144,9 @@ export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
     case "components-core":
       return getComponentSections();
     case "agents-mcps-introduction":
-    case "agents-mcps-workflows":
-    case "agents-mcps-references":
       sections = getSectionsForDomain("agents-mcps");
       break;
     case "cli-getting-started":
-    case "cli-advanced":
       sections = getSectionsForDomain("cli");
       break;
     case "design-system":
@@ -191,11 +171,8 @@ export function getHrefForItem(activeNav: MainNavItem, itemId: string): string {
     case "components-core":
       return itemId === "overview" ? "/components" : `/components/${itemId}`;
     case "agents-mcps-introduction":
-    case "agents-mcps-workflows":
-    case "agents-mcps-references":
       return itemId === "introduction" ? "/agents-mcps" : `/agents-mcps/${itemId}`;
     case "cli-getting-started":
-    case "cli-advanced":
       return itemId === "introduction" ? "/cli" : `/cli/${itemId}`;
     case "design-system":
       return itemId === "overview" ? "/design-system" : `/design-system/${itemId}`;
@@ -292,10 +269,7 @@ export function Sidebar() {
                 if (nav.id === "overview") href = "/docs";
                 else if (nav.id === "components-core") href = "/components";
                 else if (nav.id === "agents-mcps-introduction") href = "/agents-mcps";
-                else if (nav.id === "agents-mcps-workflows") href = "/agents-mcps/designing-ai-workflows";
-                else if (nav.id === "agents-mcps-references") href = "/agents-mcps/mcps-overview";
                 else if (nav.id === "cli-getting-started") href = "/cli";
-                else if (nav.id === "cli-advanced") href = "/cli/hooks";
                 else if (nav.id === "design-system") href = "/design-system";
 
                 const isActive = activeNav === nav.id;
@@ -304,8 +278,6 @@ export function Sidebar() {
                   "overview": FaPaperclip,
                   "components-core": FaShapes,
                   "agents-mcps-introduction": FaFlag,
-                  "agents-mcps-workflows": FaArrowsSplitUpAndLeft,
-                  "agents-mcps-references": FaBookOpen,
                   "cli-getting-started": FaTerminal,
                   "cli-advanced": FaTerminal,
                   "design-system": FaPaintbrush,

@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import type { ElementMetadata, LayoutConfig } from 'ui-lab-registry';
+import type { LayoutConfig } from 'ui-lab-registry';
 
 interface PreviewContainerProps {
-  element: ElementMetadata;
   layoutConfig: LayoutConfig;
   children: React.ReactNode;
 }
@@ -36,7 +35,6 @@ function getCenteringClass(strategy?: string): string {
 }
 
 export function PreviewContainer({
-  element,
   layoutConfig,
   children,
 }: PreviewContainerProps) {

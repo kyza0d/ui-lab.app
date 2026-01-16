@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { oklchToHex, oklchToCss, type OklchColor, type ShadeScale, type ColorRole } from '../lib/color-utils'
+import { Divider } from 'ui-lab-components'
 
 interface ColorSwatchProps {
   family: ColorRole
@@ -28,19 +29,19 @@ export function ColorSwatch({ family, shade, oklch }: ColorSwatchProps) {
   }
 
   return (
-    <div className="flex flex-col p-1 bg-background-900 border border-background-700 w-full rounded-md overflow-hidden h-full group">
+    <div className="flex flex-row border border-background-700 w-full rounded-sm overflow-hidden h-full group">
       {/* Color Preview - Fills width, fixed height for consistency */}
       <div
-        className="w-full h-30 rounded-md border border-background-700"
+        className="w-40 aspect-square border-r border-background-700"
         style={{ backgroundColor: cssValue }}
         title={`${family} ${shade}`}
       />
 
       {/* Info Container */}
-      <div className="flex flex-col text-xs">
+      <div className="flex w-full px-2 py-2 flex-col text-sm">
 
         {/* Header: Shade + Hex */}
-        <div className="flex p-1 mt-1 justify-between items-between">
+        <div className="flex px-3 mt-1 justify-between items-between">
           <span className="font-semibold text-foreground-200">{shade}</span>
           <button
             onClick={() => handleCopy(hexValue, 'hex')}
@@ -51,8 +52,9 @@ export function ColorSwatch({ family, shade, oklch }: ColorSwatchProps) {
           </button>
         </div>
 
+        <Divider size="sm" variant='dashed' />
         {/* Details: CSS Var + OKLCH */}
-        <div className="space-y-1.5 border-t border-background-700 p-2 font-mono text-[10px] sm:text-xs text-foreground-500">
+        <div className="space-y-1.5 px-3 text-sm font-mono text-foreground-500">
           <button
             className="block w-full text-left truncate hover:text-foreground-300 transition-colors"
             onClick={() => handleCopy(cssVar, 'var')}

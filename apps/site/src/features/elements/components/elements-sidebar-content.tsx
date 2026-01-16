@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { FaChevronDown } from 'react-icons/fa6';
+import { Fold } from 'ui-lab-components';
 import { cn } from '@/shared';
 import { SidebarItemLink } from '@/features/navigation';
 import {
@@ -11,7 +11,7 @@ import {
 } from 'ui-lab-registry';
 
 interface ElementsSidebarContentProps {
-  activeNav: 'elements' | 'blocks' | 'starters';
+  activeNav: 'elements' | 'sections';
   elements: ElementMetadata[];
   pathname: string;
   activeCategory?: ElementCategoryId | null;
@@ -36,15 +36,6 @@ export function ElementsList({
     }
   }, [currentElementId]);
 
-  const toggleElement = (elementId: string) => {
-    setExpandedElements((prev) => {
-      const next = new Set(prev);
-      if (next.has(elementId)) next.delete(elementId);
-      else next.add(elementId);
-      return next;
-    });
-  };
-
   const filteredElements = useMemo(() => {
     if (!activeCategory) return elements;
     return getElementsInCategory(elements, activeCategory);
@@ -55,12 +46,10 @@ export function ElementsList({
     [filteredElements]
   );
 
-  if (activeNav === 'blocks' || activeNav === 'starters') {
+  if (activeNav === 'sections') {
     return (
       <div className="flex items-center justify-center h-full px-6 text-center">
-        <p className="text-foreground-400 text-sm">
-          {activeNav === 'blocks' ? 'Blocks coming soon' : 'Starters coming soon'}
-        </p>
+        <p className="text-foreground-400 text-sm">Sections coming soon</p>
       </div>
     );
   }
@@ -79,61 +68,59 @@ export function ElementsList({
     <div className="space-y-1">
       {sortedElements.map((element) => {
         const isActive = currentElementId === element.id;
-        const isElementExpanded = expandedElements.has(element.id);
         const href = `/elements/${element.id}`;
 
-        return (
-          <div key={element.id}>
-            <div className="flex items-center">
-              <SidebarItemLink
-                href={href}
-                className={cn(
-                  'flex-1 flex justify-between px-3 py-1.5 text-sm rounded-md cursor-pointer',
-                  'transition-colors duration-300 ease-out hover:duration-0',
-                  isActive
-                    ? 'text-foreground-50 bg-background-800 font-medium'
-                    : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
-                )}
-              >
-                <span className="capitalize">{element.name}</span>
-                {element.variants.length > 0 && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleElement(element.id);
-                    }}
-                    className="py-0.5 text-foreground-400 hover:text-foreground-200 transition-colors"
-                    aria-label={isElementExpanded ? 'Collapse variants' : 'Expand variants'}
-                  >
-                    <FaChevronDown
-                      size={10}
-                      className={cn(
-                        'transition-transform',
-                        !isElementExpanded && '-rotate-90'
-                      )}
-                    />
-                  </button>
-                )}
-              </SidebarItemLink>
-            </div>
+        if (element.variants.length === 0) {
+          return (
+            <SidebarItemLink
+              key={element.id}
+              href={href}
+              className={cn(
+                'block px-3 py-1.5 text-sm rounded-md cursor-pointer capitalize',
+                'transition-colors duration-300 ease-out hover:duration-0',
+                isActive
+                  ? 'text-foreground-50 bg-background-800 font-medium'
+                  : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
+              )}
+            >
+              {element.name}
+            </SidebarItemLink>
+          );
+        }
 
-            {isElementExpanded && element.variants.length > 0 && (
-              <div className="relative mt-1 ml-3">
-                <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600" />
-                <div className="space-y-0.5 pl-3">
-                  {element.variants.map((variant, index) => (
-                    <SidebarItemLink
-                      key={`${element.id}-${index}`}
-                      href={href}
-                      className="block px-3 text-sm rounded-md cursor-pointer transition-colors text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50"
-                    >
-                      {variant.name}
-                    </SidebarItemLink>
-                  ))}
-                </div>
+        const isExpanded = expandedElements.has(element.id);
+
+        return (
+          <Fold
+            key={element.id}
+            isExpanded={isExpanded}
+            onExpandedChange={(expanded) => {
+              setExpandedElements((prev) => {
+                const next = new Set(prev);
+                if (expanded) next.add(element.id);
+                else next.delete(element.id);
+                return next;
+              });
+            }}
+            className="rounded-md"
+          >
+            <Fold.Trigger className="text-sm capitalize">
+              <span>{element.name}</span>
+            </Fold.Trigger>
+            <Fold.Content className="pl-3">
+              <div className="space-y-0.5 mt-1">
+                {element.variants.map((variant, index) => (
+                  <SidebarItemLink
+                    key={`${element.id}-${index}`}
+                    href={href}
+                    className="block px-3 py-2 text-sm rounded-md cursor-pointer transition-colors text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50"
+                  >
+                    {variant.name}
+                  </SidebarItemLink>
+                ))}
               </div>
-            )}
-          </div>
+            </Fold.Content>
+          </Fold>
         );
       })}
     </div>

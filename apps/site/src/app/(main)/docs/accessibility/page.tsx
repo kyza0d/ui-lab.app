@@ -8,12 +8,8 @@ export default function AccessibilityPage() {
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
         <main>
-          <DocumentationHeader
-
-            title="Accessibility"
-
+          <DocumentationHeader title="Accessibility"
             description="Accessibility features and guidelines for building inclusive interfaces."
-
           />
 
 

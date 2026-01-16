@@ -14,10 +14,11 @@ import {
   FaBars,
   FaMagnifyingGlass,
   FaBagShopping,
-  FaTree
+  FaTree,
+  FaGithub
 } from "react-icons/fa6";
 import { HiX } from "react-icons/hi";
-import { getActiveTabValue, getDomainsWithTabs, getHeaderHeight, shouldApplyRevealCollapse } from "@/shared";
+import { getHeaderHeight, shouldApplyRevealCollapse, getTabGroupForPathname, getActiveTabForPathname } from "@/shared";
 
 import { MobileMenu } from "./mobile-menu";
 import { navigationData } from "./data";
@@ -93,7 +94,8 @@ export default function Header({
     };
   }, [hasRevealCollapse, pathname]);
 
-  const activeTabValue = getActiveTabValue(pathname);
+  const tabGroup = getTabGroupForPathname(pathname);
+  const activeTabId = getActiveTabForPathname(pathname);
 
   return (
     <>
@@ -125,7 +127,10 @@ export default function Header({
               className="mr-5 flex items-center transition-opacity hover:opacity-80"
             >
               <Logo />
-              <span className="text-md font-semibold text-foreground-50 mr-8">UI Lab</span>
+              <span className="text-md font-semibold text-foreground-50 mr-2">UI Lab</span>
+              <span className="ml-auto inline-block px-3 py-1 text-xs font-semibold  mt-1 mr-4 bg-accent-500/20 text-accent-500 rounded-md">
+                Early Beta
+              </span>
             </Link>
             {/* Desktop navigation */}
             <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
@@ -161,18 +166,27 @@ export default function Header({
         <div className="z-20 absolute flex items-center gap-2 bottom-2 right-3">
           <div className="relative">
             <Input
-              placeholder="Search"
+              placeholder="Search..."
               prefixIcon={<FaMagnifyingGlass size={14} />}
-              className="pl-10 pr-12 w-42 bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
-              size="md"
+              className="w-50 bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
+              size="sm"
               onClick={() => setIsCommandPaletteOpen(true)}
               readOnly
             />
-            <Badge className="absolute top-1/2 -translate-y-1/2 right-2 w-10 rounded-[9px] gap-1 bg-background-700/50 border border-background-700" size="sm" icon={<Command className="mt-px" size={12} strokeWidth={2.4} />}> K </Badge>
+            <Badge className="text-foreground-200 absolute h-6 top-1/2 -translate-y-1/2 right-1 w-10 rounded-[9px] gap-1 bg-background-700/50 border border-background-700" size="sm" icon={<Command size={12} strokeWidth={2.6} />}> <span className="font-bold mt-2">K</span> </Badge>
           </div>
           {/* Right side: Settings, Theme Toggle */}
           <div className="flex items-center">
             <div className="flex">
+              <a
+                href="https://github.com/kyza0d/ui-lab.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center rounded-lg p-2 text-foreground-300 hover:bg-background-800 hover:text-foreground-50 transition-colors"
+                aria-label="GitHub Repository"
+              >
+                <FaGithub size={17} />
+              </a>
               <Divider orientation="vertical" />
               <SettingsPanel />
               <ThemeToggle />
@@ -188,16 +202,21 @@ export default function Header({
             </button>
           </div>
         </div>
-        {hasRevealCollapse && activeTabValue && (
+        {hasRevealCollapse && tabGroup && activeTabId && (
           <div className="absolute bottom-0 left-0 md:px-2 w-full">
-            <Tabs className="w-fit" value={activeTabValue} variant="underline">
+            <Tabs className="w-fit" value={activeTabId} variant="underline">
               <TabsList>
-                {getDomainsWithTabs().map((domain) => {
-                  const Icon = domain.icon;
+                {tabGroup.tabs.map((tab) => {
+                  const Icon = tab.icon;
                   return (
-                    <Link key={domain.id} href={domain.id === 'docs' ? '/docs' : `/${domain.id}`}>
-                      <TabsTrigger icon={<Icon />} value={domain.id} className="text-sm mb-1">
-                        {domain.label}
+                    <Link key={tab.id} href={tab.path}>
+                      <TabsTrigger
+                        icon={<Icon />}
+                        value={tab.id}
+                        className="text-sm mb-1"
+                        disabled={tab.isPlaceholder}
+                      >
+                        {tab.label}
                       </TabsTrigger>
                     </Link>
                   );

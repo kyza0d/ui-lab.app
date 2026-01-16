@@ -7,7 +7,7 @@ import { elementsList } from 'ui-lab-registry';
 
 function SidebarSkeleton() {
   return (
-    <aside className="hidden md:flex w-64 flex-col border-r border-background-700">
+    <aside className="hidden md:flex w-56 flex-col border-r border-background-700">
       <div className="h-screen"></div>
     </aside>
   );

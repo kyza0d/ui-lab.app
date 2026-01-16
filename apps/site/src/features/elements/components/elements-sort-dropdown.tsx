@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa6';
 
 const SORT_OPTIONS = [
+  { label: 'Default Order', value: 'default', icon: <FaSort /> },
   { label: 'Newest First', value: 'newest', icon: <FaClock /> },
   { label: 'Most Popular', value: 'popular', icon: <FaFire /> },
   { label: 'Name (A-Z)', value: 'az', icon: <FaArrowDownAZ /> },

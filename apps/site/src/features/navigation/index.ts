@@ -10,3 +10,4 @@ export * from "./lib/generated-sidebar-registry";
 export * from "./lib/generated-breadcrumb-registry";
 export { useBreadcrumbs } from "./hooks/use-breadcrumbs";
 export { useSidebarSearch } from "./hooks/use-sidebar-search";
+export { useSidebarScroll, SidebarItemLink as SidebarItemLinkUtil, type SidebarSection } from "./lib/sidebar-utils";
