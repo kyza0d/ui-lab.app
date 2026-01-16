@@ -2,9 +2,10 @@
 
 @layer components {
   .palette {
-    --bg-default: var(--background-950);
-    --bg-hover: var(--background-800);
-    --bg-selected: var(--background-800);
+    --background-default: var(--background-800);
+    --background-hover: var(--background-800);
+    --background-selected: var(--background-800);
+    --background-input: var(--background-800);
     --border-default: var(--background-700);
     --fg-default: var(--foreground-50);
     --fg-muted: var(--foreground-500);
@@ -33,8 +34,8 @@
   .content {
     position: relative;
     @apply m-2;
-    background-color: var(--bg-default);
     border-radius: var(--radius-lg);
+    background: var(--background-default);
     width: 100%;
     margin-inline: 1rem;
     max-width: 28rem;
@@ -43,25 +44,27 @@
   }
 
   .inner {
-    @apply px-2;
+    border-radius: 12px 12px 0 0;
+    border-top: var(--border-width-base) solid var(--border-default);
     overflow: hidden;
   }
 
   /* Search Section */
   .search {
+    border: none;
     display: flex;
-    border-bottom: var(--border-width-base) solid var(--border-default);
-    @apply p-2;
+    padding: 0
   }
 
   .search-container {
+    @apply p-1.5 pl-12; 
     position: relative;
     width: 100%;
   }
 
   .search-icon {
     position: absolute;
-    left: 0.5rem;
+    left: 1.0rem;
     top: 50%;
     transform: translateY(-50%);
     width: 1rem;
@@ -74,10 +77,9 @@
 
   .search-input {
     width: 100%;
-    background-color: transparent;
+    background-color: var(--background-input);
     border: none;
     color: var(--fg-default);
-    padding-left: 2rem;
     padding-block: 0.5rem;
     font-size: 0.875rem;
     font-family: inherit;
@@ -108,13 +110,13 @@
   }
 
   .search-clear:hover {
-    background-color: var(--bg-hover);
+    background-color: var(--background-hover);
     color: var(--fg-icon);
   }
 
   /* List Section */
   .list {
-    @apply p-0.5 space-y-2;
+    @apply py-0.5 px-2 space-y-2;
     background-color: var(--list-background);
     height: 44dvh;
     overflow-y: auto;
@@ -131,11 +133,11 @@
   }
 
   .item:hover {
-    background-color: var(--bg-hover);
+    background-color: var(--background-hover);
   }
 
   .item[aria-selected="true"] {
-    background-color: var(--bg-selected);
+    background-color: var(--background-selected);
   }
 
   .item-content {
@@ -180,11 +182,9 @@
 
   .category-header {
     @apply px-2 py-1.5 mt-2 first:mt-0;
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--fg-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   /* Empty State */

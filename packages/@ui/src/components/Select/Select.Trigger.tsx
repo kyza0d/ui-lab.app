@@ -14,15 +14,13 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
     return (
       <button
         ref={ref}
-        className={cn('trigger', styles.trigger, className)}
+        className={cn(styles.trigger, className)}
         type="button"
       >
-        <span>{children}</span>
-        {chevron !== undefined ? (
-          <div className={styles.icon}>{chevron}</div>
-        ) : (
-          <FaChevronDown className={styles.icon} />
-        )}
+        {children}
+        <div className={styles.icon}>
+          {chevron !== undefined ? chevron : <FaChevronDown />}
+        </div>
       </button>
     )
   }

@@ -535,15 +535,18 @@ const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
               {/* Footer hint */}
               {commands.length > 0 && (
                 <>
-                  <Badge variant="default">
-                    <span className="pr-2">↑↓</span>Navigate
-                  </Badge>
-                  <Badge variant="default">
-                    <span className="pr-2">↵</span> Select
-                  </Badge>
-                  <Badge className="ml-auto" variant="default">
-                    <span className="pr-2">Esc</span> Close
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">Navigate</span>
+                    <Badge size="sm" variant="default">↑↓</Badge>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">Select</span>
+                    <Badge size="sm" variant="default">↵</Badge>
+                  </div>
+                  <div className="ml-auto flex items-center gap-2">
+                    <span className="text-sm">Close</span>
+                    <Badge size="sm" variant="default">Esc</Badge>
+                  </div>
                 </>
               )}
             </Card.Footer>

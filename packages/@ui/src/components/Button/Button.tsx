@@ -5,7 +5,7 @@ import { useButton, useFocusRing, useHover, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
 import styles from "./Button.module.css";
 
-type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
+type ButtonVariant = "primary" | "default" | "secondary" | "outline" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -17,6 +17,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantMap = {
   primary: styles["primary"],
+  default: styles["default"],
   secondary: styles["secondary"],
   outline: styles["outline"],
   ghost: styles["ghost"],
@@ -29,7 +30,7 @@ const sizeMap = {
 } as const;
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", children, onClick, onPress, isDisabled, disabled, ...props }, ref) => {
+  ({ className, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, ...props }, ref) => {
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const mergedRef = useMergedRef(ref, buttonRef);
     const isButtonDisabled = isDisabled ?? disabled ?? false;

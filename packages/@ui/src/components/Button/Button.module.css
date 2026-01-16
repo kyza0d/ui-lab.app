@@ -3,13 +3,13 @@
 @layer components {
   .button {
     --ring-color: var(--accent-500);
-    --btn-bg: var(--background-800);
-    --btn-fg: var(--foreground-50);
-    --btn-border: var(--background-700);
+    --button-bg: var(--background-800);
+    --button-fg: var(--foreground-50);
+    --button-border: var(--background-700);
     
-    background-color: var(--btn-bg);
-    color: var(--btn-fg);
-    border: var(--border-width-base) solid var(--btn-border);
+    background-color: var(--button-bg);
+    color: var(--button-fg);
+    border: var(--border-width-base) solid var(--button-border);
     
     /* Layout & Typo */
     @apply px-3 py-1.5;
@@ -18,7 +18,7 @@
     justify-content: center;
     font-family: inherit;
     font-weight: 500;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     line-height: var(--leading-snug);
     user-select: none;
     cursor: pointer;
@@ -39,34 +39,36 @@
       filter: none; /* Prevent brightness shifts on disabled */
     }
 
-    &:active:not(:disabled) {
-      transform: scale(0.97);
-    }
-    
     &:hover:not(:disabled) {
       filter: brightness(106%); 
-      border-color: var(--btn-border); /* Ensures border follows suit if needed */
+      border-color: var(--button-border); /* Ensures border follows suit if needed */
     }
   }
 
   .button.primary {
-    --btn-bg: var(--accent-500);
-    --btn-fg: var(--color-white);
-    --btn-border: var(--accent-500);
+    --button-bg: var(--accent-500);
+    --button-fg: var(--color-white);
+    --button-border: var(--accent-500);
+  }
+
+  .button.default {
+    /* Basic styles - same as original secondary */
+    --button-bg: var(--background-800);
+    --button-fg: var(--foreground-50);
+    --button-border: var(--background-700);
   }
 
   .button.secondary {
-    /* These match the defaults defined in .button, 
-       but we redeclare them to be explicit if defaults change */
-    --btn-bg: var(--background-800);
-    --btn-fg: var(--foreground-50);
-    --btn-border: var(--background-700);
+    /* Lighter variant than default */
+    --button-bg: var(--background-700);
+    --button-fg: var(--foreground-50);
+    --button-border: var(--background-600);
   }
 
   .button.outline {
-    --btn-bg: transparent;
-    --btn-fg: var(--foreground-50);
-    --btn-border: var(--background-700);
+    --button-bg: transparent;
+    --button-fg: var(--foreground-50);
+    --button-border: var(--background-700);
     outline-style: unset !important;
     
     /* Outline specific hover override if you want distinct behavior */
@@ -76,9 +78,9 @@
   }
 
   .button.ghost {
-    --btn-bg: transparent;
-    --btn-fg: var(--foreground-50);
-    --btn-border: transparent;
+    --button-bg: transparent;
+    --button-fg: var(--foreground-50);
+    --button-border: transparent;
 
     /* Ghost usually needs a distinct hover bg, brightness filter might not be enough on transparent */
     @media (hover: hover) {
@@ -89,7 +91,7 @@
   }
 
   .button.sm {
-    @apply px-2.5 py-1 text-sm;
+    @apply px-2.5 py-1;
     font-size: var(--text-sm);
   }
 
@@ -99,7 +101,7 @@
   }
 
   .button.lg {
-    @apply px-4 py-2 text-lg;
-    font-size: var(--text-lg);
+    @apply px-4 py-1.5;
+    font-size: var(--text-md);
   }
 }
