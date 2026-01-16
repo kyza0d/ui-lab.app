@@ -54,20 +54,6 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
-      "path": "/docs/form-validation",
-      "domain": "/docs",
-      "domainLabel": "UI Lab Overview",
-      "breadcrumbs": [
-        {
-          "label": "UI Lab Overview",
-          "href": "/docs"
-        },
-        {
-          "label": "\"Build a Form with Validation\""
-        }
-      ]
-    },
-    {
       "path": "/docs/installation",
       "domain": "/docs",
       "domainLabel": "UI Lab Overview",
@@ -81,20 +67,6 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
         },
         {
           "label": "\"Installation\""
-        }
-      ]
-    },
-    {
-      "path": "/docs/modal-dialog",
-      "domain": "/docs",
-      "domainLabel": "UI Lab Overview",
-      "breadcrumbs": [
-        {
-          "label": "UI Lab Overview",
-          "href": "/docs"
-        },
-        {
-          "label": "\"Create a Modal Dialog\""
         }
       ]
     },
@@ -254,6 +226,20 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
+      "path": "/agents-mcps/agents-and-mcps",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Agents & MCPs"
+        }
+      ]
+    },
+    {
       "path": "/agents-mcps/api-reference",
       "domain": "/agents-mcps",
       "domainLabel": "Agents & MCPs",
@@ -266,7 +252,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Technical Reference"
         },
         {
-          "label": "\"API Reference\""
+          "label": "API Reference"
         }
       ]
     },
@@ -339,7 +325,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
-      "path": "/agents-mcps/component-registry-reference",
+      "path": "/agents-mcps/building-workflows-designing-ai-workflows",
       "domain": "/agents-mcps",
       "domainLabel": "Agents & MCPs",
       "breadcrumbs": [
@@ -348,12 +334,12 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "href": "/agents-mcps"
         },
         {
-          "label": "\"Component Registry Reference\""
+          "label": "Designing AI Workflows"
         }
       ]
     },
     {
-      "path": "/agents-mcps/configuration",
+      "path": "/agents-mcps/building-workflows-examples-use-cases",
       "domain": "/agents-mcps",
       "domainLabel": "Agents & MCPs",
       "breadcrumbs": [
@@ -362,7 +348,49 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "href": "/agents-mcps"
         },
         {
-          "label": "\"Configuration & Advanced Setup\""
+          "label": "Examples & Use Cases"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/building-workflows-prompting-strategies",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Prompting Strategies"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/building-workflows-state-management",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "State Management"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/building-workflows",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Building Workflows"
         }
       ]
     },
@@ -379,7 +407,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Getting Started"
         },
         {
-          "label": "\"Core Concepts\""
+          "label": "Core Concepts"
         }
       ]
     },
@@ -396,21 +424,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Technical Reference"
         },
         {
-          "label": "\"Custom MCPs\""
-        }
-      ]
-    },
-    {
-      "path": "/agents-mcps/design-guidelines-reference",
-      "domain": "/agents-mcps",
-      "domainLabel": "Agents & MCPs",
-      "breadcrumbs": [
-        {
-          "label": "Agents & MCPs",
-          "href": "/agents-mcps"
-        },
-        {
-          "label": "\"Design Guidelines Reference\""
+          "label": "Custom MCPs"
         }
       ]
     },
@@ -427,12 +441,12 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Building Workflows"
         },
         {
-          "label": "\"Designing AI Workflows\""
+          "label": "Designing AI Workflows"
         }
       ]
     },
     {
-      "path": "/agents-mcps/examples-use-cases",
+      "path": "/agents-mcps/examples-and-use-cases",
       "domain": "/agents-mcps",
       "domainLabel": "Agents & MCPs",
       "breadcrumbs": [
@@ -441,10 +455,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "href": "/agents-mcps"
         },
         {
-          "label": "Building Workflows"
-        },
-        {
-          "label": "\"Examples & Use Cases\""
+          "label": "Examples & Use Cases"
         }
       ]
     },
@@ -517,7 +528,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
-      "path": "/agents-mcps/getting-started-with-claude",
+      "path": "/agents-mcps/getting-started-core-concepts",
       "domain": "/agents-mcps",
       "domainLabel": "Agents & MCPs",
       "breadcrumbs": [
@@ -526,7 +537,63 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "href": "/agents-mcps"
         },
         {
-          "label": "\"Get Started with Claude\""
+          "label": "Core Concepts"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/getting-started-installation",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Installation"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/getting-started-introduction",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Agents & MCPs"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/getting-started-quick-start",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Quick Start"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/getting-started",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Getting Started"
         }
       ]
     },
@@ -543,7 +610,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Getting Started"
         },
         {
-          "label": "\"Installation\""
+          "label": "Installation"
         }
       ]
     },
@@ -560,38 +627,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Technical Reference"
         },
         {
-          "label": "\"Integrations\""
-        }
-      ]
-    },
-    {
-      "path": "/agents-mcps/introduction",
-      "domain": "/agents-mcps",
-      "domainLabel": "Agents & MCPs",
-      "breadcrumbs": [
-        {
-          "label": "Agents & MCPs",
-          "href": "/agents-mcps"
-        },
-        {
-          "label": "Getting Started"
-        },
-        {
-          "label": "\"Introduction to Agents & MCPs\""
-        }
-      ]
-    },
-    {
-      "path": "/agents-mcps/llms-txt-format-reference",
-      "domain": "/agents-mcps",
-      "domainLabel": "Agents & MCPs",
-      "breadcrumbs": [
-        {
-          "label": "Agents & MCPs",
-          "href": "/agents-mcps"
-        },
-        {
-          "label": "\"LLMs.txt Format Reference\""
+          "label": "Integrations"
         }
       ]
     },
@@ -608,7 +644,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Technical Reference"
         },
         {
-          "label": "\"MCPs Overview\""
+          "label": "MCPs Overview"
         }
       ]
     },
@@ -625,7 +661,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Building Workflows"
         },
         {
-          "label": "\"Prompting Strategies\""
+          "label": "Prompting Strategies"
         }
       ]
     },
@@ -642,21 +678,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Getting Started"
         },
         {
-          "label": "\"Quick Start\""
-        }
-      ]
-    },
-    {
-      "path": "/agents-mcps/setup",
-      "domain": "/agents-mcps",
-      "domainLabel": "Agents & MCPs",
-      "breadcrumbs": [
-        {
-          "label": "Agents & MCPs",
-          "href": "/agents-mcps"
-        },
-        {
-          "label": "\"Agent Setup Guide\""
+          "label": "Quick Start"
         }
       ]
     },
@@ -673,7 +695,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Building Workflows"
         },
         {
-          "label": "\"State Management\""
+          "label": "State Management"
         }
       ]
     },
@@ -746,7 +768,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
-      "path": "/agents-mcps/understanding-component-registry",
+      "path": "/agents-mcps/technical-reference-api-reference",
       "domain": "/agents-mcps",
       "domainLabel": "Agents & MCPs",
       "breadcrumbs": [
@@ -755,7 +777,63 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "href": "/agents-mcps"
         },
         {
-          "label": "\"Understanding the Component Registry\""
+          "label": "API Reference"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/technical-reference-custom-mcps",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Custom MCPs"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/technical-reference-integrations",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Integrations"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/technical-reference-mcps-overview",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "MCPs Overview"
+        }
+      ]
+    },
+    {
+      "path": "/agents-mcps/technical-reference",
+      "domain": "/agents-mcps",
+      "domainLabel": "Agents & MCPs",
+      "breadcrumbs": [
+        {
+          "label": "Agents & MCPs",
+          "href": "/agents-mcps"
+        },
+        {
+          "label": "Technical Reference"
         }
       ]
     },
@@ -767,40 +845,6 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
         {
           "label": "Agents & MCPs",
           "href": "/agents-mcps"
-        }
-      ]
-    },
-    {
-      "path": "/cli/agents",
-      "domain": "/cli",
-      "domainLabel": "CLI",
-      "breadcrumbs": [
-        {
-          "label": "CLI",
-          "href": "/cli"
-        },
-        {
-          "label": "Advanced Features"
-        },
-        {
-          "label": "\"Agents\""
-        }
-      ]
-    },
-    {
-      "path": "/cli/best-practices",
-      "domain": "/cli",
-      "domainLabel": "CLI",
-      "breadcrumbs": [
-        {
-          "label": "CLI",
-          "href": "/cli"
-        },
-        {
-          "label": "Advanced Features"
-        },
-        {
-          "label": "\"Best Practices\""
         }
       ]
     },
@@ -817,41 +861,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Getting Started"
         },
         {
-          "label": "\"CLI Commands Reference\""
-        }
-      ]
-    },
-    {
-      "path": "/cli/configuration",
-      "domain": "/cli",
-      "domainLabel": "CLI",
-      "breadcrumbs": [
-        {
-          "label": "CLI",
-          "href": "/cli"
-        },
-        {
-          "label": "Advanced Features"
-        },
-        {
-          "label": "\"Configuration\""
-        }
-      ]
-    },
-    {
-      "path": "/cli/hooks",
-      "domain": "/cli",
-      "domainLabel": "CLI",
-      "breadcrumbs": [
-        {
-          "label": "CLI",
-          "href": "/cli"
-        },
-        {
-          "label": "Advanced Features"
-        },
-        {
-          "label": "\"Hooks\""
+          "label": "\"Commands\""
         }
       ]
     },
@@ -868,24 +878,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Getting Started"
         },
         {
-          "label": "\"CLI Installation\""
-        }
-      ]
-    },
-    {
-      "path": "/cli/mcp-servers",
-      "domain": "/cli",
-      "domainLabel": "CLI",
-      "breadcrumbs": [
-        {
-          "label": "CLI",
-          "href": "/cli"
-        },
-        {
-          "label": "Advanced Features"
-        },
-        {
-          "label": "\"MCP Servers\""
+          "label": "\"Installation\""
         }
       ]
     },
@@ -903,23 +896,6 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
         },
         {
           "label": "\"Quick Start\""
-        }
-      ]
-    },
-    {
-      "path": "/cli/skills",
-      "domain": "/cli",
-      "domainLabel": "CLI",
-      "breadcrumbs": [
-        {
-          "label": "CLI",
-          "href": "/cli"
-        },
-        {
-          "label": "Advanced Features"
-        },
-        {
-          "label": "\"Skills\""
         }
       ]
     },

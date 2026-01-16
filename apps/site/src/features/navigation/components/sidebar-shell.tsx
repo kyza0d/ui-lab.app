@@ -7,6 +7,18 @@ import { cn, FadeContainer } from '@/shared';
 import { FaChevronDown } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
 
+/**
+ * @deprecated This component is deprecated and will be removed in a future version.
+ *
+ * Use the functional sidebar pattern instead. All new sidebars should implement:
+ * - getActiveNavFromPathname(pathname: string)
+ * - getMainNav(activeNav: NavType)
+ * - getSectionsForNav(nav: NavType)
+ * - getHrefForItem(activeNav: NavType, itemId: string)
+ * - isItemActive(itemId: string, pathname: string, activeNav: NavType)
+ *
+ * See sidebar.tsx, elements-sidebar.tsx, or starters-sidebar.tsx for reference implementations.
+ */
 export interface NestedNavItem {
   id: string;
   label: string;
@@ -89,7 +101,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                         router.push(nav.href);
                       }}
                       className={cn(
-                        'w-full flex border items-center gap-3 pl-1 pr-2 py-1 text-sm font-medium rounded-md',
+                        'w-full flex border items-center gap-3 mb-2 pl-1 pr-2 py-1 text-sm font-medium rounded-md',
                         isActive
                           ? 'border-background-700 text-foreground-50 bg-background-800/70'
                           : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'

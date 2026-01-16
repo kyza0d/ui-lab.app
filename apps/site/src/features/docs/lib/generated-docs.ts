@@ -42,14 +42,6 @@ export const DOCUMENTATION_SECTIONS: SidebarSection[] = [
       {
         "id": "dark-mode",
         "label": "Dark Mode Setup"
-      },
-      {
-        "id": "form-validation",
-        "label": "Build a Form with Validation"
-      },
-      {
-        "id": "modal-dialog",
-        "label": "Create a Modal Dialog"
       }
     ]
   }

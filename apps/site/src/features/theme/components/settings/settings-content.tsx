@@ -482,7 +482,7 @@ const ColorRow = memo(
           >
             <div className="relative">
               <div
-                className="w-7 h-7 rounded-[8px] border border-white/10 shadow-sm"
+                className="w-7 h-7 rounded-[8px]"
                 style={previewStyle}
               />
             </div>

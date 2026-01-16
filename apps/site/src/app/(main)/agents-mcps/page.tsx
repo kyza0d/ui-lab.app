@@ -35,7 +35,6 @@ export default async function AgentsMcpsPage() {
               © 2026 UI Lab • Built for humans and machines
             </div>
           </main>
-
         </div>
       </div>
     </>

@@ -2,11 +2,11 @@
 
 import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
-import { ElementsSidebar } from '@/features/elements';
+import { StartersSidebar } from '@/features/starters';
 
 function SidebarSkeleton() {
   return (
-    <aside className="hidden md:flex w-64 flex-col border-r border-background-700">
+    <aside className="hidden md:flex w-56 flex-col border-r border-background-700">
       <div className="h-screen"></div>
     </aside>
   );
@@ -14,7 +14,7 @@ function SidebarSkeleton() {
 
 function SidebarContent() {
   const pathname = usePathname();
-  return <ElementsSidebar elements={[]} pathname={pathname} />;
+  return <StartersSidebar pathname={pathname} />;
 }
 
 export default function SidebarSlot() {

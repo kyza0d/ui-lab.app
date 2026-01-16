@@ -1,9 +1,9 @@
 "use client";
 
-import { FaGear } from "react-icons/fa6";
+import { FaPaintRoller } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
 import { useRef, useState } from "react";
-import { SettingsDialog } from "@/features/theme/components/floating-settings-dialog";
+import { SettingsDialog } from "@/features/theme/components/settings-dialog";
 
 export const SettingsPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +19,7 @@ export const SettingsPanel = () => {
         title="Open theme settings"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <FaGear size={16} className="text-foreground-300" />
+        <FaPaintRoller size={14} className="text-foreground-300" />
       </Button>
       <SettingsDialog
         isOpen={isOpen}

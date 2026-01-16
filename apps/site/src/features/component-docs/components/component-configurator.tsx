@@ -118,10 +118,10 @@ export function ComponentConfigurator({
       <div className="space-y-4">
         {/* Header */}
         {title && (
-          <div className="border-b border-background-700 pt-4 pb-8">
-            <h2 className="text-foreground-50">{title}</h2>
+          <div className="border-b space-y-2 border-background-700 pt-24 pb-8">
+            <h4 className="text-foreground-50">{title}</h4>
             {description && (
-              <p className="text-sm leading-relaxed text-foreground-400">{description}</p>
+              <p className="text-sm text-foreground-400">{description}</p>
             )}
           </div>
         )
@@ -137,7 +137,7 @@ export function ComponentConfigurator({
 
               <TabsContent value="preview" className="overflow-hidden mt-0">
                 <div
-                  className={cn("px-10 py-30 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                  className={cn("px-10 py-14 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                   style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
                 >
                   {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}

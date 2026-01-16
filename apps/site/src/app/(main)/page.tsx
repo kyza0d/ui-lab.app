@@ -106,9 +106,11 @@ export default function Home() {
           <NodeSection>
             <Showcase />
           </NodeSection>
-          <NodeSection>
-            <FeaturesSection />
-          </NodeSection>
+          <div className="hidden">
+            <NodeSection>
+              <FeaturesSection />
+            </NodeSection>
+          </div>
         </div>
       </main>
     </div>

@@ -9,6 +9,7 @@ export { ElementsList as ElementsSidebarContent } from "./components/elements-si
 export { ElementsSortDropdown } from "./components/elements-sort-dropdown";
 export { PreviewContainer } from "./components/preview-container";
 export * from "./lib/get-element-demo";
+export * from "./lib/get-element-preview";
 export * from "./lib/get-element-source";
 export * from "./lib/element-layout-config";
 export * from "./lib/layout-registry";

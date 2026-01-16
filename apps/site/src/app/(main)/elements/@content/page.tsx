@@ -3,17 +3,26 @@
 import { useRouter } from 'next/navigation';
 import { useState, useCallback, useMemo } from 'react';
 import { BreadcrumbsNav } from '@/features/navigation';
-import { elementsList, getAllCategories, getAllTags, searchElements } from 'ui-lab-registry';
+import { elementsList, getAllCategories, getAllTags, searchElements, elementOrder } from 'ui-lab-registry';
 import type { ElementMetadata } from 'ui-lab-registry';
 import { ElementsGridClient, ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from '@/features/elements';
 
 function sortElements(elements: ElementMetadata[], sortBy: string): ElementMetadata[] {
   const sorted = [...elements];
+  const getElementPosition = (elementId: string): number => {
+    for (const category in elementOrder) {
+      const index = elementOrder[category as keyof typeof elementOrder].indexOf(elementId);
+      if (index !== -1) return index;
+    }
+    return Infinity;
+  };
   switch (sortBy) {
     case 'az':
       return sorted.sort((a, b) => a.name.localeCompare(b.name));
     case 'za':
       return sorted.sort((a, b) => b.name.localeCompare(a.name));
+    case 'default':
+      return sorted.sort((a, b) => getElementPosition(a.id) - getElementPosition(b.id));
     case 'newest':
     default:
       return sorted.reverse();
@@ -23,7 +32,7 @@ function sortElements(elements: ElementMetadata[], sortBy: string): ElementMetad
 export default function ElementsPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
+  const [sortBy, setSortBy] = useState('default');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -68,7 +77,7 @@ export default function ElementsPage() {
 
   const handleSortChange = useCallback((sort: string) => {
     setSortBy(sort);
-    const params = buildParams({ sort: sort !== 'newest' ? sort : null });
+    const params = buildParams({ sort: sort !== 'default' ? sort : null });
     router.push(`/elements${params ? `?${params}` : ''}`);
   }, [buildParams, router]);
 
@@ -88,7 +97,7 @@ export default function ElementsPage() {
     setSearchQuery('');
     setSelectedCategory(null);
     setSelectedTags([]);
-    setSortBy('newest');
+    setSortBy('default');
     router.push('/elements');
   }, [router]);
 

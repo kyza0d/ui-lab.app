@@ -17,8 +17,10 @@ export { usePrefetchOnHover } from "./hooks/use-prefetch-on-hover";
 
 // Utilities
 export * from "./lib/config-generator";
-export { getHeaderHeight, shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, shouldApplyRevealCollapse, DOMAINS } from "./lib/route-config";
+export { getHeaderHeight, shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, shouldApplyRevealCollapse, DOMAINS, getTabGroupForPathname, getActiveTabForPathname, shouldShowTabsForPathname, TAB_GROUPS, type TabConfig, type TabGroup } from "./lib/route-config";
 export * from "./lib/typography-utils";
 export { useCodeHighlight } from "./lib/use-code-highlight";
 export { cn } from "./lib/utils";
+export { generateMetadata, type SiteMetadataConfig } from "./lib/metadata";
+export { extractDocMetadata, extractComponentMetadata, extractElementMetadata, type ExtractedMetadata, type DocMetadata, type ComponentMetadata, type ElementMetadata } from "./lib/metadata-extractors";
 export { Dashboard } from "./lib/demos/dashboard";
