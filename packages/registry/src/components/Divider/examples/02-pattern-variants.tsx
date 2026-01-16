@@ -1,4 +1,3 @@
-import React from 'react';
 import { Divider } from 'ui-lab-components';
 
 export const metadata = {

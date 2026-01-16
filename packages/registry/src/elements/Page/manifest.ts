@@ -3,7 +3,7 @@
 // To regenerate: pnpm generate
 
 export const DEMO_PATH_MAP = {
-  'header-basic': { variationKey: '01-basic', exportName: 'BasicHeader' },
+  'page-basic': { variationKey: '01-basic', exportName: 'BasicPage' },
 } as const;
 
 export type DemoPaths = keyof typeof DEMO_PATH_MAP;

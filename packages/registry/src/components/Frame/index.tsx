@@ -10,7 +10,6 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 export function getPreview(): React.ReactNode {
   return (
     <div className="w-full flex bg-background-900 items-center justify-center border border-background-700 rounded-md" style={{ width: 120, height: 40 }}>
-      <div style={{ width: "80%", height: "60%" }} className='border border-accent-500/30 rounded-sm'></div>
     </div>
   );
 }

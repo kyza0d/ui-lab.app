@@ -2,10 +2,6 @@ import React from 'react';
 import { Banner } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-banner.js';
-import Example2, { metadata as metadata2 } from './examples/02-success-banner.js';
-import Example3, { metadata as metadata3 } from './examples/03-warning-banner.js';
-import Example4, { metadata as metadata4 } from './examples/04-dismissible-banner.js';
-import Example5, { metadata as metadata5 } from './examples/05-structured-banner.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaInfoCircle } from 'react-icons/fa';
@@ -24,10 +20,6 @@ export function getPreview(): React.ReactNode {
 
 const examplesData = [
   { id: '01-basic-banner', Component: Example1, metadata: metadata1 },
-  { id: '02-success-banner', Component: Example2, metadata: metadata2 },
-  { id: '03-warning-banner', Component: Example3, metadata: metadata3 },
-  { id: '04-dismissible-banner', Component: Example4, metadata: metadata4 },
-  { id: '05-structured-banner', Component: Example5, metadata: metadata5 },
 ];
 
 const bannerControls: ControlDef[] = [

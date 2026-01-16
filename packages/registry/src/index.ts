@@ -109,6 +109,13 @@ export {
 } from './elements/index.js';
 export type { ElementCategoryId, ElementCategoryDefinition } from './elements/index.js';
 
+// Element Order
+export { elementOrder, getElementsInOrder, getAllElementsInOrder } from './element-order.js';
+
 // Element components
-export { BasicHeader, HeaderWithActions, demoComponents as headerDemoComponents } from './elements/Header';
+export { BasicHeader, DEMO_MAP as headerDemoMap } from './elements/Header';
 export { default as headerElement } from './elements/Header';
+export { BasicSidebar, DEMO_MAP as sidebarDemoMap } from './elements/Sidebar';
+export { default as sidebarElement } from './elements/Sidebar';
+export { BasicPage, DEMO_MAP as pageDemoMap } from './elements/Page';
+export { default as pageElement } from './elements/Page';

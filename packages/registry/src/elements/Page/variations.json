@@ -1,0 +1,22 @@
+{
+  "01-basic": {
+    "name": "Basic Page",
+    "description": "Basic Page variation",
+    "demoPath": "page-basic",
+    "exportName": "BasicPage",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "'use client';\n\nimport { Page } from './layout/Page';\n\nexport function BasicPage() {\n  return (\n    <Page>\n      <div className=\"space-y-6\">\n        <div className=\"bg-background-800 rounded-lg border border-background-700 p-8\">\n          <h2 className=\"text-2xl font-semibold text-foreground-100 mb-4\">Welcome to Your Page</h2>\n          <div className=\"space-y-3\">\n            <div className=\"h-4 bg-background-700 rounded w-3/4\" />\n            <div className=\"h-4 bg-background-700 rounded w-5/6\" />\n            <div className=\"h-4 bg-background-700 rounded w-4/5\" />\n          </div>\n        </div>\n\n        <div className=\"grid grid-cols-3 gap-4\">\n          {[1, 2, 3].map((i) => (\n            <div key={i} className=\"bg-background-800 rounded-lg border border-background-700 p-6\">\n              <div className=\"h-24 bg-background-700 rounded mb-4\" />\n              <div className=\"space-y-2\">\n                <div className=\"h-4 bg-background-700 rounded w-4/5\" />\n                <div className=\"h-3 bg-background-700 rounded w-3/4\" />\n              </div>\n            </div>\n          ))}\n        </div>\n\n        <div className=\"bg-background-800 rounded-lg border border-background-700 p-8\">\n          <div className=\"space-y-3\">\n            <div className=\"h-4 bg-background-700 rounded w-full\" />\n            <div className=\"h-4 bg-background-700 rounded w-full\" />\n            <div className=\"h-4 bg-background-700 rounded w-3/4\" />\n          </div>\n        </div>\n      </div>\n    </Page>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "Page.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\n\ninterface PageProps {\n  children?: React.ReactNode;\n}\n\nexport function Page({ children }: PageProps) {\n  return (\n    <div className=\"flex flex-col w-full bg-background-950\">\n      <header className=\"bg-background-800 border-b border-background-700\">\n        <div className=\"mx-auto max-w-6xl px-4 py-4\">\n          <h1 className=\"text-lg font-semibold text-foreground-100\">Page Title</h1>\n        </div>\n      </header>\n\n      <main className=\"flex-1 w-full\">\n        <div className=\"mx-auto max-w-6xl px-4 py-12\">\n          {children}\n        </div>\n      </main>\n\n      <footer className=\"bg-background-800 border-t border-background-700\">\n        <div className=\"mx-auto max-w-6xl px-4 py-4\">\n          <p className=\"text-foreground-500 text-sm\">&copy; 2024</p>\n        </div>\n      </footer>\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
+  }
+}

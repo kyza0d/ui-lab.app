@@ -1,8 +1,11 @@
 import React from 'react';
 import { Card } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import { FaRectangleList } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-card.js';
+import Example2, { metadata as metadata2 } from './examples/02-user-profile-card.js';
+import Example3, { metadata as metadata3 } from './examples/03-settings-panel-card.js';
+import Example4, { metadata as metadata4 } from './examples/04-task-progress-card.js';
+import Example5, { metadata as metadata5 } from './examples/05-data-summary-card.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
@@ -18,11 +21,11 @@ export function getPreview(): React.ReactNode {
         <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md ml-2 mt-2 h-1'></div>
 
         <div className='mt-4 py-1 border-t border-background-700 flex items-center gap-1 flex'>
-          <div style={{ width: "35%", backgroundColor: "var(--background-800)" }} className='ml-auto flex justify-center items-center 
+          <div style={{ width: "35%", backgroundColor: "var(--background-800)" }} className='ml-auto flex justify-center items-center
            rounded-xs h-3 gap-2 pl-1'>
             <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-md pr-1 h-1'></div>
           </div>
-          <div style={{ width: "35%", marginRight: 2, backgroundColor: "var(--background-800)" }} className='flex justify-center items-center 
+          <div style={{ width: "35%", marginRight: 2, backgroundColor: "var(--background-800)" }} className='flex justify-center items-center
            rounded-xs h-3 gap-2 pl-1'>
             <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='h-1 rounded-md'></div>
           </div>
@@ -34,7 +37,13 @@ export function getPreview(): React.ReactNode {
 
 const examplesData = [
   { id: '01-basic-card', Component: Example1, metadata: metadata1 },
+  { id: '02-user-profile-card', Component: Example2, metadata: metadata2 },
+  { id: '03-settings-panel-card', Component: Example3, metadata: metadata3 },
+  { id: '04-task-progress-card', Component: Example4, metadata: metadata4 },
+  { id: '05-data-summary-card', Component: Example5, metadata: metadata5 }
 ];
+
+const cardControls: ControlDef[] = [];
 
 const basicCardCode = `import { Card } from "ui-lab-components";
 
@@ -85,60 +94,23 @@ export const cardDetail: ComponentDetail = {
           </Card.Body>
         </Card>
       ),
+      controls: cardControls,
+      renderPreview: (props: any) => (
+        <Card className="max-w-sm">
+          <Card.Header>
+            <h3 className="font-semibold text-foreground-100">Card Title</h3>
+          </Card.Header>
+          <Card.Body>
+            <p className="text-foreground-300">
+              This is the main content area of the card. You can put any content here.
+            </p>
+          </Card.Body>
+        </Card>
+      ),
     },
     ...loadComponentExamples(examplesData, examplesJson),
   ],
-  variants: [
-    {
-      id: 'default',
-      name: 'Default',
-      description: 'Standard card with header and body.',
-      code: basicCardCode,
-      preview: (
-        <Card className="max-w-sm">
-          <Card.Header>
-            <h3 className="font-semibold text-foreground-100">Card Title</h3>
-          </Card.Header>
-          <Card.Body>
-            <p className="text-foreground-300">
-              This is the main content area of the card.
-            </p>
-          </Card.Body>
-        </Card>
-      ),
-    },
-    {
-      id: 'with-footer',
-      name: 'With Footer',
-      description: 'Card with header, body, and footer sections.',
-      code: `<Card className="max-w-sm">
-  <Card.Header>
-    <h3>Card Title</h3>
-  </Card.Header>
-  <Card.Body>
-    <p>Card content goes here.</p>
-  </Card.Body>
-  <Card.Footer>
-    <Button>Action</Button>
-  </Card.Footer>
-</Card>`,
-      preview: (
-        <Card className="max-w-sm">
-          <Card.Header>
-            <h3 className="font-semibold text-foreground-100">Card Title</h3>
-          </Card.Header>
-          <Card.Body>
-            <p className="text-foreground-300">
-              Card with all sections.
-            </p>
-          </Card.Body>
-          <Card.Footer>
-            <button className="px-4 py-2 bg-accent-500 text-white rounded">Action</button>
-          </Card.Footer>
-        </Card>
-      ),
-    },
-  ],
 };
 
+export { cardControls };
 export * from './examples';

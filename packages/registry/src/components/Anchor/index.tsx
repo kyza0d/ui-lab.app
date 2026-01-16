@@ -2,8 +2,6 @@ import React from 'react';
 import { Anchor, Divider } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-anchor.js';
-import Example2, { metadata as metadata2 } from './examples/02-anchor-with-preview.js';
-import Example3, { metadata as metadata3 } from './examples/03-underline-variations.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
@@ -22,8 +20,6 @@ export function getPreview(): React.ReactNode {
 
 const examplesData = [
   { id: '01-basic-anchor', Component: Example1, metadata: metadata1 },
-  { id: '02-anchor-with-preview', Component: Example2, metadata: metadata2 },
-  { id: '03-underline-variations', Component: Example3, metadata: metadata3 },
 ];
 
 const anchorControls: ControlDef[] = [];

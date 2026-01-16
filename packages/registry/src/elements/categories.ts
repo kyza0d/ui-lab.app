@@ -51,6 +51,7 @@ export const elementCategories: Record<ElementCategoryId, ElementCategoryDefinit
 export const elementCategoryMapping: Record<string, ElementCategoryId> = {
   header: 'layout',
   sidebar: 'layout',
+  page: 'layout',
 };
 
 export const getCategoryForElement = (elementId: string): ElementCategoryId =>
