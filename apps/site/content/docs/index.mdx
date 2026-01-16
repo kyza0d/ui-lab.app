@@ -33,81 +33,9 @@ React developers with Tailwind v4 already set up. You should know React basics (
 
 Start with our [Installation guide](/docs/installation) to add UI Lab to your project.
 
-## Your first component
-
-Forget about complex setup steps. Components in UI Lab work the same way as any React component. Here's a button with different variants and sizes:
-
-```tsx
-import { Button } from "ui-lab-components";
-
-export default function Home() {
-  return (
-    <div className="flex items-center gap-4">
-      <Button>Default</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button size="lg">Large</Button>
-      <Button loading>Loading...</Button>
-    </div>
-  );
-}
-```
-
 ## Common patterns
 
 UI Lab components are designed to compose together naturally. Build with <Anchor href="https://react.dev">React fundamentals and hooks</Anchor> in mind. All styling is handled through <Anchor href="https://tailwindcss.com">Tailwind CSS utility classes</Anchor>, so you have complete control over the appearance. Here are a few real-world patterns you'll build with regularly:
-
-### Login form
-
-Combine Card, Input, Label, and Button to create complete, accessible forms:
-
-```tsx
-import { Button, Card, Input, Label } from "ui-lab-components";
-
-export function LoginCard() {
-  return (
-    <Card className="w-full max-w-sm">
-      <Card.Header>
-        <Card.Title>Welcome back</Card.Title>
-      </Card.Header>
-      <Card.Content className="space-y-4">
-        <div>
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="you@example.com" />
-        </div>
-        <div>
-          <Label htmlFor="pass">Password</Label>
-          <Input id="pass" type="password" />
-        </div>
-      </Card.Content>
-      <Card.Footer>
-        <Button className="w-full">Sign in</Button>
-      </Card.Footer>
-    </Card>
-  );
-}
-```
-
-### Dashboard widget
-
-Build data-rich interfaces by layering components. Here's a simple analytics widget that shows key metrics:
-
-```tsx
-import { Card, Badge } from "ui-lab-components";
-
-export function RevenueWidget() {
-  return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-foreground-400 text-sm">Revenue</p>
-          <p className="text-2xl font-semibold">$45,231</p>
-        </div>
-        <Badge>+12.5%</Badge>
-      </div>
-    </Card>
-  );
-}
-```
 
 ## Next steps
 
