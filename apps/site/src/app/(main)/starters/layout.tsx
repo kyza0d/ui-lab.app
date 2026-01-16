@@ -1,10 +1,13 @@
 import { ReactNode } from "react";
+import { generateMetadata } from "@/shared";
 
 interface StartersLayoutProps {
   children: ReactNode;
   sidebar: ReactNode;
   content: ReactNode;
 }
+
+export const metadata = generateMetadata({ pathname: '/starters' });
 
 export default function StartersLayout({
   sidebar,

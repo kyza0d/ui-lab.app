@@ -1,10 +1,13 @@
 import { ReactNode } from "react";
+import { generateMetadata } from "@/shared";
 
 interface ElementsLayoutProps {
   children: ReactNode;
   sidebar: ReactNode;
   content: ReactNode;
 }
+
+export const metadata = generateMetadata({ pathname: '/elements' });
 
 export default function ElementsLayout({
   sidebar,
