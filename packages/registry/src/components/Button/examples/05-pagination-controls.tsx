@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Group } from 'ui-lab-components'
+import { Group } from 'ui-lab-components'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export const metadata = {
@@ -14,11 +14,9 @@ export default function Example() {
   return (
     <div className="p-4 space-y-4">
       <div className="space-y-2">
-        <p className="text-sm text-foreground-500">Pages (showing page {currentPage} of {totalPages}):</p>
         <Group orientation="horizontal" spacing="tight">
           <Group.Button
             variant="ghost"
-            size="sm"
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             isDisabled={currentPage === 1}
             title="Previous page"
@@ -30,7 +28,6 @@ export default function Example() {
             <Group.Button
               key={page}
               variant={currentPage === page ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setCurrentPage(page)}
             >
               {page}
@@ -44,7 +41,6 @@ export default function Example() {
           {totalPages > 3 && (
             <Group.Button
               variant={currentPage === totalPages ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setCurrentPage(totalPages)}
             >
               {totalPages}
@@ -53,7 +49,6 @@ export default function Example() {
 
           <Group.Button
             variant="ghost"
-            size="sm"
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             isDisabled={currentPage === totalPages}
             title="Next page"

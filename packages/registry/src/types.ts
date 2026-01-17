@@ -101,6 +101,30 @@ export interface ElementRegistry {
   [elementId: string]: ElementMetadata;
 }
 
+export interface SectionVariant {
+  name: string;
+  description: string;
+  code?: string;
+  demoPath?: string;
+  files?: ElementFile[];
+}
+
+export interface SectionMetadata {
+  id: string;
+  name: string;
+  description: string;
+  category: 'hero' | 'cta' | 'features' | 'testimonials' | 'pricing' | 'faq' | 'contact' | 'other';
+  tags: string[];
+  variants: SectionVariant[];
+  componentDependencies?: string[];
+  layout?: Partial<LayoutConfig>;
+  fullPageLayout?: boolean;
+}
+
+export interface SectionRegistry {
+  [sectionId: string]: SectionMetadata;
+}
+
 export interface ComponentMetadata {
   id: string;
   name: string;

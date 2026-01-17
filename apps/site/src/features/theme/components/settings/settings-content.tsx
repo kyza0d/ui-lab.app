@@ -638,7 +638,7 @@ const ColorPicker = memo(
                   onChange({ ...color, c: color.c === 0 ? defaultChroma : color.c, h });
                 }
               }}
-              className="relative h-10 rounded-[4px] transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
+              className="relative h-10 rounded-[4px] flex items-center justify-center"
               style={{ backgroundColor: displayColor }}
             >
               {isSelected && (

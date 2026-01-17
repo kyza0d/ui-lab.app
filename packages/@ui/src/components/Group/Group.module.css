@@ -17,7 +17,7 @@
   /* Orientations */
   .group.horizontal {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
   }
 
   .group.vertical {
@@ -47,6 +47,8 @@
 
   .itemWrapper {
     /* Spacing is handled by group's gap property */
+    display: flex;
+    align-items: stretch;
   }
 
   /* Override child component styles when in group */
@@ -70,9 +72,14 @@
     border-bottom: var(--border-width-base) solid var(--border);
   }
 
-  /* Full width buttons in vertical orientation */
+  /* Fill height for buttons in groups */
+  .itemWrapper .groupItem {
+    display: flex;
+    height: 100%;
+  }
+
+  /* Full width for vertical orientation */
   .group.vertical .itemWrapper .groupItem {
     width: 100%;
-    height: 100%;
   }
 }

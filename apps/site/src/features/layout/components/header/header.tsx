@@ -126,9 +126,11 @@ export default function Header({
               href="/"
               className="mr-5 flex items-center transition-opacity hover:opacity-80"
             >
-              <Logo />
-              <span className="text-md font-semibold text-foreground-50 mr-2">UI Lab</span>
-              <span className="ml-auto inline-block px-3 py-1 text-xs font-semibold  mt-1 mr-4 bg-accent-500/20 text-accent-500 rounded-md">
+              <div className="bg-accent-500 mr-3 rounded-sm">
+                <Logo />
+              </div>
+              <span className="text-md font-semibold text-foreground-50 mr-3">UI Lab</span>
+              <span className="ml-auto inline-block px-1 py-1 text-xs font-bold mr-4 bg-accent-500/20 text-accent-500 rounded-sm">
                 Early Beta
               </span>
             </Link>

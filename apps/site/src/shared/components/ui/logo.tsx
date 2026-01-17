@@ -5,12 +5,12 @@ import { cn } from "@/shared/lib/utils";
 export function Logo({ className }: { className?: string }) {
   return (
     <svg
-      width="27"
-      height="27"
+      width="25"
+      height="25"
       viewBox="0 0 23 23"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("text-foreground-200", className)}
+      className={cn("text-accent-50", className)}
     >
       <path
         fillRule="evenodd"

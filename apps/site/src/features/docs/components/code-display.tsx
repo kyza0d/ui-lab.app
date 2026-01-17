@@ -46,7 +46,7 @@ export const CodeDisplay = ({
       <div className="rounded-lg border-2 border-background-700 bg-background-900">
         {/* Main Header */}
 
-        <div className="sticky top-15 z-10 flex justify-end px-4 py-2 bg-background-800 border-b border-background-700">
+        <div className="sticky top-(--header-height) z-10 flex justify-end px-4 py-2 bg-background-800 border-b border-background-700">
           {/* Sticky Copy Button - positioned above scrollable content */}
           <div className="w-full flex items-center">
             <div className="mr-auto">

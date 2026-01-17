@@ -1,0 +1,28 @@
+{
+  "01-simple": {
+    "name": "Simple Hero",
+    "description": "Clean hero section with headline, subheading, and dual CTA buttons",
+    "demoPath": "hero-simple",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\nimport { Button } from 'ui-lab-components';\n\nexport function SimpleHero() {\n  return (\n    <section className=\"w-full min-h-screen bg-gradient-to-br from-background-900 via-background-950 to-background-900 flex items-center justify-center px-4 py-20\">\n      <div className=\"max-w-4xl mx-auto text-center space-y-8\">\n        <div className=\"space-y-4\">\n          <h1 className=\"text-5xl md:text-6xl font-bold text-foreground-50 leading-tight\">\n            Beautiful Design Systems\n          </h1>\n          <p className=\"text-xl text-foreground-300 max-w-2xl mx-auto leading-relaxed\">\n            Build modern interfaces with reusable components and consistent design patterns. Everything you need to create exceptional user experiences.\n          </p>\n        </div>\n\n        <div className=\"flex flex-wrap gap-4 justify-center pt-4\">\n          <Button variant=\"default\" size=\"lg\">\n            Get Started\n          </Button>\n          <Button variant=\"outline\" size=\"lg\">\n            Learn More\n          </Button>\n        </div>\n\n        <div className=\"pt-12 border-t border-background-700\">\n          <p className=\"text-sm text-foreground-500 mb-6\">Trusted by leading companies</p>\n          <div className=\"flex justify-center items-center gap-8 flex-wrap\">\n            <div className=\"h-8 w-24 bg-background-700 rounded opacity-40\" />\n            <div className=\"h-8 w-24 bg-background-700 rounded opacity-40\" />\n            <div className=\"h-8 w-24 bg-background-700 rounded opacity-40\" />\n            <div className=\"h-8 w-24 bg-background-700 rounded opacity-40\" />\n          </div>\n        </div>\n      </div>\n    </section>\n  );\n}",
+        "isEntryPoint": true
+      }
+    ]
+  },
+  "02-with-cta": {
+    "name": "Hero with CTA",
+    "description": "Alternating layout with feature highlights and visual representation",
+    "demoPath": "hero-with-cta",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\nimport { Button } from 'ui-lab-components';\n\nexport function HeroWithCTA() {\n  return (\n    <section className=\"w-full min-h-screen bg-background-950 flex items-center justify-center px-4 py-20\">\n      <div className=\"max-w-6xl mx-auto w-full\">\n        <div className=\"grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center\">\n          <div className=\"space-y-8 order-2 lg:order-1\">\n            <div className=\"inline-flex items-center gap-2 px-3 py-1 rounded-full border border-background-700 bg-background-900\">\n              <span className=\"w-2 h-2 rounded-full bg-accent-500\" />\n              <span className=\"text-sm text-foreground-400\">Now Available</span>\n            </div>\n\n            <div className=\"space-y-4\">\n              <h1 className=\"text-5xl lg:text-6xl font-bold text-foreground-50 leading-tight\">\n                Accelerate Your Development\n              </h1>\n              <p className=\"text-lg text-foreground-300 leading-relaxed\">\n                Comprehensive component library with production-ready code, extensive documentation, and accessibility best practices built in.\n              </p>\n            </div>\n\n            <ul className=\"space-y-3\">\n              {['50+ UI Components', 'TypeScript Support', 'Fully Customizable'].map(feature => (\n                <li key={feature} className=\"flex items-center gap-3\">\n                  <div className=\"w-5 h-5 rounded-full bg-accent-500/20 flex items-center justify-center\">\n                    <div className=\"w-2 h-2 rounded-full bg-accent-400\" />\n                  </div>\n                  <span className=\"text-foreground-300\">{feature}</span>\n                </li>\n              ))}\n            </ul>\n\n            <div className=\"flex flex-wrap gap-4 pt-4\">\n              <Button variant=\"default\" size=\"lg\">\n                Start Building\n              </Button>\n              <Button variant=\"outline\" size=\"lg\">\n                View Docs\n              </Button>\n            </div>\n          </div>\n\n          <div className=\"order-1 lg:order-2\">\n            <div className=\"relative\">\n              <div className=\"absolute inset-0 bg-gradient-to-br from-accent-500/10 to-accent-600/10 rounded-xl blur-3xl\" />\n              <div className=\"relative bg-gradient-to-br from-background-900 to-background-800 rounded-xl p-8 border border-background-700 shadow-xl\">\n                <div className=\"space-y-3\">\n                  <div className=\"h-12 bg-background-700/50 rounded\" />\n                  <div className=\"h-8 bg-background-700/30 rounded w-3/4\" />\n                  <div className=\"h-8 bg-background-700/30 rounded w-2/3\" />\n                </div>\n                <div className=\"mt-8 space-y-2\">\n                  {[...Array(5)].map((_, i) => (\n                    <div key={i} className=\"h-3 bg-background-700/20 rounded\" />\n                  ))}\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section>\n  );\n}",
+        "isEntryPoint": true
+      }
+    ]
+  }
+}

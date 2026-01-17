@@ -61,6 +61,18 @@
     "./elements/*/manifest": {
       "import": "./dist/elements/*/manifest.js",
       "types": "./dist/elements/*/manifest.d.ts"
+    },
+    "./sections": {
+      "import": "./dist/sections/index.js",
+      "types": "./dist/sections/index.d.ts"
+    },
+    "./sections/*": {
+      "import": "./dist/sections/*/index.js",
+      "types": "./dist/sections/*/index.d.ts"
+    },
+    "./sections/*/variations/*": {
+      "import": "./dist/sections/*/variations/*/index.js",
+      "types": "./dist/sections/*/variations/*/index.d.ts"
     }
   },
   "files": [

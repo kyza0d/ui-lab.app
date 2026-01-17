@@ -62,6 +62,9 @@ export type {
   ElementVariant,
   ElementFile,
   ElementRegistry,
+  SectionMetadata,
+  SectionVariant,
+  SectionRegistry,
   LayoutConfig,
   ControlOption,
   ControlDef,
@@ -119,3 +122,21 @@ export { BasicSidebar, DEMO_MAP as sidebarDemoMap } from './elements/Sidebar';
 export { default as sidebarElement } from './elements/Sidebar';
 export { BasicPage, DEMO_MAP as pageDemoMap } from './elements/Page';
 export { default as pageElement } from './elements/Page';
+
+// Sections
+export {
+  sectionRegistry,
+  getAllSections,
+  getSectionById,
+  getSectionsByCategory,
+  getSectionsInCategory,
+  getSectionsByTag,
+  searchSections,
+  getAllSectionCategories,
+  getAllSectionTags,
+  sectionCategories,
+  getCategoryForSection,
+  groupSectionsByCategory,
+} from './sections/index.js';
+export type { SectionCategoryId, SectionCategoryDefinition } from './sections/index.js';
+

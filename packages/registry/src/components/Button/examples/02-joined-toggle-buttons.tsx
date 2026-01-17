@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Group } from 'ui-lab-components'
+import { useState } from 'react'
+import { Group } from 'ui-lab-components'
 import { LayoutList, LayoutGrid, Table } from 'lucide-react'
 
 export const metadata = {
@@ -13,30 +13,26 @@ export default function Example() {
   return (
     <div className="p-4 space-y-4">
       <div className="space-y-2">
-        <p className="text-sm text-foreground-500">Display mode:</p>
         <Group orientation="horizontal" spacing="tight">
           <Group.Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
-            size="sm"
             onClick={() => setViewMode('list')}
           >
-            <LayoutList size={16} className="mr-2" />
+            <LayoutList size={17} className="mr-2 text-foreground-400" />
             List
           </Group.Button>
           <Group.Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
-            size="sm"
             onClick={() => setViewMode('grid')}
           >
-            <LayoutGrid size={16} className="mr-2" />
+            <LayoutGrid size={17} className="mr-2 text-foreground-400" />
             Grid
           </Group.Button>
           <Group.Button
             variant={viewMode === 'table' ? 'default' : 'outline'}
-            size="sm"
             onClick={() => setViewMode('table')}
           >
-            <Table size={16} className="mr-2" />
+            <Table size={17} className="mr-2 text-foreground-400" />
             Table
           </Group.Button>
         </Group>

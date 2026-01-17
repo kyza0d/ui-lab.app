@@ -10,6 +10,7 @@
     --background: var(--background-800);
     --border: var(--background-700);
     --indicator-background: var(--background-700);
+    --indicator-height: 0.125rem;;
 
     display: inline-flex;
     align-items: center;
@@ -45,9 +46,8 @@
 
   .indicatorUnderline {
     --indicator-background: var(--accent-500);
-
     bottom: 0;
-    height: 0.125rem;
+    height: var(--indicator-height)
   }
 
   .tabsTrigger {
@@ -75,9 +75,9 @@
     transition: transform 150ms var(--ease-snappy-pop);
 
     &[data-focus-visible] {
+      background: var(--background-800);
       border-radius: 0px;
-      outline: 1px solid var(--accent-500);
-      outline-offset: 0px;
+      outline: 0px solid var(--accent-500);
     }
 
     &[data-disabled] {

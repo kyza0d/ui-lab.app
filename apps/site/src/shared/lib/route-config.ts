@@ -1,4 +1,4 @@
-import { FaBook, FaPlug, FaTerminal, FaShapes, FaRocket, FaImages, FaStar } from 'react-icons/fa6';
+import { FaBook, FaPlug, FaTerminal, FaShapes, FaRocket, FaImages, FaStar, FaRegWindowMaximize } from 'react-icons/fa6';
 
 export type DomainId = 'docs' | 'components' | 'agents-mcps' | 'cli' | 'elements';
 
@@ -75,6 +75,7 @@ export const TAB_GROUPS: Record<string, TabGroup> = {
     id: 'elements',
     tabs: [
       { id: 'elements', label: 'Elements', icon: FaShapes, path: '/elements' },
+      { id: 'sections', label: 'Sections', icon: FaRegWindowMaximize, path: '/sections' },
       { id: 'starters', label: 'Starters', icon: FaRocket, path: '/starters' },
       { id: 'assets', label: 'Assets', icon: FaImages, path: '/assets', isPlaceholder: true }
     ],
@@ -88,6 +89,7 @@ export const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
   { path: '/agents-mcps', tabGroupId: 'documentation' },
   { path: '/cli', tabGroupId: 'documentation' },
   { path: '/elements', tabGroupId: 'elements' },
+  { path: '/sections', tabGroupId: 'elements' },
   { path: '/blocks', tabGroupId: 'elements' },
   { path: '/starters', tabGroupId: 'elements' },
 ];
@@ -120,6 +122,10 @@ export const ROUTES: Record<string, RouteConfig> = {
   },
   elements: {
     path: '/elements',
+    domainId: 'elements',
+  },
+  sections: {
+    path: '/sections',
     domainId: 'elements',
   },
   blocks: {
