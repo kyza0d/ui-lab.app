@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Scroll } from 'ui-lab-components';
@@ -63,7 +64,7 @@ export function ElementsSidebar({ elements, pathname }: ElementsSidebarProps) {
               const Icon = nav.icon;
 
               return (
-                <a
+                <Link
                   key={nav.id}
                   href={nav.href}
                   className={cn(
@@ -82,7 +83,7 @@ export function ElementsSidebar({ elements, pathname }: ElementsSidebarProps) {
                     <Icon className="w-4 h-4" />
                   </div>
                   <span>{nav.label}</span>
-                </a>
+                </Link>
               );
             })}
           </nav>

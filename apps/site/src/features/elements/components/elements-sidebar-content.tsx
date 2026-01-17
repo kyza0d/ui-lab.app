@@ -44,19 +44,29 @@ export function ElementsList({
     }
   }, [currentItemId]);
 
+  const sections = useMemo(() => getAllSections(), []);
+
+  const filteredSections = useMemo(() => {
+    if (!activeCategory) return sections;
+    return getSectionsInCategory(sections, activeCategory as SectionCategoryId);
+  }, [sections, activeCategory]);
+
+  const sortedSections = useMemo(
+    () => [...filteredSections].sort((a, b) => a.name.localeCompare(b.name)),
+    [filteredSections]
+  );
+
+  const filteredElements = useMemo(() => {
+    if (!activeCategory) return elements;
+    return getElementsInCategory(elements, activeCategory as ElementCategoryId);
+  }, [elements, activeCategory]);
+
+  const sortedElements = useMemo(
+    () => [...filteredElements].sort((a, b) => a.name.localeCompare(b.name)),
+    [filteredElements]
+  );
+
   if (activeNav === 'sections') {
-    const sections = useMemo(() => getAllSections(), []);
-
-    const filteredSections = useMemo(() => {
-      if (!activeCategory) return sections;
-      return getSectionsInCategory(sections, activeCategory as SectionCategoryId);
-    }, [sections, activeCategory]);
-
-    const sortedSections = useMemo(
-      () => [...filteredSections].sort((a, b) => a.name.localeCompare(b.name)),
-      [filteredSections]
-    );
-
     if (sortedSections.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
@@ -129,16 +139,6 @@ export function ElementsList({
       </div>
     );
   }
-
-  const filteredElements = useMemo(() => {
-    if (!activeCategory) return elements;
-    return getElementsInCategory(elements, activeCategory as ElementCategoryId);
-  }, [elements, activeCategory]);
-
-  const sortedElements = useMemo(
-    () => [...filteredElements].sort((a, b) => a.name.localeCompare(b.name)),
-    [filteredElements]
-  );
 
   if (sortedElements.length === 0) {
     return (

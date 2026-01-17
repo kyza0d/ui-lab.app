@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, memo } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
 import { CommandPalette } from "@/features/command-palette";
 import { Logo } from "@/shared";
@@ -19,10 +18,29 @@ import {
 } from "react-icons/fa6";
 import { HiX } from "react-icons/hi";
 import { getHeaderHeight, shouldApplyRevealCollapse, getTabGroupForPathname, getActiveTabForPathname } from "@/shared";
+import type { TabConfig } from "@/shared/lib/route-config";
 
 import { MobileMenu } from "./mobile-menu";
 import { navigationData } from "./data";
 import { Command } from "lucide-react";
+
+const TabItem = memo(({ tab }: { tab: TabConfig }) => {
+  const Icon = tab.icon;
+  return (
+    <Link href={tab.path}>
+      <TabsTrigger
+        icon={<Icon />}
+        value={tab.id}
+        className="text-sm mb-1"
+        disabled={tab.isPlaceholder}
+      >
+        {tab.label}
+      </TabsTrigger>
+    </Link>
+  );
+});
+
+TabItem.displayName = "TabItem";
 
 interface HeaderProps {
   pathname: string;
@@ -38,6 +56,9 @@ export default function Header({
   const hasScrolledDownRef = useRef(false);
   const lastPathnameRef = useRef(pathname);
   const { setIsCommandPaletteOpen } = useApp();
+
+  const tabGroup = useMemo(() => getTabGroupForPathname(pathname), [pathname]);
+  const activeTabId = useMemo(() => getActiveTabForPathname(pathname), [pathname]);
 
   useEffect(() => {
     const isDesktop = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
@@ -93,9 +114,6 @@ export default function Header({
       window.removeEventListener("wheel", handleWheel);
     };
   }, [hasRevealCollapse, pathname]);
-
-  const tabGroup = getTabGroupForPathname(pathname);
-  const activeTabId = getActiveTabForPathname(pathname);
 
   return (
     <>
@@ -208,21 +226,9 @@ export default function Header({
           <div className="absolute bottom-0 left-0 md:px-2 w-full">
             <Tabs className="w-fit" value={activeTabId} variant="underline">
               <TabsList>
-                {tabGroup.tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <Link key={tab.id} href={tab.path}>
-                      <TabsTrigger
-                        icon={<Icon />}
-                        value={tab.id}
-                        className="text-sm mb-1"
-                        disabled={tab.isPlaceholder}
-                      >
-                        {tab.label}
-                      </TabsTrigger>
-                    </Link>
-                  );
-                })}
+                {tabGroup.tabs.map((tab) => (
+                  <TabItem key={tab.id} tab={tab} />
+                ))}
               </TabsList>
             </Tabs>
           </div>
