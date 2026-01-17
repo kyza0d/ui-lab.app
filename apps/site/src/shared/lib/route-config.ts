@@ -1,6 +1,6 @@
 import { FaBook, FaPlug, FaTerminal, FaShapes, FaRocket, FaImages, FaStar, FaRegWindowMaximize } from 'react-icons/fa6';
 
-export type DomainId = 'docs' | 'components' | 'agents-mcps' | 'cli' | 'elements';
+export type DomainId = 'docs' | 'components' | 'agents-mcps' | 'cli' | 'elements' | 'sections';
 
 export interface DomainConfig {
   id: DomainId;
@@ -41,6 +41,12 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     icon: FaShapes,
     headerType: 'search',
   },
+  sections: {
+    id: 'sections',
+    label: 'Sections',
+    icon: FaRegWindowMaximize,
+    headerType: 'search',
+  },
 };
 
 export interface TabConfig {
@@ -75,7 +81,6 @@ export const TAB_GROUPS: Record<string, TabGroup> = {
     id: 'elements',
     tabs: [
       { id: 'elements', label: 'Elements', icon: FaShapes, path: '/elements' },
-      { id: 'sections', label: 'Sections', icon: FaRegWindowMaximize, path: '/sections' },
       { id: 'starters', label: 'Starters', icon: FaRocket, path: '/starters' },
       { id: 'assets', label: 'Assets', icon: FaImages, path: '/assets', isPlaceholder: true }
     ],
@@ -126,7 +131,7 @@ export const ROUTES: Record<string, RouteConfig> = {
   },
   sections: {
     path: '/sections',
-    domainId: 'elements',
+    domainId: 'sections',
   },
   blocks: {
     path: '/blocks',
@@ -155,7 +160,7 @@ export const shouldApplyRevealCollapse = (pathname: string): boolean => {
   const domainId = getDomainForPathname(pathname);
   if (!domainId) return false;
   const domain = DOMAINS[domainId];
-  return domain?.headerType === 'tabs' || domainId === 'elements';
+  return domain?.headerType === 'tabs' || domainId === 'elements' || domainId === 'sections';
 };
 
 export const getActiveTabValue = (pathname: string): string | undefined => {
@@ -186,7 +191,7 @@ export const getTabGroupForPathname = (pathname: string): TabGroup | undefined =
   return TAB_GROUPS[routeConfig.tabGroupId];
 };
 
-const ACTIVE_TAB_OVERRIDES: Record<string, string> = {
+const ACTIVE_TAB_OVERRIDES: Record<string, string | undefined> = {
   '/design-system': 'docs',
 };
 
@@ -195,6 +200,10 @@ export const getActiveTabForPathname = (pathname: string): string | undefined =>
     if (pathname.startsWith(pattern)) {
       return tabId;
     }
+  }
+
+  if (pathname.startsWith('/sections')) {
+    return 'elements';
   }
 
   const tabGroup = getTabGroupForPathname(pathname);
