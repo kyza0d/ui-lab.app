@@ -44,7 +44,7 @@ const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
       return (
         <>
           {icon && <span className={styles.valueIcon}>{icon}</span>}
-          <span className={styles.valueText}>{selectedTextValue || placeholder}</span>
+          <span className={styles.valueText}>{selectedItem?.textValue || selectedTextValue || placeholder}</span>
         </>
       )
     }
@@ -67,17 +67,16 @@ interface SelectItemProps extends React.PropsWithChildren {
   isDisabled?: boolean
   className?: string
   icon?: React.ReactNode
-  _focusedKey?: Key | null
 }
 
 const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
-  ({ children, isDisabled = false, className, textValue, value, icon, _focusedKey }, forwardedRef) => {
-    const { selectedKey, onSelect, registerItem, unregisterItem, visibleKeys, isOpen, setFocusedKey } = useSelectContext()
+  ({ children, isDisabled = false, className, textValue, value, icon }, forwardedRef) => {
+    const { selectedKey, onSelect, registerItem, unregisterItem, visibleKeys, isOpen, setFocusedKey, focusedKey } = useSelectContext()
     const itemRef = React.useRef<HTMLLIElement>(null)
     const [isHovered, setIsHovered] = React.useState(false)
     const finalTextValue = typeof textValue === "string" ? textValue : String(children)
     const isSelected = selectedKey === value
-    const isFocused = isOpen && _focusedKey === value
+    const isFocused = isOpen && focusedKey === value
     const isVisible = visibleKeys.has(value)
 
     React.useEffect(() => {
@@ -134,6 +133,12 @@ const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
       }
     }
 
+    const handleMouseMove = () => {
+      if (!isDisabled && isOpen && focusedKey !== value) {
+        setFocusedKey(value)
+      }
+    }
+
     // Don't render if filtered out
     if (!isVisible) {
       return null
@@ -151,6 +156,7 @@ const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
         data-focus-visible={isFocused || undefined}
         data-hovered={isHovered || undefined}
         onMouseEnter={handleMouseEnter}
+        onMouseMove={handleMouseMove}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
       >
