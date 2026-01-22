@@ -187,7 +187,7 @@ export function PreviewContainer({
         </div>
       </div>
 
-      <div className="border border-background-700 rounded-md">
+      <div className="border border-background-700 rounded-base">
         {activeTab === "preview" ? renderPreviewContent() : children}
       </div>
     </div>
