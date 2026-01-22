@@ -32,7 +32,7 @@ export function GenericGridClient<T extends { id: string }>({
   }
 
   return (
-    <Gallery columns={5} layout='grid' gap="1.5rem" className='flex-1 h-300'>
+    <Gallery columns={8} layout='grid' gap="1.5rem" className='flex-1' style={{ gridAutoRows: '100px' }}>
       {items.map((item) => {
         const layoutConfig = getLayoutConfig(item);
         const PreviewComponent = getPreviewComponent(item);
