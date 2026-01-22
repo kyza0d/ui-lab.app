@@ -1,0 +1,22 @@
+{
+  "id": "colorpicker",
+  "name": "ColorPicker",
+  "description": "A custom color picker with 2D canvas, hue slider, and format selection.",
+  "category": "input",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "ColorPicker",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": ["input", "select"],
+  "tags": ["color", "form", "user-input", "interactive"],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Keyboard accessible sliders",
+      "ARIA labels for color components",
+      "Visual focus indicators",
+      "Screen reader announcements for color values"
+    ]
+  }
+}

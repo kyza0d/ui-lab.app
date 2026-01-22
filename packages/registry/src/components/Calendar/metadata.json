@@ -1,0 +1,24 @@
+{
+  "id": "calendar",
+  "name": "Calendar",
+  "description": "A minimal, modern calendar component for date selection with keyboard navigation and accessibility support.",
+  "category": "input",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Calendar",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": ["input", "select"],
+  "tags": ["date", "selection", "input", "interactive"],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Full keyboard navigation with arrow keys",
+      "Enter/Space to select dates",
+      "PageUp/PageDown for month navigation",
+      "Screen reader friendly with semantic HTML",
+      "Focus management with visible focus ring",
+      "Disabled dates properly announced"
+    ]
+  }
+}

@@ -105,6 +105,22 @@ export const componentRegistry: ComponentRegistry = {
     examples: [],
   },
 
+  calendar: {
+    id: "calendar",
+    name: "Calendar",
+    description: "A minimal, modern calendar component for date selection with keyboard navigation and accessibility support.",
+    category: "input",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Calendar",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["input","select"],
+    tags: ["date","selection","input","interactive"],
+    accessibility: {"hasAriaSupport":true,"notes":["Full keyboard navigation with arrow keys","Enter/Space to select dates","PageUp/PageDown for month navigation","Screen reader friendly with semantic HTML","Focus management with visible focus ring","Disabled dates properly announced"]},
+    examples: [],
+  },
+
   card: {
     id: "card",
     name: "Card",
@@ -132,7 +148,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Settings Panel Card",
         "description": "A card-based settings panel with grouped toggle controls and action buttons. Shows how cards structure configuration options with clear labeling and actions.",
-        "code": "import React, { useState } from 'react';\nimport { Card, Button, Group, Badge, Checkbox } from 'ui-lab-components';\nimport { Bell, Eye, Lock } from 'lucide-react';\n\nexport default function Example() {\n  const [notificationsEnabled, setNotificationsEnabled] = useState(true);\n  const [previewMode, setPreviewMode] = useState(false);\n  const [privateMode, setPrivateMode] = useState(false);\n\n  return (\n    <div className=\"flex items-center justify-center bg-background-950 p-4\">\n      <Card className=\"w-full max-w-md\">\n        <Card.Header className=\"flex items-center justify-between gap-3\">\n          <h3 className=\"font-semibold text-foreground-100\">Preferences</h3>\n          <Badge variant=\"info\" size=\"sm\">3 settings</Badge>\n        </Card.Header>\n\n        <Card.Body className=\"space-y-3\">\n          {/* Notification Setting */}\n          <div className=\"flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors\">\n            <Bell className=\"w-4 h-4 text-foreground-500 mt-1 flex-shrink-0\" />\n            <Checkbox\n              id=\"notifications\"\n              checked={notificationsEnabled}\n              onChange={(e) => setNotificationsEnabled(e.target.checked)}\n              label={\n                <div className=\"ml-1\">\n                  <p className=\"text-sm font-medium text-foreground-100\">Notifications</p>\n                  <p className=\"text-xs text-foreground-400\">Stay updated with alerts</p>\n                </div>\n              }\n              size=\"md\"\n            />\n          </div>\n\n          {/* Preview Mode Setting */}\n          <div className=\"flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors\">\n            <Eye className=\"w-4 h-4 text-foreground-500 mt-1 flex-shrink-0\" />\n            <Checkbox\n              id=\"preview\"\n              checked={previewMode}\n              onChange={(e) => setPreviewMode(e.target.checked)}\n              label={\n                <div className=\"ml-1\">\n                  <p className=\"text-sm font-medium text-foreground-100\">Preview Mode</p>\n                  <p className=\"text-xs text-foreground-400\">See changes in real-time</p>\n                </div>\n              }\n              size=\"md\"\n            />\n          </div>\n\n          {/* Privacy Mode Setting */}\n          <div className=\"flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors\">\n            <Lock className=\"w-4 h-4 text-foreground-500 mt-1 flex-shrink-0\" />\n            <Checkbox\n              id=\"privacy\"\n              checked={privateMode}\n              onChange={(e) => setPrivateMode(e.target.checked)}\n              label={\n                <div className=\"ml-1\">\n                  <p className=\"text-sm font-medium text-foreground-100\">Privacy Mode</p>\n                  <p className=\"text-xs text-foreground-400\">Hide sensitive data</p>\n                </div>\n              }\n              size=\"md\"\n            />\n          </div>\n        </Card.Body>\n\n        <Card.Footer className=\"border-t border-background-700 pt-4\">\n          <Group>\n            <Group.Button variant=\"ghost\" size=\"md\" className=\"flex-1\">\n              Reset to Defaults\n            </Group.Button>\n            <Group.Button variant=\"primary\" size=\"md\" className=\"flex-1\">\n              Save Changes\n            </Group.Button>\n          </Group>\n        </Card.Footer>\n      </Card>\n    </div>\n  );\n}"
+        "code": "'use client';\n\nimport React, { useState } from 'react';\nimport { Card, Button, Group, Badge, Checkbox } from 'ui-lab-components';\nimport { Bell, Eye, Lock } from 'lucide-react';\n\nexport default function Example() {\n  const [notificationsEnabled, setNotificationsEnabled] = useState(true);\n  const [previewMode, setPreviewMode] = useState(false);\n  const [privateMode, setPrivateMode] = useState(false);\n\n  return (\n    <div className=\"flex items-center justify-center bg-background-950 p-4\">\n      <Card className=\"w-full max-w-md\">\n        <Card.Header className=\"flex items-center justify-between gap-3\">\n          <h3 className=\"font-semibold text-foreground-100\">Preferences</h3>\n          <Badge variant=\"info\" size=\"sm\">3 settings</Badge>\n        </Card.Header>\n\n        <Card.Body className=\"space-y-3\">\n          {/* Notification Setting */}\n          <div className=\"flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors\">\n            <Bell className=\"w-4 h-4 text-foreground-500 mt-1 flex-shrink-0\" />\n            <Checkbox\n              id=\"notifications\"\n              checked={notificationsEnabled}\n              onChange={(e) => setNotificationsEnabled(e.target.checked)}\n              label={\n                <div className=\"ml-1\">\n                  <p className=\"text-sm font-medium text-foreground-100\">Notifications</p>\n                  <p className=\"text-xs text-foreground-400\">Stay updated with alerts</p>\n                </div>\n              }\n              size=\"md\"\n            />\n          </div>\n\n          {/* Preview Mode Setting */}\n          <div className=\"flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors\">\n            <Eye className=\"w-4 h-4 text-foreground-500 mt-1 flex-shrink-0\" />\n            <Checkbox\n              id=\"preview\"\n              checked={previewMode}\n              onChange={(e) => setPreviewMode(e.target.checked)}\n              label={\n                <div className=\"ml-1\">\n                  <p className=\"text-sm font-medium text-foreground-100\">Preview Mode</p>\n                  <p className=\"text-xs text-foreground-400\">See changes in real-time</p>\n                </div>\n              }\n              size=\"md\"\n            />\n          </div>\n\n          {/* Privacy Mode Setting */}\n          <div className=\"flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors\">\n            <Lock className=\"w-4 h-4 text-foreground-500 mt-1 flex-shrink-0\" />\n            <Checkbox\n              id=\"privacy\"\n              checked={privateMode}\n              onChange={(e) => setPrivateMode(e.target.checked)}\n              label={\n                <div className=\"ml-1\">\n                  <p className=\"text-sm font-medium text-foreground-100\">Privacy Mode</p>\n                  <p className=\"text-xs text-foreground-400\">Hide sensitive data</p>\n                </div>\n              }\n              size=\"md\"\n            />\n          </div>\n        </Card.Body>\n\n        <Card.Footer className=\"border-t border-background-700 pt-4\">\n          <Group>\n            <Group.Button variant=\"ghost\" size=\"md\" className=\"flex-1\">\n              Reset to Defaults\n            </Group.Button>\n            <Group.Button variant=\"primary\" size=\"md\" className=\"flex-1\">\n              Save Changes\n            </Group.Button>\n          </Group>\n        </Card.Footer>\n      </Card>\n    </div>\n  );\n}"
     },
     {
         "title": "Task Progress Card",
@@ -164,7 +180,29 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Checkbox",
         "description": "A simple checkbox with a label. Use this as the standard checkbox input in your forms.",
-        "code": "import React from 'react';\nimport { Checkbox } from 'ui-lab-components';\n\nexport default function Example() {\n  const [checked, setChecked] = React.useState(false);\n\n  return (\n    <Checkbox\n      checked={checked}\n      onChange={(e) => setChecked(e.target.checked)}\n      label=\"Accept terms and conditions\"\n    />\n  );\n}"
+        "code": "'use client';\n\nimport React from 'react';\nimport { Checkbox } from 'ui-lab-components';\n\nexport default function Example() {\n  const [checked, setChecked] = React.useState(false);\n\n  return (\n    <Checkbox\n      checked={checked}\n      onChange={(e) => setChecked(e.target.checked)}\n      label=\"Accept terms and conditions\"\n    />\n  );\n}"
+    }
+],
+  },
+
+  colorpicker: {
+    id: "colorpicker",
+    name: "ColorPicker",
+    description: "A custom color picker with 2D canvas, hue slider, and format selection.",
+    category: "input",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "ColorPicker",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["input","select"],
+    tags: ["color","form","user-input","interactive"],
+    accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible sliders","ARIA labels for color components","Visual focus indicators","Screen reader announcements for color values"]},
+    examples: [
+    {
+        "title": "Basic ColorPicker",
+        "description": "A simple color picker with default configuration showing hex format.",
+        "code": "import React, { useState } from 'react';\nimport { ColorPicker } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('#FF6B6B');\n\n  return (\n    <div className=\"p-4 space-y-4\">\n      <div>\n        <p className=\"text-sm text-foreground-300 mb-3\">Selected color: <code className=\"text-accent-500 font-mono\">{color}</code></p>\n        <ColorPicker\n          value={color}\n          onChange={setColor}\n          format=\"hex\"\n          defaultValue=\"#FF6B6B\"\n        />\n      </div>\n    </div>\n  );\n}"
     }
 ],
   },
@@ -186,7 +224,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Command Palette",
         "description": "A searchable command palette with keyboard shortcuts. Use this for quick access to application actions.",
-        "code": "import React from 'react';\nimport { CommandPalette, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [open, setOpen] = React.useState(false);\n\n  const commands = [\n    {\n      id: 'search',\n      label: 'Search',\n      description: 'Search documents',\n      shortcut: '⌘F',\n      action: () => console.log('Search'),\n    },\n    {\n      id: 'create',\n      label: 'Create new',\n      description: 'Create a new document',\n      shortcut: '⌘N',\n      action: () => console.log('Create'),\n    },\n    {\n      id: 'settings',\n      label: 'Settings',\n      description: 'Open application settings',\n      shortcut: '⌘,',\n      action: () => console.log('Settings'),\n    },\n  ];\n\n  return (\n    <>\n      <Button onClick={() => setOpen(true)}>\n        Open Palette (⌘K)\n      </Button>\n      <CommandPalette\n        open={open}\n        onOpenChange={setOpen}\n        commands={commands}\n      />\n    </>\n  );\n}"
+        "code": "'use client';\n\nimport React from 'react';\nimport { CommandPalette, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [open, setOpen] = React.useState(false);\n\n  const commands = [\n    {\n      id: 'search',\n      label: 'Search',\n      description: 'Search documents',\n      shortcut: '⌘F',\n      action: () => console.log('Search'),\n    },\n    {\n      id: 'create',\n      label: 'Create new',\n      description: 'Create a new document',\n      shortcut: '⌘N',\n      action: () => console.log('Create'),\n    },\n    {\n      id: 'settings',\n      label: 'Settings',\n      description: 'Open application settings',\n      shortcut: '⌘,',\n      action: () => console.log('Settings'),\n    },\n  ];\n\n  return (\n    <>\n      <Button onClick={() => setOpen(true)}>\n        Open Palette (⌘K)\n      </Button>\n      <CommandPalette\n        open={open}\n        onOpenChange={setOpen}\n        commands={commands}\n      />\n    </>\n  );\n}"
     }
 ],
   },
@@ -470,7 +508,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Menu",
         "description": "A simple context menu triggered by right-click. Use this to provide quick access to common actions and context-specific commands.",
-        "code": "import React from 'react';\nimport { Menu } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Menu>\n      <Menu.Trigger className=\"flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-context-menu select-none text-foreground-300 hover:border-background-500 transition-colors\">\n        Right click here\n      </Menu.Trigger>\n      <Menu.Content>\n        <Menu.Item>Copy</Menu.Item>\n        <Menu.Item>Paste</Menu.Item>\n        <Menu.Item disabled>Cut</Menu.Item>\n      </Menu.Content>\n    </Menu>\n  );\n}"
+        "code": "import React from 'react';\nimport { Menu } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Menu>\n      <Menu.Trigger className=\"flex items-center justify-center rounded-md border-2 border-dashed border-background-600 p-12 w-full cursor-context-menu select-none text-foreground-300 hover:border-background-500 transition-colors\">\n        Right click here\n      </Menu.Trigger>\n      <Menu.Content>\n        <Menu.Item>Copy</Menu.Item>\n        <Menu.Item>Paste</Menu.Item>\n        <Menu.Item disabled>Cut</Menu.Item>\n      </Menu.Content>\n    </Menu>\n  );\n}"
     }
 ],
   },
@@ -492,7 +530,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Modal",
         "description": "A simple modal dialog with a trigger button. Use this for important user interactions that require focused attention.",
-        "code": "import React from 'react';\nimport { Modal, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [isOpen, setIsOpen] = React.useState(false);\n\n  return (\n    <>\n      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>\n      <Modal isOpen={isOpen} onOpenChange={setIsOpen}>\n        <Modal.Header>Modal Title</Modal.Header>\n        <Modal.Body>This is the modal content. It displays important information or actions.</Modal.Body>\n      </Modal>\n    </>\n  );\n}"
+        "code": "'use client';\n\nimport React from 'react';\nimport { Modal, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [isOpen, setIsOpen] = React.useState(false);\n\n  return (\n    <>\n      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>\n      <Modal isOpen={isOpen} onOpenChange={setIsOpen}>\n        <Modal.Header>Modal Title</Modal.Header>\n        <Modal.Body>This is the modal content. It displays important information or actions.</Modal.Body>\n      </Modal>\n    </>\n  );\n}"
     }
 ],
   },
