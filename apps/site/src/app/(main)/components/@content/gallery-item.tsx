@@ -61,7 +61,7 @@ export function GalleryItemWithPrefetch({
             {experimental && (
               <div className='ml-auto'>
                 <Tooltip content="Experimental: Not fully implemented and requires testing" position="top" showArrow>
-                  <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
+                  <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-base">
                     <FaFlask size={14} />
                   </span>
                 </Tooltip>
