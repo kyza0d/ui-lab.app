@@ -1,4 +1,3 @@
-export { Sidebar } from "./components/sidebar";
 export { SidebarShell } from "./components/sidebar-shell";
 export type { MainNavItem, NestedNavItem } from "./components/sidebar-shell";
 export { SidebarItemLink } from "./components/sidebar-item-link";

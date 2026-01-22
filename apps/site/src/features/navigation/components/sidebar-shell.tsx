@@ -101,7 +101,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                         router.push(nav.href);
                       }}
                       className={cn(
-                        'w-full flex border items-center gap-3 mb-2 pl-1 pr-2 py-1 text-sm font-medium rounded-md',
+                        'w-full flex border items-center gap-3 mb-2 pl-1 pr-2 py-1 text-sm font-medium rounded-base',
                         isActive
                           ? 'border-background-700 text-foreground-50 bg-background-800/70'
                           : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
@@ -109,7 +109,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                     >
                       <div
                         className={cn(
-                          'w-8 h-8 rounded-md flex items-center justify-center',
+                          'w-8 h-8 rounded-base flex items-center justify-center',
                           isActive ? 'text-foreground-50' : 'text-foreground-400'
                         )}
                       >
@@ -135,7 +135,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                                 key={child.id}
                                 href={child.href}
                                 className={cn(
-                                  'block px-3 py-1.5 text-sm rounded-md pl-2.5',
+                                  'block px-3 py-1.5 text-sm rounded-base pl-2.5',
                                   isChildActive
                                     ? 'border-accent-500 text-foreground-50 bg-background-800 font-medium'
                                     : 'border-background-600 text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
@@ -157,7 +157,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                   key={nav.id}
                   href={nav.href}
                   className={cn(
-                    'flex border items-center gap-3 pl-1 pr-2 py-1 text-sm font-medium rounded-md',
+                    'flex border items-center gap-3 pl-1 pr-2 py-1 text-sm font-medium rounded-base',
                     isActive
                       ? 'border-background-700 text-foreground-50 bg-background-800/70'
                       : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
@@ -165,7 +165,7 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
                 >
                   <div
                     className={cn(
-                      'w-8 h-8 rounded-md flex items-center justify-center',
+                      'w-8 h-8 rounded-base flex items-center justify-center',
                       isActive ? 'text-foreground-50' : 'text-foreground-400'
                     )}
                   >
