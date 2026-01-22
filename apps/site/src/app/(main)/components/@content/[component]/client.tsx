@@ -103,7 +103,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 <h3 className="font-bold text-foreground-50">{component.name}</h3>
                 {metadata?.experimental && (
                   <Tooltip content="Experimental: Not fully implemented and requires testing" position="left" showArrow>
-                    <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
+                    <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-base">
                       <FaFlask size={14} />
                     </span>
                   </Tooltip>

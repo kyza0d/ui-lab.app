@@ -52,19 +52,21 @@ export default function ConfigPage() {
   ]);
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-5xl mx-auto px-8">
+    <div className="h-300 relative">
+      <div>
         {isLoading ? (
           <div className="rounded-[12px] border-[2px] border-background-700 bg-background-900 p-8 flex items-center justify-center min-h-[400px]">
             <p className="text-foreground-400">Loading configuration...</p>
           </div>
         ) : (
-          <CodeBlock
-            language="css"
-            filename="global.css"
-          >
-            {generatedConfig}
-          </CodeBlock>
+          <div className="w-full max-w-5xl absolute left-1/2 -translate-x-1/2 top-(--header-height) p-6">
+            <CodeBlock
+              language="css"
+              filename="global.css"
+            >
+              {generatedConfig}
+            </CodeBlock>
+          </div>
         )}
       </div>
     </div>
