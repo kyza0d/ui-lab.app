@@ -78,7 +78,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         setExpanded((prev) => (prev === item.name ? null : item.name))
                       }
                       className={cn(
-                        "flex w-full items-center justify-between rounded-lg px-3 py-2",
+                        "flex w-full items-center justify-between rounded-md px-3 py-2",
                         "font-medium hover:bg-background-800"
                       )}
                     >
@@ -92,7 +92,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     </button>
 
                     {expanded === item.name && (
-                      <div className="flex flex-col mx-2 mb-2 rounded-lg">
+                      <div className="flex flex-col mx-2 mb-2 rounded-md">
                         <div className="py-3 space-y-2 text-sm">
                           {subItems.map((sub) => (
                             <Link
@@ -100,7 +100,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                               href={sub.href}
                               onClick={onClose}
                               className={cn(
-                                "flex flex-col rounded-md px-3 py-2 hover:bg-background-800 text-foreground-300"
+                                "flex flex-col rounded-base px-3 py-2 hover:bg-background-800 text-foreground-300"
                               )}
                             >
                               <div className="font-semibold">{sub.label}</div>
@@ -125,7 +125,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     href={(item as any).href}
                     onClick={onClose}
                     className={cn(
-                      "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
+                      "rounded-md px-4 py-3 text-sm hover:bg-background-800"
                     )}
                   >
                     {item.label}
@@ -140,7 +140,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   href={href}
                   onClick={onClose}
                   className={cn(
-                    "rounded-lg px-4 py-3 text-sm hover:bg-background-800"
+                    "rounded-md px-4 py-3 text-sm hover:bg-background-800"
                   )}
                 >
                   {item.label}

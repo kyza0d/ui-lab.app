@@ -43,7 +43,7 @@ export const CodeDisplay = ({
 
   return (
     <div className="space-y-3">
-      <div className="rounded-lg border-2 border-background-700 bg-background-900">
+      <div className="rounded-md border-2 border-background-700 bg-background-900">
         {/* Main Header */}
 
         <div className="sticky top-(--header-height) z-10 flex justify-end px-4 py-2 bg-background-800 border-b border-background-700">
