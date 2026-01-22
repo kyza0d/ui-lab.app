@@ -4,7 +4,6 @@ export { ElementsFilterPopover } from "./components/elements-filter-popover";
 export { ElementsGridClient } from "./components/elements-grid-client";
 export { ElementsLayoutToggle } from "./components/elements-layout-toggle";
 export { ElementsSearchHeader } from "./components/elements-search-header";
-export { ElementsSidebar } from "./components/elements-sidebar";
 export { ElementsList as ElementsSidebarContent } from "./components/elements-sidebar-content";
 export { ElementsSortDropdown } from "./components/elements-sort-dropdown";
 export { PreviewContainer } from "./components/preview-container";

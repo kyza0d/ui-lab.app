@@ -8,11 +8,11 @@ export function ElementsLayoutToggle() {
   const [layout, setLayout] = useState('grid'); // Connect to your global state/URL
 
   return (
-    <div className="flex items-center bg-background-900 border border-background-700 p-1 rounded-lg">
+    <div className="flex items-center bg-background-900 border border-background-700 p-1 rounded-md">
       <button
         onClick={() => setLayout('grid')}
         className={cn(
-          "p-1.5 rounded-md transition-all",
+          "p-1.5 rounded-base transition-all",
           layout === 'grid' ? "bg-background-700 text-foreground-50 shadow-sm" : "text-foreground-500 hover:text-foreground-300"
         )}
       >
@@ -21,7 +21,7 @@ export function ElementsLayoutToggle() {
       <button
         onClick={() => setLayout('list')}
         className={cn(
-          "p-1.5 rounded-md transition-all",
+          "p-1.5 rounded-base transition-all",
           layout === 'list' ? "bg-background-700 text-foreground-50 shadow-sm" : "text-foreground-500 hover:text-foreground-300"
         )}
       >
