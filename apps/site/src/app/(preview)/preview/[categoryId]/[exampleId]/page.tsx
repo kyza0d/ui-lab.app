@@ -1,6 +1,7 @@
 import { Dashboard } from '@/shared';
-import { getElementById } from 'ui-lab-registry';
+import { getElementById, getSectionById } from 'ui-lab-registry';
 import { getDemoComponent } from '@/features/elements';
+import { getSectionPreview } from 'ui-lab-registry/demo-registry';
 
 interface PreviewPageProps {
   params: Promise<{
@@ -30,7 +31,7 @@ function PlaceholderContent({
         <p className="text-foreground-500 text-sm">
           This is a standalone preview window for the {exampleName} example.
         </p>
-        <div className="mt-8 p-6 bg-background-900 rounded-lg border border-background-700">
+        <div className="mt-8 p-6 bg-background-900 rounded-md border border-background-700">
           <p className="text-foreground-300 text-sm font-mono">
             Route: /preview/{categoryId}/{exampleId}
           </p>
@@ -99,6 +100,32 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
         categoryId={categoryId}
         exampleId={exampleId}
         exampleName={`${elementId} - Variant ${variantIndex}`}
+      />
+    );
+  }
+
+  if (categoryId === 'sections') {
+    const parts = exampleId.split('-');
+    const variantIndex = parseInt(parts[parts.length - 1], 10);
+    const sectionId = parts.slice(0, -1).join('-');
+    const section = getSectionById(sectionId);
+
+    if (section && section.variants[variantIndex]) {
+      const variant = section.variants[variantIndex];
+      const DemoComponent = variant.demoPath ? getSectionPreview(variant.demoPath) : null;
+
+      return (
+        <div className="w-screen h-screen bg-background-950 overflow-auto">
+          <DemoComponentRenderer component={DemoComponent} elementName={section.name} variantName={variant.name} />
+        </div>
+      );
+    }
+
+    return (
+      <PlaceholderContent
+        categoryId={categoryId}
+        exampleId={exampleId}
+        exampleName={`${sectionId} - Variant ${variantIndex}`}
       />
     );
   }
