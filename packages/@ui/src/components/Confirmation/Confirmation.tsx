@@ -225,7 +225,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                   )}
                   {destructiveActionWarning && (
                     <div className={cn(
-                      "p-3 rounded-lg border text-sm",
+                      "p-3 rounded-md border text-sm",
                       config.color
                     )}>
                       {destructiveActionWarning}
@@ -249,7 +249,7 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                           setError(null)
                         }}
                         placeholder={confirmationText}
-                        className="w-full mt-2 px-3 py-2 rounded-lg bg-background-800 border border-background-700 text-foreground-100 text-sm"
+                        className="w-full mt-2 px-3 py-2 rounded-md bg-background-800 border border-background-700 text-foreground-100 text-sm"
                       />
                     </div>
                   )}

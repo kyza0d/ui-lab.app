@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { Button, type ButtonProps } from "../Button"
 import { Input, type InputProps } from "../Input"
 import { Select, type SelectProps } from "../Select"
+import { SelectTriggerContext } from "../Select/Select.Trigger"
 import styles from "./Group.module.css"
 
 type Orientation = "horizontal" | "vertical"
@@ -130,9 +131,20 @@ interface GroupButtonProps extends ButtonProps { }
 const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
   (props, ref) => {
     const context = useGroupContext()
+    const isInSelectTrigger = React.useContext(SelectTriggerContext)
 
     // Merge disabled state from group context
     const isDisabled = props.isDisabled ?? context.groupIsDisabled
+
+    if (isInSelectTrigger) {
+      return (
+        <span className={cn(styles.groupItem, props.className)}>
+          {props.icon?.left}
+          {props.children}
+          {props.icon?.right}
+        </span>
+      )
+    }
 
     return (
       <Button
@@ -170,6 +182,30 @@ const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
 )
 GroupInput.displayName = "Group.Input"
 
+// Group.InputWrapper component - preserves Input styling (for use with ghost variant)
+interface GroupInputWrapperProps extends InputProps { }
+
+const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperProps>(
+  (props, ref) => {
+    const context = useGroupContext()
+
+    // Merge disabled state from group context
+    const disabled = props.disabled ?? context.groupIsDisabled
+
+    return (
+      <div className={styles.groupInputWrapper}>
+        <Input
+          ref={ref}
+          {...props}
+          disabled={disabled}
+          className={props.className}
+        />
+      </div>
+    )
+  }
+)
+GroupInputWrapper.displayName = "Group.InputWrapper"
+
 // Group.Select component
 interface GroupSelectProps extends SelectProps<any> { }
 
@@ -186,7 +222,7 @@ const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
           ref={ref}
           {...props}
           isDisabled={disabled}
-          className={cn(styles.groupSelectWrapper, className)}
+          className={cn('groupSelectWrapper', styles.groupSelectWrapper, className)}
         />
       </div>
     )
@@ -198,8 +234,9 @@ GroupSelect.displayName = "Group.Select"
 const Group = Object.assign(GroupRoot, {
   Button: GroupButton,
   Input: GroupInput,
+  InputWrapper: GroupInputWrapper,
   Select: GroupSelect,
 })
 
-export { Group }
-export type { GroupProps }
+export { Group, GroupContext }
+export type { GroupProps, GroupContextValue }

@@ -78,9 +78,9 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     const hoverHandlers = triggerMode === "hover"
       ? {
-          onMouseEnter: () => handleHoverIntent(true),
-          onMouseLeave: () => handleHoverIntent(false),
-        }
+        onMouseEnter: () => handleHoverIntent(true),
+        onMouseLeave: () => handleHoverIntent(false),
+      }
       : {}
 
     return ReactDOM.createPortal(
@@ -105,7 +105,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             }}
             {...hoverHandlers}
           >
-            <div className={styles.viewport} style={{ maxHeight: `calc(${maxItems} * 36px + 8px)` }}>{children}</div>
+            <div className={cn('viewport', styles.viewport)} style={{ maxHeight: `calc(${maxItems} * 36px + 8px)` }}>{children}</div>
           </div>
         )}
       </>,
@@ -251,9 +251,9 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
 
     const hoverHandlers = triggerMode === "hover"
       ? {
-          onMouseEnter: () => handleHoverIntent(true),
-          onMouseLeave: () => handleHoverIntent(false),
-        }
+        onMouseEnter: () => handleHoverIntent(true),
+        onMouseLeave: () => handleHoverIntent(false),
+      }
       : {}
 
     return ReactDOM.createPortal(

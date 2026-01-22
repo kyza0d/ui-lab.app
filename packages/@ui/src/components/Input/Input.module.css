@@ -18,7 +18,7 @@
     color: var(--foreground);
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-base);
     @apply px-3 py-2;
     transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop);
 

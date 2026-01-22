@@ -17,8 +17,7 @@
 
   .gallery[data-layout="masonry"] {
     --column-width: var(--gallery-column-width, 280px);
-
-      width: 100%;
+    width: 100%;
     column-width: var(--column-width);
     column-gap: var(--gap);
   }

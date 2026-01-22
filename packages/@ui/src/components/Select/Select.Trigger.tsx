@@ -3,6 +3,10 @@ import { cn } from "@/lib/utils"
 import { FaChevronDown } from "react-icons/fa6"
 import styles from "./Select.module.css"
 import { useSelectContext } from "./Select"
+import { GroupContext } from "../Group/Group"
+import groupStyles from "../Group/Group.module.css"
+
+export const SelectTriggerContext = React.createContext<boolean>(false)
 
 interface SelectTriggerProps extends React.PropsWithChildren {
   className?: string
@@ -11,17 +15,26 @@ interface SelectTriggerProps extends React.PropsWithChildren {
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ children, className, chevron }, ref) => {
+    const groupContext = React.useContext(GroupContext)
+
     return (
-      <button
-        ref={ref}
-        className={cn(styles.trigger, className)}
-        type="button"
-      >
-        {children}
-        <div className={styles.icon}>
-          {chevron !== undefined ? chevron : <FaChevronDown />}
-        </div>
-      </button>
+      <SelectTriggerContext.Provider value={true}>
+        <button
+          ref={ref}
+          className={cn(
+            'trigger',
+            styles.trigger,
+            groupContext ? (groupStyles as Record<string, string>).trigger : undefined,
+            className
+          )}
+          type="button"
+        >
+          {children}
+          <div className={styles.icon}>
+            {chevron !== undefined ? chevron : <FaChevronDown />}
+          </div>
+        </button>
+      </SelectTriggerContext.Provider>
     )
   }
 )

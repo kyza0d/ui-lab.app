@@ -15,6 +15,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   dismissible?: boolean;
   onDismiss?: () => void;
   pill?: boolean;
+  count?: number;
 }
 
 const variantMap = {
@@ -89,6 +90,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       dismissible = false,
       onDismiss,
       pill = false,
+      count,
       children,
       className,
       ...props
@@ -118,7 +120,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
             {icon}
           </span>
         )}
-        <span>{children}</span>
+        <span>{count !== undefined ? count : children}</span>
         {dismissible && <DismissButton onDismiss={onDismiss} size={size} />}
       </span>
     );

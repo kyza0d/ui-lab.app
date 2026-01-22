@@ -25,6 +25,9 @@ export type { GridProps } from "./components/Grid";
 export { Badge } from "./components/Badge";
 export type { BadgeProps } from "./components/Badge";
 
+export { Calendar, CalendarHeader, CalendarGrid, CalendarDay } from "./components/Calendar";
+export type { CalendarProps, CalendarContextValue } from "./components/Calendar";
+
 export { Banner } from "./components/Banner";
 export type { BannerProps } from "./components/Banner";
 
@@ -37,6 +40,7 @@ export type { CheckboxProps } from "./components/Checkbox";
 export {
   Select,
   Searchable,
+  useSelectContext,
 } from "./components/Select";
 
 export { Input } from "./components/Input";
@@ -111,6 +115,9 @@ export type { AnchorProps, AnchorPreviewProps } from "./components/Anchor";
 
 export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gallery";
 export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";
+
+export { ColorPicker } from "./components/ColorPicker";
+export type { ColorPickerProps } from "./components/ColorPicker";
 
 export { Scroll } from "./components/Scroll";
 export type { ScrollProps } from "./components/Scroll";

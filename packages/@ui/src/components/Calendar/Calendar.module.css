@@ -1,0 +1,125 @@
+@layer components {
+  .calendar {
+    --background: var(--background-950);
+    --foreground: var(--foreground-50);
+    --border: var(--background-700);
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--background-700);
+  }
+
+  .monthYear {
+    font-weight: 600;
+    font-size: var(--text-base);
+    min-width: 150px;
+    text-align: center;
+  }
+
+  .navButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-md);
+    background-color: transparent;
+    color: var(--foreground);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 150ms var(--ease-snappy-pop),
+                border-color 150ms var(--ease-snappy-pop);
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .navButton:hover {
+    background-color: var(--background-700);
+  }
+
+  .navButton:focus-visible {
+    outline: 2px solid var(--foreground-300);
+    outline-offset: 2px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);  /* 7 days only */
+    gap: 0.5rem;
+  }
+
+  .dayCell {
+    --cell-bg: transparent;
+    --cell-text: var(--foreground-50);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background-color: var(--cell-bg);
+    color: var(--cell-text);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background-color 150ms var(--ease-snappy-pop),
+                border-color 150ms var(--ease-snappy-pop),
+                color 150ms var(--ease-snappy-pop);
+    font-size: var(--text-sm);
+    font-weight: 400;
+  }
+
+  .weekHeader {
+    display: none;
+  }
+
+  .weekNumber {
+    display: none;
+  }
+}
+
+/* Variant states - these are outside @layer */
+.dayCell[data-selected="true"] {
+  --cell-bg: var(--background-800);
+  --cell-text: var(--foreground-50);
+  font-weight: 600;
+}
+
+.dayCell[data-today="true"] {
+  border-color: var(--foreground-500);
+}
+
+.dayCell[data-disabled="true"] {
+  --cell-bg: var(--background-700);
+  --cell-text: var(--foreground-500);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dayCell[data-out-of-range="true"] {
+  --cell-text: var(--foreground-500);
+  opacity: 0.5;
+}
+
+.dayCell:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
+  --cell-bg: var(--background-800);
+}
+
+.dayCell[data-focus-visible="true"]:not([data-disabled="true"]) {
+  outline: 2px solid var(--foreground-300);
+  outline-offset: 2px;
+}

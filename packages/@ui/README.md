@@ -162,7 +162,7 @@ CSS modules use semantic variables and data attributes for state:
     align-items: center;
     justify-content: center;
     font-size: var(--text-md);
-    @apply px-3 py-1.5 rounded-md;
+    @apply px-3 py-1.5 rounded-base;
 
     background-color: var(--background);
     color: var(--foreground);
@@ -283,7 +283,7 @@ Use `@apply` for spacing and layout only:
 
 ```css
 .button {
-  @apply px-4 py-2 rounded-lg;  /* ✅ Spacing & layout */
+  @apply px-4 py-2 rounded-md;  /* ✅ Spacing & layout */
   font-size: var(--text-md);     /* ✅ Use variables for colors/fonts */
 }
 ```

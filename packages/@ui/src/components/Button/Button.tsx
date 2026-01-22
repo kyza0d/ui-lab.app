@@ -13,6 +13,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
   isDisabled?: boolean;
   onPress?: (e: { target: EventTarget | null }) => void;
+  icon?: {
+    left?: React.ReactNode;
+    right?: React.ReactNode;
+  };
 }
 
 const variantMap = {
@@ -30,7 +34,7 @@ const sizeMap = {
 } as const;
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, ...props }, ref) => {
+  ({ className, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, ...props }, ref) => {
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const mergedRef = useMergedRef(ref, buttonRef);
     const isButtonDisabled = isDisabled ?? disabled ?? false;
@@ -82,7 +86,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-focused={isFocused ? "true" : "false"}
         data-focus-visible={isFocusVisible ? "true" : "false"}
       >
+        {icon?.left && <span className={cn(styles[`icon-${size}`])}>{icon.left}</span>}
         {children}
+        {icon?.right && <span className={cn(styles[`icon-${size}`])}>{icon.right}</span>}
       </button>
     );
   }

@@ -40,9 +40,7 @@
   /* Variants */
   .group.ghost {
     --background: transparent;
-    --border: transparent;
     background-color: transparent;
-    border-color: transparent;
   }
 
   .itemWrapper {
@@ -59,6 +57,24 @@
     border-radius: 0;
     border: none;
     outline: none;
+  }
+
+  /* Explicitly override Select's default border and radius when in group */
+  .groupSelectWrapper {
+    border-radius: 0 !important;
+    border: none !important;
+  }
+
+  /* Input wrapper should fill available height */
+  .groupInputWrapper {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    flex: 1;
+  }
+
+  .groupInputWrapper input {
+    height: 100%;
   }
 
   /* Add borders to separate items (except last item) */
@@ -80,6 +96,32 @@
 
   /* Full width for vertical orientation */
   .group.vertical .itemWrapper .groupItem {
+    width: 100%;
+  }
+
+  /* Default padding for Group.Select */
+  .groupSelectWrapper {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Default padding for Select.Trigger in Group */
+  .groupSelectWrapper > .trigger {
+    @apply px-3;
+  }
+
+  /* Trigger styling for SelectTrigger in Group context */
+  .trigger {
+    border-radius: 0;
+    border: none;
+  }
+
+  /* Make Select fill height when in group */
+  .groupSelectWrapper .select {
+    height: 100%;
     width: 100%;
   }
 }
