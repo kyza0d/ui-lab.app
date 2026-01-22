@@ -24,13 +24,13 @@ export function getPreview(): React.ReactNode {
         {/* Header Row */}
         <div className='w-full bg-background-800 flex items-center'>
           <div style={{ width: col1 }} className='h-5 flex items-center pl-1'>
-            <div style={{ width: 24, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            <div style={{ width: 24, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
           </div>
           <div style={{ width: col2 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-            <div style={{ width: 14, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            <div style={{ width: 14, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
           </div>
           <div style={{ width: col3 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-            <div style={{ width: 29, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+            <div style={{ width: 29, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
           </div>
         </div>
 
@@ -40,39 +40,39 @@ export function getPreview(): React.ReactNode {
           {/* Row 1 */}
           <div className='w-full border-b border-background-700 flex items-center'>
             <div style={{ width: col1 }} className='h-5 flex items-center pl-1'>
-              <div style={{ width: 22, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 22, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
             <div style={{ width: col2 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-              <div style={{ width: 22, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 22, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
             <div style={{ width: col3 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-              <div style={{ width: 40, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 40, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
           </div>
 
           {/* Row 2 */}
           <div className='w-full border-b border-background-700 flex items-center'>
             <div style={{ width: col1 }} className='h-5 flex items-center pl-1'>
-              <div style={{ width: 16, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 16, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
             <div style={{ width: col2 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-              <div style={{ width: 15, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 15, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
             <div style={{ width: col3 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-              <div style={{ width: 36, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 36, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
           </div>
 
           {/* Row 3 */}
           <div className='w-full flex items-center'>
             <div style={{ width: col1 }} className='h-5 flex items-center pl-1'>
-              <div style={{ width: 26, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 26, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
             <div style={{ width: col2 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-              <div style={{ width: 18, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 18, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
             <div style={{ width: col3 }} className='h-5 flex items-center pl-1 border-l border-background-700'>
-              <div style={{ width: 35, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+              <div style={{ width: 35, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
             </div>
           </div>
 

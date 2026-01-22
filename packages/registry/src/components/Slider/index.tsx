@@ -7,9 +7,9 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div style={{ width: "60%" }} className="relative rounded-md">
-      <div className='w-full rounded-md bg-background-700 border border-background-600 left-0 absolute h-3' />
-      <div style={{ width: "50%", background: "var(--background-600)" }} className='left-0 absolute rounded-md h-3' />
+    <div style={{ width: "60%" }} className="relative rounded-base">
+      <div className='w-full rounded-base bg-background-700 border border-background-600 left-0 absolute h-3' />
+      <div style={{ width: "50%", background: "var(--background-600)" }} className='left-0 absolute rounded-base h-3' />
       <div style={{ background: "var(--background-500)", top: -2, width: 16, height: 16 }} className='absolute -translate-x-1/2 left-1/2 rounded-full' />
     </div>
   );

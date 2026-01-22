@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react'
 import { Group } from 'ui-lab-components'
 import { ChevronLeft, ChevronRight } from 'lucide-react'

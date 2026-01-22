@@ -10,24 +10,24 @@ export function getPreview(): React.ReactNode {
   return (
     <div style={{ width: "50%" }} className="rounded-sm overflow-hidden border pt-2 border-background-700 flex flex-col max-w-sm">
       <div className='h-4 pl-2 flex'>
-        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-md h-2'></div>
+        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-base h-2'></div>
       </div>
 
       <div className='h-4 pl-2 gap-2 flex'>
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
       </div>
       <div className='h-4 pl-2 flex'>
-        <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-md h-2'></div>
+        <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-base h-2'></div>
       </div>
 
       <div className='text-foreground-400 flex flex-col py-2 px-2 gap-2 border-t border-background-700'>
         <div style={{ backgroundColor: "var(--background-900)", margin: "-4px" }} className='rounded-sm py-1 px-1'>
-          <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-md h-2'></div>
+          <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-base h-2'></div>
         </div>
-        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-md h-2'></div>
+        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-base h-2'></div>
       </div>
       <div className='text-foreground-400 flex flex-col py-2 pl-2 gap-2 border-t border-background-700'>
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-md h-2'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 mr-2 rounded-base h-2'></div>
       </div>
     </div>
   );
@@ -78,7 +78,7 @@ export const menuDetail: ComponentDetail = {
       code: menuBasicCode,
       preview: (
         <Menu>
-          <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-context-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
+          <Menu.Trigger className="flex items-center justify-center rounded-md border-2 border-dashed border-background-600 p-12 w-full cursor-context-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
             Right click here
           </Menu.Trigger>
           <Menu.Content>
@@ -100,7 +100,7 @@ export const menuDetail: ComponentDetail = {
       code: menuBasicCode,
       preview: (
         <Menu>
-          <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-8 cursor-context-menu select-none text-foreground-300">
+          <Menu.Trigger className="flex items-center justify-center rounded-md border-2 border-dashed border-background-600 p-8 cursor-context-menu select-none text-foreground-300">
             Right click
           </Menu.Trigger>
           <Menu.Content>

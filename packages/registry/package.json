@@ -73,6 +73,10 @@
     "./sections/*/variations/*": {
       "import": "./dist/sections/*/variations/*/index.js",
       "types": "./dist/sections/*/variations/*/index.d.ts"
+    },
+    "./demo-registry": {
+      "import": "./dist/demo-registry.js",
+      "types": "./dist/demo-registry.d.ts"
     }
   },
   "files": [
@@ -86,7 +90,7 @@
     "build": "pnpm validate:elements && pnpm generate && npm run build:css && tsc",
     "build:css": "pnpm exec postcss src/styles.css -o dist/styles.css",
     "type-check": "tsc --noEmit",
-    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-demo-map.ts && tsx scripts/generate-manifest.ts && tsx scripts/validate-element-structure.ts",
+    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",
     "validate": "tsx scripts/validate-registry.ts",
     "validate:elements": "tsx scripts/validate-element-registry.ts"
   },

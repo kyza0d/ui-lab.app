@@ -9,7 +9,7 @@ export const metadata = {
 export default function Example() {
   return (
     <Menu>
-      <Menu.Trigger className="flex items-center justify-center rounded-lg border-2 border-dashed border-background-600 p-12 w-full cursor-context-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
+      <Menu.Trigger className="flex items-center justify-center rounded-md border-2 border-dashed border-background-600 p-12 w-full cursor-context-menu select-none text-foreground-300 hover:border-background-500 transition-colors">
         Right click here
       </Menu.Trigger>
       <Menu.Content>

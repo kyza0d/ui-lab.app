@@ -12,8 +12,8 @@ export function getPreview(): React.ReactNode {
       {/* Row 1: Equal Columns */}
       <div className="w-full h-28 border border-background-700 rounded bg-background-950">
         <div style={{ height: 56 }} className='w-full border-b border-background-700' />
-        <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md ml-2 mt-2 h-2'></div>
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md ml-2 mt-2 h-2'></div>
+        <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base ml-2 mt-2 h-2'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base ml-2 mt-2 h-2'></div>
       </div>
     </div>
   );
