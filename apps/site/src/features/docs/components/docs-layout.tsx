@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar } from "@/features/navigation";
+import { Sidebar } from "@/shared";
 import { BreadcrumbsNav } from "@/features/navigation";
 import { TableOfContents, type TableOfContentsItem } from "./table-of-contents";
 import "../../../app/docs.css";

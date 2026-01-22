@@ -186,7 +186,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
                   data-toc-id={item.id}
                   onClick={() => handleClick(item.id)}
                   className={cn(
-                    "block w-full text-left text-sm px-2 py-1.5 rounded-md cursor-pointer overflow-hidden",
+                    "block w-full text-left text-sm px-2 py-1.5 rounded-base cursor-pointer overflow-hidden",
                     "transition-colors duration-300 ease-out",
                     "hover:duration-0",
 

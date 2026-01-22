@@ -148,7 +148,7 @@ export default function Header({
                 <Logo />
               </div>
               <span className="text-md font-semibold text-foreground-50 mr-3">UI Lab</span>
-              <span className="ml-auto inline-block px-1 py-1 text-xs font-bold mr-4 bg-accent-500/20 text-accent-500 rounded-sm">
+              <span className="ml-auto inline-block px-3 py-1 text-xs font-bold mr-4 bg-accent-500/20 text-accent-500 rounded-md">
                 Early Beta
               </span>
             </Link>
@@ -202,7 +202,7 @@ export default function Header({
                 href="https://github.com/kyza0d/ui-lab.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center rounded-lg p-2 text-foreground-300 hover:bg-background-800 hover:text-foreground-50 transition-colors"
+                className="flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 hover:text-foreground-50 transition-colors"
                 aria-label="GitHub Repository"
               >
                 <FaGithub size={17} />
@@ -215,7 +215,7 @@ export default function Header({
             {/* Mobile menu toggle */}
             <button
               onClick={() => setIsMobileMenuOpen((v) => !v)}
-              className="md:hidden flex items-center justify-center rounded-lg p-2 text-foreground-300 hover:bg-background-800"
+              className="md:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMobileMenuOpen ? <HiX size={24} /> : <FaBars size={24} />}

@@ -1,3 +1,4 @@
+export { SectionPreviewContent } from "./components/section-preview-content";
 export { SectionsPageClient } from "./components/sections-page-client";
 export { SectionsGridClient } from "./components/sections-grid-client";
 export { getLayoutConfig } from "./lib/layout-registry";

@@ -1,14 +1,16 @@
 "use client";
 
 import { cache } from "react";
-import { Button, Banner } from "ui-lab-components";
+import { Button, Banner, Calendar, ColorPicker } from "ui-lab-components";
 import { buttonDetail, getPreview as getButtonPreview } from "ui-lab-registry/components/Button";
+import { calendarDetail, getPreview as getCalendarPreview } from "ui-lab-registry/components/Calendar";
 import { anchorDetail, getPreview as getAnchorPreview } from "ui-lab-registry/components/Anchor";
 import { bannerDetail, getPreview as getBannerPreview } from "ui-lab-registry/components/Banner";
 import { badgeDetail, getPreview as getBadgePreview } from "ui-lab-registry/components/Badge";
 import { breadcrumbsDetail, getPreview as getBreadcrumbsPreview } from "ui-lab-registry/components/Breadcrumbs";
 import { cardDetail, getPreview as getCardPreview } from "ui-lab-registry/components/Card";
 import { checkboxDetail, getPreview as getCheckboxPreview } from "ui-lab-registry/components/Checkbox";
+import { colorPickerDetail, getPreview as getColorPickerPreview } from "ui-lab-registry/components/ColorPicker";
 import { dividerDetail, getPreview as getDividerPreview } from "ui-lab-registry/components/Divider";
 import { flexDetail, getPreview as getFlexPreview } from "ui-lab-registry/components/Flex";
 import { foldDetail, getPreview as getFoldPreview } from "ui-lab-registry/components/Fold";
@@ -58,6 +60,8 @@ export interface ComponentMetadata extends RegistryMetadata {
 }
 const previews: Record<string, React.ReactNode> = {
   button: getButtonPreview(),
+  calendar: getCalendarPreview(),
+  colorpicker: getColorPickerPreview(),
   group: getGroupPreview(),
   flex: getFlexPreview(),
   grid: getGridPreview(),
@@ -171,6 +175,8 @@ export const getComponentsInCategoryOrder = cache(
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
+  calendar: calendarDetail,
+  colorpicker: colorPickerDetail,
   anchor: anchorDetail,
   group: groupDetail,
   flex: flexDetail,

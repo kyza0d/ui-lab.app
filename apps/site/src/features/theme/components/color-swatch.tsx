@@ -29,7 +29,7 @@ export function ColorSwatch({ family, shade, oklch }: ColorSwatchProps) {
   }
 
   return (
-    <div className="flex flex-row border border-background-700 w-full rounded-sm overflow-hidden h-full group">
+    <div className="flex flex-row border border-background-700 w-full rounded-base overflow-hidden h-full group">
       {/* Color Preview - Fills width, fixed height for consistency */}
       <div
         className="w-40 aspect-square border-r border-background-700"

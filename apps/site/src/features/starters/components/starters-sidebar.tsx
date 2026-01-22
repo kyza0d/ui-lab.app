@@ -46,27 +46,6 @@ function getMainNav(): MainNavItem[] {
       icon: FaStar,
       description: 'Curated starter templates',
     },
-    {
-      id: 'use-case',
-      label: 'Use Case',
-      href: '/starters/use-case',
-      icon: FaTag,
-      description: 'Filter by project type',
-    },
-    {
-      id: 'framework',
-      label: 'Framework',
-      href: '/starters/framework',
-      icon: FaLayerGroup,
-      description: 'Filter by technology',
-    },
-    {
-      id: 'features',
-      label: 'Features',
-      href: '/starters/features',
-      icon: FaWrench,
-      description: 'Filter by capabilities',
-    },
   ];
 }
 
@@ -93,7 +72,7 @@ export function StartersSidebar({ pathname }: StartersSidebarProps) {
                   key={nav.id}
                   href={nav.href}
                   className={cn(
-                    'flex border items-center gap-3 pl-1 pr-2 py-0.5 text-sm font-medium rounded-md',
+                    'flex border items-center gap-3 pl-1 pr-2 py-0.5 text-sm font-medium rounded-base',
                     isActive
                       ? 'border-background-700 text-foreground-200 bg-background-800/70'
                       : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
@@ -101,7 +80,7 @@ export function StartersSidebar({ pathname }: StartersSidebarProps) {
                 >
                   <div
                     className={cn(
-                      'w-8 h-8 rounded-md flex items-center justify-center',
+                      'w-8 h-8 rounded-base flex items-center justify-center',
                       isActive ? 'text-foreground-200' : 'text-foreground-400'
                     )}
                   >

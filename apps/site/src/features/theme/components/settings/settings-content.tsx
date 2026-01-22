@@ -441,7 +441,7 @@ export const SettingsContent = () => {
       <div className="border-t border-background-700 px-[8px] py-[6px] bg-background-800/50 flex items-center justify-between shrink-0">
         <Link
           href="/config"
-          className="ml-auto inline-flex cursor-pointer items-center justify-center rounded-lg text-sm px-[10px] py-[5px] border border-background-600 bg-background-700 text-foreground-300 hover:text-foreground-50 hover:bg-background-600 active:bg-accent-400 gap-2"
+          className="ml-auto inline-flex cursor-pointer items-center justify-center rounded-md text-sm px-[10px] py-[5px] border border-background-600 bg-background-700 text-foreground-300 hover:text-foreground-50 hover:bg-background-600 active:bg-accent-400 gap-2"
         >
           <FaGear className="mr-2" />
           Configuration

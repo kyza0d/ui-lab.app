@@ -48,7 +48,7 @@ function HeroSection() {
             <div className="flex gap-3 mt-10">
               <Button className="flex justify-evenly gap-[4px]" variant="primary">
                 Get Started</Button>
-              <Button className="py-2" variant="secondary"><FaBoxArchive className="mr-4 text-foreground-400" /> View Components</Button>
+              <Button className="py-2" variant="default">View Components</Button>
             </div>
           </div>
         </div>
