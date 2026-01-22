@@ -19,8 +19,8 @@ export function getPreview(): React.ReactNode {
       <FaX size={7} style={{ color: "var(--foreground-500)" }} className='absolute top-2 right-2 ml-auto' />
       <FaInfoCircle size={16} color="var(--background-500)" />
       <div className='flex flex-col gap-2 w-full'>
-        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-2'></div>
-        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-2'></div>
+        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-base h-2'></div>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-base h-2'></div>
       </div>
     </div>
   );

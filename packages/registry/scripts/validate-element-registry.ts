@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REGISTRY_ROOT = path.join(__dirname, '../src/elements');
-const DEMO_MAP_PATH = path.join(__dirname, '../../../apps/site/src/features/elements/lib/get-element-demo.ts');
+const DEMO_MAP_PATH = path.join(__dirname, '../src/demo-registry.ts');
 
 interface ValidationError {
   type: string;
@@ -117,16 +117,19 @@ function getDemoMapEntries(): Set<string> {
 
   try {
     const content = fs.readFileSync(DEMO_MAP_PATH, 'utf-8');
-    // Match object keys in the demoComponentMap - look for 'key': or "key":
-    const matches = content.match(/['"`]([a-z][a-z0-9-]*)['"`]\s*:/g);
-    if (matches) {
-      matches.forEach(m => {
-        // Extract just the key name
-        const keyMatch = m.match(/['"`]([a-z][a-z0-9-]*)['"`]/);
-        if (keyMatch) {
-          entries.add(keyMatch[1]);
-        }
-      });
+    // Match object keys in elementDemoMap specifically - look for 'key': or "key": after export const elementDemoMap
+    const elementMapMatch = content.match(/export const elementDemoMap[^{]*\{([\s\S]*?)\};/);
+    if (elementMapMatch) {
+      const matches = elementMapMatch[1].match(/['"`]([a-z][a-z0-9-]*)['"`]\s*:/g);
+      if (matches) {
+        matches.forEach(m => {
+          // Extract just the key name
+          const keyMatch = m.match(/['"`]([a-z][a-z0-9-]*)['"`]/);
+          if (keyMatch) {
+            entries.add(keyMatch[1]);
+          }
+        });
+      }
     }
   } catch (e) {
     // Unable to read demo map
@@ -348,9 +351,9 @@ function validateDemoComponentMap() {
           addError(
             'DEMO_MAP_MISSING',
             elementId,
-            `demoPath '${data.demoPath}' not found in demoComponentMap`,
+            `demoPath '${data.demoPath}' not found in elementDemoMap`,
             path.join(REGISTRY_ROOT, elementId, 'variations.json'),
-            `Add '${data.demoPath}' to demoComponentMap in ${DEMO_MAP_PATH} or regenerate with: pnpm generate`,
+            `Add '${data.demoPath}' to elementDemoMap in ${DEMO_MAP_PATH}`,
             variationKey
           );
           return;
@@ -367,9 +370,9 @@ function validateDemoComponentMap() {
       addError(
         'DEMO_MAP_ORPHANED',
         'unknown',
-        `Orphaned entry '${entry}' in demoComponentMap with no corresponding variation`,
+        `Orphaned entry '${entry}' in elementDemoMap with no corresponding variation`,
         DEMO_MAP_PATH,
-        `Remove entry '${entry}' from demoComponentMap or create the corresponding variation`,
+        `Remove entry '${entry}' from elementDemoMap or create the corresponding variation`,
         undefined
       );
     }

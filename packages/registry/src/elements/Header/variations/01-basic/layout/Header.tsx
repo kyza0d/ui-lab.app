@@ -7,7 +7,7 @@ export function Header({ logoText = 'Logo' }: HeaderProps) {
     <header className="bg-background-800 border-b border-background-700">
       <div className="mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-accent-500 rounded-lg" />
+          <div className="w-8 h-8 bg-accent-500 rounded-md" />
           <span className="text-lg font-semibold text-foreground-50">{logoText}</span>
         </div>
         <nav className="flex gap-1">

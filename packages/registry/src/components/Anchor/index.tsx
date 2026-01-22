@@ -10,7 +10,7 @@ export function getPreview(): React.ReactNode {
     <div className='w-full grid grid-rows-2 items-start gap-2 justify-center'>
       <div>
         <div>
-          <div style={{ width: 70, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-3'></div>
+          <div style={{ width: 70, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-3'></div>
           <Divider size='sm' variant='dashed' />
         </div>
       </div>

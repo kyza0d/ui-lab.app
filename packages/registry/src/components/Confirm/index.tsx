@@ -10,21 +10,21 @@ export function getPreview(): React.ReactNode {
   return (
     <div style={{ width: "70%" }} className="rounded-sm overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
       <div className='pl-2 pt-3'>
-        <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-3 mb-2'></div>
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
-        <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
+        <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-3 mb-2'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1 mb-2'></div>
+        <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1'></div>
       </div>
 
       <div className='mt-4 border-t border-background-700 flex items-center py-1 gap-1 flex'>
         <div style={{ width: "35%", backgroundColor: "var(--background-800)" }} className='ml-auto flex items-center 
            rounded-xs h-4 gap-2 pl-1'>
           <FaX size={8} style={{ color: "var(--foreground-500)" }} />
-          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-md pr-1 h-1'></div>
+          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-base pr-1 h-1'></div>
         </div>
         <div style={{ width: "35%", marginRight: 2, backgroundColor: "var(--background-800)" }} className='flex items-center 
            rounded-xs h-4 gap-2 pl-1'>
           <FaCheck size={10} style={{ color: "var(--foreground-500)" }} />
-          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-md h-1'></div>
+          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-base h-1'></div>
         </div>
       </div>
     </div>

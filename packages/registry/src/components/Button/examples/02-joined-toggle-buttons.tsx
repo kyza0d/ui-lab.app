@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react'
 import { Group } from 'ui-lab-components'
 import { LayoutList, LayoutGrid, Table } from 'lucide-react'

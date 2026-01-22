@@ -11,8 +11,8 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div style={{ width: 80, height: 30 }} className="w-full flex bg-background-900 items-center justify-center border border-background-700 rounded-md">
-      <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
+    <div style={{ width: 80, height: 30 }} className="w-full flex bg-background-900 items-center justify-center border border-background-700 rounded-base">
+      <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
     </div>
   );
 }

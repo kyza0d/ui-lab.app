@@ -22,7 +22,7 @@ export function getPreview(): React.ReactNode {
           fill="var(--color-background-900)"
           padding="small"
         >
-          <div className='w-20 h-3 bg-background-500 opacity-10 rounded-md' />
+          <div className='w-20 h-3 bg-background-500 opacity-10 rounded-base' />
         </Frame>
       </div>
       <div className='w-7 h-7 flex items-center px-2 rounded-sm bg-background-900 border border-background-700'>

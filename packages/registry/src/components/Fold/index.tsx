@@ -10,11 +10,11 @@ export function getPreview(): React.ReactNode {
   return (
     <div className="w-full flex flex-col gap-2 max-w-sm">
       <div className='h-8 flex border-b border-background-700'>
-        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mt-2 h-2'></div>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base mt-2 h-2'></div>
         <FaChevronDown size={10} className='text-foreground-500 ml-auto mt-1 ' />
       </div>
       <div className='h-8 flex border-b border-background-700'>
-        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mt-2 h-2'></div>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base mt-2 h-2'></div>
         <FaChevronDown size={10} className='text-foreground-500 ml-auto mt-1 ' />
       </div>
     </div>
