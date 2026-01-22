@@ -4,18 +4,17 @@ import { createSectionSkeleton } from '../utils/create-section-skeleton';
 import variationsData from './variations.json';
 
 const baseMetadata = {
-  id: 'hero',
-  name: 'Hero',
-  description: 'Eye-catching introductory sections that establish visual hierarchy and guide user action. Perfect for landing pages and key entry points.',
-  category: 'hero' as const,
-  tags: ['hero', 'landing', 'cta', 'visual'],
+  id: 'cta',
+  name: 'CTA',
+  description: 'Call-to-action sections designed to drive user engagement and conversions',
+  category: 'cta' as const,
+  tags: ['cta', 'conversion', 'action', 'engagement'],
   layout: {
-    layoutClass: 'hero',
+    layoutClass: 'cta',
     columnSpan: 4,
-    rowSpan: 4,
+    rowSpan: 3,
   },
   componentDependencies: ['Button'],
-  fullPageLayout: true,
 };
 
 const sectionMetadata: SectionMetadata = {
@@ -32,7 +31,7 @@ export function getPreview(): React.ReactNode {
   return (
     <div className="w-full h-full bg-gradient-to-br from-background-900 to-background-950 flex items-center justify-center p-4">
       <div className="flex items-center justify-center">
-        {createSectionSkeleton('hero')}
+        {createSectionSkeleton('cta')}
       </div>
     </div>
   );
@@ -40,6 +39,3 @@ export function getPreview(): React.ReactNode {
 
 export const metadata = baseMetadata;
 export default sectionMetadata;
-
-export { SimpleHero, HeroWithCTA } from './variations';
-export { DEMO_MAP } from './variations';

@@ -1,8 +1,16 @@
 import HeroMetadata from './Hero';
+import CTAMetadata from './CTA';
+import FeaturesMetadata from './Features';
+import TestimonialsMetadata from './Testimonials';
+import PricingMetadata from './Pricing';
 import type { SectionRegistry, SectionMetadata } from '../types';
 
 export const sectionRegistry: SectionRegistry = {
   hero: HeroMetadata,
+  cta: CTAMetadata,
+  features: FeaturesMetadata,
+  testimonials: TestimonialsMetadata,
+  pricing: PricingMetadata,
 };
 
 export function getSectionById(id: string): SectionMetadata | undefined {
