@@ -31,7 +31,7 @@ const ReactSvg = () => (
 );
 
 const TypeScriptSvg = () => (
-  <SiTypescript className="w-8 h-8 rounded-[4px] text-background-500" />
+  <SiTypescript className="w-7 h-7 rounded-[4px] text-background-500" />
 );
 
 
@@ -52,7 +52,7 @@ export default function Home() {
           <NodeSection>
             <div className="w-full border-t border-background-700 ml-auto">
               <div className="space-y-3">
-                <div className="px-[6px] gap-[6px] grid grid-cols-4 items-center">
+                <div className="grid grid-cols-4 items-center">
                   {[
                     {
                       Icon: TailwindSvg,
@@ -79,14 +79,14 @@ export default function Home() {
                       link: "https://www.typescriptlang.org",
                     },
                   ].map(({ Icon, name, version, link }) => (
-                    <div key={name}>
+                    <div key={name} className="border-r-[2px] border-background-700 last:border-none">
                       <a
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="relative my-[6px] px-[8px] py-[8px] flex justify-start items-center flex-row gap-[20px] rounded-[15px] border-[2px] border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-background-600 hover:bg-background-800 cursor-pointer"
+                        className="relative m-[10px] h-13 flex justify-start items-center flex-row gap-[20px] cursor-pointer"
                       >
-                        <div className="bg-background-600/50 p-[12px] rounded-[8px]">
+                        <div className="bg-background-600/50 rounded-[10px] h-full aspect-square flex items-center justify-center">
                           <Icon />
                         </div>
                         <div className="gap-[6px]">

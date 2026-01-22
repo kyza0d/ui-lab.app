@@ -71,7 +71,7 @@ async function TestRoutesList() {
   }
 
   return (
-    <div className="border border-background-700 rounded-lg overflow-hidden">
+    <div className="border border-background-700 rounded-md overflow-hidden">
       <ul className="divide-y divide-background-700">
         {routes.map((route) => (
           <li key={route.slug}>

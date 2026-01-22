@@ -1,0 +1,142 @@
+@reference "tailwindcss";
+
+@layer components {
+  .calendar {
+    --background: var(--background-950);
+    --foreground: var(--foreground-50);
+    --border: var(--background-700);
+
+    @apply pt-4 gap-2;
+    display: inline-flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border);
+  }
+
+  .dayHeaders {
+    @apply px-4 pt-6;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+  }
+
+  .dayHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--foreground-400);
+  }
+
+  .header {
+    display: flex;
+    @apply px-4;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .monthYear {
+    font-weight: 600;
+    @apply ml-2;
+    font-size: var(--text-md);
+    text-align: center;
+  }
+
+  .navButton {
+    display: inline-flex;
+    @apply p-2;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    min-height: 2rem;
+    border-radius: var(--radius-md);
+    background-color: transparent;
+    color: var(--foreground);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .navButton:hover {
+    background-color: var(--background-700);
+  }
+
+  .navButton:focus-visible {
+    background: var(--background-800);
+    border-radius: 0px;
+    outline: 0px solid var(--accent-500);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);  /* 7 days only */
+    border-top: var(--border-width-base) solid var(--background-700);
+    @apply gap-1 px-4 py-2;
+  }
+
+  .dayCell {
+    --cell-bg: transparent;
+    --cell-text: var(--foreground-300);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    @apply py-2 px-2.5;
+    border-radius: var(--radius-base);
+    background-color: var(--cell-bg);
+    color: var(--cell-text);
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: var(--text-sm);
+    font-weight: 400;
+  }
+
+  .weekHeader {
+    display: none;
+  }
+
+  .weekNumber {
+    display: none;
+  }
+}
+
+/* Variant states - these are outside @layer */
+.dayCell[data-selected="true"] {
+  --cell-bg: var(--background-800);
+  --cell-text: var(--foreground-50);
+  font-weight: 600;
+}
+
+.dayCell[data-today="true"] {
+  --border: transparent;
+  --foreground: var(--foreground-50);
+  --cell-bg: var(--background-800);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.dayCell[data-disabled="true"] {
+  --cell-bg: var(--background-700);
+  --cell-text: var(--foreground-500);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dayCell[data-out-of-range="true"] {
+  --cell-text: var(--foreground-500);
+  opacity: 0.5;
+}
+
+.dayCell:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
+  --cell-bg: var(--background-800);
+}
+
+.dayCell[data-focus-visible="true"]:not([data-disabled="true"]) {
+  outline: 2px solid var(--foreground-300);
+  outline-offset: 2px;
+}
