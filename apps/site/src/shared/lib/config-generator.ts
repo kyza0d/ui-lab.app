@@ -392,7 +392,7 @@ export function generateConfigMessage(
  * 2. Open your project's src/app/globals.css
  * 3. Paste this @theme block (replacing or adding to your existing one)
  * 4. Use standard Tailwind utilities in your components:
- *    - rounded-base, rounded-lg, rounded-full, etc.
+ *    - rounded-base, rounded-md, rounded-full, etc.
  *    - border, border-2, border-4, etc.
  * All utilities will automatically respect your custom values.
  */`;

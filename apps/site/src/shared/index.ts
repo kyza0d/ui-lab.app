@@ -10,6 +10,7 @@ export { InstallationFlow } from "./components/installation-flow";
 export { PackageManagerTabs } from "./components/package-manager-tabs";
 export { PrefetchLink } from "./components/prefetch-link";
 export { Logo } from "./components/ui/logo";
+export { Sidebar } from "./components/sidebar";
 
 // Hooks
 export { useExternalWindow } from "./hooks/use-external-window";

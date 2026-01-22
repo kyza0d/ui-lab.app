@@ -185,9 +185,9 @@ export function CodeBlock({
   const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES && hiddenCodeLines >= 30;
 
   return (
-    <div className={cn("max-h-210 rounded-md border border-background-700 flex flex-col overflow-hidden", className)}>
+    <div className={cn("max-h-210 rounded-base border border-background-700 flex flex-col overflow-hidden", className)}>
       {(filename || heading) && (
-        <div className="flex-none flex text-sm font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
+        <div className="flex-none bg-background-900/90 flex text-sm font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>
           {!heading && <span className="text-foreground-500">{language}</span>}
         </div>
