@@ -7,6 +7,7 @@ declare const styles: {
   valueText: string;
   content: string;
   viewport: string;
+  list: string;
   item: string;
   itemIcon: string;
   itemIndicator: string;

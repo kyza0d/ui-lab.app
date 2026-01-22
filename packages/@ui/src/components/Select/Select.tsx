@@ -296,9 +296,9 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
         }}
       >
         <div ref={rootRef} className={cn('select', styles.select, className)} {...triggerProps}>
+          {otherContent}
           {trigger}
           {contentItems}
-          {otherContent}
         </div>
       </SelectContext.Provider>
     )
@@ -315,7 +315,6 @@ const SelectListBox = React.forwardRef<HTMLUListElement, SelectListProps>(
     const {
       setIsOpen,
       isOpen,
-      focusedKey,
       navigateToNextItem,
       navigateToPrevItem,
       selectFocusedItem,
@@ -390,16 +389,11 @@ const SelectListBox = React.forwardRef<HTMLUListElement, SelectListProps>(
         ref={mergedRef}
         role="listbox"
         tabIndex={isOpen ? 0 : -1}
-        className={className}
+        className={cn('list', styles.list, className)}
         onKeyDown={handleKeyDown}
         style={{ outline: 'none' }}
       >
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child as React.ReactElement<any>, { _focusedKey: focusedKey })
-          }
-          return child
-        })}
+        {children}
       </ul>
     )
   }
