@@ -2,15 +2,14 @@
 
 import React, { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { useFocusRing, mergeProps } from "react-aria";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import styles from "./Input.module.css";
 
 type Variant = "default" | "ghost";
-type Size = "sm" | "md" | "lg";
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "size"> {
   variant?: Variant;
-  size?: Size;
   error?: boolean;
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
@@ -30,7 +29,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     {
       className,
       variant = "default",
-      size = "md",
       error = false,
       disabled,
       prefixIcon,
@@ -42,11 +40,28 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const hasPrefix = !!prefixIcon;
     const hasSuffix = !!suffixIcon;
+    const isNumberType = type === "number";
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const mergedRef = useMergedRef(ref, inputRef);
 
     const { focusProps, isFocusVisible } = useFocusRing();
+
+    const handleSpinClick = (direction: "up" | "down") => {
+      if (!inputRef.current || disabled) return;
+
+      const input = inputRef.current;
+
+      if (direction === "up") {
+        input.stepUp();
+      } else {
+        input.stepDown();
+      }
+
+      // Dispatch native input event to trigger React onChange handlers
+      const event = new Event("input", { bubbles: true });
+      input.dispatchEvent(event);
+    };
 
     return (
       <div className={styles.container}>
@@ -64,16 +79,42 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-disabled={disabled || undefined}
           data-error={error ? "true" : undefined}
           data-variant={variant}
-          data-size={size}
           className={cn(
             styles.input,
             hasPrefix && "pl-8",
-            hasSuffix && "pr-8",
+            (hasSuffix || isNumberType) && "pr-8",
             className
           )}
           // Merge React Aria focus props + user props
           {...mergeProps(focusProps, props)}
         />
+        {isNumberType && (
+          <div
+            className={cn(styles.numberControls, disabled && styles.disabled)}
+            data-disabled={disabled || undefined}
+          >
+            <button
+              type="button"
+              className={styles.spinButton}
+              onClick={() => handleSpinClick("up")}
+              disabled={disabled}
+              tabIndex={-1}
+              aria-label="Increment"
+            >
+              <FaChevronUp size={10} />
+            </button>
+            <button
+              type="button"
+              className={styles.spinButton}
+              onClick={() => handleSpinClick("down")}
+              disabled={disabled}
+              tabIndex={-1}
+              aria-label="Decrement"
+            >
+              <FaChevronDown size={10} />
+            </button>
+          </div>
+        )}
         {hasSuffix && (
           <div className={cn(styles.iconWrapper, styles.suffixIcon)}>
             {suffixIcon}

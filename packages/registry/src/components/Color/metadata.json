@@ -1,11 +1,11 @@
 {
-  "id": "colorpicker",
-  "name": "ColorPicker",
-  "description": "A custom color picker with 2D canvas, hue slider, and format selection.",
+  "id": "color",
+  "name": "Color",
+  "description": "A custom color component with 2D canvas, hue slider, and format selection.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",
-    "exportName": "ColorPicker",
+    "exportName": "Color",
     "packagePath": "dist/index.d.ts"
   },
   "relatedComponents": ["input", "select"],

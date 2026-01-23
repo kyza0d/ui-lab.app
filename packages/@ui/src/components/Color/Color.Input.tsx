@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { Group } from "../Group";
 import { Select } from "../Select";
-import styles from "./ColorPicker.module.css";
+import styles from "./Color.module.css";
 import { formatColorHex, formatColorRgb, isValidColor } from "./color-utils";
 
-export interface ColorPickerInputProps {
+export interface ColorInputProps {
   value: string;
   format: "hex" | "rgb";
   onFormatChange?: (format: "hex" | "rgb") => void;
@@ -17,9 +17,9 @@ export interface ColorPickerInputProps {
   previewColor?: string;
 }
 
-export const ColorPickerInput = React.forwardRef<
+export const ColorInput = React.forwardRef<
   HTMLDivElement,
-  ColorPickerInputProps
+  ColorInputProps
 >(
   (
     {
@@ -108,4 +108,4 @@ export const ColorPickerInput = React.forwardRef<
   }
 );
 
-ColorPickerInput.displayName = "ColorPickerInput";
+ColorInput.displayName = "ColorInput";

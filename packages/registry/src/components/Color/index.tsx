@@ -1,7 +1,7 @@
 import React from 'react';
-import { ColorPicker } from 'ui-lab-components';
+import { Color } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-colorpicker.js';
+import Example1, { metadata as metadata1 } from './examples/01-basic-color.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
@@ -31,10 +31,10 @@ export function getPreview(): React.ReactNode {
 
 // Define examplesData locally
 const examplesData = [
-  { id: '01-basic-colorpicker', Component: Example1, metadata: metadata1 },
+  { id: '01-basic-color', Component: Example1, metadata: metadata1 },
 ];
 
-const colorPickerControls: ControlDef[] = [
+const colorControls: ControlDef[] = [
   {
     name: 'size',
     label: 'Size',
@@ -70,23 +70,23 @@ const colorPickerControls: ControlDef[] = [
   },
 ];
 
-const colorPickerBasicCode = `import { ColorPicker } from "ui-lab-components";
+const colorBasicCode = `import { Color } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
   const [color, setColor] = useState("#FF6B6B");
 
-  return <ColorPicker value={color} onChange={setColor} />;
+  return <Color value={color} onChange={setColor} />;
 }`;
 
-export const colorPickerDetail: ComponentDetail = {
-  id: 'colorpicker',
-  name: 'ColorPicker',
-  description: 'A custom color picker with 2D saturation/lightness canvas, hue slider, optional opacity slider, and color input with format selection.',
+export const colorDetail: ComponentDetail = {
+  id: 'color',
+  name: 'Color',
+  description: 'A custom color component with 2D saturation/lightness canvas, hue slider, optional opacity slider, and color input with format selection.',
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
-        The ColorPicker component provides a comprehensive color selection interface with multiple interaction methods:
+        The Color component provides a comprehensive color selection interface with multiple interaction methods:
       </p>
       <ul className="list-disc list-inside space-y-2 ml-2">
         <li>2D canvas for saturation and lightness adjustment</li>
@@ -105,12 +105,12 @@ export const colorPickerDetail: ComponentDetail = {
     {
       id: 'preview',
       title: 'Preview',
-      description: 'Customize the ColorPicker component',
-      code: colorPickerBasicCode,
-      preview: <ColorPicker defaultValue="#FF6B6B" />,
-      controls: colorPickerControls,
+      description: 'Customize the Color component',
+      code: colorBasicCode,
+      preview: <Color defaultValue="#FF6B6B" />,
+      controls: colorControls,
       renderPreview: (props: any) => (
-        <ColorPicker
+        <Color
           defaultValue="#FF6B6B"
           size={props.size as 'sm' | 'md' | 'lg'}
           showOpacity={props.showOpacity}
@@ -123,5 +123,5 @@ export const colorPickerDetail: ComponentDetail = {
   ],
 };
 
-export { colorPickerControls };
+export { colorControls };
 export * from './examples';

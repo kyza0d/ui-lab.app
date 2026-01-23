@@ -2,16 +2,16 @@
 
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "react-aria";
-import styles from "./ColorPicker.module.css";
+import styles from "./Color.module.css";
 
-export interface ColorPickerHueSliderProps {
+export interface ColorHueSliderProps {
   value: number;
   onChange?: (hue: number) => void;
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
 }
 
-export const ColorPickerHueSlider = React.forwardRef<
+export const ColorHueSlider = React.forwardRef<
   HTMLDivElement,
   ColorPickerHueSliderProps
 >(({ value, onChange, disabled, size = "md" }, ref) => {
@@ -78,4 +78,4 @@ export const ColorPickerHueSlider = React.forwardRef<
   );
 });
 
-ColorPickerHueSlider.displayName = "ColorPickerHueSlider";
+ColorHueSlider.displayName = "ColorHueSlider";

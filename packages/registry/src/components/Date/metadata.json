@@ -1,11 +1,11 @@
 {
-  "id": "calendar",
-  "name": "Calendar",
-  "description": "A minimal, modern calendar component for date selection with keyboard navigation and accessibility support.",
+  "id": "date",
+  "name": "Date",
+  "description": "A minimal, modern date component for date selection with keyboard navigation and accessibility support.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",
-    "exportName": "Calendar",
+    "exportName": "Date",
     "packagePath": "dist/index.d.ts"
   },
   "relatedComponents": ["input", "select"],

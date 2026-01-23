@@ -36,17 +36,6 @@ const inputControls: ControlDef[] = [
     defaultValue: "text",
   },
   {
-    name: "size",
-    label: "Size",
-    type: "select",
-    options: [
-      { label: "Small", value: "sm" },
-      { label: "Medium", value: "md" },
-      { label: "Large", value: "lg" },
-    ],
-    defaultValue: "md",
-  },
-  {
     name: "disabled",
     label: "Disabled",
     type: "toggle",
@@ -75,14 +64,14 @@ export function Example() {
 export const inputDetail: ComponentDetail = {
   id: "input",
   name: "Input",
-  description: "A flexible text input component with multiple variants, sizes, and icon support for capturing user input.",
+  description: "A flexible text input component with multiple variants and icon support for capturing user input.",
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
         The Input component is an essential form control for capturing user data. It supports multiple input types (text, email, password, number) and provides various states including disabled and error states.
       </p>
       <p>
-        With built-in support for prefix and suffix icons, you can enhance the visual feedback and provide contextual information to users. The component is responsive and adapts to different sizes and states.
+        With built-in support for prefix and suffix icons, you can enhance the visual feedback and provide contextual information to users.
       </p>
     </div>
   ),
@@ -101,7 +90,6 @@ export const inputDetail: ComponentDetail = {
           placeholder={props.placeholder}
           disabled={props.disabled}
           error={props.error}
-          size={props.size as any}
         />
       ),
     },

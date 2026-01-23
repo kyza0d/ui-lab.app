@@ -2,17 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import { getRecentColors } from "./color-utils";
-import styles from "./ColorPicker.module.css";
+import styles from "./Color.module.css";
 
-export interface ColorPickerRecentColorsProps {
+export interface ColorRecentColorsProps {
   onSelect?: (color: string) => void;
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
 }
 
-export const ColorPickerRecentColors = React.forwardRef<
+export const ColorRecentColors = React.forwardRef<
   HTMLDivElement,
-  ColorPickerRecentColorsProps
+  ColorRecentColorsProps
 >(({ onSelect, disabled, size = "md" }, ref) => {
   const [recentColors, setRecentColors] = useState<string[]>([]);
 
@@ -48,4 +48,4 @@ export const ColorPickerRecentColors = React.forwardRef<
   );
 });
 
-ColorPickerRecentColors.displayName = "ColorPickerRecentColors";
+ColorRecentColors.displayName = "ColorRecentColors";

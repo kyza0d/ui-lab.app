@@ -10,7 +10,7 @@
     width: fit-content;
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-base);
     overflow: hidden;
   }
 
@@ -61,8 +61,8 @@
 
   /* Explicitly override Select's default border and radius when in group */
   .groupSelectWrapper {
-    border-radius: 0 !important;
-    border: none !important;
+    border-radius: 0;
+    border: none;
   }
 
   /* Input wrapper should fill available height */
@@ -103,7 +103,6 @@
   .groupSelectWrapper {
     display: flex;
     align-items: stretch;
-    height: 100%;
     padding-left: 0;
     padding-right: 0;
   }

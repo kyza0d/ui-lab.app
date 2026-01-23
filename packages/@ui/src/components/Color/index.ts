@@ -1,20 +1,20 @@
-export { ColorPicker } from "./ColorPicker";
-export type { ColorPickerProps } from "./ColorPicker";
+export { Color } from "./Color";
+export type { ColorProps } from "./Color";
 
-export { ColorPickerCanvas } from "./ColorPicker.Canvas";
-export type { ColorPickerCanvasProps } from "./ColorPicker.Canvas";
+export { ColorCanvas } from "./Color.Canvas";
+export type { ColorCanvasProps } from "./Color.Canvas";
 
-export { ColorPickerHueSlider } from "./ColorPicker.HueSlider";
-export type { ColorPickerHueSliderProps } from "./ColorPicker.HueSlider";
+export { ColorHueSlider } from "./Color.HueSlider";
+export type { ColorHueSliderProps } from "./Color.HueSlider";
 
-export { ColorPickerOpacitySlider } from "./ColorPicker.OpacitySlider";
-export type { ColorPickerOpacitySliderProps } from "./ColorPicker.OpacitySlider";
+export { ColorOpacitySlider } from "./Color.OpacitySlider";
+export type { ColorOpacitySliderProps } from "./Color.OpacitySlider";
 
-export { ColorPickerRecentColors } from "./ColorPicker.RecentColors";
-export type { ColorPickerRecentColorsProps } from "./ColorPicker.RecentColors";
+export { ColorRecentColors } from "./Color.RecentColors";
+export type { ColorRecentColorsProps } from "./Color.RecentColors";
 
-export { ColorPickerInput } from "./ColorPicker.Input";
-export type { ColorPickerInputProps } from "./ColorPicker.Input";
+export { ColorInput } from "./Color.Input";
+export type { ColorInputProps } from "./Color.Input";
 
 export {
   hexToRgb,

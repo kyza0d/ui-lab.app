@@ -25,8 +25,8 @@ export type { GridProps } from "./components/Grid";
 export { Badge } from "./components/Badge";
 export type { BadgeProps } from "./components/Badge";
 
-export { Calendar, CalendarHeader, CalendarGrid, CalendarDay } from "./components/Calendar";
-export type { CalendarProps, CalendarContextValue } from "./components/Calendar";
+export { Date, DateHeader, DateGrid, DateDay } from "./components/Date";
+export type { DateProps, DateContextValue } from "./components/Date";
 
 export { Banner } from "./components/Banner";
 export type { BannerProps } from "./components/Banner";
@@ -68,6 +68,9 @@ export type { ToastProps, ToastVariant, ToastPosition } from "./components/Toast
 
 export { Modal, ModalHeader, ModalBody, ModalFooter } from "./components/Modal";
 export type { ModalProps } from "./components/Modal";
+
+export { Mask } from "./components/Mask";
+export type { MaskProps } from "./components/Mask";
 
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tabs";
 
@@ -116,8 +119,8 @@ export type { AnchorProps, AnchorPreviewProps } from "./components/Anchor";
 export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gallery";
 export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";
 
-export { ColorPicker } from "./components/ColorPicker";
-export type { ColorPickerProps } from "./components/ColorPicker";
+export { Color } from "./components/Color";
+export type { ColorProps } from "./components/Color";
 
 export { Scroll } from "./components/Scroll";
 export type { ScrollProps } from "./components/Scroll";

@@ -1,23 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { ColorPicker } from './ColorPicker'
+import { Color } from './Color'
 
-export default function ColorPickerTestPage() {
+export default function ColorTestPage() {
   const [color, setColor] = useState('#FF6B6B')
 
   return (
     <div className="min-h-screen bg-background-950 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2 text-foreground-50">ColorPicker Component</h1>
+        <h1 className="text-3xl font-bold mb-2 text-foreground-50">Color Component</h1>
         <p className="text-foreground-400 mb-8">
-          Local test environment for refining the ColorPicker component design
+          Local test environment for refining the Color component design
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* ColorPicker Component */}
+          {/* Color Component */}
           <div className="flex items-center justify-center">
-            <ColorPicker
+            <Color
               value={color}
               onChange={(newColor) => {
                 setColor(newColor)

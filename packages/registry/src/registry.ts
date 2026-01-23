@@ -105,22 +105,6 @@ export const componentRegistry: ComponentRegistry = {
     examples: [],
   },
 
-  calendar: {
-    id: "calendar",
-    name: "Calendar",
-    description: "A minimal, modern calendar component for date selection with keyboard navigation and accessibility support.",
-    category: "input",
-    source: {
-  "packageName": "ui-lab-components",
-  "exportName": "Calendar",
-  "packagePath": "dist/index.d.ts"
-},
-    relatedComponents: ["input","select"],
-    tags: ["date","selection","input","interactive"],
-    accessibility: {"hasAriaSupport":true,"notes":["Full keyboard navigation with arrow keys","Enter/Space to select dates","PageUp/PageDown for month navigation","Screen reader friendly with semantic HTML","Focus management with visible focus ring","Disabled dates properly announced"]},
-    examples: [],
-  },
-
   card: {
     id: "card",
     name: "Card",
@@ -185,14 +169,14 @@ export const componentRegistry: ComponentRegistry = {
 ],
   },
 
-  colorpicker: {
-    id: "colorpicker",
-    name: "ColorPicker",
-    description: "A custom color picker with 2D canvas, hue slider, and format selection.",
+  color: {
+    id: "color",
+    name: "Color",
+    description: "A custom color component with 2D canvas, hue slider, and format selection.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
-  "exportName": "ColorPicker",
+  "exportName": "Color",
   "packagePath": "dist/index.d.ts"
 },
     relatedComponents: ["input","select"],
@@ -200,9 +184,9 @@ export const componentRegistry: ComponentRegistry = {
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible sliders","ARIA labels for color components","Visual focus indicators","Screen reader announcements for color values"]},
     examples: [
     {
-        "title": "Basic ColorPicker",
-        "description": "A simple color picker with default configuration showing hex format.",
-        "code": "import React, { useState } from 'react';\nimport { ColorPicker } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('#FF6B6B');\n\n  return (\n    <div className=\"p-4 space-y-4\">\n      <div>\n        <p className=\"text-sm text-foreground-300 mb-3\">Selected color: <code className=\"text-accent-500 font-mono\">{color}</code></p>\n        <ColorPicker\n          value={color}\n          onChange={setColor}\n          format=\"hex\"\n          defaultValue=\"#FF6B6B\"\n        />\n      </div>\n    </div>\n  );\n}"
+        "title": "Basic Color",
+        "description": "A simple color component with default configuration showing hex format.",
+        "code": "import React, { useState } from 'react';\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('#FF6B6B');\n\n  return (\n    <div className=\"p-4 space-y-4\">\n      <div>\n        <p className=\"text-sm text-foreground-300 mb-3\">Selected color: <code className=\"text-accent-500 font-mono\">{color}</code></p>\n        <Color\n          value={color}\n          onChange={setColor}\n          format=\"hex\"\n          defaultValue=\"#FF6B6B\"\n        />\n      </div>\n    </div>\n  );\n}"
     }
 ],
   },
@@ -249,6 +233,22 @@ export const componentRegistry: ComponentRegistry = {
         "code": "import { Confirmation } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Confirmation\n      triggerLabel=\"Delete Account\"\n      title=\"Are you sure?\"\n      description=\"This action cannot be undone. All your data will be permanently deleted.\"\n      confirmLabel=\"Delete\"\n      cancelLabel=\"Cancel\"\n      onConfirm={() => console.log('Account deleted')}\n      onCancel={() => console.log('Cancelled')}\n    />\n  );\n}"
     }
 ],
+  },
+
+  date: {
+    id: "date",
+    name: "Date",
+    description: "A minimal, modern date component for date selection with keyboard navigation and accessibility support.",
+    category: "input",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Date",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["input","select"],
+    tags: ["date","selection","input","interactive"],
+    accessibility: {"hasAriaSupport":true,"notes":["Full keyboard navigation with arrow keys","Enter/Space to select dates","PageUp/PageDown for month navigation","Screen reader friendly with semantic HTML","Focus management with visible focus ring","Disabled dates properly announced"]},
+    examples: [],
   },
 
   divider: {
@@ -487,6 +487,33 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Basic List",
         "description": "A simple list displaying basic items with selection and interaction support.",
         "code": "import { List } from 'ui-lab-components';\nimport { Button } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <List ariaLabel=\"Basic List Example\">\n      <List.Header>\n        <h2>Items</h2>\n      </List.Header>\n      <List.Item interactive>Item One</List.Item>\n      <List.Item interactive>Item Two</List.Item>\n      <List.Item interactive>Item Three</List.Item>\n      <List.Footer align=\"center\">\n        <Button variant=\"primary\" size=\"sm\">\n          Load More\n        </Button>\n      </List.Footer>\n    </List>\n  );\n}"
+    }
+],
+  },
+
+  mask: {
+    id: "mask",
+    name: "Mask",
+    description: "A container component that creates fading effects on its content edges.",
+    category: "container",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Mask",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["card","scroll"],
+    tags: ["container","visual","effect","fade"],
+    accessibility: {"hasAriaSupport":false,"notes":["Visual effect only, does not affect content semantics"]},
+    examples: [
+    {
+        "title": "Mask - Read More Effect",
+        "description": "Using the mask component to create a smooth fade effect on long text content.",
+        "code": "import React from 'react';\nimport { Mask } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"max-w-md mx-auto p-4 border rounded-lg bg-background\">\n      <h3 className=\"text-lg font-semibold mb-2\">Terms of Service</h3>\n      <Mask variant=\"y\" className=\"h-48 bg-muted/30 rounded-md p-4\">\n        <div className=\"space-y-4 text-sm text-muted-foreground\">\n          <p>\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n          </p>\n          <p>\n            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n          </p>\n          <p>\n            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n          </p>\n          <p>\n            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.\n          </p>\n        </div>\n      </Mask>\n    </div>\n  );\n}"
+    },
+    {
+        "title": "Mask - Text Gradient",
+        "description": "Using the mask component to create a generic gradient effect on text elements.",
+        "code": "import React from 'react';\nimport { Mask } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"w-full flex flex-col items-center justify-center space-y-8 p-8\">\n      <div className=\"w-full max-w-2xl\">\n        <Mask\n          variant=\"gradient\"\n          gradient=\"linear-gradient(to right, var(--foreground-200), var(--accent-500))\"\n        >\n          <div className=\"whitespace-nowrap text-3xl text-center\">\n            Gradient\n          </div>\n        </Mask>\n      </div>\n    </div>\n  );\n}"
     }
 ],
   },

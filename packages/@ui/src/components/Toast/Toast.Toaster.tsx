@@ -34,10 +34,16 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const toastRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  // Track toasts that have completed entry animation - these should never re-enter
+  const completedEntriesRef = useRef<Set<string>>(new Set());
   const isTop = position.includes("top");
 
   // Only render MAX_VISIBLE items to keep DOM light
-  const visibleToasts = toasts.slice(0, MAX_VISIBLE + 1);
+  // Memoize to prevent unnecessary hook re-runs that interrupt animations
+  const visibleToasts = useMemo(
+    () => toasts.slice(0, MAX_VISIBLE + 1),
+    [toasts]
+  );
 
   const handleMouseEnter = () => {
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
@@ -48,17 +54,31 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
     hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
   };
 
+  // Clean up tracking for dismissed toasts
+  useEffect(() => {
+    const currentToastIds = new Set(visibleToasts.map(t => t.id));
+    const completedIds = Array.from(completedEntriesRef.current);
+
+    for (const id of completedIds) {
+      if (!currentToastIds.has(id)) {
+        completedEntriesRef.current.delete(id);
+      }
+    }
+  }, [visibleToasts]);
+
   useGSAP(() => {
     if (!containerRef.current) return;
 
     let currentY = 0;
 
-    // We iterate visibleToasts to determine layout
+    // Process each visible toast to determine its target position and animation state
     visibleToasts.forEach((toast, index) => {
       const el = toastRefs.current.get(toast.id);
-      if (!el) return;
+      if (!el) {
+        return;
+      }
 
-      // Measure height, defaulting if not yet measured (though usually is)
+      // Calculate target position and properties
       const height = el.getBoundingClientRect().height || 60;
 
       let y = 0;
@@ -67,11 +87,13 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
       let zIndex = visibleToasts.length - index;
 
       if (isHovering) {
+        // During hover, expand all visible toasts vertically
         y = currentY * (isTop ? 1 : -1);
         scale = 1;
         opacity = 1;
         currentY += height + GAP;
       } else {
+        // Normal stacked state
         if (index === 0) {
           y = 0;
           scale = 1;
@@ -85,42 +107,52 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
           scale = 0.92;
           opacity = 1;
         } else {
+          // Hide additional toasts
           y = GAP * 2 * (isTop ? 1 : -1);
           scale = 0.92;
           opacity = 0;
         }
       }
 
-      // Check if this is a new entry (animate in) or existing (animate to)
-      if (!el.hasAttribute("data-entered")) {
-        el.setAttribute("data-entered", "true");
-        gsap.fromTo(el,
-          {
-            y: y + (isTop ? -20 : 20),
-            opacity: 0,
-            scale: 0.9,
-            zIndex: zIndex
-          },
-          {
-            y: y,
-            opacity: opacity,
-            scale: scale,
-            zIndex: zIndex,
-            duration: 0.35,
-            ease: "back.out(1.2)"
-          }
-        );
-      } else {
-        // Move animation
+      // Determine if this is a new entry or an existing toast needing repositioning
+      const isNewEntry = !completedEntriesRef.current.has(toast.id);
+
+      if (isNewEntry) {
+        // Entry animation for new toasts
+        completedEntriesRef.current.add(toast.id);
+        gsap.killTweensOf(el);
+
+        // Set initial state: offset position, invisible, slightly smaller
+        const startY = y + (isTop ? -30 : 30);
+        gsap.set(el, {
+          y: startY,
+          opacity: 0,
+          scale: 0.9,
+          zIndex: zIndex,
+        });
+
+        // Animate entry: slide in, fade in, and scale up
         gsap.to(el, {
           y: y,
-          scale: scale,
           opacity: opacity,
-          zIndex: zIndex,
+          scale: scale,
           duration: 0.35,
           ease: "power3.out",
-          overwrite: "auto",
         });
+      } else {
+        // Move animation for existing toasts repositioning due to new toasts or hover state
+        // Only animate if the element is not currently being tweened (to avoid interrupting entry animations)
+        if (!gsap.isTweening(el)) {
+          gsap.to(el, {
+            y: y,
+            scale: scale,
+            opacity: opacity,
+            zIndex: zIndex,
+            duration: 0.35,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+        }
       }
     });
 
@@ -131,16 +163,20 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
     // If hovering, height is full stack. If not, it's just the top card + gap padding
     const containerHeight = isHovering ? currentY : firstHeight + (GAP * 2);
 
+    // Set width immediately without animation to prevent slide-in effect
+    gsap.set(containerRef.current, {
+      width: TOAST_WIDTH,
+    });
+
+    // Animate container height for smooth hover interactions
     gsap.to(containerRef.current, {
       height: containerHeight,
-      width: TOAST_WIDTH,
       duration: 0.35,
       ease: "power3.out",
     });
 
   }, {
     dependencies: [visibleToasts, isHovering, isTop],
-    scope: containerRef,
   });
 
   return (
@@ -164,11 +200,14 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
               if (el) toastRefs.current.set(toast.id, el);
               else toastRefs.current.delete(toast.id);
             }}
-            className={`absolute w-full transition-all duration-0 opacity-0 ${isTop ? "top-0 origin-top" : "bottom-0 origin-bottom"
+            className={`absolute w-full ${isTop ? "top-0 origin-top" : "bottom-0 origin-bottom"
               }`}
             style={{
               willChange: "transform, opacity",
               pointerEvents: "auto",
+              // GSAP will set opacity via inline styles during animation
+              // Starting state: invisible (will be set by GSAP.set in useGSAP)
+              opacity: 0,
             }}
           >
             <Toast toast={toast} pauseOnHover={isHovering} />
