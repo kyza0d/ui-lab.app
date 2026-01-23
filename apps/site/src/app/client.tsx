@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import { HeaderClient } from "@/features/layout";
 import { AppProvider } from "@/features/theme";
 
 export function RootLayoutClient({ children }: { children: React.ReactNode }) {

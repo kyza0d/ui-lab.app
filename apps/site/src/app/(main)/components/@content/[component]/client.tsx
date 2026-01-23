@@ -97,17 +97,17 @@ export function ComponentClient({ componentId }: { componentId: string }) {
       <div className="w-full mx-auto text-foreground-100 ">
         <Toaster />
         <div className="flex flex-col lg:flex-row justify-between gap-0">
-          <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
+          <main className="w-full relative mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
             <div className="space-y-2 min-h-32 mt-(--header-height)">
               <div className="flex flex-col mb-12">
-                <h3 className="font-bold text-foreground-50">{component.name}</h3>
                 {metadata?.experimental && (
                   <Tooltip content="Experimental: Not fully implemented and requires testing" position="left" showArrow>
-                    <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-base">
+                    <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-base">
                       <FaFlask size={14} />
                     </span>
                   </Tooltip>
                 )}
+                <h3 className="font-bold text-foreground-50">{component.name}</h3>
                 <p className="text-md text-foreground-400 max-w-[66ch]">{component.description}</p>
               </div>
               <div className="flex gap-3 flex-row mb-4 mt-4">

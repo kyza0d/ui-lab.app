@@ -1,16 +1,16 @@
 "use client";
 
 import { cache } from "react";
-import { Button, Banner, Calendar, ColorPicker } from "ui-lab-components";
+import { Button, Banner, Date, Color, Mask } from "ui-lab-components";
 import { buttonDetail, getPreview as getButtonPreview } from "ui-lab-registry/components/Button";
-import { calendarDetail, getPreview as getCalendarPreview } from "ui-lab-registry/components/Calendar";
+import { dateDetail, getPreview as getDatePreview } from "ui-lab-registry/components/Date";
 import { anchorDetail, getPreview as getAnchorPreview } from "ui-lab-registry/components/Anchor";
 import { bannerDetail, getPreview as getBannerPreview } from "ui-lab-registry/components/Banner";
 import { badgeDetail, getPreview as getBadgePreview } from "ui-lab-registry/components/Badge";
 import { breadcrumbsDetail, getPreview as getBreadcrumbsPreview } from "ui-lab-registry/components/Breadcrumbs";
 import { cardDetail, getPreview as getCardPreview } from "ui-lab-registry/components/Card";
 import { checkboxDetail, getPreview as getCheckboxPreview } from "ui-lab-registry/components/Checkbox";
-import { colorPickerDetail, getPreview as getColorPickerPreview } from "ui-lab-registry/components/ColorPicker";
+import { colorDetail, getPreview as getColorPreview } from "ui-lab-registry/components/Color";
 import { dividerDetail, getPreview as getDividerPreview } from "ui-lab-registry/components/Divider";
 import { flexDetail, getPreview as getFlexPreview } from "ui-lab-registry/components/Flex";
 import { foldDetail, getPreview as getFoldPreview } from "ui-lab-registry/components/Fold";
@@ -22,6 +22,7 @@ import { labelDetail, getPreview as getLabelPreview } from "ui-lab-registry/comp
 import { menuDetail, getPreview as getMenuPreview } from "ui-lab-registry/components/Menu";
 import { toastDetail, getPreview as getToastPreview } from "ui-lab-registry/components/Toast";
 import { modalDetail, getPreview as getModalPreview } from "ui-lab-registry/components/Modal";
+import { maskDetail, getPreview as getMaskPreview } from "ui-lab-registry/components/Mask";
 import { popoverDetail, getPreview as getPopoverPreview } from "ui-lab-registry/components/Popover";
 import { confirmDetail, getPreview as getConfirmPreview } from "ui-lab-registry/components/Confirm";
 import { progressDetail, getPreview as getProgressPreview } from "ui-lab-registry/components/Progress";
@@ -60,8 +61,8 @@ export interface ComponentMetadata extends RegistryMetadata {
 }
 const previews: Record<string, React.ReactNode> = {
   button: getButtonPreview(),
-  calendar: getCalendarPreview(),
-  colorpicker: getColorPickerPreview(),
+  date: getDatePreview(),
+  color: getColorPreview(),
   group: getGroupPreview(),
   flex: getFlexPreview(),
   grid: getGridPreview(),
@@ -80,6 +81,7 @@ const previews: Record<string, React.ReactNode> = {
   tooltip: getTooltipPreview(),
   popover: getPopoverPreview(),
   modal: getModalPreview(),
+  mask: getMaskPreview(),
   tabs: getTabsPreview(),
   menu: getMenuPreview(),
   slider: getSliderPreview(),
@@ -175,8 +177,8 @@ export const getComponentsInCategoryOrder = cache(
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
-  calendar: calendarDetail,
-  colorpicker: colorPickerDetail,
+  date: dateDetail,
+  color: colorDetail,
   anchor: anchorDetail,
   group: groupDetail,
   flex: flexDetail,
@@ -195,6 +197,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   popover: popoverDetail,
   toast: toastDetail,
   modal: modalDetail,
+  mask: maskDetail,
   slider: sliderDetail,
   progress: progressDetail,
   tabs: tabsDetail,

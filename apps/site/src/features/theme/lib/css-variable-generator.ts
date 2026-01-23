@@ -1,5 +1,6 @@
 import { type SimpleThemeColors, DEFAULT_GLOBAL_ADJUSTMENTS } from "../constants/themes";
 import { generateThemePalettes, paletteToCssVars } from "../lib/color-utils";
+import { isValidTypographyConfig } from "../lib/typography-constraints";
 
 export interface ThemeConfig {
   colors: SimpleThemeColors;
@@ -10,7 +11,7 @@ export interface ThemeConfig {
 
 const TEXT_NAMES = ['xs', 'sm', 'md', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl'] as const;
 const TEXT_BASE_INDEX = 3;
-const TEXT_MIN_CONSTRAINTS: Record<string, number> = { xs: 0.625, sm: 0.75, md: 0.875, base: 1.0, lg: 1.125, xl: 1.25, '2xl': 1.5, '3xl': 1.75, '4xl': 2.0, '5xl': 2.5 };
+const TEXT_MIN_CONSTRAINTS: Record<string, number> = { xs: 0.800, sm: 0.850, md: 1.00, base: 1.0, lg: 1.125, xl: 1.25, '2xl': 1.5, '3xl': 1.75, '4xl': 2.0, '5xl': 2.25 };
 
 const WEIGHT_DEFS = [
   { name: 'thin', value: 100 }, { name: 'extralight', value: 200 }, { name: 'light', value: 300 },
@@ -39,8 +40,10 @@ const BORDER_DEFS = [
 ];
 
 function computeTypographyVars(typography: ThemeConfig['typography']): Record<string, string> {
+  const { fontSizeScale, typeSizeRatio } = typography;
+
   const vars: Record<string, string> = {};
-  vars['--font-size-scale'] = String(typography.fontSizeScale);
+  vars['--font-size-scale'] = String(fontSizeScale);
   vars['--font-weight-scale'] = String(typography.fontWeightScale);
 
   TEXT_NAMES.forEach((name, i) => {

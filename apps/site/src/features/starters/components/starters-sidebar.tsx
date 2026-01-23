@@ -3,7 +3,7 @@
 import { useRef, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { List, Scroll } from 'ui-lab-components';
-import { cn, FadeContainer } from '@/shared';
+import { cn } from '@/shared';
 import { useSidebarScroll } from '@/features/navigation';
 import { StartersSidebarContent } from './starters-sidebar-content';
 import { FaFire, FaStar, FaTag, FaBox, FaCheck, FaEye, FaGear, FaLayerGroup, FaList, FaWrench } from 'react-icons/fa6';
@@ -93,19 +93,18 @@ export function StartersSidebar({ pathname }: StartersSidebarProps) {
           </nav>
         </div>
 
-        <FadeContainer className="flex-1">
-          <Scroll
-            ref={scrollContainerRef}
-            className="h-[calc(100vh-var(--header-height))]"
-            maxHeight="100%"
-          >
-            <StartersSidebarContent
-              activeNav={activeNav}
-              pathname={pathname}
-              starters={startersRegistry}
-            />
-          </Scroll>
-        </FadeContainer>
+        <Scroll
+          ref={scrollContainerRef}
+          className="h-[calc(100vh-var(--header-height))] flex-1"
+          maxHeight="100%"
+          fadeY
+        >
+          <StartersSidebarContent
+            activeNav={activeNav}
+            pathname={pathname}
+            starters={startersRegistry}
+          />
+        </Scroll>
       </div>
     </aside>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { cn, FadeContainer } from "@/shared";
+import { cn } from "@/shared";
 
 export interface TableOfContentsItem {
   id: string;
@@ -136,7 +136,6 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     const container = tocContainerRef.current;
     const containerHeight = container.clientHeight;
     const buttonTop = activeButton.offsetTop;
-    const buttonHeight = activeButton.clientHeight;
     const targetPosition = buttonTop - containerHeight * 0.33;
 
     container.scrollTop = Math.max(0, targetPosition);
@@ -172,7 +171,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     <>
       <aside
         ref={tocContainerRef}
-        className="pb-42 w-[14rem] overflow-x-hidden h-screen top-(--header-height) sticky overflow-y-auto hidden lg:block"
+        className="pb-42 pr-4 w-[14rem] overflow-x-hidden h-screen top-(--header-height) sticky overflow-y-auto hidden lg:block"
       >
         <nav className="space-y-6 px-4 py-5">
           <div>

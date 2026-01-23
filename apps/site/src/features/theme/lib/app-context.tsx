@@ -14,6 +14,7 @@ import {
 import { ensureSemanticColorIntegrity } from "./semantic-color-utils";
 import { type GlobalColorAdjustments } from "./color-utils";
 import { useThemeConfiguration } from "../hooks/use-theme-configuration";
+import { clampTypographyConfig, isValidTypographyConfig } from "./typography-constraints";
 
 export interface AppContextType {
   isSettingsPanelOpen: boolean;
@@ -75,12 +76,34 @@ function loadPreferencesFromStorage() {
       : undefined,
   };
 
+  const fontSizeScale = sourceConfig.typography.fontSizeScale ?? 1;
+  const typeSizeRatio = sourceConfig.typography.typeSizeRatio ?? 1.2;
+
+  if (!isValidTypographyConfig(typeSizeRatio, fontSizeScale)) {
+    const clamped = clampTypographyConfig(typeSizeRatio, fontSizeScale);
+    console.warn(
+      `[AppContext] Typography config violated 14px minimum. Clamped from ratio=${typeSizeRatio}, scale=${fontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)}, scale=${clamped.fontSizeScale.toFixed(3)}`
+    );
+    return {
+      colors: validatedColors,
+      mode: sourceConfig.mode,
+      fontSizeScale: clamped.fontSizeScale,
+      fontWeightScale: sourceConfig.typography.fontWeightScale ?? 1,
+      typeSizeRatio: clamped.typeSizeRatio,
+      radius: sourceConfig.layout.radius,
+      borderWidth: sourceConfig.layout.borderWidth,
+      spacingScale: sourceConfig.layout.spacingScale,
+      globalAdjustments:
+        sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
+    };
+  }
+
   return {
     colors: validatedColors,
     mode: sourceConfig.mode,
-    fontSizeScale: sourceConfig.typography.fontSizeScale ?? 1,
+    fontSizeScale,
     fontWeightScale: sourceConfig.typography.fontWeightScale ?? 1,
-    typeSizeRatio: sourceConfig.typography.typeSizeRatio ?? 1.2,
+    typeSizeRatio,
     radius: sourceConfig.layout.radius,
     borderWidth: sourceConfig.layout.borderWidth,
     spacingScale: sourceConfig.layout.spacingScale,
@@ -166,11 +189,26 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
                 : undefined,
             };
 
-            setCurrentThemeColors(validatedColors);
-            setCurrentThemeMode(config.mode);
-            setFontSizeScale(config.typography.fontSizeScale);
-            setFontWeightScale(config.typography.fontWeightScale);
-            setTypeSizeRatio(config.typography.typeSizeRatio);
+            const fontSizeScale = config.typography.fontSizeScale;
+            const typeSizeRatio = config.typography.typeSizeRatio;
+
+            if (!isValidTypographyConfig(typeSizeRatio, fontSizeScale)) {
+              const clamped = clampTypographyConfig(typeSizeRatio, fontSizeScale);
+              console.warn(
+                `[AppContext] Storage sync contained invalid typography config. Clamped ratio=${typeSizeRatio} scale=${fontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)} scale=${clamped.fontSizeScale.toFixed(3)}`
+              );
+              setCurrentThemeColors(validatedColors);
+              setCurrentThemeMode(config.mode);
+              setFontSizeScale(clamped.fontSizeScale);
+              setFontWeightScale(config.typography.fontWeightScale);
+              setTypeSizeRatio(clamped.typeSizeRatio);
+            } else {
+              setCurrentThemeColors(validatedColors);
+              setCurrentThemeMode(config.mode);
+              setFontSizeScale(fontSizeScale);
+              setFontWeightScale(config.typography.fontWeightScale);
+              setTypeSizeRatio(typeSizeRatio);
+            }
             setRadius(config.layout.radius);
             setBorderWidth(config.layout.borderWidth);
             setSpacingScale(config.layout.spacingScale);

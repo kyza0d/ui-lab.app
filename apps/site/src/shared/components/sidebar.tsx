@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useRef, useMemo, memo } from 'react';
 import { Scroll } from 'ui-lab-components';
-import { cn, FadeContainer, usePrefetchOnHover } from '@/shared';
+import { cn, usePrefetchOnHover } from '@/shared';
 import {
   getActiveDomainForPathname,
   getActiveNavItemForDomain,
@@ -88,11 +88,11 @@ export function Sidebar() {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [activeNavItem, activeElementsNav, isElementsOrSections]);
 
-  const sidebarWidth = isElementsOrSections ? 'w-56' : 'w-62';
+  const sidebarWidth = isElementsOrSections ? 'w-68' : 'w-68';
 
   return (
     <aside className={cn('hidden md:flex', sidebarWidth, 'flex-col')}>
-      <div className="flex flex-col h-screen sticky top-(--header-height)">
+      <div className="flex border-r border-background-700 bg-background-800/30 flex-col h-screen sticky top-(--header-height)">
         {mainNavItems.length > 0 && (
           <div className="z-10">
             <nav className="py-3 px-2 space-y-1">
@@ -105,19 +105,19 @@ export function Sidebar() {
                     key={navItem.id}
                     href={navItem.href}
                     className={cn(
-                      'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-medium rounded-base',
+                      'flex border items-center gap-1 pl-0.5 pr-2 py-0.5 text-sm font-medium rounded-base',
                       isActive
-                        ? 'border-background-700 text-foreground-200 bg-background-800/70'
+                        ? 'border-background-700 text-foreground-50 bg-background-700'
                         : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
                     )}
                   >
                     <div
                       className={cn(
-                        'w-8 h-8 bg-background-700 rounded-base flex items-center justify-center',
-                        isActive ? 'text-foreground-200' : 'text-foreground-400'
+                        'w-9 h-9 rounded-base flex items-center justify-center',
+                        isActive ? 'text-foreground-50' : 'text-foreground-400'
                       )}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-5 h-5" />
                     </div>
                     <span>{navItem.label}</span>
                     {navItem.id === 'components-core' && (
@@ -139,57 +139,56 @@ export function Sidebar() {
           </div>
         )}
 
-        <FadeContainer className="flex-1">
-          <Scroll
-            ref={scrollContainerRef}
-            className="h-[calc(100vh-var(--header-height))]"
-            maxHeight="100%"
-          >
-            {isElementsOrSections ? (
-              <div className="py-5 px-5">
-                <ElementsList
-                  activeNav={activeElementsNav}
-                  elements={elementsList}
-                  pathname={pathname}
-                  activeCategory={null}
-                />
-              </div>
-            ) : (
-              <div className="py-5 px-5 space-y-8">
-                {sections.map((section) => (
-                  <div key={section.label}>
-                    <span className="text-sm text-foreground-400">{section.label}</span>
-                    <div className="relative mt-2.5">
-                      <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
-                      <div className="space-y-1 pl-3">
-                        {section.items.map((item) => {
-                          const active = isNavItemActive(item.id, pathname, activeNavItem);
-                          const href = getHrefForNavItem(activeNavItem, item.id);
-                          return (
-                            <SidebarItemLink
-                              key={item.id}
-                              href={href}
-                              className={cn(
-                                'block px-3 py-1.5 text-sm rounded-base cursor-pointer',
-                                'transition-colors duration-300 ease-out',
-                                'hover:duration-0',
-                                active
-                                  ? 'text-foreground-50 bg-background-800 font-medium'
-                                  : cn('text-foreground-200', 'hover:text-foreground-200 hover:bg-background-800/50')
-                              )}
-                            >
-                              {item.label}
-                            </SidebarItemLink>
-                          );
-                        })}
-                      </div>
+        <Scroll
+          ref={scrollContainerRef}
+          className="h-[calc(100vh-var(--header-height))]"
+          maxHeight="100%"
+          fadeY
+        >
+          {isElementsOrSections ? (
+            <div className="py-5 px-5">
+              <ElementsList
+                activeNav={activeElementsNav}
+                elements={elementsList}
+                pathname={pathname}
+                activeCategory={null}
+              />
+            </div>
+          ) : (
+            <div className="py-5 px-5 space-y-8">
+              {sections.map((section) => (
+                <div key={section.label}>
+                  <span className="text-sm text-foreground-400">{section.label}</span>
+                  <div className="relative mt-2.5">
+                    <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
+                    <div className="space-y-1 pl-3">
+                      {section.items.map((item) => {
+                        const active = isNavItemActive(item.id, pathname, activeNavItem);
+                        const href = getHrefForNavItem(activeNavItem, item.id);
+                        return (
+                          <SidebarItemLink
+                            key={item.id}
+                            href={href}
+                            className={cn(
+                              'block px-3 py-1.5 text-sm rounded-base cursor-pointer',
+                              'transition-colors duration-300 ease-out',
+                              'hover:duration-0',
+                              active
+                                ? 'text-foreground-50 bg-background-800 font-medium'
+                                : cn('text-foreground-200', 'hover:text-foreground-200 hover:bg-background-800/50')
+                            )}
+                          >
+                            {item.label}
+                          </SidebarItemLink>
+                        );
+                      })}
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </Scroll>
-        </FadeContainer>
+                </div>
+              ))}
+            </div>
+          )}
+        </Scroll>
       </div>
     </aside>
   );

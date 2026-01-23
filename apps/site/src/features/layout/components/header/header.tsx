@@ -87,9 +87,6 @@ export default function Header({
         setIsHeaderVisible(false);
         hasScrolledDownRef.current = true;
       } else {
-        // At the top (< 10)
-        // Only show if we have previously scrolled down (return to top)
-        // or if explicitly triggered by wheel (handled below)
         if (hasScrolledDownRef.current) {
           setIsHeaderVisible(true);
         }
@@ -127,7 +124,7 @@ export default function Header({
       />
 
       <header
-        className={cn("items-start justify-between flex flex-col fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full px-6", pathname === "/" ? "max-w-[1100px]" : "max-w-(--page-width)")}
+        className={cn("items-start justify-between flex flex-col fixed top-0 left-1/2 -translate-x-1/2 z-100 w-full pr-6 pl-3", pathname === "/" ? "max-w-[1100px]" : "max-w-(--page-width) bg-background-800/30 ")}
         style={{
           height: hasRevealCollapse && !isHeaderVisible ? "53px" : headerHeight,
         }}
@@ -139,18 +136,20 @@ export default function Header({
             transitionTimingFunction: "var(--ease-gentle-ease)",
           }}
         >
-          <div className="flex items-center space-x-4 md:space-x-6">
+          <div className={cn(
+            "flex md:space-x-6 mx-auto",
+          )}>
             <Link
               href="/"
-              className="mr-5 flex items-center transition-opacity hover:opacity-80"
+              className={cn(
+                pathname === "/" ? "visible" : "hidden",
+                "absolute top-3 left-0 mr-auto flex items-center transition-opacity hover:opacity-80"
+              )}
             >
-              <div className="bg-accent-500 mr-3 rounded-sm">
+              <div className="mr-2 rounded-sm">
                 <Logo />
               </div>
-              <span className="text-md font-semibold text-foreground-50 mr-3">UI Lab</span>
-              <span className="ml-auto inline-block px-3 py-1 text-xs font-bold mr-4 bg-accent-500/20 text-accent-500 rounded-md">
-                Early Beta
-              </span>
+              <span className="text-md font-semibold text-foreground-50">UI Lab</span>
             </Link>
             {/* Desktop navigation */}
             <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
@@ -188,12 +187,11 @@ export default function Header({
             <Input
               placeholder="Search..."
               prefixIcon={<FaMagnifyingGlass size={14} />}
-              className="w-50 bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
-              size="sm"
+              className="w-40 py-1.5 pr-1 bg-background-900 border-background-700 focus:ring-1 focus:ring-accent-500/50 transition-all"
               onClick={() => setIsCommandPaletteOpen(true)}
               readOnly
             />
-            <Badge className="text-foreground-200 absolute h-6 top-1/2 -translate-y-1/2 right-1 w-10 rounded-[9px] gap-1 bg-background-700/50 border border-background-700" size="sm" icon={<Command size={12} strokeWidth={2.6} />}> <span className="font-bold mt-2">K</span> </Badge>
+            <Badge className="text-foreground-200 absolute h-6 top-1/2 -translate-y-1/2 right-1.5 w-10 rounded-[9px] gap-1 bg-background-700/50 border border-background-700" size="sm" icon={<Command size={12} strokeWidth={2.6} />}> <span className="font-bold mt-2">K</span> </Badge>
           </div>
           {/* Right side: Settings, Theme Toggle */}
           <div className="flex items-center">
@@ -226,6 +224,18 @@ export default function Header({
           <div className="absolute bottom-0 left-0 md:px-2 w-full">
             <Tabs className="w-fit" value={activeTabId} variant="underline">
               <TabsList>
+                <Link
+                  href="/"
+                  className={cn("mr-4 mb-2.5 flex items-center transition-opacity hover:opacity-80")}
+                >
+                  <div className="mr-2 rounded-sm">
+                    <Logo />
+                  </div>
+                  <span className="text-md font-semibold text-foreground-50 mr-3">UI Lab</span>
+                  <span className="ml-auto inline-block px-3 py-1 text-xs font-bold mr-12 bg-accent-500/20 text-accent-500 rounded-md">
+                    Early Beta
+                  </span>
+                </Link>
                 {tabGroup.tabs.map((tab) => (
                   <TabItem key={tab.id} tab={tab} />
                 ))}

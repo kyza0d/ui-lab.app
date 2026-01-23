@@ -20,7 +20,6 @@ export default function MainLayout({
       <main className="flex-1">
         {children}
       </main>
-      <Footer />
     </>
   );
 }

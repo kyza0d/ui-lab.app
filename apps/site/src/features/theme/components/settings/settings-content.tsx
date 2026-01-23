@@ -4,6 +4,11 @@ import { useEffect, useState, memo, useMemo } from "react";
 import Link from "next/link";
 import { useApp } from "../../lib/app-context";
 import {
+  isValidTypographyConfig,
+  getSmallestMinSize,
+} from "../../lib/typography-constraints";
+import { generateTypeScaleFromRatio } from "@/shared/lib/config-generator";
+import {
   FaFont,
   FaRulerCombined,
   FaChevronDown,
@@ -21,7 +26,7 @@ import {
   type GlobalColorAdjustments,
   oklchToCss,
 } from "../../lib/color-utils";
-
+import { getScaleName } from "@/shared/lib/config-generator";
 import { useThemeStorage } from "../../hooks/use-theme-storage";
 import {
   getSemanticColorSafely,
@@ -76,6 +81,12 @@ interface SliderControlProps {
   step: number;
   unit: string;
   onChange: (value: number) => void;
+}
+
+interface TypeScaleSliderProps {
+  value?: number;
+  onChange: (ratio: number) => void;
+  fontSizeScale: number;
 }
 
 interface ColorPickerProps {
@@ -369,7 +380,63 @@ export const SettingsContent = () => {
           </TabsContent>
 
           <TabsContent value="typography" className="px-[6px] m-0 space-y-2">
+            <TypeScaleSlider
+              value={typeSizeRatio}
+              onChange={(ratio) => {
+                let finalScale = fontSizeScale;
+                if (!isValidTypographyConfig(ratio, fontSizeScale)) {
+                  let closestScale = fontSizeScale;
+                  let closestDistance = Infinity;
+                  for (let s = 0.85; s <= 1.15; s += 0.001) {
+                    if (isValidTypographyConfig(ratio, s)) {
+                      const distance = Math.abs(s - fontSizeScale);
+                      if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestScale = s;
+                      }
+                    }
+                  }
+                  finalScale = closestScale;
+                }
+                applyAndPersistTypography({
+                  fontSizeScale: finalScale,
+                  fontWeightScale,
+                  typeSizeRatio: ratio,
+                });
+              }}
+              fontSizeScale={fontSizeScale}
+            />
             <div className="px-4 space-y-3 pt-2">
+              <SliderControl
+                label="Global Scale"
+                value={fontSizeScale}
+                min={0.85}
+                max={1.15}
+                step={0.05}
+                unit="x"
+                onChange={(scale) => {
+                  let finalRatio = typeSizeRatio;
+                  if (!isValidTypographyConfig(typeSizeRatio, scale)) {
+                    let closestRatio = typeSizeRatio;
+                    let closestDistance = Infinity;
+                    for (let r = 1.067; r <= 1.2; r += 0.001) {
+                      if (isValidTypographyConfig(r, scale)) {
+                        const distance = Math.abs(r - typeSizeRatio);
+                        if (distance < closestDistance) {
+                          closestDistance = distance;
+                          closestRatio = r;
+                        }
+                      }
+                    }
+                    finalRatio = closestRatio;
+                  }
+                  applyAndPersistTypography({
+                    fontSizeScale: scale,
+                    fontWeightScale,
+                    typeSizeRatio: finalRatio,
+                  });
+                }}
+              />
               <SliderControl
                 label="Weight Multiplier"
                 value={fontWeightScale}
@@ -579,6 +646,41 @@ const GlobalSlider = memo(
           step={step}
           size="sm"
         />
+      </div>
+    );
+  },
+);
+
+const TypeScaleSlider = memo(
+  ({ value, onChange, fontSizeScale }: TypeScaleSliderProps) => {
+    const ratio = value ?? 1.2;
+    const scaleName = getScaleName(ratio);
+
+    return (
+      <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3 mx-[6px] mt-2">
+        <div className="flex justify-between items-start px-4 pt-2">
+          <label className="text-sm font-medium text-foreground-400">
+            Type Scale
+          </label>
+          <div className="flex flex-col items-end text-right">
+            <span className="text-sm font-semibold text-foreground-100">
+              {scaleName}
+            </span>
+            <span className={`${VALUE_LABEL} text-foreground-500`}>
+              {ratio.toFixed(3)}
+            </span>
+          </div>
+        </div>
+        <div className="px-4 py-2 border-t border-background-700">
+          <Slider.Root
+            value={[ratio]}
+            onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
+            min={1.067}
+            max={1.2}
+            step={0.001}
+            size="md"
+          />
+        </div>
       </div>
     );
   },
