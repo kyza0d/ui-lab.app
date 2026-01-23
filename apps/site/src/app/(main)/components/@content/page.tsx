@@ -8,41 +8,39 @@ import { GalleryItemWithPrefetch } from "./gallery-item";
 export default function ComponentsPage() {
   const router = useRouter();
   return (
-    <div className="pl-12">
+    <div className="px-8">
       {/* Breadcrumbs */}
       <BreadcrumbsNav />
       <div className="w-full px-4 pt-(--header-height) pb-12">
         <main className="w-full">
           <div>
             {/* Page Header */}
-            <div className="space-y-4 mb-10 mt-12">
+            <div className="space-y-4 mb-28 mt-12">
               <h3 className="font-bold text-foreground-50">Components</h3>
               <p className="text-foreground-400">
                 Explore our collection of reusable, accessible components. Click on any component to view details, examples, and code.
               </p>
             </div>
             {/* Organized Components by Category */}
-            <div className="space-y-24">
+            <div className="space-y-32">
               {getCategoriesInOrder().map((category) => {
                 const componentsInCategory = getComponentsInCategoryOrder(category);
                 if (componentsInCategory.length === 0) return null;
                 return (
                   <div key={category} className="space-y-4">
                     {/* Category Header */}
-                    <div className="mb-4 flex items-center">
-                      <div>
-                        <h4 className="pt-2 font-semibold text-foreground-50 flex items-center">
-                          <div className="text-foreground-500 mr-4 mb-0.5">
-                            {getCategoryIcon(category as any)}
-                          </div>
-                          {categoryMap[category].label}
-                        </h4>
-                        <p className="text-sm w-[47ch] text-foreground-400 mt-3 flex items-start">
-                          {categoryMap[category].description}
-                        </p>
+                    <div className="flex items-center">
+                      <div className="bg-background-800 border border-background-700 w-12 h-12 flex items-center justify-center rounded-md text-foreground-200 mr-3">
+                        {getCategoryIcon(category as any)}
                       </div>
+                      <h4 className="font-semibold text-foreground-50 flex items-center">
+                        {categoryMap[category].label}
+                      </h4>
                     </div>
-                    <Divider className="mb-8 mt-4" />
+                      <p className="text-sm w-[47ch] text-foreground-400 flex items-start">
+                        {categoryMap[category].description}
+                      </p>
+                    <Divider size="sm" className="mb-8 mt-4" />
                     {/* Components Grid */}
                     <Gallery columns={{ md: 1, lg: 2 }}>
                       {componentsInCategory.map((component) => (

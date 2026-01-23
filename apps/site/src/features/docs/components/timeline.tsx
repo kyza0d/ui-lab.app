@@ -58,7 +58,7 @@ export default function Timeline({ children }: { children: ReactNode }) {
           <div key={index} className="mt-10 relative flex items-start">
             {/* Circle marker */}
             <div
-              className="absolute left-0 flex pr-px items-center justify-center rounded-md border border-background-600 bg-background-700 text-xs font-bold text-foreground-200 z-10"
+              className="absolute left-0 flex pr-px items-center justify-center rounded-md border border-background-700 text-xs font-bold text-foreground-300 z-10"
               style={{
                 width: `${circleSize}px`,
                 height: `${circleSize}px`,

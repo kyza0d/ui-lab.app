@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { FaApple, FaCircle, FaPencil, FaStar } from 'react-icons/fa6';
-import { Divider, Group } from 'ui-lab-components';
-import { Select } from 'ui-lab-components';
-import { Button } from 'ui-lab-components';
+import { FaApple, FaCircle, FaPencil, FaPercent, FaStar } from 'react-icons/fa6';
+import { Divider, Group, Select, Button, Slider } from 'ui-lab-components';
 
 export default function Test() {
   const [filter1, setFilter1] = useState<string | number | null>('all');
@@ -12,6 +10,14 @@ export default function Test() {
   const [sortBy, setSortBy] = useState<string | number | null>('recent');
   const [config1, setConfig1] = useState<string | number | null>('standard');
   const [config2, setConfig2] = useState<string | number | null>('light');
+  const [sliderValue, setSliderValue] = useState<number[]>([45]);
+
+  const handleSliderInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val)) {
+      setSliderValue([Math.min(Math.max(val, 0), 100)]);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -123,6 +129,52 @@ export default function Test() {
           <Group.Button variant="outline" size="sm">Reset</Group.Button>
           <Group.Button variant="ghost" size="sm">Help</Group.Button>
         </Group>
+
+
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold">Input Groups</h3>
+          <div className="flex flex-col gap-4">
+            <Group>
+              <Group.Input placeholder="Search documentation..." className="w-72" />
+              <Group.Button variant="primary">Search</Group.Button>
+            </Group>
+
+            <Group>
+              <Group.Input placeholder="Enter your email" className="w-72" />
+              <Group.Button variant="secondary">Subscribe</Group.Button>
+            </Group>
+
+            <Group>
+              <Group.Input defaultValue="npm install ui-lab-components" readOnly className="w-72 font-mono text-sm" />
+              <Group.Button variant="outline">Copy</Group.Button>
+            </Group>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold">Slider Integration</h3>
+          <div className="flex flex-col gap-6 max-w-sm">
+            <Group>
+              <Group.Input
+                type="number"
+                min={0}
+                max={100}
+                value={sliderValue[0]}
+                onChange={handleSliderInputChange}
+                className="w-full"
+              />
+              <div className="bg-background-800 flex items-center px-3 bg-muted/50 text-muted-foreground text-sm font-medium">
+                <FaPercent />
+              </div>
+            </Group>
+            <Slider.Root
+              value={sliderValue}
+              onValueChange={setSliderValue}
+              max={100}
+              step={1}
+            />
+          </div>
+        </div>
 
 
         <div className="space-y-6">
