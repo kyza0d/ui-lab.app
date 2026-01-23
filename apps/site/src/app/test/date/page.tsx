@@ -1,23 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { Calendar } from './Calendar'
+import { Date } from './Date'
 
-export default function CalendarTestPage() {
+export default function DateTestPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   return (
     <div className="min-h-screen bg-background-950 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2 text-foreground-50">Calendar Component</h1>
+        <h1 className="text-3xl font-bold mb-2 text-foreground-50">Date Component</h1>
         <p className="text-foreground-400 mb-8">
-          Local test environment for refining the Calendar component design
+          Local test environment for refining the Date component design
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Calendar Component */}
+          {/* Date Component */}
           <div className="flex items-center justify-center">
-            <Calendar
+            <Date
               value={selectedDate}
               onChange={(date) => {
                 setSelectedDate(date)

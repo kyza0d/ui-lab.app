@@ -3,9 +3,9 @@
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "react-aria";
 import { hsvToRgb } from "./color-utils";
-import styles from "./ColorPicker.module.css";
+import styles from "./Color.module.css";
 
-export interface ColorPickerCanvasProps {
+export interface ColorCanvasProps {
   hue: number;
   saturation: number;
   brightness: number;
@@ -14,7 +14,7 @@ export interface ColorPickerCanvasProps {
   size?: "sm" | "md" | "lg";
 }
 
-export const ColorPickerCanvas = React.forwardRef<
+export const ColorCanvas = React.forwardRef<
   HTMLDivElement,
   ColorPickerCanvasProps
 >(
@@ -103,4 +103,4 @@ export const ColorPickerCanvas = React.forwardRef<
   }
 );
 
-ColorPickerCanvas.displayName = "ColorPickerCanvas";
+ColorCanvas.displayName = "ColorCanvas";

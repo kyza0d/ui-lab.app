@@ -1,5 +1,5 @@
 @layer components {
-  .calendar {
+  .date {
     --background: var(--background-950);
     --foreground: var(--foreground-50);
     --border: var(--background-700);

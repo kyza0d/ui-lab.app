@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/shared";
-import styles from "./ColorPicker.module.css";
+import styles from "./Color.module.css";
 import {
   rgbToHsl,
   hslToRgb,
@@ -14,13 +14,13 @@ import {
   addRecentColor,
   isValidColor,
 } from "./color-utils";
-import { ColorPickerCanvas } from "./ColorPicker.Canvas";
-import { ColorPickerHueSlider } from "./ColorPicker.HueSlider";
-import { ColorPickerOpacitySlider } from "./ColorPicker.OpacitySlider";
-import { ColorPickerRecentColors } from "./ColorPicker.RecentColors";
-import { ColorPickerInput } from "./ColorPicker.Input";
+import { ColorCanvas } from "./Color.Canvas";
+import { ColorHueSlider } from "./Color.HueSlider";
+import { ColorOpacitySlider } from "./Color.OpacitySlider";
+import { ColorRecentColors } from "./Color.RecentColors";
+import { ColorInput } from "./Color.Input";
 
-export interface ColorPickerProps
+export interface ColorProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
   defaultValue?: string;
@@ -34,7 +34,7 @@ export interface ColorPickerProps
   className?: string;
 }
 
-export const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
+export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
   (
     {
       value: controlledValue,
@@ -254,20 +254,20 @@ export const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.colorPicker, className)}
+        className={cn(styles.color, className)}
         data-size={size}
         data-disabled={disabled || undefined}
         {...props}
       >
         {/* Recent Colors */}
-        <ColorPickerRecentColors
+        <ColorRecentColors
           onSelect={handleRecentColorSelect}
           disabled={disabled}
           size={size}
         />
 
         {/* Canvas for saturation/brightness (HSV) */}
-        <ColorPickerCanvas
+        <ColorCanvas
           hue={hue}
           saturation={canvasSaturation}
           brightness={canvasBrightness}
@@ -276,9 +276,9 @@ export const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
           size={size}
         />
 
-        <div className={styles.colorPickerControls}>
+        <div className={styles.colorControls}>
           {/* Hue Slider */}
-          <ColorPickerHueSlider
+          <ColorHueSlider
             value={hue}
             onChange={handleHueChange}
             disabled={disabled}
@@ -287,7 +287,7 @@ export const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
 
           {/* Opacity Slider */}
           {showOpacity && (
-            <ColorPickerOpacitySlider
+            <ColorOpacitySlider
               value={opacity}
               color={formatColorRgb(parsed.r, parsed.g, parsed.b)}
               onChange={handleOpacityChange}
@@ -297,7 +297,7 @@ export const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
           )}
 
           {/* Input & Format Selector */}
-          <ColorPickerInput
+          <ColorInput
             value={displayValue}
             format={format}
             onValueChange={handleInputChange}
@@ -318,4 +318,4 @@ export const ColorPicker = React.forwardRef<HTMLDivElement, ColorPickerProps>(
   }
 );
 
-ColorPicker.displayName = "ColorPicker";
+Color.displayName = "Color";

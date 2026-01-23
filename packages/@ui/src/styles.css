@@ -7,7 +7,8 @@
   --ease-gentle-ease: cubic-bezier(0.43, 0.13, 0.23, 0.96);
 
   /* Font Families */
-  --font-sans: "Karla", system-ui, sans-serif;
+  --font-sans: "Geist Sans", system-ui, sans-serif;
+  /* --font-sans: "Karla", system-ui, sans-serif; */
   --font-mono: "Geist Mono", monospace;
 
   /* Font Sizes - Static for small text, Fluid for large text */

@@ -1,5 +1,5 @@
 declare const styles: {
-  calendar: string
+  date: string
   header: string
   monthYear: string
   navButton: string

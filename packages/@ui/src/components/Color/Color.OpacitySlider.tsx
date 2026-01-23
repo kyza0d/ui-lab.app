@@ -2,9 +2,9 @@
 
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "react-aria";
-import styles from "./ColorPicker.module.css";
+import styles from "./Color.module.css";
 
-export interface ColorPickerOpacitySliderProps {
+export interface ColorOpacitySliderProps {
   value: number;
   color: string;
   onChange?: (opacity: number) => void;
@@ -12,9 +12,9 @@ export interface ColorPickerOpacitySliderProps {
   size?: "sm" | "md" | "lg";
 }
 
-export const ColorPickerOpacitySlider = React.forwardRef<
+export const ColorOpacitySlider = React.forwardRef<
   HTMLDivElement,
-  ColorPickerOpacitySliderProps
+  ColorOpacitySliderProps
 >(({ value, color, onChange, disabled, size = "md" }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -86,4 +86,4 @@ export const ColorPickerOpacitySlider = React.forwardRef<
   );
 });
 
-ColorPickerOpacitySlider.displayName = "ColorPickerOpacitySlider";
+ColorOpacitySlider.displayName = "ColorOpacitySlider";

@@ -1,1 +1,1 @@
-export { default as BasicColorPicker } from './01-basic-colorpicker';
+export { default as BasicColor } from './01-basic-color';

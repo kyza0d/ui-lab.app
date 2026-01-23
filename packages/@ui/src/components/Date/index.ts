@@ -1,2 +1,2 @@
-export { Calendar, CalendarHeader, CalendarGrid, CalendarDay, useCalendarContext } from "./Calendar"
-export type { CalendarProps, CalendarContextValue } from "./Calendar"
+export { Date, DateHeader, DateGrid, DateDay, useDateContext } from "./Date"
+export type { DateProps, DateContextValue } from "./Date"

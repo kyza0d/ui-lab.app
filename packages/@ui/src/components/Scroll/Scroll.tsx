@@ -9,6 +9,7 @@ export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   maxHeight?: string;
   maxWidth?: string;
   direction?: "vertical" | "horizontal";
+  fadeY?: boolean;
 }
 
 const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
@@ -19,6 +20,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       maxHeight = "100%",
       maxWidth = "100%",
       direction = "vertical",
+      fadeY = false,
       ...props
     },
     ref
@@ -360,6 +362,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
     }, []);
 
     const showOpacity = needsScrollbar && (isHoveredRight || isDragging || isScrolling) ? 1 : 0;
+    const fadeYPadding = fadeY && needsScrollbar ? "12px 0" : "0";
 
     if (direction === "horizontal") {
       const { style: propsStyle, ...restProps } = props;
@@ -383,7 +386,9 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
             onWheel={handleWheel}
             style={{
               maxWidth: "inherit",
+              padding: fadeYPadding,
             }}
+            data-fade-y={fadeY ? "true" : "false"}
           >
             {children}
           </div>
@@ -432,7 +437,9 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           onScroll={handleScroll}
           style={{
             maxHeight: "inherit",
+            padding: fadeYPadding,
           }}
+          data-fade-y={fadeY ? "true" : "false"}
         >
           {children}
         </div>

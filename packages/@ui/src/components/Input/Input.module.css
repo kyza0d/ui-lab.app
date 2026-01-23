@@ -50,6 +50,21 @@
         box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger-600) 25%, transparent);
       }
     }
+
+    /* Hide default browser spinners for number inputs */
+    &[type="number"] {
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        display: none;
+      }
+
+      /* Firefox */
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
+    }
   }
 
   .input[data-variant="ghost"] {
@@ -61,24 +76,6 @@
     &[data-focus-visible] {
       box-shadow: none;
     }
-  }
-
-  .input[data-size="sm"] {
-    height: 2rem;
-    font-size: var(--text-sm);
-    @apply px-2 py-1;
-  }
-
-  .input[data-size="md"] {
-    height: 2.5rem;
-    font-size: var(--text-sm);
-    @apply px-3 py-2;
-  }
-
-  .input[data-size="lg"] {
-    height: 3rem;
-    font-size: var(--text-base);
-    @apply px-4 py-3;
   }
 
   .iconWrapper {
@@ -102,5 +99,49 @@
   .container {
     position: relative;
     width: 100%;
+  }
+
+  .numberControls {
+    position: absolute;
+    top: 50%;
+    right: 0.50rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 1.5rem;
+    transform: translateY(-50%);
+    pointer-events: auto;
+  }
+
+  .numberControls.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .spinButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 1.25rem;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    color: var(--foreground-500);
+    cursor: pointer;
+    transition: color 150ms var(--ease-snappy-pop);
+
+    &:hover:not(:disabled) {
+      color: var(--foreground-400);
+    }
+
+    &:active:not(:disabled) {
+      color: var(--accent-500);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 }

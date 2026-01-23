@@ -1,9 +1,9 @@
 import React from 'react'
-import { Calendar } from 'ui-lab-components'
+import { Date as DatePicker } from 'ui-lab-components'
 
 export const metadata = {
-  title: 'Calendar with Disabled Dates',
-  description: 'Calendar with certain dates disabled (weekends and past dates). Disabled dates cannot be selected.'
+  title: 'Date with Disabled Dates',
+  description: 'Date component with certain dates disabled (weekends and past dates). Disabled dates cannot be selected.'
 }
 
 export default function Example() {
@@ -15,5 +15,5 @@ export default function Example() {
     return day === 0 || day === 6 || isPastDate
   }
 
-  return <Calendar value={date} onChange={setDate} disabled={isDisabled} />
+  return <DatePicker value={date} onChange={setDate} disabled={isDisabled} />
 }

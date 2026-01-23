@@ -9,11 +9,11 @@ export const componentOrder: Record<ComponentCategory, string[]> = {
   layout: ['grid', 'flex', 'gallery', 'divider', 'fold', 'card'],
   composition: ['form', 'group', 'list'],
   action: ['button', 'confirm', 'command'],
-  input: ['calendar', 'checkbox', 'colorpicker', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
+  input: ['date', 'checkbox', 'color', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
   information: ['banner', 'badge', 'label', 'tooltip'],
   feedback: ['popover', 'progress', 'toast'],
   navigation: ['breadcrumbs', 'menu', 'tabs', 'anchor'],
-  container: ['modal', 'scroll', 'frame'],
+  container: ['modal', 'scroll', 'mask', 'frame'],
   data: ['table'],
 };
 

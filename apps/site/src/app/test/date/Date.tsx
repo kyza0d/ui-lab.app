@@ -3,13 +3,13 @@
 import * as React from "react"
 import { useFocusRing, useHover, mergeProps } from "react-aria"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import styles from "./Calendar.module.css"
+import styles from "./Date.module.css"
 import { cn } from "@/shared"
 
 /**
  * Context type for Calendar state management
  */
-export interface CalendarContextValue {
+export interface DateContextValue {
   selectedDate: Date | null
   focusedDate: Date | null
   currentMonth: Date
@@ -20,12 +20,12 @@ export interface CalendarContextValue {
   isDateOutOfRange: (date: Date) => boolean
 }
 
-const CalendarContext = React.createContext<CalendarContextValue | null>(null)
+const DateContext = React.createContext<DateContextValue | null>(null)
 
-export function useCalendarContext() {
-  const context = React.useContext(CalendarContext)
+export function useDateContext() {
+  const context = React.useContext(DateContext)
   if (!context) {
-    throw new Error("Calendar component must be used within Calendar root")
+    throw new Error("Date component must be used within Date root")
   }
   return context
 }
@@ -33,7 +33,7 @@ export function useCalendarContext() {
 /**
  * Props for Calendar component
  */
-export interface CalendarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface DateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: Date | null
   onChange?: (date: Date) => void
   disabled?: (date: Date) => boolean
@@ -107,7 +107,7 @@ function getCalendarGrid(currentMonth: Date): Date[][] {
   return rows
 }
 
-const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
+const Date = React.forwardRef<HTMLDivElement, DateProps>(
   (
     {
       value: controlledValue,
@@ -178,7 +178,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
       [currentMonth]
     )
 
-    const contextValue: CalendarContextValue = React.useMemo(
+    const contextValue: DateContextValue = React.useMemo(
       () => ({
         selectedDate,
         focusedDate,
@@ -259,10 +259,10 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
     }, [])
 
     return (
-      <CalendarContext.Provider value={contextValue}>
+      <DateContext.Provider value={contextValue}>
         <div
           ref={ref}
-          className={cn("calendar", styles.calendar, className)}
+          className={cn("date", styles.calendar, className)}
           role="application"
           aria-label="Date picker calendar"
           onKeyDown={handleKeyDown}
@@ -272,21 +272,21 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           <CalendarDayHeaders />
           <CalendarGrid grid={calendarGrid} />
         </div>
-      </CalendarContext.Provider>
+      </DateContext.Provider>
     )
   }
 )
 
-Calendar.displayName = "Calendar"
+Date.displayName = "Date"
 
 /**
  * Calendar Header component
  */
-interface CalendarHeaderProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface DateHeaderProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-const CalendarHeader = React.forwardRef<HTMLDivElement, CalendarHeaderProps>(
+const DateHeader = React.forwardRef<HTMLDivElement, CalendarHeaderProps>(
   ({ className, ...props }, ref) => {
-    const { currentMonth, navigateMonth } = useCalendarContext()
+    const { currentMonth, navigateMonth } = useDateContext()
 
     const monthYear = currentMonth.toLocaleDateString("en-US", {
       month: "long",
@@ -296,23 +296,23 @@ const CalendarHeader = React.forwardRef<HTMLDivElement, CalendarHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("calendar-header", styles.header, className)}
+        className={cn("date-header", styles.header, className)}
         {...props}
       >
-        <div className={cn("calendar-month-year", styles.monthYear)}>
+        <div className={cn("date-month-year", styles.monthYear)}>
           {monthYear}
         </div>
         <div>
           <button
             onClick={() => navigateMonth(-1)}
-            className={cn("calendar-prev-button", styles.navButton)}
+            className={cn("date-prev-button", styles.navButton)}
             aria-label="Previous month"
           >
             <ChevronLeft size={20} />
           </button>
           <button
             onClick={() => navigateMonth(1)}
-            className={cn("calendar-next-button", styles.navButton)}
+            className={cn("date-next-button", styles.navButton)}
             aria-label="Next month"
           >
             <ChevronRight size={20} />
@@ -323,25 +323,25 @@ const CalendarHeader = React.forwardRef<HTMLDivElement, CalendarHeaderProps>(
   }
 )
 
-CalendarHeader.displayName = "Calendar.Header"
+DateHeader.displayName = "Date.Header"
 
 /**
  * Calendar Day Headers component
  */
-interface CalendarDayHeadersProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface DateDayHeadersProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-const CalendarDayHeaders = React.forwardRef<HTMLDivElement, CalendarDayHeadersProps>(
+const DateDayHeaders = React.forwardRef<HTMLDivElement, CalendarDayHeadersProps>(
   ({ className, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn("calendar-day-headers", styles.dayHeaders, className)}
+        className={cn("date-day-headers", styles.dayHeaders, className)}
         {...props}
       >
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className={cn("calendar-day-header", styles.dayHeader)}
+            className={cn("date-day-header", styles.dayHeader)}
           >
             {day}
           </div>
@@ -351,21 +351,21 @@ const CalendarDayHeaders = React.forwardRef<HTMLDivElement, CalendarDayHeadersPr
   }
 )
 
-CalendarDayHeaders.displayName = "Calendar.DayHeaders"
+DateDayHeaders.displayName = "Date.DayHeaders"
 
 /**
  * Calendar Grid component
  */
-interface CalendarGridProps extends React.HTMLAttributes<HTMLDivElement> {
+interface DateGridProps extends React.HTMLAttributes<HTMLDivElement> {
   grid: Date[][]
 }
 
-const CalendarGrid = React.forwardRef<HTMLDivElement, CalendarGridProps>(
+const DateGrid = React.forwardRef<HTMLDivElement, CalendarGridProps>(
   ({ grid, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn("calendar-grid", styles.grid, className)}
+        className={cn("date-grid", styles.grid, className)}
         role="grid"
         {...props}
       >
@@ -373,7 +373,7 @@ const CalendarGrid = React.forwardRef<HTMLDivElement, CalendarGridProps>(
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className={cn("calendar-day-header", styles.weekHeader)}
+            className={cn("date-day-header", styles.weekHeader)}
             role="columnheader"
           >
             {day}
@@ -395,16 +395,16 @@ const CalendarGrid = React.forwardRef<HTMLDivElement, CalendarGridProps>(
   }
 )
 
-CalendarGrid.displayName = "Calendar.Grid"
+DateGrid.displayName = "Date.Grid"
 
 /**
  * Calendar Day component
  */
-interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface DateDayProps extends React.HTMLAttributes<HTMLButtonElement> {
   date: Date
 }
 
-const CalendarDay = React.forwardRef<HTMLButtonElement, CalendarDayProps>(
+const DateDay = React.forwardRef<HTMLButtonElement, CalendarDayProps>(
   ({ date, className, onClick, ...props }, ref) => {
     const {
       selectedDate,
@@ -413,7 +413,7 @@ const CalendarDay = React.forwardRef<HTMLButtonElement, CalendarDayProps>(
       focusDate,
       isDateDisabled,
       isDateOutOfRange,
-    } = useCalendarContext()
+    } = useDateContext()
 
     const isDisabled = isDateDisabled(date)
 
@@ -450,7 +450,7 @@ const CalendarDay = React.forwardRef<HTMLButtonElement, CalendarDayProps>(
         ref={buttonRef}
         onClick={handleClick}
         onFocus={handleFocus}
-        className={cn("calendar-day", styles.dayCell, className)}
+        className={cn("date-day", styles.dayCell, className)}
         data-selected={isSelected ? "true" : undefined}
         data-today={isCurrentToday ? "true" : undefined}
         data-disabled={isDisabled ? "true" : undefined}
@@ -471,6 +471,6 @@ const CalendarDay = React.forwardRef<HTMLButtonElement, CalendarDayProps>(
   }
 )
 
-CalendarDay.displayName = "Calendar.Day"
+DateDay.displayName = "Date.Day"
 
-export { Calendar, CalendarDayHeaders, CalendarHeader, CalendarGrid, CalendarDay }
+export { Date, DateDayHeaders, DateHeader, DateGrid, DateDay }
