@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { cn, FadeContainer } from '@/shared';
+import { cn } from '@/shared';
 import { FaChevronDown } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
 
@@ -178,14 +178,20 @@ export function SidebarShell({ mainNav, activeNav, contextualContent, activeCate
           </nav>
         </div>
 
-        <FadeContainer className="flex-1 mb-26">
+        <div className="flex-1 mb-26 overflow-hidden">
           <div
             ref={scrollContainerRef}
             className="overflow-y-auto py-3 h-full"
+            style={{
+              WebkitMaskImage: `linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)`,
+              maskImage: `linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)`,
+              paddingTop: "12px",
+              paddingBottom: "12px",
+            }}
           >
             {contextualContent}
           </div>
-        </FadeContainer>
+        </div>
       </div>
     </aside>
   );

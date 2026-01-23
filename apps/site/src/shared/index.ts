@@ -4,7 +4,6 @@ export { CodeBlock } from "./components/code-block";
 export { CodeBlockWithPackageManager } from "./components/code-block-with-package-manager";
 export { CopyButton } from "./components/copy-button";
 export { EnumUnionHighlight } from "./components/enum-union-highlight";
-export { FadeContainer } from "./components/fade-container";
 export { InlineCodeHighlight } from "./components/inline-code-highlight";
 export { InstallationFlow } from "./components/installation-flow";
 export { PackageManagerTabs } from "./components/package-manager-tabs";
