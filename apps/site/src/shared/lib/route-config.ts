@@ -1,6 +1,6 @@
-import { FaBook, FaPlug, FaTerminal, FaShapes, FaRocket, FaImages, FaStar, FaRegWindowMaximize } from 'react-icons/fa6';
+import { FaBook, FaShapes, FaRegWindowMaximize, FaBox, FaCube } from 'react-icons/fa6';
 
-export type DomainId = 'docs' | 'components' | 'agents-mcps' | 'cli' | 'elements' | 'sections';
+export type DomainId = 'docs' | 'components' | 'elements' | 'sections';
 
 export interface DomainConfig {
   id: DomainId;
@@ -23,22 +23,10 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     icon: FaShapes,
     headerType: 'tabs',
   },
-  'agents-mcps': {
-    id: 'agents-mcps',
-    label: 'Agents & MCPs',
-    icon: FaPlug,
-    headerType: 'tabs',
-  },
-  cli: {
-    id: 'cli',
-    label: 'CLI',
-    icon: FaTerminal,
-    headerType: 'tabs',
-  },
   elements: {
     id: 'elements',
     label: 'Elements',
-    icon: FaShapes,
+    icon: FaBox,
     headerType: 'search',
   },
   sections: {
@@ -73,16 +61,7 @@ export const TAB_GROUPS: Record<string, TabGroup> = {
     tabs: [
       { id: 'docs', label: 'Documentation', icon: FaBook, path: '/docs' },
       { id: 'components', label: 'Components', icon: FaShapes, path: '/components' },
-      { id: 'agents-mcps', label: 'Agents & MCPs', icon: FaPlug, path: '/agents-mcps' },
-      { id: 'cli', label: 'CLI', icon: FaTerminal, path: '/cli' },
-    ],
-  },
-  elements: {
-    id: 'elements',
-    tabs: [
-      { id: 'elements', label: 'Elements', icon: FaShapes, path: '/elements' },
-      { id: 'starters', label: 'Starters', icon: FaRocket, path: '/starters' },
-      { id: 'assets', label: 'Assets', icon: FaImages, path: '/assets', isPlaceholder: true }
+      { id: 'elements', label: 'Elements', icon: FaCube, path: '/elements' },
     ],
   },
 };
@@ -91,12 +70,9 @@ export const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
   { path: '/docs', tabGroupId: 'documentation' },
   { path: '/components', tabGroupId: 'documentation' },
   { path: '/design-system', tabGroupId: 'documentation' },
-  { path: '/agents-mcps', tabGroupId: 'documentation' },
-  { path: '/cli', tabGroupId: 'documentation' },
-  { path: '/elements', tabGroupId: 'elements' },
-  { path: '/sections', tabGroupId: 'elements' },
-  { path: '/blocks', tabGroupId: 'elements' },
-  { path: '/starters', tabGroupId: 'elements' },
+  { path: '/elements', tabGroupId: 'documentation' },
+  { path: '/sections', tabGroupId: 'documentation' },
+  { path: '/blocks', tabGroupId: 'documentation' },
 ];
 
 export interface RouteConfig {
@@ -117,14 +93,6 @@ export const ROUTES: Record<string, RouteConfig> = {
     path: '/design-system',
     domainId: 'docs',
   },
-  'agents-mcps': {
-    path: '/agents-mcps',
-    domainId: 'agents-mcps',
-  },
-  cli: {
-    path: '/cli',
-    domainId: 'cli',
-  },
   elements: {
     path: '/elements',
     domainId: 'elements',
@@ -135,10 +103,6 @@ export const ROUTES: Record<string, RouteConfig> = {
   },
   blocks: {
     path: '/blocks',
-    domainId: 'elements',
-  },
-  starters: {
-    path: '/starters',
     domainId: 'elements',
   },
 };
@@ -180,8 +144,8 @@ export const shouldShowHeaderSearch = (pathname: string): boolean => {
 
 export const getHeaderHeight = (pathname: string): string => {
   const domainId = getDomainForPathname(pathname);
-  if (!domainId) return '3.4rem';
-  return DOMAINS[domainId]?.headerHeight || '7rem';
+  if (!domainId) return '3.50rem';
+  return DOMAINS[domainId]?.headerHeight || '3.50rem';
 };
 
 export const getTabGroupForPathname = (pathname: string): TabGroup | undefined => {
@@ -193,6 +157,8 @@ export const getTabGroupForPathname = (pathname: string): TabGroup | undefined =
 
 const ACTIVE_TAB_OVERRIDES: Record<string, string | undefined> = {
   '/design-system': 'docs',
+  '/sections': 'elements',
+  '/blocks': 'elements',
 };
 
 export const getActiveTabForPathname = (pathname: string): string | undefined => {
@@ -200,10 +166,6 @@ export const getActiveTabForPathname = (pathname: string): string | undefined =>
     if (pathname.startsWith(pattern)) {
       return tabId;
     }
-  }
-
-  if (pathname.startsWith('/sections')) {
-    return 'elements';
   }
 
   const tabGroup = getTabGroupForPathname(pathname);

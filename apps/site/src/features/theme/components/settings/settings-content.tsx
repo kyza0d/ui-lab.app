@@ -16,6 +16,7 @@ import {
   FaBrush,
   FaSun,
   FaCheck,
+  FaA,
 } from "react-icons/fa6";
 import { themes } from "../../constants/themes";
 import {
@@ -32,17 +33,19 @@ import {
   getSemanticColorSafely,
   getSemanticChromaLimit,
 } from "../../lib/semantic-color-utils";
+import { SANS_FONTS, MONO_FONTS, getFontConfig } from "../../constants/font-config";
 import {
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
   Button,
+  Select,
 } from "ui-lab-components";
 import { Slider } from "ui-lab-components";
 import { Divider } from "ui-lab-components";
 
-type ConfigTab = "colors" | "typography" | "layout";
+type ConfigTab = "colors" | "layout" | "fonts";
 
 interface ColorRowProps {
   type:
@@ -121,6 +124,14 @@ export const SettingsContent = () => {
     isThemeInitialized,
     globalAdjustments,
     setGlobalAdjustments,
+    selectedSansFont,
+    setSelectedSansFont,
+    selectedMonoFont,
+    setSelectedMonoFont,
+    headerLetterSpacingScale,
+    setHeaderLetterSpacingScale,
+    bodyLetterSpacingScale,
+    setBodyLetterSpacingScale,
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
@@ -147,17 +158,24 @@ export const SettingsContent = () => {
     applyAndPersistColors,
     applyAndPersistTypography,
     applyAndPersistLayout,
+    applyAndPersistFonts,
   } = useThemeStorage({
     onColorsChange: setCurrentThemeColors,
     onTypographyChange: (config: any) => {
       setFontSizeScale(config.fontSizeScale);
       setFontWeightScale(config.fontWeightScale);
       setTypeSizeRatio(config.typeSizeRatio);
+      setHeaderLetterSpacingScale(config.headerLetterSpacingScale);
+      setBodyLetterSpacingScale(config.bodyLetterSpacingScale);
     },
     onLayoutChange: (config: any) => {
       setRadius(config.radius);
       setBorderWidth(config.borderWidth);
       setSpacingScale(config.spacingScale);
+    },
+    onFontsChange: (config: any) => {
+      setSelectedSansFont(config.sansFont);
+      setSelectedMonoFont(config.monoFont);
     },
     currentThemeMode,
   });
@@ -235,6 +253,66 @@ export const SettingsContent = () => {
     applyAndPersistColors(updated);
   };
 
+  const handleSansFontChange = (fontName: string) => {
+    const fontConfig = getFontConfig(fontName as any, "sans");
+    if (fontConfig) {
+      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio } = fontConfig.metrics;
+      let finalScale = scale;
+      if (!isValidTypographyConfig(ratio, scale)) {
+        let closestScale = scale;
+        let closestDistance = Infinity;
+        for (let s = 0.85; s <= 1.15; s += 0.001) {
+          if (isValidTypographyConfig(ratio, s)) {
+            const distance = Math.abs(s - scale);
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestScale = s;
+            }
+          }
+        }
+        finalScale = closestScale;
+      }
+      applyAndPersistTypography({
+        fontSizeScale: finalScale,
+        fontWeightScale: weight,
+        typeSizeRatio: ratio,
+        headerLetterSpacingScale,
+        bodyLetterSpacingScale,
+      });
+    }
+    applyAndPersistFonts({ sansFont: fontName as any, monoFont: selectedMonoFont });
+  };
+
+  const handleMonoFontChange = (fontName: string) => {
+    const fontConfig = getFontConfig(fontName as any, "mono");
+    if (fontConfig) {
+      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio } = fontConfig.metrics;
+      let finalScale = scale;
+      if (!isValidTypographyConfig(ratio, scale)) {
+        let closestScale = scale;
+        let closestDistance = Infinity;
+        for (let s = 0.85; s <= 1.15; s += 0.001) {
+          if (isValidTypographyConfig(ratio, s)) {
+            const distance = Math.abs(s - scale);
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestScale = s;
+            }
+          }
+        }
+        finalScale = closestScale;
+      }
+      applyAndPersistTypography({
+        fontSizeScale: finalScale,
+        fontWeightScale: weight,
+        typeSizeRatio: ratio,
+        headerLetterSpacingScale,
+        bodyLetterSpacingScale,
+      });
+    }
+    applyAndPersistFonts({ sansFont: selectedSansFont, monoFont: fontName as any });
+  };
+
   return (
     <div className="w-full h-full select-none flex flex-col bg-background-900/90 text-foreground">
       <div className="pr-[8px] py-[2px] flex items-center justify-between border-b border-background-700 shrink-0">
@@ -253,10 +331,10 @@ export const SettingsContent = () => {
             </TabsTrigger>
             <TabsTrigger
               className="text-sm w-[100px]"
-              value="typography"
+              value="fonts"
               icon={<FaFont size={14} />}
             >
-              Type
+              Fonts
             </TabsTrigger>
             <TabsTrigger
               className="text-sm w-[100px]"
@@ -379,7 +457,86 @@ export const SettingsContent = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="typography" className="px-[6px] m-0 space-y-2">
+          <TabsContent value="fonts" className="px-[6px] m-0 space-y-2">
+            <div className="mx-[6px] mb-4 p-3 bg-background-800/40 rounded-[12px] border border-background-700 space-y-3">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground-400 block">
+                  Sans Font
+                </label>
+                <Select selectedKey={selectedSansFont} onSelectionChange={(key) => handleSansFontChange(key as string)}>
+                  <Select.Trigger className="w-full">
+                    <Select.Value placeholder="Select sans font" />
+                  </Select.Trigger>
+                  <Select.Content>
+                    {SANS_FONTS.map((font) => (
+                      <Select.Item key={font.name} value={font.name} textValue={font.name}>
+                        {font.isDefault ? `${font.name} (default)` : font.name}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground-400 block">
+                  Mono Font
+                </label>
+                <Select selectedKey={selectedMonoFont} onSelectionChange={(key) => handleMonoFontChange(key as string)}>
+                  <Select.Trigger className="w-full">
+                    <Select.Value placeholder="Select mono font" />
+                  </Select.Trigger>
+                  <Select.Content>
+                    {MONO_FONTS.map((font) => (
+                      <Select.Item key={font.name} value={font.name} textValue={font.name}>
+                        {font.isDefault ? `${font.name} (default)` : font.name}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select>
+              </div>
+            </div>
+
+            <Divider />
+
+            <div className="px-4 space-y-3">
+              <SliderControl
+                label="Header Letter Spacing"
+                value={headerLetterSpacingScale}
+                min={0.2}
+                max={5.0}
+                step={0.05}
+                unit="x"
+                onChange={(scale) =>
+                  applyAndPersistTypography({
+                    fontSizeScale,
+                    fontWeightScale,
+                    typeSizeRatio,
+                    headerLetterSpacingScale: scale,
+                    bodyLetterSpacingScale,
+                  })
+                }
+              />
+              <SliderControl
+                label="Body Letter Spacing"
+                value={bodyLetterSpacingScale}
+                min={0.2}
+                max={5.0}
+                step={0.05}
+                unit="x"
+                onChange={(scale) =>
+                  applyAndPersistTypography({
+                    fontSizeScale,
+                    fontWeightScale,
+                    typeSizeRatio,
+                    headerLetterSpacingScale,
+                    bodyLetterSpacingScale: scale,
+                  })
+                }
+              />
+            </div>
+
+            <Divider />
+
             <TypeScaleSlider
               value={typeSizeRatio}
               onChange={(ratio) => {
@@ -402,6 +559,8 @@ export const SettingsContent = () => {
                   fontSizeScale: finalScale,
                   fontWeightScale,
                   typeSizeRatio: ratio,
+                  headerLetterSpacingScale,
+                  bodyLetterSpacingScale,
                 });
               }}
               fontSizeScale={fontSizeScale}
@@ -434,21 +593,25 @@ export const SettingsContent = () => {
                     fontSizeScale: scale,
                     fontWeightScale,
                     typeSizeRatio: finalRatio,
+                    headerLetterSpacingScale,
+                    bodyLetterSpacingScale,
                   });
                 }}
               />
               <SliderControl
                 label="Weight Multiplier"
                 value={fontWeightScale}
-                min={0.75}
-                max={1.25}
-                step={0.05}
+                min={0.01}
+                max={1.5}
+                step={0.01}
                 unit="x"
                 onChange={(scale) =>
                   applyAndPersistTypography({
                     fontSizeScale,
                     fontWeightScale: scale,
                     typeSizeRatio,
+                    headerLetterSpacingScale,
+                    bodyLetterSpacingScale,
                   })
                 }
               />
@@ -589,6 +752,7 @@ const ColorRow = memo(
 
 const SliderControl = memo(
   ({ label, value, min, max, step, unit, onChange }: SliderControlProps) => {
+    const safeValue = value ?? (min + (max - min) / 2);
     return (
       <div className="space-y-2 group">
         <div className="flex justify-between items-end">
@@ -598,12 +762,12 @@ const SliderControl = memo(
           <span
             className={`${VALUE_LABEL} border border-background-700 rounded-[8px] bg-background-800 px-1.5 py-0.5 text-foreground-300`}
           >
-            {value.toFixed(unit ? 2 : 3)}
+            {safeValue.toFixed(unit ? 2 : 3)}
             {unit}
           </span>
         </div>
         <Slider.Root
-          value={[value]}
+          value={[safeValue]}
           onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
           min={min}
           max={max}
@@ -760,3 +924,4 @@ const ColorPicker = memo(
     );
   },
 );
+

@@ -10,6 +10,8 @@ export interface TypographyConfig {
   fontSizeScale: number;
   fontWeightScale: number;
   typeSizeRatio: number;
+  headerLetterSpacingScale?: number;
+  bodyLetterSpacingScale?: number;
 }
 
 export interface LayoutConfig {

@@ -15,6 +15,7 @@ import { ensureSemanticColorIntegrity } from "./semantic-color-utils";
 import { type GlobalColorAdjustments } from "./color-utils";
 import { useThemeConfiguration } from "../hooks/use-theme-configuration";
 import { clampTypographyConfig, isValidTypographyConfig } from "./typography-constraints";
+import { type FontKey, getDefaultSansFont, getDefaultMonoFont } from "../constants/font-config";
 
 export interface AppContextType {
   isSettingsPanelOpen: boolean;
@@ -42,6 +43,14 @@ export interface AppContextType {
   setSpacingScale: (value: number) => void;
   globalAdjustments: GlobalColorAdjustments;
   setGlobalAdjustments: (adjustments: GlobalColorAdjustments) => void;
+  selectedSansFont: FontKey;
+  setSelectedSansFont: (font: FontKey) => void;
+  selectedMonoFont: FontKey;
+  setSelectedMonoFont: (font: FontKey) => void;
+  headerLetterSpacingScale: number;
+  setHeaderLetterSpacingScale: (scale: number) => void;
+  bodyLetterSpacingScale: number;
+  setBodyLetterSpacingScale: (scale: number) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -61,6 +70,10 @@ const defaultPreferences = {
   borderWidth: 2,
   spacingScale: 0.9,
   globalAdjustments: DEFAULT_GLOBAL_ADJUSTMENTS,
+  selectedSansFont: getDefaultSansFont().name as FontKey,
+  selectedMonoFont: getDefaultMonoFont().name as FontKey,
+  headerLetterSpacingScale: 1,
+  bodyLetterSpacingScale: 1,
 };
 
 function loadPreferencesFromStorage() {
@@ -95,6 +108,10 @@ function loadPreferencesFromStorage() {
       spacingScale: sourceConfig.layout.spacingScale,
       globalAdjustments:
         sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
+      selectedSansFont: (sourceConfig.fonts?.sansFont ?? defaultPreferences.selectedSansFont) as FontKey,
+      selectedMonoFont: (sourceConfig.fonts?.monoFont ?? defaultPreferences.selectedMonoFont) as FontKey,
+      headerLetterSpacingScale: sourceConfig.typography.headerLetterSpacingScale ?? 1,
+      bodyLetterSpacingScale: sourceConfig.typography.bodyLetterSpacingScale ?? 1,
     };
   }
 
@@ -109,14 +126,18 @@ function loadPreferencesFromStorage() {
     spacingScale: sourceConfig.layout.spacingScale,
     globalAdjustments:
       sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
+    selectedSansFont: (sourceConfig.fonts?.sansFont ?? defaultPreferences.selectedSansFont) as FontKey,
+    selectedMonoFont: (sourceConfig.fonts?.monoFont ?? defaultPreferences.selectedMonoFont) as FontKey,
+    headerLetterSpacingScale: sourceConfig.typography.headerLetterSpacingScale ?? 1,
+    bodyLetterSpacingScale: sourceConfig.typography.bodyLetterSpacingScale ?? 1,
   };
 }
 
 function ThemeConfigurationApplier() {
-  const { fontSizeScale, fontWeightScale, typeSizeRatio, radius, borderWidth, spacingScale } = useApp();
+  const { fontSizeScale, fontWeightScale, typeSizeRatio, radius, borderWidth, spacingScale, headerLetterSpacingScale, bodyLetterSpacingScale } = useApp();
 
   useThemeConfiguration({
-    typography: { fontSizeScale, fontWeightScale, typeSizeRatio },
+    typography: { fontSizeScale, fontWeightScale, typeSizeRatio, headerLetterSpacingScale, bodyLetterSpacingScale },
     layout: { radius, borderWidth, spacingScale },
   });
 
@@ -151,6 +172,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
   const [globalAdjustments, setGlobalAdjustments] =
     useState<GlobalColorAdjustments>(defaultPreferences.globalAdjustments);
+  const [selectedSansFont, setSelectedSansFont] = useState<FontKey>(
+    defaultPreferences.selectedSansFont,
+  );
+  const [selectedMonoFont, setSelectedMonoFont] = useState<FontKey>(
+    defaultPreferences.selectedMonoFont,
+  );
+  const [headerLetterSpacingScale, setHeaderLetterSpacingScale] = useState(
+    defaultPreferences.headerLetterSpacingScale,
+  );
+  const [bodyLetterSpacingScale, setBodyLetterSpacingScale] = useState(
+    defaultPreferences.bodyLetterSpacingScale,
+  );
 
   useEffect(() => {
     const savedPrefs = loadPreferencesFromStorage();
@@ -164,6 +197,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setBorderWidth(savedPrefs.borderWidth);
       setSpacingScale(savedPrefs.spacingScale);
       setGlobalAdjustments(savedPrefs.globalAdjustments);
+      setSelectedSansFont(savedPrefs.selectedSansFont);
+      setSelectedMonoFont(savedPrefs.selectedMonoFont);
+      setHeaderLetterSpacingScale(savedPrefs.headerLetterSpacingScale);
+      setBodyLetterSpacingScale(savedPrefs.bodyLetterSpacingScale);
     }
     setIsThemeInitialized(true);
   }, []);
@@ -215,6 +252,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             if (config.colors.globalAdjustments) {
               setGlobalAdjustments(config.colors.globalAdjustments);
             }
+            if (config.fonts) {
+              setSelectedSansFont(config.fonts.sansFont as FontKey);
+              setSelectedMonoFont(config.fonts.monoFont as FontKey);
+            }
+            setHeaderLetterSpacingScale(config.typography.headerLetterSpacingScale ?? 1);
+            setBodyLetterSpacingScale(config.typography.bodyLetterSpacingScale ?? 1);
           }
         } catch (error) {
           console.warn("[AppContext] Failed to sync storage change:", error);
@@ -252,6 +295,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setSpacingScale,
     globalAdjustments,
     setGlobalAdjustments,
+    selectedSansFont,
+    setSelectedSansFont,
+    selectedMonoFont,
+    setSelectedMonoFont,
+    headerLetterSpacingScale,
+    setHeaderLetterSpacingScale,
+    bodyLetterSpacingScale,
+    setBodyLetterSpacingScale,
   }), [
     isSettingsPanelOpen,
     isCommandPaletteOpen,
@@ -265,7 +316,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     radius,
     borderWidth,
     spacingScale,
-    globalAdjustments
+    globalAdjustments,
+    selectedSansFont,
+    selectedMonoFont,
+    headerLetterSpacingScale,
+    bodyLetterSpacingScale,
   ]);
 
   return <AppContext.Provider value={value}>

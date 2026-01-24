@@ -92,7 +92,7 @@ export function Sidebar() {
 
   return (
     <aside className={cn('hidden md:flex', sidebarWidth, 'flex-col')}>
-      <div className="flex border-r border-background-700 bg-background-800/30 flex-col h-screen sticky top-(--header-height)">
+      <div className="flex border-r border-background-700 flex-col h-screen sticky top-(--header-height)">
         {mainNavItems.length > 0 && (
           <div className="z-10">
             <nav className="py-3 px-2 space-y-1">
@@ -105,7 +105,7 @@ export function Sidebar() {
                     key={navItem.id}
                     href={navItem.href}
                     className={cn(
-                      'flex border items-center gap-1 pl-0.5 pr-2 py-0.5 text-sm font-medium rounded-base',
+                      'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-medium rounded-md',
                       isActive
                         ? 'border-background-700 text-foreground-50 bg-background-700'
                         : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
@@ -113,8 +113,8 @@ export function Sidebar() {
                   >
                     <div
                       className={cn(
-                        'w-9 h-9 rounded-base flex items-center justify-center',
-                        isActive ? 'text-foreground-50' : 'text-foreground-400'
+                        'w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center',
+                        isActive ? 'bg-transparent text-foreground-50' : 'text-foreground-300'
                       )}
                     >
                       <Icon className="w-5 h-5" />
@@ -155,10 +155,10 @@ export function Sidebar() {
               />
             </div>
           ) : (
-            <div className="py-5 px-5 space-y-8">
+            <div className="py-4 px-5 space-y-8">
               {sections.map((section) => (
                 <div key={section.label}>
-                  <span className="text-sm text-foreground-400">{section.label}</span>
+                  <span className="text-sm font-semibold text-foreground-400">{section.label}</span>
                   <div className="relative mt-2.5">
                     <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                     <div className="space-y-1 pl-3">
@@ -170,7 +170,7 @@ export function Sidebar() {
                             key={item.id}
                             href={href}
                             className={cn(
-                              'block px-3 py-1.5 text-sm rounded-base cursor-pointer',
+                              'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
                               'transition-colors duration-300 ease-out',
                               'hover:duration-0',
                               active
