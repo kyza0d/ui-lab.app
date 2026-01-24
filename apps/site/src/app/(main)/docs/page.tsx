@@ -55,7 +55,7 @@ export default async function DocsPage() {
             {/* <div className="grid-paper z-0" /> */}
           </div>
 
-          <div id="doc-content" className="prose dark:prose-invert prose-lg max-w-none">
+          <div id="doc-content">
             <MDXRemote
               source={doc.content}
               components={mdxComponents}
@@ -78,7 +78,7 @@ export default async function DocsPage() {
                   href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex  justify-end flex-col gap-4 px-3 py-2 h-28 rounded-base border border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-foreground-600 hover:bg-background-800 cursor-pointer"
+                  className="relative flex  justify-end flex-col gap-4 px-3 py-2 h-28 rounded-md border border-background-700 bg-background-800/50 backdrop-blur-sm transition-all hover:border-foreground-600 hover:bg-background-800 cursor-pointer"
                 >
                   <div className="absolute top-4 left-3">
                     <Icon className="w-6 h-6 text-foreground-400" />

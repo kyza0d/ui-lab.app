@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 import { Toaster } from "ui-lab-components";
 import { HeroSection, Showcase, NodeSection } from "@/features/landing";
 import { FeaturesSection } from "@/features/landing/components/FeaturesSection";
+import { LandingSidebar } from "@/shared/components/landing-sidebar";
 
-import Link from "next/link";
 import { SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
 
 const TailwindSvg = () => (
@@ -39,16 +39,19 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={containerRef} className="pt-(--header-height) mx-auto" style={{ '--header-height': '3.75rem' } as React.CSSProperties}>
+    <div ref={containerRef} className="max-w-(--page-width) mx-auto pt-16 flex">
       <Toaster />
-      <main className="mx-auto h-full max-w-[1100px] ">
-        <div className="fixed h-full bg-background-950 border-x border-background-700 w-screen top-0 left-1/2 -translate-x-1/2" />
-        <div className="fixed max-w-[94vw] bg-background-950 border-x border-background-700 w-screen h-screen top-0 left-1/2 -translate-x-1/2" />
-        <div>
-          <section className="border-x border-background-700 relative isolate after:content-[''] bg-background-950 ml-auto grid grid-cols-[1fr] grid-rows-[474px]">
+      <LandingSidebar />
+      <main className="flex-1 h-full w-full flex flex-col items-center">
+        <div className="fixed h-full bg-background-950 w-screen top-0 left-0 z-0" />
+        <div className="fixed max-w-[94vw] bg-background-950 w-screen h-screen top-0 left-1/2 -translate-x-1/2 z-0" />
+
+        <section className="w-full px-24 border-t-0  grid-paper relative isolate after:content-[''] bg-background-950 ml-auto">
+          <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px]">
             <HeroSection />
-          </section>
-          <div className="after:absolute after:left-0 after:top-0 after:w-screen after:h-[2px] after:bg-accent-500"></div>
+          </div>
+        </section>
+        <div className="w-full px-24">
           <NodeSection>
             <div className="w-full border-t border-background-700 ml-auto">
               <div className="space-y-3">
@@ -86,7 +89,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className="relative m-[10px] h-13 flex justify-start items-center flex-row gap-[20px] cursor-pointer"
                       >
-                        <div className="bg-background-600/50 rounded-[10px] h-full aspect-square flex items-center justify-center">
+                        <div className="rounded-[10px] h-full aspect-square flex items-center justify-center">
                           <Icon />
                         </div>
                         <div className="gap-[6px]">
