@@ -30,7 +30,7 @@ export default async function DesignSystemPage() {
 
           <div className="h-px bg-background-800 my-12"></div>
 
-          <div id="doc-content" className="prose dark:prose-invert prose-lg max-w-none">
+          <div id="doc-content">
             <MDXRemote
               source={doc.content}
               components={mdxComponents}
