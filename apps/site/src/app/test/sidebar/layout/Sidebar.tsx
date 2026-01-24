@@ -52,7 +52,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
       <div className="h-20 flex items-center justify-between px-2 shrink-0">
         {!isCollapsed && (
           <div className="flex items-center gap-4 overflow-hidden whitespace-nowrap animate-in fade-in duration-300">
-            <div className="w-12 h-12 bg-background-800 flex items-center justify-center shrink-0 rounded-base">
+            <div className="w-12 h-12 bg-background-800 flex items-center justify-center shrink-0 rounded-md">
               <FaCube size={16} />
             </div>
             <div className="flex flex-col">
@@ -65,7 +65,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className={`
-            p-2.5 rounded-base text-foreground-400 hover:bg-background-900 hover:text-foreground-50 
+            p-2.5 rounded-md text-foreground-400 hover:bg-background-900 hover:text-foreground-50 
             focus:outline-none focus:ring-2 focus:ring-accent-500/30
             ${isCollapsed ? 'mx-auto' : ''}
           `}
@@ -83,7 +83,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
           {mainNavItems.map((item) =>
             item.id === 'projects' && !isCollapsed ? (
               <Fold key={item.id}>
-                <Fold.Trigger className="text-foreground-400 h-10 text-sm group rounded-base">
+                <Fold.Trigger className="text-foreground-400 h-10 text-sm group rounded-md">
                   <div className="flex items-center gap-4 min-w-0">
                     <item.icon
                       size={17}
@@ -102,7 +102,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
                       <a
                         key={project}
                         href="#"
-                        className="py-2 px-2 text-sm text-foreground-400 hover:text-foreground-50 rounded-base hover:bg-background-900 block transition-colors"
+                        className="py-2 px-2 text-sm text-foreground-400 hover:text-foreground-50 rounded-md hover:bg-background-900 block transition-colors"
                       >
                         {project}
                       </a>
@@ -143,7 +143,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
             className={`
 w-full flex items-center gap-4 px-3 py-2.5
 text-foreground-400 hover:text-red-400 hover:bg-red-500/5
-rounded-base transition-all duration-200 group
+rounded-md transition-all duration-200 group
 `}
             title={isCollapsed ? "Logout" : undefined}
           >
@@ -166,7 +166,7 @@ function NavItem({ item, isActive, isCollapsed }: { item: any, isActive: boolean
     <a
       href="#"
       className={`
-            flex items-center h-10 gap-4 px-3 rounded-base transition-all duration-200 group relative
+            flex items-center h-10 gap-4 px-3 rounded-md transition-all duration-200 group relative
             ${isActive
           ? 'bg-background-900 text-foreground-100 border border-background-700'
           : 'text-foreground-400 hover:text-foreground-50 hover:bg-background-900'}

@@ -57,7 +57,7 @@
     color: var(--foreground);
     border: 1px solid transparent;
     cursor: pointer;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     font-weight: 500;
   }
 

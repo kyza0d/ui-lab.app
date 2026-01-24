@@ -392,7 +392,7 @@ export function generateConfigMessage(
  * 2. Open your project's src/app/globals.css
  * 3. Paste this @theme block (replacing or adding to your existing one)
  * 4. Use standard Tailwind utilities in your components:
- *    - rounded-base, rounded-md, rounded-full, etc.
+ *    - rounded-md, rounded-md, rounded-full, etc.
  *    - border, border-2, border-4, etc.
  * All utilities will automatically respect your custom values.
  */`;
@@ -431,19 +431,19 @@ const SEMANTIC_HTML_STYLES = `
   }
 
   h5 {
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     line-height: var(--line-height-normal);
     font-weight: var(--font-weight-medium);
   }
 
   h6 {
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     line-height: var(--line-height-normal);
     font-weight: var(--font-weight-medium);
   }
 
   p {
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     line-height: var(--line-height-relaxed);
     font-weight: var(--font-weight-normal);
     letter-spacing: var(--letter-spacing-normal);

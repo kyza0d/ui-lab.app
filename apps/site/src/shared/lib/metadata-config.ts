@@ -11,10 +11,7 @@ const ROUTE_TITLES: Record<RoutePath, string> = {
   '/components': 'Components',
   '/elements': 'Elements',
   '/blocks': 'Blocks',
-  '/starters': 'Starters',
   '/design-system': 'Design System',
-  '/agents-mcps': 'Agents & MCPs',
-  '/cli': 'CLI',
   '/config': 'Config',
 };
 

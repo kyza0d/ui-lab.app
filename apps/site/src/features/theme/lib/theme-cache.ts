@@ -1,4 +1,5 @@
 import { type SimpleThemeColors } from "../constants/themes";
+import { type FontKey, SANS_FONTS, MONO_FONTS } from "../constants/font-config";
 
 export interface ThemeSourceConfig {
   colors: SimpleThemeColors;
@@ -6,8 +7,11 @@ export interface ThemeSourceConfig {
     fontSizeScale: number;
     fontWeightScale: number;
     typeSizeRatio: number;
+    headerLetterSpacingScale?: number;
+    bodyLetterSpacingScale?: number;
   };
   layout: { radius: number; borderWidth: number; spacingScale: number };
+  fonts?: { sansFont: FontKey; monoFont: FontKey };
   mode: "light" | "dark";
 }
 
@@ -20,7 +24,7 @@ export interface CompleteThemeCache {
 }
 
 export const THEME_CACHE_KEY = "uilab_theme_complete";
-const REQUIRED_VARS = ["--spacing-base", "--background-50", "--text-base"];
+const REQUIRED_VARS = ["--background-50", "--text-md"];
 
 export function validateThemeCache(data: unknown): CompleteThemeCache | null {
   if (!data || typeof data !== "object") return null;
@@ -48,8 +52,9 @@ function getDefaultSourceConfig(mode: "light" | "dark"): ThemeSourceConfig {
       foreground: { h: 0, c: 0, l: 0.98 },
       accent: { h: 210, c: 0.15, l: 0.5 },
     },
-    typography: { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2 },
+    typography: { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2, headerLetterSpacingScale: 1, bodyLetterSpacingScale: 1 },
     layout: { radius: 0.5, borderWidth: 2, spacingScale: 0.9 },
+    fonts: { sansFont: "Karla", monoFont: "Ioskeley Mono" },
     mode,
   };
 }
@@ -95,11 +100,25 @@ export function applyThemeCacheToDOM(cache: CompleteThemeCache): void {
   Object.entries(cache.cssVariables).forEach(([varName, value]) => {
     root.style.setProperty(varName, value);
   });
+
+  if (cache.sourceConfig.fonts) {
+    const { sansFont, monoFont } = cache.sourceConfig.fonts;
+    const sansFontFamily = getFontFamilyString(sansFont, "sans");
+    const monoFontFamily = getFontFamilyString(monoFont, "mono");
+    root.style.setProperty("--font-sans", sansFontFamily);
+    root.style.setProperty("--font-mono", monoFontFamily);
+  }
+}
+
+function getFontFamilyString(fontName: FontKey, category: "sans" | "mono"): string {
+  const fonts = category === "sans" ? SANS_FONTS : MONO_FONTS;
+  const fontConfig = fonts.find((f) => f.name === fontName);
+  return fontConfig?.family || (category === "sans" ? '"Karla", system-ui, sans-serif' : '"Ioskeley Mono", monospace');
 }
 
 export function clearCompleteThemeCache(): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.removeItem(THEME_CACHE_KEY);
-  } catch {}
+  } catch { }
 }
