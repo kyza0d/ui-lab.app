@@ -12,8 +12,6 @@ const __dirname = path.dirname(__filename);
 
 const CONTENT_DOMAINS = {
   docs: path.join(__dirname, '../content/docs'),
-  'agents-mcps': path.join(__dirname, '../content/agents-mcps'),
-  cli: path.join(__dirname, '../content/cli'),
   'design-system': path.join(__dirname, '../content/design-system'),
 };
 
@@ -109,8 +107,6 @@ interface DomainRegistry {
 
 export interface SidebarRegistry {
   docs: DomainRegistry;
-  'agents-mcps': DomainRegistry;
-  cli: DomainRegistry;
   'design-system': DomainRegistry;
 }
 
