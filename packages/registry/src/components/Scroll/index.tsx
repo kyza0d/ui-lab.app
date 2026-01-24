@@ -11,21 +11,21 @@ export function getPreview(): React.ReactNode {
     <div style={{ width: "70%" }} className="rounded-sm flex gap-2">
       <div className='w-full pr-4'>
         <div className='pt-3'>
-          <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-2 mb-2'></div>
-          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1 mb-2'></div>
-          <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1'></div>
+          <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2 mb-2'></div>
+          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
+          <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
         </div>
 
         <Divider size='sm' />
         <div className='pt-3'>
-          <div style={{ width: "62%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1 mb-2'></div>
-          <div style={{ width: "33%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1 mb-2'></div>
-          <div style={{ width: "50%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1'></div>
+          <div style={{ width: "62%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
+          <div style={{ width: "33%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
+          <div style={{ width: "50%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
         </div>
       </div>
 
-      <div style={{ backgroundColor: "var(--background-900)", height: 120, width: 9 }} className='relative rounded-base flex items-center flex'>
-        <div style={{ backgroundColor: "var(--background-700)", height: 60, width: 5, left: 1.5, top: 2 }} className='absolute rounded-base'></div>
+      <div style={{ backgroundColor: "var(--background-900)", height: 120, width: 9 }} className='relative rounded-md flex items-center flex'>
+        <div style={{ backgroundColor: "var(--background-700)", height: 60, width: 5, left: 1.5, top: 2 }} className='absolute rounded-md'></div>
       </div>
     </div>
   );
@@ -57,7 +57,7 @@ export function Example() {
     <Scroll maxHeight="300px">
       <div className="p-4 space-y-2">
         {Array.from({ length: 20 }).map((_, i) => (
-          <div key={i} className="p-3 bg-background-700 rounded-base">
+          <div key={i} className="p-3 bg-background-700 rounded-md">
             Item {i + 1}
           </div>
         ))}
@@ -93,7 +93,7 @@ export const scrollDetail: ComponentDetail = {
           <div className="p-4 space-y-2">
             {
               Array.from({ length: 20 }).map((_, i) => (
-                <div key={i} className="p-3 bg-background-700 rounded-base" >
+                <div key={i} className="p-3 bg-background-700 rounded-md" >
                   Item {i + 1}
                 </div>
               ))
@@ -107,7 +107,7 @@ export const scrollDetail: ComponentDetail = {
           <div className="p-4 space-y-2" >
             {
               Array.from({ length: 20 }).map((_, i) => (
-                <div key={i} className="p-3 bg-background-700 rounded-base" >
+                <div key={i} className="p-3 bg-background-700 rounded-md" >
                   Item {i + 1}
                 </div>
               ))}
@@ -126,7 +126,7 @@ export const scrollDetail: ComponentDetail = {
       code: `<Scroll maxHeight="300px">
   <div className="p-4 space-y-2">
     {Array.from({ length: 20 }).map((_, i) => (
-      <div key={i} className="p-3 bg-background-700 rounded-base">
+      <div key={i} className="p-3 bg-background-700 rounded-md">
         Item {i + 1}
       </div>
     ))}
@@ -137,7 +137,7 @@ export const scrollDetail: ComponentDetail = {
           <div className="p-4 space-y-2">
             {
               Array.from({ length: 20 }).map((_, i) => (
-                <div key={i} className="p-3 bg-background-700 rounded-base" >
+                <div key={i} className="p-3 bg-background-700 rounded-md" >
                   Item {i + 1}
                 </div>
               ))

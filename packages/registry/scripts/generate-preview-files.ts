@@ -21,7 +21,7 @@ function getElementPreviewComponent(elementName: string): string {
     <header className="bg-background-800 border-b border-background-700 w-full">
       <div className="px-4 py-3 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 flex-1">
-          <div className="w-6 h-6 bg-accent-500 rounded-base flex-shrink-0" />
+          <div className="w-6 h-6 bg-accent-500 rounded-md flex-shrink-0" />
           <div className="w-16 h-4 bg-background-700 rounded flex-shrink-0" />
         </div>
         <div className="flex items-center gap-2">

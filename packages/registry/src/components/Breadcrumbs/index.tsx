@@ -9,9 +9,9 @@ import { FaChevronRight } from 'react-icons/fa6';
 export function getPreview(): React.ReactNode {
   return (
     <div style={{ width: "70%" }} className="w-full flex items-center gap-3 max-w-sm">
-      <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-4'></div>
+      <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-4'></div>
       <FaChevronRight size={10} className='text-foreground-500 opacity-20' />
-      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-4'></div>
+      <div style={{ width: "30%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-4'></div>
     </div>
   );
 }

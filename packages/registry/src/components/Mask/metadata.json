@@ -1,0 +1,27 @@
+{
+  "id": "mask",
+  "name": "Mask",
+  "description": "A container component that creates fading effects on its content edges.",
+  "category": "container",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Mask",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "card",
+    "scroll"
+  ],
+  "tags": [
+    "container",
+    "visual",
+    "effect",
+    "fade"
+  ],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Visual effect only, does not affect content semantics"
+    ]
+  }
+}

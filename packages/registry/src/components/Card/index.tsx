@@ -17,17 +17,17 @@ export function getPreview(): React.ReactNode {
         <div className='p-1 mb-2'>
           <div style={{ height: 42, backgroundColor: "var(--background-900)" }} className='w-full rounded-sm' />
         </div>
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base ml-2 h-1'></div>
-        <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base ml-2 mt-2 h-1'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md ml-2 h-1'></div>
+        <div style={{ width: "60%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md ml-2 mt-2 h-1'></div>
 
         <div className='mt-4 py-1 border-t border-background-700 flex items-center gap-1 flex'>
           <div style={{ width: "35%", backgroundColor: "var(--background-800)" }} className='ml-auto flex justify-center items-center
            rounded-xs h-3 gap-2 pl-1'>
-            <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-base pr-1 h-1'></div>
+            <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='rounded-md pr-1 h-1'></div>
           </div>
           <div style={{ width: "35%", marginRight: 2, backgroundColor: "var(--background-800)" }} className='flex justify-center items-center
            rounded-xs h-3 gap-2 pl-1'>
-            <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='h-1 rounded-base'></div>
+            <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2, marginRight: 4 }} className='h-1 rounded-md'></div>
           </div>
         </div>
       </div>
