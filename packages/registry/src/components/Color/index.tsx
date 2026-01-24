@@ -22,7 +22,7 @@ export function getPreview(): React.ReactNode {
       <div className='flex flex-col gap-1'>
         <div style={{ width: "100%", height: 24, borderRadius: "var(--radius-md)" }} className="bg-background-900 px-2 flex items-center border-[1px] border-background-700">
           <div style={{ backgroundColor: "var(--background-500)" }} className='flex-1 opacity-10 rounded-sm h-2 ml-2 mr-2'></div>
-          <div style={{ backgroundColor: "var(--background-500)" }} className='w-px opacity-30 rounded-base h-3'></div>
+          <div style={{ backgroundColor: "var(--background-500)" }} className='w-px opacity-30 rounded-md h-3'></div>
         </div>
       </div>
     </div>

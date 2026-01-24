@@ -7,7 +7,7 @@ import { loadComponentExamples } from '../../utils/load-component-examples';
 
 export function getPreview(): React.ReactNode {
   return (
-    <div className='flex border overflow-hidden rounded-base h-8 pl-2 items-center border-background-700 w-full'>
+    <div className='flex border overflow-hidden rounded-md h-8 pl-2 items-center border-background-700 w-full'>
       <div style={{ width: "36%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-2'></div>
       <Divider size="sm" orientation='vertical' />
       <div style={{ width: "36%", backgroundColor: "var(--background-500)" }} className='mr-2 opacity-10 rounded-sm h-2'></div>
