@@ -34,12 +34,9 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const toastRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-  // Track toasts that have completed entry animation - these should never re-enter
   const completedEntriesRef = useRef<Set<string>>(new Set());
   const isTop = position.includes("top");
 
-  // Only render MAX_VISIBLE items to keep DOM light
-  // Memoize to prevent unnecessary hook re-runs that interrupt animations
   const visibleToasts = useMemo(
     () => toasts.slice(0, MAX_VISIBLE + 1),
     [toasts]
@@ -205,8 +202,6 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
             style={{
               willChange: "transform, opacity",
               pointerEvents: "auto",
-              // GSAP will set opacity via inline styles during animation
-              // Starting state: invisible (will be set by GSAP.set in useGSAP)
               opacity: 0,
             }}
           >
@@ -253,31 +248,25 @@ export const Toaster = () => {
       {positions.map((pos) => {
         const pts = toastsByPosition[pos];
         if (!pts || pts.length === 0) return null;
-
-        // Render a specialized wrapper that checks for duplicate positions
         return <SingletonToastContainer key={pos} position={pos} toasts={pts} />;
       })}
     </>
   );
 };
 
-// Wrapper to enforce singleton per position
 const SingletonToastContainer: React.FC<ToastContainerProps> = (props) => {
   const [isAllowed, setIsAllowed] = useState(false);
 
   useEffect(() => {
-    // If this position is already claimed by another Toaster instance, don't render
     if (activePositions.has(props.position)) {
       setIsAllowed(false);
       return;
     }
 
-    // Claim the position
     activePositions.add(props.position);
     setIsAllowed(true);
 
     return () => {
-      // Release the position on unmount
       activePositions.delete(props.position);
     };
   }, [props.position]);

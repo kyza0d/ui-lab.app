@@ -23,7 +23,7 @@
     &[data-variant="default"] {
       background-color: var(--background);
       border: var(--border-width-base) solid var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-sm);
     }
 
     &[data-variant="underline"] {
@@ -41,7 +41,7 @@
   }
 
   .indicatorDefault {
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
   }
 
   .indicatorUnderline {
@@ -64,19 +64,18 @@
     font-weight: 500;
     font-size: var(--text-sm);
     line-height: var(--leading-snug);
-    @apply gap-2 px-3 py-1.5 whitespace-nowrap;
+    @apply gap-2 mx-1 px-3 py-1.5 whitespace-nowrap;
 
     color: var(--foreground);
     user-select: none;
     cursor: pointer;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     transition: transform 150ms var(--ease-snappy-pop);
 
     &[data-focus-visible] {
       background: var(--background-800);
-      border-radius: 0px;
       outline: 0px solid var(--accent-500);
     }
 
@@ -88,6 +87,7 @@
     @media (hover: hover) {
       &:hover:not([data-disabled]) {
         color: var(--foreground-hover);
+        background: var(--background-800);
       }
     }
 

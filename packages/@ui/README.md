@@ -162,7 +162,7 @@ CSS modules use semantic variables and data attributes for state:
     align-items: center;
     justify-content: center;
     font-size: var(--text-md);
-    @apply px-3 py-1.5 rounded-base;
+    @apply px-3 py-1.5 rounded-md;
 
     background-color: var(--background);
     color: var(--foreground);

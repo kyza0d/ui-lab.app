@@ -8,7 +8,7 @@ const labelVariants = cva(
       size: {
         sm: "text-xs",
         md: "text-sm",
-        lg: "text-base",
+        lg: "text-md",
       },
       disabled: {
         true: "text-foreground-500 opacity-60 cursor-not-allowed",

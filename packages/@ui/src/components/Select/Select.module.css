@@ -24,10 +24,6 @@
       min-width: 0;
     }
 
-    &[aria-expanded="true"] {
-      background-color: color-mix(in srgb, var(--background-700) 80%, transparent);
-    }
-
     &[data-focus-visible] {
       outline: 2px solid var(--accent-500);
       outline-offset: 2px;
@@ -117,7 +113,7 @@
     position: absolute;
     z-index: 50000;
     overflow: hidden;
-    border-radius: var(--radius-base);
+    border-radius: var(--radius-sm);
     border: var(--border-width-base) solid var(--background-700);
     background-color: var(--background-900);
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);

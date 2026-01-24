@@ -2,10 +2,10 @@
 
 @layer components {
   .palette {
-    --background-default: var(--background-800);
+    --background-default: var(--background-900);
     --background-hover: var(--background-800);
     --background-selected: var(--background-800);
-    --background-input: var(--background-800);
+    --background-input: var(--background-900);
     --border-default: var(--background-700);
     --fg-default: var(--foreground-50);
     --fg-muted: var(--foreground-500);
@@ -34,7 +34,7 @@
   .content {
     position: relative;
     @apply m-2;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--background-default);
     width: 100%;
     margin-inline: 1rem;
@@ -44,7 +44,7 @@
   }
 
   .inner {
-    border-radius: 12px 12px 0 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
     border-top: var(--border-width-base) solid var(--border-default);
     overflow: hidden;
   }
@@ -99,7 +99,7 @@
     top: 50%;
     transform: translateY(-50%);
     padding: 0.25rem;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background-color: transparent;
     color: var(--fg-muted);
     border: none;
