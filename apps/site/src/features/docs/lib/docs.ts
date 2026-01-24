@@ -26,8 +26,6 @@ export interface DocContent {
 }
 
 const DOCS_DIR = path.join(process.cwd(), 'content/docs')
-const AGENTS_MCPS_DIR = path.join(process.cwd(), 'content/agents-mcps')
-const CLI_DIR = path.join(process.cwd(), 'content/cli')
 const DESIGN_SYSTEM_DIR = path.join(process.cwd(), 'content/design-system')
 
 async function getAllDocsFromDir(dir: string): Promise<DocMetadata[]> {
@@ -103,22 +101,6 @@ export async function getAllDocs(): Promise<DocMetadata[]> {
 
 export async function getDocBySlug(slug: string): Promise<DocContent | null> {
   return getDocBySlugFromDir(slug, DOCS_DIR)
-}
-
-export async function getAllAgentsMcpsDocs(): Promise<DocMetadata[]> {
-  return getAllDocsFromDir(AGENTS_MCPS_DIR)
-}
-
-export async function getAgentsMcpsDocBySlug(slug: string): Promise<DocContent | null> {
-  return getDocBySlugFromDir(slug, AGENTS_MCPS_DIR)
-}
-
-export async function getAllCliDocs(): Promise<DocMetadata[]> {
-  return getAllDocsFromDir(CLI_DIR)
-}
-
-export async function getCliDocBySlug(slug: string): Promise<DocContent | null> {
-  return getDocBySlugFromDir(slug, CLI_DIR)
 }
 
 export async function getAllDesignSystemDocs(): Promise<DocMetadata[]> {

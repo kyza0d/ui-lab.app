@@ -65,7 +65,7 @@ export function ElementsFilterPopover({
           {activeFilterCount > 0 && (
             <button
               onClick={handleClearAll}
-              className="w-full px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 rounded-base border border-background-700 hover:border-background-600 transition-colors"
+              className="w-full px-3 py-2 text-sm text-foreground-400 hover:text-foreground-300 rounded-md border border-background-700 hover:border-background-600 transition-colors"
             >
               Clear All Filters
             </button>
@@ -77,7 +77,7 @@ export function ElementsFilterPopover({
         variant='secondary'
         size="sm"
         className={cn(
-          'flex items-center gap-2 rounded-base border transition-colors',
+          'flex items-center gap-2 rounded-md border transition-colors',
           activeFilterCount > 0
             ? 'border-accent-500 bg-accent-500/10 text-accent-400'
             : 'border-background-700 bg-background-800 text-foreground-300 hover:border-background-600',

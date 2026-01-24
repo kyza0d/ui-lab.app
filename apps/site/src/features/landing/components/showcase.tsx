@@ -101,7 +101,7 @@ const coreComponents = [
 
 export function Showcase() {
   return (
-    <div className="bg-background-950 ml-auto h-240 border-t-[2px] border-b-0 border-background-700 overflow-hidden">
+    <div className="bg-background-950 ml-auto h-240 border-t border-b-0 border-background-700 overflow-hidden">
       <div className="overflow-auto flex flex-col">
         <div className="flex-1 overflow-auto">
           <div className="grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>

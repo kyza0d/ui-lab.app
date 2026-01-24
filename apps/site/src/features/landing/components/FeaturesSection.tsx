@@ -85,7 +85,7 @@ export function FeaturesSection() {
             {feature.icon}
           </div>
           <div className="flex-1">
-            <strong className="font-semibold text-base block leading-tight text-foreground-100">
+            <strong className="font-semibold text-md block leading-tight text-foreground-100">
               {feature.highlight ? (
                 <>
                   <span className="font-medium underline text-foreground-50">
@@ -97,7 +97,7 @@ export function FeaturesSection() {
                 feature.title
               )}
             </strong>
-            <p className="text-sm mt-1.5 leading-relaxed text-foreground-400">
+            <p className="text-sm mt-1.5 text-foreground-400">
               {feature.desc}
             </p>
           </div>

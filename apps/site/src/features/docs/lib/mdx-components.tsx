@@ -28,7 +28,7 @@ export const mdxComponents = {
     </h4>
   ),
   p: ({ children }: any) => (
-    <p className="text-base leading-7 my-4 text-foreground-300">
+    <p className="text-md my-4">
       {children}
     </p>
   ),

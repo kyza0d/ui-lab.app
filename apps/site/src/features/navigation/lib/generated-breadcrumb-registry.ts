@@ -6,6 +6,174 @@ import type { BreadcrumbRegistry } from './breadcrumb-registry';
 export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
   "items": [
     {
+      "path": "/docs/agents-mcps-api-reference",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"API Reference\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-core-concepts",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Core Concepts\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-custom-mcps",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Custom MCPs\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-designing-ai-workflows",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Designing AI Workflows\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-examples-use-cases",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Examples & Use Cases\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-installation",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Installation\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-integrations",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Integrations\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-introduction",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Agents & MCPs\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-mcps-overview",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"MCPs Overview\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-prompting-strategies",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Prompting Strategies\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-quick-start",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Quick Start\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/agents-mcps-state-management",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"State Management\""
+        }
+      ]
+    },
+    {
       "path": "/docs/best-practices",
       "domain": "/docs",
       "domainLabel": "UI Lab Overview",
@@ -23,6 +191,20 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
+      "path": "/docs/cli-commands",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Commands\""
+        }
+      ]
+    },
+    {
       "path": "/docs/cli-guide",
       "domain": "/docs",
       "domainLabel": "UI Lab Overview",
@@ -36,6 +218,34 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
         },
         {
           "label": "\"CLI Guide\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/cli-installation",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Installation\""
+        }
+      ]
+    },
+    {
+      "path": "/docs/cli-quick-start",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Quick Start\""
         }
       ]
     },
