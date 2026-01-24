@@ -19,8 +19,6 @@ const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
   'overview': null,
   'components-core': null,
   'design-system': null,
-  'agents-mcps-introduction': null,
-  'cli-getting-started': ['Getting Started'],
   'elements': null,
   'sections': null,
 };
@@ -76,12 +74,6 @@ export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
       break;
     case 'components-core':
       return getComponentSections();
-    case 'agents-mcps-introduction':
-      sections = getSectionsForDomain('agents-mcps');
-      break;
-    case 'cli-getting-started':
-      sections = getSectionsForDomain('cli');
-      break;
     case 'design-system':
       sections = getSectionsForDomain('design-system');
       break;
@@ -103,10 +95,6 @@ export function getHrefForNavItem(activeNav: MainNavItem, itemId: string): strin
       return itemId === 'introduction' ? '/docs' : `/docs/${itemId}`;
     case 'components-core':
       return itemId === 'overview' ? '/components' : `/components/${itemId}`;
-    case 'agents-mcps-introduction':
-      return itemId === 'introduction' ? '/agents-mcps' : `/agents-mcps/${itemId}`;
-    case 'cli-getting-started':
-      return itemId === 'introduction' ? '/cli' : `/cli/${itemId}`;
     case 'design-system':
       return itemId === 'overview' ? '/design-system' : `/design-system/${itemId}`;
     default:
@@ -117,7 +105,7 @@ export function getHrefForNavItem(activeNav: MainNavItem, itemId: string): strin
 export function isNavItemActive(itemId: string, pathname: string, activeNav: MainNavItem): boolean {
   const href = getHrefForNavItem(activeNav, itemId);
   if (href === pathname) return true;
-  if (itemId === 'introduction' && (pathname === '/docs' || pathname === '/agents-mcps' || pathname === '/cli' || pathname === '/design-system')) return true;
+  if (itemId === 'introduction' && (pathname === '/docs' || pathname === '/design-system')) return true;
   if (itemId === 'overview' && (pathname === '/components' || pathname === '/design-system')) return true;
   return pathname.includes(`/${itemId}`);
 }

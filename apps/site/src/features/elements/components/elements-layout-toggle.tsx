@@ -12,7 +12,7 @@ export function ElementsLayoutToggle() {
       <button
         onClick={() => setLayout('grid')}
         className={cn(
-          "p-1.5 rounded-base transition-all",
+          "p-1.5 rounded-md transition-all",
           layout === 'grid' ? "bg-background-700 text-foreground-50 shadow-sm" : "text-foreground-500 hover:text-foreground-300"
         )}
       >
@@ -21,7 +21,7 @@ export function ElementsLayoutToggle() {
       <button
         onClick={() => setLayout('list')}
         className={cn(
-          "p-1.5 rounded-base transition-all",
+          "p-1.5 rounded-md transition-all",
           layout === 'list' ? "bg-background-700 text-foreground-50 shadow-sm" : "text-foreground-500 hover:text-foreground-300"
         )}
       >

@@ -63,7 +63,7 @@ export function Table<T extends Record<string, any>>({
                     handleFilterChange(String(col.key), e.target.value)
                   }
                   placeholder={`Filter by ${col.label.toLowerCase()}`}
-                  className="w-full px-3 py-2 rounded-base border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
+                  className="w-full px-3 py-2 rounded-md border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
                 />
               </div>
             ))}

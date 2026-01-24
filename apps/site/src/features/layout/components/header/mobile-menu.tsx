@@ -100,7 +100,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                               href={sub.href}
                               onClick={onClose}
                               className={cn(
-                                "flex flex-col rounded-base px-3 py-2 hover:bg-background-800 text-foreground-300"
+                                "flex flex-col rounded-md px-3 py-2 hover:bg-background-800 text-foreground-300"
                               )}
                             >
                               <div className="font-semibold">{sub.label}</div>

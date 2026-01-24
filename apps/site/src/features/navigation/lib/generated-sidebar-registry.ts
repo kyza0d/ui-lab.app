@@ -26,8 +26,6 @@ interface DomainRegistry {
 
 export interface SidebarRegistry {
   docs: DomainRegistry;
-  'agents-mcps': DomainRegistry;
-  cli: DomainRegistry;
   'design-system': DomainRegistry;
 }
 
@@ -61,6 +59,76 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             ]
       },
       {
+            "label": "Agents & MCPs",
+            "items": [
+                  {
+                        "id": "agents-mcps-api-reference",
+                        "label": "API Reference"
+                  },
+                  {
+                        "id": "agents-mcps-core-concepts",
+                        "label": "Core Concepts"
+                  },
+                  {
+                        "id": "agents-mcps-custom-mcps",
+                        "label": "Custom MCPs"
+                  },
+                  {
+                        "id": "agents-mcps-designing-ai-workflows",
+                        "label": "Designing AI Workflows"
+                  },
+                  {
+                        "id": "agents-mcps-examples-use-cases",
+                        "label": "Examples & Use Cases"
+                  },
+                  {
+                        "id": "agents-mcps-installation",
+                        "label": "Installation"
+                  },
+                  {
+                        "id": "agents-mcps-integrations",
+                        "label": "Integrations"
+                  },
+                  {
+                        "id": "agents-mcps-introduction",
+                        "label": "Agents & MCPs"
+                  },
+                  {
+                        "id": "agents-mcps-mcps-overview",
+                        "label": "MCPs Overview"
+                  },
+                  {
+                        "id": "agents-mcps-prompting-strategies",
+                        "label": "Prompting Strategies"
+                  },
+                  {
+                        "id": "agents-mcps-quick-start",
+                        "label": "Quick Start"
+                  },
+                  {
+                        "id": "agents-mcps-state-management",
+                        "label": "State Management"
+                  }
+            ]
+      },
+      {
+            "label": "CLI",
+            "items": [
+                  {
+                        "id": "cli-commands",
+                        "label": "Commands"
+                  },
+                  {
+                        "id": "cli-installation",
+                        "label": "Installation"
+                  },
+                  {
+                        "id": "cli-quick-start",
+                        "label": "Quick Start"
+                  }
+            ]
+      },
+      {
             "label": "How-To",
             "items": [
                   {
@@ -71,17 +139,107 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
       }
 ],
     fileMap: {
+      "agents-mcps-api-reference": {
+            "title": "API Reference",
+            "description": "Complete API reference for agents and MCPs",
+            "slug": "agents-mcps-api-reference",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-core-concepts": {
+            "title": "Core Concepts",
+            "description": "Understand the fundamental concepts of agents and MCPs",
+            "slug": "agents-mcps-core-concepts",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-custom-mcps": {
+            "title": "Custom MCPs",
+            "description": "Build your own Model Context Protocol servers",
+            "slug": "agents-mcps-custom-mcps",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-designing-ai-workflows": {
+            "title": "Designing AI Workflows",
+            "description": "Learn how to architect effective AI workflows",
+            "slug": "agents-mcps-designing-ai-workflows",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-examples-use-cases": {
+            "title": "Examples & Use Cases",
+            "description": "Real-world examples and use cases for AI agents",
+            "slug": "agents-mcps-examples-use-cases",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-installation": {
+            "title": "Installation",
+            "description": "Set up Agents & MCPs in your project",
+            "slug": "agents-mcps-installation",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-integrations": {
+            "title": "Integrations",
+            "description": "Integrate agents and MCPs with external services",
+            "slug": "agents-mcps-integrations",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-introduction": {
+            "title": "Agents & MCPs",
+            "description": "Learn about AI agents and Model Context Protocol",
+            "slug": "agents-mcps-introduction",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-mcps-overview": {
+            "title": "MCPs Overview",
+            "description": "Understanding the Model Context Protocol architecture",
+            "slug": "agents-mcps-mcps-overview",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-prompting-strategies": {
+            "title": "Prompting Strategies",
+            "description": "Master effective prompting techniques for AI agents",
+            "slug": "agents-mcps-prompting-strategies",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-quick-start": {
+            "title": "Quick Start",
+            "description": "Get started with your first agent in 5 minutes",
+            "slug": "agents-mcps-quick-start",
+            "category": "Agents & MCPs"
+      },
+      "agents-mcps-state-management": {
+            "title": "State Management",
+            "description": "Manage agent and workflow state effectively",
+            "slug": "agents-mcps-state-management",
+            "category": "Agents & MCPs"
+      },
       "best-practices": {
             "title": "Best Practices",
             "description": "Learn how to effectively use and develop with UI Lab components following proven patterns and conventions.",
             "slug": "best-practices",
             "category": "Development"
       },
+      "cli-commands": {
+            "title": "Commands",
+            "description": "Complete reference of all CLI commands",
+            "slug": "cli-commands",
+            "category": "CLI"
+      },
       "cli-guide": {
             "title": "CLI Guide",
-            "description": "Complete reference for the ui-lab command-line tool for initializing projects and installing components.",
+            "description": "Comprehensive guide to using the UI Lab CLI for scaffolding and project setup.",
             "slug": "cli-guide",
             "category": "Development"
+      },
+      "cli-installation": {
+            "title": "Installation",
+            "description": "Install and setup the UI Lab CLI",
+            "slug": "cli-installation",
+            "category": "CLI"
+      },
+      "cli-quick-start": {
+            "title": "Quick Start",
+            "description": "Get up and running with the CLI in minutes",
+            "slug": "cli-quick-start",
+            "category": "CLI"
       },
       "dark-mode": {
             "title": "Dark Mode Setup",
@@ -103,295 +261,6 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
       }
 },
     navSectionMap: null,
-  },
-  'agents-mcps': {
-    sections: [
-      {
-            "label": "Getting Started",
-            "items": [
-                  {
-                        "id": "getting-started-core-concepts",
-                        "label": "Core Concepts"
-                  },
-                  {
-                        "id": "getting-started-installation",
-                        "label": "Installation"
-                  },
-                  {
-                        "id": "getting-started-introduction",
-                        "label": "Agents & MCPs"
-                  },
-                  {
-                        "id": "getting-started-quick-start",
-                        "label": "Quick Start"
-                  }
-            ]
-      },
-      {
-            "label": "Building Workflows",
-            "items": [
-                  {
-                        "id": "building-workflows-designing-ai-workflows",
-                        "label": "Designing AI Workflows"
-                  },
-                  {
-                        "id": "building-workflows-examples-use-cases",
-                        "label": "Examples & Use Cases"
-                  },
-                  {
-                        "id": "building-workflows-prompting-strategies",
-                        "label": "Prompting Strategies"
-                  },
-                  {
-                        "id": "building-workflows-state-management",
-                        "label": "State Management"
-                  }
-            ]
-      },
-      {
-            "label": "Technical Reference",
-            "items": [
-                  {
-                        "id": "technical-reference-api-reference",
-                        "label": "API Reference"
-                  },
-                  {
-                        "id": "technical-reference-custom-mcps",
-                        "label": "Custom MCPs"
-                  },
-                  {
-                        "id": "technical-reference-integrations",
-                        "label": "Integrations"
-                  },
-                  {
-                        "id": "technical-reference-mcps-overview",
-                        "label": "MCPs Overview"
-                  }
-            ]
-      }
-],
-    fileMap: {
-      "agents-and-mcps": {
-            "title": "Agents & MCPs",
-            "description": "Understanding Agents and MCPs",
-            "slug": "agents-and-mcps",
-            "category": null
-      },
-      "api-reference": {
-            "title": "API Reference",
-            "description": "API reference documentation",
-            "slug": "api-reference",
-            "category": null
-      },
-      "building-workflows-designing-ai-workflows": {
-            "title": "Designing AI Workflows",
-            "description": "Learn how to architect effective AI workflows",
-            "slug": "building-workflows-designing-ai-workflows",
-            "category": null
-      },
-      "building-workflows-examples-use-cases": {
-            "title": "Examples & Use Cases",
-            "description": "Real-world examples and use cases for AI agents",
-            "slug": "building-workflows-examples-use-cases",
-            "category": null
-      },
-      "building-workflows-prompting-strategies": {
-            "title": "Prompting Strategies",
-            "description": "Master effective prompting techniques for AI agents",
-            "slug": "building-workflows-prompting-strategies",
-            "category": null
-      },
-      "building-workflows-state-management": {
-            "title": "State Management",
-            "description": "Manage agent and workflow state effectively",
-            "slug": "building-workflows-state-management",
-            "category": null
-      },
-      "building-workflows": {
-            "title": "Building Workflows",
-            "description": "Build workflows with Agents & MCPs",
-            "slug": "building-workflows",
-            "category": null
-      },
-      "core-concepts": {
-            "title": "Core Concepts",
-            "description": "Learn the core concepts",
-            "slug": "core-concepts",
-            "category": null
-      },
-      "custom-mcps": {
-            "title": "Custom MCPs",
-            "description": "Building custom MCPs",
-            "slug": "custom-mcps",
-            "category": null
-      },
-      "designing-ai-workflows": {
-            "title": "Designing AI Workflows",
-            "description": "Design effective AI workflows",
-            "slug": "designing-ai-workflows",
-            "category": null
-      },
-      "examples-and-use-cases": {
-            "title": "Examples & Use Cases",
-            "description": "Examples and use cases",
-            "slug": "examples-and-use-cases",
-            "category": null
-      },
-      "getting-started-core-concepts": {
-            "title": "Core Concepts",
-            "description": "Understand the fundamental concepts of agents and MCPs",
-            "slug": "getting-started-core-concepts",
-            "category": null
-      },
-      "getting-started-installation": {
-            "title": "Installation",
-            "description": "Set up Agents & MCPs in your project",
-            "slug": "getting-started-installation",
-            "category": null
-      },
-      "getting-started-introduction": {
-            "title": "Agents & MCPs",
-            "description": "Learn about AI agents and Model Context Protocol",
-            "slug": "getting-started-introduction",
-            "category": null
-      },
-      "getting-started-quick-start": {
-            "title": "Quick Start",
-            "description": "Get started with your first agent in 5 minutes",
-            "slug": "getting-started-quick-start",
-            "category": null
-      },
-      "getting-started": {
-            "title": "Getting Started",
-            "description": "Get started with Agents & MCPs",
-            "slug": "getting-started",
-            "category": null
-      },
-      "installation": {
-            "title": "Installation",
-            "description": "Installation guide",
-            "slug": "installation",
-            "category": null
-      },
-      "integrations": {
-            "title": "Integrations",
-            "description": "Integrations guide",
-            "slug": "integrations",
-            "category": null
-      },
-      "mcps-overview": {
-            "title": "MCPs Overview",
-            "description": "Overview of Model Context Protocol",
-            "slug": "mcps-overview",
-            "category": null
-      },
-      "prompting-strategies": {
-            "title": "Prompting Strategies",
-            "description": "Effective prompting strategies",
-            "slug": "prompting-strategies",
-            "category": null
-      },
-      "quick-start": {
-            "title": "Quick Start",
-            "description": "Quick start guide",
-            "slug": "quick-start",
-            "category": null
-      },
-      "state-management": {
-            "title": "State Management",
-            "description": "State management in workflows",
-            "slug": "state-management",
-            "category": null
-      },
-      "technical-reference-api-reference": {
-            "title": "API Reference",
-            "description": "Complete API reference for agents and MCPs",
-            "slug": "technical-reference-api-reference",
-            "category": null
-      },
-      "technical-reference-custom-mcps": {
-            "title": "Custom MCPs",
-            "description": "Build your own Model Context Protocol servers",
-            "slug": "technical-reference-custom-mcps",
-            "category": null
-      },
-      "technical-reference-integrations": {
-            "title": "Integrations",
-            "description": "Integrate agents and MCPs with external services",
-            "slug": "technical-reference-integrations",
-            "category": null
-      },
-      "technical-reference-mcps-overview": {
-            "title": "MCPs Overview",
-            "description": "Understanding the Model Context Protocol architecture",
-            "slug": "technical-reference-mcps-overview",
-            "category": null
-      },
-      "technical-reference": {
-            "title": "Technical Reference",
-            "description": "Technical reference documentation",
-            "slug": "technical-reference",
-            "category": null
-      }
-},
-    navSectionMap: {
-      "agents-mcps-introduction": [
-            "Getting Started"
-      ],
-      "agents-mcps-workflows": [
-            "Building Workflows"
-      ],
-      "agents-mcps-references": [
-            "Technical Reference"
-      ]
-},
-  },
-  cli: {
-    sections: [
-      {
-            "label": "Getting Started",
-            "items": [
-                  {
-                        "id": "commands",
-                        "label": "Commands"
-                  },
-                  {
-                        "id": "installation",
-                        "label": "Installation"
-                  },
-                  {
-                        "id": "quick-start",
-                        "label": "Quick Start"
-                  }
-            ]
-      }
-],
-    fileMap: {
-      "commands": {
-            "title": "Commands",
-            "description": "Complete reference of all CLI commands",
-            "slug": "commands",
-            "category": "Getting Started"
-      },
-      "installation": {
-            "title": "Installation",
-            "description": "Install and setup the UI Lab CLI",
-            "slug": "installation",
-            "category": "Getting Started"
-      },
-      "quick-start": {
-            "title": "Quick Start",
-            "description": "Get up and running with the CLI in minutes",
-            "slug": "quick-start",
-            "category": "Getting Started"
-      }
-},
-    navSectionMap: {
-      "cli-getting-started": [
-            "Getting Started"
-      ],
-      "cli-advanced": []
-},
   },
   'design-system': {
     sections: [

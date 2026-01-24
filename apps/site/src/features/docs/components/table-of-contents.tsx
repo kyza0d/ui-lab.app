@@ -173,7 +173,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
         ref={tocContainerRef}
         className="pb-42 pr-4 w-[14rem] overflow-x-hidden h-screen top-(--header-height) sticky overflow-y-auto hidden lg:block"
       >
-        <nav className="space-y-6 px-4 py-5">
+        <nav className="space-y-6 px-4 py-5 pt-24">
           <div>
             <span className="text-md font-semibold text-foreground-50">
               On this page
@@ -185,7 +185,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
                   data-toc-id={item.id}
                   onClick={() => handleClick(item.id)}
                   className={cn(
-                    "block w-full text-left text-sm px-2 py-1.5 rounded-base cursor-pointer overflow-hidden",
+                    "block w-full text-left text-sm px-2 py-1.5 rounded-md cursor-pointer overflow-hidden",
                     "transition-colors duration-300 ease-out",
                     "hover:duration-0",
 

@@ -16,19 +16,19 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] min-h-[calc(100vh-var(--header-height))]">
+      <div className="grid grid-cols-1 w-full max-w-(--page-width) mx-auto md:grid-cols-[auto_4fr_1fr] min-h-[calc(100vh-var(--header-height))]">
         <Sidebar />
         <div id="docs" className={cn(
-          "w-full max-w-(--page-width) flex flex-col justify-center mt-(--header-height)",
+          "flex flex-col justify-center mt-(--header-height)",
           // "bg-background-900/30 rounded-2xl border border-background-700"
         )}>
           <BreadcrumbsNav />
-          <div className="text-sm leading-relaxed antialiased">
-            <div className="mx-auto max-w-3xl pb-12">
+          <div className="flex  items-center">
+            <div className="pt-12 mx-auto max-w-3xl pb-12">
               {children}
             </div>
-            <Footer />
           </div>
+          <Footer />
         </div>
         <TableOfContents items={tocItems} />
       </div>

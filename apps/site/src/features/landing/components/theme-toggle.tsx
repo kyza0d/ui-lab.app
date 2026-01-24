@@ -30,7 +30,7 @@ export const LandingThemeToggle = () => {
     setCurrentThemeMode(nextMode);
     setCurrentThemeColors(colors);
     applyAndPersistMode(nextMode);
-    applyAndPersistColors(colors);
+    applyAndPersistColors(colors, nextMode);
 
     setTimeout(() => {
       document.documentElement.classList.remove("theme-transition");
