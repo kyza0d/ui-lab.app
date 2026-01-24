@@ -119,7 +119,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
         >
           <FiLogOut size={22} className="shrink-0 transition-colors" />
           {!isCollapsed && (
-            <span className="text-base font-medium whitespace-nowrap overflow-hidden animate-in fade-in slide-in-from-left-2 duration-200">
+            <span className="text-md font-medium whitespace-nowrap overflow-hidden animate-in fade-in slide-in-from-left-2 duration-200">
               Logout
             </span>
           )}

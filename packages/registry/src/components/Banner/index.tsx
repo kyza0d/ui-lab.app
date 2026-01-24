@@ -11,8 +11,8 @@ export function getPreview(): React.ReactNode {
     <div style={{ width: "85%", height: 36 }} className="relative w-full gap-3 flex px-2 bg-background-900 items-center justify-center border border-background-700 rounded-sm">
       <FaInfoCircle size={16} color="var(--background-500)" />
       <div className='flex flex-col gap-2 w-full'>
-        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-base h-2'></div>
-        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-base h-1'></div>
+        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-2'></div>
+        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-1'></div>
       </div>
     </div>
   );

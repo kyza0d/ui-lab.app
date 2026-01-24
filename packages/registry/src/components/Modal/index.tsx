@@ -14,13 +14,13 @@ export function getPreview(): React.ReactNode {
       </div>
 
       <div className='pl-2'>
-        <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-3 mb-2'></div>
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1 mb-2'></div>
-        <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-base h-1'></div>
+        <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-3 mb-2'></div>
+        <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
+        <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
       </div>
 
       <div className='mt-4 border-t border-background-700 flex items-center p-1 gap-1 flex'>
-        <div style={{ width: "40%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-base h-2'></div>
+        <div style={{ width: "40%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
         <div style={{ width: "35%", backgroundColor: "var(--background-800)" }} className='ml-auto flex items-center 
            rounded-xs h-3 pl-1'>
         </div>
