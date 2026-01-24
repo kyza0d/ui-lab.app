@@ -23,7 +23,7 @@ export default async function ColorsPage() {
     return (
       <div className="w-full text-foreground-100">
         <div className="flex flex-col lg:flex-row justify-between gap-0">
-          <main className="w-full mx-auto max-w-3xl px-6 py-16 font-sans text-sm leading-relaxed antialiased lg:w-48rem">
+          <main className="w-full mx-auto max-w-3xl px-6 py-16 lg:w-48rem">
             <div className="text-red-500">Color documentation not found</div>
           </main>
         </div>
@@ -42,7 +42,7 @@ export default async function ColorsPage() {
 
           <div className="h-px bg-background-800 my-12"></div>
 
-          <div id="doc-content" className="prose dark:prose-invert prose-lg max-w-none">
+          <div id="doc-content">
             <MDXRemote
               source={doc.content}
               components={mdxComponents}

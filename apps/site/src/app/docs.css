@@ -1,5 +1,6 @@
 @reference "tailwindcss"
 
+
 #docs h1,
 #docs h2,
 #docs h3,
@@ -12,22 +13,23 @@
 
 #docs h1 {
   margin: 2.2rem 0 0.6rem 0 ;
-  font-size: var(--text-xl) !important;
 }
 
 #docs h2 {
   margin: 4.0rem 0 0.4rem 0 ;
-  font-size: var(--text-md) !important;
+  font-weight: 600;
+  font-size: var(--text-lg)
 }
 
 
 #docs h3 {
-  margin: 3.2rem 0 0.0rem 0 ;
-  font-size: var(--text-md) !important;
+  margin: 3.2rem 0 0.2rem 0;
+  font-weight: 600;
+  font-size: var(--text-md)
 }
 
 #docs p {
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   color: var(--foreground-400);
   max-width: 74ch;
   margin: 0.6rem 0 1.4rem 0;
@@ -46,5 +48,7 @@
 }
 
 #docs .banner-title {
-  @apply m-0 mb-2
+  @apply m-0 mb-2;
+  font-size: var(--text-md)
 } 
+

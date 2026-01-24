@@ -99,7 +99,6 @@
  --text-xs: 0.875rem;
   --text-sm: 1.000rem;
   --text-md: 1.000rem;
-  --text-base: 1.000rem;
   --text-lg: clamp(1.125rem, 2.16vw, 1.380rem);
   --text-xl: clamp(1.250rem, 2.59vw, 1.656rem);
   --text-2xl: clamp(1.500rem, 3.11vw, 1.987rem);
@@ -107,18 +106,23 @@
   --text-4xl: clamp(2.115rem, 4.48vw, 2.862rem);
   --text-5xl: clamp(2.538rem, 5.37vw, 3.434rem);
 
-  /* Line Heights */
-  --line-height-tight: 1.25;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.65;
-  --line-height-loose: 2;
+  /* Letter Spacing - Scaled by Type Size */
+  --letter-spacing-xs: -0.0150em;
+  --letter-spacing-sm: -0.0100em;
+  --letter-spacing-md: -0.0050em;
+  --letter-spacing-base: 0.0000em;
+  --letter-spacing-lg: 0.0050em;
+  --letter-spacing-xl: 0.0100em;
+  --letter-spacing-2xl: 0.0150em;
+  --letter-spacing-3xl: 0.0200em;
+  --letter-spacing-4xl: 0.0250em;
+  --letter-spacing-5xl: 0.0300em;
 
-  /* Letter Spacing */
-  --letter-spacing-tight: -0.01em;
-  --letter-spacing-snug: -0.01em;
-  --letter-spacing-normal: 0;
-  --letter-spacing-wide: 0.05em;
+  /* Legacy letter spacing aliases */
+  --letter-spacing-tight: var(--letter-spacing-xs);
+  --letter-spacing-snug: var(--letter-spacing-sm);
+  --letter-spacing-normal: var(--letter-spacing-base);
+  --letter-spacing-wide: var(--letter-spacing-lg);
 
   /* Color Palette */
   --color-background: var(--background);
@@ -246,10 +250,8 @@
   --border-width-4: 4px;
   --border-width-8: 8px;
 
-  --h1-font-size: var(--text-4xl);
-
-  --header-height: 7rem;
-  --page-width: 1600px;
+  --header-height: 3.50rem;
+  --page-width: 2400px;
   --logo-width: 250px;
   /* --indent-offset: 3px; */
 }
@@ -269,29 +271,31 @@
   h1 {
     margin: 0rem 0 0.6rem 0 ;
     font-size: var(--text-xl);
-    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-xl);
     font-weight: 700
   }
 
   h2 {
     margin: 0rem 0 0.4rem 0 ;
     font-size: var(--text-xl);
+    letter-spacing: var(--letter-spacing-xl);
   }
-
 
   h3 {
     margin: 0 0 0 0 ;
     font-size: var(--text-lg);
+    letter-spacing: var(--letter-spacing-lg);
   }
 
   h4 {
-    margin: 00 0 0 ;
+    margin: 0 0 0 0 ;
     font-size: var(--text-md);
+    letter-spacing: var(--letter-spacing-md);
   }
 
-
   p {
-    font-size: var(--text-sm);
+    font-size: var(--text-md);
+    letter-spacing: var(--letter-spacing-md);
     max-width: 80ch;
     margin: 0 0 0.4rem 0;
   }
@@ -312,16 +316,8 @@
     border-radius: var(--radius-sm);
   }
 
-  .rounded-base {
-    border-radius: var(--radius-base);
-  }
-
-  .rounded-base {
-    border-radius: var(--radius-md);
-  }
-
   .rounded-md {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
   }
 
   .rounded-xl {
@@ -367,6 +363,16 @@
   }
 }
 
+/* Apply letter-spacing based on text size utilities */
+.text-xs { letter-spacing: var(--letter-spacing-xs); }
+.text-sm { letter-spacing: var(--letter-spacing-sm); }
+.text-md { letter-spacing: var(--letter-spacing-md); }
+.text-lg { letter-spacing: var(--letter-spacing-lg); }
+.text-xl { letter-spacing: var(--letter-spacing-xl); }
+.text-2xl { letter-spacing: var(--letter-spacing-2xl); }
+.text-3xl { letter-spacing: var(--letter-spacing-3xl); }
+.text-4xl { letter-spacing: var(--letter-spacing-4xl); }
+.text-5xl { letter-spacing: var(--letter-spacing-5xl); }
 
 /* Override border utilities to use dynamic CSS variables */
 .border {
@@ -471,12 +477,11 @@
 }
 
 body {
+  font-family: var(--font-sans);
   background: var(--color-background-950);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   color: var(--color-foreground-300);
-  font-family: var(--font-sans);
-  font-weight: var(--font-weight-medium);
 }
 
 html.theme-transition,
@@ -488,7 +493,6 @@ html.theme-transition *::after {
 
 /* Emphasis Styles */
 strong {
-  font-size: var(--text-sm);
   color: var(--color-foreground-100);
   font-weight: var(--font-weight-semibold);
 }
@@ -499,7 +503,6 @@ pre {
   font-family: var(--font-mono);
   font-size: calc(var(--text-sm) * 1.06);
   font-weight: 500;
-  line-height: 1.58;
   letter-spacing: 0.006em;
 }
 
@@ -530,17 +533,17 @@ pre.shiki .indent::before {
 }
 
 
-.button.outline {
-  background: linear-gradient(to bottom, var(--accent-500), var(--accent-400)) padding-box, linear-gradient(to bottom, var(--accent-100), var(--accent-400)) border-box;
-  box-shadow: 0 0 0 2px var(--accent-400), 0 4px 4px 0 rgba(0, 10, 31, 0.2);
-  --border: red;
-  color: var(--accent-50)
-}
 */
 
 @layer components {
   .button.md {
     font-size: var(--text-sm)
+  }
+  .button.primary {
+    /* background: linear-gradient(to bottom, var(--accent-500), var(--accent-400)) padding-box, linear-gradient(to bottom, var(--accent-100), var(--accent-400)) border-box; */
+    /* background: color-mix(in srgb, var(--accent-500) 10%, transparent); */
+    /* border: 1px solid color-mix(in srgb, var(--accent-500) 20%, transparent); */
+    /* color: var(--accent-500) */
   }
 }
 
@@ -548,9 +551,6 @@ pre.shiki .indent::before {
   --track-background-unchecked: var(--background-950);
 }
 
-.text-sm {
-  @apply font-semibold
-}
 
 .grid-paper {
   position: relative;
