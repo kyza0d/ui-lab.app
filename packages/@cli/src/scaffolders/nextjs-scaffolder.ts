@@ -404,7 +404,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 max-w-5xl sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            <div className="cursor-pointer p-2 rounded-base transition-all duration-300 hover:translate-y-[-4px] hover:bg-background-700/80 hover:border-background-600 hover:shadow-lg group">
+            <div className="cursor-pointer p-2 rounded-md transition-all duration-300 hover:translate-y-[-4px] hover:bg-background-700/80 hover:border-background-600 hover:shadow-lg group">
               <Link href="https://ui-lab.app/docs" target="_blank" className="block">
                 <div className="border-b py-4 border-background-700 group-hover:border-b-background-600 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 640 640" className="text-foreground/80">
@@ -418,7 +418,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="cursor-pointer p-2 rounded-base transition-all duration-300 hover:translate-y-[-4px] hover:bg-background-700/80 hover:border-background-600 hover:shadow-lg group">
+            <div className="cursor-pointer p-2 rounded-md transition-all duration-300 hover:translate-y-[-4px] hover:bg-background-700/80 hover:border-background-600 hover:shadow-lg group">
               <Link href="https://ui-lab.app/components" target="_blank" className="block">
                 <div className="border-b py-4 border-background-700 group-hover:border-b-background-600 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 640 640" className="text-foreground/80">
@@ -434,7 +434,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="cursor-pointer p-2 rounded-base transition-all duration-300 hover:translate-y-[-4px] hover:bg-background-700/80 hover:border-background-600 hover:shadow-lg group">
+            <div className="cursor-pointer p-2 rounded-md transition-all duration-300 hover:translate-y-[-4px] hover:bg-background-700/80 hover:border-background-600 hover:shadow-lg group">
               <Link href="https://ui-lab.app/customize" target="_blank" className="block">
                 <div className="border-b py-4 border-background-700 group-hover:border-b-background-600 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 640 640" className="text-foreground/80">

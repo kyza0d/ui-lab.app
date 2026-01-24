@@ -17,83 +17,84 @@
     color: var(--foreground);
     border-radius: var(--radius-md);
   }
+
+  .badge.default {
+    --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
+    --foreground: var(--background-300);
+  }
+
+  .badge.success {
+    --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
+    --foreground: var(--success-600);
+  }
+
+  .badge.warning {
+    --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
+    --foreground: var(--warning-600);
+  }
+
+  .badge.danger {
+    --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
+    --foreground: var(--danger-600);
+  }
+
+  .badge.info {
+    --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
+    --foreground: var(--info-600);
+  }
+
+  .badge.sm {
+    @apply px-0.5 py-0.5;
+    font-size: var(--text-sm);
+  }
+
+  .badge.md {
+    @apply px-1.5 py-1;
+    font-size: var(--text-sm);
+  }
+
+  .badge.lg {
+    @apply px-2 py-2.5;
+    font-size: var(--text-sm);
+  }
+
+  .pill {
+    border-radius: 9999px;
+  }
+
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .dismissButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.25rem;
+    padding: 0.125rem;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    color: currentColor;
+    cursor: pointer;
+    transition: opacity 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
+    outline: none;
+  }
+
+  .dismissButton[data-hovered="true"] {
+    opacity: 0.7;
+  }
+
+  .dismissButton[data-pressed="true"] {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+
+  .dismissButton[data-focus-visible="true"] {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+  }
 }
 
-.badge.default {
-  --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
-  --foreground: var(--background-300);
-}
-
-.badge.success {
-  --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
-  --foreground: var(--success-600);
-}
-
-.badge.warning {
-  --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
-  --foreground: var(--warning-600);
-}
-
-.badge.danger {
-  --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
-  --foreground: var(--danger-600);
-}
-
-.badge.info {
-  --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
-  --foreground: var(--info-600);
-}
-
-.badge.sm {
-  @apply px-0.5 py-0.5;
-  font-size: var(--text-sm);
-}
-
-.badge.md {
-  @apply px-1.5 py-1;
-  font-size: var(--text-sm);
-}
-
-.badge.lg {
-  @apply px-2 py-2.5;
-  font-size: var(--text-sm);
-}
-
-.pill {
-  border-radius: 9999px;
-}
-
-.iconWrapper {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.dismissButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.25rem;
-  padding: 0.125rem;
-  border-radius: var(--radius-md);
-  background: transparent;
-  border: none;
-  color: currentColor;
-  cursor: pointer;
-  transition: opacity 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
-  outline: none;
-}
-
-.dismissButton[data-hovered="true"] {
-  opacity: 0.7;
-}
-
-.dismissButton[data-pressed="true"] {
-  opacity: 0.5;
-  transform: scale(0.95);
-}
-
-.dismissButton[data-focus-visible="true"] {
-  outline: 2px solid currentColor;
-  outline-offset: 1px;
-}

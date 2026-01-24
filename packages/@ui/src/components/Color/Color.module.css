@@ -38,7 +38,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1;
-    border-radius: var(--radius-md);
+    border-radius: none;
     cursor: crosshair;
     touch-action: none;
     overflow: hidden;

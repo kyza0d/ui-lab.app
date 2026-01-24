@@ -65,7 +65,7 @@
     flex-direction: column;
     background: var(--background);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     overflow: hidden;
     text-decoration: none;
     color: inherit;

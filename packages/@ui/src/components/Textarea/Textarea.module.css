@@ -75,7 +75,7 @@
 
   .textarea[data-size="lg"] {
     min-height: 8rem;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     @apply px-4 py-3;
   }
 

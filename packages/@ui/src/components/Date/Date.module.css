@@ -24,7 +24,7 @@
 
   .monthYear {
     font-weight: 600;
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     min-width: 150px;
     text-align: center;
   }
@@ -43,7 +43,7 @@
     cursor: pointer;
     transition: background-color 150ms var(--ease-snappy-pop),
                 border-color 150ms var(--ease-snappy-pop);
-    font-size: var(--text-base);
+    font-size: var(--text-md);
     font-weight: 500;
   }
 
