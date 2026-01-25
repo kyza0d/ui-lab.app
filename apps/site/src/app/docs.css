@@ -8,7 +8,6 @@
 #docs h5,
 #docs h6 {
   margin: 0 0 0.6rem 0 ;
-  font-weight: 600;
 }
 
 #docs h1 {
@@ -17,14 +16,12 @@
 
 #docs h2 {
   margin: 4.0rem 0 0.4rem 0 ;
-  font-weight: 600;
   font-size: var(--text-lg)
 }
 
 
 #docs h3 {
   margin: 3.2rem 0 0.2rem 0;
-  font-weight: 600;
   font-size: var(--text-md)
 }
 

@@ -13,7 +13,7 @@ export interface ColorHueSliderProps {
 
 export const ColorHueSlider = React.forwardRef<
   HTMLDivElement,
-  ColorPickerHueSliderProps
+  ColorHueSliderProps
 >(({ value, onChange, disabled, size = "md" }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);

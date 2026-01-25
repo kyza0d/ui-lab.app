@@ -19,7 +19,7 @@ export interface ColorInputProps {
 
 export const ColorInput = React.forwardRef<
   HTMLDivElement,
-  ColorPickerInputProps
+  ColorInputProps
 >(
   (
     {
@@ -66,7 +66,6 @@ export const ColorInput = React.forwardRef<
           value={inputValue}
           onChange={handleInputChange}
           disabled={disabled}
-          size={size}
           placeholder={format === "hex" ? "#000000" : "rgb(0, 0, 0)"}
           aria-label="Color input"
           className={styles.colorInput}
