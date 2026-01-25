@@ -13,17 +13,17 @@ export const mdxComponents = {
     </h1>
   ),
   h2: ({ children, id }: any) => (
-    <h2 id={id} className="text-3xl font-semibold my-6 scroll-mt-20">
+    <h2 id={id} className="text-3xl my-6 scroll-mt-20">
       {children}
     </h2>
   ),
   h3: ({ children, id }: any) => (
-    <h3 id={id} className="text-2xl font-medium my-4 scroll-mt-20">
+    <h3 id={id} className="text-2xl my-4 scroll-mt-20">
       {children}
     </h3>
   ),
   h4: ({ children, id }: any) => (
-    <h4 id={id} className="text-xl font-medium my-3 scroll-mt-20">
+    <h4 id={id} className="text-xl my-3 scroll-mt-20">
       {children}
     </h4>
   ),
@@ -35,7 +35,7 @@ export const mdxComponents = {
   a: ({ children, href }: any) => (
     <a
       href={href}
-      className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+      className="text-blue-600 dark:text-blue-400 hover:underline"
     >
       {children}
     </a>

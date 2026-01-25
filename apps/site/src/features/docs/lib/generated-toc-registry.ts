@@ -2233,7 +2233,7 @@ export const tocRegistry: TocRegistry = {
       "level": 2
     }
   ],
-  "component-guidelines": [
+  "components-guidelines": [
     {
       "id": "component-philosophy",
       "title": "Component Philosophy",
