@@ -14,7 +14,7 @@ export interface ColorOpacitySliderProps {
 
 export const ColorOpacitySlider = React.forwardRef<
   HTMLDivElement,
-  ColorPickerOpacitySliderProps
+  ColorOpacitySliderProps
 >(({ value, color, onChange, disabled, size = "md" }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);

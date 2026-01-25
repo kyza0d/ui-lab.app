@@ -16,7 +16,7 @@ export interface ColorCanvasProps {
 
 export const ColorCanvas = React.forwardRef<
   HTMLDivElement,
-  ColorPickerCanvasProps
+  ColorCanvasProps
 >(
   ({ hue, saturation, brightness, onChange, disabled, size = "md" }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);

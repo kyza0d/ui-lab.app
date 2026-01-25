@@ -12,7 +12,7 @@ export interface ColorRecentColorsProps {
 
 export const ColorRecentColors = React.forwardRef<
   HTMLDivElement,
-  ColorPickerRecentColorsProps
+  ColorRecentColorsProps
 >(({ onSelect, disabled, size = "md" }, ref) => {
   const [recentColors, setRecentColors] = useState<string[]>([]);
 
