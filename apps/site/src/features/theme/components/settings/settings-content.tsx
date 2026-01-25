@@ -1,108 +1,37 @@
 "use client";
 
-import { useEffect, useState, memo, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useApp } from "../../lib/app-context";
 import {
   isValidTypographyConfig,
-  getSmallestMinSize,
 } from "../../lib/typography-constraints";
-import { generateTypeScaleFromRatio } from "@/shared/lib/config-generator";
 import {
   FaFont,
   FaRulerCombined,
-  FaChevronDown,
   FaGear,
   FaBrush,
-  FaSun,
-  FaCheck,
-  FaA,
 } from "react-icons/fa6";
 import { themes } from "../../constants/themes";
 import {
   type OklchColor,
   type SemanticColorType,
   type SemanticColorConfig,
-  type HueRange,
   type GlobalColorAdjustments,
-  oklchToCss,
 } from "../../lib/color-utils";
-import { getScaleName } from "@/shared/lib/config-generator";
 import { useThemeStorage } from "../../hooks/use-theme-storage";
-import {
-  getSemanticColorSafely,
-  getSemanticChromaLimit,
-} from "../../lib/semantic-color-utils";
-import { SANS_FONTS, MONO_FONTS, getFontConfig } from "../../constants/font-config";
+import { getFontConfig } from "../../constants/font-config";
 import {
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
-  Button,
-  Select,
 } from "ui-lab-components";
-import { Slider } from "ui-lab-components";
-import { Divider } from "ui-lab-components";
+import { ColorsPanel } from "./colors-panel";
+import { TypographyPanel } from "./typography-panel";
+import { LayoutPanel } from "./layout-panel";
 
 type ConfigTab = "colors" | "layout" | "fonts";
-
-interface ColorRowProps {
-  type:
-  | "background"
-  | "foreground"
-  | "accent"
-  | "success"
-  | "danger"
-  | "warning"
-  | "info";
-  color: OklchColor;
-  isExpanded: boolean;
-  onToggle: () => void;
-  onChange: (color: OklchColor) => void;
-  chromaLimit?: number;
-  onChromaLimitChange?: (limit: number) => void;
-  hueRange?: HueRange;
-}
-
-interface GlobalSliderProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  unit: string;
-  formatValue: (value: number) => string;
-  onChange: (value: number) => void;
-}
-
-interface SliderControlProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  unit: string;
-  onChange: (value: number) => void;
-}
-
-interface TypeScaleSliderProps {
-  value?: number;
-  onChange: (ratio: number) => void;
-  fontSizeScale: number;
-}
-
-interface ColorPickerProps {
-  color: OklchColor;
-  onChange: (color: OklchColor) => void;
-  hueRange?: HueRange;
-  type: string;
-}
-
-// Use text-sm (15px static) for labels and text-xs (14px static) for values
-// These sizes are now enforced at the CSS level with minimum constraints
-const MICRO_LABEL = "text-sm font-semibold text-foreground-500";
-const VALUE_LABEL = "text-xs text-foreground-300";
 
 export const SettingsContent = () => {
   const {
@@ -313,6 +242,56 @@ export const SettingsContent = () => {
     applyAndPersistFonts({ sansFont: selectedSansFont, monoFont: fontName as any });
   };
 
+  const handleTypeSizeRatioChange = (ratio: number) => {
+    let finalScale = fontSizeScale;
+    if (!isValidTypographyConfig(ratio, fontSizeScale)) {
+      let closestScale = fontSizeScale;
+      let closestDistance = Infinity;
+      for (let s = 0.85; s <= 1.15; s += 0.001) {
+        if (isValidTypographyConfig(ratio, s)) {
+          const distance = Math.abs(s - fontSizeScale);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestScale = s;
+          }
+        }
+      }
+      finalScale = closestScale;
+    }
+    applyAndPersistTypography({
+      fontSizeScale: finalScale,
+      fontWeightScale,
+      typeSizeRatio: ratio,
+      headerLetterSpacingScale,
+      bodyLetterSpacingScale,
+    });
+  };
+
+  const handleFontSizeScaleChange = (scale: number) => {
+    let finalRatio = typeSizeRatio;
+    if (!isValidTypographyConfig(typeSizeRatio, scale)) {
+      let closestRatio = typeSizeRatio;
+      let closestDistance = Infinity;
+      for (let r = 1.067; r <= 1.2; r += 0.001) {
+        if (isValidTypographyConfig(r, scale)) {
+          const distance = Math.abs(r - typeSizeRatio);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestRatio = r;
+          }
+        }
+      }
+      finalRatio = closestRatio;
+    }
+    applyAndPersistTypography({
+      fontSizeScale: scale,
+      fontWeightScale,
+      typeSizeRatio: finalRatio,
+      headerLetterSpacingScale,
+      bodyLetterSpacingScale,
+    });
+  };
+
   return (
     <div className="w-full h-full select-none flex flex-col bg-background-900/90 text-foreground">
       <div className="pr-[8px] py-[2px] flex items-center justify-between border-b border-background-700 shrink-0">
@@ -352,311 +331,81 @@ export const SettingsContent = () => {
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
         >
-          <TabsContent value="colors" className="m-0 space-y-[8px]">
-            <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
-              <div className={`${MICRO_LABEL} mb-3 flex items-center gap-2`}>
-                <FaSun size={12} className="text-foreground-400" />
-                Global Adjustments
-              </div>
-              <div className="space-y-3">
-                <GlobalSlider
-                  label="Lightness"
-                  value={localGlobalAdjustments.lightnessShift}
-                  min={-0.015}
-                  max={0.015}
-                  step={0.001}
-                  unit="%"
-                  formatValue={(v) =>
-                    `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`
-                  }
-                  onChange={(v) =>
-                    handleGlobalAdjustmentChange("lightnessShift", v)
-                  }
-                />
-                <GlobalSlider
-                  label="Chroma"
-                  value={localGlobalAdjustments.chromaBoost}
-                  min={0.7}
-                  max={1.5}
-                  step={0.05}
-                  unit="×"
-                  formatValue={(v) => `×${v.toFixed(2)}`}
-                  onChange={(v) =>
-                    handleGlobalAdjustmentChange("chromaBoost", v)
-                  }
-                />
-              </div>
-            </div>
-            <Divider />
-            <div className={`${MICRO_LABEL} px-2 pt-2 opacity-70`}>
-              Core Colors
-            </div>
-            {(["background", "foreground", "accent"] as const).map(
-              (colorType) => (
-                <ColorRow
-                  key={colorType}
-                  type={colorType}
-                  color={localColors[colorType]}
-                  isExpanded={expandedColor === colorType}
-                  onToggle={() =>
-                    setExpandedColor(
-                      expandedColor === colorType ? null : colorType,
-                    )
-                  }
-                  onChange={(c: OklchColor) => handleColorChange(colorType, c)}
-                />
-              ),
-            )}
-
-            <div className="pt-4 pb-2">
-              <div className={`${MICRO_LABEL} px-2 mb-2 opacity-70`}>
-                Semantic Layer
-              </div>
-              <div className="space-y-2">
-                {(["success", "danger", "warning", "info"] as const).map(
-                  (colorType) => {
-                    const semanticColor = getSemanticColorSafely(
-                      localColors.semantic,
-                      colorType,
-                      currentThemeMode,
-                    );
-                    const chromaLimit = getSemanticChromaLimit(
-                      localColors.semantic,
-                      colorType,
-                      currentThemeMode,
-                    );
-                    const hueRange =
-                      localColors.semantic?.[colorType]?.hueRange;
-
-                    if (!semanticColor) return null;
-
-                    return (
-                      <ColorRow
-                        key={colorType}
-                        type={colorType}
-                        color={semanticColor}
-                        isExpanded={expandedColor === colorType}
-                        onToggle={() =>
-                          setExpandedColor(
-                            expandedColor === colorType ? null : colorType,
-                          )
-                        }
-                        onChange={(c: OklchColor) =>
-                          handleColorChange(colorType, c)
-                        }
-                        chromaLimit={chromaLimit}
-                        onChromaLimitChange={(limit) =>
-                          handleChromaLimitChange(colorType, limit)
-                        }
-                        hueRange={hueRange}
-                      />
-                    );
-                  },
-                )}
-              </div>
-            </div>
+          <TabsContent value="colors">
+            <ColorsPanel
+              localColors={localColors}
+              expandedColor={expandedColor}
+              localGlobalAdjustments={localGlobalAdjustments}
+              onExpandedColorChange={setExpandedColor}
+              onColorChange={handleColorChange}
+              onChromaLimitChange={handleChromaLimitChange}
+              onGlobalAdjustmentChange={handleGlobalAdjustmentChange}
+            />
           </TabsContent>
 
-          <TabsContent value="fonts" className="px-[6px] m-0 space-y-2">
-            <div className="mx-[6px] mb-4 p-3 bg-background-800/40 rounded-[12px] border border-background-700 space-y-3">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground-400 block">
-                  Sans Font
-                </label>
-                <Select selectedKey={selectedSansFont} onSelectionChange={(key) => handleSansFontChange(key as string)}>
-                  <Select.Trigger className="w-full">
-                    <Select.Value placeholder="Select sans font" />
-                  </Select.Trigger>
-                  <Select.Content>
-                    {SANS_FONTS.map((font) => (
-                      <Select.Item key={font.name} value={font.name} textValue={font.name}>
-                        {font.isDefault ? `${font.name} (default)` : font.name}
-                      </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground-400 block">
-                  Mono Font
-                </label>
-                <Select selectedKey={selectedMonoFont} onSelectionChange={(key) => handleMonoFontChange(key as string)}>
-                  <Select.Trigger className="w-full">
-                    <Select.Value placeholder="Select mono font" />
-                  </Select.Trigger>
-                  <Select.Content>
-                    {MONO_FONTS.map((font) => (
-                      <Select.Item key={font.name} value={font.name} textValue={font.name}>
-                        {font.isDefault ? `${font.name} (default)` : font.name}
-                      </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select>
-              </div>
-            </div>
-
-            <Divider />
-
-            <div className="px-4 space-y-3">
-              <SliderControl
-                label="Header Letter Spacing"
-                value={headerLetterSpacingScale}
-                min={0.2}
-                max={5.0}
-                step={0.05}
-                unit="x"
-                onChange={(scale) =>
-                  applyAndPersistTypography({
-                    fontSizeScale,
-                    fontWeightScale,
-                    typeSizeRatio,
-                    headerLetterSpacingScale: scale,
-                    bodyLetterSpacingScale,
-                  })
-                }
-              />
-              <SliderControl
-                label="Body Letter Spacing"
-                value={bodyLetterSpacingScale}
-                min={0.2}
-                max={5.0}
-                step={0.05}
-                unit="x"
-                onChange={(scale) =>
-                  applyAndPersistTypography({
-                    fontSizeScale,
-                    fontWeightScale,
-                    typeSizeRatio,
-                    headerLetterSpacingScale,
-                    bodyLetterSpacingScale: scale,
-                  })
-                }
-              />
-            </div>
-
-            <Divider />
-
-            <TypeScaleSlider
-              value={typeSizeRatio}
-              onChange={(ratio) => {
-                let finalScale = fontSizeScale;
-                if (!isValidTypographyConfig(ratio, fontSizeScale)) {
-                  let closestScale = fontSizeScale;
-                  let closestDistance = Infinity;
-                  for (let s = 0.85; s <= 1.15; s += 0.001) {
-                    if (isValidTypographyConfig(ratio, s)) {
-                      const distance = Math.abs(s - fontSizeScale);
-                      if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestScale = s;
-                      }
-                    }
-                  }
-                  finalScale = closestScale;
-                }
+          <TabsContent value="fonts">
+            <TypographyPanel
+              selectedSansFont={selectedSansFont}
+              selectedMonoFont={selectedMonoFont}
+              headerLetterSpacingScale={headerLetterSpacingScale}
+              bodyLetterSpacingScale={bodyLetterSpacingScale}
+              typeSizeRatio={typeSizeRatio}
+              fontSizeScale={fontSizeScale}
+              fontWeightScale={fontWeightScale}
+              onSansFontChange={handleSansFontChange}
+              onMonoFontChange={handleMonoFontChange}
+              onHeaderLetterSpacingChange={(scale) =>
                 applyAndPersistTypography({
-                  fontSizeScale: finalScale,
+                  fontSizeScale,
                   fontWeightScale,
-                  typeSizeRatio: ratio,
+                  typeSizeRatio,
+                  headerLetterSpacingScale: scale,
+                  bodyLetterSpacingScale,
+                })
+              }
+              onBodyLetterSpacingChange={(scale) =>
+                applyAndPersistTypography({
+                  fontSizeScale,
+                  fontWeightScale,
+                  typeSizeRatio,
+                  headerLetterSpacingScale,
+                  bodyLetterSpacingScale: scale,
+                })
+              }
+              onTypeSizeRatioChange={handleTypeSizeRatioChange}
+              onFontSizeScaleChange={handleFontSizeScaleChange}
+              onFontWeightScaleChange={(scale) =>
+                applyAndPersistTypography({
+                  fontSizeScale,
+                  fontWeightScale: scale,
+                  typeSizeRatio,
                   headerLetterSpacingScale,
                   bodyLetterSpacingScale,
-                });
-              }}
-              fontSizeScale={fontSizeScale}
+                })
+              }
             />
-            <div className="px-4 space-y-3 pt-2">
-              <SliderControl
-                label="Global Scale"
-                value={fontSizeScale}
-                min={0.85}
-                max={1.15}
-                step={0.05}
-                unit="x"
-                onChange={(scale) => {
-                  let finalRatio = typeSizeRatio;
-                  if (!isValidTypographyConfig(typeSizeRatio, scale)) {
-                    let closestRatio = typeSizeRatio;
-                    let closestDistance = Infinity;
-                    for (let r = 1.067; r <= 1.2; r += 0.001) {
-                      if (isValidTypographyConfig(r, scale)) {
-                        const distance = Math.abs(r - typeSizeRatio);
-                        if (distance < closestDistance) {
-                          closestDistance = distance;
-                          closestRatio = r;
-                        }
-                      }
-                    }
-                    finalRatio = closestRatio;
-                  }
-                  applyAndPersistTypography({
-                    fontSizeScale: scale,
-                    fontWeightScale,
-                    typeSizeRatio: finalRatio,
-                    headerLetterSpacingScale,
-                    bodyLetterSpacingScale,
-                  });
-                }}
-              />
-              <SliderControl
-                label="Weight Multiplier"
-                value={fontWeightScale}
-                min={0.01}
-                max={1.5}
-                step={0.01}
-                unit="x"
-                onChange={(scale) =>
-                  applyAndPersistTypography({
-                    fontSizeScale,
-                    fontWeightScale: scale,
-                    typeSizeRatio,
-                    headerLetterSpacingScale,
-                    bodyLetterSpacingScale,
-                  })
-                }
-              />
-            </div>
           </TabsContent>
 
-          <TabsContent value="layout" className="p-4 space-y-6">
-            <SliderControl
-              label="Corner Radius"
-              value={radius}
-              min={0}
-              max={1.5}
-              step={0.1}
-              unit="rem"
-              onChange={(value) =>
+          <TabsContent value="layout">
+            <LayoutPanel
+              radius={radius}
+              borderWidth={borderWidth}
+              spacingScale={spacingScale}
+              onRadiusChange={(value) =>
                 applyAndPersistLayout({
                   radius: value,
                   borderWidth,
                   spacingScale,
                 })
               }
-            />
-            <SliderControl
-              label="Border Width"
-              value={borderWidth}
-              min={0}
-              max={4}
-              step={0.5}
-              unit="px"
-              onChange={(value) =>
+              onBorderWidthChange={(value) =>
                 applyAndPersistLayout({
                   radius,
                   borderWidth: value,
                   spacingScale,
                 })
               }
-            />
-            <SliderControl
-              label="Spacing Density"
-              value={spacingScale}
-              min={0.75}
-              max={1.25}
-              step={0.05}
-              unit="x"
-              onChange={(value) =>
+              onSpacingScaleChange={(value) =>
                 applyAndPersistLayout({
                   radius,
                   borderWidth,
@@ -680,248 +429,3 @@ export const SettingsContent = () => {
     </div>
   );
 };
-
-const ColorRow = memo(
-  ({
-    type,
-    color,
-    isExpanded,
-    onToggle,
-    onChange,
-    hueRange,
-  }: ColorRowProps) => {
-    const previewStyle = useMemo(
-      () => ({
-        backgroundColor: oklchToCss(
-          color.c <= 0.005
-            ? { l: 1, c: 0, h: 0 }
-            : { l: 0.65, c: 0.18, h: color.h },
-        ),
-      }),
-      [color.h, color.c],
-    );
-
-    return (
-      <div>
-        <div
-          className={`mx-[6px] rounded-[12px] ${isExpanded ? "bg-background-700/40 border border-background-700" : "hover:bg-background-700/40 border border-transparent hover:border-background-700 active:bg-background-800/50"} mb-[8px] transition-all duration-300 overflow-hidden group`}
-        >
-          <button
-            onClick={onToggle}
-            className="cursor-pointer w-full flex items-center gap-3 py-[10px] px-[10px] text-left outline-none"
-          >
-            <div className="relative">
-              <div
-                className="w-7 h-7 rounded-[8px]"
-                style={previewStyle}
-              />
-            </div>
-
-            <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <div className="text-sm font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
-                {type}
-              </div>
-            </div>
-
-            <div
-              className={`mr-3 text-foreground-500 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
-            >
-              <FaChevronDown size={13} />
-            </div>
-          </button>
-
-          <div
-            className={`transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overflow-hidden ${isExpanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}
-          >
-            <div className="px-3 pb-4 pt-0">
-              <div className="h-px w-full bg-background-700/30 mb-4" />
-              <ColorPicker
-                type={type}
-                color={color}
-                onChange={onChange}
-                hueRange={hueRange}
-              />
-            </div>
-          </div>
-        </div>
-        <Divider />
-      </div>
-    );
-  },
-);
-
-const SliderControl = memo(
-  ({ label, value, min, max, step, unit, onChange }: SliderControlProps) => {
-    const safeValue = value ?? (min + (max - min) / 2);
-    return (
-      <div className="space-y-2 group">
-        <div className="flex justify-between items-end">
-          <label className="text-sm font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
-            {label}
-          </label>
-          <span
-            className={`${VALUE_LABEL} border border-background-700 rounded-[8px] bg-background-800 px-1.5 py-0.5 text-foreground-300`}
-          >
-            {safeValue.toFixed(unit ? 2 : 3)}
-            {unit}
-          </span>
-        </div>
-        <Slider.Root
-          value={[safeValue]}
-          onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
-          min={min}
-          max={max}
-          step={step}
-          size="md"
-        />
-      </div>
-    );
-  },
-);
-
-const GlobalSlider = memo(
-  ({
-    label,
-    value,
-    min,
-    max,
-    step,
-    formatValue,
-    onChange,
-  }: GlobalSliderProps) => {
-    const isNeutral = Math.abs(value - (label === "Lightness" ? 0 : 1)) < 0.01;
-    return (
-      <div className="space-y-1.5 group">
-        <div className="flex justify-between items-center">
-          <label className="text-xs font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
-            {label}
-          </label>
-          <span
-            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-500" : "text-accent-400 bg-accent-900/30"}`}
-          >
-            {formatValue(value)}
-          </span>
-        </div>
-        <Slider.Root
-          value={[value]}
-          onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
-          min={min}
-          max={max}
-          step={step}
-          size="sm"
-        />
-      </div>
-    );
-  },
-);
-
-const TypeScaleSlider = memo(
-  ({ value, onChange, fontSizeScale }: TypeScaleSliderProps) => {
-    const ratio = value ?? 1.2;
-    const scaleName = getScaleName(ratio);
-
-    return (
-      <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3 mx-[6px] mt-2">
-        <div className="flex justify-between items-start px-4 pt-2">
-          <label className="text-sm font-medium text-foreground-400">
-            Type Scale
-          </label>
-          <div className="flex flex-col items-end text-right">
-            <span className="text-sm font-semibold text-foreground-100">
-              {scaleName}
-            </span>
-            <span className={`${VALUE_LABEL} text-foreground-500`}>
-              {ratio.toFixed(3)}
-            </span>
-          </div>
-        </div>
-        <div className="px-4 py-2 border-t border-background-700">
-          <Slider.Root
-            value={[ratio]}
-            onValueChange={(val) => onChange(Array.isArray(val) ? val[0] : val)}
-            min={1.067}
-            max={1.2}
-            step={0.001}
-            size="md"
-          />
-        </div>
-      </div>
-    );
-  },
-);
-
-const ColorPicker = memo(
-  ({ color, onChange, hueRange, type }: ColorPickerProps) => {
-    const { currentThemeMode } = useApp();
-
-    const swatches = useMemo(() => {
-      const hueSwatches = Array.from({ length: 7 }, (_, i) => {
-        if (hueRange) {
-          return hueRange.min + (hueRange.max - hueRange.min) * (i / 6);
-        }
-        return (i * (360 / 7)) % 360;
-      });
-      if (type === "background" || type === "foreground") {
-        return [...hueSwatches, null];
-      }
-      return hueSwatches;
-    }, [hueRange, type]);
-
-    const getPresentationColor = (h: number) => {
-      if (type === "foreground") {
-        return oklchToCss({
-          l: currentThemeMode === "dark" ? 0.9 : 0.2,
-          c: 0.04,
-          h: h,
-        });
-      }
-      return oklchToCss({
-        l: 0.65,
-        c: 0.18,
-        h: h,
-      });
-    };
-
-    return (
-      <div className="grid grid-cols-4 gap-2">
-        {swatches.map((h, i) => {
-          const isNeutral = h === null;
-          const isSelected = color.c <= 0.005
-            ? isNeutral
-            : !isNeutral && Math.abs(h - color.h) < 2;
-          const displayColor = isNeutral
-            ? oklchToCss({ l: 1, c: 0, h: 0 })
-            : getPresentationColor(h);
-
-          return (
-            <button
-              key={i}
-              onClick={() => {
-                if (isNeutral) {
-                  onChange({ l: 1, c: 0, h: 180 });
-                } else {
-                  const defaultChroma = type === "foreground" ? 0.01 : 0.008;
-                  onChange({ ...color, c: color.c === 0 ? defaultChroma : color.c, h });
-                }
-              }}
-              className="relative h-10 rounded-[4px] flex items-center justify-center"
-              style={{ backgroundColor: displayColor }}
-            >
-              {isSelected && (
-                <FaCheck
-                  className={
-                    currentThemeMode === "dark" && type === "foreground"
-                      ? "text-black"
-                      : "text-white"
-                  }
-                  size={10}
-                />
-              )}
-            </button>
-          );
-        })}
-      </div>
-    );
-  },
-);
-
