@@ -6,6 +6,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import styles from "./Date.module.css"
 import { cn } from "@/shared"
 
+// Alias global Date to avoid shadowing by component name
+const NativeDate = globalThis.Date;
+
 /**
  * Context type for Calendar state management
  */
@@ -46,11 +49,11 @@ export interface DateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  * Helper functions for date calculations
  */
 function getDaysInMonth(date: Date): number {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+  return new NativeDate(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 }
 
 function getFirstDayOfMonth(date: Date): number {
-  return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
+  return new NativeDate(date.getFullYear(), date.getMonth(), 1).getDay()
 }
 
 function isSameDay(date1: Date, date2: Date): boolean {
@@ -62,7 +65,7 @@ function isSameDay(date1: Date, date2: Date): boolean {
 }
 
 function isToday(date: Date): boolean {
-  return isSameDay(date, new Date())
+  return isSameDay(date, new NativeDate())
 }
 
 /**
@@ -73,28 +76,28 @@ function getCalendarGrid(currentMonth: Date): Date[][] {
   const firstDay = getFirstDayOfMonth(currentMonth)
 
   const grid: Date[] = []
-  let currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
+  let currentDate = new NativeDate(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
 
   // Handle previous month's days
   if (firstDay > 0) {
-    const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0)
+    const prevMonth = new NativeDate(currentMonth.getFullYear(), currentMonth.getMonth(), 0)
     const daysInPrevMonth = getDaysInMonth(prevMonth)
 
     for (let i = firstDay - 1; i >= 0; i--) {
-      const date = new Date(prevMonth.getFullYear(), prevMonth.getMonth(), daysInPrevMonth - i)
+      const date = new NativeDate(prevMonth.getFullYear(), prevMonth.getMonth(), daysInPrevMonth - i)
       grid.push(date)
     }
   }
 
   // Current month days
   for (let i = 1; i <= daysInMonth; i++) {
-    grid.push(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i))
+    grid.push(new NativeDate(currentMonth.getFullYear(), currentMonth.getMonth(), i))
   }
 
   // Pad with next month's days
   while (grid.length % 7 !== 0) {
     const nextDay = grid.length - firstDay - daysInMonth + 1
-    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, nextDay)
+    const date = new NativeDate(currentMonth.getFullYear(), currentMonth.getMonth() + 1, nextDay)
     grid.push(date)
   }
 
@@ -123,7 +126,7 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
   ) => {
     const [uncontrolledValue, setUncontrolledValue] = React.useState<Date | null>(null)
     const [currentMonth, setCurrentMonth] = React.useState<Date>(
-      defaultMonth ?? new Date()
+      defaultMonth ?? new NativeDate()
     )
     const [focusedDate, setFocusedDate] = React.useState<Date | null>(null)
 
@@ -168,7 +171,7 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
 
     const navigateMonth = React.useCallback((offset: number) => {
       setCurrentMonth(prev => {
-        const newMonth = new Date(prev.getFullYear(), prev.getMonth() + offset, 1)
+        const newMonth = new NativeDate(prev.getFullYear(), prev.getMonth() + offset, 1)
         return newMonth
       })
     }, [])
@@ -201,28 +204,28 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
         switch (e.key) {
           case "ArrowUp":
             e.preventDefault()
-            newFocusedDate = new Date(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() - 7)
+            newFocusedDate = new NativeDate(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() - 7)
             break
           case "ArrowDown":
             e.preventDefault()
-            newFocusedDate = new Date(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() + 7)
+            newFocusedDate = new NativeDate(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() + 7)
             break
           case "ArrowLeft":
             e.preventDefault()
-            newFocusedDate = new Date(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() - 1)
+            newFocusedDate = new NativeDate(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() - 1)
             break
           case "ArrowRight":
             e.preventDefault()
-            newFocusedDate = new Date(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() + 1)
+            newFocusedDate = new NativeDate(focusedDate.getFullYear(), focusedDate.getMonth(), focusedDate.getDate() + 1)
             break
           case "Home":
             e.preventDefault()
-            newFocusedDate = new Date(focusedDate.getFullYear(), focusedDate.getMonth(), 1)
+            newFocusedDate = new NativeDate(focusedDate.getFullYear(), focusedDate.getMonth(), 1)
             break
           case "End":
             e.preventDefault()
             const daysInMonth = getDaysInMonth(focusedDate)
-            newFocusedDate = new Date(focusedDate.getFullYear(), focusedDate.getMonth(), daysInMonth)
+            newFocusedDate = new NativeDate(focusedDate.getFullYear(), focusedDate.getMonth(), daysInMonth)
             break
           case "PageUp":
             e.preventDefault()
@@ -243,7 +246,7 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
           setFocusedDate(newFocusedDate)
           // Auto-navigate month if needed
           if (newFocusedDate.getMonth() !== currentMonth.getMonth() || newFocusedDate.getFullYear() !== currentMonth.getFullYear()) {
-            setCurrentMonth(new Date(newFocusedDate.getFullYear(), newFocusedDate.getMonth(), 1))
+            setCurrentMonth(new NativeDate(newFocusedDate.getFullYear(), newFocusedDate.getMonth(), 1))
           }
         }
       },
@@ -253,7 +256,7 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
     // Set initial focus to today or selected date
     React.useEffect(() => {
       if (!focusedDate) {
-        const dateToFocus = selectedDate ?? new Date()
+        const dateToFocus = selectedDate ?? new NativeDate()
         setFocusedDate(dateToFocus)
       }
     }, [])
@@ -268,9 +271,9 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
           onKeyDown={handleKeyDown}
           {...props}
         >
-          <CalendarHeader />
-          <CalendarDayHeaders />
-          <CalendarGrid grid={calendarGrid} />
+          <DateHeader />
+          <DateDayHeaders />
+          <DateGrid grid={calendarGrid} />
         </div>
       </DateContext.Provider>
     )
@@ -284,7 +287,7 @@ Date.displayName = "Date"
  */
 interface DateHeaderProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-const DateHeader = React.forwardRef<HTMLDivElement, CalendarHeaderProps>(
+const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
   ({ className, ...props }, ref) => {
     const { currentMonth, navigateMonth } = useDateContext()
 
@@ -330,7 +333,7 @@ DateHeader.displayName = "Date.Header"
  */
 interface DateDayHeadersProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-const DateDayHeaders = React.forwardRef<HTMLDivElement, CalendarDayHeadersProps>(
+const DateDayHeaders = React.forwardRef<HTMLDivElement, DateDayHeadersProps>(
   ({ className, ...props }, ref) => {
     return (
       <div
@@ -360,7 +363,7 @@ interface DateGridProps extends React.HTMLAttributes<HTMLDivElement> {
   grid: Date[][]
 }
 
-const DateGrid = React.forwardRef<HTMLDivElement, CalendarGridProps>(
+const DateGrid = React.forwardRef<HTMLDivElement, DateGridProps>(
   ({ grid, className, ...props }, ref) => {
     return (
       <div
@@ -381,11 +384,11 @@ const DateGrid = React.forwardRef<HTMLDivElement, CalendarGridProps>(
         ))}
 
         {/* Calendar rows */}
-        {grid.map((week, weekIndex) => {
+        {grid.map((week: Date[], weekIndex: number) => {
           return (
             <React.Fragment key={weekIndex}>
-              {week.map((date, dayIndex) => (
-                <CalendarDay key={`${weekIndex}-${dayIndex}`} date={date} />
+              {week.map((date: Date, dayIndex: number) => (
+                <DateDay key={`${weekIndex}-${dayIndex}`} date={date} />
               ))}
             </React.Fragment>
           )
@@ -404,7 +407,7 @@ interface DateDayProps extends React.HTMLAttributes<HTMLButtonElement> {
   date: Date
 }
 
-const DateDay = React.forwardRef<HTMLButtonElement, CalendarDayProps>(
+const DateDay = React.forwardRef<HTMLButtonElement, DateDayProps>(
   ({ date, className, onClick, ...props }, ref) => {
     const {
       selectedDate,

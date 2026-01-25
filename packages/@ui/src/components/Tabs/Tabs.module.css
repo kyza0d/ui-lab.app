@@ -50,6 +50,10 @@
     height: var(--indicator-height)
   }
 
+  .indicatorHover {
+    opacity: 0.5;
+  }
+
   .tabsTrigger {
     --foreground: var(--foreground-400);
     --foreground-hover: var(--foreground-200);

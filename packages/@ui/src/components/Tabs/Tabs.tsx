@@ -15,6 +15,8 @@ interface TabsContextValue {
   registerTab: (value: string) => void
   tabIds: Map<string, string>
   panelIds: Map<string, string>
+  hoveredValue: string | null
+  setHoveredValue: (value: string | null) => void
 }
 
 const TabsContext = React.createContext<TabsContextValue | null>(null)
@@ -48,6 +50,7 @@ function Tabs({
   const [internalValue, setInternalValue] = React.useState(defaultValue ?? "")
   const [tabIds] = React.useState(() => new Map<string, string>())
   const [panelIds] = React.useState(() => new Map<string, string>())
+  const [hoveredValue, setHoveredValue] = React.useState<string | null>(null)
 
   const isControlled = value !== undefined
   const selectedValue = isControlled ? value : internalValue
@@ -84,6 +87,8 @@ function Tabs({
         registerTab,
         tabIds,
         panelIds,
+        hoveredValue,
+        setHoveredValue,
       }}
     >
       <div className={cn(styles.tabs, className)} data-variant={variant}>
@@ -100,13 +105,14 @@ interface TabsListProps {
 }
 
 function TabsList({ className, children, "aria-label": ariaLabel }: TabsListProps) {
-  const { variant, listRef } = useTabsContext()
+  const { variant, listRef, hoveredValue } = useTabsContext()
 
   const [indicator, setIndicator] = React.useState<{
     left: number
     width: number
     height: number
-  }>({ left: 0, width: 0, height: 0 })
+    isHover: boolean
+  }>({ left: 0, width: 0, height: 0, isHover: false })
 
   const updateIndicator = React.useCallback(() => {
     if (!listRef.current) return
@@ -120,11 +126,26 @@ function TabsList({ className, children, "aria-label": ariaLabel }: TabsListProp
         left: activeTrigger.offsetLeft,
         width: activeTrigger.offsetWidth,
         height: activeTrigger.offsetHeight,
+        isHover: false,
       })
+    } else if (hoveredValue) {
+      const hoveredTrigger = listRef.current.querySelector(
+        `[data-value="${hoveredValue}"]`
+      ) as HTMLElement | null
+      if (hoveredTrigger) {
+        setIndicator({
+          left: hoveredTrigger.offsetLeft,
+          width: hoveredTrigger.offsetWidth,
+          height: hoveredTrigger.offsetHeight,
+          isHover: true,
+        })
+      } else {
+        setIndicator({ left: 0, width: 0, height: 0, isHover: false })
+      }
     } else {
-      setIndicator({ left: 0, width: 0, height: 0 })
+      setIndicator({ left: 0, width: 0, height: 0, isHover: false })
     }
-  }, [listRef])
+  }, [listRef, hoveredValue])
 
   React.useEffect(() => {
     updateIndicator()
@@ -164,7 +185,8 @@ function TabsList({ className, children, "aria-label": ariaLabel }: TabsListProp
           className={cn(
             styles.indicator,
             variant === "default" && styles.indicatorDefault,
-            variant === "underline" && styles.indicatorUnderline
+            variant === "underline" && styles.indicatorUnderline,
+            indicator.isHover && (styles as any).indicatorHover
           )}
           style={{
             left: variant === "underline" ? 0 : indicator.left,
@@ -196,7 +218,7 @@ function TabsTrigger({
   className,
   children,
 }: TabsTriggerProps) {
-  const { selectedValue, setSelectedValue, registerTab, tabIds, panelIds } =
+  const { selectedValue, setSelectedValue, registerTab, tabIds, panelIds, setHoveredValue } =
     useTabsContext()
   const triggerRef = React.useRef<HTMLButtonElement>(null)
 
@@ -258,10 +280,13 @@ function TabsTrigger({
       disabled={disabled}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
+      onMouseEnter={() => !disabled && setHoveredValue(value)}
+      onMouseLeave={() => setHoveredValue(null)}
       className={cn(styles.tabsTrigger, className)}
       data-selected={isSelected || undefined}
       data-disabled={disabled || undefined}
       data-focus-visible={isFocusVisible || undefined}
+      data-value={value}
     >
       {icon && <span className={styles.triggerIcon}>{icon}</span>}
       <span>{children}</span>
