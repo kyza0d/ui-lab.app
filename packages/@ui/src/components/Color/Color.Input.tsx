@@ -65,7 +65,6 @@ export const ColorInput = React.forwardRef<
           value={inputValue}
           onChange={handleInputChange}
           disabled={disabled}
-          size={size}
           placeholder={format === "hex" ? "#000000" : "rgb(0, 0, 0)"}
           aria-label="Color input"
         />
@@ -95,7 +94,7 @@ export const ColorInput = React.forwardRef<
         </Group.Select>
         {showPreview && (
           <div
-            className={styles.previewSwatch}
+            className={(styles as any).previewSwatch}
             data-size={size}
             style={{
               "--preview-color": previewColor || "transparent",

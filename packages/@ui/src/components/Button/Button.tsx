@@ -86,9 +86,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-focused={isFocused ? "true" : "false"}
         data-focus-visible={isFocusVisible ? "true" : "false"}
       >
-        {icon?.left && <span className={cn(styles[`icon-${size}`])}>{icon.left}</span>}
+        {icon?.left && <span className={cn((styles as any)[`icon-${size}`])}>{icon.left}</span>}
         {children}
-        {icon?.right && <span className={cn(styles[`icon-${size}`])}>{icon.right}</span>}
+        {icon?.right && <span className={cn((styles as any)[`icon-${size}`])}>{icon.right}</span>}
       </button>
     );
   }

@@ -113,7 +113,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
 
     return (
       <div ref={ref} className={cn("checkbox-root", styles['checkbox-root'])}>
-        <div className={cn(styles['checkbox-container'], sizeMap[size])}>
+        <div className={cn((styles as any)['checkbox-container'], sizeMap[size])}>
           <input
             ref={inputRef}
             type="checkbox"
@@ -144,7 +144,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           />
           {displayChecked && !isIndeterminate && (
             <svg
-              className={styles['checkbox-checkmark']}
+              className={(styles as any)['checkbox-checkmark']}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

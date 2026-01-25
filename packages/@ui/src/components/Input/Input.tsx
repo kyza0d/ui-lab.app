@@ -90,12 +90,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {isNumberType && (
           <div
-            className={cn(styles.numberControls, disabled && styles.disabled)}
+            className={cn((styles as any).numberControls, disabled && (styles as any).disabled)}
             data-disabled={disabled || undefined}
           >
             <button
               type="button"
-              className={styles.spinButton}
+              className={(styles as any).spinButton}
               onClick={() => handleSpinClick("up")}
               disabled={disabled}
               tabIndex={-1}
@@ -105,7 +105,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
             <button
               type="button"
-              className={styles.spinButton}
+              className={(styles as any).spinButton}
               onClick={() => handleSpinClick("down")}
               disabled={disabled}
               tabIndex={-1}
