@@ -40,7 +40,7 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
 export interface TabConfig {
   id: string;
   label: string;
-  icon: React.ComponentType;
+  icon?: React.ComponentType;
   path: string;
   isPlaceholder?: boolean;
 }

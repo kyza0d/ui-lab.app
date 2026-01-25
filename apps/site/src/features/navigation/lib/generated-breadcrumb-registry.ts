@@ -343,13 +343,16 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
-      "path": "/design-system/component-guidelines",
+      "path": "/design-system/components-guidelines",
       "domain": "/design-system",
       "domainLabel": "Design System",
       "breadcrumbs": [
         {
           "label": "Design System",
           "href": "/design-system"
+        },
+        {
+          "label": "Guidelines"
         },
         {
           "label": "\"Component Guidelines\""

@@ -21,8 +21,6 @@ export const navigationData: NavigationItem[] = [
   { name: "documentation", label: "Documentation", isDropdown: true, icon: FaBook },
   { name: "components", label: "Components", icon: FaShapes },
   { name: "elements", label: "Elements", icon: FaCube },
-  // { name: "roadmap", label: "Roadmap" },
-  // { name: "marketplace", label: "Marketplace" },
   { name: "tools", label: "Tools", isDropdown: true },
 ] as const;
 
