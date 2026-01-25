@@ -101,8 +101,8 @@ const coreComponents = [
 
 export function Showcase() {
   return (
-    <div className="bg-background-950 ml-auto h-240 border-t border-b-0 border-background-700 overflow-hidden">
-      <div className="overflow-auto flex flex-col">
+    <div className=" bg-background-950 ml-auto h-240 border-t border-b-0 border-background-700 overflow-hidden">
+      <div className="grid-paper  overflow-auto flex flex-col">
         <div className="flex-1 overflow-auto">
           <div className="grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
             {coreComponents.map((component) => (
@@ -112,7 +112,7 @@ export function Showcase() {
                   gridColumn: `span ${component.columnSpan}`,
                   gridRow: `span ${component.rowSpan}`,
                 }}
-                className={`flex flex-col gap-3 p-4 h-full border-r border-b border-background-700 ${component.height}`}
+                className={`flex flex-col gap-3 p-4 h-full ${component.height}`}
               >
                 <div className="flex items-center justify-center flex-1 p-2">
                   {component.render()}
