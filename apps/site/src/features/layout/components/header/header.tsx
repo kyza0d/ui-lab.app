@@ -15,22 +15,21 @@ import {
   FaMessage,
   FaInbox
 } from "react-icons/fa6";
-import { HiSparkles, HiX } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 import { HiMiniSparkles } from "react-icons/hi2";
 import { getTabGroupForPathname, getActiveTabForPathname, shouldApplyRevealCollapse } from "@/shared";
 import type { TabConfig } from "@/shared/lib/route-config";
 import { MobileMenu } from "./mobile-menu";
 import { navigationData } from "./data";
-import { Command } from "lucide-react";
 
 const TabItem = memo(({ tab }: { tab: TabConfig }) => {
-  const Icon = tab.icon;
+  const Icon = tab.icon as any;
   return (
     <Link href={tab.path}>
       <TabsTrigger
-        icon={<Icon />}
+        icon={Icon ? <Icon className="text-foreground-400" size={16} /> : undefined}
         value={tab.id}
-        className="text-sm mb-3"
+        className="gap-4 text-sm mb-3"
         disabled={tab.isPlaceholder}
       >
         {tab.label}
@@ -55,6 +54,18 @@ export default function Header({
   const tabGroup = useMemo(() => getTabGroupForPathname(pathname), [pathname]);
   const activeTabId = useMemo(() => getActiveTabForPathname(pathname), [pathname]);
 
+  const homeNavTabs = useMemo(() => navigationData
+    .filter((item) => item.name !== "tools")
+    .map((item) => ({
+      id: item.name,
+      label: item.label,
+      icon: item.icon,
+      path: item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : "/components",
+      isPlaceholder: false,
+    })), []);
+
+  const activeHomeTab = pathname === "/docs" ? "documentation" : pathname === "/elements" ? "elements" : pathname === "/components" ? "components" : undefined;
+
   return (
     <>
       <header className="fixed top-0 left-0 z-50 w-full border-b border-background-700 bg-background-950 h-16">
@@ -70,22 +81,14 @@ export default function Header({
             </Link>
 
 
-            {pathname === "/" && (
-              <nav className="hidden ml-4 mr-8 md:flex items-center gap-12">
-                {navigationData.filter((item) => item.name !== "tools").map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : `/components`}
-                      className="text-sm gap-3 flex items-center font-normal"
-                    >
-                      {Icon && <Icon size={13} className="text-foreground-400" />}
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </nav>
+            {pathname === "/" && homeNavTabs && (
+              <Tabs className="mt-3 hidden md:block" value={activeHomeTab || ""} variant="underline">
+                <TabsList>
+                  {homeNavTabs.map((tab) => (
+                    <TabItem key={tab.id} tab={tab} />
+                  ))}
+                </TabsList>
+              </Tabs>
             )}
 
             {hasRevealCollapse && tabGroup && activeTabId && (

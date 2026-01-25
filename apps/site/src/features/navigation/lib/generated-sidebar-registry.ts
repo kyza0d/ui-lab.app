@@ -302,7 +302,7 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
                         "label": "Accessibility Standards"
                   },
                   {
-                        "id": "component-guidelines",
+                        "id": "components-guidelines",
                         "label": "Component Guidelines"
                   }
             ]
@@ -321,10 +321,10 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "slug": "colors",
             "category": "Foundation"
       },
-      "component-guidelines": {
+      "components-guidelines": {
             "title": "Component Guidelines",
             "description": "Patterns, usage rules, and best practices for UI Lab components",
-            "slug": "component-guidelines",
+            "slug": "components-guidelines",
             "category": "Guidelines"
       },
       "spacing": {
