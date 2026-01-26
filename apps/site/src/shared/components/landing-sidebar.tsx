@@ -89,7 +89,7 @@ export function LandingSidebar() {
                   >
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span>{navItem.label}</span>
+                  <span className='font-semibold'>{navItem.label}</span>
                 </Link>
               );
             })}

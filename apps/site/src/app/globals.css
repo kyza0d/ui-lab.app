@@ -163,19 +163,19 @@
   h1 {
     margin: 0rem 0 0.6rem 0;
     font-size: var(--text-xl);
-    letter-spacing: var(--letter-spacing-xl);
+    letter-spacing: var(--letter-spacing-xs);
   }
 
   h2 {
     margin: 0rem 0 0.4rem 0 ;
     font-size: var(--text-xl);
-    letter-spacing: var(--letter-spacing-xl);
+    letter-spacing: var(--letter-spacing-sm);
   }
 
   h3 {
     margin: 0 0 0 0 ;
     font-size: var(--text-lg);
-    letter-spacing: var(--letter-spacing-lg);
+    letter-spacing: var(--letter-spacing-md);
   }
 
   h4 {
@@ -184,10 +184,16 @@
     letter-spacing: var(--letter-spacing-md);
   }
 
+  h5 {
+    margin: 0 0 0 0 ;
+    font-size: var(--text-md);
+    letter-spacing: var(--letter-spacing-md);
+  }
+
   p {
     font-size: var(--text-md);
     letter-spacing: var(--letter-spacing-md);
-    font-weight: var(--font-weight-body-normal);
+    font-weight: var(--font-weight-body-medium);
     max-width: 80ch;
     margin: 0 0 0.4rem 0;
   }

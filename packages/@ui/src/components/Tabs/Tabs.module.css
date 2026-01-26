@@ -56,7 +56,7 @@
 
   .tabsTrigger {
     --foreground: var(--foreground-400);
-    --foreground-hover: var(--foreground-200);
+    --foreground-hover: var(--foreground-50);
     --foreground-active: var(--foreground-50);
 
     display: inline-flex;

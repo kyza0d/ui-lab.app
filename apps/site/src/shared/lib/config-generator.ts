@@ -793,8 +793,6 @@ ${colorCSS}
 
 ${fontWeightCSS}
 
-  --spacing-scale: ${spacingScale.toFixed(2)};
-
 ${spacingCSS}
 
 ${radiusCSS}

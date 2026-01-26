@@ -96,62 +96,83 @@ export const TypographyPanel = memo(
 
         <Divider />
 
-        <div className="px-4 space-y-3">
-          <SliderControl
-            label="Header Letter Spacing"
-            value={headerLetterSpacingScale}
-            min={-5.0}
-            max={2.0}
-            step={0.05}
-            unit="x"
-            onChange={onHeaderLetterSpacingChange}
-          />
-          <SliderControl
-            label="Body Letter Spacing"
-            value={bodyLetterSpacingScale}
-            min={0.2}
-            max={5.0}
-            step={0.05}
-            unit="x"
-            onChange={onBodyLetterSpacingChange}
-          />
-        </div>
-
-        <Divider />
-
         <TypeScaleSlider
           value={typeSizeRatio}
           onChange={onTypeSizeRatioChange}
           fontSizeScale={fontSizeScale}
         />
-        <div className="px-4 space-y-3 pt-2">
+        <div className="px-4 space-y-3">
           <SliderControl
             label="Global Scale"
             value={fontSizeScale}
-            min={0.85}
-            max={1.15}
+            min={0.95}
+            max={1.10}
             step={0.01}
             unit="x"
             onChange={onFontSizeScaleChange}
           />
-          <SliderControl
-            label="Header Weight"
-            value={headerFontWeightScale}
-            min={0.80}
-            max={1.20}
-            step={0.01}
-            unit="x"
-            onChange={onHeaderFontWeightScaleChange}
-          />
-          <SliderControl
-            label="Body Weight"
-            value={bodyFontWeightScale}
-            min={0.80}
-            max={1.20}
-            step={0.01}
-            unit="x"
-            onChange={onBodyFontWeightScaleChange}
-          />
+        </div>
+
+        <Divider />
+
+        <div className="px-[6px] space-y-3">
+          <div className="bg-background-800 border border-background-700 rounded-md p-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
+                <h4 className="text-xs mb-0">H1</h4>
+              </div>
+              <h3 className="text-sm font-semibold text-foreground-100">Header</h3>
+            </div>
+            <div className="space-y-3">
+              <SliderControl
+                label="Letter Spacing"
+                value={headerLetterSpacingScale}
+                min={-5.0}
+                max={2.0}
+                step={0.05}
+                unit="x"
+                onChange={onHeaderLetterSpacingChange}
+              />
+              <SliderControl
+                label="Weight"
+                value={headerFontWeightScale}
+                min={0.80}
+                max={1.20}
+                step={0.01}
+                unit="x"
+                onChange={onHeaderFontWeightScaleChange}
+              />
+            </div>
+          </div>
+
+          <div className="bg-background-800 border border-background-700 rounded-md p-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
+                <p className="text-xs font-semibold mb-0">Aa</p>
+              </div>
+              <h3 className="text-sm font-semibold text-foreground-100">Body</h3>
+            </div>
+            <div className="space-y-3">
+              <SliderControl
+                label="Letter Spacing"
+                value={bodyLetterSpacingScale}
+                min={0.2}
+                max={5.0}
+                step={0.05}
+                unit="x"
+                onChange={onBodyLetterSpacingChange}
+              />
+              <SliderControl
+                label="Weight"
+                value={bodyFontWeightScale}
+                min={0.80}
+                max={1.20}
+                step={0.01}
+                unit="x"
+                onChange={onBodyFontWeightScaleChange}
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
