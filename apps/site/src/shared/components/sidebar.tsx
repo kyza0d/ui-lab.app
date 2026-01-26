@@ -35,7 +35,7 @@ const SidebarItemLink = memo(function SidebarItemLink({
         style={{ display: 'none' }}
         aria-hidden
       />
-      <div
+      <span
         role="button"
         tabIndex={0}
         onClick={() => router.push(href)}
@@ -48,7 +48,7 @@ const SidebarItemLink = memo(function SidebarItemLink({
         className={className}
       >
         {children}
-      </div>
+      </span>
     </>
   );
 });
@@ -119,7 +119,7 @@ export function Sidebar() {
                     >
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span>{navItem.label}</span>
+                    <span className='font-semibold'>{navItem.label}</span>
                     {navItem.id === 'components-core' && (
                       <span
                         className={cn(
@@ -158,7 +158,7 @@ export function Sidebar() {
             <div className="py-4 px-5 space-y-8">
               {sections.map((section) => (
                 <div key={section.label}>
-                  <span className="text-sm font-semibold text-foreground-400">{section.label}</span>
+                  <h5 className="text-sm font-medium text-foreground-400">{section.label}</h5>
                   <div className="relative mt-2.5">
                     <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                     <div className="space-y-1 pl-3">
@@ -174,7 +174,7 @@ export function Sidebar() {
                               'transition-colors duration-300 ease-out',
                               'hover:duration-0',
                               active
-                                ? 'text-foreground-50 bg-background-800 font-medium'
+                                ? 'text-foreground-50 bg-background-800'
                                 : cn('text-foreground-200', 'hover:text-foreground-200 hover:bg-background-800/50')
                             )}
                           >

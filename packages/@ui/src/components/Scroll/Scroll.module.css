@@ -87,7 +87,7 @@
     position: absolute;
     border-radius: var(--radius-md);
     background-color: var(--background-700);
-    transition-property: background-color;
+    transition-property: background-color, width, height;
     transition-duration: 150ms;
   }
 
@@ -96,16 +96,40 @@
   }
 
   .root[data-dragging="true"] .thumb {
-    background-color: var(--background-600);
+    background-color: var(--background-500);
   }
 
   .vertical .thumb {
+    width: 6px;
+    margin-left: 6px;
+    transition-property: background-color, width, margin-left;
+    transition-duration: 150ms;
+  }
+
+  .vertical .thumb:hover {
     width: 8px;
-    margin-left: 2px;
+    margin-left: 4px;
+  }
+
+  .root[data-dragging="true"] .vertical .thumb {
+    width: 8px;
+    margin-left: 4px;
   }
 
   .horizontal .thumb {
+    height: 6px;
+    margin-top: 6px;
+    transition-property: background-color, height, margin-top;
+    transition-duration: 150ms;
+  }
+
+  .horizontal .thumb:hover {
     height: 8px;
-    margin-top: 2px;
+    margin-top: 4px;
+  }
+
+  .root[data-dragging="true"] .horizontal .thumb {
+    height: 8px;
+    margin-top: 4px;
   }
 }
