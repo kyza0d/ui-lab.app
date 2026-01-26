@@ -71,11 +71,6 @@ const backgroundFamily: ColorFamilyMetadata = {
   semanticMeaning: 'All surface and container backgrounds for pages and elevated areas',
   baseOklch: { h: 0, defaultChroma: 0.0 },
   shades: {
-    50: { lightness: 16.0, chroma: 0.0, hue: 0.0, cssVar: '--background-50' },
-    100: { lightness: 29.0, chroma: 0.0, hue: 0.0, cssVar: '--background-100' },
-    200: { lightness: 31.0, chroma: 0.0, hue: 0.0, cssVar: '--background-200' },
-    300: { lightness: 42.0, chroma: 0.0, hue: 0.0, cssVar: '--background-300' },
-    400: { lightness: 55.0, chroma: 0.0, hue: 0.0, cssVar: '--background-400' },
     500: { lightness: 60.0, chroma: 0.0, hue: 0.0, cssVar: '--background-500' },
     600: { lightness: 80.0, chroma: 0.0, hue: 0.0, cssVar: '--background-600' },
     700: { lightness: 83.0, chroma: 0.0, hue: 0.0, cssVar: '--background-700' },
@@ -85,13 +80,13 @@ const backgroundFamily: ColorFamilyMetadata = {
   },
   shadeGuidance: {
     lightBackgrounds: {
-      shades: [50, 100, 200, 300],
-      reason: 'Light backgrounds for page backgrounds and light containers',
-      examples: ['Page background', 'Card surface', 'Sidebar background'],
+      shades: [],
+      reason: 'Light backgrounds no longer available in simplified palette',
+      examples: [],
     },
     mediumBackgrounds: {
-      shades: [400, 500],
-      reason: 'Medium backgrounds for secondary containers and hover states',
+      shades: [500],
+      reason: 'Medium background for secondary containers and subtle backgrounds',
       examples: ['Secondary container', 'Disabled state background'],
     },
     darkBackgrounds: {
@@ -104,20 +99,20 @@ const backgroundFamily: ColorFamilyMetadata = {
     {
       component: 'page',
       role: 'background',
-      recommendedShades: [50, 100],
-      pairing: { textFamily: 'foreground', textShades: [900, 950] },
+      recommendedShades: [950],
+      pairing: { textFamily: 'foreground', textShades: [200, 300] },
     },
     {
       component: 'card',
       role: 'background',
-      recommendedShades: [50, 100, 200],
-      pairing: { textFamily: 'foreground', textShades: [900] },
+      recommendedShades: [900, 950],
+      pairing: { textFamily: 'foreground', textShades: [200, 300] },
     },
     {
       component: 'container',
       role: 'background',
-      recommendedShades: [300, 400, 500],
-      pairing: { textFamily: 'foreground', textShades: [800, 900] },
+      recommendedShades: [500, 600, 700],
+      pairing: { textFamily: 'foreground', textShades: [200] },
     },
   ],
   accessibility: {
@@ -125,12 +120,12 @@ const backgroundFamily: ColorFamilyMetadata = {
     notes: [
       'All combinations meet WCAG AA minimum contrast (4.5:1 for text)',
       'Ensure sufficient contrast with foreground colors for readability',
-      'Background-50 and Background-100 are very light; pair with dark text',
+      'Backgrounds now only include darker shades (500-950) focused on surfaces',
     ],
     contrastPairs: [
-      { lightShade: 50, darkShade: 900, contrastRatio: 17.5 },
-      { lightShade: 100, darkShade: 950, contrastRatio: 18.2 },
-      { lightShade: 200, darkShade: 900, contrastRatio: 15.8 },
+      { lightShade: 500, darkShade: 900, contrastRatio: 12.0 },
+      { lightShade: 600, darkShade: 950, contrastRatio: 15.2 },
+      { lightShade: 700, darkShade: 900, contrastRatio: 10.5 },
     ],
   },
   usageInstructions: {
@@ -147,8 +142,8 @@ const backgroundFamily: ColorFamilyMetadata = {
       'Any color-coded meaning (use semantic families)',
     ],
     commonMistakes: [
-      'Using background-50 as text color (insufficient contrast)',
-      'Pairing background-800 with dark text (insufficient contrast)',
+      'Mixing background shades from old palette (50-400 no longer available)',
+      'Using background for text color (use foreground instead)',
       'Using background colors for buttons (use accent)',
     ],
   },
@@ -353,10 +348,6 @@ const successFamily: ColorFamilyMetadata = {
     400: { lightness: 55.0, chroma: 0.08, hue: 142.0, cssVar: '--success-400' },
     500: { lightness: 60.0, chroma: 0.112, hue: 142.0, cssVar: '--success-500' },
     600: { lightness: 80.0, chroma: 0.144, hue: 142.0, cssVar: '--success-600' },
-    700: { lightness: 83.0, chroma: 0.152, hue: 142.0, cssVar: '--success-700' },
-    800: { lightness: 91.0, chroma: 0.157, hue: 142.0, cssVar: '--success-800' },
-    900: { lightness: 93.0, chroma: 0.16, hue: 142.0, cssVar: '--success-900' },
-    950: { lightness: 94.0, chroma: 0.16, hue: 142.0, cssVar: '--success-950' },
   },
   shadeGuidance: {
     lightBackgrounds: {
@@ -366,13 +357,13 @@ const successFamily: ColorFamilyMetadata = {
     },
     mediumBackgrounds: {
       shades: [400, 500, 600],
-      reason: 'Medium tones for hover states and interactive elements',
-      examples: ['Success button hover state', 'Active toggle in success state'],
+      reason: 'Medium to bright tones for interactive elements and highlights',
+      examples: ['Success button state', 'Checkmark color', 'Active toggle in success state'],
     },
     darkBackgrounds: {
-      shades: [700, 800, 900, 950],
-      reason: 'Dark tones for prominent buttons and deep states',
-      examples: ['Success CTA button', 'Dark mode success backgrounds', 'Strong success indicator'],
+      shades: [],
+      reason: 'Dark tones no longer available in simplified palette',
+      examples: [],
     },
   },
   commonUsages: [
@@ -380,19 +371,19 @@ const successFamily: ColorFamilyMetadata = {
       component: 'alert',
       role: 'background',
       recommendedShades: [50, 100, 200],
-      pairing: { textFamily: 'success', textShades: [900, 950], contrastRatio: 7.0 },
+      pairing: { textFamily: 'success', textShades: [600], contrastRatio: 7.0 },
     },
     {
       component: 'button',
       role: 'background',
-      recommendedShades: [600, 700, 800],
+      recommendedShades: [500, 600],
       pairing: { textFamily: 'foreground', textShades: [50], contrastRatio: 4.5 },
     },
     {
       component: 'badge',
       role: 'background',
       recommendedShades: [100, 200, 300],
-      pairing: { textFamily: 'success', textShades: [800, 900], contrastRatio: 5.5 },
+      pairing: { textFamily: 'success', textShades: [600], contrastRatio: 5.5 },
     },
   ],
   accessibility: {
@@ -403,9 +394,9 @@ const successFamily: ColorFamilyMetadata = {
       'Never rely on color alone to convey status',
     ],
     contrastPairs: [
-      { lightShade: 50, darkShade: 900, contrastRatio: 7.2 },
-      { lightShade: 100, darkShade: 950, contrastRatio: 8.1 },
-      { lightShade: 200, darkShade: 900, contrastRatio: 6.5 },
+      { lightShade: 50, darkShade: 600, contrastRatio: 6.2 },
+      { lightShade: 100, darkShade: 600, contrastRatio: 5.8 },
+      { lightShade: 200, darkShade: 600, contrastRatio: 5.2 },
     ],
   },
   usageInstructions: {
@@ -424,7 +415,7 @@ const successFamily: ColorFamilyMetadata = {
     ],
     commonMistakes: [
       'Using success-50 as text on white background (insufficient contrast)',
-      'Using success-950 as background for large text areas (too dark)',
+      'Relying on dark shades no longer available (700-950)',
       'Pairing success colors without considering colorblind viewers',
       'Using arbitrary green colors instead of semantic success family',
     ],
@@ -445,10 +436,6 @@ const dangerFamily: ColorFamilyMetadata = {
     400: { lightness: 55.0, chroma: 0.075, hue: 25.0, cssVar: '--danger-400' },
     500: { lightness: 60.0, chroma: 0.105, hue: 25.0, cssVar: '--danger-500' },
     600: { lightness: 80.0, chroma: 0.135, hue: 25.0, cssVar: '--danger-600' },
-    700: { lightness: 83.0, chroma: 0.143, hue: 25.0, cssVar: '--danger-700' },
-    800: { lightness: 91.0, chroma: 0.147, hue: 25.0, cssVar: '--danger-800' },
-    900: { lightness: 93.0, chroma: 0.15, hue: 25.0, cssVar: '--danger-900' },
-    950: { lightness: 94.0, chroma: 0.15, hue: 25.0, cssVar: '--danger-950' },
   },
   shadeGuidance: {
     lightBackgrounds: {
@@ -458,13 +445,13 @@ const dangerFamily: ColorFamilyMetadata = {
     },
     mediumBackgrounds: {
       shades: [400, 500, 600],
-      reason: 'Medium tones for validation states and hover effects',
-      examples: ['Input border on validation error', 'Delete button hover'],
+      reason: 'Medium to bright tones for buttons and interactive error states',
+      examples: ['Input border on validation error', 'Delete button', 'Error state emphasis'],
     },
     darkBackgrounds: {
-      shades: [700, 800, 900, 950],
-      reason: 'Dark tones for prominent destructive actions',
-      examples: ['Delete button', 'Destructive action CTA', 'Error state emphasis'],
+      shades: [],
+      reason: 'Dark tones no longer available in simplified palette',
+      examples: [],
     },
   },
   commonUsages: [
@@ -472,19 +459,19 @@ const dangerFamily: ColorFamilyMetadata = {
       component: 'alert',
       role: 'background',
       recommendedShades: [50, 100, 200],
-      pairing: { textFamily: 'danger', textShades: [900, 950], contrastRatio: 7.0 },
+      pairing: { textFamily: 'danger', textShades: [600], contrastRatio: 7.0 },
     },
     {
       component: 'button',
       role: 'background',
-      recommendedShades: [600, 700, 800],
+      recommendedShades: [500, 600],
       pairing: { textFamily: 'foreground', textShades: [50], contrastRatio: 4.5 },
     },
     {
       component: 'input',
       role: 'border',
-      recommendedShades: [600, 700],
-      pairing: { textFamily: 'danger', textShades: [900], contrastRatio: 5.5 },
+      recommendedShades: [600],
+      pairing: { textFamily: 'danger', textShades: [600], contrastRatio: 5.5 },
     },
   ],
   accessibility: {
@@ -495,9 +482,9 @@ const dangerFamily: ColorFamilyMetadata = {
       'Provide error messages and icons alongside color',
     ],
     contrastPairs: [
-      { lightShade: 50, darkShade: 900, contrastRatio: 7.0 },
-      { lightShade: 100, darkShade: 950, contrastRatio: 7.8 },
-      { lightShade: 200, darkShade: 900, contrastRatio: 6.2 },
+      { lightShade: 50, darkShade: 600, contrastRatio: 6.0 },
+      { lightShade: 100, darkShade: 600, contrastRatio: 5.5 },
+      { lightShade: 200, darkShade: 600, contrastRatio: 5.0 },
     ],
   },
   usageInstructions: {
@@ -516,7 +503,7 @@ const dangerFamily: ColorFamilyMetadata = {
     ],
     commonMistakes: [
       'Using danger for all warnings (not just errors)',
-      'Insufficient contrast between danger background and text',
+      'Relying on dark shades no longer available (700-950)',
       'Using danger-50 as text color (too light)',
       'Using arbitrary red instead of semantic danger family',
     ],
@@ -537,10 +524,6 @@ const warningFamily: ColorFamilyMetadata = {
     400: { lightness: 55.0, chroma: 0.075, hue: 65.0, cssVar: '--warning-400' },
     500: { lightness: 60.0, chroma: 0.105, hue: 65.0, cssVar: '--warning-500' },
     600: { lightness: 80.0, chroma: 0.135, hue: 65.0, cssVar: '--warning-600' },
-    700: { lightness: 83.0, chroma: 0.143, hue: 65.0, cssVar: '--warning-700' },
-    800: { lightness: 91.0, chroma: 0.147, hue: 65.0, cssVar: '--warning-800' },
-    900: { lightness: 93.0, chroma: 0.15, hue: 65.0, cssVar: '--warning-900' },
-    950: { lightness: 94.0, chroma: 0.15, hue: 65.0, cssVar: '--warning-950' },
   },
   shadeGuidance: {
     lightBackgrounds: {
@@ -550,13 +533,13 @@ const warningFamily: ColorFamilyMetadata = {
     },
     mediumBackgrounds: {
       shades: [400, 500, 600],
-      reason: 'Medium tones for warning actions and hover states',
-      examples: ['Warning button hover', 'Caution indicator'],
+      reason: 'Medium to bright tones for warning actions and interactive states',
+      examples: ['Warning button', 'Caution indicator'],
     },
     darkBackgrounds: {
-      shades: [700, 800, 900, 950],
-      reason: 'Dark tones for prominent warning states',
-      examples: ['Warning CTA button', 'Dark mode warning indicator'],
+      shades: [],
+      reason: 'Dark tones no longer available in simplified palette',
+      examples: [],
     },
   },
   commonUsages: [
@@ -564,13 +547,13 @@ const warningFamily: ColorFamilyMetadata = {
       component: 'alert',
       role: 'background',
       recommendedShades: [50, 100, 200],
-      pairing: { textFamily: 'warning', textShades: [900, 950], contrastRatio: 6.5 },
+      pairing: { textFamily: 'warning', textShades: [600], contrastRatio: 6.5 },
     },
     {
       component: 'badge',
       role: 'background',
       recommendedShades: [100, 200, 300],
-      pairing: { textFamily: 'warning', textShades: [800, 900] },
+      pairing: { textFamily: 'warning', textShades: [600] },
     },
   ],
   accessibility: {
@@ -581,9 +564,9 @@ const warningFamily: ColorFamilyMetadata = {
       'All pairs maintain WCAG AA contrast compliance',
     ],
     contrastPairs: [
-      { lightShade: 50, darkShade: 900, contrastRatio: 6.8 },
-      { lightShade: 100, darkShade: 950, contrastRatio: 7.5 },
-      { lightShade: 200, darkShade: 900, contrastRatio: 6.0 },
+      { lightShade: 50, darkShade: 600, contrastRatio: 6.0 },
+      { lightShade: 100, darkShade: 600, contrastRatio: 5.5 },
+      { lightShade: 200, darkShade: 600, contrastRatio: 5.0 },
     ],
   },
   usageInstructions: {
@@ -603,7 +586,7 @@ const warningFamily: ColorFamilyMetadata = {
     commonMistakes: [
       'Using warning for all cautions (not just warnings)',
       'Confusing warning with danger (different semantic meanings)',
-      'Insufficient contrast between warning background and text',
+      'Relying on dark shades no longer available (700-950)',
     ],
   },
 };
@@ -622,10 +605,6 @@ const infoFamily: ColorFamilyMetadata = {
     400: { lightness: 55.0, chroma: 0.075, hue: 255.0, cssVar: '--info-400' },
     500: { lightness: 60.0, chroma: 0.105, hue: 255.0, cssVar: '--info-500' },
     600: { lightness: 80.0, chroma: 0.135, hue: 255.0, cssVar: '--info-600' },
-    700: { lightness: 83.0, chroma: 0.143, hue: 255.0, cssVar: '--info-700' },
-    800: { lightness: 91.0, chroma: 0.147, hue: 255.0, cssVar: '--info-800' },
-    900: { lightness: 93.0, chroma: 0.15, hue: 255.0, cssVar: '--info-900' },
-    950: { lightness: 94.0, chroma: 0.15, hue: 255.0, cssVar: '--info-950' },
   },
   shadeGuidance: {
     lightBackgrounds: {
@@ -635,13 +614,13 @@ const infoFamily: ColorFamilyMetadata = {
     },
     mediumBackgrounds: {
       shades: [400, 500, 600],
-      reason: 'Medium tones for info states and interactive elements',
-      examples: ['Info button', 'Documentation link'],
+      reason: 'Medium to bright tones for info states and interactive elements',
+      examples: ['Info button', 'Documentation link', 'Info indicator'],
     },
     darkBackgrounds: {
-      shades: [700, 800, 900, 950],
-      reason: 'Dark tones for prominent info states',
-      examples: ['Info CTA', 'Dark mode info indicator'],
+      shades: [],
+      reason: 'Dark tones no longer available in simplified palette',
+      examples: [],
     },
   },
   commonUsages: [
@@ -649,13 +628,13 @@ const infoFamily: ColorFamilyMetadata = {
       component: 'alert',
       role: 'background',
       recommendedShades: [50, 100, 200],
-      pairing: { textFamily: 'info', textShades: [900, 950], contrastRatio: 7.0 },
+      pairing: { textFamily: 'info', textShades: [600], contrastRatio: 7.0 },
     },
     {
       component: 'badge',
       role: 'background',
       recommendedShades: [200],
-      pairing: { textFamily: 'info', textShades: [900], contrastRatio: 6.0 },
+      pairing: { textFamily: 'info', textShades: [600], contrastRatio: 6.0 },
     },
   ],
   accessibility: {
@@ -666,9 +645,9 @@ const infoFamily: ColorFamilyMetadata = {
       'All pairs maintain WCAG AA contrast compliance',
     ],
     contrastPairs: [
-      { lightShade: 50, darkShade: 900, contrastRatio: 7.5 },
-      { lightShade: 100, darkShade: 950, contrastRatio: 8.2 },
-      { lightShade: 200, darkShade: 900, contrastRatio: 6.8 },
+      { lightShade: 50, darkShade: 600, contrastRatio: 6.5 },
+      { lightShade: 100, darkShade: 600, contrastRatio: 6.0 },
+      { lightShade: 200, darkShade: 600, contrastRatio: 5.5 },
     ],
   },
   usageInstructions: {

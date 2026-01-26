@@ -13,6 +13,5 @@ packages/registry/.cache
 .cache
 .plans/
 .prompts/
-
-
-
+.knowledge/
+.agents/

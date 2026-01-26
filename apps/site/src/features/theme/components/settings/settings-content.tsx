@@ -41,6 +41,10 @@ export const SettingsContent = () => {
     setFontSizeScale,
     fontWeightScale,
     setFontWeightScale,
+    headerFontWeightScale,
+    setHeaderFontWeightScale,
+    bodyFontWeightScale,
+    setBodyFontWeightScale,
     typeSizeRatio,
     setTypeSizeRatio,
     radius,
@@ -93,6 +97,8 @@ export const SettingsContent = () => {
     onTypographyChange: (config: any) => {
       setFontSizeScale(config.fontSizeScale);
       setFontWeightScale(config.fontWeightScale);
+      setHeaderFontWeightScale(config.headerFontWeightScale);
+      setBodyFontWeightScale(config.bodyFontWeightScale);
       setTypeSizeRatio(config.typeSizeRatio);
       setHeaderLetterSpacingScale(config.headerLetterSpacingScale);
       setBodyLetterSpacingScale(config.bodyLetterSpacingScale);
@@ -131,6 +137,7 @@ export const SettingsContent = () => {
         c: newColor.c === 0 ? 0 : Math.max(newColor.c, MIN_BACKGROUND_CHROMA),
         h: newColor.h,
       };
+      updated.foreground = newColor;
     } else if (type === "foreground") {
       updated.foreground = newColor;
     } else if (type === "accent") {
@@ -204,6 +211,8 @@ export const SettingsContent = () => {
       applyAndPersistTypography({
         fontSizeScale: finalScale,
         fontWeightScale: weight,
+        headerFontWeightScale,
+        bodyFontWeightScale,
         typeSizeRatio: ratio,
         headerLetterSpacingScale,
         bodyLetterSpacingScale,
@@ -234,6 +243,8 @@ export const SettingsContent = () => {
       applyAndPersistTypography({
         fontSizeScale: finalScale,
         fontWeightScale: weight,
+        headerFontWeightScale,
+        bodyFontWeightScale,
         typeSizeRatio: ratio,
         headerLetterSpacingScale,
         bodyLetterSpacingScale,
@@ -261,6 +272,8 @@ export const SettingsContent = () => {
     applyAndPersistTypography({
       fontSizeScale: finalScale,
       fontWeightScale,
+      headerFontWeightScale,
+      bodyFontWeightScale,
       typeSizeRatio: ratio,
       headerLetterSpacingScale,
       bodyLetterSpacingScale,
@@ -286,6 +299,8 @@ export const SettingsContent = () => {
     applyAndPersistTypography({
       fontSizeScale: scale,
       fontWeightScale,
+      headerFontWeightScale,
+      bodyFontWeightScale,
       typeSizeRatio: finalRatio,
       headerLetterSpacingScale,
       bodyLetterSpacingScale,
@@ -351,13 +366,16 @@ export const SettingsContent = () => {
               bodyLetterSpacingScale={bodyLetterSpacingScale}
               typeSizeRatio={typeSizeRatio}
               fontSizeScale={fontSizeScale}
-              fontWeightScale={fontWeightScale}
+              headerFontWeightScale={headerFontWeightScale}
+              bodyFontWeightScale={bodyFontWeightScale}
               onSansFontChange={handleSansFontChange}
               onMonoFontChange={handleMonoFontChange}
               onHeaderLetterSpacingChange={(scale) =>
                 applyAndPersistTypography({
                   fontSizeScale,
                   fontWeightScale,
+                  headerFontWeightScale,
+                  bodyFontWeightScale,
                   typeSizeRatio,
                   headerLetterSpacingScale: scale,
                   bodyLetterSpacingScale,
@@ -367,6 +385,8 @@ export const SettingsContent = () => {
                 applyAndPersistTypography({
                   fontSizeScale,
                   fontWeightScale,
+                  headerFontWeightScale,
+                  bodyFontWeightScale,
                   typeSizeRatio,
                   headerLetterSpacingScale,
                   bodyLetterSpacingScale: scale,
@@ -374,10 +394,23 @@ export const SettingsContent = () => {
               }
               onTypeSizeRatioChange={handleTypeSizeRatioChange}
               onFontSizeScaleChange={handleFontSizeScaleChange}
-              onFontWeightScaleChange={(scale) =>
+              onHeaderFontWeightScaleChange={(scale) =>
                 applyAndPersistTypography({
                   fontSizeScale,
-                  fontWeightScale: scale,
+                  fontWeightScale,
+                  headerFontWeightScale: scale,
+                  bodyFontWeightScale,
+                  typeSizeRatio,
+                  headerLetterSpacingScale,
+                  bodyLetterSpacingScale,
+                })
+              }
+              onBodyFontWeightScaleChange={(scale) =>
+                applyAndPersistTypography({
+                  fontSizeScale,
+                  fontWeightScale,
+                  headerFontWeightScale,
+                  bodyFontWeightScale: scale,
                   typeSizeRatio,
                   headerLetterSpacingScale,
                   bodyLetterSpacingScale,

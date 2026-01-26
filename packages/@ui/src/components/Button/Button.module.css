@@ -17,7 +17,7 @@
     justify-content: center;
     gap: 0.5rem;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-md);
     line-height: var(--leading-snug);
     user-select: none;
@@ -46,9 +46,9 @@
   }
 
   .button.primary {
-    --button-bg: var(--accent-500);
-    --button-fg: var(--color-white);
-    --button-border: var(--accent-500);
+    --button-bg: var(--accent-600);
+    --button-fg: var(--accent-50);
+    --button-border: var(--accent-600);
   }
 
   .button.default {

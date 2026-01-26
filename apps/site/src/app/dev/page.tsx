@@ -3,18 +3,18 @@ import path from 'path';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-interface TestRoute {
+interface DevRoute {
   slug: string;
   title: string;
   href: string;
 }
 
-async function getTestRoutes(): Promise<TestRoute[]> {
+async function getDevRoutes(): Promise<DevRoute[]> {
   try {
-    const testDir = path.join(process.cwd(), 'src/app/test');
-    const entries = await readdir(testDir, { withFileTypes: true });
+    const devDir = path.join(process.cwd(), 'src/app/dev');
+    const entries = await readdir(devDir, { withFileTypes: true });
 
-    const routes: TestRoute[] = [];
+    const routes: DevRoute[] = [];
 
     for (const entry of entries) {
       if (!entry.isDirectory()) continue;
@@ -31,7 +31,7 @@ async function getTestRoutes(): Promise<TestRoute[]> {
         continue;
       }
 
-      const dirPath = path.join(testDir, entry.name);
+      const dirPath = path.join(devDir, entry.name);
       try {
         const dirContents = await readdir(dirPath);
         if (!dirContents.includes('page.tsx')) continue;
@@ -42,13 +42,13 @@ async function getTestRoutes(): Promise<TestRoute[]> {
       routes.push({
         slug: entry.name,
         title: formatTitle(entry.name),
-        href: `/test/${entry.name}`,
+        href: `/dev/${entry.name}`,
       });
     }
 
     return routes.sort((a, b) => a.title.localeCompare(b.title));
   } catch (error) {
-    console.error('Error scanning test directory:', error);
+    console.error('Error scanning dev directory:', error);
     return [];
   }
 }
@@ -61,12 +61,12 @@ function formatTitle(slug: string): string {
     .join(' ');
 }
 
-async function TestRoutesList() {
-  const routes = await getTestRoutes();
+async function DevRoutesList() {
+  const routes = await getDevRoutes();
 
   if (routes.length === 0) {
     return (
-      <div className="p-4 text-foreground-400">No test routes found.</div>
+      <div className="p-4 text-foreground-400">No dev routes found.</div>
     );
   }
 
@@ -91,19 +91,19 @@ async function TestRoutesList() {
   );
 }
 
-export default function TestIndexPage() {
+export default function DevIndexPage() {
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto">
         <div className="space-y-4 mb-8">
-          <h1 className="text-2xl font-bold text-foreground-50">Test Routes</h1>
+          <h1 className="text-2xl font-bold text-foreground-50">Dev Routes</h1>
           <p className="text-foreground-400">
-            Development-only test pages for component testing and experimentation.
+            Development pages for component testing and experimentation.
           </p>
         </div>
 
         <Suspense fallback={<div className="p-4 text-foreground-400">Loading routes...</div>}>
-          <TestRoutesList />
+          <DevRoutesList />
         </Suspense>
       </div>
     </div>

@@ -42,6 +42,23 @@ function injectThemeScript(): void {
   }
 }
 
+function getDeviceThemePreference(): 'light' | 'dark' {
+  if (typeof window === 'undefined') return 'dark'
+
+  try {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark'
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      return 'light'
+    }
+  } catch (e) {
+    console.warn('[ThemeProvider] Failed to detect device theme preference:', e)
+  }
+
+  return 'dark'
+}
+
 function convertToUnderlyingVariables(colorPalette: Record<string, string>): Record<string, string> {
   return colorPalette
 }
@@ -88,9 +105,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Update state and variables
     setThemeModeState(mode)
-
     if (typeof window === 'undefined') return
 
     try {
@@ -107,9 +122,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (palette && Object.keys(palette).length > 0) {
         const adjusted = invertPaletteForMode(palette, mode)
         const underlying = convertToUnderlyingVariables(adjusted)
-        // Apply CSS variables immediately to DOM
         applyThemeCSSVariables(underlying)
-        // Update state after DOM is updated
         setCssVariables(adjusted)
 
         try {
@@ -141,15 +154,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (saved) {
         try {
           const data = JSON.parse(saved) as StoredThemeConfig
-          // Validate the saved data
           if (data && (data.themeMode === 'light' || data.themeMode === 'dark')) {
             setThemeModeState(data.themeMode)
-            // Ensure theme is applied to DOM (the inline script should have done this, but sync it)
             document.documentElement.setAttribute('data-theme', data.themeMode)
             if (data.cssVariables && Object.keys(data.cssVariables).length > 0) {
               setCssVariables(data.cssVariables)
               setDarkPalette(data.cssVariables)
-              // Re-apply CSS variables to DOM to ensure consistency
               const underlying = convertToUnderlyingVariables(data.cssVariables)
               applyThemeCSSVariables(underlying)
             }
@@ -158,13 +168,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           }
         } catch (parseError) {
           console.warn('[ThemeProvider] Failed to parse saved theme:', parseError)
-          // Clear invalid cache
           try {
             localStorage.removeItem(STORAGE_KEY)
           } catch (e) {
             // Ignore removal errors
           }
-          // Fall back to extracting theme from CSS
           const { cssVariables: extracted } = extractThemeVariables('dark')
           if (Object.keys(extracted).length > 0) {
             setDarkPalette(extracted)
@@ -176,21 +184,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           document.documentElement.setAttribute('data-theme', 'dark')
         }
       } else {
-        // No saved theme, extract from CSS or use dark as default
-        const { cssVariables: extracted } = extractThemeVariables('dark')
+        // No saved theme, detect device preference
+        const deviceTheme = getDeviceThemePreference()
+        const { cssVariables: extracted } = extractThemeVariables(deviceTheme)
         if (Object.keys(extracted).length > 0) {
           setDarkPalette(extracted)
           setCssVariables(extracted)
           const underlying = convertToUnderlyingVariables(extracted)
           applyThemeCSSVariables(underlying)
         }
-        setThemeModeState('dark')
-        document.documentElement.setAttribute('data-theme', 'dark')
+        setThemeModeState(deviceTheme)
+        document.documentElement.setAttribute('data-theme', deviceTheme)
       }
     } catch (e) {
       console.warn('[ThemeProvider] Failed to initialize theme:', e)
-      setThemeModeState('dark')
-      document.documentElement.setAttribute('data-theme', 'dark')
+      const deviceTheme = getDeviceThemePreference()
+      setThemeModeState(deviceTheme)
+      document.documentElement.setAttribute('data-theme', deviceTheme)
     } finally {
       setIsThemeInitialized(true)
     }

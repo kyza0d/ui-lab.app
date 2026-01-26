@@ -101,7 +101,7 @@
   }
 
   .radio-label {
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     transition: color 200ms var(--ease-snappy-pop);
     color: var(--radio-foreground, var(--foreground-300));
     font-size: inherit;

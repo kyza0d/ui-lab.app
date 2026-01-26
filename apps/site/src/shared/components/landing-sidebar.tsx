@@ -65,7 +65,7 @@ const QUICK_LINKS = [
 
 export function LandingSidebar() {
   return (
-    <aside className={cn('hidden md:flex w-68 flex-col relative z-20 -mt-4')}>
+    <aside className={cn('w-68 flex-col relative z-20 -mt-4')}>
       <div className="flex border-r bg-background-950 border-background-700 flex-col sticky top-(--header-height) z-20">
         <div className="z-10">
           <nav className="py-3 px-2 space-y-1">
@@ -108,7 +108,7 @@ export function LandingSidebar() {
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
+                        'block px-3 py-1.5  font-medium text-sm rounded-md cursor-pointer',
                         'transition-colors duration-300 ease-out',
                         'hover:duration-0',
                         'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
