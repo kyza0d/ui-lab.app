@@ -9,12 +9,12 @@ export type ColorRole = 'background' | 'foreground' | 'accent' | 'success' | 'da
 export interface ScaleRange { min: ShadeScale; max: ShadeScale }
 export const SCALE_RANGES: Record<ColorRole, ScaleRange> = {
   foreground: { min: 50, max: 600 },
-  background: { min: 50, max: 950 },
-  accent: { min: 50, max: 950 },
-  success: { min: 50, max: 950 },
-  danger: { min: 50, max: 950 },
-  warning: { min: 50, max: 950 },
-  info: { min: 50, max: 950 },
+  background: { min: 500, max: 950 },
+  accent: { min: 50, max: 600 },
+  success: { min: 50, max: 600 },
+  danger: { min: 50, max: 600 },
+  warning: { min: 50, max: 600 },
+  info: { min: 50, max: 600 },
 };
 
 export interface ChromaBounds { min: number; max: number }
@@ -119,29 +119,24 @@ export const adjustLightness = (k: OklchColor, amt: number): OklchColor => ({ ..
 export const adjustChroma = (k: OklchColor, amt: number): OklchColor => ({ ...k, c: Math.max(0, k.c + amt) });
 export const rotateHue = (k: OklchColor, deg: number): OklchColor => ({ ...k, h: (k.h + deg + 360) % 360 });
 
-const SCALES: Record<string, Record<ShadeScale, number>> = {
+// Lightness scales for palette generation across different color roles and themes.
+// Neutral accent scales (accNeutralLight/accNeutralDark) use opposite progressions for visual inversion:
+// - accNeutralLight: Bright at shade 50 (0.99) → Dark at shade 600 (0.12) for contrast on light backgrounds
+// - accNeutralDark: Dark at shade 50 (0.12) → Bright at shade 600 (0.91) for contrast on dark backgrounds
+// This ensures shade 400 (0.58 lightness) provides good visual contrast in both light and dark theme contexts.
+// Saturated accents (chroma > 0.005) use accSaturatedLight/accSaturatedDark scales with higher lightness values
+// to compensate for the perceptual darkening effect of high chroma.
+const SCALES: Record<string, Partial<Record<ShadeScale, number>>> = {
   dark: { 50: .98, 100: .95, 200: .9, 300: .84, 400: .65, 500: .5, 600: .32, 700: .26, 800: .23, 900: .21, 950: .18 },
   light: { 50: .16, 100: .29, 200: .31, 300: .42, 400: .55, 500: .6, 600: .88, 700: .9, 800: .94, 900: .96, 950: .98 },
   sem: { 50: .95, 100: .88, 200: .8, 300: .72, 400: .65, 500: .55, 600: .46, 700: .38, 800: .29, 900: .2, 950: .12 },
-  accDark: { 50: .995, 100: .97, 200: .92, 300: .84, 400: .65, 500: .5, 600: .32, 700: .26, 800: .23, 900: .21, 950: .18 },
-  accLight: { 50: .85, 100: .78, 200: .70, 300: .58, 400: .45, 500: .32, 600: .26, 700: .21, 800: .16, 900: .12, 950: .08 }
-};
-
-export const PaletteEasing = {
-  linear: (t: number) => t,
-  easeInQuad: (t: number) => t * t,
-  easeOutQuad: (t: number) => 1 - (1 - t) ** 2,
-  easeInOutQuad: (t: number) => t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2,
-  exponentialBrightness: (t: number) => t < .3 ? 1 - (1 - t) ** 3 * .3 : .7 + (t - .3) / .7 * .3,
-  aggressiveAccent: (t: number) => t < .2 ? Math.max(.88, 1 - (1 - t / .2) ** 2.5 * .12) : t < .4 ? .88 - (t - .2) / .2 * .38 : .5 + (t - .4) / .6 * .5,
-  gentleBrightness: (t: number) => t < .25 ? 1 - (1 - t / .25) ** 2 * .1 : .9 + (t - .25) / .75 * .1,
-};
-
-export const ChromaScaling = {
-  linear: () => 1.0,
-  desaturateBright: (t: number) => t < .2 ? .2 + (t / .2) * .3 : t < .5 ? .5 + ((t - .2) / .3) * .35 : .85 + ((t - .5) / .5) * .15,
-  desaturateGentle: (t: number) => t < .25 ? .5 + (t / .25) * .2 : .7 + ((t - .25) / .75) * .3,
-  desaturateModerate: (t: number) => t < .2 ? .35 + (t / .2) * .25 : t < .5 ? .6 + ((t - .2) / .3) * .28 : .88 + ((t - .5) / .5) * .12,
+  accLight: { 50: .92, 100: .82, 200: .70, 300: .55, 400: .40, 500: .28, 600: .12 },
+  accDark: { 50: .82, 100: .75, 200: .68, 300: .58, 400: .50, 500: .46, 600: .36 },
+  acc: { 50: .92, 100: .86, 200: .76, 300: .62, 400: .52, 500: .45, 600: .32 },
+  accNeutralLight: { 50: .99, 100: .97, 200: .91, 300: .72, 400: .58, 500: .32, 600: .28 },
+  accNeutralDark: { 50: .12, 100: .20, 200: .32, 300: .44, 400: .58, 500: .72, 600: .91 },
+  accSaturatedLight: { 50: .94, 100: .88, 200: .82, 300: .76, 400: .70, 500: .64, 600: .68 },
+  accSaturatedDark: { 50: .95, 100: .88, 200: .82, 300: .75, 400: .71, 500: .65, 600: .60 }
 };
 
 export const SimplifiedChromaScaling = {
@@ -156,11 +151,11 @@ export const SimplifiedPaletteEasing = {
 
 const SHADE_NORM: Record<ShadeScale, number> = { 50: 0, 100: .1, 200: .2, 300: .3, 400: .4, 500: .5, 600: .6, 700: .7, 800: .8, 900: .9, 950: 1 };
 const CHROMA_FACTORS = {
-  acc: { 50: .75, 100: .8, 200: .9, 300: 1, 400: 1.05, 500: 1.1, 600: 1.05, 700: 1, 800: .95, 900: .85, 950: .75 },
+  acc: { 50: .55, 100: .65, 200: .80, 300: .95, 400: 1.15, 500: 1.25, 600: 1.20, 700: 1.15, 800: 1.10, 900: 1.05, 950: 1.00 },
   std: { 50: .4, 100: .5, 200: .65, 300: .8, 400: .9, 500: 1, 600: .95, 700: .9, 800: .75, 900: .65, 950: .55 }
 } as const;
 
-export function applyEasingToScale(scale: Record<ShadeScale, number>, shades?: ShadeScale[], ease?: EasingFunction): Record<ShadeScale, number> {
+export function applyEasingToScale(scale: Partial<Record<ShadeScale, number>>, shades?: ShadeScale[], ease?: EasingFunction): Partial<Record<ShadeScale, number>> {
   if (!ease) return scale;
   const shadesToUse = shades || SHADES;
   const vals = shadesToUse.map(s => scale[s]).filter((v): v is number => v !== undefined);
@@ -177,26 +172,48 @@ export const getSemanticLightnessScale = () => SCALES.sem;
 
 export function generateColorPalette(
   base: OklchColor, baseShade: ShadeScale = 500, mode: ThemeMode = 'dark', shift = 0, limit = 0.01,
-  useSem = false, isAcc = false, ease?: EasingFunction, cScale?: ChromaScalingFunction, shades?: ShadeScale[]
+  useSem = false, isAcc = false, ease?: EasingFunction, cScale?: ChromaScalingFunction, shades?: ShadeScale[], role?: string
 ): ColorPalette {
-  const shadesToUse = shades || SHADES;
-  let lScale = useSem ? SCALES.sem : (isAcc ? (mode === 'dark' ? SCALES.accDark : SCALES.accLight) : getLightnessScale(mode));
+  const shadesToUse = shades || (isAcc ? [50, 100, 200, 300, 400, 500, 600] as ShadeScale[] : SHADES);
+
+  const isNeutral = base.c <= 0.005;
+  let scaleName = 'unknown';
+  let lScale: Partial<Record<ShadeScale, number>>;
 
   if (useSem) {
-    const offset = base.l - SCALES.sem[baseShade];
-    lScale = shadesToUse.reduce((a, s) => ({ ...a, [s]: clamp(SCALES.sem[s] + offset, 0.01, 0.99) }), {} as any);
+    scaleName = 'sem';
+    lScale = SCALES.sem;
+  } else if (isAcc) {
+    if (isNeutral) {
+      scaleName = mode === 'light' ? 'accNeutralLight' : 'accNeutralDark';
+      lScale = mode === 'light' ? SCALES.accNeutralLight : SCALES.accNeutralDark;
+    } else {
+      scaleName = mode === 'light' ? 'accSaturatedLight' : 'accSaturatedDark';
+      lScale = mode === 'light' ? SCALES.accSaturatedLight : SCALES.accSaturatedDark;
+    }
+  } else {
+    scaleName = mode === 'light' ? 'light' : 'dark';
+    lScale = getLightnessScale(mode);
+  }
+
+  if (useSem) {
+    const offset = base.l - (SCALES.sem[baseShade] ?? 0.5);
+    lScale = shadesToUse.reduce((a, s) => ({ ...a, [s]: clamp((SCALES.sem[s] ?? 0.5) + offset, 0.01, 0.99) }), {} as any);
   }
   if (ease) lScale = applyEasingToScale(lScale, shadesToUse, ease);
 
-  const normC = { ...base, l: clamp(lScale[baseShade], 0.01, 0.99) };
+  const normC = { ...base, l: clamp(lScale[baseShade] ?? 0.5, 0.01, 0.99) };
   const cConstraint = Math.min(1.0, limit / Math.max(normC.c, 0.01));
 
   return shadesToUse.reduce((palette, shade) => {
-    let cFactor = (isAcc ? CHROMA_FACTORS.acc : CHROMA_FACTORS.std)[shade] * cConstraint;
+    const chromaFactors = isAcc ? CHROMA_FACTORS.acc : CHROMA_FACTORS.std;
+    let cFactor = (chromaFactors[shade] ?? 1.0) * cConstraint;
     if (cScale) cFactor *= cScale(SHADE_NORM[shade]);
 
+    const finalLightness = rnd(clamp((lScale[shade] ?? 0.5) + shift, 0.01, 0.99));
+
     palette[shade] = {
-      l: rnd(clamp(lScale[shade] + shift, 0.01, 0.99)),
+      l: finalLightness,
       c: rnd(normC.c * cFactor),
       h: normC.h
     };
@@ -230,18 +247,19 @@ export function generateThemePalettes(
   const adjustedBg = applyGlobalAdjustments(bg, 'background', global);
   const adjustedFg = applyGlobalAdjustments(fg, 'foreground', global);
   const adjustedAcc = applyGlobalAdjustments(acc, 'accent', global);
+
   const effectiveBgLimit = clampChromaToRole(CHROMA_BOUNDARIES.background.max * global.chromaBoost, 'background');
   const effectiveFgLimit = clampChromaToRole(CHROMA_BOUNDARIES.foreground.max * global.chromaBoost, 'foreground');
   const effectiveAccLimit = clampChromaToRole(accLimit * global.chromaBoost, 'accent');
 
   const fgShades = getShadesForRole('foreground');
   const bgShades = getShadesForRole('background');
-  const accShades = getShadesForRole('accent');
+  const accShades = [50, 100, 200, 300, 400, 500, 600] as ShadeScale[];
 
   const result: any = {
     background: generateColorPalette(adjustedBg, 500, mode, bgLightnessShift, effectiveBgLimit, false, false, undefined, undefined, bgShades),
     foreground: generateColorPalette(adjustedFg, 500, mode, lightnessShift, effectiveFgLimit, false, false, undefined, undefined, fgShades),
-    accent: generateColorPalette(adjustedAcc, 500, mode, lightnessShift, effectiveAccLimit, true, false, accEase, accScale, accShades),
+    accent: generateColorPalette(adjustedAcc, 500, mode, lightnessShift, effectiveAccLimit, false, true, accEase, accScale, accShades, 'accent'),
   };
 
   if (sem) {

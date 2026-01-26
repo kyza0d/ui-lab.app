@@ -11,7 +11,7 @@ export function BannerCTA() {
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 px-6 py-12 md:px-12 md:py-16">
           {/* Decorative elements */}
           <div className="absolute right-0 top-0 h-96 w-96 translate-x-1/3 -translate-y-1/4 rounded-full bg-accent-400 opacity-10 blur-3xl" />
-          <div className="absolute left-0 bottom-0 h-80 w-80 -translate-x-1/3 translate-y-1/4 rounded-full bg-accent-700 opacity-10 blur-3xl" />
+          <div className="absolute left-0 bottom-0 h-80 w-80 -translate-x-1/3 translate-y-1/4 rounded-full bg-accent-600 opacity-10 blur-3xl" />
 
           <div className="relative z-10">
             <h2 className="mx-auto mb-4 max-w-2xl text-3xl font-bold text-white md:text-4xl">

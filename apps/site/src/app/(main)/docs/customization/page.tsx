@@ -56,7 +56,6 @@ export default function CustomizationPage() {
   /* Add accent colors */
   --color-accent-500: #0066ff;
   --color-accent-600: #0052cc;
-  --color-accent-700: #003d99;
 
   /* Semantic colors */
   --color-success-500: #10b981;

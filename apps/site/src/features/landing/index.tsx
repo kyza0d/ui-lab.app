@@ -19,15 +19,15 @@ function HeroSection() {
           {/* <Aura /> */}
           <div className="absolute flex gap-6 bottom-0 left-0 w-full px-2 ">
             <div className="p-[12px] text-foreground-400 flex space-x-[28px] w-full">
-              <div className="flex items-center gap-3 text-sm">
+              <span className="flex items-center gap-3 text-sm">
                 <FaPaintbrush className="w-3.5 h-3.5" /> Customization
-              </div>
-              <div className="flex items-center gap-3 text-sm">
+              </span>
+              <span className="flex items-center gap-3 text-sm">
                 <FaEye className="w-3.5 h-3.5" /> Accessible
-              </div>
-              <div className="flex items-center gap-3 text-sm">
+              </span>
+              <span className="flex items-center gap-3 text-sm">
                 <FaBrain className="w-3.5 h-3.5" /> LLM Enabled
-              </div>
+              </span>
             </div>
             <p className="text-sm max-w-[41ch] text-foreground-400 mx-[4px] mb-[14px]">
               User Interface (UI) is the space where interactions between humans and machines occur.
@@ -40,7 +40,7 @@ function HeroSection() {
                 Release Notes
               </span>
             </div>
-            <h1 className="mb-0 max-w-[32ch] pb-[9px] font-bold text-foreground-200">
+            <h1 className="mb-0 max-w-[32ch] pb-[9px] text-foreground-200">
               Stunning and usable React components
             </h1>
             <p className="text-foreground-400 w-[59ch]">
