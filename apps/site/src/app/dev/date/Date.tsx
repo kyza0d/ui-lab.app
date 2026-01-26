@@ -311,14 +311,14 @@ const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
             className={cn("date-prev-button", styles.navButton)}
             aria-label="Previous month"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={16} />
           </button>
           <button
             onClick={() => navigateMonth(1)}
             className={cn("date-next-button", styles.navButton)}
             aria-label="Next month"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={16} />
           </button>
         </div>
       </div>

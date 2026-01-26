@@ -1,7 +1,11 @@
-import { type OklchColor, type ShadeScale, type SemanticColors, type EasingFunction, type ChromaScalingFunction, type GlobalColorAdjustments, PaletteEasing, ChromaScaling, DEFAULT_GLOBAL_ADJUSTMENTS } from '../lib/color-utils';
+import { type OklchColor, type ShadeScale, type SemanticColors, type EasingFunction, type ChromaScalingFunction, type GlobalColorAdjustments, DEFAULT_GLOBAL_ADJUSTMENTS } from '../lib/color-utils';
 
 export const DEFAULT_THEME_NAME = "Vitesse";
-export const DEFAULT_THEME_VARIANT = "light";
+
+export function getDefaultThemeVariant(): "light" | "dark" {
+  if (typeof window === "undefined") return "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
 
 export interface SimpleThemeColors {
   background: OklchColor;
@@ -40,11 +44,9 @@ export const themes: Record<string, ThemeVariants> = {
       backgroundShade: 950,
       foreground: { l: 0.6, c: 0, h: 0 },
       foregroundShade: 300,
-      accent: { l: 0.55, c: 0.15, h: 250 },
+      accent: { l: 0.5, c: 0, h: 0 },
       accentShade: 500,
       accentChromaLimit: 0.35,
-      accentEasing: PaletteEasing.aggressiveAccent,
-      accentChromaScaling: ChromaScaling.desaturateModerate,
       semantic: {
         success: {
           light: { color: { l: 0.90, c: 0.20, h: 142 }, chromaLimit: 0.25 },
@@ -74,11 +76,9 @@ export const themes: Record<string, ThemeVariants> = {
       backgroundShade: 900,
       foreground: { l: 0.4, c: 0, h: 0 },
       foregroundShade: 100,
-      accent: { l: 0.55, c: 0.15, h: 250 },
+      accent: { l: 0.5, c: 0, h: 0 },
       accentShade: 500,
       accentChromaLimit: 0.35,
-      accentEasing: PaletteEasing.aggressiveAccent,
-      accentChromaScaling: ChromaScaling.desaturateModerate,
       semantic: {
         success: {
           light: { color: { l: 0.90, c: 0.20, h: 142 }, chromaLimit: 0.25 },

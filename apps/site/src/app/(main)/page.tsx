@@ -46,7 +46,7 @@ export default function Home() {
         <div className="fixed h-full bg-background-950 w-screen top-0 left-0 z-0" />
         <div className="fixed max-w-[94vw] bg-background-950 w-screen h-screen top-0 left-1/2 -translate-x-1/2 z-0" />
 
-        <section className="w-full px-24 border-t-0  relative isolate after:content-[''] bg-background-950 ml-auto">
+        <section className="w-full px-24 border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
           <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px]">
             <HeroSection />
           </div>

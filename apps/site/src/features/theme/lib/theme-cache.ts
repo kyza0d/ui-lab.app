@@ -24,7 +24,12 @@ export interface CompleteThemeCache {
 }
 
 export const THEME_CACHE_KEY = "uilab_theme_complete";
-const REQUIRED_VARS = ["--background-50", "--text-md"];
+const REQUIRED_VARS = ["--background-500", "--text-md"];
+
+export function getDevicePreferredTheme(): "light" | "dark" {
+  if (typeof window === "undefined") return "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
 
 export function validateThemeCache(data: unknown): CompleteThemeCache | null {
   if (!data || typeof data !== "object") return null;
@@ -36,16 +41,18 @@ export function validateThemeCache(data: unknown): CompleteThemeCache | null {
     if (!(v in vars) || typeof vars[v] !== "string") return null;
   }
   const sourceConfig = d.sourceConfig as ThemeSourceConfig | undefined;
+  const themeMode = d.themeMode as "light" | "dark";
   return {
     cssVariables: vars as Record<string, string>,
-    themeMode: d.themeMode,
-    sourceConfig: sourceConfig || getDefaultSourceConfig(d.themeMode),
+    themeMode,
+    sourceConfig: sourceConfig || getDefaultSourceConfig(themeMode),
     timestamp: typeof d.timestamp === "number" ? d.timestamp : Date.now(),
     version: 1,
   };
 }
 
-function getDefaultSourceConfig(mode: "light" | "dark"): ThemeSourceConfig {
+function getDefaultSourceConfig(mode?: "light" | "dark"): ThemeSourceConfig {
+  const resolvedMode = mode ?? getDevicePreferredTheme();
   return {
     colors: {
       background: { h: 0, c: 0, l: 0.15 },
@@ -55,7 +62,7 @@ function getDefaultSourceConfig(mode: "light" | "dark"): ThemeSourceConfig {
     typography: { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2, headerLetterSpacingScale: 1, bodyLetterSpacingScale: 1 },
     layout: { radius: 0.5, borderWidth: 2, spacingScale: 0.9 },
     fonts: { sansFont: "Karla", monoFont: "Ioskeley Mono" },
-    mode,
+    mode: resolvedMode,
   };
 }
 

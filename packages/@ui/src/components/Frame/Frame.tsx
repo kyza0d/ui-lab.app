@@ -137,8 +137,8 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           <rect
             x={halfStroke}
             y={halfStroke}
-            width={`calc(100% - ${borderStroke}px)`}
-            height={`calc(100% - ${borderStroke}px)`}
+            width={`calc(100%-${borderStroke}px)`}
+            height={`calc(100%-${borderStroke}px)`}
             rx={cornerRadius}
             fill="none"
             stroke={borderColor}

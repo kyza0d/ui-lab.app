@@ -33,6 +33,10 @@ export interface AppContextType {
   setFontSizeScale: (scale: number) => void;
   fontWeightScale: number;
   setFontWeightScale: (scale: number) => void;
+  headerFontWeightScale: number;
+  setHeaderFontWeightScale: (scale: number) => void;
+  bodyFontWeightScale: number;
+  setBodyFontWeightScale: (scale: number) => void;
   typeSizeRatio: number;
   setTypeSizeRatio: (ratio: number) => void;
   radius: number;
@@ -65,6 +69,8 @@ const defaultPreferences = {
   mode: "dark" as const,
   fontSizeScale: 1,
   fontWeightScale: 1,
+  headerFontWeightScale: 1,
+  bodyFontWeightScale: 1,
   typeSizeRatio: 1.2,
   radius: 0.5,
   borderWidth: 2,
@@ -102,6 +108,8 @@ function loadPreferencesFromStorage() {
       mode: sourceConfig.mode,
       fontSizeScale: clamped.fontSizeScale,
       fontWeightScale: sourceConfig.typography.fontWeightScale ?? 1,
+      headerFontWeightScale: sourceConfig.typography.headerFontWeightScale ?? 1,
+      bodyFontWeightScale: sourceConfig.typography.bodyFontWeightScale ?? 1,
       typeSizeRatio: clamped.typeSizeRatio,
       radius: sourceConfig.layout.radius,
       borderWidth: sourceConfig.layout.borderWidth,
@@ -120,6 +128,8 @@ function loadPreferencesFromStorage() {
     mode: sourceConfig.mode,
     fontSizeScale,
     fontWeightScale: sourceConfig.typography.fontWeightScale ?? 1,
+    headerFontWeightScale: sourceConfig.typography.headerFontWeightScale ?? 1,
+    bodyFontWeightScale: sourceConfig.typography.bodyFontWeightScale ?? 1,
     typeSizeRatio,
     radius: sourceConfig.layout.radius,
     borderWidth: sourceConfig.layout.borderWidth,
@@ -134,10 +144,10 @@ function loadPreferencesFromStorage() {
 }
 
 function ThemeConfigurationApplier() {
-  const { fontSizeScale, fontWeightScale, typeSizeRatio, radius, borderWidth, spacingScale, headerLetterSpacingScale, bodyLetterSpacingScale } = useApp();
+  const { fontSizeScale, fontWeightScale, headerFontWeightScale, bodyFontWeightScale, typeSizeRatio, radius, borderWidth, spacingScale, headerLetterSpacingScale, bodyLetterSpacingScale } = useApp();
 
   useThemeConfiguration({
-    typography: { fontSizeScale, fontWeightScale, typeSizeRatio, headerLetterSpacingScale, bodyLetterSpacingScale },
+    typography: { fontSizeScale, fontWeightScale, headerFontWeightScale, bodyFontWeightScale, typeSizeRatio, headerLetterSpacingScale, bodyLetterSpacingScale },
     layout: { radius, borderWidth, spacingScale },
   });
 
@@ -159,6 +169,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
   const [fontWeightScale, setFontWeightScale] = useState(
     defaultPreferences.fontWeightScale,
+  );
+  const [headerFontWeightScale, setHeaderFontWeightScale] = useState(
+    defaultPreferences.headerFontWeightScale,
+  );
+  const [bodyFontWeightScale, setBodyFontWeightScale] = useState(
+    defaultPreferences.bodyFontWeightScale,
   );
   const [typeSizeRatio, setTypeSizeRatio] = useState(
     defaultPreferences.typeSizeRatio,
@@ -192,6 +208,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setCurrentThemeMode(savedPrefs.mode);
       setFontSizeScale(savedPrefs.fontSizeScale);
       setFontWeightScale(savedPrefs.fontWeightScale);
+      setHeaderFontWeightScale(savedPrefs.headerFontWeightScale);
+      setBodyFontWeightScale(savedPrefs.bodyFontWeightScale);
       setTypeSizeRatio(savedPrefs.typeSizeRatio);
       setRadius(savedPrefs.radius);
       setBorderWidth(savedPrefs.borderWidth);
@@ -238,12 +256,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
               setCurrentThemeMode(config.mode);
               setFontSizeScale(clamped.fontSizeScale);
               setFontWeightScale(config.typography.fontWeightScale);
+              setHeaderFontWeightScale(config.typography.headerFontWeightScale ?? 1);
+              setBodyFontWeightScale(config.typography.bodyFontWeightScale ?? 1);
               setTypeSizeRatio(clamped.typeSizeRatio);
             } else {
               setCurrentThemeColors(validatedColors);
               setCurrentThemeMode(config.mode);
               setFontSizeScale(fontSizeScale);
               setFontWeightScale(config.typography.fontWeightScale);
+              setHeaderFontWeightScale(config.typography.headerFontWeightScale ?? 1);
+              setBodyFontWeightScale(config.typography.bodyFontWeightScale ?? 1);
               setTypeSizeRatio(typeSizeRatio);
             }
             setRadius(config.layout.radius);
@@ -285,6 +307,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setFontSizeScale,
     fontWeightScale,
     setFontWeightScale,
+    headerFontWeightScale,
+    setHeaderFontWeightScale,
+    bodyFontWeightScale,
+    setBodyFontWeightScale,
     typeSizeRatio,
     setTypeSizeRatio,
     radius,
@@ -312,6 +338,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     isThemeInitialized,
     fontSizeScale,
     fontWeightScale,
+    headerFontWeightScale,
+    bodyFontWeightScale,
     typeSizeRatio,
     radius,
     borderWidth,

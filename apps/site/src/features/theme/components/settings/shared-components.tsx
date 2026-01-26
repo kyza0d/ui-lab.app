@@ -122,7 +122,7 @@ export const GlobalSlider = memo(
             {label}
           </label>
           <span
-            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-500" : "text-accent-400 bg-accent-900/30"}`}
+            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-500" : "text-accent-400 bg-accent-600/30"}`}
           >
             {formatValue(value)}
           </span>
@@ -142,6 +142,37 @@ export const GlobalSlider = memo(
 
 GlobalSlider.displayName = "GlobalSlider";
 
+const getPreviewColor = (
+  type: ColorRowProps["type"],
+  color: OklchColor,
+  themeMode: "dark" | "light"
+): OklchColor => {
+  const isNeutral = color.c <= 0.005;
+
+  if (type === "background") {
+    return themeMode === "dark"
+      ? { l: 0.32, c: isNeutral ? 0 : Math.min(color.c, 0.008), h: color.h }
+      : { l: 0.88, c: isNeutral ? 0 : Math.min(color.c, 0.008), h: color.h };
+  }
+
+  if (type === "foreground") {
+    return themeMode === "dark"
+      ? { l: 0.95, c: isNeutral ? 0 : Math.min(color.c, 0.04), h: color.h }
+      : { l: 0.29, c: isNeutral ? 0 : Math.min(color.c, 0.04), h: color.h };
+  }
+
+  if (type === "accent") {
+    if (isNeutral) {
+      return themeMode === "dark"
+        ? { l: 0.58, c: 0, h: 0 }
+        : { l: 0.58, c: 0, h: 0 };
+    }
+    return { l: 0.70, c: Math.min(color.c, 0.18), h: color.h };
+  }
+
+  return { l: 0.55, c: Math.min(color.c, 0.20), h: color.h };
+};
+
 export const ColorRow = memo(
   ({
     type,
@@ -151,15 +182,12 @@ export const ColorRow = memo(
     onChange,
     hueRange,
   }: ColorRowProps) => {
+    const { currentThemeMode } = useApp();
     const previewStyle = useMemo(
       () => ({
-        backgroundColor: oklchToCss(
-          color.c <= 0.005
-            ? { l: 1, c: 0, h: 0 }
-            : { l: 0.65, c: 0.18, h: color.h },
-        ),
+        backgroundColor: oklchToCss(getPreviewColor(type, color, currentThemeMode)),
       }),
-      [color.h, color.c],
+      [type, color, currentThemeMode],
     );
 
     return (
@@ -256,30 +284,53 @@ export const ColorPicker = memo(
 
     const swatches = useMemo(() => {
       const hueSwatches = Array.from({ length: 7 }, (_, i) => {
-        if (hueRange) {
-          return hueRange.min + (hueRange.max - hueRange.min) * (i / 6);
-        }
+
+        if (hueRange) return hueRange.min + (hueRange.max - hueRange.min) * (i / 6);
+
         return (i * (360 / 7)) % 360;
       });
-      if (type === "background" || type === "foreground") {
+      if (type === "background" || type === "foreground" || type === "accent") {
         return [...hueSwatches, null];
       }
       return hueSwatches;
     }, [hueRange, type]);
 
-    const getPresentationColor = (h: number) => {
-      if (type === "foreground") {
-        return oklchToCss({
-          l: currentThemeMode === "dark" ? 0.9 : 0.2,
-          c: 0.04,
-          h: h,
-        });
+    const getSwatchColor = (h: number): OklchColor => {
+      if (type === "background") {
+        return currentThemeMode === "dark"
+          ? { l: 0.32, c: 0.008, h }
+          : { l: 0.88, c: 0.008, h };
       }
-      return oklchToCss({
-        l: 0.65,
-        c: 0.18,
-        h: h,
-      });
+      if (type === "foreground") {
+        return currentThemeMode === "dark"
+          ? { l: 0.95, c: 0.04, h }
+          : { l: 0.29, c: 0.04, h };
+      }
+      if (type === "accent") {
+        return { l: 0.70, c: 0.18, h };
+      }
+      return { l: 0.55, c: 0.20, h };
+    };
+
+    const getNeutralSwatchColor = (): OklchColor => {
+      if (type === "background") {
+        return currentThemeMode === "dark"
+          ? { l: 0.30, c: 0, h: 0 }
+          : { l: 0.90, c: 0, h: 0 };
+      }
+      if (type === "foreground") {
+        return currentThemeMode === "dark"
+          ? { l: 0.95, c: 0, h: 0 }
+          : { l: 0.29, c: 0, h: 0 };
+      }
+      return { l: 0.58, c: 0, h: 0 };
+    };
+
+    const getCheckmarkDark = (isNeutral: boolean): boolean => {
+      if (type === "background") return currentThemeMode === "light";
+      if (type === "foreground") return currentThemeMode === "dark";
+      if (isNeutral) return false;
+      return false;
     };
 
     return (
@@ -290,18 +341,27 @@ export const ColorPicker = memo(
             ? isNeutral
             : !isNeutral && Math.abs(h - color.h) < 2;
           const displayColor = isNeutral
-            ? oklchToCss({ l: 1, c: 0, h: 0 })
-            : getPresentationColor(h);
+            ? oklchToCss(getNeutralSwatchColor())
+            : oklchToCss(getSwatchColor(h));
 
           return (
             <button
               key={i}
               onClick={() => {
                 if (isNeutral) {
-                  onChange({ l: 1, c: 0, h: 180 });
+                  onChange({ l: 1, c: 0, h: 0 });
                 } else {
-                  const defaultChroma = type === "foreground" ? 0.01 : 0.008;
-                  onChange({ ...color, c: color.c === 0 ? defaultChroma : color.c, h });
+                  const isColorNeutral = color.c <= 0.005;
+                  const defaultChroma = type === "foreground" ? 0.01 : type === "accent" ? 0.20 : 0.008;
+                  let lightness = color.l;
+                  if (isColorNeutral) {
+                    if (type === "foreground") {
+                      lightness = currentThemeMode === "dark" ? 0.4 : 0.2;
+                    } else if (type === "accent") {
+                      lightness = 0.5;
+                    }
+                  }
+                  onChange({ l: lightness, c: color.c === 0 ? defaultChroma : color.c, h });
                 }
               }}
               className="relative h-10 rounded-[4px] flex items-center justify-center"
@@ -309,11 +369,7 @@ export const ColorPicker = memo(
             >
               {isSelected && (
                 <FaCheck
-                  className={
-                    currentThemeMode === "dark" && type === "foreground"
-                      ? "text-black"
-                      : "text-white"
-                  }
+                  className={getCheckmarkDark(isNeutral) ? "text-black" : "text-white"}
                   size={10}
                 />
               )}

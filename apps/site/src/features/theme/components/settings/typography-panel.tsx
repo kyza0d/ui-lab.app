@@ -15,14 +15,16 @@ interface TypographyPanelProps {
   bodyLetterSpacingScale: number;
   typeSizeRatio: number;
   fontSizeScale: number;
-  fontWeightScale: number;
+  headerFontWeightScale: number;
+  bodyFontWeightScale: number;
   onSansFontChange: (fontName: string) => void;
   onMonoFontChange: (fontName: string) => void;
   onHeaderLetterSpacingChange: (scale: number) => void;
   onBodyLetterSpacingChange: (scale: number) => void;
   onTypeSizeRatioChange: (ratio: number) => void;
   onFontSizeScaleChange: (scale: number) => void;
-  onFontWeightScaleChange: (scale: number) => void;
+  onHeaderFontWeightScaleChange: (scale: number) => void;
+  onBodyFontWeightScaleChange: (scale: number) => void;
 }
 
 export const TypographyPanel = memo(
@@ -33,14 +35,16 @@ export const TypographyPanel = memo(
     bodyLetterSpacingScale,
     typeSizeRatio,
     fontSizeScale,
-    fontWeightScale,
+    headerFontWeightScale,
+    bodyFontWeightScale,
     onSansFontChange,
     onMonoFontChange,
     onHeaderLetterSpacingChange,
     onBodyLetterSpacingChange,
     onTypeSizeRatioChange,
     onFontSizeScaleChange,
-    onFontWeightScaleChange,
+    onHeaderFontWeightScaleChange,
+    onBodyFontWeightScaleChange,
   }: TypographyPanelProps) => {
     return (
       <div className="px-[6px] m-0 space-y-2">
@@ -51,6 +55,7 @@ export const TypographyPanel = memo(
             </label>
             <Select
               selectedKey={selectedSansFont}
+              defaultValue={selectedSansFont}
               onSelectionChange={(key) => onSansFontChange(key as string)}
             >
               <Select.Trigger className="w-full">
@@ -72,6 +77,7 @@ export const TypographyPanel = memo(
             </label>
             <Select
               selectedKey={selectedMonoFont}
+              defaultValue={selectedMonoFont}
               onSelectionChange={(key) => onMonoFontChange(key as string)}
             >
               <Select.Trigger className="w-full">
@@ -124,18 +130,27 @@ export const TypographyPanel = memo(
             value={fontSizeScale}
             min={0.85}
             max={1.15}
-            step={0.05}
+            step={0.01}
             unit="x"
             onChange={onFontSizeScaleChange}
           />
           <SliderControl
-            label="Weight Multiplier"
-            value={fontWeightScale}
-            min={0.01}
-            max={1.5}
+            label="Header Weight"
+            value={headerFontWeightScale}
+            min={0.80}
+            max={1.20}
             step={0.01}
             unit="x"
-            onChange={onFontWeightScaleChange}
+            onChange={onHeaderFontWeightScaleChange}
+          />
+          <SliderControl
+            label="Body Weight"
+            value={bodyFontWeightScale}
+            min={0.80}
+            max={1.20}
+            step={0.01}
+            unit="x"
+            onChange={onBodyFontWeightScaleChange}
           />
         </div>
       </div>

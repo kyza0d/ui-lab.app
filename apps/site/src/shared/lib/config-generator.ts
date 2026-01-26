@@ -342,13 +342,18 @@ export function applyDynamicFontSizeScales(fontSizeScale: number): void {
 
 /**
  * Applies dynamic font weight scales to the DOM
- * Updates all --font-weight-* CSS variables based on the scale factor
- * @param fontWeightScale - Font weight scale factor (0.75 - 1.25)
+ * Updates all --font-weight-header-* and --font-weight-body-* CSS variables
+ * @param fontWeightScale - Font weight scale factor (for backward compatibility, unused if headerScale provided)
+ * @param headerFontWeightScale - Header font weight scale factor (0.80 - 1.20)
+ * @param bodyFontWeightScale - Body font weight scale factor (0.80 - 1.20)
  */
-export function applyDynamicFontWeightScales(fontWeightScale: number): void {
+export function applyDynamicFontWeightScales(
+  fontWeightScale?: number,
+  headerFontWeightScale?: number,
+  bodyFontWeightScale?: number,
+): void {
   const root = document.documentElement;
 
-  // Define the base Tailwind font weight scale
   const baseFontWeightScale = [
     { name: "thin", value: 100 },
     { name: "extralight", value: 200 },
@@ -361,18 +366,16 @@ export function applyDynamicFontWeightScales(fontWeightScale: number): void {
     { name: "black", value: 900 },
   ];
 
-  // Calculate scale factor (reference weight is 400, normal)
-  const baseWeightRef = 400;
-  const weightScaleFactor = fontWeightScale;
+  const headerScale = headerFontWeightScale ?? fontWeightScale ?? 1;
+  const bodyScale = bodyFontWeightScale ?? fontWeightScale ?? 1;
 
-  // Apply scaled font weight values
   baseFontWeightScale.forEach(({ name, value }) => {
-    // Scale the weight offset from 400
-    const offset = value - baseWeightRef;
-    const scaledValue = baseWeightRef + offset * weightScaleFactor;
-    // Clamp to 100-900 range
-    const clampedValue = Math.max(100, Math.min(900, Math.round(scaledValue)));
-    root.style.setProperty(`--font-weight-${name}`, clampedValue.toString());
+    const headerScaled = value * headerScale;
+    const bodyScaled = value * bodyScale;
+    const headerClamped = Math.max(100, Math.min(900, Math.round(headerScaled)));
+    const bodyClamped = Math.max(100, Math.min(900, Math.round(bodyScaled)));
+    root.style.setProperty(`--font-weight-header-${name}`, headerClamped.toString());
+    root.style.setProperty(`--font-weight-body-${name}`, bodyClamped.toString());
   });
 }
 
@@ -591,9 +594,9 @@ function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
 }
 
 /**
- * Generates font weight CSS with scaled values
+ * Generates font weight CSS with scaled values for both headers and body
  */
-function generateFontWeightCSS(fontWeightScale: number): string {
+function generateFontWeightCSS(headerFontWeightScale: number, bodyFontWeightScale: number): string {
   const weights = [
     { name: "thin", value: 100 },
     { name: "extralight", value: 200 },
@@ -606,14 +609,14 @@ function generateFontWeightCSS(fontWeightScale: number): string {
     { name: "black", value: 900 },
   ];
 
-  const baseWeightRef = 400;
   const lines: string[] = [];
-
   weights.forEach(({ name, value }) => {
-    const offset = value - baseWeightRef;
-    const scaledValue = baseWeightRef + offset * fontWeightScale;
-    const clampedValue = Math.max(100, Math.min(900, Math.round(scaledValue)));
-    lines.push(`  --font-weight-${name}: ${clampedValue};`);
+    const headerScaled = value * headerFontWeightScale;
+    const bodyScaled = value * bodyFontWeightScale;
+    const headerClamped = Math.max(100, Math.min(900, Math.round(headerScaled)));
+    const bodyClamped = Math.max(100, Math.min(900, Math.round(bodyScaled)));
+    lines.push(`  --font-weight-header-${name}: ${headerClamped};`);
+    lines.push(`  --font-weight-body-${name}: ${bodyClamped};`);
   });
 
   return lines.join("\n");
@@ -754,16 +757,20 @@ export function generateFullThemeConfig(
   typeSizeRatio: number,
   fontSizeScale: number,
   fontWeightScale: number,
-  radius: number,
-  borderWidth: number,
-  spacingScale: number,
+  headerFontWeightScale?: number,
+  bodyFontWeightScale?: number,
+  radius?: number,
+  borderWidth?: number,
+  spacingScale?: number,
 ): string {
   const typographyCSS = generateTypographyCSS(typeSizeRatio, fontSizeScale);
   const colorCSS = generateColorPaletteCSS(colors, mode);
-  const fontWeightCSS = generateFontWeightCSS(fontWeightScale);
-  const radiusCSS = generateRadiusScaleCSS(radius);
-  const borderWidthCSS = generateBorderWidthScaleCSS(borderWidth);
-  const spacingCSS = generateFluidSpacingCSS(spacingScale);
+  const headerScale = headerFontWeightScale ?? fontWeightScale ?? 1;
+  const bodyScale = bodyFontWeightScale ?? fontWeightScale ?? 1;
+  const fontWeightCSS = generateFontWeightCSS(headerScale, bodyScale);
+  const radiusCSS = generateRadiusScaleCSS(radius ?? 0.2);
+  const borderWidthCSS = generateBorderWidthScaleCSS(borderWidth ?? 1);
+  const spacingCSS = generateFluidSpacingCSS(spacingScale ?? 1);
 
   return `@import "tailwindcss";
 @import "ui-lab-components/styles.css";

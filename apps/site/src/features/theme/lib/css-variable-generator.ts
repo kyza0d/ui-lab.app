@@ -4,7 +4,7 @@ import { type FontKey } from "../constants/font-config";
 
 export interface ThemeConfig {
   colors: SimpleThemeColors;
-  typography: { fontSizeScale: number; fontWeightScale: number; typeSizeRatio: number; headerLetterSpacingScale?: number; bodyLetterSpacingScale?: number };
+  typography: { fontSizeScale: number; fontWeightScale?: number; headerFontWeightScale?: number; bodyFontWeightScale?: number; typeSizeRatio: number; headerLetterSpacingScale?: number; bodyLetterSpacingScale?: number };
   layout: { radius: number; borderWidth: number; spacingScale: number };
   fonts?: { sansFont: FontKey; monoFont: FontKey };
   mode: "light" | "dark";
@@ -44,10 +44,12 @@ const TEXT_MIN_CONSTRAINTS: Record<string, number> = {
 
 function computeTypographyVars(typography: ThemeConfig['typography']): Record<string, string> {
   const { fontSizeScale } = typography;
+  const headerFontWeightScale = typography.headerFontWeightScale ?? typography.fontWeightScale ?? 1;
+  const bodyFontWeightScale = typography.bodyFontWeightScale ?? typography.fontWeightScale ?? 1;
 
   const vars: Record<string, string> = {};
   vars['--font-size-scale'] = String(fontSizeScale);
-  vars['--font-weight-scale'] = String(typography.fontWeightScale);
+  vars['--font-weight-scale'] = String(typography.fontWeightScale ?? 1);
 
   TEXT_NAMES.forEach((name, i) => {
     let size = 1;
@@ -61,12 +63,13 @@ function computeTypographyVars(typography: ThemeConfig['typography']): Record<st
     vars[`--text-${name}`] = `clamp(${minSize.toFixed(3)}rem, ${fluidVw.toFixed(2)}vw, ${maxSize.toFixed(3)}rem)`;
   });
 
-  const baseWeightRef = 400;
   WEIGHT_DEFS.forEach(({ name, value }) => {
-    const offset = value - baseWeightRef;
-    const scaled = baseWeightRef + offset * typography.fontWeightScale;
-    const clamped = Math.max(100, Math.min(900, Math.round(scaled)));
-    vars[`--font-weight-${name}`] = clamped.toString();
+    const headerScaled = value * headerFontWeightScale;
+    const bodyScaled = value * bodyFontWeightScale;
+    const headerClamped = Math.max(100, Math.min(900, Math.round(headerScaled)));
+    const bodyClamped = Math.max(100, Math.min(900, Math.round(bodyScaled)));
+    vars[`--font-weight-header-${name}`] = headerClamped.toString();
+    vars[`--font-weight-body-${name}`] = bodyClamped.toString();
   });
 
   return vars;

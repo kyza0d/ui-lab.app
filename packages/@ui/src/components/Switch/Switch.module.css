@@ -5,7 +5,7 @@
     --track-background-unchecked: var(--background-700);
     --track-background-checked: var(--accent-500);
     --track-background-hover: var(--accent-600);
-    --track-background-active: var(--accent-700);
+    --track-background-active: var(--accent-600);
     --track-background-disabled: var(--background-800);
     --thumb-background-unchecked: var(--background-500);
     --thumb-background-checked: var(--accent-50);

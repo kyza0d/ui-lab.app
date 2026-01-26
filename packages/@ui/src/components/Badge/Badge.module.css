@@ -3,7 +3,7 @@
 @layer components {
   .badge {
     --background: var(--background-800);
-    --foreground: var(--background-300);
+    --foreground: var(--foreground-200);
     --border: var(--background-600);
 
     @apply px-2 py-1;
@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-sm);
     background-color: var(--background);
     color: var(--foreground);
@@ -20,7 +20,7 @@
 
   .badge.default {
     --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
-    --foreground: var(--background-300);
+    --foreground: var(--foreground-200);
   }
 
   .badge.success {

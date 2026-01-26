@@ -3,13 +3,13 @@
 import { ComponentConfigurator } from "@/features/component-docs";
 import { getComponentById, getComponentMetadata } from "@/features/component-docs";
 import { TableOfContents, Table, type Column } from "@/features/docs";
-import { CodeBlock, InlineCodeHighlight } from "@/shared";
-import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip, Divider } from "ui-lab-components";
+import { CodeBlock, InlineCodeHighlight, cn } from "@/shared";
+import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 import { FaFlask, FaGithub } from "react-icons/fa6";
-import { SiAdobe } from "react-icons/si";
 import { BreadcrumbsNav } from "@/features/navigation";
+import { Footer } from "@/features/layout";
 
 const ReactAriaSvg = () => (
   <svg
@@ -31,19 +31,16 @@ export function ComponentClient({ componentId }: { componentId: string }) {
 
   if (!component) {
     return (
-      <div>
-        <BreadcrumbsNav />
-        <div className="w-full bg-background-950 mx-auto">
-          <main className="w-full">
-            <div className="px-8 py-8 space-y-8">
-              <div className="space-y-4">
-                <h2 className="text-4xl font-bold text-foreground-50">Component Not Found</h2>
-                <p className="text-foreground-400">
-                  The component you're looking for doesn't exist.
-                </p>
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-[4fr_1fr]">
+        <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
+          <BreadcrumbsNav />
+          <div className="flex items-center">
+            <div className="pt-12 mx-auto max-w-3xl pb-12">
+              <h2 className="text-4xl font-bold text-foreground-50">Component Not Found</h2>
+              <p className="text-foreground-400 mt-4">The component you're looking for doesn't exist.</p>
             </div>
-          </main>
+          </div>
+          <Footer />
         </div>
       </div>
     );
@@ -92,14 +89,14 @@ export function ComponentClient({ componentId }: { componentId: string }) {
   const tocItems = getTocItems();
 
   return (
-    <div>
-      <BreadcrumbsNav />
-      <div className="w-full mx-auto text-foreground-100 ">
+    <div className="grid grid-cols-1 md:grid-cols-[4fr_1fr]">
+      <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
+        <BreadcrumbsNav />
         <Toaster />
-        <div className="flex flex-col lg:flex-row justify-between gap-0">
-          <main className="w-full relative mx-auto max-w-3xl px-6 py-16 lg:w-48rem">
-            <div className="space-y-2 min-h-32 mt-(--header-height)">
-              <div className="flex flex-col mb-12">
+        <div className="flex items-center">
+          <div className="pt-12 mx-auto max-w-3xl pb-12">
+            <div className="space-y-2 min-h-32">
+              <div className="flex flex-col mb-12 relative">
                 {metadata?.experimental && (
                   <Tooltip content="Experimental: Not fully implemented and requires testing" position="left" showArrow>
                     <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
@@ -112,21 +109,13 @@ export function ComponentClient({ componentId }: { componentId: string }) {
               </div>
               <div className="flex gap-3 flex-row mb-4 mt-4">
                 {sourceUrls[componentId] && (
-                  <Button
-                    variant="outline"
-                    onClick={() => window.open(sourceUrls[componentId], '_blank')}
-                  >
+                  <Button variant="outline" onClick={() => window.open(sourceUrls[componentId], '_blank')}>
                     <FaGithub size={19} className="mr-4 text-foreground-400" /> Source
                   </Button>
                 )}
                 {reactAriaUrls[componentId] && (
-                  <Button
-                    variant="outline"
-                    onClick={() => window.open(reactAriaUrls[componentId], '_blank')}
-                  >
-                    <div className="mr-4">
-                      <ReactAriaSvg />
-                    </div>
+                  <Button variant="outline" onClick={() => window.open(reactAriaUrls[componentId], '_blank')}>
+                    <div className="mr-4"><ReactAriaSvg /></div>
                     React Aria
                   </Button>
                 )}
@@ -134,16 +123,9 @@ export function ComponentClient({ componentId }: { componentId: string }) {
             </div>
             {firstExample && (
               <div className="space-y-4 mb-12">
-                <ComponentConfigurator
-                  title=""
-                  description=""
-                  code={firstExample.code}
-                  language="typescript"
-                  controls={firstExample.controls}
-                  renderPreview={firstExample.renderPreview}
-                  previewHeight={firstExample.previewHeight}
-                  previewLayout={firstExample.previewLayout}
-                >
+                <ComponentConfigurator title="" description="" code={firstExample.code} language="typescript"
+                  controls={firstExample.controls} renderPreview={firstExample.renderPreview}
+                  previewHeight={firstExample.previewHeight} previewLayout={firstExample.previewLayout}>
                   {firstExample.preview}
                 </ComponentConfigurator>
               </div>
@@ -161,16 +143,10 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                   <div className="space-y-4">
                     {remainingExamples.map((example) => (
                       <div key={example.id} id={example.id}>
-                        <ComponentConfigurator
-                          title={example.title}
-                          description={example.description}
-                          code={example.code}
-                          language="typescript"
-                          controls={example.controls}
-                          renderPreview={example.renderPreview}
-                          previewHeight={example.previewHeight}
-                          previewLayout={example.previewLayout}
-                        >
+                        <ComponentConfigurator title={example.title} description={example.description}
+                          code={example.code} language="typescript" controls={example.controls}
+                          renderPreview={example.renderPreview} previewHeight={example.previewHeight}
+                          previewLayout={example.previewLayout}>
                           {example.preview}
                         </ComponentConfigurator>
                       </div>
@@ -185,12 +161,11 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 <StylesDocumentation componentId={componentId} styles={generatedStyles[componentId]} />
               </TabsContent>
             </Tabs>
-          </main>
-          <div className="w-full lg:w-auto">
-            {tocItems.length > 0 && <TableOfContents items={tocItems} />}
           </div>
         </div>
+        <Footer />
       </div>
+      {tocItems.length > 0 && <TableOfContents items={tocItems} />}
     </div>
   );
 }

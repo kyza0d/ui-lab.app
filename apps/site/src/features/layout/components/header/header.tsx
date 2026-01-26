@@ -27,7 +27,6 @@ const TabItem = memo(({ tab }: { tab: TabConfig }) => {
   return (
     <Link href={tab.path}>
       <TabsTrigger
-        icon={Icon ? <Icon className="text-foreground-400" size={16} /> : undefined}
         value={tab.id}
         className="gap-4 text-sm mb-3"
         disabled={tab.isPlaceholder}
@@ -73,11 +72,9 @@ export default function Header({
           <div className="flex items-center gap-4 flex-1">
 
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <div className="scale-120">
+              <div className="scale-100">
                 <Logo />
               </div>
-              <span className="text-md font-bold text-foreground-100 mr-24">UI Lab</span>
-              <div className="flex text-xs items-center text-foreground-400 h-[25px] rounded-md border border-background-600 px-[10px] font-bold">v0.4</div>
             </Link>
 
 

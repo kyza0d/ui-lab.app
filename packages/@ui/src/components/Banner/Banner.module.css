@@ -4,7 +4,7 @@
   .banner {
     --background: var(--background-900);
     --foreground: var(--info-50);
-    --border: var(--info-800);
+    --border: var(--info-600);
 
     width: 100%;
     display: flex;
@@ -87,7 +87,7 @@
 }
 
 .banner.note .icon {
-  color: var(--background-400);
+  color: var(--background-500);
 }
 
 .banner.info {

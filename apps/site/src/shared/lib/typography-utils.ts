@@ -169,17 +169,9 @@ export function calculateFontWeights(
     { name: "black", value: 900 },
   ];
 
-  const baseWeightRef = 400; // normal
   return baseWeights.map(({ name, value }) => {
-    // Calculate offset from base (400)
-    const offset = value - baseWeightRef;
-
-    // Apply scale factor to offset
-    const scaledValue = baseWeightRef + offset * fontWeightScale;
-
-    // Clamp to 100-900 range
+    const scaledValue = value * fontWeightScale;
     const clampedValue = Math.max(100, Math.min(900, Math.round(scaledValue)));
-
     return { name, value: clampedValue };
   });
 }

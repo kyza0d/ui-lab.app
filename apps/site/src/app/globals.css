@@ -1,37 +1,8 @@
 @import "tailwindcss";
-/* @import "ui-lab-components/styles.css"; */
 
 @source "./src";
 @source "../../packages/registry/src";
 @source "../../packages/components/src";
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-LightItalic.ttf") format("truetype");
-  font-weight: 300;
-  font-style: italic;
-}
 
 @font-face {
   font-family: "Ioskeley Mono";
@@ -47,56 +18,11 @@
   font-style: italic;
 }
 
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-SemiBoldItalic.ttf") format("truetype");
-  font-weight: 600;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-BoldItalic.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-ExtraBoldItalic.ttf") format("truetype");
-  font-weight: 800;
-  font-style: italic;
-}
-
 @theme {
-  /* Font Families */
-  /* --font-sans: "Geist Sans", system-ui, sans-serif; */
   --font-sans: "Karla", system-ui, sans-serif;
-  /* --font-sans: "Inter Variable", system-ui, sans-serif; */
   --font-mono: "Ioskeley Mono", monospace;
 
- --text-xs: 0.875rem;
+  --text-xs: 0.875rem;
   --text-sm: 1.000rem;
   --text-md: 1.000rem;
   --text-lg: clamp(1.125rem, 2.16vw, 1.380rem);
@@ -105,6 +31,16 @@
   --text-3xl: clamp(1.763rem, 3.73vw, 2.385rem);
   --text-4xl: clamp(2.115rem, 4.48vw, 2.862rem);
   --text-5xl: clamp(2.538rem, 5.37vw, 3.434rem);
+
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
 
   /* Letter Spacing - Scaled by Type Size */
   --letter-spacing-xs: -0.0150em;
@@ -129,44 +65,30 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
 
-
-  --color-aura-1: var(--accent-50);   /* Very light ethereal cyan-tinted highlight */
-  --color-aura-2: var(--accent-300);  /* Mid vibrant blue-magenta shift */
-  --color-aura-3: var(--accent-500);  /* Bold electric cyan-blue (surreal neon pop) */
-
-  --color-background-50: var(--background-50, oklch(16.0% 0.000 0.0));
-  --color-background-100: var(--background-100, oklch(29.0% 0.000 0.0));
-  --color-background-200: var(--background-200, oklch(31.0% 0.000 0.0));
-  --color-background-300: var(--background-300, oklch(42.0% 0.000 0.0));
-  --color-background-400: var(--background-400, oklch(55.0% 0.000 0.0));
-  --color-background-500: var(--background-500, oklch(60.0% 0.000 0.0));
-  --color-background-600: var(--background-600, oklch(80.0% 0.000 0.0));
-  --color-background-700: var(--background-700, oklch(83.0% 0.000 0.0));
-  --color-background-800: var(--background-800, oklch(91.0% 0.000 0.0));
-  --color-background-900: var(--background-900, oklch(93.0% 0.000 0.0));
-  --color-background-950: var(--background-950, oklch(94.0% 0.000 0.0));
-  --color-foreground-50: var(--foreground-50, oklch(16.0% 0.000 0.0));
-  --color-foreground-100: var(--foreground-100, oklch(29.0% 0.000 0.0));
-  --color-foreground-200: var(--foreground-200, oklch(31.0% 0.000 0.0));
-  --color-foreground-300: var(--foreground-300, oklch(42.0% 0.000 0.0));
-  --color-foreground-400: var(--foreground-400, oklch(55.0% 0.000 0.0));
-  --color-foreground-500: var(--foreground-500, oklch(60.0% 0.000 0.0));
-  --color-foreground-600: var(--foreground-600, oklch(80.0% 0.000 0.0));
+  --color-background-500: var(--background-500, oklch(50% 0 0));
+  --color-background-600: var(--background-600, oklch(32% 0 0));
+  --color-background-700: var(--background-700, oklch(26% 0 0));
+  --color-background-800: var(--background-800, oklch(23% 0 0));
+  --color-background-900: var(--background-900, oklch(21% 0 0));
+  --color-background-950: var(--background-950, oklch(18% 0 0));
+  --color-foreground-50: var(--foreground-50, oklch(98% 0.000 0.0));
+  --color-foreground-100: var(--foreground-100, oklch(95% 0.000 0.0));
+  --color-foreground-200: var(--foreground-200, oklch(90% 0.000 0.0));
+  --color-foreground-300: var(--foreground-300, oklch(84% 0.000 0.0));
+  --color-foreground-400: var(--foreground-400, oklch(65% 0.000 0.0));
+  --color-foreground-500: var(--foreground-500, oklch(50% 0.000 0.0));
+  --color-foreground-600: var(--foreground-600, oklch(32% 0.000 0.0));
   --color-foreground-700: var(--foreground-700, oklch(83.0% 0.000 0.0));
   --color-foreground-800: var(--foreground-800, oklch(91.0% 0.000 0.0));
   --color-foreground-900: var(--foreground-900, oklch(93.0% 0.000 0.0));
   --color-foreground-950: var(--foreground-950, oklch(94.0% 0.000 0.0));
-  --color-accent-50: var(--accent-50, oklch(16.0% 0.000 0.0));
-  --color-accent-100: var(--accent-100, oklch(29.0% 0.000 0.0));
-  --color-accent-200: var(--accent-200, oklch(31.0% 0.000 0.0));
-  --color-accent-300: var(--accent-300, oklch(42.0% 0.000 0.0));
-  --color-accent-400: var(--accent-400, oklch(55.0% 0.000 0.0));
-  --color-accent-500: var(--accent-500, oklch(60.0% 0.000 0.0));
-  --color-accent-600: var(--accent-600, oklch(80.0% 0.000 0.0));
-  --color-accent-700: var(--accent-700, oklch(83.0% 0.000 0.0));
-  --color-accent-800: var(--accent-800, oklch(91.0% 0.000 0.0));
-  --color-accent-900: var(--accent-900, oklch(93.0% 0.000 0.0));
-  --color-accent-950: var(--accent-950, oklch(94.0% 0.000 0.0));
+  --color-accent-50: var(--accent-50, oklch(99.0% 0.000 0.0));
+  --color-accent-100: var(--accent-100, oklch(97.0% 0.000 0.0));
+  --color-accent-200: var(--accent-200, oklch(91.0% 0.000 0.0));
+  --color-accent-300: var(--accent-300, oklch(72.0% 0.000 0.0));
+  --color-accent-400: var(--accent-400, oklch(58.0% 0.000 0.0));
+  --color-accent-500: var(--accent-500, oklch(32.0% 0.000 0.0));
+  --color-accent-600: var(--accent-600, oklch(28.0% 0.000 0.0));
   --color-success-50: var(--success-50, oklch(16.0% 0.000 142.0));
   --color-success-100: var(--success-100, oklch(29.0% 0.016 142.0));
   --color-success-200: var(--success-200, oklch(31.0% 0.032 142.0));
@@ -174,10 +96,6 @@
   --color-success-400: var(--success-400, oklch(55.0% 0.080 142.0));
   --color-success-500: var(--success-500, oklch(60.0% 0.112 142.0));
   --color-success-600: var(--success-600, oklch(80.0% 0.144 142.0));
-  --color-success-700: var(--success-700, oklch(83.0% 0.152 142.0));
-  --color-success-800: var(--success-800, oklch(91.0% 0.157 142.0));
-  --color-success-900: var(--success-900, oklch(93.0% 0.160 142.0));
-  --color-success-950: var(--success-950, oklch(94.0% 0.160 142.0));
   --color-danger-50: var(--danger-50, oklch(16.0% 0.000 25.0));
   --color-danger-100: var(--danger-100, oklch(29.0% 0.015 25.0));
   --color-danger-200: var(--danger-200, oklch(31.0% 0.030 25.0));
@@ -185,10 +103,6 @@
   --color-danger-400: var(--danger-400, oklch(55.0% 0.075 25.0));
   --color-danger-500: var(--danger-500, oklch(60.0% 0.105 25.0));
   --color-danger-600: var(--danger-600, oklch(80.0% 0.135 25.0));
-  --color-danger-700: var(--danger-700, oklch(83.0% 0.143 25.0));
-  --color-danger-800: var(--danger-800, oklch(91.0% 0.147 25.0));
-  --color-danger-900: var(--danger-900, oklch(93.0% 0.150 25.0));
-  --color-danger-950: var(--danger-950, oklch(94.0% 0.150 25.0));
   --color-warning-50: var(--warning-50, oklch(16.0% 0.000 65.0));
   --color-warning-100: var(--warning-100, oklch(29.0% 0.015 65.0));
   --color-warning-200: var(--warning-200, oklch(31.0% 0.030 65.0));
@@ -196,10 +110,6 @@
   --color-warning-400: var(--warning-400, oklch(55.0% 0.075 65.0));
   --color-warning-500: var(--warning-500, oklch(60.0% 0.105 65.0));
   --color-warning-600: var(--warning-600, oklch(80.0% 0.135 65.0));
-  --color-warning-700: var(--warning-700, oklch(83.0% 0.143 65.0));
-  --color-warning-800: var(--warning-800, oklch(91.0% 0.147 65.0));
-  --color-warning-900: var(--warning-900, oklch(93.0% 0.150 65.0));
-  --color-warning-950: var(--warning-950, oklch(94.0% 0.150 65.0));
   --color-info-50: var(--info-50, oklch(16.0% 0.000 255.0));
   --color-info-100: var(--info-100, oklch(29.0% 0.015 255.0));
   --color-info-200: var(--info-200, oklch(31.0% 0.030 255.0));
@@ -207,28 +117,10 @@
   --color-info-400: var(--info-400, oklch(55.0% 0.075 255.0));
   --color-info-500: var(--info-500, oklch(60.0% 0.105 255.0));
   --color-info-600: var(--info-600, oklch(80.0% 0.135 255.0));
-  --color-info-700: var(--info-700, oklch(83.0% 0.143 255.0));
-  --color-info-800: var(--info-800, oklch(91.0% 0.147 255.0));
-  --color-info-900: var(--info-900, oklch(93.0% 0.150 255.0));
-  --color-info-950: var(--info-950, oklch(94.0% 0.150 255.0));
 
-  /* Font Weights (for variable font control) */
-  /* These values are dynamically updated via --font-weight-scale */
-  --font-weight-thin: 100;
-  --font-weight-extralight: 200;
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
-
-  /* Typography Scale - Dynamically configurable */
   --font-size-scale: 1;
   --font-weight-scale: 1;
 
-  /* Layout & Spacing - Dynamically configurable */
   --spacing-scale: 1;
   --spacing: clamp(0.200rem, 2.5vw, 0.250rem);
 
@@ -265,14 +157,13 @@
 @layer base {
   h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.6rem 0 ;
-    font-weight: 600;
+    font-weight: var(--font-weight-header-semibold);
   }
 
   h1 {
-    margin: 0rem 0 0.6rem 0 ;
+    margin: 0rem 0 0.6rem 0;
     font-size: var(--text-xl);
     letter-spacing: var(--letter-spacing-xl);
-    font-weight: 700
   }
 
   h2 {
@@ -296,6 +187,7 @@
   p {
     font-size: var(--text-md);
     letter-spacing: var(--letter-spacing-md);
+    font-weight: var(--font-weight-body-normal);
     max-width: 80ch;
     margin: 0 0 0.4rem 0;
   }
@@ -361,18 +253,46 @@
     border-bottom-left-radius: var(--radius-lg);
     border-bottom-right-radius: var(--radius-lg);
   }
+
+  /* Emphasis Styles */
+  strong {
+    color: var(--color-foreground-100);
+    font-weight: var(--font-weight-body-semibold);
+  }
+
+  span {
+    font-weight: var(--font-weight-body-normal);
+  }
 }
 
 /* Apply letter-spacing based on text size utilities */
-.text-xs { letter-spacing: var(--letter-spacing-xs); }
-.text-sm { letter-spacing: var(--letter-spacing-sm); }
-.text-md { letter-spacing: var(--letter-spacing-md); }
-.text-lg { letter-spacing: var(--letter-spacing-lg); }
-.text-xl { letter-spacing: var(--letter-spacing-xl); }
-.text-2xl { letter-spacing: var(--letter-spacing-2xl); }
-.text-3xl { letter-spacing: var(--letter-spacing-3xl); }
-.text-4xl { letter-spacing: var(--letter-spacing-4xl); }
-.text-5xl { letter-spacing: var(--letter-spacing-5xl); }
+.text-xs {
+  letter-spacing: var(--letter-spacing-xs);
+}
+.text-sm {
+  letter-spacing: var(--letter-spacing-sm);
+}
+.text-md {
+  letter-spacing: var(--letter-spacing-md);
+}
+.text-lg {
+  letter-spacing: var(--letter-spacing-lg);
+}
+.text-xl {
+  letter-spacing: var(--letter-spacing-xl);
+}
+.text-2xl {
+  letter-spacing: var(--letter-spacing-2xl);
+}
+.text-3xl {
+  letter-spacing: var(--letter-spacing-3xl);
+}
+.text-4xl {
+  letter-spacing: var(--letter-spacing-4xl);
+}
+.text-5xl {
+  letter-spacing: var(--letter-spacing-5xl);
+}
 
 /* Override border utilities to use dynamic CSS variables */
 .border {
@@ -468,14 +388,6 @@
   border-right-width: var(--border-width-4);
 }
 
-.blend-accent-balanced {
-  background-color: color-mix(in srgb, var(--color-accent-500) 50%, var(--color-foreground-500) 50%);
-}
-
-.blend-custom {
-  background-color: color-mix(in srgb, var(--blend-color-1) var(--blend-amount, 50%), var(--blend-color-2));
-}
-
 body {
   font-family: var(--font-sans);
   background: var(--color-background-950);
@@ -489,12 +401,6 @@ html.theme-transition *,
 html.theme-transition *::before,
 html.theme-transition *::after {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-/* Emphasis Styles */
-strong {
-  color: var(--color-foreground-100);
-  font-weight: var(--font-weight-semibold);
 }
 
 /* Code and Pre Styles */
@@ -526,15 +432,6 @@ pre.shiki .indent::before {
   background-color: currentColor;
 }
 
-/*
-
-.slider.thumb {
-  --background: var(--accent-50);
-}
-
-
-*/
-
 @layer components {
   .button.md {
     font-size: var(--text-sm)
@@ -546,11 +443,6 @@ pre.shiki .indent::before {
     /* color: var(--accent-500) */
   }
 }
-
-.switch {
-  --track-background-unchecked: var(--background-950);
-}
-
 
 .grid-paper {
   position: relative;
