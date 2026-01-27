@@ -5,6 +5,10 @@ export interface FontMetrics {
   fontSizeScale: number;
   fontWeightScale: number;
   typeSizeRatio: number;
+  headerLetterSpacingScale?: number;
+  bodyLetterSpacingScale?: number;
+  headerFontWeightScale?: number;
+  bodyFontWeightScale?: number;
 }
 
 export interface FontConfig {
@@ -33,9 +37,13 @@ export const SANS_FONTS: FontConfig[] = [
     category: "sans",
     isDefault: false,
     metrics: {
-      fontSizeScale: 1,
-      fontWeightScale: 1,
-      typeSizeRatio: 1.2,
+      "fontSizeScale": 1,
+      "fontWeightScale": 1,
+      "typeSizeRatio": 1.2,
+      "headerLetterSpacingScale": 1,
+      "bodyLetterSpacingScale": 4.05,
+      "headerFontWeightScale": 1,
+      "bodyFontWeightScale": 1
     },
   },
   {

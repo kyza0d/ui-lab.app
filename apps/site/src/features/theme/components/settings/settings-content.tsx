@@ -192,7 +192,7 @@ export const SettingsContent = () => {
   const handleSansFontChange = (fontName: string) => {
     const fontConfig = getFontConfig(fontName as any, "sans");
     if (fontConfig) {
-      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio } = fontConfig.metrics;
+      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio, headerLetterSpacingScale: headerSpacing = 1, bodyLetterSpacingScale: bodySpacing = 1, headerFontWeightScale: headerWeight = 1, bodyFontWeightScale: bodyWeight = 1 } = fontConfig.metrics;
       let finalScale = scale;
       if (!isValidTypographyConfig(ratio, scale)) {
         let closestScale = scale;
@@ -211,11 +211,11 @@ export const SettingsContent = () => {
       applyAndPersistTypography({
         fontSizeScale: finalScale,
         fontWeightScale: weight,
-        headerFontWeightScale,
-        bodyFontWeightScale,
+        headerFontWeightScale: headerWeight,
+        bodyFontWeightScale: bodyWeight,
         typeSizeRatio: ratio,
-        headerLetterSpacingScale,
-        bodyLetterSpacingScale,
+        headerLetterSpacingScale: headerSpacing,
+        bodyLetterSpacingScale: bodySpacing,
       });
     }
     applyAndPersistFonts({ sansFont: fontName as any, monoFont: selectedMonoFont });
@@ -224,7 +224,7 @@ export const SettingsContent = () => {
   const handleMonoFontChange = (fontName: string) => {
     const fontConfig = getFontConfig(fontName as any, "mono");
     if (fontConfig) {
-      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio } = fontConfig.metrics;
+      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio, headerLetterSpacingScale: headerSpacing = 1, bodyLetterSpacingScale: bodySpacing = 1, headerFontWeightScale: headerWeight = 1, bodyFontWeightScale: bodyWeight = 1 } = fontConfig.metrics;
       let finalScale = scale;
       if (!isValidTypographyConfig(ratio, scale)) {
         let closestScale = scale;
@@ -243,11 +243,11 @@ export const SettingsContent = () => {
       applyAndPersistTypography({
         fontSizeScale: finalScale,
         fontWeightScale: weight,
-        headerFontWeightScale,
-        bodyFontWeightScale,
+        headerFontWeightScale: headerWeight,
+        bodyFontWeightScale: bodyWeight,
         typeSizeRatio: ratio,
-        headerLetterSpacingScale,
-        bodyLetterSpacingScale,
+        headerLetterSpacingScale: headerSpacing,
+        bodyLetterSpacingScale: bodySpacing,
       });
     }
     applyAndPersistFonts({ sansFont: selectedSansFont, monoFont: fontName as any });

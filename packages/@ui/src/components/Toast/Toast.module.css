@@ -15,7 +15,7 @@
     background-color: var(--background);
     color: var(--foreground);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     font-family: inherit;
     font-size: var(--text-sm);

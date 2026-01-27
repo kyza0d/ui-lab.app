@@ -4,33 +4,33 @@ Proven, reusable UI patterns composed with UI Lab components. Use these as bluep
 
 ---
 
-## Pattern 1: Success Alert (Dismissible)
+## Pattern 1: Success Banner (Dismissible)
 
 **When to use**: Confirm successful user actions (form submission, payment, account creation, etc.)
 
 **Semantic Intent**: Communicate positive outcome
 
 **Component Composition**:
-- Alert (variant="success")
+- Banner (variant="success")
 - Icon (checkmark)
 - Title
 - Message
 - Close button
 
 **Design Rationale**:
-- Alert component handles success styling (--success-50 background, --success-300 border, --success-900 text)
+- Banner component handles success styling (--success-50 background, --success-300 border, --success-900 text)
 - Checkmark icon reinforces visual meaning (color coded)
 - Close button allows dismissal
 - Light background (50) creates visual separation
 
 **Code Example**:
 ```tsx
-import { Alert } from '@ui-lab/react';
+import { Banner } from '@ui-lab/react';
 import { XIcon, CheckIcon } from 'lucide-react';
 
-export function SuccessAlert({ title, message, onDismiss }) {
+export function SuccessBanner({ title, message, onDismiss }) {
   return (
-    <Alert
+    <Banner
       variant="success"
       title={title}
       className="flex items-start gap-4 justify-between"
@@ -46,17 +46,17 @@ export function SuccessAlert({ title, message, onDismiss }) {
       >
         <XIcon className="w-5 h-5" />
       </button>
-    </Alert>
+    </Banner>
   );
 }
 ```
 
 **Usage**:
 ```tsx
-<SuccessAlert
+<SuccessBanner
   title="Payment Processed"
   message="Your payment of $99.99 has been successfully processed."
-  onDismiss={() => setShowAlert(false)}
+  onDismiss={() => setShowBanner(false)}
 />
 ```
 
@@ -391,7 +391,7 @@ export function StatusBadge({ status }) {
 
 **Code Example**:
 ```tsx
-import { Dialog, Button, Alert } from '@ui-lab/react';
+import { Dialog, Button, Banner } from '@ui-lab/react';
 import { TrashIcon } from 'lucide-react';
 
 export function DeleteConfirmation({ item, open, onCancel, onConfirm }) {
@@ -400,7 +400,7 @@ export function DeleteConfirmation({ item, open, onCancel, onConfirm }) {
       <div className="w-full max-w-sm">
         <div className="p-6 flex flex-col gap-4">
           {/* Warning */}
-          <Alert variant="danger">
+          <Banner variant="danger">
             <div className="flex items-start gap-3">
               <TrashIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
               <div>
@@ -412,7 +412,7 @@ export function DeleteConfirmation({ item, open, onCancel, onConfirm }) {
                 </p>
               </div>
             </div>
-          </Alert>
+          </Banner>
 
           {/* Item Preview */}
           <div className="bg-[var(--background-100)] p-4 rounded">

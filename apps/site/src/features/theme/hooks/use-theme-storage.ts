@@ -6,7 +6,14 @@ import { computeAllCssVariables, type ThemeConfig } from "../lib/css-variable-ge
 import { cacheCompleteTheme, applyThemeCacheToDOM, getSourceConfig, type ThemeSourceConfig } from "../lib/theme-cache";
 import { type FontKey, getFontConfig } from "../constants/font-config";
 
-export interface TypographyConfig { fontSizeScale: number; fontWeightScale: number; typeSizeRatio: number; headerLetterSpacingScale?: number; bodyLetterSpacingScale?: number }
+export interface TypographyConfig {
+  fontSizeScale: number;
+  fontWeightScale: number;
+  typeSizeRatio: number;
+  headerLetterSpacingScale?: number;
+  bodyLetterSpacingScale?: number,
+  headerFontWeightScale?: number
+}
 export interface LayoutConfig { radius: number; borderWidth: number; spacingScale: number }
 export interface FontsConfig { sansFont: FontKey; monoFont: FontKey }
 
@@ -24,7 +31,13 @@ const DEFAULT_COLORS: SimpleThemeColors = {
   foreground: { h: 0, c: 0, l: 0.98 },
   accent: { h: 210, c: 0.15, l: 0.5 },
 };
-const DEFAULT_TYPOGRAPHY: TypographyConfig = { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2, headerLetterSpacingScale: 1, bodyLetterSpacingScale: 1 };
+const DEFAULT_TYPOGRAPHY: TypographyConfig = {
+  fontSizeScale: 1,
+  fontWeightScale: 1,
+  typeSizeRatio: 1.2,
+  headerLetterSpacingScale: 1,
+  bodyLetterSpacingScale: 1,
+};
 const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.5, borderWidth: 2, spacingScale: 0.9 };
 const DEFAULT_FONTS: FontsConfig = { sansFont: "Karla", monoFont: "Ioskeley Mono" };
 
@@ -89,5 +102,11 @@ export function useThemeStorage(options: ThemeStorageOptions) {
     onModeChange?.(mode);
   }, [currentThemeMode, onModeChange]);
 
-  return { applyAndPersistColors, applyAndPersistTypography, applyAndPersistLayout, applyAndPersistFonts, applyAndPersistMode };
+  return {
+    applyAndPersistColors,
+    applyAndPersistTypography,
+    applyAndPersistLayout,
+    applyAndPersistFonts,
+    applyAndPersistMode,
+  };
 }
