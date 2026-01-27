@@ -12,12 +12,12 @@
 import type { ElementRegistry } from '../types';
 
 // Element imports (auto-generated)
-import headerElement from './Header';
-import pageElement from './Page';
-import sidebarElement from './Sidebar';
+import headerElement from './foundation/Header';
+import pageElement from './foundation/Page';
+import sidebarElement from './foundation/Sidebar';
 
 // Type exports (preserved)
-export type { ElementMetadata, ElementVariant } from '../types';
+export type { ElementMetadata, ElementVariant, ElementPackageMetadata } from '../types';
 export type { ElementCategoryId, ElementCategoryDefinition } from './categories';
 
 // Category exports (preserved)
@@ -30,6 +30,15 @@ export {
   getElementsInCategory,
   getCategoriesWithElements,
 } from './categories';
+
+// Package exports
+export {
+  elementPackages,
+  getPackageById,
+  getAllPackages,
+  getElementsInPackage,
+  getPackageForElement,
+} from './packages';
 
 // Registry (auto-generated)
 export const elementRegistry: ElementRegistry = {

@@ -101,6 +101,20 @@ export interface ElementRegistry {
   [elementId: string]: ElementMetadata;
 }
 
+export interface ElementPackageMetadata {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
+  elements: string[];
+  layout?: Partial<LayoutConfig>;
+  getPreview?: () => React.ComponentType<object>;
+}
+
+export interface ElementPackageRegistry {
+  [packageId: string]: ElementPackageMetadata;
+}
+
 export interface SectionVariant {
   name: string;
   description: string;

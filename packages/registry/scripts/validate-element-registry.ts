@@ -45,10 +45,31 @@ function getElementsFromDisk(): string[] {
   if (!fs.existsSync(REGISTRY_ROOT)) {
     throw new Error(`Registry root not found: ${REGISTRY_ROOT}`);
   }
-  return fs.readdirSync(REGISTRY_ROOT).filter(f => {
-    const fullPath = path.join(REGISTRY_ROOT, f);
-    return fs.statSync(fullPath).isDirectory() && f !== 'node_modules' && !f.startsWith('.');
-  });
+
+  const elements: string[] = [];
+
+  function discoverInDirectory(dirPath: string, relativePath: string = '') {
+    const folders = fs.readdirSync(dirPath).filter(f => {
+      const fullPath = path.join(dirPath, f);
+      return fs.statSync(fullPath).isDirectory() && f !== 'node_modules' && !f.startsWith('.');
+    });
+
+    for (const folderName of folders) {
+      const elementPath = path.join(dirPath, folderName);
+      const variationsPath = path.join(elementPath, 'variations');
+      const hasVariations = fs.existsSync(variationsPath);
+      const fullPath = relativePath ? `${relativePath}/${folderName}` : folderName;
+
+      if (hasVariations) {
+        elements.push(fullPath);
+      } else {
+        discoverInDirectory(elementPath, fullPath);
+      }
+    }
+  }
+
+  discoverInDirectory(REGISTRY_ROOT);
+  return elements;
 }
 
 function getVariationsFromDisk(elementId: string): string[] {
@@ -398,13 +419,14 @@ function validateElementRegistry() {
       return;
     }
 
-    // Check element ID matches folder name (lowercase version)
-    const expectedId = elementId.toLowerCase();
+    // Check element ID matches folder name (lowercase version of just the element folder, not the full path)
+    const elementFolderName = elementId.split('/').pop() || elementId;
+    const expectedId = elementFolderName.toLowerCase();
     if (metadata.id !== expectedId) {
       addError(
         'ELEMENT_REGISTRY',
         elementId,
-        `Element ID '${metadata.id}' does not match folder name '${elementId}' (expected '${expectedId}')`,
+        `Element ID '${metadata.id}' does not match folder name '${elementFolderName}' (expected '${expectedId}')`,
         path.join(REGISTRY_ROOT, elementId, 'metadata.json'),
         `Change id in metadata.json to '${expectedId}'`,
         undefined

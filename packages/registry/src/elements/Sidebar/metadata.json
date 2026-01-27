@@ -1,7 +1,0 @@
-{
-  "id": "sidebar",
-  "name": "Sidebar",
-  "description": "A collapsible sidebar component for navigation with support for multiple menu items",
-  "category": "navigation",
-  "tags": ["sidebar", "navigation", "layout"]
-}
