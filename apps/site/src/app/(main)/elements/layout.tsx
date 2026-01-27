@@ -14,7 +14,7 @@ export default function ElementsLayout({
   content,
 }: Omit<ElementsLayoutProps, "children">) {
   return (
-    <div className="max-w-(--page-width) mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto]">
+    <div className="max-w-(--page-width) mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto] min-h-screen">
       {sidebar}
       {content}
     </div>

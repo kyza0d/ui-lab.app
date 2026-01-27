@@ -19,18 +19,6 @@ async function getDevRoutes(): Promise<DevRoute[]> {
     for (const entry of entries) {
       if (!entry.isDirectory()) continue;
 
-      if (
-        entry.name.startsWith('.') ||
-        entry.name.startsWith('@') ||
-        entry.name.includes('(') ||
-        entry.name.includes(')') ||
-        entry.name.includes('[') ||
-        entry.name.includes(']') ||
-        entry.name === 'node_modules'
-      ) {
-        continue;
-      }
-
       const dirPath = path.join(devDir, entry.name);
       try {
         const dirContents = await readdir(dirPath);

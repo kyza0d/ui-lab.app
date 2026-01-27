@@ -92,7 +92,7 @@ export function Sidebar() {
 
   return (
     <aside className={cn('hidden md:flex', sidebarWidth, 'flex-col')}>
-      <div className="flex border-r border-background-700 flex-col h-screen sticky top-(--header-height)">
+      <div className="flex border-r border-background-700 flex-col h-[calc(100vh-var(--header-height))] sticky top-[var(--header-height)]">
         {mainNavItems.length > 0 && (
           <div className="z-10">
             <nav className="py-3 px-2 space-y-1">

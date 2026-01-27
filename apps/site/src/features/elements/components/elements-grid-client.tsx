@@ -6,13 +6,15 @@ import type { ElementMetadata } from 'ui-lab-registry';
 
 interface ElementsGridClientProps {
   elements: ElementMetadata[];
+  packageId?: string;
 }
 
-export function ElementsGridClient({ elements }: ElementsGridClientProps) {
+export function ElementsGridClient({ elements, packageId }: ElementsGridClientProps) {
+  const basePath = packageId ? `/elements/${packageId}` : '/elements';
   return (
     <GenericContentGrid
       items={elements}
-      basePath="/elements"
+      basePath={basePath}
       getLayoutConfig={getLayoutConfig}
       getPreviewComponent={getPreviewComponent}
     />
