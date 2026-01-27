@@ -7,12 +7,14 @@ import { applyDynamicThemeScales, applyDynamicSpacingScale } from "@/shared/lib/
  * Grouped configuration objects to reduce dependency array size
  */
 export interface TypographyConfig {
-  fontSizeScale: number;
-  fontWeightScale: number;
-  typeSizeRatio: number;
-  headerLetterSpacingScale?: number;
-  bodyLetterSpacingScale?: number;
-  headerFontWeightScale?: number;
+  headerTypeSizeRatio: number;
+  headerFontSizeScale: number;
+  headerFontWeightScale: number;
+  headerLetterSpacingScale: number;
+  bodyTypeSizeRatio: number;
+  bodyFontSizeScale: number;
+  bodyFontWeightScale: number;
+  bodyLetterSpacingScale: number;
 }
 
 export interface LayoutConfig {

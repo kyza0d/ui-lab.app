@@ -7,12 +7,14 @@ import { cacheCompleteTheme, applyThemeCacheToDOM, getSourceConfig, type ThemeSo
 import { type FontKey, getFontConfig } from "../constants/font-config";
 
 export interface TypographyConfig {
-  fontSizeScale: number;
-  fontWeightScale: number;
-  typeSizeRatio: number;
-  headerLetterSpacingScale?: number;
-  bodyLetterSpacingScale?: number,
-  headerFontWeightScale?: number
+  headerTypeSizeRatio: number;
+  headerFontSizeScale: number;
+  headerFontWeightScale: number;
+  headerLetterSpacingScale: number;
+  bodyTypeSizeRatio: number;
+  bodyFontSizeScale: number;
+  bodyFontWeightScale: number;
+  bodyLetterSpacingScale: number;
 }
 export interface LayoutConfig { radius: number; borderWidth: number; spacingScale: number }
 export interface FontsConfig { sansFont: FontKey; monoFont: FontKey }
@@ -32,10 +34,13 @@ const DEFAULT_COLORS: SimpleThemeColors = {
   accent: { h: 210, c: 0.15, l: 0.5 },
 };
 const DEFAULT_TYPOGRAPHY: TypographyConfig = {
-  fontSizeScale: 1,
-  fontWeightScale: 1,
-  typeSizeRatio: 1.2,
+  headerTypeSizeRatio: 1.125,
+  headerFontSizeScale: 1,
+  headerFontWeightScale: 1,
   headerLetterSpacingScale: 1,
+  bodyTypeSizeRatio: 1.2,
+  bodyFontSizeScale: 1,
+  bodyFontWeightScale: 1,
   bodyLetterSpacingScale: 1,
 };
 const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.5, borderWidth: 2, spacingScale: 0.9 };
@@ -87,9 +92,9 @@ export function useThemeStorage(options: ThemeStorageOptions) {
     config.fonts = fonts;
     const sansFontConfig = getFontConfig(fonts.sansFont, "sans");
     if (sansFontConfig) {
-      config.typography.fontSizeScale = sansFontConfig.metrics.fontSizeScale;
-      config.typography.fontWeightScale = sansFontConfig.metrics.fontWeightScale;
-      config.typography.typeSizeRatio = sansFontConfig.metrics.typeSizeRatio;
+      config.typography.bodyFontSizeScale = sansFontConfig.metrics.fontSizeScale ?? 1;
+      config.typography.bodyFontWeightScale = sansFontConfig.metrics.fontWeightScale ?? 1;
+      config.typography.bodyTypeSizeRatio = sansFontConfig.metrics.typeSizeRatio ?? 1.2;
     }
     computeAndCache(config);
     onFontsChange?.(fonts);

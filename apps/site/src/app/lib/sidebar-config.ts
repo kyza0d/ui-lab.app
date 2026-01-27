@@ -4,6 +4,7 @@ import {
   FaRegWindowMaximize,
   FaSwatchbook,
   FaBook,
+  FaRocket,
 } from 'react-icons/fa6';
 
 export type SidebarDomain =
@@ -11,6 +12,7 @@ export type SidebarDomain =
   | 'components'
   | 'elements'
   | 'sections'
+  | 'starters'
   | 'design-system';
 
 export type MainNavItem =
@@ -18,6 +20,7 @@ export type MainNavItem =
   | 'components-core'
   | 'elements'
   | 'sections'
+  | 'starters'
   | 'design-system';
 
 interface MainNavItemConfig {
@@ -72,6 +75,13 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
     icon: FaRegWindowMaximize,
     domain: 'sections',
   },
+  {
+    id: 'starters',
+    label: 'Starters',
+    href: '/starters',
+    icon: FaRocket,
+    domain: 'starters',
+  },
 ];
 
 export function getActiveDomainForPathname(pathname: string): SidebarDomain {
@@ -79,6 +89,7 @@ export function getActiveDomainForPathname(pathname: string): SidebarDomain {
   if (pathname.startsWith('/components')) return 'components';
   if (pathname.startsWith('/elements')) return 'elements';
   if (pathname.startsWith('/sections')) return 'sections';
+  if (pathname.startsWith('/starters')) return 'starters';
   if (pathname.startsWith('/design-system')) return 'design-system';
   return 'docs';
 }
@@ -92,8 +103,8 @@ export function getMainNavItemsForDomain(domain: SidebarDomain): MainNavItemConf
   if (domain === 'components') {
     return [];
   }
-  if (domain === 'elements' || domain === 'sections') {
-    return MAIN_NAV_ITEMS.filter(item => item.domain === 'elements' || item.domain === 'sections');
+  if (domain === 'elements' || domain === 'sections' || domain === 'starters') {
+    return MAIN_NAV_ITEMS.filter(item => item.domain === 'elements' || item.domain === 'sections' || item.domain === 'starters');
   }
   return MAIN_NAV_ITEMS.filter(item => item.domain === 'docs' || item.domain === 'design-system');
 }

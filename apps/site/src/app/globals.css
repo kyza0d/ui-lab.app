@@ -22,6 +22,7 @@
   --font-sans: "Karla", system-ui, sans-serif;
   --font-mono: "Ioskeley Mono", monospace;
 
+  /* Body text sizes (controlled by body scale sliders) */
   --text-xs: 0.875rem;
   --text-sm: 1.000rem;
   --text-md: 1.000rem;
@@ -32,6 +33,17 @@
   --text-4xl: clamp(2.115rem, 4.48vw, 2.862rem);
   --text-5xl: clamp(2.538rem, 5.37vw, 3.434rem);
 
+  /* Header text sizes (controlled by header scale sliders) */
+  --header-text-xs: 0.875rem;
+  --header-text-sm: 1.000rem;
+  --header-text-md: 1.000rem;
+  --header-text-lg: clamp(1.125rem, 2.16vw, 1.380rem);
+  --header-text-xl: clamp(1.250rem, 2.59vw, 1.656rem);
+  --header-text-2xl: clamp(1.500rem, 3.11vw, 1.987rem);
+  --header-text-3xl: clamp(1.763rem, 3.73vw, 2.385rem);
+  --header-text-4xl: clamp(2.115rem, 4.48vw, 2.862rem);
+  --header-text-5xl: clamp(2.538rem, 5.37vw, 3.434rem);
+
   --font-weight-thin: 100;
   --font-weight-extralight: 200;
   --font-weight-light: 300;
@@ -41,6 +53,28 @@
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
   --font-weight-black: 900;
+
+  /* Header-specific font weights */
+  --font-weight-header-thin: 100;
+  --font-weight-header-extralight: 200;
+  --font-weight-header-light: 300;
+  --font-weight-header-normal: 400;
+  --font-weight-header-medium: 500;
+  --font-weight-header-semibold: 600;
+  --font-weight-header-bold: 700;
+  --font-weight-header-extrabold: 800;
+  --font-weight-header-black: 900;
+
+  /* Body-specific font weights */
+  --font-weight-body-thin: 100;
+  --font-weight-body-extralight: 200;
+  --font-weight-body-light: 300;
+  --font-weight-body-normal: 400;
+  --font-weight-body-medium: 500;
+  --font-weight-body-semibold: 600;
+  --font-weight-body-bold: 700;
+  --font-weight-body-extrabold: 800;
+  --font-weight-body-black: 900;
 
   /* Letter Spacing - Scaled by Type Size */
   --letter-spacing-xs: -0.0150em;
@@ -118,8 +152,13 @@
   --color-info-500: var(--info-500, oklch(60.0% 0.105 255.0));
   --color-info-600: var(--info-600, oklch(80.0% 0.135 255.0));
 
-  --font-size-scale: 1;
-  --font-weight-scale: 1;
+  /* Header typography scale factors */
+  --header-type-size-ratio: 1.125;
+  --header-font-size-scale: 1;
+
+  /* Body typography scale factors */
+  --body-type-size-ratio: 1.2;
+  --body-font-size-scale: 1;
 
   --spacing-scale: 1;
   --spacing: clamp(0.200rem, 2.5vw, 0.250rem);
@@ -162,32 +201,44 @@
 
   h1 {
     margin: 0rem 0 0.6rem 0;
-    font-size: var(--text-xl);
-    letter-spacing: var(--letter-spacing-xs);
+    font-size: var(--header-text-xl);
+    letter-spacing: var(--letter-spacing-header-xl);
+    font-weight: var(--font-weight-header-bold);
   }
 
   h2 {
     margin: 0rem 0 0.4rem 0 ;
-    font-size: var(--text-xl);
-    letter-spacing: var(--letter-spacing-sm);
+    font-size: var(--header-text-xl);
+    letter-spacing: var(--letter-spacing-header-lg);
+    font-weight: var(--font-weight-header-bold);
   }
 
   h3 {
     margin: 0 0 0 0 ;
-    font-size: var(--text-lg);
-    letter-spacing: var(--letter-spacing-md);
+    font-size: var(--header-text-lg);
+    letter-spacing: var(--letter-spacing-header-md);
+    font-weight: var(--font-weight-header-semibold);
   }
 
   h4 {
     margin: 0 0 0 0 ;
-    font-size: var(--text-md);
-    letter-spacing: var(--letter-spacing-md);
+    font-size: var(--header-text-md);
+    letter-spacing: var(--letter-spacing-header-sm);
+    font-weight: var(--font-weight-header-semibold);
   }
 
   h5 {
     margin: 0 0 0 0 ;
-    font-size: var(--text-md);
-    letter-spacing: var(--letter-spacing-md);
+    font-size: var(--header-text-md);
+    letter-spacing: var(--letter-spacing-header-sm);
+    font-weight: var(--font-weight-header-semibold);
+  }
+
+  h6 {
+    margin: 0 0 0 0 ;
+    font-size: var(--header-text-sm);
+    letter-spacing: var(--letter-spacing-header-sm);
+    font-weight: var(--font-weight-header-medium);
   }
 
   p {
@@ -269,35 +320,6 @@
   span {
     font-weight: var(--font-weight-body-normal);
   }
-}
-
-/* Apply letter-spacing based on text size utilities */
-.text-xs {
-  letter-spacing: var(--letter-spacing-xs);
-}
-.text-sm {
-  letter-spacing: var(--letter-spacing-sm);
-}
-.text-md {
-  letter-spacing: var(--letter-spacing-md);
-}
-.text-lg {
-  letter-spacing: var(--letter-spacing-lg);
-}
-.text-xl {
-  letter-spacing: var(--letter-spacing-xl);
-}
-.text-2xl {
-  letter-spacing: var(--letter-spacing-2xl);
-}
-.text-3xl {
-  letter-spacing: var(--letter-spacing-3xl);
-}
-.text-4xl {
-  letter-spacing: var(--letter-spacing-4xl);
-}
-.text-5xl {
-  letter-spacing: var(--letter-spacing-5xl);
 }
 
 /* Override border utilities to use dynamic CSS variables */
@@ -436,6 +458,43 @@ pre.shiki .indent::before {
   width: 1px;
   height: 100%;
   background-color: currentColor;
+}
+
+@layer utilities {
+  .text-xs { font-size: var(--text-xs) !important; }
+  .text-sm { font-size: var(--text-sm) !important; }
+  .text-md { font-size: var(--text-md) !important; }
+  .text-base { font-size: var(--text-md) !important; }
+  .text-lg { font-size: var(--text-lg) !important; }
+  .text-xl { font-size: var(--text-xl) !important; }
+  .text-2xl { font-size: var(--text-2xl) !important; }
+  .text-3xl { font-size: var(--text-3xl) !important; }
+  .text-4xl { font-size: var(--text-4xl) !important; }
+  .text-5xl { font-size: var(--text-5xl) !important; }
+  .text-6xl { font-size: var(--text-5xl) !important; }
+  .text-7xl { font-size: var(--text-5xl) !important; }
+  .text-8xl { font-size: var(--text-5xl) !important; }
+  .text-9xl { font-size: var(--text-5xl) !important; }
+
+  .text-header-xs { font-size: var(--header-text-xs) !important; }
+  .text-header-sm { font-size: var(--header-text-sm) !important; }
+  .text-header-md { font-size: var(--header-text-md) !important; }
+  .text-header-lg { font-size: var(--header-text-lg) !important; }
+  .text-header-xl { font-size: var(--header-text-xl) !important; }
+  .text-header-2xl { font-size: var(--header-text-2xl) !important; }
+  .text-header-3xl { font-size: var(--header-text-3xl) !important; }
+  .text-header-4xl { font-size: var(--header-text-4xl) !important; }
+  .text-header-5xl { font-size: var(--header-text-5xl) !important; }
+
+  .text-body-xs { font-size: var(--text-xs) !important; }
+  .text-body-sm { font-size: var(--text-sm) !important; }
+  .text-body-md { font-size: var(--text-md) !important; }
+  .text-body-lg { font-size: var(--text-lg) !important; }
+  .text-body-xl { font-size: var(--text-xl) !important; }
+  .text-body-2xl { font-size: var(--text-2xl) !important; }
+  .text-body-3xl { font-size: var(--text-3xl) !important; }
+  .text-body-4xl { font-size: var(--text-4xl) !important; }
+  .text-body-5xl { font-size: var(--text-5xl) !important; }
 }
 
 @layer components {

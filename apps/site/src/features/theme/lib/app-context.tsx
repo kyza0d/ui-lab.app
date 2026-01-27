@@ -29,16 +29,6 @@ export interface AppContextType {
   panelPosition: { x: number; y: number };
   setPanelPosition: (position: { x: number; y: number }) => void;
   isThemeInitialized: boolean;
-  fontSizeScale: number;
-  setFontSizeScale: (scale: number) => void;
-  fontWeightScale: number;
-  setFontWeightScale: (scale: number) => void;
-  headerFontWeightScale: number;
-  setHeaderFontWeightScale: (scale: number) => void;
-  bodyFontWeightScale: number;
-  setBodyFontWeightScale: (scale: number) => void;
-  typeSizeRatio: number;
-  setTypeSizeRatio: (ratio: number) => void;
   radius: number;
   setRadius: (value: number) => void;
   borderWidth: number;
@@ -51,8 +41,20 @@ export interface AppContextType {
   setSelectedSansFont: (font: FontKey) => void;
   selectedMonoFont: FontKey;
   setSelectedMonoFont: (font: FontKey) => void;
+  headerTypeSizeRatio: number;
+  setHeaderTypeSizeRatio: (ratio: number) => void;
+  headerFontSizeScale: number;
+  setHeaderFontSizeScale: (scale: number) => void;
+  headerFontWeightScale: number;
+  setHeaderFontWeightScale: (scale: number) => void;
   headerLetterSpacingScale: number;
   setHeaderLetterSpacingScale: (scale: number) => void;
+  bodyTypeSizeRatio: number;
+  setBodyTypeSizeRatio: (ratio: number) => void;
+  bodyFontSizeScale: number;
+  setBodyFontSizeScale: (scale: number) => void;
+  bodyFontWeightScale: number;
+  setBodyFontWeightScale: (scale: number) => void;
   bodyLetterSpacingScale: number;
   setBodyLetterSpacingScale: (scale: number) => void;
 }
@@ -67,18 +69,19 @@ const defaultPreferences = {
       : undefined,
   },
   mode: "dark" as const,
-  fontSizeScale: 1,
-  fontWeightScale: 1,
-  headerFontWeightScale: 1,
-  bodyFontWeightScale: 1,
-  typeSizeRatio: 1.2,
   radius: 0.5,
   borderWidth: 2,
   spacingScale: 0.9,
   globalAdjustments: DEFAULT_GLOBAL_ADJUSTMENTS,
   selectedSansFont: getDefaultSansFont().name as FontKey,
   selectedMonoFont: getDefaultMonoFont().name as FontKey,
+  headerTypeSizeRatio: 1.125,
+  headerFontSizeScale: 1,
+  headerFontWeightScale: 1,
   headerLetterSpacingScale: 1,
+  bodyTypeSizeRatio: 1.2,
+  bodyFontSizeScale: 1,
+  bodyFontWeightScale: 1,
   bodyLetterSpacingScale: 1,
 };
 
@@ -95,59 +98,46 @@ function loadPreferencesFromStorage() {
       : undefined,
   };
 
-  const fontSizeScale = sourceConfig.typography.fontSizeScale ?? 1;
-  const typeSizeRatio = sourceConfig.typography.typeSizeRatio ?? 1.2;
+  const bodyTypeSizeRatio = sourceConfig.typography.bodyTypeSizeRatio ?? 1.2;
+  const bodyFontSizeScale = sourceConfig.typography.bodyFontSizeScale ?? 1;
 
-  if (!isValidTypographyConfig(typeSizeRatio, fontSizeScale)) {
-    const clamped = clampTypographyConfig(typeSizeRatio, fontSizeScale);
+  let finalBodyTypeSizeRatio = bodyTypeSizeRatio;
+  let finalBodyFontSizeScale = bodyFontSizeScale;
+
+  if (!isValidTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale)) {
+    const clamped = clampTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale);
     console.warn(
-      `[AppContext] Typography config violated 14px minimum. Clamped from ratio=${typeSizeRatio}, scale=${fontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)}, scale=${clamped.fontSizeScale.toFixed(3)}`
+      `[AppContext] Body typography config violated 14px minimum. Clamped from ratio=${bodyTypeSizeRatio}, scale=${bodyFontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)}, scale=${clamped.fontSizeScale.toFixed(3)}`
     );
-    return {
-      colors: validatedColors,
-      mode: sourceConfig.mode,
-      fontSizeScale: clamped.fontSizeScale,
-      fontWeightScale: sourceConfig.typography.fontWeightScale ?? 1,
-      headerFontWeightScale: sourceConfig.typography.headerFontWeightScale ?? 1,
-      bodyFontWeightScale: sourceConfig.typography.bodyFontWeightScale ?? 1,
-      typeSizeRatio: clamped.typeSizeRatio,
-      radius: sourceConfig.layout.radius,
-      borderWidth: sourceConfig.layout.borderWidth,
-      spacingScale: sourceConfig.layout.spacingScale,
-      globalAdjustments:
-        sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
-      selectedSansFont: (sourceConfig.fonts?.sansFont ?? defaultPreferences.selectedSansFont) as FontKey,
-      selectedMonoFont: (sourceConfig.fonts?.monoFont ?? defaultPreferences.selectedMonoFont) as FontKey,
-      headerLetterSpacingScale: sourceConfig.typography.headerLetterSpacingScale ?? 1,
-      bodyLetterSpacingScale: sourceConfig.typography.bodyLetterSpacingScale ?? 1,
-    };
+    finalBodyTypeSizeRatio = clamped.typeSizeRatio;
+    finalBodyFontSizeScale = clamped.fontSizeScale;
   }
 
   return {
     colors: validatedColors,
     mode: sourceConfig.mode,
-    fontSizeScale,
-    fontWeightScale: sourceConfig.typography.fontWeightScale ?? 1,
-    headerFontWeightScale: sourceConfig.typography.headerFontWeightScale ?? 1,
-    bodyFontWeightScale: sourceConfig.typography.bodyFontWeightScale ?? 1,
-    typeSizeRatio,
     radius: sourceConfig.layout.radius,
     borderWidth: sourceConfig.layout.borderWidth,
     spacingScale: sourceConfig.layout.spacingScale,
-    globalAdjustments:
-      sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
+    globalAdjustments: sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
     selectedSansFont: (sourceConfig.fonts?.sansFont ?? defaultPreferences.selectedSansFont) as FontKey,
     selectedMonoFont: (sourceConfig.fonts?.monoFont ?? defaultPreferences.selectedMonoFont) as FontKey,
+    headerTypeSizeRatio: sourceConfig.typography.headerTypeSizeRatio ?? 1.125,
+    headerFontSizeScale: sourceConfig.typography.headerFontSizeScale ?? 1,
+    headerFontWeightScale: sourceConfig.typography.headerFontWeightScale ?? 1,
     headerLetterSpacingScale: sourceConfig.typography.headerLetterSpacingScale ?? 1,
+    bodyTypeSizeRatio: finalBodyTypeSizeRatio,
+    bodyFontSizeScale: finalBodyFontSizeScale,
+    bodyFontWeightScale: sourceConfig.typography.bodyFontWeightScale ?? 1,
     bodyLetterSpacingScale: sourceConfig.typography.bodyLetterSpacingScale ?? 1,
   };
 }
 
 function ThemeConfigurationApplier() {
-  const { fontSizeScale, fontWeightScale, headerFontWeightScale, bodyFontWeightScale, typeSizeRatio, radius, borderWidth, spacingScale, headerLetterSpacingScale, bodyLetterSpacingScale } = useApp();
+  const { headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, headerLetterSpacingScale, bodyTypeSizeRatio, bodyFontSizeScale, bodyFontWeightScale, bodyLetterSpacingScale, radius, borderWidth, spacingScale } = useApp();
 
   useThemeConfiguration({
-    typography: { fontSizeScale, fontWeightScale, headerFontWeightScale, bodyFontWeightScale, typeSizeRatio, headerLetterSpacingScale, bodyLetterSpacingScale },
+    typography: { headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, headerLetterSpacingScale, bodyTypeSizeRatio, bodyFontSizeScale, bodyFontWeightScale, bodyLetterSpacingScale },
     layout: { radius, borderWidth, spacingScale },
   });
 
@@ -164,28 +154,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
   const [panelPosition, setPanelPosition] = useState({ x: 20, y: 80 });
   const [isThemeInitialized, setIsThemeInitialized] = useState(false);
-  const [fontSizeScale, setFontSizeScale] = useState(
-    defaultPreferences.fontSizeScale,
-  );
-  const [fontWeightScale, setFontWeightScale] = useState(
-    defaultPreferences.fontWeightScale,
-  );
-  const [headerFontWeightScale, setHeaderFontWeightScale] = useState(
-    defaultPreferences.headerFontWeightScale,
-  );
-  const [bodyFontWeightScale, setBodyFontWeightScale] = useState(
-    defaultPreferences.bodyFontWeightScale,
-  );
-  const [typeSizeRatio, setTypeSizeRatio] = useState(
-    defaultPreferences.typeSizeRatio,
-  );
   const [radius, setRadius] = useState(defaultPreferences.radius);
-  const [borderWidth, setBorderWidth] = useState(
-    defaultPreferences.borderWidth,
-  );
-  const [spacingScale, setSpacingScale] = useState(
-    defaultPreferences.spacingScale,
-  );
+  const [borderWidth, setBorderWidth] = useState(defaultPreferences.borderWidth);
+  const [spacingScale, setSpacingScale] = useState(defaultPreferences.spacingScale);
   const [globalAdjustments, setGlobalAdjustments] =
     useState<GlobalColorAdjustments>(defaultPreferences.globalAdjustments);
   const [selectedSansFont, setSelectedSansFont] = useState<FontKey>(
@@ -194,49 +165,47 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [selectedMonoFont, setSelectedMonoFont] = useState<FontKey>(
     defaultPreferences.selectedMonoFont,
   );
-  const [headerLetterSpacingScale, setHeaderLetterSpacingScale] = useState(
-    defaultPreferences.headerLetterSpacingScale,
-  );
-  const [bodyLetterSpacingScale, setBodyLetterSpacingScale] = useState(
-    defaultPreferences.bodyLetterSpacingScale,
-  );
+  const [headerTypeSizeRatio, setHeaderTypeSizeRatio] = useState(defaultPreferences.headerTypeSizeRatio);
+  const [headerFontSizeScale, setHeaderFontSizeScale] = useState(defaultPreferences.headerFontSizeScale);
+  const [headerFontWeightScale, setHeaderFontWeightScale] = useState(defaultPreferences.headerFontWeightScale);
+  const [headerLetterSpacingScale, setHeaderLetterSpacingScale] = useState(defaultPreferences.headerLetterSpacingScale);
+  const [bodyTypeSizeRatio, setBodyTypeSizeRatio] = useState(defaultPreferences.bodyTypeSizeRatio);
+  const [bodyFontSizeScale, setBodyFontSizeScale] = useState(defaultPreferences.bodyFontSizeScale);
+  const [bodyFontWeightScale, setBodyFontWeightScale] = useState(defaultPreferences.bodyFontWeightScale);
+  const [bodyLetterSpacingScale, setBodyLetterSpacingScale] = useState(defaultPreferences.bodyLetterSpacingScale);
 
   useEffect(() => {
     const savedPrefs = loadPreferencesFromStorage();
     if (savedPrefs) {
       setCurrentThemeColors(savedPrefs.colors);
       setCurrentThemeMode(savedPrefs.mode);
-      setFontSizeScale(savedPrefs.fontSizeScale);
-      setFontWeightScale(savedPrefs.fontWeightScale);
-      setHeaderFontWeightScale(savedPrefs.headerFontWeightScale);
-      setBodyFontWeightScale(savedPrefs.bodyFontWeightScale);
-      setTypeSizeRatio(savedPrefs.typeSizeRatio);
       setRadius(savedPrefs.radius);
       setBorderWidth(savedPrefs.borderWidth);
       setSpacingScale(savedPrefs.spacingScale);
       setGlobalAdjustments(savedPrefs.globalAdjustments);
       setSelectedSansFont(savedPrefs.selectedSansFont);
       setSelectedMonoFont(savedPrefs.selectedMonoFont);
+      setHeaderTypeSizeRatio(savedPrefs.headerTypeSizeRatio);
+      setHeaderFontSizeScale(savedPrefs.headerFontSizeScale);
+      setHeaderFontWeightScale(savedPrefs.headerFontWeightScale);
       setHeaderLetterSpacingScale(savedPrefs.headerLetterSpacingScale);
+      setBodyTypeSizeRatio(savedPrefs.bodyTypeSizeRatio);
+      setBodyFontSizeScale(savedPrefs.bodyFontSizeScale);
+      setBodyFontWeightScale(savedPrefs.bodyFontWeightScale);
       setBodyLetterSpacingScale(savedPrefs.bodyLetterSpacingScale);
     }
     setIsThemeInitialized(true);
   }, []);
 
-  // Sync state across windows
   useEffect(() => {
     const handleStorage = (e: StorageEvent) => {
       if (e.key === THEME_CACHE_KEY && e.newValue) {
         try {
           const cache = validateThemeCache(JSON.parse(e.newValue));
           if (cache) {
-            // Apply to DOM
             applyThemeCacheToDOM(cache);
-
-            // Update State
             const config = cache.sourceConfig;
 
-            // Validate colors before setting
             const validatedColors: SimpleThemeColors = {
               ...config.colors,
               semantic: config.colors.semantic
@@ -244,30 +213,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
                 : undefined,
             };
 
-            const fontSizeScale = config.typography.fontSizeScale;
-            const typeSizeRatio = config.typography.typeSizeRatio;
+            const bodyTypeSizeRatio = config.typography.bodyTypeSizeRatio;
+            const bodyFontSizeScale = config.typography.bodyFontSizeScale;
 
-            if (!isValidTypographyConfig(typeSizeRatio, fontSizeScale)) {
-              const clamped = clampTypographyConfig(typeSizeRatio, fontSizeScale);
+            let finalBodyTypeSizeRatio = bodyTypeSizeRatio;
+            let finalBodyFontSizeScale = bodyFontSizeScale;
+
+            if (!isValidTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale)) {
+              const clamped = clampTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale);
               console.warn(
-                `[AppContext] Storage sync contained invalid typography config. Clamped ratio=${typeSizeRatio} scale=${fontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)} scale=${clamped.fontSizeScale.toFixed(3)}`
+                `[AppContext] Storage sync contained invalid body typography config. Clamped ratio=${bodyTypeSizeRatio} scale=${bodyFontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)} scale=${clamped.fontSizeScale.toFixed(3)}`
               );
-              setCurrentThemeColors(validatedColors);
-              setCurrentThemeMode(config.mode);
-              setFontSizeScale(clamped.fontSizeScale);
-              setFontWeightScale(config.typography.fontWeightScale);
-              setHeaderFontWeightScale(config.typography.headerFontWeightScale ?? 1);
-              setBodyFontWeightScale(config.typography.bodyFontWeightScale ?? 1);
-              setTypeSizeRatio(clamped.typeSizeRatio);
-            } else {
-              setCurrentThemeColors(validatedColors);
-              setCurrentThemeMode(config.mode);
-              setFontSizeScale(fontSizeScale);
-              setFontWeightScale(config.typography.fontWeightScale);
-              setHeaderFontWeightScale(config.typography.headerFontWeightScale ?? 1);
-              setBodyFontWeightScale(config.typography.bodyFontWeightScale ?? 1);
-              setTypeSizeRatio(typeSizeRatio);
+              finalBodyTypeSizeRatio = clamped.typeSizeRatio;
+              finalBodyFontSizeScale = clamped.fontSizeScale;
             }
+
+            setCurrentThemeColors(validatedColors);
+            setCurrentThemeMode(config.mode);
             setRadius(config.layout.radius);
             setBorderWidth(config.layout.borderWidth);
             setSpacingScale(config.layout.spacingScale);
@@ -278,8 +240,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
               setSelectedSansFont(config.fonts.sansFont as FontKey);
               setSelectedMonoFont(config.fonts.monoFont as FontKey);
             }
-            setHeaderLetterSpacingScale(config.typography.headerLetterSpacingScale ?? 1);
-            setBodyLetterSpacingScale(config.typography.bodyLetterSpacingScale ?? 1);
+            setHeaderTypeSizeRatio(config.typography.headerTypeSizeRatio);
+            setHeaderFontSizeScale(config.typography.headerFontSizeScale);
+            setHeaderFontWeightScale(config.typography.headerFontWeightScale);
+            setHeaderLetterSpacingScale(config.typography.headerLetterSpacingScale);
+            setBodyTypeSizeRatio(finalBodyTypeSizeRatio);
+            setBodyFontSizeScale(finalBodyFontSizeScale);
+            setBodyFontWeightScale(config.typography.bodyFontWeightScale);
+            setBodyLetterSpacingScale(config.typography.bodyLetterSpacingScale);
           }
         } catch (error) {
           console.warn("[AppContext] Failed to sync storage change:", error);
@@ -303,16 +271,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     panelPosition,
     setPanelPosition,
     isThemeInitialized,
-    fontSizeScale,
-    setFontSizeScale,
-    fontWeightScale,
-    setFontWeightScale,
-    headerFontWeightScale,
-    setHeaderFontWeightScale,
-    bodyFontWeightScale,
-    setBodyFontWeightScale,
-    typeSizeRatio,
-    setTypeSizeRatio,
     radius,
     setRadius,
     borderWidth,
@@ -325,8 +283,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setSelectedSansFont,
     selectedMonoFont,
     setSelectedMonoFont,
+    headerTypeSizeRatio,
+    setHeaderTypeSizeRatio,
+    headerFontSizeScale,
+    setHeaderFontSizeScale,
+    headerFontWeightScale,
+    setHeaderFontWeightScale,
     headerLetterSpacingScale,
     setHeaderLetterSpacingScale,
+    bodyTypeSizeRatio,
+    setBodyTypeSizeRatio,
+    bodyFontSizeScale,
+    setBodyFontSizeScale,
+    bodyFontWeightScale,
+    setBodyFontWeightScale,
     bodyLetterSpacingScale,
     setBodyLetterSpacingScale,
   }), [
@@ -336,18 +306,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     currentThemeMode,
     panelPosition,
     isThemeInitialized,
-    fontSizeScale,
-    fontWeightScale,
-    headerFontWeightScale,
-    bodyFontWeightScale,
-    typeSizeRatio,
     radius,
     borderWidth,
     spacingScale,
     globalAdjustments,
     selectedSansFont,
     selectedMonoFont,
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
     headerLetterSpacingScale,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
+    bodyFontWeightScale,
     bodyLetterSpacingScale,
   ]);
 

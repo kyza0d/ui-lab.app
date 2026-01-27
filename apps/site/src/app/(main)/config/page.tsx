@@ -9,9 +9,12 @@ export default function ConfigPage() {
   const {
     currentThemeColors,
     currentThemeMode,
-    typeSizeRatio,
-    fontSizeScale,
-    fontWeightScale,
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
+    bodyFontWeightScale,
     radius,
     borderWidth,
     spacingScale,
@@ -20,7 +23,6 @@ export default function ConfigPage() {
   const [generatedConfig, setGeneratedConfig] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Generate config whenever any design value changes
   useEffect(() => {
     if (!currentThemeColors) {
       setIsLoading(true);
@@ -30,9 +32,9 @@ export default function ConfigPage() {
     const config = generateFullThemeConfig(
       currentThemeColors,
       currentThemeMode,
-      typeSizeRatio,
-      fontSizeScale,
-      fontWeightScale,
+      bodyTypeSizeRatio,
+      bodyFontSizeScale,
+      bodyFontWeightScale,
       radius,
       borderWidth,
       spacingScale
@@ -43,9 +45,12 @@ export default function ConfigPage() {
   }, [
     currentThemeColors,
     currentThemeMode,
-    typeSizeRatio,
-    fontSizeScale,
-    fontWeightScale,
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
+    bodyFontWeightScale,
     radius,
     borderWidth,
     spacingScale,

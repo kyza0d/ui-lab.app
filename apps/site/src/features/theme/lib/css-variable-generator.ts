@@ -4,7 +4,16 @@ import { type FontKey } from "../constants/font-config";
 
 export interface ThemeConfig {
   colors: SimpleThemeColors;
-  typography: { fontSizeScale: number; fontWeightScale?: number; headerFontWeightScale?: number; bodyFontWeightScale?: number; typeSizeRatio: number; headerLetterSpacingScale?: number; bodyLetterSpacingScale?: number };
+  typography: {
+    headerTypeSizeRatio: number;
+    headerFontSizeScale: number;
+    headerFontWeightScale: number;
+    headerLetterSpacingScale: number;
+    bodyTypeSizeRatio: number;
+    bodyFontSizeScale: number;
+    bodyFontWeightScale: number;
+    bodyLetterSpacingScale: number;
+  };
   layout: { radius: number; borderWidth: number; spacingScale: number };
   fonts?: { sansFont: FontKey; monoFont: FontKey };
   mode: "light" | "dark";
@@ -42,26 +51,33 @@ const TEXT_MIN_CONSTRAINTS: Record<string, number> = {
 };
 
 
-function computeTypographyVars(typography: ThemeConfig['typography']): Record<string, string> {
-  const { fontSizeScale } = typography;
-  const headerFontWeightScale = typography.headerFontWeightScale ?? typography.fontWeightScale ?? 1;
-  const bodyFontWeightScale = typography.bodyFontWeightScale ?? typography.fontWeightScale ?? 1;
-
+function generateTextSizeVars(prefix: string, typeSizeRatio: number, fontSizeScale: number): Record<string, string> {
   const vars: Record<string, string> = {};
-  vars['--font-size-scale'] = String(fontSizeScale);
-  vars['--font-weight-scale'] = String(typography.fontWeightScale ?? 1);
-
   TEXT_NAMES.forEach((name, i) => {
     let size = 1;
-    if (i > TEXT_BASE_INDEX) size = Math.pow(typography.typeSizeRatio, i - TEXT_BASE_INDEX);
-    else if (i < TEXT_BASE_INDEX) size = 1 / Math.pow(typography.typeSizeRatio, TEXT_BASE_INDEX - i);
-    const scaledSize = size * typography.fontSizeScale;
-    const scaledMinConstraint = (TEXT_MIN_CONSTRAINTS[name] || 1) * typography.fontSizeScale;
+    if (i > TEXT_BASE_INDEX) size = Math.pow(typeSizeRatio, i - TEXT_BASE_INDEX);
+    else if (i < TEXT_BASE_INDEX) size = 1 / Math.pow(typeSizeRatio, TEXT_BASE_INDEX - i);
+    const scaledSize = size * fontSizeScale;
+    const scaledMinConstraint = (TEXT_MIN_CONSTRAINTS[name] || 1) * fontSizeScale;
     const minSize = Math.max(scaledSize * 0.8, scaledMinConstraint);
     const maxSize = scaledSize * 1.150;
     const fluidVw = scaledSize * 2.000;
-    vars[`--text-${name}`] = `clamp(${minSize.toFixed(3)}rem, ${fluidVw.toFixed(2)}vw, ${maxSize.toFixed(3)}rem)`;
+    vars[`--${prefix}-${name}`] = `clamp(${minSize.toFixed(3)}rem, ${fluidVw.toFixed(2)}vw, ${maxSize.toFixed(3)}rem)`;
   });
+  return vars;
+}
+
+function computeTypographyVars(typography: ThemeConfig['typography']): Record<string, string> {
+  const { headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, bodyTypeSizeRatio, bodyFontSizeScale, bodyFontWeightScale } = typography;
+
+  const vars: Record<string, string> = {};
+  vars['--header-type-size-ratio'] = String(headerTypeSizeRatio);
+  vars['--header-font-size-scale'] = String(headerFontSizeScale);
+  vars['--body-type-size-ratio'] = String(bodyTypeSizeRatio);
+  vars['--body-font-size-scale'] = String(bodyFontSizeScale);
+
+  Object.assign(vars, generateTextSizeVars('text', bodyTypeSizeRatio, bodyFontSizeScale));
+  Object.assign(vars, generateTextSizeVars('header-text', headerTypeSizeRatio, headerFontSizeScale));
 
   WEIGHT_DEFS.forEach(({ name, value }) => {
     const headerScaled = value * headerFontWeightScale;
@@ -116,18 +132,22 @@ function computeBorderVars(layout: ThemeConfig['layout']): Record<string, string
 function computeLetterSpacingVars(typography: ThemeConfig['typography']): Record<string, string> {
   const vars: Record<string, string> = {};
   const baseLetterSpacingFactor = 0.005;
-  const headerLetterSpacingScale = typography.headerLetterSpacingScale ?? 1;
   const bodyLetterSpacingScale = typography.bodyLetterSpacingScale ?? 1;
+  const headerLetterSpacingScale = typography.headerLetterSpacingScale ?? 1;
 
   TEXT_NAMES.forEach((name, i) => {
     const stepsFromBase = i - TEXT_BASE_INDEX;
     const baseLetterSpacing = stepsFromBase * baseLetterSpacingFactor;
-    const isHeader = i >= 4;
-    const scale = isHeader ? headerLetterSpacingScale : bodyLetterSpacingScale;
     const scaledLetterSpacing = stepsFromBase < 0
-      ? baseLetterSpacing / scale
-      : baseLetterSpacing * scale;
+      ? baseLetterSpacing / bodyLetterSpacingScale
+      : baseLetterSpacing * bodyLetterSpacingScale;
     vars[`--letter-spacing-${name}`] = `${scaledLetterSpacing.toFixed(4)}em`;
+  });
+
+  const headerSizeNames = ['sm', 'md', 'lg', 'xl'];
+  headerSizeNames.forEach((name) => {
+    const spacingValue = headerLetterSpacingScale * 0.002;
+    vars[`--letter-spacing-header-${name}`] = `${spacingValue.toFixed(4)}em`;
   });
 
   return vars;
