@@ -1,7 +1,0 @@
-{
-  "id": "page",
-  "name": "Page",
-  "description": "A page layout wrapper component that provides consistent page structure and styling",
-  "category": "layout",
-  "tags": ["page", "layout", "wrapper"]
-}
