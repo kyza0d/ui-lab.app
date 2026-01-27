@@ -1,356 +1,479 @@
 # UI Lab Design Guidelines
 
-## Design Philosophy
+## Architecture Overview
 
-Building beautiful, consistent UI with UI Lab starts with understanding **what the UI communicates**, not just how it looks. This shifts the entire design approach:
+UI Lab is built on a modern stack with specific architectural patterns:
 
-### Semantic Intent Over Appearance
+### Technology Stack
 
-Every design decision answers: "What does this communicate to the user?"
+- **React 18+** with Server Components support
+- **React Aria** for accessibility hooks and interactions
+- **CSS Modules** for component styling (`.module.css` files)
+- **Tailwind CSS 4** with `@theme` for design tokens
+- **TypeScript** for type safety
 
-- A red button communicates "danger, be careful" (use danger family)
-- A green checkmark communicates "success, completed" (use success family)
-- A light gray background communicates "inactive, secondary" (use background-500)
-
-This semantic meaning is encoded in the **design system** through color families, components, and patterns. The design system enforces consistency automatically.
-
-### Component Mastery Over Styling
-
-UI Lab components handle interaction patterns, state management, dark mode, and accessibility built-in. Customization happens through component props and variants, never CSS classes:
+### Import Patterns
 
 ```tsx
-// ❌ Wrong: Trying to force behavior with CSS
-<button className="bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700">
-  Click me
-</button>
+// Component imports
+import { Button, Card, Modal } from 'ui-lab-components';
 
-// ✓ Correct: Let component handle it
-<Button variant="primary">Click me</Button>
+// Type imports
+import type { ButtonProps, CardProps } from 'ui-lab-components';
+
+// Theme utilities
+import { ThemeProvider, useTheme } from 'ui-lab-components';
+
+// Toast imperative API
+import { toast, Toaster } from 'ui-lab-components';
 ```
-
-The Button component handles:
-- Base styling (accent colors, proper text color)
-- Hover states (darker shade)
-- Active states (even darker)
-- Dark mode (components auto-adapt)
-- Focus indicators (for accessibility)
-- Disabled states (clear visual feedback)
-
-**Trust the component API.** It's designed by experts who understand accessibility and interaction patterns.
-
-### Design Tokens As System Constraints
-
-The design system constrains your choices to maintain consistency:
-
-**Colors**: 7 semantic families × 11 shades each = 77 colors (not infinite)
-**Spacing**: 8 fixed values (not arbitrary pixels)
-**Typography**: 7 hierarchy levels (not any font size)
-**Motion**: 3 durations and easing options (not random animations)
-
-These constraints enable:
-- **Consistency**: All UIs follow the same visual language
-- **Maintainability**: Single source of truth for all design tokens
-- **Accessibility**: Tokens verified for WCAG AA compliance
-- **Theming**: Change all colors by updating token definitions
-- **Onboarding**: New developers learn patterns once, apply everywhere
-
-### Design System As Source of Truth
-
-When uncertain, consult the design system rather than inventing solutions:
-
-- **Color choice unclear?** → Reference color-family-guide.md
-- **Which component to use?** → Use component-selection.md decision tree
-- **Spacing feels off?** → Check spacing-typography.md scale
-- **Pattern exists?** → Use patterns.md as blueprint
-
-Never work around system limitations. If something isn't possible with current components, that's valuable feedback—elevate it, don't patch it.
 
 ---
 
-## Core Rules (Non-Negotiable)
+## Design Philosophy
 
-### Rule 1: Always Use Semantic Color Families
+### 1. Semantic Intent Over Appearance
 
-**The Problem**: Arbitrary colors (blue, red, zinc, slate, etc.) don't communicate intent and fragment the design language.
+Every design decision answers: **"What does this communicate to the user?"**
 
-**The Solution**: Map UI intent to semantic families:
+| Visual Choice | Semantic Meaning |
+|---------------|------------------|
+| Accent color button | Primary action, proceed |
+| Danger color button | Destructive, be careful |
+| Success banner | Positive outcome confirmed |
+| Warning badge | Attention needed |
+
+**Code reflects intent:**
+```tsx
+// Intent is clear from variant choice
+<Button variant="primary">Save Changes</Button>
+<Button variant="danger">Delete Account</Button>
+<Banner variant="success">Payment processed</Banner>
+```
+
+### 2. Component APIs Over CSS Overrides
+
+Components handle styling through **props and variants**, not CSS classes:
+
+```tsx
+// Correct: Use component variants
+<Button variant="primary" size="lg">Submit</Button>
+<Badge variant="success">Active</Badge>
+<Banner variant="warning">Check your input</Banner>
+
+// Avoid: CSS overrides for behavior
+<button className="bg-blue-600 hover:bg-blue-700">Submit</button>
+```
+
+**Why?** Components encapsulate:
+- Hover/active/focus states
+- Accessibility attributes
+- Dark mode adaptation
+- Consistent spacing
+- Animation behaviors
+
+### 3. Compound Components for Complex UI
+
+Many UI Lab components use the **compound component pattern**:
+
+```tsx
+// Card with compound children
+<Card>
+  <Card.Header>Title</Card.Header>
+  <Card.Body>Content</Card.Body>
+  <Card.Footer>Actions</Card.Footer>
+</Card>
+
+// Modal with compound children
+<Modal isOpen={open} onOpenChange={setOpen}>
+  <Modal.Header>Confirm</Modal.Header>
+  <Modal.Body>Are you sure?</Modal.Body>
+  <Modal.Footer>
+    <Button variant="ghost">Cancel</Button>
+    <Button variant="primary">Confirm</Button>
+  </Modal.Footer>
+</Modal>
+
+// Banner with compound children
+<Banner variant="info">
+  <Banner.Title>Note</Banner.Title>
+  <Banner.Body>Additional information here.</Banner.Body>
+</Banner>
+```
+
+### 4. Design Tokens as Constraints
+
+Colors, spacing, and typography use **constrained scales**:
+
+**Colors:** 7 semantic families with defined shade ranges
+**Spacing:** Semantic gap tokens (`xs`, `sm`, `md`, `lg`, `xl`)
+**Typography:** Dual header/body scales with clamp sizing
+
+These constraints ensure:
+- Visual consistency across the application
+- Easy theming via CSS variable updates
+- Accessibility compliance (WCAG contrast)
+- Maintainable, predictable styling
+
+---
+
+## Core Rules
+
+### Rule 1: Use Semantic Color Families
+
+Map UI intent to color families:
 
 | Intent | Family | Example |
 |--------|--------|---------|
-| Primary action | accent | Primary button, link, focus ring |
-| Positive outcome | success | Success message, approved badge |
-| Error/problem | danger | Error alert, delete button |
-| Caution/pending | warning | Warning message, pending badge |
-| Informational | info | Help text, info message |
-| Backgrounds | background | Page, card, container backgrounds |
-| Text/borders | foreground | Body text, labels, borders |
+| Primary action | `accent` | Primary buttons, links |
+| Success/positive | `success` | Success messages, valid states |
+| Error/destructive | `danger` | Errors, delete buttons |
+| Warning/caution | `warning` | Warnings, pending states |
+| Informational | `info` | Help text, notices |
+| Surfaces | `background` | Page, cards, containers |
+| Text/borders | `foreground` | Body text, headings, borders |
 
-**Correct**:
 ```tsx
-// All colors use semantic CSS variables
-<button className="bg-[var(--accent-600)] text-[var(--foreground-50)]">
-  Click me
-</button>
-
-<div className="bg-[var(--success-50)] border border-[var(--success-300)]">
-  Success!
-</div>
+// Component variants map to semantic colors automatically
+<Button variant="primary">    // Uses accent family
+<Button variant="danger">     // Uses danger family
+<Badge variant="success">     // Uses success family
+<Banner variant="warning">    // Uses warning family
 ```
 
-**Incorrect** (❌ Never):
+### Rule 2: Use CSS Variables for Custom Colors
+
+When styling outside components, use design token variables:
+
 ```tsx
-// ❌ Arbitrary Tailwind colors
-<button className="bg-blue-600 text-white">
-  Click me
-</button>
+// Tailwind utilities (preferred)
+<div className="bg-background-900 text-foreground-300 border-background-700">
 
-// ❌ Hex colors
-<div className="bg-[#f0f9ff] border border-[#dcfce7]">
-  Success!
-</div>
+// Arbitrary values with CSS variables
+<div className="bg-[var(--background-900)] text-[var(--foreground-300)]">
 
-// ❌ Gray shades
-<input className="bg-zinc-50 border border-gray-300" />
-```
-
-### Rule 2: All Colors Are CSS Variables
-
-Every color in the design system is a CSS variable: `--{family}-{shade}` where shade ranges from 50 (lightest) to 950 (darkest).
-
-**Why CSS variables?**
-- Single source of truth (change `--accent-600` once, updates everywhere)
-- Theme switching (define variables for light/dark mode)
-- Accessibility (ensure all pairs meet WCAG standards)
-- Type safety (validated at design-token-registry level)
-
-**Correct usage**:
-```tsx
-// CSS
-.button {
-  background-color: var(--accent-600);
-  color: var(--foreground-50);
-  border-color: var(--accent-700);
+// In CSS Modules
+.customElement {
+  background: var(--background-900);
+  color: var(--foreground-300);
+  border-color: var(--background-700);
 }
-
-// TSX with Tailwind (using arbitrary values)
-<button className="bg-[var(--accent-600)] text-[var(--foreground-50)] border border-[var(--accent-700)]">
-  Click me
-</button>
 ```
 
-### Rule 3: Components Handle Interactions, Not CSS Classes
-
-UI Lab components manage interaction states (hover, active, disabled, dark mode) through their component logic and built-in styling. Never use CSS classes to override or "fix" component behavior.
-
-**Pattern: Button States**
+**Never use:**
 ```tsx
-// ✓ Component handles hover and active states automatically
+// Arbitrary Tailwind colors
+<div className="bg-blue-600 text-white">  // Wrong
+
+// Hex colors
+<div style={{ color: '#ffffff' }}>  // Wrong
+
+// Non-semantic gray scales
+<div className="bg-zinc-800">  // Wrong
+```
+
+### Rule 3: Components Handle Interaction States
+
+Components manage hover, active, disabled, and focus states internally:
+
+```tsx
+// Correct: Let Button handle hover
 <Button variant="primary">Click me</Button>
 
-// ❌ Never add hover classes - component already has them
-<Button variant="primary" className="hover:bg-[var(--accent-700)]">
+// Wrong: Adding hover classes
+<Button variant="primary" className="hover:bg-accent-700">
   Click me
 </Button>
 ```
 
-**Pattern: Dark Mode**
-```tsx
-// ✓ Component adapts to dark mode automatically
-<Alert variant="success">All systems operational</Alert>
+### Rule 4: Use Layout Components
 
-// ❌ Never use dark: prefixes - components handle this
-<div className="bg-success-50 dark:bg-success-950">
-  Content
-</div>
+For layout, use `Flex` and `Grid` components with semantic gap tokens:
+
+```tsx
+// Flex layout
+<Flex direction="row" gap="md" align="center" justify="space-between">
+  <div>Left</div>
+  <div>Right</div>
+</Flex>
+
+// Grid layout
+<Grid columns="3" gap="lg">
+  <Card>1</Card>
+  <Card>2</Card>
+  <Card>3</Card>
+</Grid>
 ```
 
-**Pattern: Disabled State**
-```tsx
-// ✓ Component handles disabled styling through prop
-<Input disabled placeholder="Disabled input" />
+### Rule 5: Follow React Aria Patterns
 
-// ❌ Never add classes to fake disabled appearance
-<input disabled className="opacity-50 cursor-not-allowed" />
+UI Lab uses React Aria for accessibility. Key patterns:
+
+```tsx
+// Use isDisabled (not disabled) for React Aria components
+<Button isDisabled>Disabled</Button>
+
+// Use onPress (not onClick) when available
+<Button onPress={() => handleAction()}>Click</Button>
+
+// Components handle focus management automatically
+<Modal isOpen={open} onOpenChange={setOpen}>
+  {/* Focus is trapped and managed */}
+</Modal>
 ```
 
-### Rule 4: Dark Mode Handled by Components
+### Rule 6: Prefer Compound Components
 
-Components automatically adapt to dark mode. Don't add `dark:` utility classes or conditional styling.
+For complex UI, use compound patterns over prop drilling:
 
-**How it works**: Components use CSS variables that change between light and dark themes. Components reference these variables internally, so dark mode "just works."
-
-**Correct**:
 ```tsx
-// Component handles dark mode automatically
-<Card title="My Card">
-  <p>Content automatically adapts to dark mode</p>
+// Preferred: Compound components
+<Card>
+  <Card.Header>
+    <h3>Title</h3>
+    <Badge>Status</Badge>
+  </Card.Header>
+  <Card.Body>Content</Card.Body>
+</Card>
+
+// Avoid: Trying to pass everything as props
+<Card
+  title="Title"
+  headerExtra={<Badge>Status</Badge>}
+  content="Content"
+/>
+```
+
+---
+
+## Component-Specific Guidelines
+
+### Buttons
+
+```tsx
+// Primary actions (main CTAs)
+<Button variant="primary">Save</Button>
+
+// Secondary actions
+<Button variant="secondary">Edit</Button>
+<Button variant="outline">Details</Button>
+
+// Dangerous/destructive actions
+<Button variant="danger">Delete</Button>
+
+// Low-emphasis actions
+<Button variant="ghost">Cancel</Button>
+
+// With icons
+<Button icon={{ left: <SaveIcon /> }}>Save</Button>
+<Button icon={{ right: <ArrowIcon /> }}>Next</Button>
+
+// Disabled state
+<Button isDisabled>Unavailable</Button>
+```
+
+### Cards
+
+```tsx
+<Card>
+  <Card.Header className="flex items-center justify-between">
+    <h3 className="font-semibold text-foreground-100">Title</h3>
+    <Badge variant="success">Active</Badge>
+  </Card.Header>
+  <Card.Body className="space-y-3">
+    <p className="text-foreground-300">Description text.</p>
+  </Card.Body>
+  <Card.Footer className="border-t border-background-700 pt-4">
+    <Group>
+      <Group.Button variant="ghost">Cancel</Group.Button>
+      <Group.Button variant="primary">Save</Group.Button>
+    </Group>
+  </Card.Footer>
 </Card>
 ```
 
-**Incorrect**:
+### Modals
+
 ```tsx
-// ❌ Don't use dark: prefixes
-<div className="bg-foreground-50 dark:bg-foreground-950">
-  Content
-</div>
-
-// ❌ Don't conditionally render for dark mode
-{isDarkMode ? (
-  <div className="bg-black">Content</div>
-) : (
-  <div className="bg-white">Content</div>
-)}
+<Modal
+  isOpen={isOpen}
+  onOpenChange={setIsOpen}
+  title="Confirm Action"
+  size="md"
+  isDismissable
+>
+  <p className="text-foreground-300">
+    Are you sure you want to proceed?
+  </p>
+  <Modal.Footer>
+    <Flex gap="sm" justify="flex-end">
+      <Button variant="ghost" onPress={() => setIsOpen(false)}>
+        Cancel
+      </Button>
+      <Button variant="primary" onPress={handleConfirm}>
+        Confirm
+      </Button>
+    </Flex>
+  </Modal.Footer>
+</Modal>
 ```
 
-### Rule 5: Spacing Follows Fixed Scale
+### Forms
 
-Spacing is constrained to 8 fixed values ensuring visual harmony and consistency:
-
-```
-4px  (gap-1, p-1)
-8px  (gap-2, p-2)
-12px (gap-3, p-3)
-16px (gap-4, p-4)
-24px (gap-6, p-6)
-32px (gap-8, p-8)
-48px (gap-12, p-12)
-64px (gap-16, p-16)
-```
-
-**Why fixed scale?** When spacing is constrained, every design feels harmonious. When arbitrary, spacing feels random and disconnected.
-
-**Correct**:
 ```tsx
-// Only use scale values
-<div className="flex gap-4 p-6">
-  <Button>One</Button>
-  <Button>Two</Button>
-</div>
+<form className="space-y-4">
+  <div className="space-y-2">
+    <Label htmlFor="email">Email</Label>
+    <Input
+      id="email"
+      type="email"
+      placeholder="you@example.com"
+      error={!!errors.email}
+    />
+    {errors.email && (
+      <p className="text-sm text-danger-500">{errors.email}</p>
+    )}
+  </div>
+
+  <div className="space-y-2">
+    <Label htmlFor="message">Message</Label>
+    <Textarea id="message" placeholder="Your message..." />
+  </div>
+
+  <Checkbox
+    checked={agreed}
+    onChange={(e) => setAgreed(e.target.checked)}
+    label="I agree to the terms"
+  />
+
+  <Button variant="primary" type="submit">Submit</Button>
+</form>
 ```
 
-**Incorrect**:
+### Notifications
+
 ```tsx
-// ❌ Never invent spacing values
-<div className="flex gap-7 p-5">
-  <Button>One</Button>
-  <Button>Two</Button>
-</div>
+// Banners for persistent messages
+<Banner variant="success" isDismissible>
+  <Banner.Title>Success!</Banner.Title>
+  <Banner.Body>Your changes have been saved.</Banner.Body>
+</Banner>
 
-// ❌ Never use arbitrary padding
-<div className="p-[13px]">
-  Content
-</div>
-```
+// Toasts for temporary notifications
+// First: Add Toaster to layout
+<Toaster />
 
-### Rule 6: Every Decision Includes Semantic Reasoning
-
-Every design choice should be traceable to semantic intent and design guidelines. This enables:
-
-1. **Consistency**: Other developers understand why choices were made
-2. **Maintainability**: Future changes preserve design intent
-3. **Learning**: New team members understand design language
-4. **Accountability**: Decisions are guided by system, not personal preference
-
-**Example with reasoning**:
-```tsx
-// ✓ Semantic reasoning included
-// This success alert uses:
-// - success family (semantic: positive outcome)
-// - light shade bg (--success-50) for emphasis
-// - dark text (--success-900) for contrast
-// - border (--success-300) for visual definition
-<Alert variant="success" title="Payment processed">
-  Your payment of $99.99 has been successfully processed.
-</Alert>
+// Then: Trigger toasts imperatively
+toast.success("Saved successfully");
+toast.error("Failed to save");
+toast.warning("Please review your input");
+toast.info("New update available");
 ```
 
 ---
 
-## Common Misconceptions & Corrections
+## Accessibility
 
-### Misconception 1: "I Need Custom Colors For My Brand"
+UI Lab components are built with accessibility in mind via React Aria:
 
-**Reality**: UI Lab color families are customizable through CSS variables. All colors are theme-able—change `--accent-600` and all primary buttons update automatically.
+### Keyboard Navigation
+- All interactive components support keyboard navigation
+- Focus indicators are visible and consistent
+- Tab order follows logical reading order
 
-The semantic families (accent, success, danger, etc.) remain the same; the specific colors change via variables.
+### Screen Readers
+- Components use semantic HTML elements
+- ARIA attributes are applied automatically
+- Labels and descriptions are properly associated
 
-### Misconception 2: "I Need Hover/Dark Mode CSS Because Component Doesn't Support It"
+### Focus Management
+- Modals trap focus when open
+- Focus returns to trigger when modal closes
+- Skip links and landmarks are supported
 
-**Reality**: Components handle hover, active, disabled, and dark mode states automatically through their internal logic and CSS modules.
-
-If a component doesn't behave as expected, that's a component bug or limitation worth reporting—don't patch it with CSS.
-
-### Misconception 3: "I Need Different Padding/Spacing Because The Design Says So"
-
-**Reality**: If spacing needs differ from the scale, usually one of two things is true:
-1. Wrong component was chosen (choose different component)
-2. Component needs enhancement (file as feedback)
-
-Never break the spacing scale. Consistency trumps one-off design requests.
-
-### Misconception 4: "Dark Mode Needs Special CSS Dark: Prefixes"
-
-**Reality**: Components handle dark mode automatically. The CSS variables they reference change between light and dark themes automatically.
-
-Adding `dark:` prefixes is redundant and breaks the design system's theme abstraction.
+### Color Contrast
+- All color combinations meet WCAG AA standards
+- Don't rely on color alone for meaning
+- Use icons alongside color indicators
 
 ---
 
-## When These Rules Conflict With Design
+## Common Mistakes to Avoid
 
-**The short answer**: Rules always win.
+### 1. Overriding Component Styles
 
-**The reasoning**: Design tokens and patterns exist to maintain consistency. When a specific design request violates rules:
+```tsx
+// Wrong: CSS overrides
+<Button className="bg-blue-600 hover:bg-blue-700">Save</Button>
 
-1. **Discuss with design**: "This request needs custom colors outside our semantic families. Should we add a new family?"
-2. **Elevate if needed**: "This interaction pattern isn't supported by current components. Should we enhance?"
-3. **Don't patch**: Never use CSS to work around system constraints
-4. **Document**: "This required system extension because [reason]"
+// Correct: Use variants
+<Button variant="primary">Save</Button>
+```
 
-The goal is a **system that improves over time**, not a system you work around.
+### 2. Using Non-Semantic Colors
+
+```tsx
+// Wrong: Arbitrary colors
+<div className="bg-zinc-800 text-gray-300">
+
+// Correct: Semantic tokens
+<div className="bg-background-800 text-foreground-300">
+```
+
+### 3. Ignoring Compound Patterns
+
+```tsx
+// Wrong: Plain divs for structure
+<div className="card">
+  <div className="header">Title</div>
+  <div className="body">Content</div>
+</div>
+
+// Correct: Compound components
+<Card>
+  <Card.Header>Title</Card.Header>
+  <Card.Body>Content</Card.Body>
+</Card>
+```
+
+### 4. Manual Hover States
+
+```tsx
+// Wrong: Manual hover handling
+<button
+  className={`${isHovered ? 'bg-accent-700' : 'bg-accent-600'}`}
+  onMouseEnter={() => setIsHovered(true)}
+>
+
+// Correct: Let component handle it
+<Button variant="primary">Click</Button>
+```
+
+### 5. Using `disabled` Instead of `isDisabled`
+
+```tsx
+// Check component API - some use isDisabled (React Aria pattern)
+<Button isDisabled>Disabled</Button>
+
+// Standard HTML elements still use disabled
+<input disabled />
+```
 
 ---
 
-## Quick Reference: Wrong vs. Right
+## Quick Reference
 
-### Color Usage
-
-| Wrong | Right | Why |
-|-------|-------|-----|
-| `bg-blue-600 text-white` | `bg-[var(--accent-600)] text-[var(--foreground-50)]` | Semantic intent, CSS variables |
-| `bg-red-500` | `bg-[var(--danger-600)]` | Semantic family for meaning |
-| `#ffffff` | `var(--background-50)` | Design token, not arbitrary hex |
-| `bg-slate-100` | `bg-[var(--background-100)]` | Grayscale from background family |
-
-### Component Usage
-
-| Wrong | Right | Why |
-|-------|-------|-----|
-| Custom div with role="button" | `<Button>` | Button component handles a11y |
-| `<div className="hover:bg-blue-700">` | `<Button>` component (handles hover) | Component manages states |
-| Input with `dark:` prefix styling | `<Input>` (handles dark mode) | Component manages themes |
-| Div with spacing not on scale | Adjust component choice or spacing to scale | Consistency |
-
-### Spacing
-
-| Wrong | Right | Why |
-|-------|-------|-----|
-| `gap-7` | `gap-6` or `gap-8` | Use scale value |
-| `p-[13px]` | `p-3` | Use scale value |
-| `m-5` | `m-4` or `m-6` | Use scale value |
-| Custom margin value | Adjust design or component choice | System constraint |
-
----
-
-## Summary: Design Philosophy in Action
-
-When you sit down to build a UI section:
-
-1. **Ask**: "What does this communicate?" → Identify semantic intent
-2. **Choose**: "Which component matches this pattern?" → Consult component-selection.md
-3. **Color**: "What semantic family fits this intent?" → Consult color-family-guide.md
-4. **Compose**: "What's the layout structure?" → Check patterns.md for composition
-5. **Verify**: "Does this follow all rules?" → Cross-check non-negotiable rules
-6. **Document**: "Why these choices?" → Include reasoning in code/comments
-
-Result: Beautiful, consistent, accessible, maintainable UI that communicates clearly to users.
+| Task | Solution |
+|------|----------|
+| Primary button | `<Button variant="primary">` |
+| Danger button | `<Button variant="danger">` |
+| Card with sections | `<Card><Card.Header>...<Card.Body>...<Card.Footer>...` |
+| Modal dialog | `<Modal isOpen={} onOpenChange={}>` |
+| Success message | `<Banner variant="success">` |
+| Status badge | `<Badge variant="success/danger/warning/info">` |
+| Toast notification | `toast.success()` / `toast.error()` |
+| Flex layout | `<Flex direction="" gap="" align="" justify="">` |
+| Grid layout | `<Grid columns="" gap="">` |
+| Button group | `<Group><Group.Button>...</Group>` |
+| Form input | `<Input type="" error={} />` |
+| Tab interface | `<Tabs><TabsList>...<TabsContent>...` |
