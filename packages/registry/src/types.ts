@@ -125,6 +125,30 @@ export interface SectionRegistry {
   [sectionId: string]: SectionMetadata;
 }
 
+export interface StarterVariant {
+  name: string;
+  description: string;
+  code?: string;
+  demoPath?: string;
+  files?: ElementFile[];
+}
+
+export interface StarterMetadata {
+  id: string;
+  name: string;
+  description: string;
+  category: 'landing' | 'dashboard' | 'auth' | 'app' | 'other';
+  tags: string[];
+  variants: StarterVariant[];
+  componentDependencies?: string[];
+  layout?: Partial<LayoutConfig>;
+  fullPageLayout?: boolean;
+}
+
+export interface StarterRegistry {
+  [starterId: string]: StarterMetadata;
+}
+
 export interface ComponentMetadata {
   id: string;
   name: string;

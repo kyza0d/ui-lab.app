@@ -74,6 +74,14 @@
       "import": "./dist/sections/*/variations/*/index.js",
       "types": "./dist/sections/*/variations/*/index.d.ts"
     },
+    "./starters": {
+      "import": "./dist/starters/index.js",
+      "types": "./dist/starters/index.d.ts"
+    },
+    "./starters/*": {
+      "import": "./dist/starters/*/index.js",
+      "types": "./dist/starters/*/index.d.ts"
+    },
     "./demo-registry": {
       "import": "./dist/demo-registry.js",
       "types": "./dist/demo-registry.d.ts"

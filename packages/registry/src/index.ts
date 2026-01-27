@@ -65,6 +65,9 @@ export type {
   SectionMetadata,
   SectionVariant,
   SectionRegistry,
+  StarterMetadata,
+  StarterVariant,
+  StarterRegistry,
   LayoutConfig,
   ControlOption,
   ControlDef,
@@ -139,4 +142,17 @@ export {
   groupSectionsByCategory,
 } from './sections/index.js';
 export type { SectionCategoryId, SectionCategoryDefinition } from './sections/index.js';
+
+// Starters
+export {
+  starterRegistry,
+  getAllStarters,
+  getStarterById,
+  getStartersByCategory,
+  getStartersInCategory,
+  getStartersByTag,
+  searchStarters,
+  getAllStarterCategories,
+  getAllStarterTags,
+} from './starters/index.js';
 
