@@ -14,7 +14,9 @@ export default function MainLayout({
       <Suspense fallback={null}>
         <ElementsHeaderSetup />
       </Suspense>
-      <HeaderClient />
+      <Suspense fallback={null}>
+        <HeaderClient />
+      </Suspense>
       <main className="flex-1">
         {children}
       </main>

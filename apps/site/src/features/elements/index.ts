@@ -7,6 +7,7 @@ export { ElementsSearchHeader } from "./components/elements-search-header";
 export { ElementsList as ElementsSidebarContent } from "./components/elements-sidebar-content";
 export { ElementsSortDropdown } from "./components/elements-sort-dropdown";
 export { PreviewContainer } from "./components/preview-container";
+export { PackagesGridClient } from "./components/packages-grid-client";
 export * from "./lib/get-element-demo";
 export * from "./lib/get-element-preview";
 export * from "./lib/get-element-source";

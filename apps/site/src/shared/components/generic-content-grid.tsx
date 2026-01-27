@@ -38,13 +38,15 @@ export function GenericContentGrid<T extends ContentItem>({
       {items.map((item) => {
         const layoutConfig = getLayoutConfig(item);
         const PreviewComponent = getPreviewComponent(item.id);
+        const href = `${basePath}/${item.id}`;
 
         return (
           <Gallery.Item
             key={item.id}
+            href={href}
+            onPress={() => router.push(href)}
             columnSpan={layoutConfig.columnSpan}
             rowSpan={layoutConfig.rowSpan}
-            onPress={() => router.push(`${basePath}/${item.id}`)}
             className="overflow-hidden"
           >
             <PreviewContainer layoutConfig={layoutConfig}>
