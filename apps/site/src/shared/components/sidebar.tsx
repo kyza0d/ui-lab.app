@@ -59,22 +59,22 @@ export function Sidebar() {
   const activeNavItem = getActiveNavItemForDomain(activeDomain);
   const mainNavItems = useMemo(() => getMainNavItemsForDomain(activeDomain), [activeDomain]);
   const sections = useMemo(() => {
-    if (activeDomain === 'elements' || activeDomain === 'sections') {
+    if (activeDomain === 'elements' || activeDomain === 'sections' || activeDomain === 'starters') {
       return [];
     }
     return getSectionsForNav(activeNavItem);
   }, [activeDomain, activeNavItem]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const isElementsOrSections = activeDomain === 'elements' || activeDomain === 'sections';
-  const elementsList = useMemo(() => (isElementsOrSections ? getElementsListForSidebar() : []), [isElementsOrSections]);
-  const activeElementsNav = useMemo(() => (isElementsOrSections ? getActiveElementsNavFromPathname(pathname) : 'elements'), [isElementsOrSections, pathname]);
+  const isElementsOrSectionsOrStarters = activeDomain === 'elements' || activeDomain === 'sections' || activeDomain === 'starters';
+  const elementsList = useMemo(() => (isElementsOrSectionsOrStarters ? getElementsListForSidebar() : []), [isElementsOrSectionsOrStarters]);
+  const activeElementsNav = useMemo(() => (isElementsOrSectionsOrStarters ? getActiveElementsNavFromPathname(pathname) : 'elements'), [isElementsOrSectionsOrStarters, pathname]);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const storageKey = isElementsOrSections ? `sidebar-scroll-${activeElementsNav}` : `sidebar-scroll-${activeNavItem}`;
+    const storageKey = isElementsOrSectionsOrStarters ? `sidebar-scroll-${activeElementsNav}` : `sidebar-scroll-${activeNavItem}`;
     const savedPosition = sessionStorage.getItem(storageKey);
     if (savedPosition) {
       container.scrollTop = parseInt(savedPosition, 10);
@@ -86,9 +86,9 @@ export function Sidebar() {
 
     container.addEventListener('scroll', handleScroll, { passive: true });
     return () => container.removeEventListener('scroll', handleScroll);
-  }, [activeNavItem, activeElementsNav, isElementsOrSections]);
+  }, [activeNavItem, activeElementsNav, isElementsOrSectionsOrStarters]);
 
-  const sidebarWidth = isElementsOrSections ? 'w-68' : 'w-68';
+  const sidebarWidth = isElementsOrSectionsOrStarters ? 'w-68' : 'w-68';
 
   return (
     <aside className={cn('hidden md:flex', sidebarWidth, 'flex-col')}>
@@ -145,7 +145,7 @@ export function Sidebar() {
           maxHeight="100%"
           fadeY
         >
-          {isElementsOrSections ? (
+          {isElementsOrSectionsOrStarters ? (
             <div className="py-5 px-5">
               <ElementsList
                 activeNav={activeElementsNav}

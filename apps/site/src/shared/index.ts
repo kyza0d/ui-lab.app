@@ -10,6 +10,8 @@ export { PackageManagerTabs } from "./components/package-manager-tabs";
 export { PrefetchLink } from "./components/prefetch-link";
 export { Logo } from "./components/ui/logo";
 export { Sidebar } from "./components/sidebar";
+export { GenericContentGrid } from "./components/generic-content-grid";
+export { PreviewContainer } from "./components/preview-container";
 
 // Hooks
 export { useExternalWindow } from "./hooks/use-external-window";
@@ -19,6 +21,7 @@ export { usePrefetchOnHover } from "./hooks/use-prefetch-on-hover";
 export * from "./lib/config-generator";
 export { getHeaderHeight, shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, shouldApplyRevealCollapse, DOMAINS, getTabGroupForPathname, getActiveTabForPathname, shouldShowTabsForPathname, TAB_GROUPS, type TabConfig, type TabGroup } from "./lib/route-config";
 export * from "./lib/typography-utils";
+export * from "./lib/layout-utils";
 export { useCodeHighlight } from "./lib/use-code-highlight";
 export { cn } from "./lib/utils";
 export { generateMetadata, type SiteMetadataConfig } from "./lib/metadata";
