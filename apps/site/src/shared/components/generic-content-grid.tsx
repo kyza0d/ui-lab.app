@@ -1,26 +1,28 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { Gallery } from 'ui-lab-components';
-import { PreviewContainer } from '@/features/elements/components/preview-container';
+import { PreviewContainer } from './preview-container';
 import type { LayoutConfig } from 'ui-lab-registry';
 
-export interface GenericGridClientProps<T> {
-  items: T[];
-  getLayoutConfig: (item: T) => LayoutConfig;
-  getPreviewComponent: (item: T) => React.ComponentType | null;
-  getItemPath: (item: T) => string;
-  renderItemHeader: (item: T) => React.ReactNode;
-  renderItemFooter?: (item: T) => React.ReactNode;
+interface ContentItem {
+  id: string;
+  name: string;
+  description: string;
 }
 
-export function GenericGridClient<T extends { id: string }>({
+interface GenericContentGridProps<T extends ContentItem> {
+  items: T[];
+  basePath: string;
+  getLayoutConfig: (item: T) => LayoutConfig;
+  getPreviewComponent: (id: string) => React.ComponentType | null;
+}
+
+export function GenericContentGrid<T extends ContentItem>({
   items,
+  basePath,
   getLayoutConfig,
   getPreviewComponent,
-  getItemPath,
-  renderItemHeader,
-  renderItemFooter,
-}: GenericGridClientProps<T>) {
+}: GenericContentGridProps<T>) {
   const router = useRouter();
 
   if (items.length === 0) {
@@ -32,29 +34,29 @@ export function GenericGridClient<T extends { id: string }>({
   }
 
   return (
-    <Gallery columns={8} layout='grid' gap="1.5rem" className='flex-1' style={{ gridAutoRows: '100px' }}>
+    <Gallery columns={{ md: 2, lg: 8 }}>
       {items.map((item) => {
         const layoutConfig = getLayoutConfig(item);
-        const PreviewComponent = getPreviewComponent(item);
+        const PreviewComponent = getPreviewComponent(item.id);
 
         return (
           <Gallery.Item
             key={item.id}
             columnSpan={layoutConfig.columnSpan}
             rowSpan={layoutConfig.rowSpan}
-            onPress={() => router.push(getItemPath(item))}
+            onPress={() => router.push(`${basePath}/${item.id}`)}
             className="overflow-hidden"
           >
             <PreviewContainer layoutConfig={layoutConfig}>
-              {PreviewComponent ? (
-                <PreviewComponent />
-              ) : (
-                <div className="text-foreground-500">Preview</div>
-              )}
+              {PreviewComponent ? <PreviewComponent /> : <div className="text-foreground-500">Preview</div>}
             </PreviewContainer>
             <Gallery.Body className="p-3">
-              {renderItemHeader(item)}
-              {renderItemFooter && renderItemFooter(item)}
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <strong className="font-semibold text-foreground-50">{item.name}</strong>
+                  <p className="text-sm text-foreground-400 mt-0.5 line-clamp-2">{item.description}</p>
+                </div>
+              </div>
             </Gallery.Body>
           </Gallery.Item>
         );

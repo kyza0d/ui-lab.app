@@ -9,7 +9,7 @@ const ROUTE_TITLES: Record<RoutePath, string> = {
   '/': 'UI Lab',
   '/docs': 'Documentation',
   '/components': 'Components',
-  '/elements': 'Elements',
+  '/elements': 'Examples',
   '/blocks': 'Blocks',
   '/design-system': 'Design System',
   '/config': 'Config',

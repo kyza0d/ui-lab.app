@@ -1,13 +1,5 @@
 import type { ElementMetadata, LayoutConfig } from 'ui-lab-registry';
 import { getElementLayoutConfig } from './element-layout-config';
+import { createMetadataLayoutGetter } from '@/shared/lib/layout-utils';
 
-export function getLayoutConfig(element: ElementMetadata): LayoutConfig {
-  const centralizedConfig = getElementLayoutConfig(element.id);
-
-  return {
-    layoutClass: element.layout?.layoutClass ?? centralizedConfig.layoutClass,
-    columnSpan: element.layout?.columnSpan ?? centralizedConfig.columnSpan,
-    rowSpan: element.layout?.rowSpan ?? centralizedConfig.rowSpan,
-    previewConfig: element.layout?.previewConfig ?? centralizedConfig.previewConfig ?? {},
-  };
-}
+export const getLayoutConfig = createMetadataLayoutGetter<ElementMetadata>(getElementLayoutConfig);

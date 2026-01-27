@@ -7,15 +7,17 @@ import { SidebarItemLink } from '@/features/navigation';
 import {
   getElementsInCategory,
   getAllSections,
+  getAllStarters,
   getSectionsInCategory,
   type ElementMetadata,
   type SectionMetadata,
+  type StarterMetadata,
   type ElementCategoryId,
   type SectionCategoryId,
 } from 'ui-lab-registry';
 
 interface ElementsSidebarContentProps {
-  activeNav: 'elements' | 'sections';
+  activeNav: 'elements' | 'sections' | 'starters';
   elements: ElementMetadata[];
   pathname: string;
   activeCategory?: ElementCategoryId | SectionCategoryId | null;
@@ -34,6 +36,10 @@ export function ElementsList({
       const match = pathname.match(/\/sections\/([^/?]+)/);
       return match ? match[1] : null;
     }
+    if (activeNav === 'starters') {
+      const match = pathname.match(/\/starters\/([^/?]+)/);
+      return match ? match[1] : null;
+    }
     const match = pathname.match(/\/elements\/([^/?]+)/);
     return match ? match[1] : null;
   }, [pathname, activeNav]);
@@ -45,6 +51,7 @@ export function ElementsList({
   }, [currentItemId]);
 
   const sections = useMemo(() => getAllSections(), []);
+  const starters = useMemo(() => getAllStarters(), []);
 
   const filteredSections = useMemo(() => {
     if (!activeCategory) return sections;
@@ -65,6 +72,48 @@ export function ElementsList({
     () => [...filteredElements].sort((a, b) => a.name.localeCompare(b.name)),
     [filteredElements]
   );
+
+  const sortedStarters = useMemo(
+    () => [...starters].sort((a, b) => a.name.localeCompare(b.name)),
+    [starters]
+  );
+
+  if (activeNav === 'starters') {
+    if (sortedStarters.length === 0) {
+      return (
+        <div className="flex items-center justify-center h-full px-6 text-center">
+          <p className="text-foreground-400 text-sm">
+            No starters available yet.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-1">
+        {sortedStarters.map((starter) => {
+          const isActive = currentItemId === starter.id;
+          const href = `/starters/${starter.id}`;
+
+          return (
+            <SidebarItemLink
+              key={starter.id}
+              href={href}
+              className={cn(
+                'block px-3 py-1.5 text-sm rounded-md cursor-pointer capitalize',
+                'transition-colors duration-300 ease-out hover:duration-0',
+                isActive
+                  ? 'text-foreground-50 bg-background-800 font-medium'
+                  : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
+              )}
+            >
+              {starter.name}
+            </SidebarItemLink>
+          );
+        })}
+      </div>
+    );
+  }
 
   if (activeNav === 'sections') {
     if (sortedSections.length === 0) {
