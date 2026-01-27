@@ -1,7 +1,0 @@
-{
-  "id": "header",
-  "name": "Header",
-  "description": "A reusable header component for page layouts with logo and navigation support",
-  "category": "layout",
-  "tags": ["header", "navigation", "layout"]
-}

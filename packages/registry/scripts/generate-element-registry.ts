@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 
 interface DiscoveredElement {
   folderName: string;
+  importPath: string;
   id: string;
   variableName: string;
 }
@@ -19,65 +20,69 @@ function discoverAllElements(): DiscoveredElement[] {
     process.exit(1);
   }
 
-  const folders = fs
-    .readdirSync(elementsPath)
-    .filter(
-      (f) =>
-        fs.statSync(path.join(elementsPath, f)).isDirectory() &&
-        !f.startsWith('.')
-    )
-    .sort();
-
   const discovered: DiscoveredElement[] = [];
   const seenIds = new Set<string>();
 
   console.log('\n🔍 Discovering elements...\n');
 
-  for (const folderName of folders) {
-    const elementPath = path.join(elementsPath, folderName);
-    const indexTsPath = path.join(elementPath, 'index.ts');
-    const indexTsxPath = path.join(elementPath, 'index.tsx');
-    const indexPath = fs.existsSync(indexTsPath) ? indexTsPath :
-                      fs.existsSync(indexTsxPath) ? indexTsxPath : null;
+  function discoverInDirectory(dirPath: string, relativePath: string = '') {
+    const folders = fs
+      .readdirSync(dirPath)
+      .filter(
+        (f) =>
+          fs.statSync(path.join(dirPath, f)).isDirectory() &&
+          !f.startsWith('.')
+      )
+      .sort();
 
-    if (!indexPath) {
-      continue;
+    for (const folderName of folders) {
+      const elementPath = path.join(dirPath, folderName);
+      const indexTsPath = path.join(elementPath, 'index.ts');
+      const indexTsxPath = path.join(elementPath, 'index.tsx');
+      const indexPath = fs.existsSync(indexTsPath) ? indexTsPath :
+                        fs.existsSync(indexTsxPath) ? indexTsxPath : null;
+
+      const variationsPath = path.join(elementPath, 'variations');
+      const hasVariations = fs.existsSync(variationsPath);
+
+      if (indexPath && hasVariations) {
+        const variationFolders = fs
+          .readdirSync(variationsPath)
+          .filter((f) => /^\d{2}-/.test(f));
+
+        if (variationFolders.length === 0) {
+          console.error(`  ✗ ${folderName}: No variations found in variations/`);
+          process.exit(1);
+        }
+
+        const elementId = folderName.toLowerCase();
+        if (seenIds.has(elementId)) {
+          console.error(
+            `  ✗ Duplicate element ID "${elementId}" - elements must have unique IDs`
+          );
+          process.exit(1);
+        }
+        seenIds.add(elementId);
+
+        const variableName = elementId.charAt(0).toLowerCase() + elementId.slice(1) + 'Element';
+        const importPath = relativePath ? `${relativePath}/${folderName}` : folderName;
+
+        discovered.push({
+          folderName,
+          importPath,
+          id: elementId,
+          variableName,
+        });
+
+        console.log(`  ✓ ${importPath} (id: "${elementId}")`);
+      } else if (!hasVariations) {
+        const newRelativePath = relativePath ? `${relativePath}/${folderName}` : folderName;
+        discoverInDirectory(elementPath, newRelativePath);
+      }
     }
-
-    const variationsPath = path.join(elementPath, 'variations');
-    if (!fs.existsSync(variationsPath)) {
-      console.error(`  ✗ ${folderName}: Missing variations directory`);
-      process.exit(1);
-    }
-
-    const variationFolders = fs
-      .readdirSync(variationsPath)
-      .filter((f) => /^\d{2}-/.test(f));
-
-    if (variationFolders.length === 0) {
-      console.error(`  ✗ ${folderName}: No variations found in variations/`);
-      process.exit(1);
-    }
-
-    const elementId = folderName.toLowerCase();
-    if (seenIds.has(elementId)) {
-      console.error(
-        `  ✗ Duplicate element ID "${elementId}" - elements must have unique IDs`
-      );
-      process.exit(1);
-    }
-    seenIds.add(elementId);
-
-    const variableName = elementId.charAt(0).toLowerCase() + elementId.slice(1) + 'Element';
-
-    discovered.push({
-      folderName,
-      id: elementId,
-      variableName,
-    });
-
-    console.log(`  ✓ ${folderName} (id: "${elementId}")`);
   }
+
+  discoverInDirectory(elementsPath);
 
   if (discovered.length === 0) {
     console.error('  ✗ No elements found');
@@ -88,14 +93,14 @@ function discoverAllElements(): DiscoveredElement[] {
 }
 
 function generateIndexFile(elements: DiscoveredElement[]): string {
-  // Sort alphabetically by folder name for consistent output
+  // Sort alphabetically by import path for consistent output
   const sortedElements = elements.sort((a, b) =>
-    a.folderName.localeCompare(b.folderName)
+    a.importPath.localeCompare(b.importPath)
   );
 
   // Generate imports
   const imports = sortedElements
-    .map((el) => `import ${el.variableName} from './${el.folderName}';`)
+    .map((el) => `import ${el.variableName} from './${el.importPath}';`)
     .join('\n');
 
   // Generate registry entries
@@ -120,7 +125,7 @@ import type { ElementRegistry } from '../types';
 ${imports}
 
 // Type exports (preserved)
-export type { ElementMetadata, ElementVariant } from '../types';
+export type { ElementMetadata, ElementVariant, ElementPackageMetadata } from '../types';
 export type { ElementCategoryId, ElementCategoryDefinition } from './categories';
 
 // Category exports (preserved)
@@ -133,6 +138,15 @@ export {
   getElementsInCategory,
   getCategoriesWithElements,
 } from './categories';
+
+// Package exports
+export {
+  elementPackages,
+  getPackageById,
+  getAllPackages,
+  getElementsInPackage,
+  getPackageForElement,
+} from './packages';
 
 // Registry (auto-generated)
 export const elementRegistry: ElementRegistry = {

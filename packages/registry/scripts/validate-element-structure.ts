@@ -232,47 +232,56 @@ function validateVariationsJson(
 
 async function validateAll() {
   const elementsPath = path.join(__dirname, '..', 'src', 'elements');
-  const elements = fs
-    .readdirSync(elementsPath)
-    .filter(
-      (f) =>
-        fs.statSync(path.join(elementsPath, f)).isDirectory() &&
-        !f.startsWith('.')
-    )
-    .sort();
 
   const reporter = new ValidationReporter();
   const allDemoPaths = new Set<string>();
 
   console.log('\n🔍 Validating element structure...\n');
 
-  for (const elementName of elements) {
-    const elementPath = path.join(elementsPath, elementName);
+  function validateInDirectory(dirPath: string, relativePath: string = '') {
+    const folders = fs
+      .readdirSync(dirPath)
+      .filter(
+        (f) =>
+          fs.statSync(path.join(dirPath, f)).isDirectory() &&
+          !f.startsWith('.')
+      )
+      .sort();
 
-    if (!validateMetadataIndex(elementPath, elementName, reporter)) {
-      continue;
-    }
+    for (const folderName of folders) {
+      const elementPath = path.join(dirPath, folderName);
+      const variationsDir = path.join(elementPath, 'variations');
+      const hasVariations = fs.existsSync(variationsDir);
+      const fullPath = relativePath ? `${relativePath}/${folderName}` : folderName;
 
-    const variationsDir = path.join(elementPath, 'variations');
-    if (fs.existsSync(variationsDir)) {
-      const variationFolders = fs
-        .readdirSync(variationsDir)
-        .filter((f) => /^\d{2}-/.test(f))
-        .sort();
+      if (hasVariations) {
+        if (!validateMetadataIndex(elementPath, fullPath, reporter)) {
+          continue;
+        }
 
-      for (const variationKey of variationFolders) {
-        const variationPath = path.join(variationsDir, variationKey);
-        validateVariationStructure(
-          variationPath,
-          elementName,
-          variationKey,
-          reporter
-        );
+        const variationFolders = fs
+          .readdirSync(variationsDir)
+          .filter((f) => /^\d{2}-/.test(f))
+          .sort();
+
+        for (const variationKey of variationFolders) {
+          const variationPath = path.join(variationsDir, variationKey);
+          validateVariationStructure(
+            variationPath,
+            fullPath,
+            variationKey,
+            reporter
+          );
+        }
+
+        validateVariationsJson(elementPath, fullPath, reporter, allDemoPaths);
+      } else {
+        validateInDirectory(elementPath, fullPath);
       }
     }
-
-    validateVariationsJson(elementPath, elementName, reporter, allDemoPaths);
   }
+
+  validateInDirectory(elementsPath);
 
   reporter.report();
 }

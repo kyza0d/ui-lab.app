@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const sectionsDir = path.join(__dirname, '../src/sections');
+const elementsDir = path.join(__dirname, '../src/elements');
 const demoRegistryPath = path.join(__dirname, '../src/demo-registry.ts');
 
 interface VariationInfo {
@@ -15,6 +16,12 @@ interface VariationInfo {
 interface SectionInfo {
   id: string;
   folderName: string;
+  variations: VariationInfo[];
+}
+
+interface ElementInfo {
+  id: string;
+  importPath: string;
   variations: VariationInfo[];
 }
 
@@ -65,12 +72,71 @@ function getAllSections(): SectionInfo[] {
   return sections;
 }
 
+function getAllElements(): ElementInfo[] {
+  const elements: ElementInfo[] = [];
+
+  function discoverInDirectory(dirPath: string, relativePath: string = '') {
+    const folders = fs.readdirSync(dirPath).filter(f => {
+      const fullPath = path.join(dirPath, f);
+      return fs.statSync(fullPath).isDirectory() && !f.startsWith('.');
+    });
+
+    for (const folderName of folders) {
+      const elementPath = path.join(dirPath, folderName);
+      const variationsPath = path.join(elementPath, 'variations');
+      const hasVariations = fs.existsSync(variationsPath);
+      const fullPath = relativePath ? `${relativePath}/${folderName}` : folderName;
+
+      if (hasVariations) {
+        const element: ElementInfo = {
+          id: folderName.toLowerCase(),
+          importPath: fullPath,
+          variations: [],
+        };
+
+        const variationFolders = fs.readdirSync(variationsPath)
+          .filter(f => /^\d{2}-/.test(f))
+          .sort();
+
+        for (const varFolder of variationFolders) {
+          const indexPath = path.join(variationsPath, varFolder, 'index.tsx');
+          if (fs.existsSync(indexPath)) {
+            const content = fs.readFileSync(indexPath, 'utf-8');
+            const exportMatch = content.match(/export function (\w+)/);
+            if (exportMatch) {
+              const exportName = exportMatch[1];
+              element.variations.push({
+                key: varFolder,
+                folderName: varFolder,
+                exportName,
+              });
+            }
+          }
+        }
+
+        elements.push(element);
+      } else {
+        discoverInDirectory(elementPath, fullPath);
+      }
+    }
+  }
+
+  discoverInDirectory(elementsDir);
+  return elements;
+}
+
 function generateDemoRegistryContent(sections: SectionInfo[]): string {
-  const elementDemoEntries: string[] = [
-    "'header-basic': dynamic(() => import('./elements/Header/variations/01-basic').then(m => ({ default: m.BasicHeader })))",
-    "'page-basic': dynamic(() => import('./elements/Page/variations/01-basic').then(m => ({ default: m.BasicPage })))",
-    "'sidebar-basic': dynamic(() => import('./elements/Sidebar/variations/01-basic').then(m => ({ default: m.BasicSidebar })))",
-  ];
+  const elements = getAllElements();
+  const elementDemoEntries: string[] = [];
+
+  for (const element of elements) {
+    for (const variation of element.variations) {
+      const demoPath = `${element.id}-${variation.folderName.split('-').slice(1).join('-')}`;
+      elementDemoEntries.push(
+        `'${demoPath}': dynamic(() => import('./elements/${element.importPath}/variations/${variation.folderName}').then(m => ({ default: m.${variation.exportName} })))`
+      );
+    }
+  }
 
   const sectionPreviewEntries: string[] = [];
 

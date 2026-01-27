@@ -5,9 +5,9 @@ export type DemoComponent = React.ComponentType<object>;
 
 // Cached element demos - dynamic() called ONCE at module load
 export const elementDemoMap: Record<string, DemoComponent> = {
-  'header-basic': dynamic(() => import('./elements/Header/variations/01-basic').then(m => ({ default: m.BasicHeader }))),
-  'page-basic': dynamic(() => import('./elements/Page/variations/01-basic').then(m => ({ default: m.BasicPage }))),
-  'sidebar-basic': dynamic(() => import('./elements/Sidebar/variations/01-basic').then(m => ({ default: m.BasicSidebar }))),
+  'header-basic': dynamic(() => import('./elements/foundation/Header/variations/01-basic').then(m => ({ default: m.BasicHeader }))),
+  'page-basic': dynamic(() => import('./elements/foundation/Page/variations/01-basic').then(m => ({ default: m.BasicPage }))),
+  'sidebar-basic': dynamic(() => import('./elements/foundation/Sidebar/variations/01-basic').then(m => ({ default: m.BasicSidebar }))),
 };
 
 // Cached section previews - dynamic() called ONCE at module load
