@@ -8,22 +8,22 @@ import { Anchor, AnchorPreview, AnchorUnderline } from '../components/mdx/client
 
 export const mdxComponents = {
   h1: ({ children, id }: any) => (
-    <h1 id={id} className="text-5xl font-bold my-8 scroll-mt-20">
+    <h1 id={id} className="font-bold my-8 scroll-mt-20">
       {children}
     </h1>
   ),
   h2: ({ children, id }: any) => (
-    <h2 id={id} className="text-3xl my-6 scroll-mt-20">
+    <h2 id={id} className="my-6 scroll-mt-20">
       {children}
     </h2>
   ),
   h3: ({ children, id }: any) => (
-    <h3 id={id} className="text-2xl my-4 scroll-mt-20">
+    <h3 id={id} className="my-4 scroll-mt-20">
       {children}
     </h3>
   ),
   h4: ({ children, id }: any) => (
-    <h4 id={id} className="text-xl my-3 scroll-mt-20">
+    <h4 id={id} className="my-3 scroll-mt-20">
       {children}
     </h4>
   ),

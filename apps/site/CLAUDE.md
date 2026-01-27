@@ -84,4 +84,6 @@ export const componentDetail: ComponentDetail = {
 
 ## Key Instruction Override
 
+**Never** use or suggest any git commit, git push, git add, or git history-modifying commands ever.
+
 **DO NOT create markdown files, summaries, analysis documents, or any other supplementary files.** When asked to analyze the implementation or thoroughly understand the current code, do the analysis mentally or as inline comments in actual code files only. After implementing fixes, provide a brief text explanation of what was done nothing more. The goal is to fix the code and explain the fix, not to document it separately.
