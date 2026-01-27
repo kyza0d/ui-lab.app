@@ -16,17 +16,14 @@
 
 #docs h2 {
   margin: 4.0rem 0 0.4rem 0 ;
-  font-size: var(--text-lg)
 }
 
 
 #docs h3 {
   margin: 3.2rem 0 0.2rem 0;
-  font-size: var(--text-md)
 }
 
 #docs p {
-  font-size: var(--text-md);
   color: var(--foreground-400);
   max-width: 74ch;
   margin: 0.6rem 0 1.4rem 0;

@@ -37,16 +37,6 @@ export const SettingsContent = () => {
   const {
     currentThemeColors,
     setCurrentThemeColors,
-    fontSizeScale,
-    setFontSizeScale,
-    fontWeightScale,
-    setFontWeightScale,
-    headerFontWeightScale,
-    setHeaderFontWeightScale,
-    bodyFontWeightScale,
-    setBodyFontWeightScale,
-    typeSizeRatio,
-    setTypeSizeRatio,
     radius,
     setRadius,
     borderWidth,
@@ -61,8 +51,20 @@ export const SettingsContent = () => {
     setSelectedSansFont,
     selectedMonoFont,
     setSelectedMonoFont,
+    headerTypeSizeRatio,
+    setHeaderTypeSizeRatio,
+    headerFontSizeScale,
+    setHeaderFontSizeScale,
+    headerFontWeightScale,
+    setHeaderFontWeightScale,
     headerLetterSpacingScale,
     setHeaderLetterSpacingScale,
+    bodyTypeSizeRatio,
+    setBodyTypeSizeRatio,
+    bodyFontSizeScale,
+    setBodyFontSizeScale,
+    bodyFontWeightScale,
+    setBodyFontWeightScale,
     bodyLetterSpacingScale,
     setBodyLetterSpacingScale,
   } = useApp();
@@ -95,12 +97,13 @@ export const SettingsContent = () => {
   } = useThemeStorage({
     onColorsChange: setCurrentThemeColors,
     onTypographyChange: (config: any) => {
-      setFontSizeScale(config.fontSizeScale);
-      setFontWeightScale(config.fontWeightScale);
+      setHeaderTypeSizeRatio(config.headerTypeSizeRatio);
+      setHeaderFontSizeScale(config.headerFontSizeScale);
       setHeaderFontWeightScale(config.headerFontWeightScale);
-      setBodyFontWeightScale(config.bodyFontWeightScale);
-      setTypeSizeRatio(config.typeSizeRatio);
       setHeaderLetterSpacingScale(config.headerLetterSpacingScale);
+      setBodyTypeSizeRatio(config.bodyTypeSizeRatio);
+      setBodyFontSizeScale(config.bodyFontSizeScale);
+      setBodyFontWeightScale(config.bodyFontWeightScale);
       setBodyLetterSpacingScale(config.bodyLetterSpacingScale);
     },
     onLayoutChange: (config: any) => {
@@ -209,12 +212,13 @@ export const SettingsContent = () => {
         finalScale = closestScale;
       }
       applyAndPersistTypography({
-        fontSizeScale: finalScale,
-        fontWeightScale: weight,
+        headerTypeSizeRatio,
+        headerFontSizeScale,
         headerFontWeightScale: headerWeight,
-        bodyFontWeightScale: bodyWeight,
-        typeSizeRatio: ratio,
         headerLetterSpacingScale: headerSpacing,
+        bodyTypeSizeRatio: ratio,
+        bodyFontSizeScale: finalScale,
+        bodyFontWeightScale: bodyWeight,
         bodyLetterSpacingScale: bodySpacing,
       });
     }
@@ -222,90 +226,9 @@ export const SettingsContent = () => {
   };
 
   const handleMonoFontChange = (fontName: string) => {
-    const fontConfig = getFontConfig(fontName as any, "mono");
-    if (fontConfig) {
-      const { fontSizeScale: scale, fontWeightScale: weight, typeSizeRatio: ratio, headerLetterSpacingScale: headerSpacing = 1, bodyLetterSpacingScale: bodySpacing = 1, headerFontWeightScale: headerWeight = 1, bodyFontWeightScale: bodyWeight = 1 } = fontConfig.metrics;
-      let finalScale = scale;
-      if (!isValidTypographyConfig(ratio, scale)) {
-        let closestScale = scale;
-        let closestDistance = Infinity;
-        for (let s = 0.85; s <= 1.15; s += 0.001) {
-          if (isValidTypographyConfig(ratio, s)) {
-            const distance = Math.abs(s - scale);
-            if (distance < closestDistance) {
-              closestDistance = distance;
-              closestScale = s;
-            }
-          }
-        }
-        finalScale = closestScale;
-      }
-      applyAndPersistTypography({
-        fontSizeScale: finalScale,
-        fontWeightScale: weight,
-        headerFontWeightScale: headerWeight,
-        bodyFontWeightScale: bodyWeight,
-        typeSizeRatio: ratio,
-        headerLetterSpacingScale: headerSpacing,
-        bodyLetterSpacingScale: bodySpacing,
-      });
-    }
     applyAndPersistFonts({ sansFont: selectedSansFont, monoFont: fontName as any });
   };
 
-  const handleTypeSizeRatioChange = (ratio: number) => {
-    let finalScale = fontSizeScale;
-    if (!isValidTypographyConfig(ratio, fontSizeScale)) {
-      let closestScale = fontSizeScale;
-      let closestDistance = Infinity;
-      for (let s = 0.85; s <= 1.15; s += 0.001) {
-        if (isValidTypographyConfig(ratio, s)) {
-          const distance = Math.abs(s - fontSizeScale);
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestScale = s;
-          }
-        }
-      }
-      finalScale = closestScale;
-    }
-    applyAndPersistTypography({
-      fontSizeScale: finalScale,
-      fontWeightScale,
-      headerFontWeightScale,
-      bodyFontWeightScale,
-      typeSizeRatio: ratio,
-      headerLetterSpacingScale,
-      bodyLetterSpacingScale,
-    });
-  };
-
-  const handleFontSizeScaleChange = (scale: number) => {
-    let finalRatio = typeSizeRatio;
-    if (!isValidTypographyConfig(typeSizeRatio, scale)) {
-      let closestRatio = typeSizeRatio;
-      let closestDistance = Infinity;
-      for (let r = 1.067; r <= 1.2; r += 0.001) {
-        if (isValidTypographyConfig(r, scale)) {
-          const distance = Math.abs(r - typeSizeRatio);
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestRatio = r;
-          }
-        }
-      }
-      finalRatio = closestRatio;
-    }
-    applyAndPersistTypography({
-      fontSizeScale: scale,
-      fontWeightScale,
-      headerFontWeightScale,
-      bodyFontWeightScale,
-      typeSizeRatio: finalRatio,
-      headerLetterSpacingScale,
-      bodyLetterSpacingScale,
-    });
-  };
 
   return (
     <div className="w-full h-full select-none flex flex-col bg-background-900/90 text-foreground">
@@ -362,58 +285,110 @@ export const SettingsContent = () => {
             <TypographyPanel
               selectedSansFont={selectedSansFont}
               selectedMonoFont={selectedMonoFont}
-              headerLetterSpacingScale={headerLetterSpacingScale}
-              bodyLetterSpacingScale={bodyLetterSpacingScale}
-              typeSizeRatio={typeSizeRatio}
-              fontSizeScale={fontSizeScale}
+              headerTypeSizeRatio={headerTypeSizeRatio}
+              headerFontSizeScale={headerFontSizeScale}
               headerFontWeightScale={headerFontWeightScale}
+              headerLetterSpacingScale={headerLetterSpacingScale}
+              bodyTypeSizeRatio={bodyTypeSizeRatio}
+              bodyFontSizeScale={bodyFontSizeScale}
               bodyFontWeightScale={bodyFontWeightScale}
+              bodyLetterSpacingScale={bodyLetterSpacingScale}
               onSansFontChange={handleSansFontChange}
               onMonoFontChange={handleMonoFontChange}
-              onHeaderLetterSpacingChange={(scale) =>
+              onHeaderTypeSizeRatioChange={(ratio) =>
                 applyAndPersistTypography({
-                  fontSizeScale,
-                  fontWeightScale,
+                  headerTypeSizeRatio: ratio,
+                  headerFontSizeScale,
                   headerFontWeightScale,
+                  headerLetterSpacingScale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale,
                   bodyFontWeightScale,
-                  typeSizeRatio,
-                  headerLetterSpacingScale: scale,
                   bodyLetterSpacingScale,
                 })
               }
-              onBodyLetterSpacingChange={(scale) =>
+              onHeaderFontSizeScaleChange={(scale) =>
                 applyAndPersistTypography({
-                  fontSizeScale,
-                  fontWeightScale,
+                  headerTypeSizeRatio,
+                  headerFontSizeScale: scale,
                   headerFontWeightScale,
-                  bodyFontWeightScale,
-                  typeSizeRatio,
                   headerLetterSpacingScale,
-                  bodyLetterSpacingScale: scale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale,
+                  bodyFontWeightScale,
+                  bodyLetterSpacingScale,
                 })
               }
-              onTypeSizeRatioChange={handleTypeSizeRatioChange}
-              onFontSizeScaleChange={handleFontSizeScaleChange}
               onHeaderFontWeightScaleChange={(scale) =>
                 applyAndPersistTypography({
-                  fontSizeScale,
-                  fontWeightScale,
+                  headerTypeSizeRatio,
+                  headerFontSizeScale,
                   headerFontWeightScale: scale,
-                  bodyFontWeightScale,
-                  typeSizeRatio,
                   headerLetterSpacingScale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale,
+                  bodyFontWeightScale,
+                  bodyLetterSpacingScale,
+                })
+              }
+              onHeaderLetterSpacingChange={(scale) =>
+                applyAndPersistTypography({
+                  headerTypeSizeRatio,
+                  headerFontSizeScale,
+                  headerFontWeightScale,
+                  headerLetterSpacingScale: scale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale,
+                  bodyFontWeightScale,
+                  bodyLetterSpacingScale,
+                })
+              }
+              onBodyTypeSizeRatioChange={(ratio) =>
+                applyAndPersistTypography({
+                  headerTypeSizeRatio,
+                  headerFontSizeScale,
+                  headerFontWeightScale,
+                  headerLetterSpacingScale,
+                  bodyTypeSizeRatio: ratio,
+                  bodyFontSizeScale,
+                  bodyFontWeightScale,
+                  bodyLetterSpacingScale,
+                })
+              }
+              onBodyFontSizeScaleChange={(scale) =>
+                applyAndPersistTypography({
+                  headerTypeSizeRatio,
+                  headerFontSizeScale,
+                  headerFontWeightScale,
+                  headerLetterSpacingScale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale: scale,
+                  bodyFontWeightScale,
                   bodyLetterSpacingScale,
                 })
               }
               onBodyFontWeightScaleChange={(scale) =>
                 applyAndPersistTypography({
-                  fontSizeScale,
-                  fontWeightScale,
+                  headerTypeSizeRatio,
+                  headerFontSizeScale,
                   headerFontWeightScale,
-                  bodyFontWeightScale: scale,
-                  typeSizeRatio,
                   headerLetterSpacingScale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale,
+                  bodyFontWeightScale: scale,
                   bodyLetterSpacingScale,
+                })
+              }
+              onBodyLetterSpacingChange={(scale) =>
+                applyAndPersistTypography({
+                  headerTypeSizeRatio,
+                  headerFontSizeScale,
+                  headerFontWeightScale,
+                  headerLetterSpacingScale,
+                  bodyTypeSizeRatio,
+                  bodyFontSizeScale,
+                  bodyFontWeightScale,
+                  bodyLetterSpacingScale: scale,
                 })
               }
             />

@@ -1,50 +1,55 @@
 "use client";
 
 import { memo } from "react";
-import {
-  SliderControl,
-  TypeScaleSlider,
-} from "./shared-components";
+import { SliderControl } from "./shared-components";
 import { Divider, Select } from "ui-lab-components";
 import { SANS_FONTS, MONO_FONTS } from "../../constants/font-config";
 
 interface TypographyPanelProps {
   selectedSansFont: string;
   selectedMonoFont: string;
-  headerLetterSpacingScale: number;
-  bodyLetterSpacingScale: number;
-  typeSizeRatio: number;
-  fontSizeScale: number;
+  headerTypeSizeRatio: number;
+  headerFontSizeScale: number;
   headerFontWeightScale: number;
+  headerLetterSpacingScale: number;
+  bodyTypeSizeRatio: number;
+  bodyFontSizeScale: number;
   bodyFontWeightScale: number;
+  bodyLetterSpacingScale: number;
   onSansFontChange: (fontName: string) => void;
   onMonoFontChange: (fontName: string) => void;
-  onHeaderLetterSpacingChange: (scale: number) => void;
-  onBodyLetterSpacingChange: (scale: number) => void;
-  onTypeSizeRatioChange: (ratio: number) => void;
-  onFontSizeScaleChange: (scale: number) => void;
+  onHeaderTypeSizeRatioChange: (ratio: number) => void;
+  onHeaderFontSizeScaleChange: (scale: number) => void;
   onHeaderFontWeightScaleChange: (scale: number) => void;
+  onHeaderLetterSpacingChange: (scale: number) => void;
+  onBodyTypeSizeRatioChange: (ratio: number) => void;
+  onBodyFontSizeScaleChange: (scale: number) => void;
   onBodyFontWeightScaleChange: (scale: number) => void;
+  onBodyLetterSpacingChange: (scale: number) => void;
 }
 
 export const TypographyPanel = memo(
   ({
     selectedSansFont,
     selectedMonoFont,
-    headerLetterSpacingScale,
-    bodyLetterSpacingScale,
-    typeSizeRatio,
-    fontSizeScale,
+    headerTypeSizeRatio,
+    headerFontSizeScale,
     headerFontWeightScale,
+    headerLetterSpacingScale,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
     bodyFontWeightScale,
+    bodyLetterSpacingScale,
     onSansFontChange,
     onMonoFontChange,
-    onHeaderLetterSpacingChange,
-    onBodyLetterSpacingChange,
-    onTypeSizeRatioChange,
-    onFontSizeScaleChange,
+    onHeaderTypeSizeRatioChange,
+    onHeaderFontSizeScaleChange,
     onHeaderFontWeightScaleChange,
+    onHeaderLetterSpacingChange,
+    onBodyTypeSizeRatioChange,
+    onBodyFontSizeScaleChange,
     onBodyFontWeightScaleChange,
+    onBodyLetterSpacingChange,
   }: TypographyPanelProps) => {
     return (
       <div className="px-[6px] m-0 space-y-2">
@@ -96,25 +101,6 @@ export const TypographyPanel = memo(
 
         <Divider />
 
-        <TypeScaleSlider
-          value={typeSizeRatio}
-          onChange={onTypeSizeRatioChange}
-          fontSizeScale={fontSizeScale}
-        />
-        <div className="px-4 space-y-3">
-          <SliderControl
-            label="Global Scale"
-            value={fontSizeScale}
-            min={0.95}
-            max={1.10}
-            step={0.01}
-            unit="x"
-            onChange={onFontSizeScaleChange}
-          />
-        </div>
-
-        <Divider />
-
         <div className="px-[6px] space-y-3">
           <div className="bg-background-800 border border-background-700 rounded-md p-4">
             <div className="flex items-center gap-3 mb-4">
@@ -124,6 +110,24 @@ export const TypographyPanel = memo(
               <h3 className="text-sm font-semibold text-foreground-100">Header</h3>
             </div>
             <div className="space-y-3">
+              <SliderControl
+                label="Type Scale Ratio"
+                value={headerTypeSizeRatio}
+                min={1.067}
+                max={1.333}
+                step={0.001}
+                unit=""
+                onChange={onHeaderTypeSizeRatioChange}
+              />
+              <SliderControl
+                label="Scale"
+                value={headerFontSizeScale}
+                min={0.80}
+                max={1.20}
+                step={0.01}
+                unit="x"
+                onChange={onHeaderFontSizeScaleChange}
+              />
               <SliderControl
                 label="Letter Spacing"
                 value={headerLetterSpacingScale}
@@ -153,6 +157,24 @@ export const TypographyPanel = memo(
               <h3 className="text-sm font-semibold text-foreground-100">Body</h3>
             </div>
             <div className="space-y-3">
+              <SliderControl
+                label="Type Scale Ratio"
+                value={bodyTypeSizeRatio}
+                min={1.067}
+                max={1.333}
+                step={0.001}
+                unit=""
+                onChange={onBodyTypeSizeRatioChange}
+              />
+              <SliderControl
+                label="Scale"
+                value={bodyFontSizeScale}
+                min={0.80}
+                max={1.20}
+                step={0.01}
+                unit="x"
+                onChange={onBodyFontSizeScaleChange}
+              />
               <SliderControl
                 label="Letter Spacing"
                 value={bodyLetterSpacingScale}

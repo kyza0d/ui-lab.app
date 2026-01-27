@@ -177,23 +177,107 @@ export function calculateFontWeights(
 }
 
 /**
+ * Calculate font sizes for headers (h1-h6)
+ * Allows independent scaling from body text
+ *
+ * @param typeSizeRatio - Type scale ratio for headers
+ * @param fontSizeScale - Font size scale factor for headers
+ * @returns Array of calculated font sizes
+ */
+export function calculateHeaderFontSizes(
+  typeSizeRatio: number,
+  fontSizeScale: number,
+): CalculatedFontSize[] {
+  return calculateFontSizesWithRatio(typeSizeRatio, fontSizeScale);
+}
+
+/**
+ * Calculate font sizes for body text
+ * Allows independent scaling from headers
+ *
+ * @param typeSizeRatio - Type scale ratio for body
+ * @param fontSizeScale - Font size scale factor for body
+ * @returns Array of calculated font sizes
+ */
+export function calculateBodyFontSizes(
+  typeSizeRatio: number,
+  fontSizeScale: number,
+): CalculatedFontSize[] {
+  return calculateFontSizesWithRatio(typeSizeRatio, fontSizeScale);
+}
+
+/**
+ * Calculate font weights for headers
+ *
+ * @param fontWeightScale - Font weight scale factor for headers
+ * @returns Array of calculated font weight values
+ */
+export function calculateHeaderFontWeights(
+  fontWeightScale: number,
+): CalculatedFontWeight[] {
+  return calculateFontWeights(fontWeightScale);
+}
+
+/**
+ * Calculate font weights for body
+ *
+ * @param fontWeightScale - Font weight scale factor for body
+ * @returns Array of calculated font weight values
+ */
+export function calculateBodyFontWeights(
+  fontWeightScale: number,
+): CalculatedFontWeight[] {
+  return calculateFontWeights(fontWeightScale);
+}
+
+/**
  * Apply all typography CSS variables to DOM
  * Used by both inline script and React code
  *
- * @param typeSizeRatio - Type scale ratio
- * @param fontSizeScale - Font size scale factor
- * @param fontWeightScale - Font weight scale factor
+ * @param typeSizeRatio - Type scale ratio (global)
+ * @param fontSizeScale - Font size scale factor (global)
+ * @param fontWeightScale - Font weight scale factor (global)
+ * @param headerTypeSizeRatio - Type scale ratio for headers (optional, defaults to typeSizeRatio)
+ * @param headerFontSizeScale - Font size scale factor for headers (optional, defaults to fontSizeScale)
+ * @param headerFontWeightScale - Font weight scale factor for headers (optional, defaults to fontWeightScale)
+ * @param bodyTypeSizeRatio - Type scale ratio for body (optional, defaults to typeSizeRatio)
+ * @param bodyFontSizeScale - Font size scale factor for body (optional, defaults to fontSizeScale)
+ * @param bodyFontWeightScale - Font weight scale factor for body (optional, defaults to fontWeightScale)
  * @param root - DOM element to apply properties to (defaults to document.documentElement)
  */
 export function applyTypographyStyles(
   typeSizeRatio: number,
   fontSizeScale: number,
   fontWeightScale: number,
+  headerTypeSizeRatio?: number,
+  headerFontSizeScale?: number,
+  headerFontWeightScale?: number,
+  bodyTypeSizeRatio?: number,
+  bodyFontSizeScale?: number,
+  bodyFontWeightScale?: number,
   root: HTMLElement = document.documentElement,
 ): void {
-  // Apply font size scale and font weight scale as CSS custom properties
+  // Use global scales as defaults for header and body
+  const hTypeSizeRatio = headerTypeSizeRatio ?? typeSizeRatio;
+  const hFontSizeScale = headerFontSizeScale ?? fontSizeScale;
+  const hFontWeightScale = headerFontWeightScale ?? fontWeightScale;
+  const bTypeSizeRatio = bodyTypeSizeRatio ?? typeSizeRatio;
+  const bFontSizeScale = bodyFontSizeScale ?? fontSizeScale;
+  const bFontWeightScale = bodyFontWeightScale ?? fontWeightScale;
+
+  // Apply global font size and font weight scales
   root.style.setProperty("--font-size-scale", `${fontSizeScale}`);
   root.style.setProperty("--font-weight-scale", `${fontWeightScale}`);
+
+  // Apply header-specific scales
+  root.style.setProperty("--header-type-size-ratio", `${hTypeSizeRatio}`);
+  root.style.setProperty("--header-font-size-scale", `${hFontSizeScale}`);
+  root.style.setProperty("--header-font-weight-scale", `${hFontWeightScale}`);
+
+  // Apply body-specific scales
+  root.style.setProperty("--body-type-size-ratio", `${bTypeSizeRatio}`);
+  root.style.setProperty("--body-font-size-scale", `${bFontSizeScale}`);
+  root.style.setProperty("--body-font-weight-scale", `${bFontWeightScale}`);
 
   // Calculate and apply all text size values (static for small, fluid for large)
   const fontSizes = calculateFontSizesWithRatio(typeSizeRatio, fontSizeScale);
@@ -201,9 +285,33 @@ export function applyTypographyStyles(
     root.style.setProperty(`--text-${name}`, cssValue);
   });
 
+  // Calculate and apply header-specific font sizes
+  const headerFontSizes = calculateHeaderFontSizes(hTypeSizeRatio, hFontSizeScale);
+  headerFontSizes.forEach(({ name, cssValue }) => {
+    root.style.setProperty(`--header-text-${name}`, cssValue);
+  });
+
+  // Calculate and apply body-specific font sizes
+  const bodyFontSizes = calculateBodyFontSizes(bTypeSizeRatio, bFontSizeScale);
+  bodyFontSizes.forEach(({ name, cssValue }) => {
+    root.style.setProperty(`--body-text-${name}`, cssValue);
+  });
+
   // Calculate and apply all font weight values
   const fontWeights = calculateFontWeights(fontWeightScale);
   fontWeights.forEach(({ name, value }) => {
     root.style.setProperty(`--font-weight-${name}`, value.toString());
+  });
+
+  // Calculate and apply header-specific font weight values
+  const headerFontWeights = calculateHeaderFontWeights(hFontWeightScale);
+  headerFontWeights.forEach(({ name, value }) => {
+    root.style.setProperty(`--font-weight-header-${name}`, value.toString());
+  });
+
+  // Calculate and apply body-specific font weight values
+  const bodyFontWeights = calculateBodyFontWeights(bFontWeightScale);
+  bodyFontWeights.forEach(({ name, value }) => {
+    root.style.setProperty(`--font-weight-body-${name}`, value.toString());
   });
 }

@@ -65,7 +65,7 @@ export const SANS_FONTS: FontConfig[] = [
     metrics: {
       fontSizeScale: 1.05,
       fontWeightScale: 0.95,
-      typeSizeRatio: 1.25,
+      typeSizeRatio: 1.20,
     },
   },
 ];

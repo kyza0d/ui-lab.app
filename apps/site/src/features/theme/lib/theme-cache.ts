@@ -4,11 +4,14 @@ import { type FontKey, SANS_FONTS, MONO_FONTS } from "../constants/font-config";
 export interface ThemeSourceConfig {
   colors: SimpleThemeColors;
   typography: {
-    fontSizeScale: number;
-    fontWeightScale: number;
-    typeSizeRatio: number;
-    headerLetterSpacingScale?: number;
-    bodyLetterSpacingScale?: number;
+    headerTypeSizeRatio: number;
+    headerFontSizeScale: number;
+    headerFontWeightScale: number;
+    headerLetterSpacingScale: number;
+    bodyTypeSizeRatio: number;
+    bodyFontSizeScale: number;
+    bodyFontWeightScale: number;
+    bodyLetterSpacingScale: number;
   };
   layout: { radius: number; borderWidth: number; spacingScale: number };
   fonts?: { sansFont: FontKey; monoFont: FontKey };
@@ -59,7 +62,16 @@ function getDefaultSourceConfig(mode?: "light" | "dark"): ThemeSourceConfig {
       foreground: { h: 0, c: 0, l: 0.98 },
       accent: { h: 210, c: 0.15, l: 0.5 },
     },
-    typography: { fontSizeScale: 1, fontWeightScale: 1, typeSizeRatio: 1.2, headerLetterSpacingScale: 1, bodyLetterSpacingScale: 1 },
+    typography: {
+      headerTypeSizeRatio: 1.125,
+      headerFontSizeScale: 1,
+      headerFontWeightScale: 1,
+      headerLetterSpacingScale: 1,
+      bodyTypeSizeRatio: 1.2,
+      bodyFontSizeScale: 1,
+      bodyFontWeightScale: 1,
+      bodyLetterSpacingScale: 1,
+    },
     layout: { radius: 0.5, borderWidth: 2, spacingScale: 0.9 },
     fonts: { sansFont: "Karla", monoFont: "Ioskeley Mono" },
     mode: resolvedMode,
