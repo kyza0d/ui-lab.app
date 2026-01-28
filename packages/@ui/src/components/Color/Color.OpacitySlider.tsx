@@ -47,7 +47,9 @@ export const ColorOpacitySlider = React.forwardRef<
 
   const { focusProps, isFocusVisible } = useFocusRing();
 
-  const thumbPosition = value * 100;
+  const basePosition = value * 100;
+  const thumbWidth = trackRef.current ? (10 / trackRef.current.offsetWidth) * 100 : 4;
+  const thumbPosition = Math.max(thumbWidth / 2, Math.min(100 - thumbWidth / 2, basePosition));
   const gradientColor = color || "rgb(0, 0, 0)";
 
   return (
