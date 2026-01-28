@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export const metadata = {
   title: 'Pagination Controls',
-  description: 'Previous/Next navigation with page indicators. Demonstrates button sizing and state management for data pagination.'
+  description: 'Ghost variant Group with active prop automatically styles active buttons with default variant and full border radius, while inactive buttons remain ghost.'
 }
 
 export default function Example() {
@@ -15,48 +15,48 @@ export default function Example() {
 
   return (
     <div className="p-4 space-y-4">
-      <div className="space-y-2">
-        <Group orientation="horizontal" spacing="tight">
-          <Group.Button
-            variant="ghost"
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            isDisabled={currentPage === 1}
-            title="Previous page"
-          >
-            <ChevronLeft size={16} />
-          </Group.Button>
+      <div className="space-y-2 flex items-center">
 
+        <Group variant='ghost' spacing="tight">
+          <Group.Button
+            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            isDisabled={currentPage === totalPages}
+            icon={{ left: <ChevronLeft size={16} /> }}
+            size="p-1"
+            title="Next page"
+          />
           {[1, 2, 3].map((page) => (
             <Group.Button
               key={page}
-              variant={currentPage === page ? 'default' : 'outline'}
+              active={currentPage === page}
               onClick={() => setCurrentPage(page)}
             >
               {page}
             </Group.Button>
           ))}
-
-          {currentPage > 5 && (
-            <span className="text-foreground-500 text-xs px-2 flex items-center">…</span>
-          )}
-
-          {totalPages > 3 && (
+          {totalPages > 4 && (
             <Group.Button
-              variant={currentPage === totalPages ? 'default' : 'outline'}
+              active={currentPage === totalPages}
+              onClick={() => setCurrentPage(totalPages)}
+            >
+              ...
+            </Group.Button>
+          )}
+          {totalPages > 5 && (
+            <Group.Button
+              active={currentPage === totalPages}
               onClick={() => setCurrentPage(totalPages)}
             >
               {totalPages}
             </Group.Button>
           )}
-
           <Group.Button
-            variant="ghost"
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             isDisabled={currentPage === totalPages}
+            icon={{ left: <ChevronRight size={16} /> }}
+            size="p-1"
             title="Next page"
-          >
-            <ChevronRight size={16} />
-          </Group.Button>
+          />
         </Group>
       </div>
     </div>

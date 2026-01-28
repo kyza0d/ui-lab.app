@@ -20,21 +20,21 @@ export default function Example() {
             variant={viewMode === 'list' ? 'default' : 'outline'}
             onClick={() => setViewMode('list')}
           >
-            <LayoutList size={17} className="mr-2 text-foreground-400" />
+            <LayoutList size={15} className="mr-0.5 text-foreground-400" />
             List
           </Group.Button>
           <Group.Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
             onClick={() => setViewMode('grid')}
           >
-            <LayoutGrid size={17} className="mr-2 text-foreground-400" />
+            <LayoutGrid size={15} className="mr-0.5 text-foreground-400" />
             Grid
           </Group.Button>
           <Group.Button
             variant={viewMode === 'table' ? 'default' : 'outline'}
             onClick={() => setViewMode('table')}
           >
-            <Table size={17} className="mr-2 text-foreground-400" />
+            <Table size={15} className="mr-0.5 text-foreground-400" />
             Table
           </Group.Button>
         </Group>
