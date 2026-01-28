@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "./dist/ui-lab-ui.umd.js",
   "module": "./dist/ui-lab-ui.es.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/ui-lab-ui.d.ts",
   "keywords": [
     "react",
     "components",
@@ -27,7 +27,7 @@
     ".": {
       "import": "./dist/ui-lab-ui.es.js",
       "require": "./dist/ui-lab-ui.umd.js",
-      "types": "./dist/index.d.ts",
+      "types": "./dist/ui-lab-ui.d.ts",
       "style": "./dist/styles.css"
     },
     "./theme-script": {
