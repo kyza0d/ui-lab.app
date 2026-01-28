@@ -18,190 +18,53 @@ const baseMetadata = {
 
 const starterMetadata: StarterMetadata = {
   ...baseMetadata,
-  variants: [
+  files: [
     {
-      name: 'Basic',
-      description: 'Minimal Next.js starter with essential configuration',
-      files: [
-        {
-          filename: 'package.json',
-          language: 'json',
-          code: `{
-  "name": "nextjs-starter",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "^15.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "typescript": "^5"
-  }
-}`,
-          isEntryPoint: false,
-        },
-        {
-          filename: 'tsconfig.json',
-          language: 'json',
-          code: `{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [{ "name": "next" }],
-    "paths": { "@/*": ["./src/*"] }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
-}`,
-          isEntryPoint: false,
-        },
-        {
-          filename: 'next.config.js',
-          language: 'javascript',
-          code: `/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
-
-export default nextConfig;`,
-          isEntryPoint: false,
-        },
-        {
-          filename: 'app/layout.tsx',
-          language: 'tsx',
-          code: `import type { Metadata } from 'next';
-import './globals.css';
-
-export const metadata: Metadata = {
-  title: 'Next.js App',
-  description: 'Created with Next.js App Router',
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}`,
-          isEntryPoint: true,
-        },
-        {
-          filename: 'app/page.tsx',
-          language: 'tsx',
-          code: `export default function HomePage() {
-  return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold mb-4">
-        Welcome to Next.js
-      </h1>
-      <p className="text-lg text-gray-600">
-        Start building your app by editing app/page.tsx
-      </p>
-    </main>
-  );
-}`,
-          isEntryPoint: true,
-        },
-        {
-          filename: 'app/globals.css',
-          language: 'css',
-          code: `@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(var(--background-end-rgb))
-  )
-  rgb(var(--background-start-rgb));
-}`,
-          isEntryPoint: false,
-        },
-        {
-          filename: '.gitignore',
-          language: 'text',
-          code: `# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts`,
-          isEntryPoint: false,
-        },
-        {
-          filename: 'README.md',
-          language: 'markdown',
-          code: `# Next.js Starter
+      filename: 'package.json',
+      language: 'json',
+      code: `// Package dependencies and scripts`,
+      isEntryPoint: false,
+    },
+    {
+      filename: 'tsconfig.json',
+      language: 'json',
+      code: `// TypeScript compiler options`,
+      isEntryPoint: false,
+    },
+    {
+      filename: 'next.config.js',
+      language: 'javascript',
+      code: `// Next.js configuration`,
+      isEntryPoint: false,
+    },
+    {
+      filename: 'app/layout.tsx',
+      language: 'tsx',
+      code: `// Root layout component`,
+      isEntryPoint: true,
+    },
+    {
+      filename: 'app/page.tsx',
+      language: 'tsx',
+      code: `// Home page component`,
+      isEntryPoint: true,
+    },
+    {
+      filename: 'app/globals.css',
+      language: 'css',
+      code: `// Global styles`,
+      isEntryPoint: false,
+    },
+    {
+      filename: '.gitignore',
+      language: 'text',
+      code: `// Git ignore patterns`,
+      isEntryPoint: false,
+    },
+    {
+      filename: 'README.md',
+      language: 'markdown',
+      code: `# Next.js Starter
 
 This is a basic Next.js starter template with TypeScript and App Router.
 
@@ -211,33 +74,16 @@ First, install dependencies:
 
 \`\`\`bash
 npm install
-# or
-yarn install
-# or
-pnpm install
 \`\`\`
 
 Then, run the development server:
 
 \`\`\`bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 \`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Learn Next.js](https://nextjs.org/learn)`,
-          isEntryPoint: false,
-        },
-      ],
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.`,
+      isEntryPoint: false,
     },
   ],
 };
