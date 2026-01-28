@@ -21,6 +21,7 @@ const SECTION_LABEL_FILTERS: Record<MainNavItem, string[] | null> = {
   'design-system': null,
   'elements': null,
   'sections': null,
+  'starters': null
 };
 
 function deduplicateSectionItems(section: SidebarSection): SidebarSection {

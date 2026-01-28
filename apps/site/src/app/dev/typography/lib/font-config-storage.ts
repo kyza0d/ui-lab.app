@@ -37,15 +37,3 @@ function getKarlaDefaults(): FontDevMetrics {
     bodyFontWeightScale: 1,
   };
 }
-
-export function clearAllFontConfigs(): void {
-  if (typeof window === "undefined") return;
-  const keysToDelete: string[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key?.startsWith(STORAGE_PREFIX)) {
-      keysToDelete.push(key);
-    }
-  }
-  keysToDelete.forEach((key) => localStorage.removeItem(key));
-}

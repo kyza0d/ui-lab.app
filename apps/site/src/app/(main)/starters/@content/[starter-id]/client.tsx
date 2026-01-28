@@ -13,11 +13,9 @@ export default function StarterDetailClient({
   starterId,
 }: StarterDetailClientProps) {
   const starter = useMemo(() => getStarterById(starterId), [starterId]);
-  const [activeVariant, setActiveVariant] = useState(0);
   const [activeFile, setActiveFile] = useState<string>("");
 
-  const variant = starter?.variants[activeVariant];
-  const files = variant?.files || [];
+  const files = starter?.files || [];
 
   const currentFile = useMemo(() => {
     if (!files.length) return null;
@@ -68,26 +66,7 @@ export default function StarterDetailClient({
           </div>
 
           <div className="space-y-8 flex-1">
-            {starter.variants.length > 1 && (
-              <div className="flex gap-2 border-b border-background-700">
-                {starter.variants.map((v, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveVariant(idx)}
-                    className={`px-4 py-2 text-sm font-medium transition-colors ${
-                      activeVariant === idx
-                        ? 'text-foreground-50 border-b-2 border-foreground-50'
-                        : 'text-foreground-400 hover:text-foreground-200'
-                    }`}
-                  >
-                    {v.name}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {variant && (
-              <div className="grid grid-cols-12 gap-4">
+            <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-3 space-y-2">
                   <h3 className="text-sm font-semibold text-foreground-200 mb-3">
                     Project Files
@@ -139,7 +118,6 @@ export default function StarterDetailClient({
                   )}
                 </div>
               </div>
-            )}
           </div>
         </div>
       </div>

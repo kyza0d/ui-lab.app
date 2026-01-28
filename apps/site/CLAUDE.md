@@ -77,6 +77,8 @@ export const componentDetail: ComponentDetail = {
 - Scalable pattern for all components with minimal duplication
 - Keep component files lightweight—code is resolved from external source
 
+**Important:** Never manually edit `examples.json` files. These are auto-generated during the build process.
+
 **Utility Location:**
 `packages/registry/src/utils/load-component-examples.ts`
 - Maps `examplesData` array with component previews to `SiteComponentExample` array with code included

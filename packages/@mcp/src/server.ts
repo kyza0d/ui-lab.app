@@ -15,30 +15,6 @@ import {
 import { tools, handleTool } from './tools.js';
 
 /**
- * Design System Context Integration
- *
- * The design system context is available to agents through:
- * 1. Agent system prompt: Use getAgentSystemPrompt() from context/agent-system-prompt.ts
- *    - Includes comprehensive design token guidelines with examples
- *    - Includes design-guidelines.ts with MANDATORY color rules and prohibitions
- * 2. Tool responses: Every tool response includes formatDesignGuidelines()
- *    - get_component(), get_semantic_color(), generate_component() all include guidelines
- *    - Ensures agents see guidelines regardless of how they use tools
- * 3. Design tokens: getSemanticColor() provides color family metadata with CSS variables
- *
- * Agents should use getAgentSystemPrompt() to receive complete design system guidelines
- * at initialization time, ensuring consistent semantic color usage throughout generation.
- *
- * MANDATORY DESIGN RULES (Non-negotiable):
- * - ONLY use Tailwind design token classes: bg-family-shade, text-family-shade, border-family-shade
- * - NEVER use arbitrary Tailwind colors: white, zinc-*, red-*, slate-*, gray-*, etc.
- * - NEVER use gradients or shadows
- * - Background colors: ONLY use bg-background-600 to bg-background-950 (600=lightest, 950=darkest)
- * - Text/border colors: ONLY use text-foreground-50 to text-foreground-600 (50=lightest, 600=darkest)
- * - Semantic colors: ONLY use 50-950 range for accent, success, danger, warning, info
- */
-
-/**
  * Create and configure the MCP server
  */
 export async function createServer(): Promise<Server> {

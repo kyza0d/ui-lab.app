@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { HeaderClient } from "@/features/layout";
-import { ElementsHeaderSetup } from "@/features/layout";
 import { ChatWindow } from "@/features/chat";
+
+const ElementsHeaderSetup = dynamic(
+  () => import("@/features/layout").then(mod => ({ default: mod.ElementsHeaderSetup })),
+  { ssr: false }
+);
 
 export default function MainLayout({
   children,
