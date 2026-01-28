@@ -31,7 +31,7 @@ let totalElements = 0;
 let totalVariations = 0;
 let validationsPassed = 0;
 
-const ALLOWED_CATEGORIES = ['layout', 'form', 'navigation', 'content', 'card', 'other'];
+const ALLOWED_CATEGORIES = ['layout', 'form', 'navigation', 'content', 'card', 'documentation', 'ai', 'other'];
 
 function isPascalCase(str: string): boolean {
   return /^[A-Z][a-zA-Z0-9]*$/.test(str);

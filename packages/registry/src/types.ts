@@ -90,7 +90,7 @@ export interface ElementMetadata {
   id: string;
   name: string;
   description: string;
-  category: 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'other';
+  category: 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'documentation' | 'ai' | 'other';
   tags: string[];
   variants: ElementVariant[];
   componentDependencies?: string[];
@@ -151,7 +151,7 @@ export interface StarterMetadata {
   id: string;
   name: string;
   description: string;
-  category: 'landing' | 'dashboard' | 'auth' | 'app' | 'other';
+  category: 'landing' | 'dashboard' | 'auth' | 'app' | 'framework' | 'documentation' | 'productivity' | 'crm' | 'other';
   tags: string[];
   variants: StarterVariant[];
   componentDependencies?: string[];

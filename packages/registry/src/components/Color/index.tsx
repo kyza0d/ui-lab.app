@@ -17,14 +17,6 @@ export function getPreview(): React.ReactNode {
       <div style={{ width: "100%", height: 8, borderRadius: "var(--radius-sm)" }} className="border-[1px] border-background-600 bg-background-900 relative">
         <div style={{ width: 4, height: 12, backgroundColor: "var(--background-500)", borderRadius: "var(--radius-sm)", opacity: 0.4, left: '70%', top: '50%', transform: 'translate(-50%, -50%)' }} className='absolute'></div>
       </div>
-
-      {/* Color input - follows Input pattern */}
-      <div className='flex flex-col gap-1'>
-        <div style={{ width: "100%", height: 24, borderRadius: "var(--radius-md)" }} className="bg-background-900 px-2 flex items-center border-[1px] border-background-700">
-          <div style={{ backgroundColor: "var(--background-500)" }} className='flex-1 opacity-10 rounded-sm h-2 ml-2 mr-2'></div>
-          <div style={{ backgroundColor: "var(--background-500)" }} className='w-px opacity-30 rounded-md h-3'></div>
-        </div>
-      </div>
     </div>
   );
 }

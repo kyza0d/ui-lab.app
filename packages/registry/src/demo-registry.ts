@@ -5,6 +5,18 @@ export type DemoComponent = React.ComponentType<object>;
 
 // Cached element demos - dynamic() called ONCE at module load
 export const elementDemoMap: Record<string, DemoComponent> = {
+  'aichatinput-basic': dynamic(() => import('./elements/AI/AIChatInput/variations/01-basic').then(m => ({ default: m.BasicAIChatInput }))),
+  'aichatinput-with-suggestions': dynamic(() => import('./elements/AI/AIChatInput/variations/02-with-suggestions').then(m => ({ default: m.AIChatInputWithSuggestions }))),
+  'chainofthought-basic': dynamic(() => import('./elements/AI/ChainOfThought/variations/01-basic').then(m => ({ default: m.BasicChainOfThought }))),
+  'chainofthought-with-details': dynamic(() => import('./elements/AI/ChainOfThought/variations/02-with-details').then(m => ({ default: m.ChainOfThoughtWithDetails }))),
+  'chat-basic': dynamic(() => import('./elements/AI/Chat/variations/01-basic').then(m => ({ default: m.BasicChat }))),
+  'chat-with-actions': dynamic(() => import('./elements/AI/Chat/variations/02-with-actions').then(m => ({ default: m.ChatWithActions }))),
+  'copypage-basic': dynamic(() => import('./elements/Documentation/CopyPage/variations/01-basic').then(m => ({ default: m.BasicCopyPage }))),
+  'copypage-with-success': dynamic(() => import('./elements/Documentation/CopyPage/variations/02-with-success').then(m => ({ default: m.CopyPageWithSuccess }))),
+  'nextarticle-basic': dynamic(() => import('./elements/Documentation/NextArticle/variations/01-basic').then(m => ({ default: m.BasicNextArticle }))),
+  'nextarticle-with-icon': dynamic(() => import('./elements/Documentation/NextArticle/variations/02-with-icon').then(m => ({ default: m.NextArticleWithIcon }))),
+  'toc-basic': dynamic(() => import('./elements/Documentation/TOC/variations/01-basic').then(m => ({ default: m.BasicTOC }))),
+  'toc-expanded': dynamic(() => import('./elements/Documentation/TOC/variations/02-expanded').then(m => ({ default: m.ExpandedTOC }))),
   'header-basic': dynamic(() => import('./elements/foundation/Header/variations/01-basic').then(m => ({ default: m.BasicHeader }))),
   'page-basic': dynamic(() => import('./elements/foundation/Page/variations/01-basic').then(m => ({ default: m.BasicPage }))),
   'sidebar-basic': dynamic(() => import('./elements/foundation/Sidebar/variations/01-basic').then(m => ({ default: m.BasicSidebar }))),
