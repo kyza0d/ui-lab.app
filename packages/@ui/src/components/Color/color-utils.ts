@@ -13,6 +13,13 @@ export interface HSL {
   a?: number;
 }
 
+export interface HSV {
+  h: number;
+  s: number;
+  v: number;
+  a?: number;
+}
+
 /**
  * Convert hex color string to RGB
  * Supports #RGB, #RRGGBB, #RGBA, #RRGGBBAA formats
@@ -121,6 +128,101 @@ export function hslToRgb(h: number, s: number, l: number): RGB {
     r = hue2rgb(p, q, h + 1 / 3);
     g = hue2rgb(p, q, h);
     b = hue2rgb(p, q, h - 1 / 3);
+  }
+
+  return {
+    r: Math.round(r * 255),
+    g: Math.round(g * 255),
+    b: Math.round(b * 255),
+  };
+}
+
+/**
+ * Convert RGB to HSV
+ */
+export function rgbToHsv(r: number, g: number, b: number): HSV {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  const v = max;
+  const d = max - min;
+  const s = max === 0 ? 0 : d / max;
+
+  if (max !== min) {
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    v: Math.round(v * 100),
+  };
+}
+
+/**
+ * Convert HSV to RGB
+ */
+export function hsvToRgb(h: number, s: number, v: number): RGB {
+  h = h / 360;
+  s = s / 100;
+  v = v / 100;
+
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  const i = Math.floor(h * 6);
+  const f = h * 6 - i;
+  const p = v * (1 - s);
+  const q = v * (1 - f * s);
+  const t = v * (1 - (1 - f) * s);
+
+  switch (i % 6) {
+    case 0:
+      r = v;
+      g = t;
+      b = p;
+      break;
+    case 1:
+      r = q;
+      g = v;
+      b = p;
+      break;
+    case 2:
+      r = p;
+      g = v;
+      b = t;
+      break;
+    case 3:
+      r = p;
+      g = q;
+      b = v;
+      break;
+    case 4:
+      r = t;
+      g = p;
+      b = v;
+      break;
+    case 5:
+      r = v;
+      g = p;
+      b = q;
+      break;
   }
 
   return {

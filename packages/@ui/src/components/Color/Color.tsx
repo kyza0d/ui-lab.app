@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 import styles from "./Color.module.css";
 import {
   rgbToHsl,
   hslToRgb,
+  rgbToHsv,
+  hsvToRgb,
   formatColorHex,
   formatColorRgb,
   parseColor,
@@ -49,7 +51,6 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     },
     ref
   ) => {
-    // Determine if component is controlled or uncontrolled
     const isControlled = controlledValue !== undefined;
     const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
     const currentValue = isControlled ? controlledValue : uncontrolledValue;
@@ -57,16 +58,53 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     const [format, setFormat] = useState<"hex" | "rgb">(controlledFormat);
     const [isDragging, setIsDragging] = useState(false);
 
-    // Parse current color value
-    const parsed = parseColor(currentValue);
-    const { h, s, l, a } = rgbToHsl(parsed.r, parsed.g, parsed.b);
-    const opacity = a ?? 1;
+    // Initialize state using HSV for better canvas mapping
+    const initializeState = () => {
+      const parsed = parseColor(currentValue);
+      const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
+      return { h, s, v };
+    };
 
-    // Format display value
+    const [initialState] = useState(initializeState);
+
+    // Source of truth for canvas position (HSV Saturation & Value) and hue
+    const [canvasSaturation, setCanvasSaturation] = useState(initialState.s);
+    const [canvasBrightness, setCanvasBrightness] = useState(initialState.v);
+    const [hue, setHue] = useState(initialState.h);
+    const [hueWhenGrayscale, setHueWhenGrayscale] = useState(initialState.h);
+
+    // Track the last emitted color to distinguish external updates from internal ones
+    const lastEmittedColor = useRef(currentValue);
+
+    const parsed = parseColor(currentValue);
+    const opacity = parsed.a ?? 1;
+
+    // Sync with external updates
+    useEffect(() => {
+      if (currentValue !== lastEmittedColor.current) {
+        const parsed = parseColor(currentValue);
+        const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
+
+        setCanvasSaturation(s);
+        setCanvasBrightness(v);
+
+        // Preserve hue when desaturated
+        if (s > 0) {
+          setHue(h);
+          setHueWhenGrayscale(h);
+        }
+
+        lastEmittedColor.current = currentValue;
+      }
+    }, [currentValue]);
+
+    // Compute display color from current state (HSV -> RGB)
+    const { r: displayR, g: displayG, b: displayB } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
+
     const displayValue =
       format === "hex"
-        ? formatColorHex(parsed.r, parsed.g, parsed.b, opacity < 1 ? opacity : undefined)
-        : formatColorRgb(parsed.r, parsed.g, parsed.b, opacity < 1 ? opacity : undefined);
+        ? formatColorHex(displayR, displayG, displayB, opacity < 1 ? opacity : undefined)
+        : formatColorRgb(displayR, displayG, displayB, opacity < 1 ? opacity : undefined);
 
     const handleColorChange = useCallback(
       (newColor: string) => {
@@ -87,66 +125,98 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     );
 
     const handleCanvasChange = useCallback(
-      (saturation: number, lightness: number) => {
+      (saturation: number, brightness: number) => {
         setIsDragging(true);
-        const { r, g, b } = hslToRgb(h, saturation, lightness);
-        const newColor = formatColorHex(r, g, b, opacity < 1 ? opacity : undefined);
+        setCanvasSaturation(saturation);
+        setCanvasBrightness(brightness);
+
+        const { r, g, b } = hsvToRgb(hue, saturation, brightness);
+        const newColor = format === "hex"
+          ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
+          : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
+
+        lastEmittedColor.current = newColor;
         handleColorChange(newColor);
       },
-      [h, opacity, handleColorChange]
+      [hue, opacity, format, handleColorChange]
     );
 
     const handleCanvasChangeComplete = useCallback(() => {
       setIsDragging(false);
-      const { r, g, b } = hslToRgb(h, s, l);
-      const newColor = formatColorHex(r, g, b, opacity < 1 ? opacity : undefined);
+      const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
+      const newColor = format === "hex"
+        ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
+        : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
+
       handleChangeComplete(newColor);
-    }, [h, s, l, opacity, handleChangeComplete]);
+    }, [hue, canvasSaturation, canvasBrightness, opacity, format, handleChangeComplete]);
 
     const handleHueChange = useCallback(
       (newHue: number) => {
         setIsDragging(true);
-        const { r, g, b } = hslToRgb(newHue, s, l);
-        const newColor = formatColorHex(r, g, b, opacity < 1 ? opacity : undefined);
+        setHue(newHue);
+        if (canvasSaturation > 0) {
+          setHueWhenGrayscale(newHue);
+        }
+
+        const { r, g, b } = hsvToRgb(newHue, canvasSaturation, canvasBrightness);
+        const newColor = format === "hex"
+          ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
+          : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
+
+        lastEmittedColor.current = newColor;
         handleColorChange(newColor);
       },
-      [s, l, opacity, handleColorChange]
+      [canvasSaturation, canvasBrightness, opacity, format, handleColorChange]
     );
 
     const handleHueChangeComplete = useCallback(() => {
       setIsDragging(false);
-      const { r, g, b } = hslToRgb(h, s, l);
-      const newColor = formatColorHex(r, g, b, opacity < 1 ? opacity : undefined);
+      const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
+      const newColor = format === "hex"
+        ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
+        : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
+
       handleChangeComplete(newColor);
-    }, [h, s, l, opacity, handleChangeComplete]);
+    }, [hue, canvasSaturation, canvasBrightness, opacity, format, handleChangeComplete]);
 
     const handleOpacityChange = useCallback(
       (newOpacity: number) => {
         setIsDragging(true);
-        const newColor = formatColorHex(
-          parsed.r,
-          parsed.g,
-          parsed.b,
-          newOpacity < 1 ? newOpacity : undefined
-        );
+        const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
+        const newColor = format === "hex"
+          ? formatColorHex(r, g, b, newOpacity < 1 ? newOpacity : undefined)
+          : formatColorRgb(r, g, b, newOpacity < 1 ? newOpacity : undefined);
+
+        lastEmittedColor.current = newColor;
         handleColorChange(newColor);
       },
-      [parsed.r, parsed.g, parsed.b, handleColorChange]
+      [hue, canvasSaturation, canvasBrightness, format, handleColorChange]
     );
 
     const handleOpacityChangeComplete = useCallback(() => {
       setIsDragging(false);
-      const newColor = formatColorHex(
-        parsed.r,
-        parsed.g,
-        parsed.b,
-        opacity < 1 ? opacity : undefined
-      );
+      const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
+      const newColor = format === "hex"
+        ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
+        : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
+
       handleChangeComplete(newColor);
-    }, [parsed.r, parsed.g, parsed.b, opacity, handleChangeComplete]);
+    }, [hue, canvasSaturation, canvasBrightness, opacity, format, handleChangeComplete]);
 
     const handleRecentColorSelect = useCallback(
       (color: string) => {
+        // Update internal state immediately
+        const parsed = parseColor(color);
+        const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
+        setCanvasSaturation(s);
+        setCanvasBrightness(v);
+        if (s > 0) {
+          setHue(h);
+          setHueWhenGrayscale(h);
+        }
+
+        lastEmittedColor.current = color;
         handleColorChange(color);
         handleChangeComplete(color);
       },
@@ -156,6 +226,17 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     const handleInputChange = useCallback(
       (newValue: string) => {
         if (isValidColor(newValue)) {
+          // Update internal state immediately
+          const parsed = parseColor(newValue);
+          const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
+          setCanvasSaturation(s);
+          setCanvasBrightness(v);
+          if (s > 0) {
+            setHue(h);
+            setHueWhenGrayscale(h);
+          }
+
+          lastEmittedColor.current = newValue;
           handleColorChange(newValue);
           handleChangeComplete(newValue);
         }
@@ -173,7 +254,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     return (
       <div
         ref={ref}
-        className={cn((styles as any).color, className)}
+        className={cn(styles.color, className)}
         data-size={size}
         data-disabled={disabled || undefined}
         {...props}
@@ -185,51 +266,53 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
           size={size}
         />
 
-        {/* Canvas for saturation/lightness */}
+        {/* Canvas for saturation/brightness (HSV) */}
         <ColorCanvas
-          hue={h}
-          saturation={s}
-          lightness={l}
+          hue={hue}
+          saturation={canvasSaturation}
+          brightness={canvasBrightness}
           onChange={handleCanvasChange}
           disabled={disabled}
           size={size}
         />
 
-        {/* Hue Slider */}
-        <ColorHueSlider
-          value={h}
-          onChange={handleHueChange}
-          disabled={disabled}
-          size={size}
-        />
-
-        {/* Opacity Slider */}
-        {showOpacity && (
-          <ColorOpacitySlider
-            value={opacity}
-            color={formatColorRgb(parsed.r, parsed.g, parsed.b)}
-            onChange={handleOpacityChange}
+        <div className={styles.colorControls}>
+          {/* Hue Slider */}
+          <ColorHueSlider
+            value={hue}
+            onChange={handleHueChange}
             disabled={disabled}
             size={size}
           />
-        )}
 
-        {/* Input & Format Selector */}
-        <ColorInput
-          value={displayValue}
-          format={format}
-          onValueChange={handleInputChange}
-          onFormatChange={handleFormatChange}
-          disabled={disabled}
-          size={size}
-          showPreview={showPreview}
-          previewColor={formatColorRgb(
-            parsed.r,
-            parsed.g,
-            parsed.b,
-            opacity < 1 ? opacity : undefined
+          {/* Opacity Slider */}
+          {showOpacity && (
+            <ColorOpacitySlider
+              value={opacity}
+              color={formatColorRgb(parsed.r, parsed.g, parsed.b)}
+              onChange={handleOpacityChange}
+              disabled={disabled}
+              size={size}
+            />
           )}
-        />
+
+          {/* Input & Format Selector */}
+          <ColorInput
+            value={displayValue}
+            format={format}
+            onValueChange={handleInputChange}
+            onFormatChange={handleFormatChange}
+            disabled={disabled}
+            size={size}
+            showPreview={showPreview}
+            previewColor={formatColorRgb(
+              displayR,
+              displayG,
+              displayB,
+              opacity < 1 ? opacity : undefined
+            )}
+          />
+        </div>
       </div>
     );
   }

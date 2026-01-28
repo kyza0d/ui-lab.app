@@ -2,13 +2,14 @@
 
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "react-aria";
+import { hsvToRgb } from "./color-utils";
 import styles from "./Color.module.css";
 
 export interface ColorCanvasProps {
   hue: number;
   saturation: number;
-  lightness: number;
-  onChange?: (saturation: number, lightness: number) => void;
+  brightness: number;
+  onChange?: (saturation: number, brightness: number) => void;
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
 }
@@ -17,7 +18,7 @@ export const ColorCanvas = React.forwardRef<
   HTMLDivElement,
   ColorCanvasProps
 >(
-  ({ hue, saturation, lightness, onChange, disabled, size = "md" }, ref) => {
+  ({ hue, saturation, brightness, onChange, disabled, size = "md" }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
 
@@ -53,12 +54,12 @@ export const ColorCanvas = React.forwardRef<
         0,
         Math.min(100, ((e.clientX - rect.left) / rect.width) * 100)
       );
-      const l = Math.max(
+      const b = Math.max(
         0,
         Math.min(100, ((rect.height - (e.clientY - rect.top)) / rect.height) * 100)
       );
 
-      onChange?.(s, l);
+      onChange?.(s, b);
     };
 
     const { focusProps, isFocusVisible } = useFocusRing();
@@ -67,15 +68,17 @@ export const ColorCanvas = React.forwardRef<
       backgroundColor: `hsl(${hue}, 100%, 50%)`,
     };
 
+    const { r, g, b } = hsvToRgb(hue, saturation, brightness);
     const positionStyle = {
       left: `${saturation}%`,
-      top: `${100 - lightness}%`,
+      top: `${100 - brightness}%`,
+      backgroundColor: `rgb(${r}, ${g}, ${b})`,
     };
 
     return (
       <div
         ref={mergedRef}
-        className={styles.canvas}
+        className={styles.canvasContainer}
         data-size={size}
         data-disabled={disabled || undefined}
         data-focus-visible={isFocusVisible || undefined}
@@ -86,12 +89,14 @@ export const ColorCanvas = React.forwardRef<
         {...focusProps}
         tabIndex={disabled ? -1 : 0}
         role="slider"
-        aria-label="Color saturation and lightness"
-        aria-valuetext={`Saturation: ${saturation.toFixed(0)}%, Lightness: ${lightness.toFixed(0)}%`}
+        aria-label="Color saturation and brightness"
+        aria-valuetext={`Saturation: ${saturation.toFixed(0)}%, Brightness: ${brightness.toFixed(0)}%`}
       >
-        <div className={styles.canvasGradientHue} style={gradientStyle} />
-        <div className={styles.canvasGradientSaturation} />
-        <div className={styles.canvasGradientLightness} />
+        <div className={styles.canvas}>
+          <div className={styles.canvasGradientHue} style={gradientStyle} />
+          <div className={styles.canvasGradientSaturation} />
+          <div className={styles.canvasGradientLightness} />
+        </div>
         <div className={styles.canvasPointer} style={positionStyle} />
       </div>
     );

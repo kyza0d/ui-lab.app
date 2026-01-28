@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Group } from "../Group";
-import { Select } from "../Select";
+import { Group } from "ui-lab-components";
+import { Select } from "ui-lab-components";
 import styles from "./Color.module.css";
 import { formatColorHex, formatColorRgb, isValidColor } from "./color-utils";
 
@@ -60,6 +60,7 @@ export const ColorInput = React.forwardRef<
         spacing="normal"
         isDisabled={disabled}
         data-size={size}
+        className={styles.inputGroup}
       >
         <Group.InputWrapper
           value={inputValue}
@@ -67,6 +68,7 @@ export const ColorInput = React.forwardRef<
           disabled={disabled}
           placeholder={format === "hex" ? "#000000" : "rgb(0, 0, 0)"}
           aria-label="Color input"
+          className={styles.colorInput}
         />
         <Group.Select
           selectedKey={format}
@@ -77,6 +79,7 @@ export const ColorInput = React.forwardRef<
             }
           }}
           isDisabled={disabled}
+          className={styles.formatSelect}
         >
           <Select.Trigger aria-label="Color format">
             <Select.Value placeholder="Format" />
@@ -94,7 +97,7 @@ export const ColorInput = React.forwardRef<
         </Group.Select>
         {showPreview && (
           <div
-            className={(styles as any).previewSwatch}
+            className={styles.previewSwatch}
             data-size={size}
             style={{
               "--preview-color": previewColor || "transparent",
