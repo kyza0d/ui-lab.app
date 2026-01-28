@@ -9,6 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Development Setup:** Use `pnpm dev` to start both frontend (Next.js with Turbopack) and backend (Convex) in parallel. For frontend-only work, use `pnpm dev:frontend`. For backend-only, use `pnpm dev:backend`. Run `pnpm predev` to ensure the Convex backend is ready before starting the frontend.
 
+**Dev Server Status:** Assume the development server is always running at http://localhost:3000. Do not attempt to start it. Use curl requests to inspect actual rendered HTML when debugging UI issues.
+
 **Build Commands:** **NEVER run `pnpm build` unless explicitly asked by the user.** The build process is time-consuming and should only be executed when the user specifically requests it or when preparing for deployment.
 
 **Testing & Quality:** No specific test commands are configured. Linting is your primary quality check.
