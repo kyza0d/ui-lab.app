@@ -6,6 +6,7 @@ import { TableOfContents, type TableOfContentsItem } from "./table-of-contents";
 import "../../../app/docs.css";
 import { cn } from "@/shared";
 import { Footer } from "@/features/layout";
+import { useChat } from "@/features/chat";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
@@ -13,10 +14,11 @@ interface DocsLayoutProps {
 }
 
 export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
+  const { isOpen: isChatOpen } = useChat();
 
   return (
     <>
-      <div className="grid grid-cols-1 w-full max-w-(--page-width) mx-auto md:grid-cols-[auto_4fr_1fr] min-h-[calc(100vh-var(--header-height))]">
+      <div className={cn("grid grid-cols-1 w-full max-w-(--page-width) mx-auto min-h-[calc(100vh-var(--header-height))]", isChatOpen ? "md:grid-cols-[auto_1fr]" : "md:grid-cols-[auto_4fr_1fr]")}>
         <Sidebar />
         <div id="docs" className={cn(
           "flex flex-col justify-center mt-(--header-height)",
@@ -30,7 +32,7 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
           </div>
           <Footer />
         </div>
-        <TableOfContents items={tocItems} />
+        {!isChatOpen && <TableOfContents items={tocItems} />}
       </div>
     </>
   );

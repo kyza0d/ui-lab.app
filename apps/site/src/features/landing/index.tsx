@@ -48,9 +48,9 @@ function HeroSection() {
               metadata that enable AI to generate perfectly consistent interfaces.
             </p>
             <div className="flex gap-3 mt-10">
-              <Button variant="primary" icon={{ left: <FaHammer size={18} /> }} className="gap-3 px-6 flex justify-evenly">
-                Start Building</Button>
-              <Button variant="outline" icon={{ left: <FaShapes className="text-foreground-400" size={18} /> }} className="gap-3 bg-background-950 py-2">View Components</Button>
+              <Button variant="primary" size="sm" className="flex justify-evenly">
+                Get Started</Button>
+              <Button variant="outline" size="sm" className="bg-background-950">View Components</Button>
             </div>
           </div>
         </div>

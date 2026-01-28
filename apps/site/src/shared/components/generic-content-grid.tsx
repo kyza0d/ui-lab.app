@@ -45,7 +45,7 @@ export function GenericContentGrid<T extends ContentItem>({
             key={item.id}
             href={href}
             onPress={() => router.push(href)}
-            columnSpan={layoutConfig.columnSpan}
+            columnSpan={2}
             rowSpan={layoutConfig.rowSpan}
             className="overflow-hidden"
           >

@@ -10,6 +10,7 @@ import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab
 import { FaFlask, FaGithub } from "react-icons/fa6";
 import { BreadcrumbsNav } from "@/features/navigation";
 import { Footer } from "@/features/layout";
+import { useChat } from "@/features/chat";
 
 const ReactAriaSvg = () => (
   <svg
@@ -26,12 +27,13 @@ const ReactAriaSvg = () => (
 );
 
 export function ComponentClient({ componentId }: { componentId: string }) {
+  const { isOpen: isChatOpen } = useChat();
   const component = useMemo(() => getComponentById(componentId), [componentId]);
   const metadata = useMemo(() => getComponentMetadata(componentId), [componentId]);
 
   if (!component) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-[4fr_1fr]">
+      <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
         <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
           <BreadcrumbsNav />
           <div className="flex items-center">
@@ -89,7 +91,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
   const tocItems = getTocItems();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[4fr_1fr]">
+    <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
       <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
         <BreadcrumbsNav />
         <Toaster />
@@ -165,7 +167,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
         </div>
         <Footer />
       </div>
-      {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+      {!isChatOpen && tocItems.length > 0 && <TableOfContents items={tocItems} />}
     </div>
   );
 }
