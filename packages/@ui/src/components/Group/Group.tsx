@@ -229,14 +229,12 @@ const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
     const disabled = isDisabled ?? context.groupIsDisabled
 
     return (
-      <div className={styles.groupItem}>
-        <Select
-          ref={ref}
-          {...props}
-          isDisabled={disabled}
-          className={cn('groupSelectWrapper', styles.groupSelectWrapper, className)}
-        />
-      </div>
+      <Select
+        ref={ref}
+        {...props}
+        isDisabled={disabled}
+        className={cn('groupSelectWrapper', styles.groupSelectWrapper, className)}
+      />
     )
   }
 )
