@@ -126,34 +126,46 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
 GroupRoot.displayName = "Group"
 
 // Group.Button component
-interface GroupButtonProps extends ButtonProps { }
+interface GroupButtonProps extends ButtonProps {
+  active?: boolean
+}
 
 const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
-  (props, ref) => {
+  ({ active, variant, className, ...restProps }, ref) => {
     const context = useGroupContext()
     const isInSelectTrigger = React.useContext(SelectTriggerContext)
 
     // Merge disabled state from group context
-    const isDisabled = props.isDisabled ?? context.groupIsDisabled
+    const isDisabled = restProps.isDisabled ?? context.groupIsDisabled
 
     if (isInSelectTrigger) {
       return (
-        <span className={cn(styles.groupItem, props.className)}>
-          {props.icon?.left}
-          {props.children}
-          {props.icon?.right}
+        <span className={cn(styles.groupItem, className)}>
+          {restProps.icon?.left}
+          {restProps.children}
+          {restProps.icon?.right}
         </span>
       )
     }
 
-    return (
-      <Button
-        ref={ref}
-        {...props}
-        isDisabled={isDisabled}
-        className={cn(styles.groupItem, props.className)}
-      />
-    )
+    // For ghost group variant, apply variant based on active state
+    let buttonVariant = variant
+    if (context.groupVariant === "ghost" && variant === undefined) {
+      buttonVariant = active ? "default" : "ghost"
+    }
+
+    const buttonProps = {
+      ...restProps,
+      variant: buttonVariant,
+      isDisabled,
+      className: cn(
+        styles.groupItem,
+        active && styles.active,
+        className
+      ),
+    }
+
+    return <Button ref={ref} {...buttonProps} />
   }
 )
 GroupButton.displayName = "Group.Button"
@@ -239,4 +251,4 @@ const Group = Object.assign(GroupRoot, {
 })
 
 export { Group, GroupContext }
-export type { GroupProps, GroupContextValue }
+export type { GroupProps, GroupContextValue, GroupButtonProps }

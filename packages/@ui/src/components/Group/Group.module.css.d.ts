@@ -12,6 +12,7 @@ declare const styles: {
   groupItem: string;
   groupInputWrapper: string;
   groupSelectWrapper: string;
+  active: string;
 };
 
 export default styles;

@@ -11,7 +11,7 @@
     color: var(--button-fg);
     border: var(--border-width-base) solid var(--button-border);
 
-    @apply px-3 py-1.5;
+    @apply px-3 py-1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -79,7 +79,7 @@
 
   .button.ghost {
     --button-bg: transparent;
-    --button-fg: var(--foreground-50);
+    --button-fg: var(--foreground-300);
     --button-border: transparent;
 
     /* Ghost usually needs a distinct hover bg, brightness filter might not be enough on transparent */
@@ -91,17 +91,17 @@
   }
 
   .button.sm {
-    @apply px-2.5 py-1;
+    @apply px-2 py-1;
     font-size: var(--text-sm);
   }
 
   .button.md {
-    @apply px-3 py-1.5;
+    @apply px-2.5 py-1;
     font-size: var(--text-md);
   }
 
   .button.lg {
-    @apply px-4 py-1.5;
+    @apply px-3 py-1;
     font-size: var(--text-md);
   }
 
@@ -112,26 +112,6 @@
     width: 1rem;
     height: 1rem;
     font-size: 1rem;
-    flex-shrink: 0;
-  }
-
-  .icon-md {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.25rem;
-    height: 1.25rem;
-    font-size: 1.25rem;
-    flex-shrink: 0;
-  }
-
-  .icon-lg {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: 1.5rem;
     flex-shrink: 0;
   }
 }

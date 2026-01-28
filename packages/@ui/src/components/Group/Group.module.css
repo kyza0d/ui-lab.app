@@ -41,6 +41,9 @@
   .group.ghost {
     --background: transparent;
     background-color: transparent;
+    border: none;
+    overflow: visible;
+    @apply gap-1;
   }
 
   .itemWrapper {
@@ -51,11 +54,18 @@
 
   /* Override child component styles when in group */
   /* Remove all borders and rounded corners for seamless group appearance */
-  .itemWrapper .groupItem,
+  .group:not(.ghost) .itemWrapper .groupItem,
   .groupInputWrapper input,
   .itemWrapper .groupItem .groupSelectWrapper {
     border-radius: 0;
     border: none;
+    outline: none;
+  }
+
+  /* Ghost variant: apply radius to all buttons and keep borders transparent for non-active buttons to prevent layout shift */
+  .group.ghost .itemWrapper .groupItem:not(.active) {
+    border-radius: var(--radius-sm);
+    border: var(--border-width-base) solid transparent;
     outline: none;
   }
 
@@ -79,12 +89,12 @@
 
   /* Add borders to separate items (except last item) */
   /* Right border for horizontal orientation */
-  .group.horizontal .itemWrapper:not(:last-child) {
+  .group.horizontal:not(.ghost) .itemWrapper:not(:last-child) {
     border-right: var(--border-width-base) solid var(--border);
   }
 
   /* Bottom border for vertical orientation */
-  .group.vertical .itemWrapper:not(:last-child) {
+  .group.vertical:not(.ghost) .itemWrapper:not(:last-child) {
     border-bottom: var(--border-width-base) solid var(--border);
   }
 
@@ -103,8 +113,12 @@
   .groupSelectWrapper {
     display: flex;
     align-items: stretch;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
+  }
+
+  /* Remove padding from Select when in Group */
+  .groupSelectWrapper :global(.select) {
+    padding: 0;
   }
 
   /* Default padding for Select.Trigger in Group */
@@ -122,5 +136,22 @@
   .groupSelectWrapper .select {
     height: 100%;
     width: 100%;
+  }
+
+  /* Active button state */
+  .groupItem.active {
+    position: relative;
+  }
+
+  /* Active state for ghost variant - restore full button styling */
+  .group.ghost .groupItem.active {
+    border-radius: var(--radius-sm) !important;
+    /* Border is preserved from Button's default variant */
+  }
+
+  /* Active state for other variants */
+  .group:not(.ghost) .groupItem.active {
+    background-color: var(--background-800);
+    font-weight: 500;
   }
 }

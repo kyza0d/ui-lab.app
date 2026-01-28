@@ -227,7 +227,7 @@ const ModalFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, ...props }, ref) => (
-  <div ref={ref} className={styles.footer} {...props}>
+  <div ref={ref} className={cn('footer', styles.footer)} {...props}>
     {children}
   </div>
 ));
