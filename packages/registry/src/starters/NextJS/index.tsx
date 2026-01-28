@@ -3,7 +3,7 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'nextjs-basic',
-  name: 'Next.js Starter',
+  name: 'Next.js 16 Starter',
   description: 'Basic Next.js App Router starter with TypeScript and modern best practices',
   category: 'app' as const,
   tags: ['nextjs', 'typescript', 'app-router', 'react'],
@@ -248,21 +248,21 @@ export function getPreview(): React.ReactNode {
       <div className="flex items-center gap-2 mb-2">
         <svg className="w-8 h-8" viewBox="0 0 180 180" fill="none">
           <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="180">
-            <circle cx="90" cy="90" r="90" fill="currentColor"/>
+            <circle cx="90" cy="90" r="90" fill="currentColor" />
           </mask>
           <g mask="url(#mask0)">
-            <circle cx="90" cy="90" r="90" fill="currentColor" className="text-foreground-50"/>
-            <path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z" fill="url(#paint0_linear)"/>
-            <rect x="115" y="54" width="12" height="72" fill="url(#paint1_linear)"/>
+            <circle cx="90" cy="90" r="90" fill="currentColor" className="text-foreground-50" />
+            <path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z" fill="url(#paint0_linear)" />
+            <rect x="115" y="54" width="12" height="72" fill="url(#paint1_linear)" />
           </g>
           <defs>
             <linearGradient id="paint0_linear" x1="109" y1="116.5" x2="144.5" y2="160.5" gradientUnits="userSpaceOnUse">
-              <stop stopColor="currentColor" className="text-background-950"/>
-              <stop offset="1" stopColor="currentColor" stopOpacity="0" className="text-background-950"/>
+              <stop stopColor="currentColor" className="text-background-950" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0" className="text-background-950" />
             </linearGradient>
             <linearGradient id="paint1_linear" x1="121" y1="54" x2="120.799" y2="106.875" gradientUnits="userSpaceOnUse">
-              <stop stopColor="currentColor" className="text-background-950"/>
-              <stop offset="1" stopColor="currentColor" stopOpacity="0" className="text-background-950"/>
+              <stop stopColor="currentColor" className="text-background-950" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0" className="text-background-950" />
             </linearGradient>
           </defs>
         </svg>
