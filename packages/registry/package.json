@@ -95,7 +95,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm validate:elements && pnpm generate && npm run build:css && tsc",
+    "build": "pnpm generate && npm run build:css && tsc",
     "build:css": "pnpm exec postcss src/styles.css -o dist/styles.css",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",

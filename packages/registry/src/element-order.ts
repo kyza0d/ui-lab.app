@@ -6,6 +6,8 @@ export const elementOrder: Record<ElementCategoryId, string[]> = {
   form: [],
   content: [],
   card: [],
+  documentation: [],
+  ai: [],
   other: [],
 };
 
