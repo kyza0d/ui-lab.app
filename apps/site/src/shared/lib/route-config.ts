@@ -73,6 +73,7 @@ export const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
   { path: '/elements', tabGroupId: 'documentation' },
   { path: '/sections', tabGroupId: 'documentation' },
   { path: '/blocks', tabGroupId: 'documentation' },
+  { path: '/starters', tabGroupId: 'documentation' },
 ];
 
 export interface RouteConfig {
@@ -104,6 +105,10 @@ export const ROUTES: Record<string, RouteConfig> = {
   blocks: {
     path: '/blocks',
     domainId: 'elements',
+  },
+  starters: {
+    path: '/starters',
+    domainId: 'docs',
   },
 };
 
@@ -159,6 +164,7 @@ const ACTIVE_TAB_OVERRIDES: Record<string, string | undefined> = {
   '/design-system': 'docs',
   '/sections': 'elements',
   '/blocks': 'elements',
+  '/starters': 'elements',
 };
 
 export const getActiveTabForPathname = (pathname: string): string | undefined => {

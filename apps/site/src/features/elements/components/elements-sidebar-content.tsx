@@ -258,7 +258,7 @@ export function ElementsList({
                           'block px-3 py-2 text-sm rounded-md cursor-pointer transition-colors',
                           isVariantActive
                             ? 'text-foreground-50 bg-background-800 font-medium'
-                            : 'text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50'
+                            : 'text-foreground-300 hover:text-foreground-200 hover:bg-background-800/50'
                         )}
                       >
                         {variant.name}
@@ -371,7 +371,7 @@ export function ElementsList({
                     <SidebarItemLink
                       key={`${section.id}-${index}`}
                       href={href}
-                      className="block px-3 py-2 text-sm rounded-md cursor-pointer transition-colors text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50"
+                      className="block px-3 py-2 text-sm rounded-md cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
                     >
                       {variant.name}
                     </SidebarItemLink>

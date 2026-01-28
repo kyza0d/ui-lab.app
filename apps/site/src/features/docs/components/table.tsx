@@ -49,7 +49,7 @@ export function Table<T extends Record<string, any>>({
   return (
     <div className="w-full">
       {showFilters && filterableColumns.length > 0 && (
-        <div className="mb-4 p-4 bg-background-900 rounded-md border border-background-800">
+        <div className="mb-4 p-4 bg-background-900 rounded-sm border border-background-800">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filterableColumns.map((col) => (
               <div key={String(col.key)}>
@@ -63,7 +63,7 @@ export function Table<T extends Record<string, any>>({
                     handleFilterChange(String(col.key), e.target.value)
                   }
                   placeholder={`Filter by ${col.label.toLowerCase()}`}
-                  className="w-full px-3 py-2 rounded-md border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
+                  className="w-full px-3 py-2 rounded-sm border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
                 />
               </div>
             ))}
@@ -71,7 +71,7 @@ export function Table<T extends Record<string, any>>({
         </div>
       )}
 
-      <div className="overflow-x-auto border border-background-800 rounded-md">
+      <div className="overflow-x-auto border border-background-800 rounded-sm">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">

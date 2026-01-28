@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { generateMetadata } from "@/shared";
 
 interface ElementsLayoutProps {
@@ -15,7 +15,9 @@ export default function ElementsLayout({
 }: Omit<ElementsLayoutProps, "children">) {
   return (
     <div className="max-w-(--page-width) mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto] min-h-screen">
-      {sidebar}
+      <Suspense fallback={<div className="hidden md:flex w-68" />}>
+        {sidebar}
+      </Suspense>
       {content}
     </div>
   );
