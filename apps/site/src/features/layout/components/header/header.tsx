@@ -7,15 +7,17 @@ import { CommandPalette } from "@/features/command-palette";
 import { Logo } from "@/shared";
 import { Input, Badge, Divider, Tabs, TabsList, TabsTrigger, Button } from "ui-lab-components";
 import { useApp } from "@/features/theme";
+import { useChat } from "@/features/chat";
 import { cn } from "@/shared";
 import {
   FaBars,
   FaMagnifyingGlass,
   FaCodeBranch,
   FaMessage,
-  FaInbox
+  FaInbox,
+  FaRegMessage
 } from "react-icons/fa6";
-import { HiX } from "react-icons/hi";
+import { HiChat, HiX } from "react-icons/hi";
 import { HiMiniSparkles } from "react-icons/hi2";
 import { getTabGroupForPathname, getActiveTabForPathname, shouldApplyRevealCollapse } from "@/shared";
 import type { TabConfig } from "@/shared/lib/route-config";
@@ -48,6 +50,7 @@ export default function Header({
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { setIsCommandPaletteOpen } = useApp();
+  const { toggleChat, isOpen: isChatOpen } = useChat();
 
   const hasRevealCollapse = shouldApplyRevealCollapse(pathname);
   const tabGroup = useMemo(() => getTabGroupForPathname(pathname), [pathname]);
@@ -102,25 +105,6 @@ export default function Header({
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
 
-              <div className="flex gap-2">
-                <div className="relative hidden sm:block">
-                  <Input
-                    placeholder="Search..."
-                    prefixIcon={<FaMagnifyingGlass size={13} />}
-                    className="w-50 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
-                    onClick={() => setIsCommandPaletteOpen(true)}
-                    readOnly
-                  />
-                  <Badge className="text-foreground-300 text-xs absolute px-2 top-1/2 -translate-y-1/2 right-1.5 rounded-xs gap-1 border border-background-700" size="sm">
-                    Ctrl {" "} K
-                  </Badge>
-                </div>
-                <Button variant="default" className="bg-background-800/40 px-2 flex items-center justify-center">
-                  <HiMiniSparkles size={15} className="text-foreground-300 text-sm" />
-                </Button>
-              </div>
-              <Divider size='sm' className="-my-1" orientation="vertical" />
-
               <Button>
                 Feedback
               </Button>
@@ -136,6 +120,37 @@ export default function Header({
                   Source
                 </Button>
               </a>
+
+              <div className="flex gap-2">
+                <div className="relative hidden sm:block">
+                  <Input
+                    placeholder="Search..."
+                    prefixIcon={<FaMagnifyingGlass size={13} />}
+                    className="w-50 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                    onClick={() => setIsCommandPaletteOpen(true)}
+                    readOnly
+                  />
+                  <Badge className="text-foreground-300 text-xs absolute px-2 top-1/2 -translate-y-1/2 right-1.5 rounded-xs gap-1 border border-background-700" size="sm">
+                    Ctrl {" "} K
+                  </Badge>
+                </div>
+                <Button
+                  variant="ghost"
+                  className="px-2 flex items-center justify-center"
+                  onClick={toggleChat}
+                  aria-label="Toggle AI chat"
+                >
+                  <HiMiniSparkles
+                    size={15}
+                    className={cn(
+                      "text-sm transition-colors",
+                      isChatOpen
+                        ? "text-accent-500"
+                        : "text-foreground-300"
+                    )}
+                  />
+                </Button>
+              </div>
 
               <Divider size='sm' className="-my-1" orientation="vertical" />
               <SettingsPanel />
