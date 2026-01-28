@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Copy Page",
+    "description": "Basic copy page button variation",
+    "demoPath": "copypage-basic",
+    "exportName": "BasicCopyPage",
+    "files": []
+  },
+  "02-with-success": {
+    "name": "Copy Page with Success",
+    "description": "Copy page with success notification",
+    "demoPath": "copypage-with-success",
+    "exportName": "CopyPageWithSuccess",
+    "files": []
+  }
+}

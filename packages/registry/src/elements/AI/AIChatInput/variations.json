@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic AI Chat Input",
+    "description": "Basic AI chat input variation",
+    "demoPath": "aichatinput-basic",
+    "exportName": "BasicAIChatInput",
+    "files": []
+  },
+  "02-with-suggestions": {
+    "name": "AI Chat Input with Suggestions",
+    "description": "AI chat input with suggestion prompts",
+    "demoPath": "aichatinput-with-suggestions",
+    "exportName": "AIChatInputWithSuggestions",
+    "files": []
+  }
+}

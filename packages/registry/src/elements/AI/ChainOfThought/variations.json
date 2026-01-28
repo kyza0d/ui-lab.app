@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Chain of Thought",
+    "description": "Basic chain of thought variation",
+    "demoPath": "chainofthought-basic",
+    "exportName": "BasicChainOfThought",
+    "files": []
+  },
+  "02-with-details": {
+    "name": "Chain of Thought with Details",
+    "description": "Chain of thought with detailed explanations",
+    "demoPath": "chainofthought-with-details",
+    "exportName": "ChainOfThoughtWithDetails",
+    "files": []
+  }
+}

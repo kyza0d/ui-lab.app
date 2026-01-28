@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Chat",
+    "description": "Basic chat variation",
+    "demoPath": "chat-basic",
+    "exportName": "BasicChat",
+    "files": []
+  },
+  "02-with-actions": {
+    "name": "Chat with Actions",
+    "description": "Chat with action buttons variation",
+    "demoPath": "chat-with-actions",
+    "exportName": "ChatWithActions",
+    "files": []
+  }
+}

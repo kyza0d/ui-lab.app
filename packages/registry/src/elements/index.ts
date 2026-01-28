@@ -12,6 +12,12 @@
 import type { ElementRegistry } from '../types';
 
 // Element imports (auto-generated)
+import aichatinputElement from './AI/AIChatInput';
+import chainofthoughtElement from './AI/ChainOfThought';
+import chatElement from './AI/Chat';
+import copypageElement from './Documentation/CopyPage';
+import nextarticleElement from './Documentation/NextArticle';
+import tocElement from './Documentation/TOC';
 import headerElement from './foundation/Header';
 import pageElement from './foundation/Page';
 import sidebarElement from './foundation/Sidebar';
@@ -42,6 +48,12 @@ export {
 
 // Registry (auto-generated)
 export const elementRegistry: ElementRegistry = {
+  [aichatinputElement.id]: aichatinputElement,
+  [chainofthoughtElement.id]: chainofthoughtElement,
+  [chatElement.id]: chatElement,
+  [copypageElement.id]: copypageElement,
+  [nextarticleElement.id]: nextarticleElement,
+  [tocElement.id]: tocElement,
   [headerElement.id]: headerElement,
   [pageElement.id]: pageElement,
   [sidebarElement.id]: sidebarElement,

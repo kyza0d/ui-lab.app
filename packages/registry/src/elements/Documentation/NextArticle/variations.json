@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Next Article",
+    "description": "Basic next article variation",
+    "demoPath": "nextarticle-basic",
+    "exportName": "BasicNextArticle",
+    "files": []
+  },
+  "02-with-icon": {
+    "name": "Next Article with Icon",
+    "description": "Next article with icon variation",
+    "demoPath": "nextarticle-with-icon",
+    "exportName": "NextArticleWithIcon",
+    "files": []
+  }
+}
