@@ -1,8 +1,22 @@
 import type { StarterRegistry, StarterMetadata } from '../types';
 import nextjsStarter from './NextJS';
+import viteStarter from './Vite';
+import tauriStarter from './Tauri';
+import astroStarter from './Astro';
+import documentationStarter from './Documentation';
+import productivityStarter from './Productivity';
+import crmStarter from './CRM';
+import blogStarter from './Blog';
 
 export const starterRegistry: StarterRegistry = {
   [nextjsStarter.id]: nextjsStarter,
+  [viteStarter.id]: viteStarter,
+  [tauriStarter.id]: tauriStarter,
+  [astroStarter.id]: astroStarter,
+  [documentationStarter.id]: documentationStarter,
+  [productivityStarter.id]: productivityStarter,
+  [crmStarter.id]: crmStarter,
+  [blogStarter.id]: blogStarter,
 };
 
 export function getStarterById(id: string): StarterMetadata | undefined {
