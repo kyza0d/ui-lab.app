@@ -53,20 +53,77 @@
   }
 
   /* Override child component styles when in group */
-  /* Remove all borders and rounded corners for seamless group appearance */
   .group:not(.ghost) .itemWrapper .groupItem,
   .groupInputWrapper input,
   .itemWrapper .groupItem .groupSelectWrapper {
     border-radius: 0;
     border: none;
-    outline: none;
   }
 
-  /* Ghost variant: apply radius to all buttons and keep borders transparent for non-active buttons to prevent layout shift */
+  /* Apply radius to first and last items (exclude items in groupSelectWrapper) */
+  .group.horizontal:not(.ghost) .itemWrapper:first-child > .groupItem {
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .group.horizontal:not(.ghost) .itemWrapper:last-child > .groupItem {
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  .group.vertical:not(.ghost) .itemWrapper:first-child > .groupItem {
+    border-top-left-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-sm);
+  }
+
+  .group.vertical:not(.ghost) .itemWrapper:last-child > .groupItem {
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  /* Apply radius to Button and Trigger within Group.Select (split-action pattern) */
+  .group.horizontal:not(.ghost) .groupSelectWrapper .groupItem {
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .group.horizontal:not(.ghost) .groupSelectWrapper .trigger {
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  .group.vertical:not(.ghost) .groupSelectWrapper .groupItem {
+    border-top-left-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-sm);
+  }
+
+  .group.vertical:not(.ghost) .groupSelectWrapper .trigger {
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  /* Ghost variant */
   .group.ghost .itemWrapper .groupItem:not(.active) {
     border-radius: var(--radius-sm);
     border: var(--border-width-base) solid transparent;
+  }
+
+  /* Focus styles - box-shadow follows border-radius */
+  .group:not(.ghost) .itemWrapper .groupItem:focus-visible,
+  .group:not(.ghost) .itemWrapper .trigger:focus-visible,
+  .groupInputWrapper input:focus-visible {
     outline: none;
+    box-shadow: inset 0 0 0 2px var(--accent-500);
+    position: relative;
+    z-index: 1;
+  }
+
+  .group.ghost .itemWrapper .groupItem:focus-visible,
+  .group.ghost .itemWrapper .trigger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-500);
+    position: relative;
+    z-index: 1;
   }
 
   /* Explicitly override Select's default border and radius when in group */
@@ -130,6 +187,27 @@
   .trigger {
     border-radius: 0;
     border: none;
+  }
+
+  /* Apply radius to triggers in first/last position (for standalone triggers) */
+  .group.horizontal:not(.ghost) .itemWrapper:first-child > .trigger {
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .group.horizontal:not(.ghost) .itemWrapper:last-child > .trigger {
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  .group.vertical:not(.ghost) .itemWrapper:first-child > .trigger {
+    border-top-left-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-sm);
+  }
+
+  .group.vertical:not(.ghost) .itemWrapper:last-child > .trigger {
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
   }
 
   /* Make Select fill height when in group */

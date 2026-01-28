@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Group } from "ui-lab-components";
-import { Select } from "ui-lab-components";
+import { Group } from "../Group";
+import { Select } from "../Select";
 import styles from "./Color.module.css";
 import { formatColorHex, formatColorRgb, isValidColor } from "./color-utils";
 
@@ -73,7 +73,7 @@ export const ColorInput = React.forwardRef<
         <Group.Select
           selectedKey={format}
           defaultValue={format === "hex" ? "Hex" : "RGB"}
-          onSelectionChange={(key) => {
+          onSelectionChange={(key: React.Key | null) => {
             if (key) {
               handleFormatChange(key as "hex" | "rgb");
             }
