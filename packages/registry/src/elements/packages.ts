@@ -17,6 +17,45 @@ function FoundationLogo({ className }: { className?: string }) {
   }));
 }
 
+function AILogo({ className }: { className?: string }) {
+  return React.createElement('svg', {
+    width: '26',
+    height: '26',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    xmlns: 'http://www.w3.org/2000/svg',
+    className: className || 'w-10 h-10 text-foreground-200',
+  }, React.createElement('path', {
+    d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-13c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z',
+    fill: 'currentColor',
+  }));
+}
+
+function DocumentationLogo({ className }: { className?: string }) {
+  return React.createElement('svg', {
+    width: '26',
+    height: '26',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    xmlns: 'http://www.w3.org/2000/svg',
+    className: className || 'w-10 h-10 text-foreground-200',
+  }, React.createElement('path', {
+    d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-8-6z',
+    fill: 'currentColor',
+    opacity: 0.3,
+  }), React.createElement('path', {
+    d: 'M14 2v6h6',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    fill: 'none',
+  }), React.createElement('path', {
+    d: 'M9 15h6M9 11h6',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    fill: 'none',
+  }));
+}
+
 export const elementPackages: ElementPackageRegistry = {
   foundation: {
     id: 'foundation',
@@ -32,6 +71,42 @@ export const elementPackages: ElementPackageRegistry = {
       return () => React.createElement('div', {
         className: 'flex items-center justify-center h-full w-full',
       }, React.createElement(FoundationLogo, {
+        className: 'w-20 h-20 text-foreground-200',
+      }));
+    },
+  },
+  ai: {
+    id: 'ai',
+    name: 'AI',
+    description: 'Elements for AI-powered features and interactive chat interfaces.',
+    tags: ['ai', 'chat', 'interactive'],
+    elements: ['chat', 'chainofthought', 'aichatinput'],
+    layout: {
+      columnSpan: 2,
+      rowSpan: 1,
+    },
+    getPreview: () => {
+      return () => React.createElement('div', {
+        className: 'flex items-center justify-center h-full w-full',
+      }, React.createElement(AILogo, {
+        className: 'w-20 h-20 text-foreground-200',
+      }));
+    },
+  },
+  documentation: {
+    id: 'documentation',
+    name: 'Documentation',
+    description: 'Elements for documentation content including tables of contents and navigation.',
+    tags: ['documentation', 'reference', 'content'],
+    elements: ['toc', 'copypage', 'nextarticle'],
+    layout: {
+      columnSpan: 2,
+      rowSpan: 1,
+    },
+    getPreview: () => {
+      return () => React.createElement('div', {
+        className: 'flex items-center justify-center h-full w-full',
+      }, React.createElement(DocumentationLogo, {
         className: 'w-20 h-20 text-foreground-200',
       }));
     },

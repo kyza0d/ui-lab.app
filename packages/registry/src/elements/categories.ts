@@ -1,6 +1,6 @@
 import type { ElementMetadata } from '../types';
 
-export type ElementCategoryId = 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'other';
+export type ElementCategoryId = 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'documentation' | 'ai' | 'other';
 
 export interface ElementCategoryDefinition {
   id: ElementCategoryId;
@@ -40,6 +40,18 @@ export const elementCategories: Record<ElementCategoryId, ElementCategoryDefinit
     label: 'Card',
     description: 'Card-based elements for grouped content display',
   },
+  documentation: {
+    id: 'documentation',
+    name: 'Documentation',
+    label: 'Documentation',
+    description: 'Elements for documentation and content navigation',
+  },
+  ai: {
+    id: 'ai',
+    name: 'AI',
+    label: 'AI',
+    description: 'Elements for AI-powered features and chat interfaces',
+  },
   other: {
     id: 'other',
     name: 'Other',
@@ -52,6 +64,12 @@ export const elementCategoryMapping: Record<string, ElementCategoryId> = {
   header: 'layout',
   sidebar: 'layout',
   page: 'layout',
+  toc: 'documentation',
+  copypage: 'documentation',
+  nextarticle: 'documentation',
+  chat: 'ai',
+  chainofthought: 'ai',
+  aichatinput: 'ai',
 };
 
 export const getCategoryForElement = (elementId: string): ElementCategoryId =>

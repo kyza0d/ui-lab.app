@@ -1,0 +1,7 @@
+{
+  "id": "nextarticle",
+  "name": "Next Article",
+  "description": "Navigation component showing link to next article with title and preview description.",
+  "category": "navigation",
+  "tags": ["navigation", "article", "documentation", "cta"]
+}

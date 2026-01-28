@@ -1,0 +1,7 @@
+{
+  "id": "copypage",
+  "name": "Copy Page",
+  "description": "Component with button to copy current page content to clipboard with visual feedback.",
+  "category": "other",
+  "tags": ["copy", "clipboard", "utility", "documentation"]
+}

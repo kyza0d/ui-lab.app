@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic TOC",
+    "description": "Basic table of contents variation",
+    "demoPath": "toc-basic",
+    "exportName": "BasicTOC",
+    "files": []
+  },
+  "02-expanded": {
+    "name": "Expanded TOC",
+    "description": "Expandable table of contents with active state",
+    "demoPath": "toc-expanded",
+    "exportName": "ExpandedTOC",
+    "files": []
+  }
+}

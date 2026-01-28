@@ -1,0 +1,7 @@
+{
+  "id": "chainofthought",
+  "name": "Chain of Thought",
+  "description": "Component displaying step-by-step AI reasoning and thought process with detailed explanations.",
+  "category": "content",
+  "tags": ["reasoning", "ai", "thought-process", "steps", "explanation"]
+}
