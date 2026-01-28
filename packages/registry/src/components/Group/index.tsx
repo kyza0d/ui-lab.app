@@ -2,6 +2,7 @@ import React from 'react';
 import { Divider, Group } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-group.js';
+import Example2, { metadata as metadata2 } from './examples/02-active-buttons.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
@@ -20,6 +21,7 @@ export function getPreview(): React.ReactNode {
 
 const examplesData = [
   { id: '01-basic-group', Component: Example1, metadata: metadata1 },
+  { id: '02-active-buttons', Component: Example2, metadata: metadata2 },
 ];
 
 

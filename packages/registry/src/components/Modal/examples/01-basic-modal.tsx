@@ -17,6 +17,7 @@ export default function Example() {
       <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
         <Modal.Header>Modal Title</Modal.Header>
         <Modal.Body>This is the modal content. It displays important information or actions.</Modal.Body>
+        <Modal.Footer>Modal Footer</Modal.Footer>
       </Modal>
     </>
   );
