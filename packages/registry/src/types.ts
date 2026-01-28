@@ -153,7 +153,7 @@ export interface StarterMetadata {
   description: string;
   category: 'landing' | 'dashboard' | 'auth' | 'app' | 'framework' | 'documentation' | 'productivity' | 'crm' | 'other';
   tags: string[];
-  variants: StarterVariant[];
+  files: ElementFile[];
   componentDependencies?: string[];
   layout?: Partial<LayoutConfig>;
   fullPageLayout?: boolean;
