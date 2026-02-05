@@ -6,44 +6,42 @@ publishedOn: "2026-01-10"
 tags: ["installation", "setup", "tailwind"]
 ---
 
-## Who this is for
+## Choose your path
 
-**You will accomplish:**
-- Install UI Lab components in your project
-- Import and render your first component
-- Have full component library ready to use
+**Fastest: Start from a template.** Browse pre-built [Starters](/starters)—Next.js, Vite, Astro, Tauri, and more. Clone, install, build. Everything's configured.
+
+**Quick: Use the CLI.** One command sets up UI Lab in an existing project:
+
+```bash
+npx ui-lab init
+```
+
+**Manual: Full control.** Follow the steps below for custom setups.
 
 ## Interactive Installation
 
-The component below provides step-by-step guidance for your framework (Next.js or Vite):
+Step-by-step guidance for your framework:
 
 <InstallationFlow />
 
 ## Manual Installation
 
-If you prefer manual setup or need more control, follow these steps:
-
 <Timeline>
-## Install Dependencies
+## Install
 
 ```bash
-npm install ui-lab-components
-# or
 pnpm add ui-lab-components
 ```
 
-## Import Styles
-
-Add component styles to your application root:
+## Import styles
 
 ```tsx
-// app/layout.tsx (Next.js) or main.tsx (Vite)
 import 'ui-lab-components/styles.css';
 ```
 
-## Import and Use
+Add this to your root layout (`app/layout.tsx` in Next.js, `main.tsx` in Vite).
 
-Start using components immediately:
+## Use components
 
 ```tsx
 import { Button, Card, Input } from 'ui-lab-components';
@@ -52,7 +50,7 @@ export default function Home() {
   return (
     <Card>
       <Card.Header>
-        <Card.Title>Welcome to UI Lab</Card.Title>
+        <Card.Title>Welcome</Card.Title>
       </Card.Header>
       <Card.Content>
         <Input placeholder="your@email.com" />
@@ -68,50 +66,37 @@ export default function Home() {
 
 ## Troubleshooting
 
-### Components don't render or styles look wrong
+### Styles look wrong or missing
 
-**Check Tailwind CSS v4 is installed:**
+Verify Tailwind v4:
 ```bash
 npm ls tailwindcss
 ```
 
-You should see v4.x.x. If not, upgrade:
-```bash
-npm install tailwindcss@latest
-```
+Should show v4.x.x. If not: `npm install tailwindcss@latest`
 
-### PostCSS error during build
+### PostCSS error
 
-Ensure `postcss.config.mjs` exists and includes `@tailwindcss/postcss`:
+Check `postcss.config.mjs` includes:
 ```javascript
 export default {
-  plugins: {
-    '@tailwindcss/postcss': {},
-  },
+  plugins: { '@tailwindcss/postcss': {} },
 };
 ```
 
-Then restart your dev server:
-```bash
-npm run dev
-```
+Restart dev server after changes.
 
 ### Styles still not applying
 
-1. Clear your node_modules cache:
-   ```bash
-   rm -rf node_modules/.cache
-   npm run dev
-   ```
+1. Clear cache: `rm -rf node_modules/.cache && npm run dev`
+2. Verify style import exists in your root layout file
 
-2. Check that component styles are imported in your root file—without this, styles won't load
+### Still stuck?
 
-### Still having issues?
+Compare against the [Components](/components) gallery. File issues on [GitHub](https://github.com/anthropics/ui-lab).
 
-Check the [Component Gallery](/components) to verify expected appearance. If something looks different, file an issue on [GitHub](https://github.com/yourusername/ui-lab).
+## Next steps
 
-## Next Steps
-
-- Browse the [Component Gallery](/components) to explore all available components
-- Read [Getting Started](/docs/getting-started) for common patterns
-- Learn [Theming](/docs/theming) to customize colors and tokens
+- Browse [Components](/components) for the full library
+- Explore [Elements](/elements) for composed UI patterns
+- Check [Starters](/starters) for complete project templates
