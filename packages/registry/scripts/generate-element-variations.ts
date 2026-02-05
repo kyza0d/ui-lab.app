@@ -204,7 +204,9 @@ function discoverElementVariations(
     const config = loadVariationConfig(variationPath, exportName);
     const files = scanVariationFiles(variationPath);
 
-    const demoPath = `${elementName.toLowerCase()}-${key.replace(/^\d+-/, '')}`;
+    // Extract just the element name without category prefix (last part of the path)
+    const justElementName = elementName.split('/').pop() || elementName;
+    const demoPath = `${justElementName.toLowerCase()}-${key.replace(/^\d+-/, '')}`;
 
     return {
       key,
@@ -228,46 +230,52 @@ function discoverAllElements(): Record<string, DiscoveredVariation[]> {
     process.exit(1);
   }
 
-  const elements = fs
-    .readdirSync(elementsPath)
-    .filter(
-      (f) =>
-        fs.statSync(path.join(elementsPath, f)).isDirectory() &&
-        !f.startsWith('.')
-    )
-    .sort();
-
   const discovered: Record<string, DiscoveredVariation[]> = {};
 
   console.log('\n🔍 Discovering element variations...\n');
 
-  for (const elementName of elements) {
-    const elementPath = path.join(elementsPath, elementName);
-    const variationsPath = path.join(elementPath, 'variations');
+  function walkDirectory(dirPath: string, relativePath: string = '') {
+    const items = fs
+      .readdirSync(dirPath)
+      .filter((f) => {
+        const fullPath = path.join(dirPath, f);
+        return fs.statSync(fullPath).isDirectory() && !f.startsWith('.');
+      })
+      .sort();
 
-    if (!fs.existsSync(variationsPath)) {
-      continue;
-    }
+    for (const itemName of items) {
+      const itemPath = path.join(dirPath, itemName);
+      const variationsPath = path.join(itemPath, 'variations');
+      const elementKey = relativePath ? `${relativePath}/${itemName}` : itemName;
 
-    try {
-      const variations = discoverElementVariations(elementPath, elementName);
-      if (variations.length === 0) {
-        continue;
+      if (fs.existsSync(variationsPath)) {
+        // This is an element with variations
+        try {
+          const variations = discoverElementVariations(itemPath, elementKey);
+          if (variations.length === 0) {
+            continue;
+          }
+
+          discovered[elementKey] = variations;
+
+          console.log(`  ✓ ${elementKey} (${variations.length} variations)`);
+          variations.forEach((v) => {
+            console.log(`    - ${v.key}: "${v.metadata.name}"`);
+          });
+        } catch (error) {
+          console.error(
+            `  ✗ ${elementKey}: ${error instanceof Error ? error.message : String(error)}`
+          );
+          process.exit(1);
+        }
+      } else {
+        // This might be a category folder, recurse into it
+        walkDirectory(itemPath, elementKey);
       }
-
-      discovered[elementName] = variations;
-
-      console.log(`  ✓ ${elementName} (${variations.length} variations)`);
-      variations.forEach((v) => {
-        console.log(`    - ${v.key}: "${v.metadata.name}"`);
-      });
-    } catch (error) {
-      console.error(
-        `  ✗ ${elementName}: ${error instanceof Error ? error.message : String(error)}`
-      );
-      process.exit(1);
     }
   }
+
+  walkDirectory(elementsPath);
 
   return discovered;
 }
