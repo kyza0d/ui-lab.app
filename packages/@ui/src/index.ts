@@ -40,7 +40,9 @@ export type { CheckboxProps } from "./components/Checkbox";
 export {
   Select,
   Searchable,
+  Multi,
   useSelectContext,
+  useMultiSelectContext,
 } from "./components/Select";
 
 export { Input } from "./components/Input";
@@ -73,6 +75,7 @@ export { Mask } from "./components/Mask";
 export type { MaskProps } from "./components/Mask";
 
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tabs";
+export type { TabsProps, TabsListProps, TabsTriggerProps, TabsContentProps } from "./components/Tabs";
 
 export { Menu } from "./components/Menu";
 export type {
