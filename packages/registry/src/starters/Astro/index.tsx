@@ -15,6 +15,10 @@ const baseMetadata = {
   },
   componentDependencies: [],
   fullPageLayout: true,
+  pricing: {
+    price: null,
+    features: ['Static generation', 'Islands architecture', 'Minimal JavaScript', 'Fast loading', 'Content collections'],
+  },
 };
 
 const starterMetadata: StarterMetadata = {

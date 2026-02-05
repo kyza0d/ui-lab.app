@@ -16,7 +16,7 @@ export default function Example() {
   return (
     <div className="p-4 space-y-4">
       <div className="space-y-2">
-        <Group orientation="horizontal" spacing="tight">
+        <Group orientation="horizontal" spacing="none">
           <Group.Button
             variant="ghost"
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}

@@ -5,6 +5,12 @@
       "title": "Basic Input",
       "description": "A simple text input field with default styling. Use this as the standard input element for collecting user text input.",
       "file": "01-basic-input.tsx"
+    },
+    {
+      "id": "02-validation",
+      "title": "Validation States",
+      "description": "Input fields with error and success validation states, including helper text for user feedback.",
+      "file": "02-validation.tsx"
     }
   ]
 }

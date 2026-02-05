@@ -15,6 +15,10 @@ const baseMetadata = {
   },
   componentDependencies: [],
   fullPageLayout: true,
+  pricing: {
+    price: null,
+    features: ['Fast refresh', 'Optimized bundling', 'TypeScript included', 'Modern dev tools', 'Instant HMR'],
+  },
 };
 
 const starterMetadata: StarterMetadata = {

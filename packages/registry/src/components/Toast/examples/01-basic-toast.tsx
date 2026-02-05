@@ -1,5 +1,5 @@
 import React from 'react';
-import { toast, Toaster } from 'ui-lab-components';
+import { Button, toast, Toaster } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Toast',
@@ -9,9 +9,9 @@ export const metadata = {
 export default function Example() {
   return (
     <>
-      <button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
+      <Button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
         Show Toast
-      </button>
+      </Button>
       <Toaster />
     </>
   );

@@ -14,6 +14,10 @@ const baseMetadata = {
   },
   componentDependencies: [],
   fullPageLayout: true,
+  pricing: {
+    price: null,
+    features: ['App Router', 'TypeScript support', 'Modern tooling', 'Optimized build', 'Best practices'],
+  },
 };
 
 const starterMetadata: StarterMetadata = {

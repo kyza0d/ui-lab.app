@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-menu.js';
+import Example2, { metadata as metadata2 } from './examples/02-nested-menu.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaArrowsRotate, FaStar, FaTrash } from 'react-icons/fa6';
@@ -35,6 +36,7 @@ export function getPreview(): React.ReactNode {
 
 const examplesData = [
   { id: '01-basic-menu', Component: Example1, metadata: metadata1 },
+  { id: '02-nested-menu', Component: Example2, metadata: metadata2 },
 ];
 
 const menuControls: ControlDef[] = [];

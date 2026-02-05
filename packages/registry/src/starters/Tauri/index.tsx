@@ -15,6 +15,10 @@ const baseMetadata = {
   },
   componentDependencies: [],
   fullPageLayout: true,
+  pricing: {
+    price: null,
+    features: ['Cross-platform', 'Rust backend', 'React frontend', 'Small bundle size', 'Native performance'],
+  },
 };
 
 const starterMetadata: StarterMetadata = {

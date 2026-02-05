@@ -2,26 +2,26 @@
   "01-basic-toast": {
     "title": "Basic Toast",
     "description": "A simple toast notification. Click the button to trigger a toast message with default styling.",
-    "code": "import React from 'react';\nimport { toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>\n        Show Toast\n      </button>\n      <Toaster />\n    </>\n  );\n}"
+    "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>\n        Show Toast\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
   },
   "02-success-toast": {
     "title": "Success Toast",
     "description": "Toast notification for successful operations.",
-    "code": "import React from 'react';\nimport { toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <button\n        onClick={() =>\n          toast({\n            title: 'Success',\n            description: 'Operation completed successfully',\n            variant: 'success',\n          })\n        }\n        className=\"px-4 py-2 bg-accent-500 text-white rounded\"\n      >\n        Show Success\n      </button>\n      <Toaster />\n    </>\n  );\n}"
+    "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        onClick={() =>\n          toast({\n            title: 'Success',\n            description: 'Operation completed successfully',\n            variant: 'success',\n          })\n        }\n      >\n        Show Success\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
   },
   "03-destructive-toast": {
     "title": "Destructive Toast",
     "description": "Toast notification for errors or destructive operations.",
-    "code": "import React from 'react';\nimport { toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <button\n        onClick={() =>\n          toast({\n            title: 'Error',\n            description: 'Something went wrong',\n            variant: 'destructive',\n          })\n        }\n        className=\"px-4 py-2 bg-accent-500 text-white rounded\"\n      >\n        Show Error\n      </button>\n      <Toaster />\n    </>\n  );\n}"
+    "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        onClick={() =>\n          toast({\n            title: 'Error',\n            description: 'Something went wrong',\n            variant: 'destructive',\n          })\n        }\n      >\n        Show Error\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
   },
   "04-info-toast": {
     "title": "Info Toast",
     "description": "Toast notification for informational messages.",
-    "code": "import React from 'react';\nimport { toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <button\n        onClick={() =>\n          toast({\n            title: 'Info',\n            description: 'Here is some useful information',\n            variant: 'info',\n          })\n        }\n        className=\"px-4 py-2 bg-accent-500 text-white rounded\"\n      >\n        Show Info\n      </button>\n      <Toaster />\n    </>\n  );\n}"
+    "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        onClick={() =>\n          toast({\n            title: 'Info',\n            description: 'Here is some useful information',\n            variant: 'info',\n          })\n        }\n      >\n        Show Info\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
   },
   "05-warning-toast": {
     "title": "Warning Toast",
     "description": "Toast notification for warnings.",
-    "code": "import React from 'react';\nimport { toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <button\n        onClick={() =>\n          toast({\n            title: 'Warning',\n            description: 'Please be careful',\n            variant: 'warning',\n          })\n        }\n        className=\"px-4 py-2 bg-accent-500 text-white rounded\"\n      >\n        Show Warning\n      </button>\n      <Toaster />\n    </>\n  );\n}"
+    "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        onClick={() =>\n          toast({\n            title: 'Warning',\n            description: 'Please be careful',\n            variant: 'warning',\n          })\n        }\n      >\n        Show Warning\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
   }
 }
