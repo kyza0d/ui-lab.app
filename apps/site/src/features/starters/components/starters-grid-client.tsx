@@ -15,6 +15,8 @@ export function StartersGridClient({ starters }: StartersGridClientProps) {
       basePath="/starters"
       getLayoutConfig={getLayoutConfig}
       getPreviewComponent={getPreviewComponent}
+      showCTA={true}
+      ctaContentType="starters"
     />
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from 'ui-lab-components';
 import TurndownService from 'turndown';
-import { FaCopy } from 'react-icons/fa6';
+import { FaClipboard, FaClipboardCheck, FaCopy } from 'react-icons/fa6';
 
 export function CopyPage() {
   const [isCopied, setIsCopied] = useState(false);
@@ -35,11 +35,12 @@ export function CopyPage() {
   return (
     <Button
       onClick={handleCopy}
-      className='ml-auto underline text-foreground-400'
+      className='underline text-foreground-400'
       variant='ghost'
       title="Copy rendered content as Markdown"
     >
-      {isCopied ? '✓ Copied' : 'Copy Page'}
+      {isCopied ? <FaClipboardCheck /> : <FaClipboard />}
+      Copy Markdow
     </Button>
   );
 }

@@ -160,7 +160,7 @@ export function PreviewContainer({
         </div>
 
         <div className="flex items-center gap-3 mb-2">
-          <Group variant="outline" spacing="tight">
+          <Group variant="outline" spacing="none">
             <Group.Button
               variant={deviceVariant === "mobile" ? "secondary" : "ghost"}
               onClick={() => onDeviceVariantChange("mobile")}

@@ -15,6 +15,8 @@ export function PackagesGridClient({ packages }: PackagesGridClientProps) {
       basePath="/elements"
       getLayoutConfig={getPackageLayoutConfig}
       getPreviewComponent={getPackagePreviewComponent}
+      showCTA={true}
+      ctaContentType="elements"
     />
   );
 }

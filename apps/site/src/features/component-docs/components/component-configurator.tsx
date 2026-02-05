@@ -150,7 +150,6 @@ export function ComponentConfigurator({
                     {allTabs.map((tab, index) => (
                       <Button
                         key={index}
-                        variant="ghost"
                         size="sm"
                         onClick={() => setActiveTab(index)}
                         className={activeTab === index ? "text-accent-500" : "text-foreground-400"}

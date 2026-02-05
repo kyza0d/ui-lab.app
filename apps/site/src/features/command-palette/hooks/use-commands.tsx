@@ -4,7 +4,6 @@ import {
   FaBook,
   FaWrench,
   FaPlug,
-  FaTerminal,
   FaGithub,
   FaMoon,
   FaSun,
@@ -89,16 +88,6 @@ export function useCommands({
       icon: <FaPlug className="w-4 h-4" />,
       keywords: ["agents", "mcps", "plugins"],
       action: () => router.push("/agents-mcps"),
-    });
-
-    cmds.push({
-      id: "cli",
-      label: "CLI",
-      description: "View CLI documentation",
-      category: "Navigation",
-      icon: <FaTerminal className="w-4 h-4" />,
-      keywords: ["cli", "command", "terminal"],
-      action: () => router.push("/cli"),
     });
 
     cmds.push({

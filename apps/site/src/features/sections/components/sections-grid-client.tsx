@@ -15,6 +15,8 @@ export function SectionsGridClient({ sections }: SectionsGridClientProps) {
       basePath="/sections"
       getLayoutConfig={getLayoutConfig}
       getPreviewComponent={getPreviewComponent}
+      showCTA={true}
+      ctaContentType="sections"
     />
   );
 }
