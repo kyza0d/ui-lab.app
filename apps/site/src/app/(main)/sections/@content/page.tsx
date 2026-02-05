@@ -8,6 +8,25 @@ import type { SectionMetadata } from 'ui-lab-registry';
 import { SectionsGridClient } from '@/features/sections';
 import { ElementsSearchHeader, ElementsSortDropdown, ElementsFilterPopover } from '@/features/elements';
 
+const placeholderSections: SectionMetadata[] = [
+  {
+    id: 'advanced-hero',
+    name: 'Advanced Hero',
+    description: 'Premium hero section with animated backgrounds and sophisticated typography.',
+    category: 'hero',
+    tags: ['premium', 'advanced', 'animation'],
+    variants: []
+  },
+  {
+    id: 'custom-cta',
+    name: 'Custom CTA',
+    description: 'Advanced call-to-action section with interactive elements and conversion optimization.',
+    category: 'cta',
+    tags: ['premium', 'conversion', 'interactive'],
+    variants: []
+  }
+];
+
 function sortSections(sections: SectionMetadata[], sortBy: string): SectionMetadata[] {
   const sorted = [...sections];
   switch (sortBy) {
@@ -29,12 +48,19 @@ export default function SectionsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const allSections = useMemo(() => getAllSections(), []);
+  const allSections = useMemo(() => {
+    const sections = getAllSections();
+    return [...sections, ...placeholderSections];
+  }, []);
 
   const filteredSections = useMemo(() => {
     let sections = allSections;
     if (searchQuery.trim()) {
       sections = searchSections(searchQuery);
+      sections = [...sections, ...placeholderSections.filter(s =>
+        s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.description.toLowerCase().includes(searchQuery.toLowerCase())
+      )];
     }
     if (selectedCategory) {
       sections = sections.filter((s) => s.category === selectedCategory);

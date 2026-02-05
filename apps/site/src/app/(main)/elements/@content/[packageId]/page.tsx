@@ -1,6 +1,8 @@
+import React from 'react';
 import { cacheLife } from 'next/cache';
 import { getPackageById, getElementsInPackage, getAllPackages } from 'ui-lab-registry';
 import { BreadcrumbsNav } from '@/features/navigation';
+import { ContentHeader } from '@/shared/components/content-header';
 import PackageElementsClient from './client';
 
 export function generateStaticParams() {
@@ -30,10 +32,15 @@ export default async function PackageElementsPage({
           </div>
         ) : (
           <>
-            <div className="space-y-4 mb-12">
-              <h2 className="font-bold text-foreground-50">{pkg.name}</h2>
-              <p className="text-foreground-400 max-w-2xl">{pkg.description}</p>
-            </div>
+            <ContentHeader title={pkg.name} description={pkg.description} pricing={pkg.pricing} purchaseUrl={pkg.pricing?.purchaseUrl}>
+              <div className="w-full h-48 bg-background-800 rounded border border-background-700 flex items-center justify-center overflow-hidden">
+                {pkg.getPreview ? (
+                  <>{(pkg.getPreview() as any)()}</>
+                ) : (
+                  <div className="text-foreground-500">Preview</div>
+                )}
+              </div>
+            </ContentHeader>
             <PackageElementsClient packageId={packageId} elementIds={elementIds} />
           </>
         )}

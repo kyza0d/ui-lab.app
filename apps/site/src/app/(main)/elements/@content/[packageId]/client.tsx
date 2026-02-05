@@ -5,6 +5,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { elementRegistry, elementOrder } from 'ui-lab-registry';
 import type { ElementMetadata } from 'ui-lab-registry';
 import { ElementsGridClient, ElementsSearchHeader, ElementsFilterPopover, ElementsSortDropdown, ElementsLayoutToggle } from '@/features/elements';
+import { Divider } from 'ui-lab-components';
 
 function sortElements(elements: ElementMetadata[], sortBy: string): ElementMetadata[] {
   const sorted = [...elements];
@@ -118,7 +119,8 @@ export default function PackageElementsClient({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-[400px_1fr] items-center pb-3 pt-2">
+      <Divider className='mt-16 mb-12 ' />
+      <div className="hidden grid grid-cols-[400px_1fr] items-center pb-3 pt-2">
         <div className="flex justify-center">
           <ElementsSearchHeader
             className="lg:w-[400px]"

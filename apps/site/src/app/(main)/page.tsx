@@ -39,23 +39,23 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={containerRef} className="max-w-(--page-width) mx-auto pt-16 flex">
+    <div ref={containerRef} className="w-full pt-16 flex flex-col md:flex-row">
       <Toaster />
       <LandingSidebar />
-      <main className="flex-1 h-full w-full flex flex-col items-center">
+      <main className="flex-1 h-full w-full flex flex-col items-center md:overflow-x-hidden">
         <div className="fixed h-full bg-background-950 w-screen top-0 left-0 z-0" />
         <div className="fixed max-w-[94vw] bg-background-950 w-screen h-screen top-0 left-1/2 -translate-x-1/2 z-0" />
 
-        <section className="w-full px-24 border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
-          <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px]">
+        <section className="w-full px-4 sm:px-6 md:px-12 lg:px-24 border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
+          <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px] max-w-[95vw] md:max-w-full">
             <HeroSection />
           </div>
         </section>
-        <div className="w-full px-24">
+        <div className="w-full px-4 sm:px-6 md:px-12 lg:px-24">
           <NodeSection>
             <div className="w-full border-t border-background-700 ml-auto">
               <div className="space-y-3">
-                <div className="grid grid-cols-4 items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 items-center">
                   {[
                     {
                       Icon: TailwindSvg,

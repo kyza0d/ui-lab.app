@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder, getCategoryIcon } from "@/features/component-docs";
 import { BreadcrumbsNav } from "@/features/navigation";
-import { Divider, Gallery } from "ui-lab-components";
+import { Divider, Grid } from "ui-lab-components";
 import { GalleryItemWithPrefetch } from "./gallery-item";
 
 export default function ComponentsPage() {
@@ -37,14 +37,14 @@ export default function ComponentsPage() {
                         <h3 className="mb-0 font-semibold text-foreground-50 flex items-center">
                           {categoryMap[category].label}
                         </h3>
-                        <p className="text-md w-[47ch] text-foreground-400 flex items-start">
+                        <p className="text-md w-full md:w-[47ch] text-foreground-400 flex items-start">
                           {categoryMap[category].description}
                         </p>
                       </div>
                     </div>
                     <Divider size="sm" className="mb-8 mt-10" />
                     {/* Components Grid */}
-                    <Gallery columns={{ md: 1, lg: 2 }}>
+                    <Grid columns="2" gap="md" containerQueryResponsive>
                       {componentsInCategory.map((component) => (
                         <GalleryItemWithPrefetch
                           key={component.id}
@@ -57,7 +57,7 @@ export default function ComponentsPage() {
                           onPress={(href) => href && router.push(href)}
                         />
                       ))}
-                    </Gallery>
+                    </Grid>
                   </div>
                 );
               })}

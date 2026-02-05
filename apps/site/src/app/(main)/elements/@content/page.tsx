@@ -3,9 +3,30 @@
 import { BreadcrumbsNav } from '@/features/navigation';
 import { getAllPackages } from 'ui-lab-registry';
 import { PackagesGridClient } from '@/features/elements';
+import type { ElementPackageMetadata } from 'ui-lab-registry';
+
+const placeholderPackages: ElementPackageMetadata[] = [
+  {
+    id: 'premium-ui-kit',
+    name: 'Premium UI Kit',
+    description: 'Advanced component collection with enterprise-grade styling and interactions.',
+    tags: ['premium', 'enterprise', 'advanced'],
+    elements: ['Button', 'Input', 'Modal', 'Dropdown'],
+    pricing: { price: 49.99 }
+  },
+  {
+    id: 'pro-components',
+    name: 'Pro Components',
+    description: 'Extended component library with specialized controls and complex interactions.',
+    tags: ['pro', 'advanced', 'specialized'],
+    elements: ['DatePicker', 'TimePicker', 'FileUpload', 'RichEditor'],
+    pricing: { price: 29.99 }
+  }
+];
 
 export default function ElementsPage() {
   const packages = getAllPackages();
+  const allPackages = [...packages, ...placeholderPackages];
 
   return (
     <div className='pl-12 mt-38 pt-(header-height)'>
@@ -18,7 +39,7 @@ export default function ElementsPage() {
           </p>
         </div>
         <div className="space-y-6">
-          <PackagesGridClient packages={packages} />
+          <PackagesGridClient packages={allPackages} />
         </div>
       </div>
     </div>

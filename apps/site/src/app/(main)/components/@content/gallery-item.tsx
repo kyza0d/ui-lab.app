@@ -38,14 +38,14 @@ export function GalleryItemWithPrefetch({
       <Gallery.Item
         key={id}
         href={href}
-        className='group bg-background-950'
+        className='group bg-background-950 flex-col md:flex-row'
         orientation='horizontal'
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onClick={() => onPress(href)}
       >
         <Gallery.View
-          className="min-w-52 flex items-center justify-center relative bg-background-950 min-h-40 group-hover:border-background-600 border-r border-background-700"
+          className="w-full md:w-1/3 md:min-w-1/3 md:max-w-1/3 flex items-center justify-center relative bg-background-950 min-h-40 group-hover:border-background-600 border-b md:border-b-0 md:border-r border-background-700 flex-shrink-0"
         >
           <div className='w-full px-4 gap-2 flex items-center justify-center'>
             {preview}
