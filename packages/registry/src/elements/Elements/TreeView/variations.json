@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Tree View",
+    "description": "Basic Tree View variation",
+    "demoPath": "treeview-basic",
+    "exportName": "BasicTreeView",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "// TreeView basic variation placeholder\nexport function BasicTreeView() {\n  return <div>TreeView placeholder</div>;\n}\n",
+        "isEntryPoint": true
+      }
+    ]
+  }
+}

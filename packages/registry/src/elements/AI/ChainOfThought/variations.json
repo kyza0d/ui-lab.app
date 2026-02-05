@@ -1,16 +1,42 @@
 {
   "01-basic": {
-    "name": "Basic Chain of Thought",
-    "description": "Basic chain of thought variation",
+    "name": "Basic Chain Of Thought",
+    "description": "Basic Chain Of Thought variation",
     "demoPath": "chainofthought-basic",
     "exportName": "BasicChainOfThought",
-    "files": []
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "\"use client\"\nimport React from 'react';\nimport { ThoughtStep } from './layout/ThoughtStep';\n\nexport function BasicChainOfThought() {\n  const steps = [\n    {\n      number: 1,\n      title: 'Problem Analysis',\n      description: 'Breaking down the problem into manageable parts',\n    },\n    {\n      number: 2,\n      title: 'Strategy Development',\n      description: 'Developing a strategy to solve the problem',\n    },\n    {\n      number: 3,\n      title: 'Implementation',\n      description: 'Implementing the solution step by step',\n    },\n    {\n      number: 4,\n      title: 'Validation',\n      description: 'Validating the solution and checking results',\n    },\n  ];\n\n  return (\n    <div className=\"min-h-screen bg-background-950 p-8\">\n      <div className=\"max-w-2xl mx-auto\">\n        <h1 className=\"text-3xl font-bold text-foreground-50 mb-2\">AI Reasoning Process</h1>\n        <p className=\"text-foreground-400 mb-8\">Here's how the AI is thinking through the problem:</p>\n\n        <div className=\"space-y-4\">\n          {steps.map((step) => (\n            <ThoughtStep key={step.number} {...step} />\n          ))}\n        </div>\n\n        <div className=\"mt-8 p-4 bg-background-800 border border-background-700 rounded-md\">\n          <p className=\"text-sm text-foreground-300\">\n            The chain of thought shows the reasoning process, making it easier to understand how the AI arrived at the conclusion.\n          </p>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "ThoughtStep.tsx",
+        "language": "typescript",
+        "code": "interface ThoughtStepProps {\n  number: number;\n  title: string;\n  description: string;\n}\n\nexport function ThoughtStep({ number, title, description }: ThoughtStepProps) {\n  return (\n    <div className=\"flex gap-4\">\n      <div className=\"flex flex-col items-center\">\n        <div className=\"w-10 h-10 rounded-full bg-accent-500 text-foreground-50 flex items-center justify-center font-bold text-sm\">\n          {number}\n        </div>\n        {number < 4 && <div className=\"w-1 h-8 bg-accent-500 mt-2\" />}\n      </div>\n      <div className=\"flex-1 pt-1 pb-4\">\n        <h3 className=\"font-semibold text-foreground-50 mb-1\">{title}</h3>\n        <p className=\"text-sm text-foreground-400\">{description}</p>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   },
   "02-with-details": {
-    "name": "Chain of Thought with Details",
-    "description": "Chain of thought with detailed explanations",
+    "name": "Chain Of Thought With Details",
+    "description": "Chain Of Thought With Details variation",
     "demoPath": "chainofthought-with-details",
     "exportName": "ChainOfThoughtWithDetails",
-    "files": []
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "\"use client\"\nimport React, { useState } from 'react';\nimport { ExpandableThoughtStep } from './layout/ExpandableThoughtStep';\n\nexport function ChainOfThoughtWithDetails() {\n  const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([1]));\n\n  const steps = [\n    {\n      number: 1,\n      title: 'Understanding the Request',\n      description: 'Parsing and understanding what the user is asking for',\n      details: [\n        'Identified key requirements from the input',\n        'Recognized the problem domain',\n        'Determined necessary context and constraints',\n      ],\n    },\n    {\n      number: 2,\n      title: 'Analyzing Available Approaches',\n      description: 'Evaluating different methods to solve the problem',\n      details: [\n        'Approach A: Direct computation (Fast but limited)',\n        'Approach B: Iterative refinement (Balanced)',\n        'Approach C: Machine learning (Slow but accurate)',\n      ],\n    },\n    {\n      number: 3,\n      title: 'Selecting Optimal Strategy',\n      description: 'Choosing the best approach based on constraints',\n      details: [\n        'Evaluated trade-offs between speed and accuracy',\n        'Considered resource constraints',\n        'Selected Approach B for optimal balance',\n      ],\n    },\n    {\n      number: 4,\n      title: 'Generating Solution',\n      description: 'Implementing the chosen strategy step by step',\n      details: [\n        'Breaking down into sub-tasks',\n        'Validating intermediate results',\n        'Optimizing for performance',\n      ],\n    },\n  ];\n\n  const toggleStep = (number: number) => {\n    const newExpanded = new Set(expandedSteps);\n    if (newExpanded.has(number)) {\n      newExpanded.delete(number);\n    } else {\n      newExpanded.add(number);\n    }\n    setExpandedSteps(newExpanded);\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background-950 p-8\">\n      <div className=\"max-w-2xl mx-auto\">\n        <h1 className=\"text-3xl font-bold text-foreground-50 mb-2\">Detailed AI Reasoning</h1>\n        <p className=\"text-foreground-400 mb-8\">Click steps to see detailed reasoning:</p>\n\n        <div className=\"space-y-3\">\n          {steps.map((step) => (\n            <ExpandableThoughtStep\n              key={step.number}\n              {...step}\n              isExpanded={expandedSteps.has(step.number)}\n              onToggle={() => toggleStep(step.number)}\n            />\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "ExpandableThoughtStep.tsx",
+        "language": "typescript",
+        "code": "interface ExpandableThoughtStepProps {\n  number: number;\n  title: string;\n  description: string;\n  details: string[];\n  isExpanded: boolean;\n  onToggle: () => void;\n}\n\nexport function ExpandableThoughtStep({\n  number,\n  title,\n  description,\n  details,\n  isExpanded,\n  onToggle,\n}: ExpandableThoughtStepProps) {\n  return (\n    <div className=\"bg-background-800 border border-background-700 rounded-md overflow-hidden\">\n      <button\n        onClick={onToggle}\n        className=\"w-full flex items-start gap-4 p-4 hover:bg-background-700/50 transition-colors text-left\"\n      >\n        <div className=\"w-10 h-10 rounded-full bg-accent-500 text-foreground-50 flex items-center justify-center font-bold text-sm flex-shrink-0\">\n          {number}\n        </div>\n        <div className=\"flex-1 pt-1\">\n          <h3 className=\"font-semibold text-foreground-50 mb-1\">{title}</h3>\n          <p className=\"text-sm text-foreground-400\">{description}</p>\n        </div>\n        <span className=\"text-foreground-500 flex-shrink-0 mt-1\">{isExpanded ? '▼' : '▶'}</span>\n      </button>\n\n      {isExpanded && (\n        <div className=\"border-t border-background-700 bg-background-700/30 p-4\">\n          <ul className=\"space-y-2\">\n            {details.map((detail, index) => (\n              <li key={index} className=\"flex gap-3 text-sm text-foreground-300\">\n                <span className=\"text-accent-400 flex-shrink-0\">•</span>\n                <span>{detail}</span>\n              </li>\n            ))}\n          </ul>\n        </div>\n      )}\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   }
 }

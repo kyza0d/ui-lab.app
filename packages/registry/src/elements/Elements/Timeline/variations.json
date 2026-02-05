@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Timeline",
+    "description": "Basic Timeline variation",
+    "demoPath": "timeline-basic",
+    "exportName": "BasicTimeline",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "// Timeline basic variation placeholder\nexport function BasicTimeline() {\n  return <div>Timeline placeholder</div>;\n}\n",
+        "isEntryPoint": true
+      }
+    ]
+  }
+}

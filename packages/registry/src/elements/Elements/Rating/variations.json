@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Rating",
+    "description": "Basic Rating variation",
+    "demoPath": "rating-basic",
+    "exportName": "BasicRating",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "// Rating basic variation placeholder\nexport function BasicRating() {\n  return <div>Rating placeholder</div>;\n}\n",
+        "isEntryPoint": true
+      }
+    ]
+  }
+}

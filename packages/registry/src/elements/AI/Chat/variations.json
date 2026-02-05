@@ -1,16 +1,66 @@
 {
   "01-basic": {
     "name": "Basic Chat",
-    "description": "Basic chat variation",
+    "description": "Basic Chat variation",
     "demoPath": "chat-basic",
     "exportName": "BasicChat",
-    "files": []
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "\"use client\"\nimport React, { useState } from 'react';\nimport { ChatContainer } from './layout/ChatContainer';\nimport { ChatMessage } from './layout/ChatMessage';\nimport { ChatInput } from './layout/ChatInput';\n\ninterface Message {\n  id: string;\n  content: string;\n  sender: 'ai' | 'user';\n}\n\nexport function BasicChat() {\n  const [messages, setMessages] = useState<Message[]>([\n    { id: '1', content: 'Hello! How can I assist you today?', sender: 'ai' },\n    { id: '2', content: 'I need help with my project', sender: 'user' },\n    { id: '3', content: 'Sure! Tell me more about what you need help with.', sender: 'ai' },\n  ]);\n\n  const handleSendMessage = (content: string) => {\n    const userMessage = {\n      id: String(messages.length + 1),\n      content,\n      sender: 'user' as const,\n    };\n    setMessages([...messages, userMessage]);\n\n    setTimeout(() => {\n      const aiMessage = {\n        id: String(messages.length + 2),\n        content: 'That sounds interesting! I can help you with that.',\n        sender: 'ai' as const,\n      };\n      setMessages((prev) => [...prev, aiMessage]);\n    }, 500);\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background-950 p-8\">\n      <div className=\"max-w-2xl mx-auto h-96\">\n        <ChatContainer>\n          <div className=\"flex-1 overflow-y-auto space-y-4 p-4\">\n            {messages.map((message) => (\n              <ChatMessage key={message.id} message={message.content} sender={message.sender} />\n            ))}\n          </div>\n          <div className=\"border-t border-background-700 p-4\">\n            <ChatInput onSendMessage={handleSendMessage} />\n          </div>\n        </ChatContainer>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "ChatContainer.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\n\ninterface ChatContainerProps {\n  children: React.ReactNode;\n}\n\nexport function ChatContainer({ children }: ChatContainerProps) {\n  return (\n    <div className=\"flex flex-col h-full bg-background-800 border border-background-700 rounded-md overflow-hidden\">\n      {children}\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      },
+      {
+        "filename": "ChatInput.tsx",
+        "language": "typescript",
+        "code": "import React, { useState } from 'react';\n\ninterface ChatInputProps {\n  onSendMessage: (message: string) => void;\n}\n\nexport function ChatInput({ onSendMessage }: ChatInputProps) {\n  const [input, setInput] = useState('');\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n    if (input.trim()) {\n      onSendMessage(input);\n      setInput('');\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit} className=\"flex gap-2\">\n      <input\n        type=\"text\"\n        value={input}\n        onChange={(e) => setInput(e.target.value)}\n        placeholder=\"Type a message...\"\n        className=\"flex-1 bg-background-700 border border-background-600 rounded px-3 py-2 text-sm text-foreground-50 placeholder-foreground-500 focus:outline-none focus:border-accent-500\"\n      />\n      <button\n        type=\"submit\"\n        className=\"px-4 py-2 bg-accent-500 text-foreground-50 rounded font-medium hover:bg-accent-600 transition-colors text-sm\"\n      >\n        Send\n      </button>\n    </form>\n  );\n}\n",
+        "isEntryPoint": false
+      },
+      {
+        "filename": "ChatMessage.tsx",
+        "language": "typescript",
+        "code": "interface ChatMessageProps {\n  message: string;\n  sender: 'user' | 'ai';\n}\n\nexport function ChatMessage({ message, sender }: ChatMessageProps) {\n  return (\n    <div className={`flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`}>\n      <div\n        className={`max-w-xs px-4 py-2 rounded-lg text-sm ${\n          sender === 'user'\n            ? 'bg-accent-500 text-foreground-50'\n            : 'bg-background-700 text-foreground-300'\n        }`}\n      >\n        {message}\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   },
   "02-with-actions": {
-    "name": "Chat with Actions",
-    "description": "Chat with action buttons variation",
+    "name": "Chat With Actions",
+    "description": "Chat With Actions variation",
     "demoPath": "chat-with-actions",
     "exportName": "ChatWithActions",
-    "files": []
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "\"use client\"\nimport React, { useState } from 'react';\nimport { ChatContainerWithActions } from './layout/ChatContainerWithActions';\nimport { ChatMessage } from './layout/ChatMessage';\nimport { ChatInputWithActions } from './layout/ChatInputWithActions';\n\ninterface Message {\n  id: string;\n  content: string;\n  sender: 'ai' | 'user';\n}\n\nexport function ChatWithActions() {\n  const [messages, setMessages] = useState<Message[]>([\n    { id: '1', content: 'Hello! I can help you with questions or tasks.', sender: 'ai' },\n    { id: '2', content: 'Can you help me with debugging?', sender: 'user' },\n    { id: '3', content: 'Absolutely! I can help you debug your code. What issue are you facing?', sender: 'ai' },\n  ]);\n\n  const handleSendMessage = (content: string) => {\n    const userMessage = {\n      id: String(messages.length + 1),\n      content,\n      sender: 'user' as const,\n    };\n    setMessages([...messages, userMessage]);\n\n    setTimeout(() => {\n      const aiMessage = {\n        id: String(messages.length + 2),\n        content: 'I can help with that. Let me analyze your code.',\n        sender: 'ai' as const,\n      };\n      setMessages((prev) => [...prev, aiMessage]);\n    }, 500);\n  };\n\n  const handleAction = (action: string) => {\n    const actionMessage = {\n      id: String(messages.length + 1),\n      content: `[Action: ${action}]`,\n      sender: 'user' as const,\n    };\n    setMessages([...messages, actionMessage]);\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background-950 p-8\">\n      <div className=\"max-w-2xl mx-auto h-96\">\n        <ChatContainerWithActions>\n          <div className=\"flex-1 overflow-y-auto space-y-4 p-4\">\n            {messages.map((message) => (\n              <ChatMessage key={message.id} message={message.content} sender={message.sender} />\n            ))}\n          </div>\n          <div className=\"border-t border-background-700 p-4 bg-background-700/50\">\n            <div className=\"flex gap-2 mb-3 flex-wrap\">\n              <button\n                onClick={() => handleAction('Copy code')}\n                className=\"px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-xs transition-colors\"\n              >\n                📋 Copy\n              </button>\n              <button\n                onClick={() => handleAction('Explain')}\n                className=\"px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-xs transition-colors\"\n              >\n                💡 Explain\n              </button>\n              <button\n                onClick={() => handleAction('Refactor')}\n                className=\"px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-xs transition-colors\"\n              >\n                ✨ Refactor\n              </button>\n            </div>\n            <ChatInputWithActions onSendMessage={handleSendMessage} />\n          </div>\n        </ChatContainerWithActions>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "ChatContainerWithActions.tsx",
+        "language": "typescript",
+        "code": "import React from 'react';\n\ninterface ChatContainerWithActionsProps {\n  children: React.ReactNode;\n}\n\nexport function ChatContainerWithActions({ children }: ChatContainerWithActionsProps) {\n  return (\n    <div className=\"flex flex-col h-full bg-background-800 border border-background-700 rounded-md overflow-hidden\">\n      {children}\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      },
+      {
+        "filename": "ChatInputWithActions.tsx",
+        "language": "typescript",
+        "code": "import React, { useState } from 'react';\n\ninterface ChatInputWithActionsProps {\n  onSendMessage: (message: string) => void;\n}\n\nexport function ChatInputWithActions({ onSendMessage }: ChatInputWithActionsProps) {\n  const [input, setInput] = useState('');\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n    if (input.trim()) {\n      onSendMessage(input);\n      setInput('');\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit} className=\"flex gap-2\">\n      <input\n        type=\"text\"\n        value={input}\n        onChange={(e) => setInput(e.target.value)}\n        placeholder=\"Type a message...\"\n        className=\"flex-1 bg-background-700 border border-background-600 rounded px-3 py-2 text-sm text-foreground-50 placeholder-foreground-500 focus:outline-none focus:border-accent-500\"\n      />\n      <button\n        type=\"submit\"\n        className=\"px-4 py-2 bg-accent-500 text-foreground-50 rounded font-medium hover:bg-accent-600 transition-colors text-sm\"\n      >\n        Send\n      </button>\n    </form>\n  );\n}\n",
+        "isEntryPoint": false
+      },
+      {
+        "filename": "ChatMessage.tsx",
+        "language": "typescript",
+        "code": "interface ChatMessageProps {\n  message: string;\n  sender: 'user' | 'ai';\n}\n\nexport function ChatMessage({ message, sender }: ChatMessageProps) {\n  return (\n    <div className={`flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`}>\n      <div\n        className={`max-w-xs px-4 py-2 rounded-lg text-sm ${\n          sender === 'user'\n            ? 'bg-accent-500 text-foreground-50'\n            : 'bg-background-700 text-foreground-300'\n        }`}\n      >\n        {message}\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   }
 }

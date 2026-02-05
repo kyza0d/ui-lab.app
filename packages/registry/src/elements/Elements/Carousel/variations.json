@@ -1,0 +1,16 @@
+{
+  "01-basic": {
+    "name": "Basic Carousel",
+    "description": "Basic Carousel variation",
+    "demoPath": "carousel-basic",
+    "exportName": "BasicCarousel",
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "// Carousel basic variation placeholder\nexport function BasicCarousel() {\n  return <div>Carousel placeholder</div>;\n}\n",
+        "isEntryPoint": true
+      }
+    ]
+  }
+}

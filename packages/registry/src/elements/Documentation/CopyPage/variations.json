@@ -1,16 +1,42 @@
 {
   "01-basic": {
     "name": "Basic Copy Page",
-    "description": "Basic copy page button variation",
+    "description": "Basic Copy Page variation",
     "demoPath": "copypage-basic",
     "exportName": "BasicCopyPage",
-    "files": []
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "\"use client\"\nimport React from 'react';\nimport { CopyButton } from './layout/CopyButton';\n\nexport function BasicCopyPage() {\n  return (\n    <div className=\"min-h-screen bg-background-950 p-8\">\n      <div className=\"max-w-4xl mx-auto\">\n        <div className=\"flex items-center justify-between mb-8\">\n          <h1 className=\"text-3xl font-bold text-foreground-50\">Documentation Page</h1>\n          <CopyButton />\n        </div>\n\n        <div className=\"bg-background-800 rounded-md border border-background-700 p-8\">\n          <div className=\"prose prose-invert space-y-6\">\n            <section>\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Overview</h2>\n              <div className=\"space-y-2 text-foreground-300\">\n                <div className=\"h-3 bg-background-700 rounded w-full opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-5/6 opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-4/5 opacity-50\" />\n              </div>\n            </section>\n\n            <section>\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Getting Started</h2>\n              <div className=\"space-y-2 text-foreground-300\">\n                <div className=\"h-3 bg-background-700 rounded w-full opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-5/6 opacity-50\" />\n              </div>\n            </section>\n\n            <section>\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Features</h2>\n              <div className=\"space-y-3\">\n                <div className=\"flex gap-3\">\n                  <div className=\"w-2 h-2 rounded-full bg-accent-500 mt-1.5 flex-shrink-0\" />\n                  <div className=\"space-y-1\">\n                    <div className=\"h-3 bg-background-700 rounded w-32 opacity-50\" />\n                  </div>\n                </div>\n                <div className=\"flex gap-3\">\n                  <div className=\"w-2 h-2 rounded-full bg-accent-500 mt-1.5 flex-shrink-0\" />\n                  <div className=\"space-y-1\">\n                    <div className=\"h-3 bg-background-700 rounded w-40 opacity-50\" />\n                  </div>\n                </div>\n              </div>\n            </section>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "CopyButton.tsx",
+        "language": "typescript",
+        "code": "import React, { useState } from 'react';\n\nexport function CopyButton() {\n  const [copied, setCopied] = useState(false);\n\n  const handleCopy = async () => {\n    try {\n      const text = document.body.innerText;\n      await navigator.clipboard.writeText(text);\n      setCopied(true);\n      setTimeout(() => setCopied(false), 2000);\n    } catch {\n      console.error('Failed to copy');\n    }\n  };\n\n  return (\n    <button\n      onClick={handleCopy}\n      className={`px-4 py-2 rounded font-medium transition-colors flex items-center gap-2 ${\n        copied\n          ? 'bg-success-500 text-foreground-50'\n          : 'bg-accent-500 text-foreground-50 hover:bg-accent-600'\n      }`}\n    >\n      <span>{copied ? '✓' : '📋'}</span>\n      {copied ? 'Copied!' : 'Copy Page'}\n    </button>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   },
   "02-with-success": {
-    "name": "Copy Page with Success",
-    "description": "Copy page with success notification",
+    "name": "Copy Page With Success",
+    "description": "Copy Page With Success variation",
     "demoPath": "copypage-with-success",
     "exportName": "CopyPageWithSuccess",
-    "files": []
+    "files": [
+      {
+        "filename": "index.tsx",
+        "language": "typescript",
+        "code": "\"use client\"\nimport React, { useState } from 'react';\nimport { CopyButtonWithToast } from './layout/CopyButtonWithToast';\n\nexport function CopyPageWithSuccess() {\n  const [notification, setNotification] = useState<string | null>(null);\n\n  const handleCopySuccess = () => {\n    setNotification('Page content copied to clipboard!');\n    setTimeout(() => setNotification(null), 3000);\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background-950 p-8\">\n      <div className=\"max-w-4xl mx-auto\">\n        <div className=\"flex items-center justify-between mb-8\">\n          <h1 className=\"text-3xl font-bold text-foreground-50\">Share & Copy Documentation</h1>\n          <CopyButtonWithToast onCopySuccess={handleCopySuccess} />\n        </div>\n\n        {notification && (\n          <div className=\"mb-6 px-4 py-3 bg-success-500 bg-opacity-20 border border-success-500 rounded-md text-success-200 flex items-center gap-3\">\n            <span>✓</span>\n            <span>{notification}</span>\n          </div>\n        )}\n\n        <div className=\"bg-background-800 rounded-md border border-background-700 p-8\">\n          <div className=\"space-y-6\">\n            <section>\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Content Section 1</h2>\n              <div className=\"space-y-2 text-foreground-300\">\n                <div className=\"h-3 bg-background-700 rounded w-full opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-5/6 opacity-50\" />\n              </div>\n            </section>\n\n            <div className=\"border-t border-background-700 pt-6\" />\n\n            <section>\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Content Section 2</h2>\n              <div className=\"space-y-2 text-foreground-300\">\n                <div className=\"h-3 bg-background-700 rounded w-full opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-4/5 opacity-50\" />\n              </div>\n            </section>\n\n            <div className=\"border-t border-background-700 pt-6\" />\n\n            <section>\n              <h2 className=\"text-xl font-semibold text-foreground-50 mb-4\">Content Section 3</h2>\n              <div className=\"space-y-2 text-foreground-300\">\n                <div className=\"h-3 bg-background-700 rounded w-full opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-5/6 opacity-50\" />\n                <div className=\"h-3 bg-background-700 rounded w-3/4 opacity-50\" />\n              </div>\n            </section>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+        "isEntryPoint": true
+      },
+      {
+        "filename": "CopyButtonWithToast.tsx",
+        "language": "typescript",
+        "code": "import React, { useState } from 'react';\n\ninterface CopyButtonWithToastProps {\n  onCopySuccess?: () => void;\n}\n\nexport function CopyButtonWithToast({ onCopySuccess }: CopyButtonWithToastProps) {\n  const [isLoading, setIsLoading] = useState(false);\n\n  const handleCopy = async () => {\n    setIsLoading(true);\n    try {\n      const text = document.body.innerText;\n      await navigator.clipboard.writeText(text);\n      onCopySuccess?.();\n    } catch {\n      console.error('Failed to copy');\n    } finally {\n      setIsLoading(false);\n    }\n  };\n\n  return (\n    <button\n      onClick={handleCopy}\n      disabled={isLoading}\n      className=\"px-4 py-2 bg-accent-500 text-foreground-50 rounded font-medium hover:bg-accent-600 transition-colors disabled:opacity-50 flex items-center gap-2\"\n    >\n      <span>{isLoading ? '...' : '📋'}</span>\n      {isLoading ? 'Copying...' : 'Copy Page'}\n    </button>\n  );\n}\n",
+        "isEntryPoint": false
+      }
+    ]
   }
 }

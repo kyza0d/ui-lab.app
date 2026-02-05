@@ -18,6 +18,10 @@ import chatElement from './AI/Chat';
 import copypageElement from './Documentation/CopyPage';
 import nextarticleElement from './Documentation/NextArticle';
 import tocElement from './Documentation/TOC';
+import carouselElement from './Elements/Carousel';
+import ratingElement from './Elements/Rating';
+import timelineElement from './Elements/Timeline';
+import treeviewElement from './Elements/TreeView';
 import headerElement from './foundation/Header';
 import pageElement from './foundation/Page';
 import sidebarElement from './foundation/Sidebar';
@@ -54,6 +58,10 @@ export const elementRegistry: ElementRegistry = {
   [copypageElement.id]: copypageElement,
   [nextarticleElement.id]: nextarticleElement,
   [tocElement.id]: tocElement,
+  [carouselElement.id]: carouselElement,
+  [ratingElement.id]: ratingElement,
+  [timelineElement.id]: timelineElement,
+  [treeviewElement.id]: treeviewElement,
   [headerElement.id]: headerElement,
   [pageElement.id]: pageElement,
   [sidebarElement.id]: sidebarElement,
