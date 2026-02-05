@@ -3,7 +3,6 @@
 import React, { useMemo, useEffect, useState, useRef } from "react";
 import { useToastStore, ToastPosition, ToastProps } from "./Toast.Store";
 import { Toast } from "./Toast";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 const GAP = 14;
@@ -57,10 +56,21 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
     hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
   };
 
-  useGSAP(() => {
+  // Track which toast IDs were previously in the visible set
+  const prevVisibleIdsRef = useRef<Set<string>>(new Set());
+
+  // Use useEffect instead of useGSAP to avoid automatic revert-on-dependency-change,
+  // which causes wrapper transforms to snap to their pre-animation state before re-animating.
+  // With useEffect + overwrite:"auto", wrappers animate smoothly from their current position.
+  useEffect(() => {
+    const currentIds = new Set(visibleToasts.map(t => t.id));
+
     visibleToasts.forEach((toast, index) => {
       const el = toastRefsMap.current.get(toast.id);
       if (!el) return;
+
+      const isNewlyVisible = !prevVisibleIdsRef.current.has(toast.id);
+      const isFromTop = toast.spawnDirection === 'top';
 
       let y = 0;
       let scale = 1;
@@ -99,6 +109,13 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
         }
       }
 
+      // For toasts entering the visible set from the queue after a dismiss,
+      // set their initial wrapper position above the stack so they animate down into place
+      if (isNewlyVisible && isFromTop) {
+        const startY = isTop ? (y + 30) : (y - 30);
+        gsap.set(el, { y: startY, opacity: 0, scale: scale * 0.9 });
+      }
+
       gsap.to(el, {
         y,
         scale,
@@ -132,10 +149,9 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
         overwrite: "auto",
       });
     }
-  }, {
-    dependencies: [visibleToasts, isTop, isHovering],
-    scope: toastRefsMap,
-  });
+
+    prevVisibleIdsRef.current = currentIds;
+  }, [visibleToasts, isTop, isHovering]);
 
   const fixedStyle: React.CSSProperties = {
     position: "fixed",
@@ -177,6 +193,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
               position: "absolute",
               left: 0,
               right: 0,
+              zIndex: visibleToasts.length - index,
             }}
           >
             <Toast toast={toast} pauseOnHover={isHovering} />

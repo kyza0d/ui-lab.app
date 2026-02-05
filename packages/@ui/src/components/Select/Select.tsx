@@ -18,6 +18,7 @@ export interface SelectContextValue {
   selectedTextValue: string
   onSelect: (key: Key) => void
   triggerRef: React.MutableRefObject<HTMLElement | null>
+  wrapperRef: React.MutableRefObject<HTMLElement | null>
   triggerProps: any
   isFocusVisible: boolean
   isPressed: boolean
@@ -81,6 +82,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     ref
   ) => {
     const triggerRef = React.useRef<HTMLElement>(null)
+    const wrapperRef = React.useRef<HTMLElement>(null)
     const [isOpen, setIsOpen] = React.useState(false)
     const hoverTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -213,6 +215,17 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       }
     }, [visibleKeys, enabledFilteredItems, focusedKey])
 
+    // Auto-focus first filtered item when search value changes
+    React.useEffect(() => {
+      if (isOpen && searchValue) {
+        if (enabledFilteredItems.length > 0) {
+          setFocusedKey(enabledFilteredItems[0].key)
+        } else {
+          setFocusedKey(null)
+        }
+      }
+    }, [isOpen, searchValue, enabledFilteredItems])
+
     const { buttonProps, isPressed } = useButton({
       isDisabled,
       onPress: () => !isDisabled && setIsOpen(prev => !prev),
@@ -252,11 +265,11 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
 
     const rootRef = React.useCallback(
       (el: HTMLDivElement | null) => {
-        triggerRef.current = el
+        wrapperRef.current = el
         if (typeof ref === "function") ref(el)
         else if (ref) ref.current = el
       },
-      [ref, triggerRef]
+      [ref]
     )
 
     const childrenArray = React.Children.toArray(children)
@@ -273,6 +286,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           selectedTextValue,
           onSelect,
           triggerRef,
+          wrapperRef,
           triggerProps,
           isFocusVisible,
           isPressed,
@@ -295,7 +309,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           handleHoverIntent,
         }}
       >
-        <div ref={rootRef} className={cn('select', styles.select, className)} {...triggerProps}>
+        <div ref={rootRef} className={cn('select', styles.select, className)}>
           {otherContent}
           {trigger}
           {contentItems}

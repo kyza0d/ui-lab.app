@@ -36,7 +36,7 @@
     appearance: none;
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
     outline: none;
     transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);
     position: relative;

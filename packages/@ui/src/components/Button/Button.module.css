@@ -11,7 +11,7 @@
     color: var(--button-fg);
     border: var(--border-width-base) solid var(--button-border);
 
-    @apply px-3 py-1;
+    @apply px-2 py-1.5;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -52,14 +52,12 @@
   }
 
   .button.default {
-    /* Basic styles - same as original secondary */
     --button-bg: var(--background-800);
     --button-fg: var(--foreground-50);
     --button-border: var(--background-700);
   }
 
   .button.secondary {
-    /* Lighter variant than default */
     --button-bg: var(--background-700);
     --button-fg: var(--foreground-50);
     --button-border: var(--background-600);
@@ -67,11 +65,10 @@
 
   .button.outline {
     --button-bg: transparent;
-    --button-fg: var(--foreground-50);
+    --button-fg: var(--foreground-300);
     --button-border: var(--background-700);
     outline-style: unset !important;
     
-    /* Outline specific hover override if you want distinct behavior */
     &:hover:not(:disabled) {
        background-color: var(--background-800); /* Optional: explicit hover bg */
     }
@@ -82,7 +79,6 @@
     --button-fg: var(--foreground-300);
     --button-border: transparent;
 
-    /* Ghost usually needs a distinct hover bg, brightness filter might not be enough on transparent */
     @media (hover: hover) {
       &:hover:not(:disabled) {
         background-color: var(--background-800);
@@ -91,17 +87,17 @@
   }
 
   .button.sm {
-    @apply px-2 py-1;
+    @apply px-2.5 py-2;
     font-size: var(--text-sm);
   }
 
   .button.md {
-    @apply px-2.5 py-1;
+    @apply px-3.5 py-2;
     font-size: var(--text-md);
   }
 
   .button.lg {
-    @apply px-3 py-1;
+    @apply px-4 py-2;
     font-size: var(--text-md);
   }
 

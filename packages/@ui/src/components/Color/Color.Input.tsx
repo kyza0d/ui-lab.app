@@ -57,19 +57,11 @@ export const ColorInput = React.forwardRef<
       <Group
         ref={ref}
         variant="ghost"
-        spacing="normal"
+        spacing="sm"
         isDisabled={disabled}
         data-size={size}
         className={styles.inputGroup}
       >
-        <Group.InputWrapper
-          value={inputValue}
-          onChange={handleInputChange}
-          disabled={disabled}
-          placeholder={format === "hex" ? "#000000" : "rgb(0, 0, 0)"}
-          aria-label="Color input"
-          className={styles.colorInput}
-        />
         <Group.Select
           selectedKey={format}
           defaultValue={format === "hex" ? "Hex" : "RGB"}
@@ -81,6 +73,14 @@ export const ColorInput = React.forwardRef<
           isDisabled={disabled}
           className={styles.formatSelect}
         >
+          <Group.InputWrapper
+            value={inputValue}
+            onChange={handleInputChange}
+            disabled={disabled}
+            placeholder={format === "hex" ? "#000000" : "rgb(0, 0, 0)"}
+            aria-label="Color input"
+            className={styles.colorInput}
+          />
           <Select.Trigger aria-label="Color format">
             <Select.Value placeholder="Format" />
           </Select.Trigger>

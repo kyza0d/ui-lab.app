@@ -9,7 +9,7 @@ import { SelectTriggerContext } from "../Select/Select.Trigger"
 import styles from "./Group.module.css"
 
 type Orientation = "horizontal" | "vertical"
-type Spacing = "tight" | "normal" | "relaxed"
+type Spacing = "none" | "sm"
 type Variant = "primary" | "secondary" | "outline" | "ghost"
 
 interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -45,9 +45,8 @@ const orientationMap: Record<Orientation, string> = {
 }
 
 const spacingMap: Record<Spacing, string> = {
-  tight: styles.tight,
-  normal: styles.normal,
-  relaxed: styles.relaxed,
+  none: styles.none,
+  sm: styles.sm,
 }
 
 const variantMap: Record<Variant, string | undefined> = {
@@ -63,7 +62,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
     {
       className,
       orientation = "horizontal",
-      spacing = "normal",
+      spacing = "none",
       variant = "primary",
       children,
       isDisabled = false,
@@ -100,13 +99,13 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
           aria-disabled={isDisabled || undefined}
           {...props}
         >
-          {childrenArray.map((child, index) => {
+          {childrenArray.flatMap((child, index) => {
             const isFirst = index === 0
             const isLast = index === childrenArray.length - 1
 
-            return (
+            const elements: React.ReactNode[] = [
               <div
-                key={index}
+                key={`item-${index}`}
                 className={cn(
                   styles.itemWrapper,
                   isVertical ? styles.vertical : styles.horizontal,
@@ -115,8 +114,21 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
                 )}
               >
                 {child}
-              </div>
-            )
+              </div>,
+            ]
+
+            // Add divider after this item (unless it's the last item, or variant is ghost)
+            if (!isLast && variant !== "ghost") {
+              elements.push(
+                <div
+                  key={`divider-${index}`}
+                  className={styles.separator}
+                  aria-orientation={orientation}
+                />
+              )
+            }
+
+            return elements
           })}
         </div>
       </GroupContext.Provider>
@@ -148,10 +160,13 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
       )
     }
 
-    // For ghost group variant, apply variant based on active state
     let buttonVariant = variant
-    if (context.groupVariant === "ghost" && variant === undefined) {
-      buttonVariant = active ? "default" : "ghost"
+    if (variant === undefined) {
+      if (context.groupVariant === "ghost") {
+        buttonVariant = active ? "default" : "ghost"
+      } else {
+        buttonVariant = "ghost"
+      }
     }
 
     const buttonProps = {

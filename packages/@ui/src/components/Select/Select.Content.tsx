@@ -4,6 +4,9 @@ import { useFloating, flip, shift, offset, size, autoUpdate } from '@floating-ui
 import { cn } from "@/lib/utils"
 import styles from "./Select.module.css"
 import { useSelectContext } from "./Select"
+import { GroupContext } from "../Group/Group"
+import { Scroll } from "../Scroll"
+import { Input } from "../Input"
 
 interface SelectContentProps extends React.PropsWithChildren {
   className?: string
@@ -11,27 +14,50 @@ interface SelectContentProps extends React.PropsWithChildren {
 
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
   ({ children, className }, ref) => {
-    const { isOpen, setIsOpen, triggerRef, maxItems, triggerMode, handleHoverIntent } = useSelectContext()
+    const { isOpen, setIsOpen, wrapperRef, maxItems, triggerMode, handleHoverIntent } = useSelectContext()
+    const groupContext = React.useContext(GroupContext)
     const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null)
 
-    // Floating UI positioning
+    const offsetValue = groupContext?.isInGroup ? 4 : 2
+
     const { refs, floatingStyles, x, y, placement } = useFloating({
       placement: 'bottom-start',
       whileElementsMounted: autoUpdate,
       middleware: [
-        offset(2), // 2px gap
+        offset({
+          mainAxis: offsetValue,
+          crossAxis: groupContext?.isInGroup ? -1 : 0,
+        }),
         flip({
           fallbackPlacements: ['top-start'],
         }),
-        shift({ padding: 8 }),
         size({
           apply({ rects, elements }) {
+            let borderAdjustment = 0
+            if (groupContext?.isInGroup && elements.reference) {
+              const groupElement = (elements.reference as HTMLElement).closest('.group')
+              if (groupElement) {
+                const computedStyle = window.getComputedStyle(groupElement)
+                const borderWidth = parseFloat(computedStyle.borderLeftWidth) || 2
+                borderAdjustment = borderWidth * 2
+                console.log('[SelectContent] Dynamic border calculation:', {
+                  borderLeftWidth: computedStyle.borderLeftWidth,
+                  parsedWidth: borderWidth,
+                  totalAdjustment: borderAdjustment,
+                })
+              } else {
+                borderAdjustment = 2
+              }
+            }
+
+            const targetWidth = rects.reference.width + borderAdjustment
             Object.assign(elements.floating.style, {
-              maxWidth: `${Math.max(rects.reference.width, 512)}px`,
-              minWidth: `${rects.reference.width}px`,
+              width: `${targetWidth}px`,
+              maxWidth: `${Math.max(targetWidth, 512)}px`,
+              minWidth: `${targetWidth}px`,
             })
           },
-          padding: 8,
+          padding: 0,
         }),
       ],
     })
@@ -39,12 +65,14 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     // Position is ready when Floating UI has calculated x and y coordinates
     const isPositioned = x !== null && y !== null
 
-    // Sync triggerRef with Floating UI - use layoutEffect for synchronous positioning before paint
+    // Sync wrapperRef with Floating UI - use layoutEffect for synchronous positioning before paint
     React.useLayoutEffect(() => {
-      if (triggerRef.current) {
-        refs.setReference(triggerRef.current)
+      if (wrapperRef.current) {
+        // Always use the full Select wrapper (.select.groupSelectWrapper) as reference
+        // This aligns the dropdown with the left edge of the entire Select component
+        refs.setReference(wrapperRef.current)
       }
-    }, [refs, triggerRef.current])
+    }, [refs, wrapperRef.current])
 
     // Portal setup
     React.useEffect(() => {
@@ -105,7 +133,14 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             }}
             {...hoverHandlers}
           >
-            <div className={cn('viewport', styles.viewport)} style={{ maxHeight: `calc(${maxItems} * 36px + 8px)` }}>{children}</div>
+            <Scroll
+              className="viewport"
+              maxHeight={`calc(${maxItems} * 36px + 8px)`}
+              direction="vertical"
+              style={{ padding: "0.25rem" }}
+            >
+              {children}
+            </Scroll>
           </div>
         )}
       </>,
@@ -126,7 +161,7 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
     const {
       isOpen,
       setIsOpen,
-      triggerRef,
+      wrapperRef,
       searchValue,
       setSearchValue,
       navigateToNextItem,
@@ -139,43 +174,62 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
       triggerMode,
       handleHoverIntent,
     } = useSelectContext()
+    const groupContext = React.useContext(GroupContext)
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null)
 
-    // Floating UI positioning with fixed strategy for better scroll handling
+    const offsetValue = groupContext?.isInGroup ? 4 : 2
+
     const { refs, floatingStyles, x, y, placement } = useFloating({
       placement: 'bottom-start',
       strategy: 'fixed',
       whileElementsMounted: autoUpdate,
       middleware: [
-        offset(2), // 2px gap
+        offset({
+          mainAxis: offsetValue,
+          crossAxis: groupContext?.isInGroup ? -2 : 0,
+        }),
         flip({
           fallbackPlacements: ['top-start'],
         }),
-        shift({ padding: 8 }),
         size({
           apply({ rects, elements }) {
+            let borderAdjustment = 0
+            if (groupContext?.isInGroup && elements.reference) {
+              const groupElement = (elements.reference as HTMLElement).closest('.group')
+              if (groupElement) {
+                const computedStyle = window.getComputedStyle(groupElement)
+                const borderWidth = parseFloat(computedStyle.borderLeftWidth) || 2
+                borderAdjustment = borderWidth * 2 // left + right borders
+                console.log('[SearchableContent] Dynamic border calculation:', {
+                  borderLeftWidth: computedStyle.borderLeftWidth,
+                  parsedWidth: borderWidth,
+                  totalAdjustment: borderAdjustment,
+                })
+              } else {
+                borderAdjustment = 4
+              }
+            }
+
+            const targetWidth = rects.reference.width + borderAdjustment
             Object.assign(elements.floating.style, {
-              maxWidth: `${Math.max(rects.reference.width, 512)}px`,
-              minWidth: `${rects.reference.width}px`,
+              width: `${targetWidth}px`,
+              maxWidth: `${Math.max(targetWidth, 512)}px`,
+              minWidth: `${targetWidth}px`,
             })
           },
-          padding: 8,
         }),
       ],
     })
 
-    // Position is ready when Floating UI has calculated x and y coordinates
     const isPositioned = x !== null && y !== null
 
-    // Sync triggerRef with Floating UI - use layoutEffect for synchronous positioning before paint
     React.useLayoutEffect(() => {
-      if (triggerRef.current) {
-        refs.setReference(triggerRef.current)
+      if (wrapperRef.current) {
+        refs.setReference(wrapperRef.current)
       }
-    }, [refs, triggerRef.current])
+    }, [refs, wrapperRef.current])
 
-    // Portal setup
     React.useEffect(() => {
       if (typeof document === 'undefined') return
 
@@ -273,13 +327,12 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
             data-placement={placement.split('-')[0]}
             style={{
               ...floatingStyles,
-              // Hide visually until position is calculated to prevent flash at (0,0)
               visibility: isPositioned ? 'visible' : 'hidden',
             }}
             {...hoverHandlers}
           >
             <div className="px-2 py-2">
-              <input
+              <Input
                 ref={inputRef}
                 type="text"
                 role="combobox"
@@ -294,10 +347,17 @@ const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProp
                 }}
                 onKeyDown={handleKeyDown}
                 placeholder={searchPlaceholder}
-                className="w-full px-2 py-1.5 text-sm border border-border rounded bg-background text-foreground placeholder-foreground-500"
+                variant="ghost"
               />
             </div>
-            <div className={styles.viewport} style={{ maxHeight: `calc(${maxItems} * 36px + 8px)` }}>{children}</div>
+            <Scroll
+              className="viewport"
+              maxHeight={`calc(${maxItems} * 36px + 8px)`}
+              direction="vertical"
+              style={{ padding: "0.25rem" }}
+            >
+              {children}
+            </Scroll>
           </div>
         )}
       </>,

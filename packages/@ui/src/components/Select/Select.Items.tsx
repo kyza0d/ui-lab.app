@@ -67,10 +67,11 @@ interface SelectItemProps extends React.PropsWithChildren {
   isDisabled?: boolean
   className?: string
   icon?: React.ReactNode
+  description?: string
 }
 
 const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
-  ({ children, isDisabled = false, className, textValue, value, icon }, forwardedRef) => {
+  ({ children, isDisabled = false, className, textValue, value, icon, description }, forwardedRef) => {
     const { selectedKey, onSelect, registerItem, unregisterItem, visibleKeys, isOpen, setFocusedKey, focusedKey } = useSelectContext()
     const itemRef = React.useRef<HTMLLIElement>(null)
     const [isHovered, setIsHovered] = React.useState(false)
@@ -87,25 +88,34 @@ const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
     // Scroll focused item into view within dropdown viewport only
     React.useEffect(() => {
       if (isFocused && itemRef.current) {
-        // Find the viewport element (parent container with overflow)
-        const viewportEl = itemRef.current.closest('[class*="viewport"]') as HTMLElement
-        if (!viewportEl) return
+        // Find the Scroll container, then get its scrollable content element
+        const scrollContainer = itemRef.current.closest('[class*="viewport"]') as HTMLElement
+        if (!scrollContainer) return
+
+        // The Scroll component's scrollable content is the element with the 'content' data attribute or class
+        // We need to find the actual scrollable element which is a sibling of the track
+        const scrollableEl = scrollContainer.querySelector('[class*="content"]') as HTMLElement
+        if (!scrollableEl) return
 
         const itemRect = itemRef.current.getBoundingClientRect()
-        const viewportRect = viewportEl.getBoundingClientRect()
+        const scrollableRect = scrollableEl.getBoundingClientRect()
 
         // Check if item is outside the visible viewport
-        const isAbove = itemRect.top < viewportRect.top
-        const isBelow = itemRect.bottom > viewportRect.bottom
+        const isAbove = itemRect.top < scrollableRect.top
+        const isBelow = itemRect.bottom > scrollableRect.bottom
 
         if (isAbove || isBelow) {
-          // Scroll only the dropdown's viewport, not the page
-          const scrollTop = isAbove
-            ? itemRef.current.offsetTop - viewportEl.offsetTop
-            : itemRef.current.offsetTop - viewportEl.offsetTop - viewportEl.clientHeight + itemRect.height
+          // Calculate scroll position relative to the scrollable container
+          const itemOffsetTop = itemRef.current.offsetTop
+          const scrollableOffsetTop = scrollableEl.offsetTop
+          const relativeTop = itemOffsetTop - scrollableOffsetTop
 
-          viewportEl.scrollTo({
-            top: scrollTop,
+          const scrollTop = isAbove
+            ? relativeTop
+            : relativeTop - scrollableEl.clientHeight + itemRef.current.offsetHeight
+
+          scrollableEl.scrollTo({
+            top: Math.max(0, scrollTop),
             behavior: 'smooth'
           })
         }
@@ -150,7 +160,7 @@ const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
         role="option"
         aria-selected={isSelected}
         aria-disabled={isDisabled || undefined}
-        className={cn(styles.item, className)}
+        className={cn(styles.item, description && styles.itemWithDescription, className)}
         data-selected={isSelected || undefined}
         data-disabled={isDisabled || undefined}
         data-focus-visible={isFocused || undefined}
@@ -160,9 +170,12 @@ const SelectItem = React.forwardRef<HTMLLIElement, SelectItemProps>(
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
       >
-        {icon && <div className={styles.itemIcon}>{icon}</div>}
-        <div className={styles.itemText}>{children}</div>
-        <div className={styles.itemIndicator}>{isSelected && <FaCheck className="w-3 h-3" />}</div>
+        {icon && <div className={cn(styles.itemIcon, description && styles.itemIconWithDescription)}>{icon}</div>}
+        <div className={styles.itemContent}>
+          <div className={styles.itemText}>{children}</div>
+          {description && <div className={styles.itemDescription}>{description}</div>}
+        </div>
+        <div className={cn(styles.itemIndicator, description && styles.itemIndicatorWithDescription)}>{isSelected && <FaCheck className="w-3 h-3" />}</div>
       </li>
     )
   }

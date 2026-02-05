@@ -135,10 +135,10 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
 
           {/* Border Stroke Layer */}
           <rect
-            x={halfStroke}
-            y={halfStroke}
-            width={`calc(100%-${borderStroke}px)`}
-            height={`calc(100%-${borderStroke}px)`}
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
             rx={cornerRadius}
             fill="none"
             stroke={borderColor}

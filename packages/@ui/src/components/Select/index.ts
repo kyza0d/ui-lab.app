@@ -3,6 +3,7 @@ import { SelectTrigger, SearchableTrigger } from "./Select.Trigger"
 import { SelectContent, SearchableContent } from "./Select.Content"
 import { SelectItem, SelectGroup, SelectValue } from "./Select.Items"
 import { SelectSeparator, SelectScrollUpButton, SelectScrollDownButton } from "./Select.Decorative"
+import { Multi, MultiSelect, MultiSelectTrigger, MultiSelectContent, MultiSelectList, MultiSelectItem, useMultiSelectContext } from "./MultiSelect"
 
 // Create compound component pattern for Select
 const Select = Object.assign(SelectRoot, {
@@ -26,8 +27,11 @@ const Searchable = Object.assign(() => null, {
 export {
   Select,
   Searchable,
+  Multi,
+  MultiSelect,
   SelectContext,
   useSelectContext,
+  useMultiSelectContext,
 }
 
 export type { SelectProps, SelectContextValue, SelectItemData, SelectTriggerMode, SelectListProps } from "./Select"
@@ -35,3 +39,4 @@ export type { SelectTriggerProps, SearchableTriggerProps } from "./Select.Trigge
 export type { SelectContentProps, SearchableContentProps } from "./Select.Content"
 export type { SelectItemProps, SelectGroupProps, SelectValueProps } from "./Select.Items"
 export type { SelectSeparatorProps } from "./Select.Decorative"
+export type { MultiSelectProps, MultiSelectTriggerProps, MultiSelectContentProps, MultiSelectListProps, MultiSelectItemProps, MultiSelectItemData } from "./MultiSelect"
