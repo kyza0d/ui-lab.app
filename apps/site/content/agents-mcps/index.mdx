@@ -1,232 +1,50 @@
 ---
-title: "Agents & MCPs: AI-First Component Integration"
-description: "Generate production-ready UI Lab components with AI. Learn the registry, design guidelines, and MCP integration."
-category: "AI Integration"
+title: "Agents & MCPs"
+description: "AI-first component integration for production-ready UI generation."
 ---
 
-# Agents & MCPs: Building Beautiful UIs with AI
+# Agents & MCPs
 
-UI Lab is designed from the ground up to be **AI-augmented by design**. Rather than treating AI as an afterthought, we've built the entire component system with AI as a first-class citizen.
+UI Lab is built from the ground up with AI as a first-class citizen. Our component system is designed to make it easy for AI systems—whether Claude, custom agents, or other LLMs—to generate beautiful, production-ready code.
 
-This means AI systems—whether Claude, custom agents, or other LLMs—can generate production-ready component code that is automatically:
+## Core Principles
 
-- **Beautiful by default** – Needs no configuration
-- **Consistent with your design system** – Uses semantic tokens and theming
-- **Fully accessible** – Includes ARIA attributes and keyboard support
-- **Type-safe** – Fully typed TypeScript code
-- **Composable** – Follows established patterns
-
-## Why This Matters
-
-Traditional component libraries require AI to make dozens of decisions:
-- Which component should I use?
-- What are the valid variants?
-- How do components compose together?
-- What accessibility attributes are needed?
-- Which design tokens should I reference?
-
-UI Lab answers all these questions upfront through:
-
-1. **Rich Metadata Registry** – Every component is fully described
-2. **Design Guidelines** – Explicit decision-making patterns
-3. **LLMs.txt Format** – Machine-readable component documentation
-4. **MCP Server** – Real-time integration with Claude
-
-## What You'll Learn
-
-### For Claude Users
-
-If you use Claude to generate UI code:
-
-- **Reference Components** – Know what's available in UI Lab
-- **Use the Registry** – Discover components and their capabilities
-- **Enable the MCP Server** – Real-time integration for up-to-date info
-- **Leverage Design Guidelines** – Let Claude make smart decisions
-
-→ **Start with:** [Getting Started with Claude](/agents-mcps/getting-started-with-claude)
-
-### For AI Developers & Agent Builders
-
-If you're building custom AI systems:
-
-- **Understand Component Registry** – How metadata is structured
-- **Learn Composition Patterns** – How components work together
-- **Implement Design Decisions** – How guidelines enforce consistency
-- **Build Your MCP Server** – Integrate with Claude and other systems
-
-→ **Start with:** [Understanding the Component Registry](/agents-mcps/understanding-component-registry)
-
-## Core Concepts: Three Pillars
-
-### 1. Component Registry
-
-A structured, machine-readable catalog of all UI Lab components:
-
-```json
-{
-  "id": "button",
-  "name": "Button",
-  "variants": ["primary", "secondary", "outline", "ghost"],
-  "accessibility": {
-    "hasAriaSupport": true,
-    "notes": ["Full keyboard support", "Proper focus ring styling"]
-  },
-  "relatedComponents": ["link", "icon-button"],
-  "design": {
-    "tokens": ["--accent-600", "--spacing-md"],
-    "responsive": true,
-    "darkMode": true
-  }
-}
-```
-
-→ **Details:** [Component Registry Reference](/agents-mcps/component-registry-reference)
-
-### 2. Design Guidelines
-
-Explicit patterns that guide component selection and composition:
-
-```
-## When to Use Button
-
-### vs. Link
-- Use Button for actions that change state
-- Use Link for navigation within the app
-
-### Variants
-- `primary`: Main call-to-action
-- `secondary`: Alternative actions
-- `outline`: Secondary with less emphasis
-- `ghost`: Tertiary or subtle actions
-```
-
-→ **Details:** [Design Guidelines Reference](/agents-mcps/design-guidelines-reference)
-
-### 3. LLMs.txt Format
-
-Human and machine-readable component documentation:
-
-```
-# UI Lab Components
-
-## Button
-**Import:** import { Button } from 'ui-lab-components'
-
-### Props
-- variant: "primary" | "secondary" | "outline" | "ghost"
-  - primary: Use for main CTA
-  - secondary: Use for alternative actions
-
-### Examples
-<Button variant="primary">Save</Button>
-<Button variant="secondary" disabled>Cancel</Button>
-```
-
-→ **Details:** [LLMs.txt Format Reference](/agents-mcps/llms-txt-format-reference)
-
-## Key Features for AI
-
-### Type Safety
-
-Every component is fully typed. Generated code is always valid TypeScript:
-
-```typescript
-interface ButtonProps {
-  variant?: "primary" | "secondary" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
-  disabled?: boolean;
-  onClick?: (e: React.MouseEvent) => void;
-}
-```
-
-### Semantic Theming
-
-AI references design tokens instead of hardcoding values:
-
-```jsx
-// Good: Uses semantic tokens
-<Button variant="primary" className="p-md">Save</Button>
-
-// Avoid: Hardcoded values
-<button style={{ padding: "16px", color: "#3B82F6" }}>Save</button>
-```
-
-### Composability Patterns
-
-Clear patterns for how components work together:
-
-```jsx
-<Form>
-  <FormField>
-    <Label>Email</Label>
-    <Input type="email" />
-  </FormField>
-  <Button variant="primary">Submit</Button>
-</Form>
-```
-
-### Accessibility Built-In
-
-Accessibility is not optional—it's built into every component:
-
-```jsx
-// Icon-only buttons automatically get aria-label support
-<Button variant="ghost" aria-label="Close">×</Button>
-
-// Form fields include proper labeling
-<Input aria-label="Search" placeholder="Search..." />
-```
-
-## Documentation Structure
-
-This section follows the **Diataxis framework**, organizing content by user needs:
-
-| Section | Purpose | For | Example |
-|---------|---------|-----|---------|
-| **Getting Started** | Learn by doing | Anyone new to UI Lab + AI | Step-by-step tutorials |
-| **Understanding** | Learn concepts | Those who want to understand | Explanations of architecture |
-| **How-To Guides** | Solve problems | Those building integrations | Goal-focused solutions |
-| **Reference** | Look up facts | Those needing API details | Complete specifications |
-
-## Quick Navigation
-
-**Just Starting Out?**
-- [Getting Started with Claude](/agents-mcps/getting-started-with-claude)
-
-**Want to Build Your Own?**
-- [Understanding the Component Registry](/agents-mcps/understanding-component-registry)
-- [Design Guidelines Reference](/agents-mcps/design-guidelines-reference)
-
-**Need Technical Details?**
-- [Component Registry API Reference](/agents-mcps/component-registry-reference)
-- [LLMs.txt Format Specification](/agents-mcps/llms-txt-format-reference)
-- [MCP Server Setup Guide](/agents-mcps/mcp-server-setup)
-
-**Looking for Examples?**
-- [Examples & Patterns](/agents-mcps/examples-patterns)
-- [Custom MCP Servers](/agents-mcps/custom-mcp-servers)
-
-## Philosophy: Beautiful by Default
-
-The core principle that guides everything:
-
-**Every component is beautiful without configuration.**
-
-This means AI-generated UIs are:
-- Visually stunning out of the box
-- Consistent across the entire system
+### Beautiful by Default
+Every component is beautiful without configuration. AI-generated UIs are:
+- Visually consistent across the entire system
 - Work in both light and dark modes
 - Scale responsively from mobile to desktop
 - Follow accessibility standards automatically
 
-When AI generates component code with UI Lab, the result is production-ready—no tweaking needed.
+### Type-Safe & Composable
+All components are fully typed TypeScript with clear composition patterns:
 
-## Next Steps
+```jsx
+<Button variant="primary" size="md">Save</Button>
+<Input type="email" placeholder="your@email.com" />
+<Select options={items} value={selected} onChange={setSelected} />
+```
 
-1. **If you use Claude:** Go to [Getting Started with Claude](/agents-mcps/getting-started-with-claude)
-2. **If you're building AI integrations:** Go to [Understanding the Component Registry](/agents-mcps/understanding-component-registry)
-3. **If you need API details:** Go to [Component Registry Reference](/agents-mcps/component-registry-reference)
+### Registry-Driven
+A machine-readable registry describes every component:
+- Variants and their purposes
+- Accessibility features
+- Design tokens and theming
+- Related components
+- Composition patterns
+
+## What's Included
+
+1. **Component Registry** – Structured metadata for all UI Lab components
+2. **Design Guidelines** – Clear patterns for component selection and composition
+3. **Type Definitions** – Full TypeScript support for generated code
+4. **MCP Server** – Real-time integration with Claude and other LLMs
+
+## Quick Start
+
+- **New to UI Lab + AI?** Start with [Getting Started](/agents-mcps/getting-started)
+- **Need technical details?** See [API Reference](/agents-mcps/api-reference)
 
 ---
 
-**UI Lab: Beautiful by default. Consistent across AI and human code. Ready for production.**
+UI Lab: Beautiful by default. Type-safe. Ready for production.

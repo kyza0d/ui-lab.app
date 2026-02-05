@@ -1,6 +1,158 @@
 ---
 title: API Reference
-description: API reference documentation
+description: UI Lab API reference and component specifications
 ---
 
 # API Reference
+
+## Component Registry
+
+The component registry provides structured metadata for all UI Lab components.
+
+### Registry Structure
+
+```typescript
+interface Component {
+  id: string;
+  name: string;
+  description: string;
+  variants: Variant[];
+  props: PropDefinition[];
+  examples: Example[];
+  accessibility: AccessibilityInfo;
+  relatedComponents: string[];
+  design: DesignInfo;
+}
+
+interface Variant {
+  name: string;
+  description: string;
+  default?: boolean;
+}
+
+interface PropDefinition {
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+  default?: any;
+}
+
+interface AccessibilityInfo {
+  ariaSupport: boolean;
+  keyboardSupport: boolean;
+  notes: string[];
+}
+
+interface DesignInfo {
+  tokens: string[];
+  responsive: boolean;
+  darkMode: boolean;
+}
+```
+
+## Core Components
+
+### Button
+
+```typescript
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
+  children?: React.ReactNode;
+  className?: string;
+}
+```
+
+**Variants:**
+- `primary` – Main call-to-action
+- `secondary` – Alternative actions
+- `outline` – Secondary with less emphasis
+- `ghost` – Tertiary or subtle actions
+
+### Input
+
+```typescript
+interface InputProps {
+  type?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  className?: string;
+  aria-label?: string;
+}
+```
+
+### Select
+
+```typescript
+interface SelectProps {
+  options: Option[];
+  value?: string | string[];
+  onChange?: (value: string | string[]) => void;
+  multiple?: boolean;
+  disabled?: boolean;
+  className?: string;
+}
+
+interface Option {
+  label: string;
+  value: string;
+  disabled?: boolean;
+}
+```
+
+## Hooks & Utilities
+
+### useTheme
+
+Access the current theme configuration:
+
+```typescript
+const { theme, setTheme } = useTheme();
+```
+
+### useComponents
+
+Get the component registry:
+
+```typescript
+const registry = useComponents();
+const button = registry.get('button');
+```
+
+## Design Tokens
+
+Components use semantic design tokens:
+
+```css
+--accent-50 through --accent-950
+--neutral-50 through --neutral-950
+--spacing-xs, --spacing-sm, --spacing-md, --spacing-lg, --spacing-xl
+--radius-sm, --radius-md, --radius-lg
+--font-family-base
+--font-size-sm, --font-size-base, --font-size-lg
+```
+
+## MCP Server API
+
+The MCP server provides real-time access to component metadata:
+
+### Available Methods
+
+- `get_component(id: string)` – Get a single component
+- `list_components()` – List all components
+- `search_components(query: string)` – Search components
+- `get_guidelines()` – Get design guidelines
+- `get_tokens()` – Get design token definitions
+
+## TypeScript Support
+
+All components are fully typed. Import types for prop definitions:
+
+```typescript
+import type { ButtonProps, InputProps, SelectProps } from '@ui-lab/react';
+```
