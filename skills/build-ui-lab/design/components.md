@@ -119,7 +119,7 @@ Group.Button  // Button within group
 
 **Usage:**
 ```tsx
-<Group variant="ghost" spacing="normal">
+<Group variant="ghost" spacing="sm">
   <Group.Button variant="outline">Cancel</Group.Button>
   <Group.Button variant="primary">Save</Group.Button>
 </Group>
