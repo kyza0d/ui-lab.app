@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useRef, useState, useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useState, useRef } from "react";
 import { useToastStore, ToastPosition, ToastProps } from "./Toast.Store";
 import { Toast } from "./Toast";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-const MAX_VISIBLE = 3;
-const TOAST_WIDTH = 356;
 const GAP = 14;
+const MAX_VISIBLE = 3;
 
-const positionConfig: Record<ToastPosition, React.CSSProperties> = {
+const positionConfig: Record<
+  ToastPosition,
+  {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+    transform?: string;
+  }
+> = {
   "top-left": { top: "1.5rem", left: "1.5rem" },
   top: { top: "1.5rem", left: "50%", transform: "translateX(-50%)" },
   "top-right": { top: "1.5rem", right: "1.5rem" },
@@ -20,7 +28,6 @@ const positionConfig: Record<ToastPosition, React.CSSProperties> = {
 };
 
 // Global registry to prevent duplicate Toasters in the same position
-// This handles the case where multiple <Toaster /> components are mounted (e.g. Layout + Page)
 const activePositions = new Set<string>();
 
 interface ToastContainerProps {
@@ -29,14 +36,13 @@ interface ToastContainerProps {
 }
 
 const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => {
+  const config = positionConfig[position];
+  const toastRefsMap = useRef<Map<string, HTMLDivElement>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
+  const isTop = position.includes("top");
   const [isHovering, setIsHovering] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const toastRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-  const isTop = position.includes("top");
-
-  // Memoize to prevent unnecessary useGSAP re-runs that could interrupt animations
   const visibleToasts = useMemo(
     () => toasts.slice(0, MAX_VISIBLE + 1),
     [toasts]
@@ -52,57 +58,28 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
   };
 
   useGSAP(() => {
-    if (!containerRef.current) return;
-
-    // Track if first toast is new (check before we set data-entered)
-    const firstEl = visibleToasts[0] ? toastRefs.current.get(visibleToasts[0].id) : null;
-    const isFirstToastNew = visibleToasts.length === 1 && firstEl && !firstEl.hasAttribute("data-entered");
-    const firstHeight = firstEl?.getBoundingClientRect().height || 60;
-
-    // Calculate total height for hover state
-    let totalHeight = 0;
-    visibleToasts.forEach((toast) => {
-      const el = toastRefs.current.get(toast.id);
-      if (el) {
-        totalHeight += (el.getBoundingClientRect().height || 60) + GAP;
-      }
-    });
-
-    // Container height: hovering shows full stack, otherwise just top card + padding
-    const containerHeight = isHovering ? totalHeight : firstHeight + (GAP * 2);
-
-    // CRITICAL: Set container dimensions FIRST, before any toast animations
-    // This ensures bottom-positioned toasts have a stable reference point
-    gsap.set(containerRef.current, { width: TOAST_WIDTH });
-    if (isFirstToastNew) {
-      gsap.set(containerRef.current, { height: containerHeight });
-    } else {
-      gsap.to(containerRef.current, {
-        height: containerHeight,
-        duration: 0.35,
-        ease: "power3.out",
-      });
-    }
-
-    // Now animate toasts (container is properly sized)
-    let currentY = 0;
     visibleToasts.forEach((toast, index) => {
-      const el = toastRefs.current.get(toast.id);
+      const el = toastRefsMap.current.get(toast.id);
       if (!el) return;
-
-      const height = el.getBoundingClientRect().height || 60;
 
       let y = 0;
       let scale = 1;
       let opacity = 1;
-      let zIndex = visibleToasts.length - index;
 
       if (isHovering) {
-        y = currentY * (isTop ? 1 : -1);
+        // When hovering, expand all toasts to full visibility
+        let cumulativeY = 0;
+        for (let i = 0; i < index; i++) {
+          const prevEl = toastRefsMap.current.get(visibleToasts[i].id);
+          if (prevEl) {
+            cumulativeY += (prevEl.getBoundingClientRect().height || 60) + GAP;
+          }
+        }
+        y = cumulativeY * (isTop ? 1 : -1);
         scale = 1;
         opacity = 1;
-        currentY += height + GAP;
       } else {
+        // When not hovering, use stacked preview logic
         if (index === 0) {
           y = 0;
           scale = 1;
@@ -122,74 +99,84 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
         }
       }
 
-      // Check if this is a new entry (animate in) or existing (animate to)
-      if (!el.hasAttribute("data-entered")) {
-        el.setAttribute("data-entered", "true");
-
-        const fromY = y + (isTop ? -20 : 20);
-
-        // Set initial state and animate
-        gsap.set(el, {
-          y: fromY,
-          opacity: 0,
-          scale: scale,
-          zIndex: zIndex,
-          force3D: true
-        });
-
-        gsap.to(el, {
-          y: y,
-          opacity: opacity,
-          duration: 0.35,
-          ease: "power3.out",
-          force3D: true
-        });
-      } else {
-        // Move animation
-        gsap.to(el, {
-          x: 0,
-          y: y,
-          scale: scale,
-          opacity: opacity,
-          zIndex: zIndex,
-          duration: 0.35,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
-      }
+      gsap.to(el, {
+        y,
+        scale,
+        opacity,
+        duration: 0.35,
+        ease: "power3.out",
+        overwrite: "auto",
+      });
     });
 
+    // Animate container height
+    if (containerRef.current) {
+      let totalHeight = 0;
+      if (isHovering) {
+        visibleToasts.forEach((toast) => {
+          const el = toastRefsMap.current.get(toast.id);
+          if (el) {
+            totalHeight += (el.getBoundingClientRect().height || 60) + GAP;
+          }
+        });
+      } else {
+        const firstEl = visibleToasts[0] ? toastRefsMap.current.get(visibleToasts[0].id) : null;
+        const firstHeight = firstEl?.getBoundingClientRect().height || 60;
+        totalHeight = firstHeight + (GAP * 2);
+      }
+
+      gsap.to(containerRef.current, {
+        height: totalHeight,
+        duration: 0.35,
+        ease: "power3.out",
+        overwrite: "auto",
+      });
+    }
   }, {
-    dependencies: [visibleToasts, isHovering, isTop],
-    scope: containerRef,
+    dependencies: [visibleToasts, isTop, isHovering],
+    scope: toastRefsMap,
   });
 
+  const fixedStyle: React.CSSProperties = {
+    position: "fixed",
+    zIndex: 9999,
+    pointerEvents: "none",
+    ...config,
+  };
+
+  const containerStyle: React.CSSProperties = {
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    width: "356px",
+    maxWidth: "90vw",
+  };
+
   return (
-    <div
-      className="fixed z-[9999] flex flex-col items-center outline-none"
-      style={positionConfig[position]}
-    >
+    <div style={fixedStyle}>
       <div
         ref={containerRef}
+        style={containerStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="relative flex flex-col items-center outline-none"
-        style={{
-          pointerEvents: isHovering ? "auto" : "none",
-        }}
+        className={isHovering ? "pointer-events-auto" : "pointer-events-none"}
       >
-        {visibleToasts.map((toast) => (
+        {visibleToasts.map((toast, index) => (
           <div
             key={toast.id}
             ref={(el) => {
-              if (el) toastRefs.current.set(toast.id, el);
-              else toastRefs.current.delete(toast.id);
+              if (el) toastRefsMap.current.set(toast.id, el);
+              else toastRefsMap.current.delete(toast.id);
             }}
-            className={`absolute w-full opacity-0 ${isTop ? "top-0 origin-top" : "bottom-0 origin-bottom"
-              }`}
+            className="pointer-events-auto"
             style={{
               willChange: "transform, opacity",
-              pointerEvents: "auto",
+              origin: isTop ? "top center" : "bottom center",
+              top: isTop ? 0 : "auto",
+              bottom: isTop ? "auto" : 0,
+              position: "absolute",
+              left: 0,
+              right: 0,
             }}
           >
             <Toast toast={toast} pauseOnHover={isHovering} />
@@ -204,7 +191,6 @@ export const Toaster = () => {
   const { toasts } = useToastStore();
   const [mounted, setMounted] = useState(false);
 
-  // Hydration fix
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -220,7 +206,7 @@ export const Toaster = () => {
 
   const toastsByPosition = useMemo(() => {
     const grouped: Partial<Record<ToastPosition, ToastProps[]>> = {};
-    toasts.forEach(t => {
+    toasts.forEach((t) => {
       const pos = t.position || "bottom-right";
       if (!grouped[pos]) grouped[pos] = [];
       grouped[pos]!.push(t);
@@ -236,8 +222,13 @@ export const Toaster = () => {
         const pts = toastsByPosition[pos];
         if (!pts || pts.length === 0) return null;
 
-        // Render a specialized wrapper that checks for duplicate positions
-        return <SingletonToastContainer key={pos} position={pos} toasts={pts} />;
+        return (
+          <SingletonToastContainer
+            key={pos}
+            position={pos}
+            toasts={pts}
+          />
+        );
       })}
     </>
   );
@@ -248,18 +239,15 @@ const SingletonToastContainer: React.FC<ToastContainerProps> = (props) => {
   const [isAllowed, setIsAllowed] = useState(false);
 
   useEffect(() => {
-    // If this position is already claimed by another Toaster instance, don't render
     if (activePositions.has(props.position)) {
       setIsAllowed(false);
       return;
     }
 
-    // Claim the position
     activePositions.add(props.position);
     setIsAllowed(true);
 
     return () => {
-      // Release the position on unmount
       activePositions.delete(props.position);
     };
   }, [props.position]);
