@@ -1,7 +1,8 @@
 import React from 'react';
-import { Select } from 'ui-lab-components';
+import { Select, Searchable } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-select.js';
+import Example2, { metadata as metadata2 } from './examples/02-searchable-select.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaChevronDown } from 'react-icons/fa6';
@@ -17,6 +18,7 @@ export function getPreview(): React.ReactNode {
 
 const examplesData = [
   { id: '01-basic-select', Component: Example1, metadata: metadata1 },
+  { id: '02-searchable-select', Component: Example2, metadata: metadata2 },
 ];
 
 const selectControls: ControlDef[] = [

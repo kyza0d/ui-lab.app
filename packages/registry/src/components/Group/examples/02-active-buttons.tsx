@@ -39,7 +39,7 @@ export default function Example() {
       {/* Ghost variant pagination style */}
       <div className="space-y-2">
         <label className="text-sm text-foreground-300">Ghost variant pagination</label>
-        <Group variant="ghost" spacing="tight">
+        <Group variant="ghost" spacing="none">
           {[1, 2, 3, 4, 5].map((page) => (
             <Group.Button
               key={page}

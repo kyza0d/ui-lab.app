@@ -10,7 +10,7 @@ export default function Example() {
   return (
     <div className="p-4 space-y-4">
       <div className="space-y-2">
-        <Group orientation="horizontal" spacing="tight">
+        <Group orientation="horizontal" spacing="none">
           <Group.Button size="md">Run Pipeline</Group.Button>
           <Group.Button size="md" className="px-2">
             <ChevronDown size={16} />

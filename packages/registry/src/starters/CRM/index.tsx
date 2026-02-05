@@ -15,6 +15,11 @@ const baseMetadata = {
   },
   componentDependencies: [],
   fullPageLayout: true,
+  pricing: {
+    price: 49.99,
+    features: ['Contact management', 'Customer tracking', 'Interaction history', 'Dashboard', 'Reporting tools'],
+    purchaseUrl: 'https://gumroad.com/ui-lab-crm-starter',
+  },
 };
 
 const starterMetadata: StarterMetadata = {

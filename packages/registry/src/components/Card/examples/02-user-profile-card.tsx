@@ -42,7 +42,7 @@ export default function Example() {
 
         {/* Footer: Actions */}
         <Card.Footer className="border-t border-background-700 pt-4">
-          <Group variant="ghost" spacing="normal">
+          <Group variant="ghost" spacing="sm">
             <Group.Button variant="outline" size="md" className="flex-1">
               <MessageSquare className="w-4 h-4" />
               <span>Message</span>

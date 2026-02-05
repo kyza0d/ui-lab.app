@@ -1,5 +1,5 @@
 import React from 'react';
-import { toast, Toaster } from 'ui-lab-components';
+import { Button, toast, Toaster } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Destructive Toast',
@@ -9,7 +9,7 @@ export const metadata = {
 export default function Example() {
   return (
     <>
-      <button
+      <Button
         onClick={() =>
           toast({
             title: 'Error',
@@ -17,10 +17,9 @@ export default function Example() {
             variant: 'destructive',
           })
         }
-        className="px-4 py-2 bg-accent-500 text-white rounded"
       >
         Show Error
-      </button>
+      </Button>
       <Toaster />
     </>
   );

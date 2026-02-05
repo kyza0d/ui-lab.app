@@ -15,6 +15,11 @@ const baseMetadata = {
   },
   componentDependencies: [],
   fullPageLayout: true,
+  pricing: {
+    price: 49.99,
+    features: ['Task management', 'Note taking', 'Local storage', 'Categories', 'Search functionality'],
+    purchaseUrl: 'https://gumroad.com/ui-lab-productivity-starter',
+  },
 };
 
 const starterMetadata: StarterMetadata = {
