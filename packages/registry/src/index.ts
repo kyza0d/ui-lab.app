@@ -74,7 +74,8 @@ export type {
   ComponentVariant,
   ComponentAccessibilityNote,
   SiteComponentExample,
-  ComponentDetail
+  ComponentDetail,
+  PricingInfo
 } from './types.js';
 
 // Helpers
