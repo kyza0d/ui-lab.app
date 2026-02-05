@@ -7,8 +7,6 @@ declare const styles: {
   tabsTrigger: string;
   triggerIcon: string;
   tabsContent: string;
-  default: string;
-  underline: string;
 };
 
 export default styles;

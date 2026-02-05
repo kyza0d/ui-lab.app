@@ -70,7 +70,9 @@ const reducer = (state: State, action: ToastAction): State => {
     case 'DISMISS_TOAST':
       return {
         ...state,
-        toasts: state.toasts.filter((t) => t.id !== action.toastId),
+        toasts: state.toasts
+          .filter((t) => t.id !== action.toastId)
+          .map((t) => t.spawnDirection === 'top' ? t : { ...t, spawnDirection: 'top' as ToastSpawnDirection }),
       };
 
     case 'PAUSE_TOAST':

@@ -16,11 +16,21 @@ interface SelectTriggerProps extends React.PropsWithChildren {
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ children, className, chevron }, ref) => {
     const groupContext = React.useContext(GroupContext)
+    const { triggerProps, triggerRef } = useSelectContext()
+
+    const mergedRef = React.useCallback(
+      (el: HTMLButtonElement | null) => {
+        triggerRef.current = el
+        if (typeof ref === "function") ref(el)
+        else if (ref) ref.current = el
+      },
+      [ref]
+    )
 
     return (
       <SelectTriggerContext.Provider value={true}>
         <button
-          ref={ref}
+          ref={mergedRef}
           className={cn(
             'trigger',
             styles.trigger,
@@ -28,10 +38,15 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
             className
           )}
           type="button"
+          {...triggerProps}
         >
-          {children}
-          <div className={styles.icon}>
-            {chevron !== undefined ? chevron : <FaChevronDown />}
+          <div className={styles.valueSection}>
+            {children}
+          </div>
+          <div className={styles.iconSection}>
+            <div className={styles.icon}>
+              {chevron !== undefined ? chevron : <FaChevronDown />}
+            </div>
           </div>
         </button>
       </SelectTriggerContext.Provider>

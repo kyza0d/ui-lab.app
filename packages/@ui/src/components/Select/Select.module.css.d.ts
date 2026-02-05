@@ -12,6 +12,11 @@ declare const styles: {
   itemIcon: string;
   itemIndicator: string;
   itemText: string;
+  itemContent: string;
+  itemDescription: string;
+  itemWithDescription: string;
+  itemIconWithDescription: string;
+  itemIndicatorWithDescription: string;
   separator: string;
   scrollButton: string;
 };

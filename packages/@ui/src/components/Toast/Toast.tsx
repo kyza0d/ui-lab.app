@@ -2,6 +2,7 @@
 
 import React, { forwardRef, useImperativeHandle, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
+import { useGSAP } from "@gsap/react";
 import { cn } from '@/lib/utils';
 import styles from './Toast.module.css';
 import { ToastProps as ToastData } from "./Toast.Store";
@@ -82,6 +83,25 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
       dispatch({ type: 'DISMISS_TOAST', toastId: id });
     }
   }, [id, isTop, onDismiss]);
+
+  // Entrance animation
+  useGSAP(() => {
+    if (!innerRef.current) return;
+
+    const spawnDir = toast.spawnDirection || 'bottom';
+    // 'bottom' (user-triggered): enter from below for bottom positions, above for top positions
+    // 'top' (dismiss-revealed): enter from above for bottom positions, below for top positions
+    const fromY = spawnDir === 'top'
+      ? (isTop ? 20 : -20)
+      : (isTop ? -20 : 20);
+
+    gsap.from(innerRef.current, {
+      opacity: 0,
+      y: fromY,
+      duration: 0.35,
+      ease: "power3.out",
+    });
+  }, { scope: innerRef });
 
   // Animation Frame Timer Logic
   useEffect(() => {

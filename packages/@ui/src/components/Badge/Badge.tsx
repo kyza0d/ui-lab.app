@@ -4,6 +4,7 @@ import * as React from "react";
 import { useButton, useFocusRing, useHover, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
 import styles from "./Badge.module.css";
+import { HiX } from "react-icons/hi";
 
 type BadgeVariant = "default" | "success" | "warning" | "danger" | "info";
 type BadgeSize = "sm" | "md" | "lg";
@@ -51,8 +52,6 @@ function DismissButton({ onDismiss, size }: DismissButtonProps) {
   const { focusProps, isFocusVisible } = useFocusRing();
   const { hoverProps, isHovered } = useHover({});
 
-  const iconSize = size === "sm" ? "w-3 h-3" : size === "lg" ? "w-5 h-5" : "w-4 h-4";
-
   return (
     <button
       {...mergeProps(buttonProps, focusProps, hoverProps)}
@@ -63,20 +62,7 @@ function DismissButton({ onDismiss, size }: DismissButtonProps) {
       data-hovered={isHovered || undefined}
       data-focus-visible={isFocusVisible || undefined}
     >
-      <svg
-        className={iconSize}
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
+      <HiX size={14} />
     </button>
   );
 }
@@ -108,11 +94,13 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           variantMap[variant],
           sizeMap[size],
           pill && styles.pill,
+          dismissible && styles.dismissible,
           className
         )}
         data-variant={variant}
         data-size={size}
         data-pill={pill ? "true" : undefined}
+        data-dismissible={dismissible || undefined}
         {...props}
       >
         {icon && (

@@ -6,6 +6,7 @@ import { useButton, useFocusRing, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
 import { Divider, DividerProps } from "@/components/Divider";
 import styles from "./Fold.module.css";
+import { FaChevronDown } from "react-icons/fa6";
 
 interface FoldContextValue {
   state: ToggleState;
@@ -36,9 +37,7 @@ const FoldIcon = React.forwardRef<HTMLSpanElement, FoldIconProps>(
     return (
       <span ref={ref} className={cn(styles.icon, className)} {...props}>
         {children ?? (
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-            <path d="M4.47 6.47a.75.75 0 000 1.06l3.5 3.5a.75.75 0 001.06 0l3.5-3.5a.75.75 0 00-1.06-1.06L8 9.44 5.53 6.97a.75.75 0 00-1.06 0z" />
-          </svg>
+          <FaChevronDown size={11} className="text-foreground-400" />
         )}
       </span>
     );

@@ -56,7 +56,6 @@ export const ColorHueSlider = React.forwardRef<
       data-disabled={disabled || undefined}
       data-focus-visible={isFocusVisible || undefined}
       {...focusProps}
-      tabIndex={disabled ? -1 : 0}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}

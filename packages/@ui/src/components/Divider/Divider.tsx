@@ -1,6 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { GroupContext } from "../Group/Group";
 
 type Orientation = "horizontal" | "vertical";
 type Size = "sm" | "md" | "lg";
@@ -12,8 +13,8 @@ const DASHED_DIMENSIONS = {
 } as const;
 
 const DOTTED_DIMENSIONS = {
-  sm: { thickness: 1, radius: 0.5, spacing: 6 },
-  md: { thickness: 2, radius: 1, spacing: 8 },
+  sm: { thickness: 1, radius: 0.5, spacing: 3 },
+  md: { thickness: 2, radius: 1, spacing: 6 },
   lg: { thickness: 4, radius: 2, spacing: 12 },
 } as const;
 
@@ -101,7 +102,7 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
     {
       className,
       variant = "solid",
-      orientation = "horizontal",
+      orientation,
       size = "md",
       spacing,
       style,
@@ -109,6 +110,19 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
     },
     ref,
   ) => {
+    const groupContext = React.useContext(GroupContext);
+
+    const resolvedOrientation = (() => {
+      if (orientation !== undefined) return orientation;
+      if (!groupContext) return "horizontal";
+      return groupContext.groupOrientation === "horizontal" ? "vertical" : "horizontal";
+    })() as Orientation;
+
+    const resolvedSpacing = (() => {
+      if (spacing !== undefined) return spacing;
+      if (!groupContext) return "md";
+      return "none";
+    })();
     const getMaskStyles = (): React.CSSProperties => {
       const baseStyles: React.CSSProperties = {
         backgroundColor: "var(--color-background-700)",
@@ -120,10 +134,10 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
 
       const svgDataUri =
         variant === "dashed"
-          ? getDashedMaskSvg(orientation, size)
-          : getDottedMaskSvg(orientation, size);
+          ? getDashedMaskSvg(resolvedOrientation, size)
+          : getDottedMaskSvg(resolvedOrientation, size);
 
-      const maskRepeat = orientation === "horizontal" ? "repeat-x" : "repeat-y";
+      const maskRepeat = resolvedOrientation === "horizontal" ? "repeat-x" : "repeat-y";
       const encodedSvg = `url("data:image/svg+xml,${svgDataUri}")`;
 
       return {
@@ -139,12 +153,12 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       <div
         ref={ref}
         className={cn(
-          dividerVariants({ variant, orientation, size, spacing }),
+          dividerVariants({ variant, orientation: resolvedOrientation, size, spacing: resolvedSpacing }),
           className,
         )}
         style={{ ...getMaskStyles(), ...style }}
         role="separator"
-        aria-orientation={orientation}
+        aria-orientation={resolvedOrientation}
         {...props}
       />
     );

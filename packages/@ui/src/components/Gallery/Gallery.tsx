@@ -3,9 +3,12 @@
 import * as React from "react"
 import { useFocusRing, useHover, usePress, mergeProps } from "react-aria"
 import { cn } from "@/lib/utils"
+import { Grid } from "../Grid"
 import styles from "./Gallery.module.css"
 
 // Types
+type GridColumns = "1" | "2" | "3" | "4" | "5" | "6"
+type GridGap = "xs" | "sm" | "md" | "lg" | "xl"
 type ResponsiveColumns = {
   base?: number
   sm?: number
@@ -14,22 +17,9 @@ type ResponsiveColumns = {
   xl?: number
 }
 
-type ResponsiveRows = {
-  base?: number
-  sm?: number
-  md?: number
-  lg?: number
-  xl?: number
-}
-
-type LayoutType = "grid"
-
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
-  columns?: number | ResponsiveColumns
-  rows?: number | ResponsiveRows
-  gap?: number | string
-  layout?: LayoutType
-  columnWidth?: number | string
+  columns?: GridColumns | number | ResponsiveColumns
+  gap?: GridGap | number | string
 }
 
 interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
@@ -46,45 +36,52 @@ interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
 
+// Helper to map numeric columns to Grid's column values
+const mapColumnsToGrid = (columns?: GridColumns | number | ResponsiveColumns): GridColumns => {
+  if (!columns) return "3"
+  if (typeof columns === "string") return columns
+  if (typeof columns === "object") {
+    const baseValue = columns.base || 3
+    if (baseValue >= 1 && baseValue <= 6) return baseValue.toString() as GridColumns
+    return "3"
+  }
+  if (columns >= 1 && columns <= 6) return columns.toString() as GridColumns
+  return "3" // default fallback
+}
+
+// Helper to map gap values to Grid's gap values
+const mapGapToGrid = (gap?: GridGap | number | string): GridGap => {
+  if (!gap) return "md"
+  if (typeof gap === "string" && ["xs", "sm", "md", "lg", "xl"].includes(gap)) {
+    return gap as GridGap
+  }
+  if (typeof gap === "number") {
+    // Map numeric gap values (in pixels) to Grid gap presets
+    if (gap <= 4) return "xs"
+    if (gap <= 8) return "sm"
+    if (gap <= 16) return "md"
+    if (gap <= 24) return "lg"
+    return "xl"
+  }
+  return "md" // default fallback
+}
+
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, rows, gap, layout = "grid", columnWidth, className, style, children, ...props }, ref) => {
-    const columnValue = typeof columns === "number" ? columns : columns.base ?? 3
-    const responsiveColumns = typeof columns === "object" ? columns : {}
-
-    const rowValue = typeof rows === "number" ? rows : rows?.base
-    const responsiveRows = typeof rows === "object" ? rows : {}
-
-    const gapValue = typeof gap === "number" ? `${gap / 16}rem` : gap
-    const columnWidthValue = typeof columnWidth === "number" ? `${columnWidth}px` : columnWidth
-
-    const formatRowValue = (val?: number) => val ? `repeat(${val}, minmax(0, 1fr))` : undefined
-
-    const cssVariables = {
-      "--gallery-columns": columnValue,
-      "--gallery-columns-sm": responsiveColumns.sm,
-      "--gallery-columns-md": responsiveColumns.md,
-      "--gallery-columns-lg": responsiveColumns.lg,
-      "--gallery-columns-xl": responsiveColumns.xl,
-      "--gallery-rows": formatRowValue(rowValue),
-      "--gallery-rows-sm": formatRowValue(responsiveRows.sm),
-      "--gallery-rows-md": formatRowValue(responsiveRows.md),
-      "--gallery-rows-lg": formatRowValue(responsiveRows.lg),
-      "--gallery-rows-xl": formatRowValue(responsiveRows.xl),
-      "--gallery-gap": gapValue,
-      "--gallery-column-width": columnWidthValue,
-    } as React.CSSProperties
+  ({ columns = 3, gap = "md", className, children, ...props }, ref) => {
+    const gridColumns = mapColumnsToGrid(columns)
+    const gridGap = mapGapToGrid(gap)
 
     return (
-      <div
+      <Grid
         ref={ref}
-        className={cn(styles.gallery, className)}
-        style={{ ...cssVariables, ...style }}
-        data-layout={layout}
+        columns={gridColumns}
+        gap={gridGap}
+        className={className}
         {...props}
       >
         {children}
-      </div>
+      </Grid>
     )
   }
 )

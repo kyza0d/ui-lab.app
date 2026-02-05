@@ -1,60 +1,6 @@
 @reference "tailwindcss";
 
 @layer components {
-  .gallery {
-    --gap: var(--gallery-gap, 1rem);
-  }
-
-  .gallery[data-layout="grid"] {
-    --columns: var(--gallery-columns, 3);
-    --rows: var(--gallery-rows);
-
-    display: grid;
-    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-    grid-template-rows: var(--rows, none);
-    gap: var(--gap);
-  }
-
-  .gallery[data-layout="masonry"] {
-    --column-width: var(--gallery-column-width, 280px);
-    width: 100%;
-    column-width: var(--column-width);
-    column-gap: var(--gap);
-  }
-      
-  .gallery[data-layout="masonry"] .item {
-    break-inside: avoid;
-    margin-bottom: var(--gap);
-  }
-
-  @media (min-width: 640px) {
-    .gallery[data-layout="grid"] {
-      --columns: var(--gallery-columns-sm, var(--gallery-columns, 3));
-      --rows: var(--gallery-rows-sm, var(--gallery-rows));
-    }
-  }
-
-  @media (min-width: 768px) {
-    .gallery[data-layout="grid"] {
-      --columns: var(--gallery-columns-md, var(--gallery-columns-sm, var(--gallery-columns, 3)));
-      --rows: var(--gallery-rows-md, var(--gallery-rows-sm, var(--gallery-rows)));
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .gallery[data-layout="grid"] {
-      --columns: var(--gallery-columns-lg, var(--gallery-columns-md, var(--gallery-columns-sm, var(--gallery-columns, 3))));
-      --rows: var(--gallery-rows-lg, var(--gallery-rows-md, var(--gallery-rows-sm, var(--gallery-rows))));
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .gallery[data-layout="grid"] {
-      --columns: var(--gallery-columns-xl, var(--gallery-columns-lg, var(--gallery-columns-md, var(--gallery-columns-sm, var(--gallery-columns, 3)))));
-      --rows: var(--gallery-rows-xl, var(--gallery-rows-lg, var(--gallery-rows-md, var(--gallery-rows-sm, var(--gallery-rows)))));
-    }
-  }
-
   .item {
     --background: var(--background-950);
     --border: var(--background-700);
@@ -120,6 +66,12 @@
     gap: 0.25rem;
     padding: 0.75rem;
     align-self: flex-start;
+    min-width: 0;
+  }
+
+  .item[data-orientation="horizontal"] .body {
+    flex: 1;
+    align-self: stretch;
   }
 
   .body > :first-child {
