@@ -284,23 +284,48 @@ export class ProjectContextDetector {
       return guidance;
     }
 
-    guidance.push('UI Lab is not initialized. Here\'s what you need to do:');
+    guidance.push('UI Lab is not initialized. Here\'s how to set it up:');
     guidance.push('');
-    guidance.push('1. Install the UI Lab CLI:');
-    guidance.push(`   ${context.packageManager} install -D @ui-lab/cli`);
-    guidance.push('');
-    guidance.push('2. Initialize UI Lab:');
+    guidance.push('1. Install ui-lab-components package:');
 
-    if (context.framework === 'next.js') {
-      guidance.push('   npx ui-lab init --framework next --type typescript');
-    } else if (context.framework === 'react') {
-      guidance.push('   npx ui-lab init --framework react --type typescript');
-    } else {
-      guidance.push('   npx ui-lab init');
-    }
+    const installCmd = context.packageManager === 'npm'
+      ? 'npm install'
+      : context.packageManager === 'yarn'
+      ? 'yarn add'
+      : context.packageManager === 'bun'
+      ? 'bun add'
+      : 'pnpm add';
 
+    guidance.push(`   ${installCmd} ui-lab-components`);
     guidance.push('');
-    guidance.push('3. Follow the prompts to configure component directory and theme.');
+    guidance.push('2. Configure Tailwind content paths (tailwind.config.ts):');
+    guidance.push('   export default {');
+    guidance.push('     content: [');
+    guidance.push('       "./src/**/*.{js,ts,jsx,tsx}",');
+    guidance.push('       "./node_modules/ui-lab-components/**/*.{js,ts,jsx,tsx}",');
+    guidance.push('     ],');
+    guidance.push('     // ...rest of config');
+    guidance.push('   }');
+    guidance.push('');
+    guidance.push('3. Add theme tokens to your root stylesheet (e.g., globals.css):');
+    guidance.push('   @import "ui-lab-components/styles/base.css";');
+    guidance.push('   ');
+    guidance.push('   @theme {');
+    guidance.push('     --background-50:  oklch(99%  0.001 240);');
+    guidance.push('     --background-100: oklch(97%  0.002 240);');
+    guidance.push('     /* ...additional theme tokens */');
+    guidance.push('     --radius-sm: 0.375rem;');
+    guidance.push('     --radius-md: 0.5rem;');
+    guidance.push('   }');
+    guidance.push('');
+    guidance.push('4. Import and use components:');
+    guidance.push('   import { Button } from "ui-lab-components";');
+    guidance.push('   ');
+    guidance.push('   export default function App() {');
+    guidance.push('     return <Button>Click me</Button>;');
+    guidance.push('   }');
+    guidance.push('');
+    guidance.push('For more details, visit: https://ui-lab.app/docs/installation');
 
     return guidance;
   }
