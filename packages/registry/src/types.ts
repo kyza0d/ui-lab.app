@@ -90,7 +90,7 @@ export interface ElementMetadata {
   id: string;
   name: string;
   description: string;
-  category: 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'documentation' | 'ai' | 'other';
+  category: string;
   tags: string[];
   variants: ElementVariant[];
   componentDependencies?: string[];
@@ -101,6 +101,12 @@ export interface ElementRegistry {
   [elementId: string]: ElementMetadata;
 }
 
+export interface PricingInfo {
+  price: number | null;
+  features?: string[];
+  purchaseUrl?: string;
+}
+
 export interface ElementPackageMetadata {
   id: string;
   name: string;
@@ -109,6 +115,7 @@ export interface ElementPackageMetadata {
   elements: string[];
   layout?: Partial<LayoutConfig>;
   getPreview?: () => React.ComponentType<object>;
+  pricing?: PricingInfo;
 }
 
 export interface ElementPackageRegistry {
@@ -157,6 +164,7 @@ export interface StarterMetadata {
   componentDependencies?: string[];
   layout?: Partial<LayoutConfig>;
   fullPageLayout?: boolean;
+  pricing?: PricingInfo;
 }
 
 export interface StarterRegistry {
