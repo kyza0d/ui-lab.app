@@ -17,7 +17,7 @@ export default function Example() {
     <div className="p-4 space-y-4">
       <div className="space-y-2 flex items-center">
 
-        <Group variant='ghost' spacing="tight">
+        <Group variant='ghost' spacing="none">
           <Group.Button
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             isDisabled={currentPage === totalPages}

@@ -24,7 +24,7 @@ export default function Test() {
       <div className="max-w-5xl mx-auto space-y-16">
 
 
-        <Group orientation="horizontal" spacing="normal">
+        <Group orientation="horizontal" spacing="sm">
           <Group.Select
             selectedKey={filter1}
             onSelectionChange={setFilter1}
@@ -66,7 +66,7 @@ export default function Test() {
           <Group.Button variant="ghost" size="md">Clear All</Group.Button>
         </Group>
 
-        <Group orientation="vertical" spacing="relaxed">
+        <Group orientation="vertical" spacing="sm">
 
           <Group.Select
             selectedKey={config2}
@@ -124,7 +124,7 @@ export default function Test() {
           </Group.Select>
         </Group>
 
-        <Group orientation="horizontal" spacing="tight">
+        <Group orientation="horizontal" spacing="none">
           <Group.Button variant="primary" size="sm">Save</Group.Button>
           <Group.Button variant="outline" size="sm">Reset</Group.Button>
           <Group.Button variant="ghost" size="sm">Help</Group.Button>
@@ -180,7 +180,7 @@ export default function Test() {
         <div className="space-y-6">
           <div>
             <h3 className="text-sm font-semibold mb-3">Tight Spacing (Primary)</h3>
-            <Group orientation="vertical" spacing="tight" variant="primary" className="inline-flex rounded border border-border overflow-hidden">
+            <Group orientation="vertical" spacing="none" variant="primary" className="inline-flex rounded border border-border overflow-hidden">
               <Group.Button variant="secondary" size="sm">Button 1</Group.Button>
               <Group.Button variant="secondary" size="sm">Button 2</Group.Button>
               <Group.Button variant="secondary" size="sm">Button 3</Group.Button>
@@ -201,7 +201,7 @@ export default function Test() {
             </Group>
           </div>
 
-          <Group orientation="horizontal" spacing="relaxed" variant="ghost">
+          <Group orientation="horizontal" spacing="sm" variant="ghost">
             <Group.Button variant="ghost" size="md">Link One</Group.Button>
             <Group.Button variant="ghost" size="md">Link Two</Group.Button>
             <Group.Button variant="ghost" size="md">Link Three</Group.Button>
