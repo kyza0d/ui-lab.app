@@ -43,7 +43,7 @@ export function buildFileMap(metadata) {
 
 function getDynamicSectionOrder(foundSections, domain) {
   const preferredOrder = {
-    docs: ['Getting Started', 'Development', 'Architecture & Advanced'],
+    docs: ['Getting Started', 'Customization', 'Agents & MCPs', 'Development', 'Architecture & Advanced'],
     'agents-mcps': ['Getting Started', 'Concepts', 'Building Workflows', 'Reference', 'Technical Reference', 'AI Integration', 'Development'],
     cli: ['Getting Started', 'Advanced'],
     'design-system': ['Foundation', 'Systems', 'Guidelines'],

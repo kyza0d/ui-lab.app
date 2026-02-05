@@ -15,9 +15,8 @@ const DOMAIN_CONFIG = {
     contentDir: path.join(CONTENT_BASE, 'docs'),
     sections: {
       'Getting Started': ['introduction', 'installation'],
-      'Development': ['cli-guide', 'styling', 'best-practices'],
-      'Architecture & Advanced': ['architecture', 'advanced'],
-      'Design System': ['colors'],
+      'Customization': ['customization-theming'],
+      'Agents & MCPs': ['agents-mcps-installation', 'agents-mcps-workflows'],
     },
   },
   'design-system': {
@@ -38,15 +37,6 @@ const DOMAIN_CONFIG = {
       'Getting Started': ['introduction', 'installation', 'quick-start', 'core-concepts'],
       'Building Workflows': ['designing-ai-workflows', 'prompting-strategies', 'state-management', 'examples-use-cases'],
       'Technical Reference': ['mcps-overview', 'custom-mcps', 'integrations', 'api-reference'],
-    },
-  },
-  cli: {
-    path: '/cli',
-    label: 'CLI',
-    contentDir: path.join(CONTENT_BASE, 'cli'),
-    sections: {
-      'Getting Started': ['introduction', 'installation', 'commands', 'quick-start'],
-      'Advanced Features': ['hooks', 'skills', 'agents', 'mcp-servers', 'configuration', 'best-practices'],
     },
   },
 };
@@ -182,7 +172,6 @@ function generateRegistry() {
       { path: '/design-system', label: 'Design System' },
       { path: '/components', label: 'Components' },
       { path: '/agents-mcps', label: 'Agents & MCPs' },
-      { path: '/cli', label: 'CLI' },
     ],
   };
 
