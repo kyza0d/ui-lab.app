@@ -8,9 +8,6 @@ import {
   Badge,
   Button,
   Divider,
-  Tabs,
-  TabsList,
-  TabsTrigger,
 } from "ui-lab-components";
 
 type Framework = "nextjs" | "vite" | "remix" | "tauri";
@@ -106,7 +103,6 @@ const TauriSvg = () => (
 export function InstallationFlow() {
   const [framework, setFramework] = useState<Framework>("nextjs");
   const [manager, setManager] = useState<Manager>("npm");
-  const [method, setMethod] = useState<"cli" | "manual">("cli");
 
   const managerCommands = {
     npm: "npm i",
@@ -165,116 +161,57 @@ export function InstallationFlow() {
         </div>
       </section>
 
-      <section className="space-y-2">
+      <section className="space-y-6">
         <h3
-          id="installation-method"
+          id="installation-steps"
           className="text-lg font-semibold text-foreground-200 scroll-mt-20"
         >
-          Installation method
+          Installation Steps
         </h3>
-        <Tabs
-          className="w-fit mb-0 mt-12"
-          variant="underline"
-          value={method}
-          onValueChange={(value) => setMethod(value as "cli" | "manual")}
-        >
-          <TabsList>
-            {" "}
-            {/* Adjust grid-cols based on number of tabs if needed */}
-            <TabsTrigger value="cli">CLI (recommended)</TabsTrigger>
-            <TabsTrigger value="manual">Manual</TabsTrigger>
-          </TabsList>
-          {/* If you have corresponding content for each tab, add TabsContent here */}
-        </Tabs>
-        <Divider spacing="none" />
-      </section>
 
-      {method === "cli" && (
-        <section className="space-y-4">
-          <h3
-            id="automated-setup-cli"
-            className="text-lg font-semibold text-foreground-200 scroll-mt-20"
-          >
-            Automated setup via CLI
-          </h3>
-          <p className="text-foreground-300 text-sm">
-            The official installer configures Tailwind, injects the required
-            @theme tokens, and optionally copies component source.
-          </p>
-          <CodeBlockWithPackageManager
-            code={installCmd}
-            packageManager={manager}
-            onPackageManagerChange={setManager}
-            language="bash"
-          />
-          <div className="text-sm text-foreground-400 space-y-2">
-            <div>
-              • Installs{" "}
-              <code className="text-foreground-300">ui-lab-components</code> and
-              peer dependencies
-            </div>
-            <div>• Detects Tailwind v4 and injects required content paths</div>
-            <div>
-              • Adds <code className="text-foreground-300">@theme</code>{" "}
-              defaults to your root stylesheet
-            </div>
-            <div>• Optional interactive component selection</div>
+        <div className="space-y-6">
+          <div>
+            <h4
+              id="install-core-package"
+              className="text-foreground-200 font-medium mb-3 scroll-mt-20"
+            >
+              1. Install core package
+            </h4>
+            <CodeBlockWithPackageManager
+              code={installCmd}
+              packageManager={manager}
+              onPackageManagerChange={setManager}
+              language="bash"
+            />
           </div>
-        </section>
-      )}
 
-      {method === "manual" && (
-        <section className="space-y-6">
-          <h3
-            id="manual-installation-steps"
-            className="text-lg font-semibold text-foreground-200 scroll-mt-20"
-          >
-            Manual installation steps
-          </h3>
-
-          <div className="space-y-6">
-            <div>
-              <h4
-                id="install-core-package"
-                className="text-foreground-200 font-medium mb-3 scroll-mt-20"
-              >
-                1. Install core package
-              </h4>
-              <CodeBlockWithPackageManager
-                code={installCmd}
-                packageManager={manager}
-                onPackageManagerChange={setManager}
-                language="bash"
-              />
-            </div>
-
-            <div>
-              <h4
-                id="extend-tailwind-paths"
-                className="text-foreground-200 font-medium mb-3 scroll-mt-20"
-              >
-                2. Extend Tailwind content paths
-              </h4>
-              <CodeBlock language="typescript" heading="tailwind.config.ts">
-                {`export default {
+          <div>
+            <h4
+              id="extend-tailwind-paths"
+              className="text-foreground-200 font-medium mb-3 scroll-mt-20"
+            >
+              2. Extend Tailwind content paths
+            </h4>
+            <CodeBlock language="typescript" heading="tailwind.config.ts">
+              {`export default {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/ui-lab-components/**/*.{js,ts,jsx,tsx}",
   ],
   // ...existing config
 }`}
-              </CodeBlock>
-            </div>
+            </CodeBlock>
+          </div>
 
-            <div>
-              <h4
-                id="add-root-theme"
-                className="text-foreground-200 font-medium mb-3 scroll-mt-20"
-              >
-                3. Add root theme (globals.css or equivalent)
-              </h4>
-              <CodeBlock language="css" heading="app/globals.css">
-                {`@import "ui-lab-components/styles/base.css";
+          <div>
+            <h4
+              id="add-root-theme"
+              className="text-foreground-200 font-medium mb-3 scroll-mt-20"
+            >
+              3. Add root theme (globals.css or equivalent)
+            </h4>
+            <CodeBlock language="css" heading="app/globals.css">
+              {`@import "ui-lab-components/styles/base.css";
 
 @theme {
   --background-50:  oklch(99%  0.001 240);
@@ -287,23 +224,22 @@ export function InstallationFlow() {
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
 }`}
-              </CodeBlock>
-            </div>
-
-            <div>
-              <h4
-                id="import-stylesheet"
-                className="text-foreground-200 font-medium mb-3 scroll-mt-20"
-              >
-                4. Import stylesheet in root layout/entry
-              </h4>
-              <CodeBlock language="typescript">
-                {`import "./globals.css";`}
-              </CodeBlock>
-            </div>
+            </CodeBlock>
           </div>
-        </section>
-      )}
+
+          <div>
+            <h4
+              id="import-stylesheet"
+              className="text-foreground-200 font-medium mb-3 scroll-mt-20"
+            >
+              4. Import stylesheet in root layout/entry
+            </h4>
+            <CodeBlock language="typescript">
+              {`import "./globals.css";`}
+            </CodeBlock>
+          </div>
+        </div>
+      </section>
 
       <section className="space-y-4">
         <h3

@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { memo } from 'react';
 import { Scroll } from 'ui-lab-components';
 import { cn, usePrefetchOnHover } from '@/shared';
+import { useLandingSidebarToggle } from '@/features/layout/hooks/landing-sidebar-context';
 import {
   FaSwatchbook,
   FaTags,
@@ -64,13 +65,27 @@ const QUICK_LINKS = [
 ];
 
 export function LandingSidebar() {
+  const { isOpen, toggleSidebar, closeSidebar } = useLandingSidebarToggle();
+  const pathname = usePathname();
+
   return (
-    <aside className={cn('w-68 flex-col relative z-20 -mt-4')}>
-      <div className="flex border-r bg-background-950 border-background-700 flex-col sticky top-(--header-height) z-20">
+    <>
+      {isOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={closeSidebar} />}
+
+      <aside className={cn(
+        'w-68 flex flex-col lg:-mt-4',
+        'fixed lg:static left-0 top-0 h-screen lg:h-auto',
+        'z-[55] lg:z-20',
+        'transition-transform duration-300 ease-out',
+        'lg:transition-none lg:transform-none',
+        isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      )}>
+        <div className="flex border-r bg-background-950 border-background-700 flex-col sticky md:sticky top-(--header-height) z-20 h-screen md:h-auto">
         <div className="z-10">
           <nav className="py-3 px-2 space-y-1">
             {LANDING_NAV_ITEMS.map((navItem) => {
               const Icon = navItem.icon;
+              const isActive = pathname.startsWith(navItem.href);
 
               return (
                 <Link
@@ -78,13 +93,15 @@ export function LandingSidebar() {
                   href={navItem.href}
                   className={cn(
                     'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-semibold rounded-md',
-                    'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
+                    isActive
+                      ? 'border-background-700 text-foreground-50 bg-background-700'
+                      : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
                   )}
                 >
                   <div
                     className={cn(
                       'w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center',
-                      'text-foreground-300'
+                      isActive ? 'bg-transparent text-foreground-50' : 'text-foreground-300'
                     )}
                   >
                     <Icon className="w-5 h-5" />
@@ -153,7 +170,8 @@ export function LandingSidebar() {
             </div>
           </div>
         </Scroll>
-      </div>
-    </aside>
+        </div>
+      </aside>
+    </>
   );
 }
