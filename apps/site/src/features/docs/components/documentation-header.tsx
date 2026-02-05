@@ -9,7 +9,7 @@ interface DocumentationHeaderProps {
 export function DocumentationHeader({
   title,
   description,
-  showCopyButton = true,
+  showCopyButton = false,
 }: DocumentationHeaderProps) {
   return (
     <div className='sticky'>

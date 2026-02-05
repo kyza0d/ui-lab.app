@@ -18,7 +18,7 @@ export function NodeSection({
   return (
     <div
       className={cn(
-        "relative",
+        "relative overflow-visible",
         showBorderX && "border-x border-background-700",
         className
       )}

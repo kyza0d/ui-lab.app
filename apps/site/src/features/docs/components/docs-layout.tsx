@@ -3,6 +3,7 @@
 import { Sidebar } from "@/shared";
 import { BreadcrumbsNav } from "@/features/navigation";
 import { TableOfContents, type TableOfContentsItem } from "./table-of-contents";
+import { CopyPage } from "./copy-page-button";
 import "../../../app/docs.css";
 import { cn } from "@/shared";
 import { Footer } from "@/features/layout";
@@ -32,7 +33,14 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
           </div>
           <Footer />
         </div>
-        {!isChatOpen && <TableOfContents items={tocItems} />}
+        {!isChatOpen && (
+          <div className="sticky top-(--header-height) flex items-start flex-col gap-4 h-fit">
+            <div className="pt-24">
+              <CopyPage />
+              <TableOfContents items={tocItems} />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

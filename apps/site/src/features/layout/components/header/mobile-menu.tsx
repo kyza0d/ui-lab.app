@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/shared";
-import { FaChevronDown } from "react-icons/fa6";
-import { Divider } from "ui-lab-components";
+import { FaChevronDown, FaCodeBranch } from "react-icons/fa6";
+import { Divider, Button } from "ui-lab-components";
 import { getComponentsGroupedByCategory } from "@/features/component-docs";
 import {
   navigationData,
@@ -148,6 +148,22 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               );
             })}
             <Divider variant="dashed" className="my-3" />
+            <div className="flex flex-col gap-2">
+              <Button className="w-full">
+                Feedback
+              </Button>
+              <a
+                href="https://github.com/kyza0d/ui-lab.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
+                <Button className="w-full flex items-center justify-center gap-2">
+                  <FaCodeBranch size={14} />
+                  Source
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       )}

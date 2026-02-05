@@ -171,7 +171,7 @@ export const TypographyPanel = memo(
                 value={bodyFontSizeScale}
                 min={0.80}
                 max={1.20}
-                step={0.01}
+                step={0.001}
                 unit="x"
                 onChange={onBodyFontSizeScaleChange}
               />
