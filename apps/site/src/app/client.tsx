@@ -1,6 +1,5 @@
 'use client';
 
-import { Suspense } from 'react';
 import { AppProvider } from "@/features/theme";
 import { ChatProvider, useChat } from "@/features/chat";
 import { cn } from "@/shared";
@@ -28,17 +27,5 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
         </LayoutWrapper>
       </ChatProvider>
     </AppProvider>
-  );
-}
-
-export function ClientLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <Suspense fallback={null}>
-      <Suspense fallback={<div />}>
-        <main className="flex-1">
-          {children}
-        </main>
-      </Suspense>
-    </Suspense>
   );
 }
