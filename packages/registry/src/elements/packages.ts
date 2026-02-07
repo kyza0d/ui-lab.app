@@ -72,8 +72,9 @@ export const elementPackages: ElementPackageRegistry = {
     pricing: {
       price: 59.99,
       features: ['Full chat UI with message threading', 'Chain-of-thought visualization', 'Rich input with attachments', 'Built-in streaming support', 'Works with any LLM provider'],
-      purchaseUrl: 'https://gumroad.com/ui-lab-ai-elements',
+      gumroadProductId: 'ai-elements',
     },
+    gumroadProductId: 'ai-elements',
     getPreview: () => {
       return () => React.createElement('div', {
         className: 'flex items-center justify-center h-full w-full',
@@ -95,8 +96,9 @@ export const elementPackages: ElementPackageRegistry = {
     pricing: {
       price: 49.99,
       features: ['Scroll-synced table of contents', 'One-click page copy', 'Prev/next article links', 'Syntax highlighting ready', 'MDX-friendly'],
-      purchaseUrl: 'https://gumroad.com/ui-lab-documentation-elements',
+      gumroadProductId: 'documentation-elements',
     },
+    gumroadProductId: 'documentation-elements',
     getPreview: () => {
       return () => React.createElement('div', {
         className: 'flex items-center justify-center h-full w-full',

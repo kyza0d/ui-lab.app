@@ -18,8 +18,10 @@ const baseMetadata = {
   pricing: {
     price: 49.99,
     features: ['Task management', 'Note taking', 'Local storage', 'Categories', 'Search functionality'],
-    purchaseUrl: 'https://gumroad.com/ui-lab-productivity-starter',
+    gumroadProductId: 'productivity-starter',
   },
+  gumroadProductId: 'productivity-starter',
+  bundledElements: ['input', 'checkbox', 'list'],
 };
 
 const starterMetadata: StarterMetadata = {

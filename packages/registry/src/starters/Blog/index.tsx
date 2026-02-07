@@ -18,8 +18,10 @@ const baseMetadata = {
   pricing: {
     price: 49.99,
     features: ['Markdown support', 'Categories & tags', 'Social sharing', 'Search functionality', 'Comment system'],
-    purchaseUrl: 'https://gumroad.com/ui-lab-blog-starter',
+    gumroadProductId: 'blog-starter',
   },
+  gumroadProductId: 'blog-starter',
+  bundledElements: ['toc', 'copypage', 'nextarticle'],
 };
 
 const starterMetadata: StarterMetadata = {
