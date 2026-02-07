@@ -41,8 +41,8 @@
     "shiki": "^3.17.1",
     "three": "^0.182.0",
     "turndown": "^7.2.2",
-    "ui-lab-components": "0.1.5",
-    "ui-lab-registry": "0.1.7"
+    "ui-lab-components": "0.1.6",
+    "ui-lab-registry": "0.1.8"
   },
   "devDependencies": {
     "@iconify/react": "^6.0.2",

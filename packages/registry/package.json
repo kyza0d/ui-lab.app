@@ -1,6 +1,6 @@
 {
   "name": "ui-lab-registry",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Component registry and metadata management for ui-lab-components",
   "type": "module",
   "license": "MIT",
