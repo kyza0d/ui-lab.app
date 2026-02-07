@@ -187,7 +187,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
             className="pointer-events-auto"
             style={{
               willChange: "transform, opacity",
-              origin: isTop ? "top center" : "bottom center",
+              transformOrigin: isTop ? "top center" : "bottom center",
               top: isTop ? 0 : "auto",
               bottom: isTop ? "auto" : 0,
               position: "absolute",

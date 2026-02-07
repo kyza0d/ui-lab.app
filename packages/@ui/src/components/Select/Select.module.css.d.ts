@@ -1,10 +1,13 @@
 declare const styles: {
   select: string;
   trigger: string;
+  valueSection: string;
+  iconSection: string;
   icon: string;
   value: string;
   valueIcon: string;
   valueText: string;
+  valueChevron: string;
   content: string;
   viewport: string;
   list: string;

@@ -19,6 +19,7 @@ type ResponsiveColumns = {
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   columns?: GridColumns | number | ResponsiveColumns
   gap?: GridGap | number | string
+  rows?: "1" | "2" | "3" | "4" | "5" | "6" | "auto"
   containerQueryResponsive?: boolean
 }
 
@@ -66,7 +67,7 @@ const mapGapToGrid = (gap?: GridGap | number | string): GridGap => {
 
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, gap = "md", containerQueryResponsive, className, children, ...props }, ref) => {
+  ({ columns = 3, gap = "md", rows, containerQueryResponsive, className, children, ...props }, ref) => {
     const gridColumns = mapColumnsToGrid(columns)
     const gridGap = mapGapToGrid(gap)
 
@@ -75,6 +76,7 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
         ref={ref}
         columns={gridColumns as GridColumns | ResponsiveColumns}
         gap={gridGap}
+        rows={rows}
         containerQueryResponsive={containerQueryResponsive}
         className={className}
         {...props}
