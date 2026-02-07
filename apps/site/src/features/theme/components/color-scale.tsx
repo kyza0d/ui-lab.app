@@ -46,7 +46,7 @@ export function ColorScale({ family }: ColorScaleProps) {
             width: '60px',
             render: (_, row) => (
               <div className="flex justify-center">
-                <ColorPreviewCell oklch={row.color!} family={family} shade={row.shade} />
+                <ColorPreviewCell oklch={row.color!} family={family} shade={row.shade.toString()} />
               </div>
             ),
           },

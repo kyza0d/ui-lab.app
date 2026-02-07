@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { memo } from 'react';
-import { Badge, Scroll } from 'ui-lab-components';
+import { Badge, Scroll, Tooltip } from 'ui-lab-components';
 import { cn } from '@/shared';
 import { usePrefetchOnHover } from '@/shared/hooks/use-prefetch-on-hover';
 import { useLandingSidebarToggle } from '@/features/layout/hooks/landing-sidebar-context';
@@ -97,19 +97,18 @@ export function LandingSidebar() {
 
                 if (navItem.label === "Community") {
                   return (
-                    <div
-                      key={navItem.id}
-                      className='relative'
-                    >
-                      <button
-                        className="opacity-60 flex items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-semibold rounded-md text-foreground-400 border border-transparent"
-                      >
-                        <div className="w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center text-foreground-300">
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <span className="font-semibold">Community</span>
-                      </button>
-                    </div>
+                    <Tooltip position='right' key={navItem.id} content="Coming soon" showArrow={true}>
+                      <div className='relative'>
+                        <button
+                          className="opacity-60 flex items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-semibold rounded-md text-foreground-400 border border-transparent"
+                        >
+                          <div className="w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center text-foreground-300">
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <span className="font-semibold">Community</span>
+                        </button>
+                      </div>
+                    </Tooltip>
                   );
                 }
 
