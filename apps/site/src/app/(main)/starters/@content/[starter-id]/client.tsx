@@ -5,6 +5,9 @@ import type { ElementFile } from "ui-lab-registry";
 import { getStarterById } from "ui-lab-registry";
 import { CodeBlock } from "@/features/docs/components/code-display/code-block";
 import { ContentHeader } from "@/features/navigation/components/content-header";
+import { PurchaseModalClient, usePurchaseModal } from "@/features/elements";
+import { Button } from "ui-lab-components";
+import { FaShop } from "react-icons/fa6";
 
 interface StarterDetailClientProps {
   starterId: string;
@@ -98,40 +101,40 @@ function FileTreeNode({
           <div
             className="w-px bg-background-700 absolute"
             style={{
-              left: `${(depth - 1) * 20 + 10}px`,
+              left: `${depth * 20 - 10}px`,
               top: "0",
-              height: "1.5rem",
+              height: "20px",
             }}
           />
         )}
-
+        {node.type === "folder" && (
+          <button
+            onClick={() => onToggle(node.path)}
+            className="text-foreground-400 hover:text-foreground-300 mr-2 w-4 text-center"
+          >
+            {isExpanded ? "▼" : "▶"}
+          </button>
+        )}
+        {node.type === "file" && <span className="mr-2 w-4 text-center">📄</span>}
         <button
           onClick={() => {
-            if (isFile) {
+            if (node.type === "file") {
               onSelectFile(node.path);
-            } else {
-              onToggle(node.path);
             }
           }}
-          className={`flex-1 text-left px-2 py-1.5 rounded text-sm transition-colors flex items-center gap-2 group ${isFile && activeFile === node.path
-              ? "bg-background-800 text-foreground-50"
-              : "text-foreground-400 hover:bg-background-800 hover:text-foreground-200"
-            }`}
+          className={`text-sm ${
+            node.type === "file"
+              ? activeFile === node.path
+                ? "text-accent-400 font-medium"
+                : "text-foreground-400 hover:text-foreground-300"
+              : "text-foreground-300 font-medium"
+          }`}
         >
-          <span className="text-xs opacity-60 flex-shrink-0">
-            {isFile ? "📄" : "📁"}
-          </span>
-          <span className="font-mono truncate flex-1">{node.name}</span>
-          {!isFile && (
-            <span className="text-foreground-500 flex-shrink-0 transition-transform group-hover:opacity-100 opacity-60">
-              {isExpanded ? "⌄" : "❯"}
-            </span>
-          )}
+          {node.name}
         </button>
       </div>
-
-      {!isFile && isExpanded && node.children && (
-        <div>
+      {node.children && isExpanded && (
+        <>
           {node.children.map((child) => (
             <FileTreeNode
               key={child.path}
@@ -143,20 +146,20 @@ function FileTreeNode({
               depth={depth + 1}
             />
           ))}
-        </div>
+        </>
       )}
     </div>
   );
 }
 
-export default function StarterDetailClient({
-  starterId,
-}: StarterDetailClientProps) {
-  const starter = useMemo(() => getStarterById(starterId), [starterId]);
+function StarterDetailContent({ starterId }: StarterDetailClientProps) {
   const [activeFile, setActiveFile] = useState<string>("");
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({});
 
+  const starter = getStarterById(starterId);
   const files = starter?.files || [];
+  const modalContext = usePurchaseModal();
+
   const fileTree = useMemo(() => buildFileTree(files), [files]);
 
   const currentFile = useMemo(() => {
@@ -184,16 +187,41 @@ export default function StarterDetailClient({
     );
   }
 
+  const isPremium = starter.pricing && starter.pricing.price !== null;
+
   return (
     <div className="pt-(header-height)">
       <div className="w-full bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
-          <ContentHeader title={starter.name} description={starter.description} pricing={starter.pricing} purchaseUrl={starter.pricing?.purchaseUrl}>
-            <div className="w-full h-48 bg-background-800 rounded border border-background-700 flex items-center justify-center">
-              {/* Preview would go here if available */}
-              <div className="text-foreground-500">Preview</div>
+          <div className="mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4 md:gap-8 mb-12">
+              <div className="flex items-center justify-center">
+                <div className="w-full h-48 bg-background-800 rounded border border-background-700 flex items-center justify-center">
+                  <div className="text-foreground-500">Preview</div>
+                </div>
+              </div>
+              <div className="flex relative flex-col justify-between gap-4">
+                <div className="flex flex-col sm:flex-row items-start justify-start gap-4">
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-foreground-50 flex-1">{starter.name}</h1>
+                    <p className="text-foreground-400 text-sm sm:text-base leading-relaxed flex-1">{starter.description}</p>
+                  </div>
+                </div>
+                {isPremium && (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+                    <Button
+                      icon={{ left: <FaShop /> }}
+                      size="md"
+                      variant="primary"
+                      onClick={() => modalContext.openModal(starter)}
+                    >
+                      Purchase on Gumroad
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
-          </ContentHeader>
+          </div>
 
           {starter.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8">
@@ -255,5 +283,13 @@ export default function StarterDetailClient({
         </div>
       </div>
     </div>
+  );
+}
+
+export default function StarterDetailClient(props: StarterDetailClientProps) {
+  return (
+    <PurchaseModalClient type="starter">
+      <StarterDetailContent {...props} />
+    </PurchaseModalClient>
   );
 }
