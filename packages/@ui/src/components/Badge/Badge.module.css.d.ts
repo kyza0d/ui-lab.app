@@ -9,6 +9,7 @@ export interface Styles {
   "md": string;
   "lg": string;
   pill: string;
+  dismissible: string;
   iconWrapper: string;
   dismissButton: string;
 }
