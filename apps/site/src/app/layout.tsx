@@ -10,6 +10,7 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/work-sans";
 import "@fontsource-variable/jetbrains-mono";
 
+import { Suspense } from "react";
 import { RootLayoutClient } from "./client";
 import { generateMetadata } from "@/shared/lib/metadata";
 
@@ -30,7 +31,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <RootLayoutClient>{children}</RootLayoutClient>
+        <Suspense fallback={null}>
+          <RootLayoutClient>{children}</RootLayoutClient>
+        </Suspense>
       </body>
     </html>
   );
