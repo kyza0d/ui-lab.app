@@ -19,6 +19,8 @@ interface GenericContentGridProps<T extends ContentItem> {
   getPreviewComponent: (id: string) => React.ComponentType | null;
   showCTA?: boolean;
   ctaContentType?: 'elements' | 'starters' | 'sections';
+  onItemClick?: (item: T) => void;
+  disableNavigation?: boolean;
 }
 
 export function GenericContentGrid<T extends ContentItem>({
@@ -28,6 +30,8 @@ export function GenericContentGrid<T extends ContentItem>({
   getPreviewComponent,
   showCTA = false,
   ctaContentType,
+  onItemClick,
+  disableNavigation = false,
 }: GenericContentGridProps<T>) {
   const router = useRouter();
 
@@ -48,15 +52,25 @@ export function GenericContentGrid<T extends ContentItem>({
           const href = `${basePath}/${item.id}`;
           const isPlaceholder = !PreviewComponent;
 
+          const handlePress = (passedHref?: string) => {
+            if (onItemClick) {
+              onItemClick(item);
+              return;
+            }
+            router.push(passedHref || href);
+          };
+
+          const isNonClickable = isPlaceholder && !onItemClick;
+
           return (
             <Gallery.Item
               key={item.id}
-              href={isPlaceholder ? undefined : href}
-              onPress={isPlaceholder ? undefined : () => router.push(href)}
+              href={isNonClickable ? undefined : (onItemClick ? undefined : href)}
+              onPress={isNonClickable ? undefined : handlePress}
               columnSpan={2}
               rowSpan={layoutConfig.rowSpan}
-              className={`overflow-hidden ${isPlaceholder ? 'pointer-events-none' : ''}`}
-              {...(isPlaceholder && { tabIndex: -1 })}
+              className={`overflow-hidden ${isNonClickable ? 'pointer-events-none' : ''}`}
+              {...(isNonClickable && { tabIndex: -1 })}
             >
               <PreviewContainer layoutConfig={layoutConfig}>
                 {PreviewComponent ? <PreviewComponent /> : <div className="text-foreground-500">Preview</div>}
