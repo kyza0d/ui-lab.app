@@ -8,6 +8,8 @@ export { ElementsList as ElementsSidebarContent } from "./components/elements-si
 export { ElementsSortDropdown } from "./components/elements-sort-dropdown";
 export { PreviewContainer } from "./components/preview-container";
 export { PackagesGridClient } from "./components/packages-grid-client";
+export { PurchaseModal } from "./components/purchase-modal";
+export { PurchaseModalClient, usePurchaseModal } from "./components/purchase-modal-client";
 export * from "./lib/get-element-demo";
 export * from "./lib/get-element-preview";
 export * from "./lib/get-element-source";
