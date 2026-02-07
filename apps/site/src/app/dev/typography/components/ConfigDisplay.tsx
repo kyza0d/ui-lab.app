@@ -9,9 +9,9 @@ interface ConfigDisplayProps {
 
 export const ConfigDisplay = memo(({ metrics }: ConfigDisplayProps) => {
   const configJson = {
-    fontSizeScale: parseFloat(metrics.fontSizeScale.toFixed(2)),
-    fontWeightScale: parseFloat(metrics.fontWeightScale.toFixed(2)),
-    typeSizeRatio: parseFloat(metrics.typeSizeRatio.toFixed(3)),
+    fontSizeScale: parseFloat(metrics.bodyFontSizeScale.toFixed(2)),
+    fontWeightScale: parseFloat(metrics.bodyFontWeightScale.toFixed(2)),
+    typeSizeRatio: parseFloat(metrics.bodyTypeSizeRatio.toFixed(3)),
     headerLetterSpacingScale: parseFloat(metrics.headerLetterSpacingScale.toFixed(2)),
     bodyLetterSpacingScale: parseFloat(metrics.bodyLetterSpacingScale.toFixed(2)),
     headerFontWeightScale: parseFloat(metrics.headerFontWeightScale.toFixed(2)),

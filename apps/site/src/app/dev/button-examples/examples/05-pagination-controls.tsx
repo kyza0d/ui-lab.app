@@ -22,7 +22,7 @@ export default function Example() {
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             isDisabled={currentPage === totalPages}
             icon={{ left: <ChevronLeft size={16} /> }}
-            size="p-1"
+            size="sm"
             title="Next page"
           />
           {[1, 2, 3].map((page) => (
@@ -54,7 +54,7 @@ export default function Example() {
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             isDisabled={currentPage === totalPages}
             icon={{ left: <ChevronRight size={16} /> }}
-            size="p-1"
+            size="sm"
             title="Next page"
           />
         </Group>

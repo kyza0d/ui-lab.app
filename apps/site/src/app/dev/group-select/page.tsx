@@ -189,12 +189,12 @@ export default function Test() {
 
           <div>
             <h3 className="text-sm font-semibold mb-3">Normal Spacing (Outline)</h3>
-            <Group orientation="horizontal" spacing="normal" variant="outline">
+            <Group orientation="horizontal" spacing="sm" variant="outline">
               <Group.Button variant="outline" size="md">Option A</Group.Button>
               <Group.Button variant="outline" size="md">Option B</Group.Button>
               <Group.Button variant="outline" size="md">Option C</Group.Button>
             </Group>
-            <Group orientation="vertical" spacing="normal" variant="outline">
+            <Group orientation="vertical" spacing="sm" variant="outline">
               <Group.Button variant="outline" size="md"><FaPencil /></Group.Button>
               <Group.Button variant="outline" size="md"><FaStar /></Group.Button>
               <Group.Button variant="outline" size="md"><FaCircle /></Group.Button>

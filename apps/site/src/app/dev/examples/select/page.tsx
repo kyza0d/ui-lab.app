@@ -44,7 +44,7 @@ function LanguageSelectPreview() {
           </Select.Content>
         </Select>
       </div>
-      {selected && (
+      {selected && Icon && (
         <div className="flex items-center gap-2 text-sm text-foreground-400">
           <Icon style={{ color: selected.color }} className="w-4 h-4" />
           <span>Selected: <span className="text-foreground-200">{selected.label}</span></span>
