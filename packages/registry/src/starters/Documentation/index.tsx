@@ -18,8 +18,10 @@ const baseMetadata = {
   pricing: {
     price: 49.99,
     features: ['Sidebar navigation', 'Code highlighting', 'Search functionality', 'Responsive design', 'Dark mode support'],
-    purchaseUrl: 'https://gumroad.com/ui-lab-documentation-starter',
+    gumroadProductId: 'documentation-starter',
   },
+  gumroadProductId: 'documentation-starter',
+  bundledElements: ['toc', 'copypage', 'nextarticle'],
 };
 
 const starterMetadata: StarterMetadata = {
