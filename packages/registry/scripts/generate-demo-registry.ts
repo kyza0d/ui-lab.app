@@ -133,7 +133,7 @@ function generateDemoRegistryContent(sections: SectionInfo[]): string {
     for (const variation of element.variations) {
       const demoPath = `${element.id}-${variation.folderName.split('-').slice(1).join('-')}`;
       elementDemoEntries.push(
-        `'${demoPath}': dynamic(() => import('./elements/${element.importPath}/variations/${variation.folderName}').then(m => ({ default: m.${variation.exportName} })))`
+        `'${demoPath}': () => dynamic(() => import('./elements/${element.importPath}/variations/${variation.folderName}').then(m => ({ default: m.${variation.exportName} })))`
       );
     }
   }
@@ -142,13 +142,13 @@ function generateDemoRegistryContent(sections: SectionInfo[]): string {
 
   for (const section of sections) {
     sectionPreviewEntries.push(
-      `  ${section.id}: dynamic(() => import('./sections/${section.folderName}').then(mod => ({ default: () => mod.getPreview() })))`
+      `  ${section.id}: () => dynamic(() => import('./sections/${section.folderName}').then(mod => ({ default: () => mod.getPreview() })))`
     );
 
     for (const variation of section.variations) {
       const demoPath = `${section.id}-${variation.folderName.split('-').slice(1).join('-')}`;
       sectionPreviewEntries.push(
-        `  '${demoPath}': dynamic(() => import('./sections/${section.folderName}/variations/${variation.folderName}').then(m => ({ default: m.${variation.exportName} })))`
+        `  '${demoPath}': () => dynamic(() => import('./sections/${section.folderName}/variations/${variation.folderName}').then(m => ({ default: m.${variation.exportName} })))`
       );
     }
   }
@@ -158,24 +158,36 @@ import type React from 'react';
 
 export type DemoComponent = React.ComponentType<object>;
 
-// Cached element demos - dynamic() called ONCE at module load
-export const elementDemoMap: Record<string, DemoComponent> = {
+// Lazy-loaded element demos - dynamic() called on demand
+const elementDemoLoaders: Record<string, () => DemoComponent> = {
   ${elementDemoEntries.join(',\n  ')},
 };
 
-// Cached section previews - dynamic() called ONCE at module load
-export const sectionPreviewMap: Record<string, DemoComponent> = {
+// Lazy-loaded section previews - dynamic() called on demand
+const sectionPreviewLoaders: Record<string, () => DemoComponent> = {
 ${sectionPreviewEntries.join(',\n')},
 };
 
-// Getter for element demos - returns cached dynamic component
+// Cached instances
+const elementDemoCache = new Map<string, DemoComponent>();
+const sectionPreviewCache = new Map<string, DemoComponent>();
+
+// Getter for element demos - lazy-loads and caches
 export function getElementDemo(demoPath: string): DemoComponent | null {
-  return elementDemoMap[demoPath] || null;
+  if (!elementDemoLoaders[demoPath]) return null;
+  if (!elementDemoCache.has(demoPath)) {
+    elementDemoCache.set(demoPath, elementDemoLoaders[demoPath]());
+  }
+  return elementDemoCache.get(demoPath) || null;
 }
 
-// Getter for section previews - returns cached dynamic component
+// Getter for section previews - lazy-loads and caches
 export function getSectionPreview(sectionId: string): DemoComponent | null {
-  return sectionPreviewMap[sectionId] || null;
+  if (!sectionPreviewLoaders[sectionId]) return null;
+  if (!sectionPreviewCache.has(sectionId)) {
+    sectionPreviewCache.set(sectionId, sectionPreviewLoaders[sectionId]());
+  }
+  return sectionPreviewCache.get(sectionId) || null;
 }
 `;
 }
