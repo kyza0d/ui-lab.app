@@ -7,37 +7,6 @@ import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaSearch } from 'react-icons/fa';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: "60%" }} className="rounded-sm overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
-      <div className='h-8 gap-2 flex border-b border-background-700'>
-        <FaSearch style={{ marginTop: 10 }} size={10} className='text-foreground-500 opacity-50 ml-2' />
-      </div>
-      <div className='h-8 pl-2 gap-2 flex border-b border-background-700'>
-        <div style={{ width: 30, height: 20, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-2'></div>
-        <div className='w-full flex flex-col'>
-          <div style={{ width: "20%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-1 h-2'></div>
-          <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
-        </div>
-      </div>
-
-      <div className='h-6 pl-2 gap-2 flex'>
-        <div style={{ width: 30, height: 20, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-2'></div>
-        <div className='w-full flex flex-col'>
-          <div style={{ width: "20%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-1 h-2'></div>
-          <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
-        </div>
-      </div>
-
-      <div style={{ backgroundColor: "var(--background-800)" }} className='border-t border-background-700 items-center h-5 px-2 gap-1 flex'>
-        <div style={{ width: "30%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2'></div>
-        <div style={{ width: "30%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2'></div>
-        <div style={{ width: "20%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='ml-auto rounded-md h-2'></div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-command', Component: Example1, metadata: metadata1 },
 ];

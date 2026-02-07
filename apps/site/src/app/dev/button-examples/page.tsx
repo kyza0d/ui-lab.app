@@ -64,3 +64,7 @@
 //     </div>
 //   );
 // }
+
+export default function ButtonExamplesPage() {
+  return <div>Button examples page - coming soon</div>;
+}

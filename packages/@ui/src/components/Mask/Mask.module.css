@@ -5,47 +5,24 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
   }
 }
 
-.mask.mask-x {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 4%,
-    black 96%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 4%,
-    black 96%,
-    transparent 100%
-  );
+.mask[style*="mask-image"],
+.mask[style*="-webkit-mask-image"] {
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
-.mask.mask-y {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 4%,
-    black 96%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 4%,
-    black 96%,
-    transparent 100%
-  );
+.mask[style*="--mask-clip-path"] {
+  clip-path: var(--mask-clip-path);
 }
 
-.mask.mask-gradient {
+
+.mask-gradient {
   background: var(--mask-gradient);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
 }

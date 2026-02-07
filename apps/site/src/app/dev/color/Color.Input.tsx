@@ -56,8 +56,6 @@ export const ColorInput = React.forwardRef<
     return (
       <Group
         ref={ref}
-        variant="ghost"
-        spacing="sm"
         isDisabled={disabled}
         data-size={size}
         className={styles.inputGroup}

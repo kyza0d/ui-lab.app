@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Toaster } from "ui-lab-components";
 import { HeroSection, Showcase, NodeSection } from "@/features/landing";
 import { FeaturesSection } from "@/features/landing/components/FeaturesSection";
-import { LandingSidebar } from "@/shared/components/landing-sidebar";
+import { LandingSidebar } from "@/features/landing/components/landing-sidebar";
 
 import { SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
 
@@ -43,8 +43,6 @@ export default function Home() {
       <Toaster />
       <LandingSidebar />
       <main className="flex-1 h-full w-full flex flex-col items-center md:overflow-x-hidden">
-        <div className="fixed h-full bg-background-950 w-screen top-0 left-0 z-0" />
-        <div className="fixed max-w-[94vw] bg-background-950 w-screen h-screen top-0 left-1/2 -translate-x-1/2 z-0" />
 
         <section className="w-full px-4 sm:px-6 md:px-12 lg:px-24 border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
           <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px] max-w-[95vw] md:max-w-full">

@@ -2,6 +2,7 @@
 import { BreadcrumbsNav } from '@/features/navigation';
 import { getAllStarters } from 'ui-lab-registry';
 import { StartersGridClient } from '@/features/starters';
+import { GridCTA } from '@/features/landing/components/grid-cta';
 import type { StarterMetadata } from 'ui-lab-registry';
 
 const placeholderStarters: StarterMetadata[] = [
@@ -30,7 +31,7 @@ export default function StartersPage() {
   const combinedStarters = [...allStarters, ...placeholderStarters];
 
   return (
-    <div className='pl-12 mt-38 pt-(header-height)'>
+    <div className='mt-38 pt-(header-height)'>
       <BreadcrumbsNav />
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
@@ -39,8 +40,14 @@ export default function StartersPage() {
             Full-page templates and layouts to jumpstart your projects. Each starter includes complete implementations with all necessary components.
           </p>
         </div>
-        <div className="space-y-6">
-          <StartersGridClient starters={combinedStarters} />
+        <div className="relative overflow-hidden">
+          <div className="space-y-6">
+            <StartersGridClient starters={combinedStarters} />
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 h-[200px]  pointer-events-none bg-gradient-to-b from-transparent from-0% via-background-950 via-70% to-background-950 to-100%" />
+        </div>
+        <div className="-mt-60 relative z-10 px-6 py-16">
+          <GridCTA contentType="elements" />
         </div>
       </div>
     </div>

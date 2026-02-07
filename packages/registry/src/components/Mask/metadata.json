@@ -1,7 +1,7 @@
 {
   "id": "mask",
   "name": "Mask",
-  "description": "A container component that creates fading effects on its content edges.",
+  "description": "Container component that creates fading edge effects on content.",
   "category": "container",
   "source": {
     "packageName": "ui-lab-components",

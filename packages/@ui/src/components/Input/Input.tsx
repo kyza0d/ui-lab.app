@@ -34,6 +34,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       prefixIcon,
       suffixIcon,
       type = "text",
+      onFocus,
+      onBlur,
       ...props
     },
     ref
@@ -41,11 +43,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasPrefix = !!prefixIcon;
     const hasSuffix = !!suffixIcon;
     const isNumberType = type === "number";
+    const [isFocused, setIsFocused] = React.useState(false);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const mergedRef = useMergedRef(ref, inputRef);
 
     const { focusProps, isFocusVisible } = useFocusRing();
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      onFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      onBlur?.(e);
+    };
 
     const handleSpinClick = (direction: "up" | "down") => {
       if (!inputRef.current || disabled) return;
@@ -74,19 +87,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={mergedRef}
           type={type}
           disabled={disabled}
-          // Apply data-focus-visible only when keyboard-focused
           data-focus-visible={isFocusVisible ? "true" : undefined}
+          data-active={isFocused ? "true" : undefined}
           data-disabled={disabled || undefined}
           data-error={error ? "true" : undefined}
           data-variant={variant}
           className={cn(
             styles.input,
-            hasPrefix && "pl-8",
-            (hasSuffix || isNumberType) && "pr-8",
+            hasPrefix && "pl-10",
+            (hasSuffix || isNumberType) && "pr-10",
             className
           )}
-          // Merge React Aria focus props + user props
-          {...mergeProps(focusProps, props)}
+          {...mergeProps(focusProps, {
+            onFocus: handleFocus,
+            onBlur: handleBlur,
+            ...props,
+          })}
         />
         {isNumberType && (
           <div

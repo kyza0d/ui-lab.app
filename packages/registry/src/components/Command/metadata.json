@@ -1,7 +1,7 @@
 {
   "id": "command",
   "name": "Command",
-  "description": "A searchable command palette for quick access to actions.",
+  "description": "Searchable command palette for quick action access.",
   "category": "action",
   "source": {
     "packageName": "ui-lab-components",

@@ -17,7 +17,7 @@
     background-color: var(--background);
     color: var(--foreground);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     transition: background-color 0.15s ease-out, border-color 0.15s ease-out;
   }
 

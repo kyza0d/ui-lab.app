@@ -1,7 +1,7 @@
 {
   "id": "scroll",
   "name": "Scroll",
-  "description": "A scroll area component with custom scrollbars for overflowing content.",
+  "description": "Scroll area component with custom scrollbars for overflowing content.",
   "category": "container",
   "source": {
     "packageName": "ui-lab-components",

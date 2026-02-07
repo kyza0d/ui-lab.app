@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from 'ui-lab-components';
 import { FaFolder, FaFolderOpen, FaFile, FaExpand } from 'react-icons/fa6';
 import { PreviewContainer, DEVICE_PRESETS, calculateVariantFromWidth, PreviewDeviceVariant } from '@/features/preview';
-import { CodeBlock } from '@/shared/components/code-block';
-import { useExternalWindow } from '@/shared';
+import { CodeBlock } from '@/features/docs/components/code-display/code-block';
+import { useExternalWindow } from '@/features/preview/hooks/use-external-window';
 import type { ElementFile } from 'ui-lab-registry';
 
 type DeviceVariant = PreviewDeviceVariant;

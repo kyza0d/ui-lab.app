@@ -17,8 +17,7 @@ import {
 import { HiChat, HiX } from "react-icons/hi";
 import { HiMiniSparkles } from "react-icons/hi2";
 import { PanelRight } from "lucide-react";
-import { getTabGroupForPathname, getActiveTabForPathname, shouldApplyRevealCollapse } from "@/shared";
-import type { TabConfig } from "@/shared/lib/route-config";
+import { getTabGroupForPathname, getActiveTabForPathname, shouldApplyRevealCollapse, type TabConfig } from "@/shared";
 import { MobileMenu } from "./mobile-menu";
 import { navigationData } from "./data";
 import { useSidebarToggle } from "@/features/layout/hooks/sidebar-context";
@@ -30,7 +29,6 @@ const TabItem = memo(({ tab }: { tab: TabConfig }) => {
     <Link href={tab.path}>
       <TabsTrigger
         value={tab.id}
-        className="gap-4 text-sm mb-3"
         disabled={tab.isPlaceholder}
       >
         {tab.label}
@@ -80,9 +78,9 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed top-0 left-0 z-50 w-full border-b border-background-700 bg-background-950 h-16">
-        <div className="h-full flex items-center justify-between px-3 w-full overflow-hidden">
-          <div className="flex items-center gap-4 flex-1 min-w-0">
+      <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700 bg-background-950 h-16">
+        <div className="h-full max-w-(--page-width) mx-auto border-x border-background-700 flex items-center justify-between px-3 w-full overflow-hidden">
+          <div className=" flex items-center flex-1 min-w-0">
 
             <button
               onClick={handleToggleSidebar}
@@ -100,7 +98,7 @@ export default function Header({
 
 
             {pathname === "/" && homeNavTabs && (
-              <Tabs className="mt-3 hidden md:block" value={activeHomeTab || ""} variant="underline">
+              <Tabs className="hidden ml-8 lg:block" value={activeHomeTab || ""} variant="underline">
                 <TabsList>
                   {homeNavTabs.map((tab) => (
                     <TabItem key={tab.id} tab={tab} />
@@ -110,7 +108,7 @@ export default function Header({
             )}
 
             {hasRevealCollapse && tabGroup && activeTabId && (
-              <Tabs className="mt-3 w-fit hidden md:block" value={activeTabId} variant="underline">
+              <Tabs className="w-fit ml-8 hidden lg:block" value={activeTabId} variant="underline">
                 <TabsList>
                   {tabGroup.tabs.map((tab) => (
                     <TabItem key={tab.id} tab={tab} />
@@ -120,12 +118,12 @@ export default function Header({
             )}
           </div>
 
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="relative hidden lg:flex items-center">
+          <div className="absolute left-1/2 -translate-x-1/2 flex gap-3">
+            <div className="relative flex items-center">
               <Input
                 placeholder="Search..."
                 prefixIcon={<FaMagnifyingGlass size={13} />}
-                className="w-50 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                className="w-50 md:w-90 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                 onClick={() => setIsCommandPaletteOpen(true)}
                 readOnly
               />
@@ -133,17 +131,27 @@ export default function Header({
                 Ctrl {" "} K
               </Badge>
             </div>
-
+            {/* This comes later */}
             <Button
               variant="ghost"
-              className="lg:hidden px-2 flex items-center justify-center min-w-[30px] min-h-[30px]"
-              onClick={() => setIsCommandPaletteOpen(true)}
-              aria-label="Search"
+              className="px-2 flex items-center justify-center min-w-[30px] min-h-[30px]"
+              onClick={toggleChat}
+              aria-label="Toggle AI chat"
             >
-              <FaMagnifyingGlass size={16} className="text-foreground-300" />
+              <HiMiniSparkles
+                size={15}
+                className={cn(
+                  "transition-colors",
+                  isChatOpen
+                    ? "text-accent-500"
+                    : "text-foreground-300"
+                )}
+              />
             </Button>
+          </div>
 
-            <div className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="hidden lg:flex items-center gap-2">
               <Button size="sm">
                 Feedback
               </Button>
@@ -161,32 +169,17 @@ export default function Header({
                   Source
                 </Button>
               </a>
-              <Divider size='sm' className="-my-1" orientation="vertical" />
-              <SettingsPanel />
+              <Divider size='sm' className="-my-3" orientation="vertical" />
             </div>
+            <SettingsPanel />
 
-            <Button
-              variant="ghost"
-              className="px-2 flex items-center justify-center min-w-[30px] min-h-[30px]"
-              onClick={toggleChat}
-              aria-label="Toggle AI chat"
-            >
-              <HiMiniSparkles
-                size={15}
-                className={cn(
-                  "transition-colors",
-                  isChatOpen
-                    ? "text-accent-500"
-                    : "text-foreground-300"
-                )}
-              />
-            </Button>
+
 
             <ThemeToggle />
 
             <button
               onClick={() => setIsMobileMenuOpen((v) => !v)}
-              className="md:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
+              className="lg:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMobileMenuOpen ? <HiX size={20} /> : <FaBars size={20} />}
@@ -196,7 +189,7 @@ export default function Header({
       </header>
 
       <CommandPalette />
-      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} pathname={pathname} />
     </>
   );
 }

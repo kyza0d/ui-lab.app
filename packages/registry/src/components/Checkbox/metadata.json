@@ -1,7 +1,7 @@
 {
   "id": "checkbox",
   "name": "Checkbox",
-  "description": "A checkbox input for selecting one or multiple options.",
+  "description": "Input for selecting one or multiple options.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",

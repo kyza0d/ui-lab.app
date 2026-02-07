@@ -6,26 +6,6 @@ import Example2, { metadata as metadata2 } from './examples/02-with-disabled-dat
 import examplesJson from './examples.json'
 import { loadComponentExamples } from '../../utils/load-component-examples'
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: "80%", maxWidth: "110px" }} className="rounded-sm overflow-hidden border border-background-700 flex flex-col gap-1 p-1">
-      {/* Header */}
-      <div className='h-4 gap-1 flex items-center justify-between border-b border-background-700 pb-1'>
-        <div style={{ width: 8, height: 8, backgroundColor: "var(--background-500)" }} className='opacity-20 rounded-sm'></div>
-        <div style={{ width: 40, height: 6, backgroundColor: "var(--background-500)" }} className='opacity-20 rounded-sm'></div>
-        <div style={{ width: 8, height: 8, backgroundColor: "var(--background-500)" }} className='opacity-20 rounded-sm'></div>
-      </div>
-
-      {/* Mini calendar grid */}
-      <div className='grid gap-0.5' style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
-        {[...Array(28)].map((_, i) => (
-          <div key={`day-${i}`} style={{ width: 10, height: 10, backgroundColor: "var(--background-500)" }} className='opacity-15 rounded-sm'></div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 const examplesData = [
   { id: '01-basic-date', Component: Example1, metadata: metadata1 },
   { id: '02-with-disabled-dates', Component: Example2, metadata: metadata2 },

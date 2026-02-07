@@ -1,7 +1,7 @@
 {
   "id": "breadcrumbs",
   "name": "Breadcrumbs",
-  "description": "A navigation component that displays the current page in a hierarchy and allows users to navigate to parent pages.",
+  "description": "Navigation component showing page hierarchy with links to parent pages.",
   "category": "navigation",
   "source": {
     "packageName": "ui-lab-components",

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { cn } from "@/shared";
-import { CodeBlock } from "@/shared/components/code-block";
+import { CodeBlock } from "@/features/docs/components/code-display/code-block";
 import { Button, EasingPreview, EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "ui-lab-components";
 import {
   Select,
@@ -127,10 +127,10 @@ export function ComponentConfigurator({
         )
         }
 
-        <div className={cn("border border-background-700 rounded-md overflow-hidden", fullWidth && "w-full")}>
+        <div className={cn("border border-background-700 rounded-sm overflow-hidden", fullWidth && "w-full")}>
           {!hidePreviewToggle && (
             <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
-              <TabsList className="bg-transparent justify-start h-12 border-0 rounded-none border-b border-background-700 w-full">
+              <TabsList className="rounded-none border-b border-background-700">
                 <TabsTrigger value="preview">Preview</TabsTrigger>
                 <TabsTrigger value="code">Code</TabsTrigger>
               </TabsList>
@@ -222,7 +222,7 @@ export function ComponentConfigurator({
                           )
                         }
                         className={cn(
-                          "w-full px-3 py-1.5 text-sm font-medium rounded-md",
+                          "w-full px-3 py-1.5 text-sm font-medium rounded-sm",
                           controlValues[control.name]
                             ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
                             : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
@@ -240,7 +240,7 @@ export function ComponentConfigurator({
                         onChange={(e) =>
                           handleControlChange(control.name, e.target.value)
                         }
-                        className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-md text-foreground-50 placeholder-foreground-600 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-600 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
                       />
                     )}
                   </div>

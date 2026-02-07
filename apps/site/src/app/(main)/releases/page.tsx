@@ -38,7 +38,7 @@ const releases: Release[] = [
 
 export default function ReleasesPage() {
   return (
-    <>
+    <div className="py-20">
       <div className="mb-10">
         <h1 className="text-md font-semibold text-foreground-50">Releases</h1>
         <p className="text-sm mt-1 text-foreground-300">Version history and changelog.</p>
@@ -58,6 +58,6 @@ export default function ReleasesPage() {
           </section>
         ))}
       </div>
-    </>
+    </div>
   );
 }

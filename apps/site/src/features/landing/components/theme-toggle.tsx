@@ -7,7 +7,7 @@ export const LandingThemeToggle = () => {
   const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors, isThemeInitialized } = useApp();
   const [isClient, setIsClient] = useState(false);
 
-  const { applyAndPersistColors, applyAndPersistMode } = useThemeStorage({
+  const { applyAndPersistColors, applyAndPersistModeAndColors } = useThemeStorage({
     onColorsChange: setCurrentThemeColors,
     onModeChange: setCurrentThemeMode,
     currentThemeMode,
@@ -25,26 +25,29 @@ export const LandingThemeToggle = () => {
     const nextMode = currentThemeMode === "light" ? "dark" : "light";
     const colors = currentThemeColors || themes["Vitesse"][nextMode];
 
-    document.documentElement.classList.add("theme-transition");
+    const startTransition = () => {
+      document.documentElement.classList.add("theme-transition");
+      setCurrentThemeMode(nextMode);
+      setCurrentThemeColors(colors);
+      applyAndPersistModeAndColors(nextMode, colors);
 
-    setCurrentThemeMode(nextMode);
-    setCurrentThemeColors(colors);
-    applyAndPersistMode(nextMode);
-    applyAndPersistColors(colors, nextMode);
+      setTimeout(() => {
+        document.documentElement.classList.remove("theme-transition");
+      }, 300);
+    };
 
-    setTimeout(() => {
-      document.documentElement.classList.remove("theme-transition");
-    }, 300);
+    if (document.startViewTransition && typeof document.startViewTransition === "function") {
+      document.startViewTransition(startTransition);
+    } else {
+      startTransition();
+    }
   };
-
-  const nextMode = currentThemeMode === "light" ? "dark" : "light";
 
   return (
     <button
       onClick={toggleTheme}
       className="z-[250] cursor-pointer rounded-xl hover:bg-theme-border/30 p-2"
-      aria-label={`Switch to ${nextMode} theme`}
-      title={`Current: ${currentThemeMode} → Next: ${nextMode}`}
+      aria-label="Toggle theme"
     >
       <FaCircleHalfStroke size={15} />
     </button>

@@ -3,6 +3,7 @@
 import { BreadcrumbsNav } from '@/features/navigation';
 import { getAllPackages } from 'ui-lab-registry';
 import { PackagesGridClient } from '@/features/elements';
+import { GridCTA } from '@/features/landing/components/grid-cta';
 import type { ElementPackageMetadata } from 'ui-lab-registry';
 
 const placeholderPackages: ElementPackageMetadata[] = [
@@ -29,7 +30,7 @@ export default function ElementsPage() {
   const allPackages = [...packages, ...placeholderPackages];
 
   return (
-    <div className='pl-12 mt-38 pt-(header-height)'>
+    <div className='mt-38 pt-(header-height)'>
       <BreadcrumbsNav />
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
@@ -38,8 +39,14 @@ export default function ElementsPage() {
             Copy-paste ready UI elements organized into packages. Click any package to explore its elements.
           </p>
         </div>
-        <div className="space-y-6">
-          <PackagesGridClient packages={allPackages} />
+        <div className="relative overflow-hidden">
+          <div className="space-y-6">
+            <PackagesGridClient packages={allPackages} />
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 h-[200px]  pointer-events-none bg-gradient-to-b from-transparent from-0% via-background-950 via-70% to-background-950 to-100%" />
+        </div>
+        <div className="-mt-60 relative z-10 px-6 py-16">
+          <GridCTA contentType="elements" />
         </div>
       </div>
     </div>

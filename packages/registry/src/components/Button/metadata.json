@@ -1,7 +1,7 @@
 {
   "id": "button",
   "name": "Button",
-  "description": "A clickable element that triggers an action.",
+  "description": "Clickable element that triggers an action.",
   "category": "action",
   "source": {
     "packageName": "ui-lab-components",

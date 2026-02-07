@@ -5,18 +5,6 @@ import Example1, { metadata as metadata1 } from './examples/01-basic-textarea.js
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className='flex flex-col'>
-      <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 ml-2 mb-2 rounded-sm h-2'></div>
-      <div style={{ width: 140, height: 60, borderRadius: "var(--radius-md)" }} className="w-full flex bg-background-900 pl-2 pt-2 pr-4 border border-background-700">
-        <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 mt-1 rounded-md h-2'></div>
-        <div style={{ backgroundColor: "var(--background-500)" }} className='w-px opacity-30 rounded-md h-4 ml-2'></div>
-      </div>
-    </div>
-  );
-}
-
 // Define examplesData locally
 const examplesData = [
   { id: '01-basic-textarea', Component: Example1, metadata: metadata1 },

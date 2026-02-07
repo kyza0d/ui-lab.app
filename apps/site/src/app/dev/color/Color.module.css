@@ -26,25 +26,20 @@
   /* Input styles */
   .inputGroup {
     width: 100%;
-    display: flex;
-    gap: 0 !important
   }
 
-  .inputGroup > div:nth-child(1) {
+  .inputGroup > div:first-child {
     flex: 1;
     min-width: 0;
   }
 
   .colorInput {
     width: 100%;
-    border-radius: var(--radius-sm) 0 0 var(--radius-sm)
   }
 
   .formatSelect {
     flex-shrink: 0;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    border-left: 0;
-    width: 85px; /* Fixed width for the format selector */
+    width: 85px;
   }
 
   .color[data-size="sm"] .formatSelect {

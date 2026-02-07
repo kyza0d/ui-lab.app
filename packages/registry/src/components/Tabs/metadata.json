@@ -1,7 +1,7 @@
 {
   "id": "tabs",
   "name": "Tabs",
-  "description": "A tabbed interface for organizing content into sections.",
+  "description": "Tabbed interface for organizing content into sections.",
   "category": "navigation",
   "source": {
     "packageName": "ui-lab-components",

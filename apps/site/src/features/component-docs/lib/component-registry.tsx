@@ -2,44 +2,44 @@
 
 import { cache } from "react";
 import { Button, Banner, Date, Color, Mask } from "ui-lab-components";
-import { buttonDetail, getPreview as getButtonPreview } from "ui-lab-registry/components/Button";
-import { dateDetail, getPreview as getDatePreview } from "ui-lab-registry/components/Date";
-import { anchorDetail, getPreview as getAnchorPreview } from "ui-lab-registry/components/Anchor";
-import { bannerDetail, getPreview as getBannerPreview } from "ui-lab-registry/components/Banner";
-import { badgeDetail, getPreview as getBadgePreview } from "ui-lab-registry/components/Badge";
-import { breadcrumbsDetail, getPreview as getBreadcrumbsPreview } from "ui-lab-registry/components/Breadcrumbs";
-import { cardDetail, getPreview as getCardPreview } from "ui-lab-registry/components/Card";
-import { checkboxDetail, getPreview as getCheckboxPreview } from "ui-lab-registry/components/Checkbox";
-import { colorDetail, getPreview as getColorPreview } from "ui-lab-registry/components/Color";
-import { dividerDetail, getPreview as getDividerPreview } from "ui-lab-registry/components/Divider";
-import { flexDetail, getPreview as getFlexPreview } from "ui-lab-registry/components/Flex";
-import { foldDetail, getPreview as getFoldPreview } from "ui-lab-registry/components/Fold";
-import { galleryDetail, getPreview as getGalleryPreview } from "ui-lab-registry/components/Gallery";
-import { gridDetail, getPreview as getGridPreview } from "ui-lab-registry/components/Grid";
-import { groupDetail, getPreview as getGroupPreview } from "ui-lab-registry/components/Group";
-import { inputDetail, getPreview as getInputPreview } from "ui-lab-registry/components/Input";
-import { labelDetail, getPreview as getLabelPreview } from "ui-lab-registry/components/Label";
-import { menuDetail, getPreview as getMenuPreview } from "ui-lab-registry/components/Menu";
-import { toastDetail, getPreview as getToastPreview } from "ui-lab-registry/components/Toast";
-import { modalDetail, getPreview as getModalPreview } from "ui-lab-registry/components/Modal";
-import { maskDetail, getPreview as getMaskPreview } from "ui-lab-registry/components/Mask";
-import { popoverDetail, getPreview as getPopoverPreview } from "ui-lab-registry/components/Popover";
-import { confirmDetail, getPreview as getConfirmPreview } from "ui-lab-registry/components/Confirm";
-import { progressDetail, getPreview as getProgressPreview } from "ui-lab-registry/components/Progress";
-import { radioDetail, getPreview as getRadioPreview } from "ui-lab-registry/components/Radio";
-import { commandDetail, getPreview as getCommandPreview } from "ui-lab-registry/components/Command";
-import { scrollDetail, getPreview as getScrollPreview } from "ui-lab-registry/components/Scroll";
-import { selectDetail, getPreview as getSelectPreview } from "ui-lab-registry/components/Select";
-import { sliderDetail, getPreview as getSliderPreview } from "ui-lab-registry/components/Slider";
-import { switchDetail, getPreview as getSwitchPreview } from "ui-lab-registry/components/Switch";
-import { tableDetail, getPreview as getTablePreview } from "ui-lab-registry/components/Table";
-import { tabsDetail, getPreview as getTabsPreview } from "ui-lab-registry/components/Tabs";
-import { textareaDetail, getPreview as getTextareaPreview } from "ui-lab-registry/components/Textarea";
-import { tooltipDetail, getPreview as getTooltipPreview } from "ui-lab-registry/components/Tooltip";
-import { listDetail, getPreview as getListPreview } from "ui-lab-registry/components/List";
-import { frameDetail, getPreview as getFramePreview } from "ui-lab-registry/components/Frame";
+import { buttonDetail } from "ui-lab-registry/components/Button";
+import { dateDetail } from "ui-lab-registry/components/Date";
+import { anchorDetail } from "ui-lab-registry/components/Anchor";
+import { bannerDetail } from "ui-lab-registry/components/Banner";
+import { badgeDetail } from "ui-lab-registry/components/Badge";
+import { breadcrumbsDetail } from "ui-lab-registry/components/Breadcrumbs";
+import { cardDetail } from "ui-lab-registry/components/Card";
+import { checkboxDetail } from "ui-lab-registry/components/Checkbox";
+import { colorDetail } from "ui-lab-registry/components/Color";
+import { dividerDetail } from "ui-lab-registry/components/Divider";
+import { flexDetail } from "ui-lab-registry/components/Flex";
+import { foldDetail } from "ui-lab-registry/components/Fold";
+import { galleryDetail } from "ui-lab-registry/components/Gallery";
+import { gridDetail } from "ui-lab-registry/components/Grid";
+import { groupDetail } from "ui-lab-registry/components/Group";
+import { inputDetail } from "ui-lab-registry/components/Input";
+import { labelDetail } from "ui-lab-registry/components/Label";
+import { menuDetail } from "ui-lab-registry/components/Menu";
+import { toastDetail } from "ui-lab-registry/components/Toast";
+import { modalDetail } from "ui-lab-registry/components/Modal";
+import { maskDetail } from "ui-lab-registry/components/Mask";
+import { popoverDetail } from "ui-lab-registry/components/Popover";
+import { confirmDetail } from "ui-lab-registry/components/Confirm";
+import { progressDetail } from "ui-lab-registry/components/Progress";
+import { radioDetail } from "ui-lab-registry/components/Radio";
+import { commandDetail } from "ui-lab-registry/components/Command";
+import { scrollDetail } from "ui-lab-registry/components/Scroll";
+import { selectDetail } from "ui-lab-registry/components/Select";
+import { sliderDetail } from "ui-lab-registry/components/Slider";
+import { switchDetail } from "ui-lab-registry/components/Switch";
+import { tableDetail } from "ui-lab-registry/components/Table";
+import { tabsDetail } from "ui-lab-registry/components/Tabs";
+import { textareaDetail } from "ui-lab-registry/components/Textarea";
+import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
+import { listDetail } from "ui-lab-registry/components/List";
+import { frameDetail } from "ui-lab-registry/components/Frame";
 import { ComponentDetail } from "@/types/component";
-import { FaFile } from "react-icons/fa6";
+import { previews } from "@/gallery";
 import {
   componentRegistry as registryData,
   getCategoriesInOrder,
@@ -59,49 +59,6 @@ export interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
   experimental?: boolean;
 }
-const previews: Record<string, React.ReactNode> = {
-  button: getButtonPreview(),
-  date: getDatePreview(),
-  color: getColorPreview(),
-  group: getGroupPreview(),
-  flex: getFlexPreview(),
-  grid: getGridPreview(),
-  table: getTablePreview(),
-  input: getInputPreview(),
-  label: getLabelPreview(),
-  textarea: getTextareaPreview(),
-  select: getSelectPreview(),
-  switch: getSwitchPreview(),
-  checkbox: getCheckboxPreview(),
-  radio: getRadioPreview(),
-  banner: getBannerPreview(),
-  badge: getBadgePreview(),
-  anchor: getAnchorPreview(),
-  breadcrumbs: getBreadcrumbsPreview(),
-  tooltip: getTooltipPreview(),
-  popover: getPopoverPreview(),
-  modal: getModalPreview(),
-  mask: getMaskPreview(),
-  tabs: getTabsPreview(),
-  menu: getMenuPreview(),
-  slider: getSliderPreview(),
-  progress: getProgressPreview(),
-  card: getCardPreview(),
-  command: getCommandPreview(),
-  confirm: getConfirmPreview(),
-  divider: getDividerPreview(),
-  fold: getFoldPreview(),
-  page: (
-    <div className="flex items-center justify-center h-22">
-      <FaFile className="w-9 h-9 text-accent-500" aria-label="Page document" />
-    </div>
-  ),
-  gallery: getGalleryPreview(),
-  frame: getFramePreview(),
-  toast: getToastPreview(),
-  scroll: getScrollPreview(),
-  list: getListPreview(),
-};
 
 const experimentalIds = new Set(experimentalRegistry.map((c) => c.id));
 

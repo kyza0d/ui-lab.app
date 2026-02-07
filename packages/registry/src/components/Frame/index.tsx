@@ -7,13 +7,6 @@ import Example3, { metadata as metadata3 } from './examples/03-sidebar-tab.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className="w-full flex bg-background-900 items-center justify-center border border-background-700 rounded-md" style={{ width: 120, height: 40 }}>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-default-frame', Component: Example1, metadata: metadata1 },
   { id: '02-tooltip-example', Component: Example2, metadata: metadata2 },

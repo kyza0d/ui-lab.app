@@ -64,8 +64,8 @@ export default async function DocsPage() {
           </div>
 
           {/* Requirements section */}
-          <section id="requirements" className="space-y-6 my-12">
-            <h2 className="text-xl font-semibold text-foreground-50">Dependencies & compatibility</h2>
+          <section id="requirements" className="my-12">
+            <h2 className="text-md pb-8 font-semibold text-foreground-50">Dependencies & compatibility</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { Icon: SiTailwindcss, name: 'Tailwind CSS', version: 'v4.1' },

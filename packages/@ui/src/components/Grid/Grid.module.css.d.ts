@@ -1,5 +1,11 @@
 declare const styles: {
   readonly grid: string;
+  readonly "responsive-cols": string;
+  readonly "responsive-gap": string;
+  readonly "responsive-rows": string;
+  readonly "has-row-gap": string;
+  readonly "has-col-gap": string;
+  readonly container: string;
   readonly "columns-1": string;
   readonly "columns-2": string;
   readonly "columns-3": string;

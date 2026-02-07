@@ -6,31 +6,6 @@ import Example1, { metadata as metadata1 } from './examples/01-basic-scroll.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: "70%" }} className="rounded-sm flex gap-2">
-      <div className='w-full pr-4'>
-        <div className='pt-3'>
-          <div style={{ width: "60%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2 mb-2'></div>
-          <div style={{ width: "70%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
-          <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
-        </div>
-
-        <Divider size='sm' />
-        <div className='pt-3'>
-          <div style={{ width: "62%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
-          <div style={{ width: "33%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
-          <div style={{ width: "50%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
-        </div>
-      </div>
-
-      <div style={{ backgroundColor: "var(--background-900)", height: 120, width: 9 }} className='relative rounded-md flex items-center flex'>
-        <div style={{ backgroundColor: "var(--background-700)", height: 60, width: 5, left: 1.5, top: 2 }} className='absolute rounded-md'></div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-scroll', Component: Example1, metadata: metadata1 },
 ];

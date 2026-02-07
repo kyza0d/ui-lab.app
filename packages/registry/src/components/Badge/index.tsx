@@ -6,17 +6,6 @@ import Example1, { metadata as metadata1 } from './examples/01-basic-badge.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className='flex flex-col gap-3'>
-      <div style={{ width: 72, height: 27 }} className="w-full gap-3 flex px-2 bg-background-900 items-center justify-center border border-background-700 rounded-sm">
-        <FaInfo size={12} color="var(--background-500)" />
-        <div style={{ backgroundColor: "var(--background-500)" }} className='opacity-10 w-full rounded-md h-2'></div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-badge', Component: Example1, metadata: metadata1 },
 ];

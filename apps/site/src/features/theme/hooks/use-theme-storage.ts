@@ -107,11 +107,21 @@ export function useThemeStorage(options: ThemeStorageOptions) {
     onModeChange?.(mode);
   }, [currentThemeMode, onModeChange]);
 
+  const applyAndPersistModeAndColors = useCallback((mode: "light" | "dark", colors: SimpleThemeColors) => {
+    const config = buildConfig(getSourceConfig(), mode);
+    config.mode = mode;
+    config.colors = colors;
+    computeAndCache(config);
+    onModeChange?.(mode);
+    onColorsChange?.(colors);
+  }, [onModeChange, onColorsChange]);
+
   return {
     applyAndPersistColors,
     applyAndPersistTypography,
     applyAndPersistLayout,
     applyAndPersistFonts,
     applyAndPersistMode,
+    applyAndPersistModeAndColors,
   };
 }

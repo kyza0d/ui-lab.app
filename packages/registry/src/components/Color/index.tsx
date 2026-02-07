@@ -6,22 +6,6 @@ import Example2, { metadata as metadata2 } from './examples/02-opacity-slider.js
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: "80%", maxWidth: "130px" }} className="rounded-sm flex flex-col gap-2 p-2">
-      {/* Canvas area - outline with dot */}
-      <div style={{ width: "100%", height: 50, borderRadius: "var(--radius-sm)" }} className="border-[1px] border-background-600 relative bg-background-900">
-        <div style={{ width: 8, height: 8, backgroundColor: "var(--background-500)", opacity: 0.4, top: '30%', left: '60%', transform: 'translate(-50%, -50%)' }} className='rounded-full absolute'></div>
-      </div>
-
-      {/* Hue slider - outline */}
-      <div style={{ width: "100%", height: 8, borderRadius: "var(--radius-sm)" }} className="border-[1px] border-background-600 bg-background-900 relative">
-        <div style={{ width: 4, height: 12, backgroundColor: "var(--background-500)", borderRadius: "var(--radius-sm)", opacity: 0.4, left: '70%', top: '50%', transform: 'translate(-50%, -50%)' }} className='absolute'></div>
-      </div>
-    </div>
-  );
-}
-
 // Define examplesData locally
 const examplesData = [
   { id: '01-basic-color', Component: Example1, metadata: metadata1 },

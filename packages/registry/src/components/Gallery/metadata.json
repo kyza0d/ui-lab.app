@@ -1,7 +1,7 @@
 {
   "id": "gallery",
   "name": "Gallery",
-  "description": "A responsive grid layout component for displaying media content like images, videos, and product cards.",
+  "description": "Responsive grid layout for displaying media content, images, videos, and product cards.",
   "category": "layout",
   "source": {
     "packageName": "ui-lab-components",

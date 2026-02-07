@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ComponentConfigurator } from "@/features/component-docs";
-import { CodeBlock } from "@/shared/components/code-block";
+import { CodeBlock } from "@/features/docs/components/code-display/code-block";
 import { cn } from "@/shared";
 import { Toaster, Flex, Button, Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
 import { FaArrowLeft } from "react-icons/fa6";

@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockWithPackageManager, InstallationFlow } from '@/shared'
+import { CodeBlock, CodeBlockWithPackageManager, InstallationFlow } from '../components/code-display/index'
 import Image from 'next/image'
 import Timeline from '../components/timeline'
 import MarkdownTable from '../components/markdown-table'

@@ -11,7 +11,7 @@ import {
   applyThemeCacheToDOM,
   THEME_CACHE_KEY,
 } from "./theme-cache";
-import { ensureSemanticColorIntegrity } from "./semantic-color-utils";
+import { ensureSemanticColorIntegrity } from "./color/semantic";
 import { type GlobalColorAdjustments } from "./color-utils";
 import { useThemeConfiguration } from "../hooks/use-theme-configuration";
 import { clampTypographyConfig, isValidTypographyConfig } from "./typography-constraints";

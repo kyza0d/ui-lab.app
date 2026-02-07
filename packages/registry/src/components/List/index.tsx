@@ -5,21 +5,6 @@ import Example1, { metadata as metadata1 } from './examples/01-basic.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className="w-full flex flex-col gap-4 max-w-sm">
-      <div className='h-8 flex flex-col border-b border-background-700'>
-        <div style={{ width: "20%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-2 h-6'></div>
-        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-2 h-6'></div>
-      </div>
-      <div className='h-8 flex flex-col border-b border-background-700'>
-        <div style={{ width: "20%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-2 h-6'></div>
-        <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md mb-2 h-6'></div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic', Component: Example1, metadata: metadata1 },
 ];

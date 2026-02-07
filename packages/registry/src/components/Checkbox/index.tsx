@@ -7,17 +7,6 @@ import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaCheck } from 'react-icons/fa6';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className="flex items-center gap-3">
-      <div style={{ backgroundColor: "var(--background-700)" }} className='w-5 h-5 flex items-center justify-center rounded-sm border border-background-600'>
-        <FaCheck style={{ color: "var(--background-500)", width: 10, height: 10, margin: "-1px 1px 0 0" }} />
-      </div>
-      <div style={{ width: 80, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-checkbox', Component: Example1, metadata: metadata1 },
   { id: '02-checkbox-group-with-descriptions', Component: Example2, metadata: metadata2 },

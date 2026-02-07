@@ -2,7 +2,7 @@ import React from 'react';
 import { cacheLife } from 'next/cache';
 import { getPackageById, getElementsInPackage, getAllPackages } from 'ui-lab-registry';
 import { BreadcrumbsNav } from '@/features/navigation';
-import { ContentHeader } from '@/shared/components/content-header';
+import { ContentHeader } from '@/features/navigation/components/content-header';
 import PackageElementsClient from './client';
 
 export function generateStaticParams() {
@@ -23,7 +23,7 @@ export default async function PackageElementsPage({
   const elementIds = pkg ? getElementsInPackage(packageId) : [];
 
   return (
-    <div className='pl-12 mt-38 pt-(header-height)'>
+    <div className='mt-38 pt-(header-height)'>
       <BreadcrumbsNav />
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
         {!pkg ? (

@@ -19,7 +19,7 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
 
   return (
     <>
-      <div className={cn("grid grid-cols-1 w-full max-w-(--page-width) mx-auto min-h-[calc(100vh-var(--header-height))]", isChatOpen ? "md:grid-cols-[auto_1fr]" : "md:grid-cols-[auto_4fr_1fr]")}>
+      <div className={cn("grid grid-cols-1 w-full max-w-(--page-width) mx-auto min-h-[calc(100vh-var(--header-height))]", isChatOpen ? "lg:grid-cols-[auto_1fr]" : "lg:grid-cols-[auto_4fr_1fr]")}>
         <Sidebar />
         <div id="docs" className={cn(
           "flex flex-col justify-center mt-(--header-height)",
@@ -27,7 +27,7 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
         )}>
           <BreadcrumbsNav />
           <div className="flex  items-center">
-            <div className="pt-12 mx-auto max-w-3xl pb-12">
+            <div className="pt-12 px-4 md:px-6 mx-auto max-w-3xl pb-12">
               {children}
             </div>
           </div>

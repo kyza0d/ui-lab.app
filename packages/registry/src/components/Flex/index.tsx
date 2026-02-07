@@ -5,15 +5,6 @@ import Example1, { metadata as metadata1 } from './examples/01-basic-flex.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: '60%' }}>
-      <div className="w-full h-10 border border-background-700 rounded bg-background-950 mb-2" />
-      <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
-    </div>
-  );
-}
-
 // Define examplesData locally
 const examplesData = [
   { id: '01-basic-flex', Component: Example1, metadata: metadata1 },

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useApp } from "@/features/theme";
 import { generateFullThemeConfig } from "@/shared";
-import { CodeBlock } from "@/shared/components/code-block";
+import { CodeBlock } from "@/features/docs/components/code-display/code-block";
 
 export default function ConfigPage() {
   const {

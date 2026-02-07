@@ -19,18 +19,24 @@
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-sm);
+    outline: none;
+    box-sizing: border-box;
     @apply px-3 py-2;
-    transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop);
+    transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop), background-color 150ms var(--ease-snappy-pop);
 
     &::placeholder {
       color: var(--placeholder);
     }
 
+    &[data-active] {
+      border-color: var(--ring-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent);
+    }
+
     &[data-focus-visible] {
       @apply ring-0;
-      outline: none;
       border-color: var(--ring-color);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent)
+      /* box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent); */
     }
 
     &[data-disabled] {
@@ -45,9 +51,14 @@
       --ring-color: var(--danger-600);
       border-color: var(--danger-600);
 
+      &[data-active] {
+        border-color: var(--danger-600);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-600) 20%, transparent);
+      }
+
       &[data-focus-visible] {
         border-color: var(--danger-600);
-        box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger-600) 25%, transparent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-600) 20%, transparent);
       }
     }
 
@@ -86,6 +97,7 @@
     color: var(--foreground-500);
     pointer-events: none;
     transform: translateY(-50%);
+    z-index: 10;
   }
 
   .prefixIcon {

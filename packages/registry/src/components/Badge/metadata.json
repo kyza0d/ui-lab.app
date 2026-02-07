@@ -1,7 +1,7 @@
 {
   "id": "badge",
   "name": "Badge",
-  "description": "A small badge component for displaying labels or status.",
+  "description": "Small badge for displaying labels or status indicators.",
   "category": "information",
   "source": {
     "packageName": "ui-lab-components",

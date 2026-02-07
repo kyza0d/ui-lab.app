@@ -11,6 +11,9 @@ function FilterBarPreview() {
 
   return (
     <Group orientation="horizontal" spacing="sm">
+      <Group.Input prefixIcon={<FaMagnifyingGlass />} placeholder="Search...">
+
+      </Group.Input>
       <Group.Select selectedKey={category} onSelectionChange={setCategory} className="w-44">
         <Select.Trigger><Select.Value placeholder="Category" /></Select.Trigger>
         <Select.Content>
@@ -32,7 +35,7 @@ function FilterBarPreview() {
         </Select.Content>
       </Group.Select>
       <Group.Button variant="default" size="md"><FaFilter className="mr-1.5" /> Apply</Group.Button>
-      <Group.Button variant="ghost" size="md"><FaXmark className="mr-1.5" /> Clear</Group.Button>
+      <Group.Button variant="ghost" size="md"><FaXmark /></Group.Button>
     </Group>
   );
 }

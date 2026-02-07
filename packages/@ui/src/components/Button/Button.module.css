@@ -11,7 +11,7 @@
     color: var(--button-fg);
     border: var(--border-width-base) solid var(--button-border);
 
-    @apply px-2 py-1.5;
+    @apply px-3 py-1.5;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -87,17 +87,17 @@
   }
 
   .button.sm {
-    @apply px-2.5 py-2;
+    @apply px-3.5 py-1.5;
     font-size: var(--text-sm);
   }
 
   .button.md {
-    @apply px-3.5 py-2;
+    @apply px-4.5 py-2;
     font-size: var(--text-md);
   }
 
   .button.lg {
-    @apply px-4 py-2;
+    @apply px-5 py-2;
     font-size: var(--text-md);
   }
 

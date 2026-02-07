@@ -13,19 +13,6 @@ import Example3, {
 import examplesJson from "./examples.json";
 import { loadComponentExamples } from "../../utils/load-component-examples";
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className='w-full'>
-      <div style={{ width: "30%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2 mb-2'></div>
-      <div style={{ width: "50%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
-      <div style={{ width: "40%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1'></div>
-      <Divider variant="solid" size="sm" className='mb-4' />
-      <div style={{ width: "30%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-2 mb-2'></div>
-      <div style={{ width: "50%", backgroundColor: "var(--background-500)", opacity: 0.2 }} className='rounded-md h-1 mb-2'></div>
-    </div>
-  );
-}
-
 // Define examplesData locally
 const examplesData = [
   { id: "01-basic-divider", Component: Example1, metadata: metadata1 },

@@ -3,9 +3,9 @@
 import { ReactNode } from "react";
 import { FaExpand } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
-import { CodeBlock } from "@/shared/components/code-block";
+import { CodeBlock } from "@/features/docs/components/code-display/code-block";
 import { PreviewContainer } from "./resizable-preview-container";
-import { useExternalWindow } from "@/shared/hooks/use-external-window";
+import { useExternalWindow } from "@/features/preview/hooks/use-external-window";
 
 interface PreviewCodeDisplayProps {
   code: string;
