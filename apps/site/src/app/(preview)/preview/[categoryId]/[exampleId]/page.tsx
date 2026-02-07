@@ -1,7 +1,6 @@
 import { Dashboard } from '@/shared';
 import { getElementById, getSectionById } from 'ui-lab-registry';
-import { getDemoComponent } from '@/features/elements';
-import { getSectionPreview } from 'ui-lab-registry/demo-registry';
+import { PreviewRenderer } from './preview-client';
 
 interface PreviewPageProps {
   params: Promise<{
@@ -41,19 +40,6 @@ function PlaceholderContent({
   );
 }
 
-function DemoComponentRenderer({ component: DemoComponent, elementName, variantName }: { component: React.ComponentType<object> | null, elementName: string, variantName: string }) {
-  if (!DemoComponent) {
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-foreground-400">Demo not available for {elementName} - {variantName}</p>
-        </div>
-      </div>
-    );
-  }
-  return <DemoComponent />;
-}
-
 const exampleNames: Record<string, string> = {
   'saas-1': 'Dashboard',
   'saas-2': 'User Management',
@@ -86,11 +72,23 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
 
     if (element && element.variants[variantIndex]) {
       const variant = element.variants[variantIndex];
-      const DemoComponent = variant.demoPath ? getDemoComponent(variant.demoPath) : null;
 
       return (
         <div className="w-screen h-screen bg-background-950 overflow-auto">
-          <DemoComponentRenderer component={DemoComponent} elementName={element.name} variantName={variant.name} />
+          {variant.demoPath ? (
+            <PreviewRenderer
+              type="element"
+              demoPath={variant.demoPath}
+              elementName={element.name}
+              variantName={variant.name}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-foreground-400">Demo not available for {element.name} - {variant.name}</p>
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -112,11 +110,23 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
 
     if (section && section.variants[variantIndex]) {
       const variant = section.variants[variantIndex];
-      const DemoComponent = variant.demoPath ? getSectionPreview(variant.demoPath) : null;
 
       return (
         <div className="w-screen h-screen bg-background-950 overflow-auto">
-          <DemoComponentRenderer component={DemoComponent} elementName={section.name} variantName={variant.name} />
+          {variant.demoPath ? (
+            <PreviewRenderer
+              type="section"
+              demoPath={variant.demoPath}
+              elementName={section.name}
+              variantName={variant.name}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-foreground-400">Demo not available for {section.name} - {variant.name}</p>
+              </div>
+            </div>
+          )}
         </div>
       );
     }
