@@ -29,7 +29,9 @@ const maskBasicCode = `import { Mask } from "ui-lab-components";
 
 export function Example() {
   return (
-    <Mask variant="y">
+    <Mask>
+      <Mask.Fade direction="top" intensity={0.8} fixed />
+      <Mask.Fade direction="bottom" intensity={0.8} fixed />
       <div className="h-48 p-4 bg-muted/30">
         <p className="text-sm">
           Long content that fades at the top and bottom...
@@ -46,13 +48,13 @@ export const maskDetail: ComponentDetail = {
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
-        The Mask component is a multi-purpose utility that handles complex masking operations.
-        It primarily provides content fading (mask-image) for scrollable areas or edge softening,
-        and also supports text gradient masking (background-clip: text).
+        The Mask component is a versatile compound component that handles complex masking operations.
+        It provides content fading (Mask.Fade) for scrollable areas or edge softening,
+        and text gradient masking (Mask.Gradient) for gradient effects on text elements.
       </p>
       <p>
-        Use the <code>gradient</code> variant to apply custom gradients to text elements,
-        or standard <code>x/y</code> variants for content fade effects.
+        Use <code>Mask.Gradient</code> to apply custom gradients to text elements,
+        or <code>Mask.Fade</code> sub-components for directional fade effects on content edges.
       </p>
     </div>
   ),
@@ -64,7 +66,9 @@ export const maskDetail: ComponentDetail = {
       code: maskBasicCode,
       preview: (
         <div className="w-full h-64 border rounded-lg overflow-hidden bg-background p-8 flex items-center justify-center">
-          <Mask variant="y" className="max-w-md h-full">
+          <Mask className="max-w-md h-full">
+            <Mask.Fade direction="top" intensity={0.8} fixed />
+            <Mask.Fade direction="bottom" intensity={0.8} fixed />
             <div className="space-y-4 text-sm text-muted-foreground">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -77,34 +81,45 @@ export const maskDetail: ComponentDetail = {
         </div>
       ),
       controls: maskControls,
-      renderPreview: (props: any) => (
-        <div className="w-full h-64 border rounded-lg overflow-hidden bg-background p-8 flex items-center justify-center">
-          <Mask 
-            variant={props.variant as any} 
-            className="w-full h-full flex items-center justify-center"
-            gradient={props.variant === 'gradient' ? "linear-gradient(to right, var(--foreground-200), var(--accent-500))" : undefined}
-          >
-            {props.variant === 'y' ? (
-              <div className="space-y-4 text-sm text-muted-foreground max-w-md">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <p>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-              </div>
-            ) : props.variant === 'x' ? (
-              <div className="whitespace-nowrap text-6xl font-black tracking-tighter">
-                FADE THE EDGES
-              </div>
-            ) : (
-              <div className="whitespace-nowrap text-6xl font-black tracking-tighter">
-                GRADIENT
-              </div>
-            )}
-          </Mask>
-        </div>
-      ),
+      renderPreview: (props: any) => {
+        if (props.variant === 'gradient') {
+          return (
+            <div className="w-full h-64 border rounded-lg overflow-hidden bg-background p-8 flex items-center justify-center">
+              <Mask.Gradient gradient="linear-gradient(to right, var(--foreground-200), var(--accent-500))" className="w-full h-full flex items-center justify-center">
+                <div className="whitespace-nowrap text-6xl font-black tracking-tighter">
+                  GRADIENT
+                </div>
+              </Mask.Gradient>
+            </div>
+          );
+        }
+
+        const direction = props.variant === 'x' ? 'left' : 'bottom';
+        return (
+          <div className="w-full h-64 border rounded-lg overflow-hidden bg-background p-8 flex items-center justify-center">
+            <Mask className="w-full h-full flex items-center justify-center">
+              {props.variant === 'x' && <Mask.Fade direction="left" intensity={0.8} fixed />}
+              {props.variant === 'x' && <Mask.Fade direction="right" intensity={0.8} fixed />}
+              {props.variant === 'y' && <Mask.Fade direction="top" intensity={0.8} fixed />}
+              {props.variant === 'y' && <Mask.Fade direction="bottom" intensity={0.8} fixed />}
+              {props.variant === 'y' ? (
+                <div className="space-y-4 text-sm text-muted-foreground max-w-md">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                  <p>
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </p>
+                </div>
+              ) : (
+                <div className="whitespace-nowrap text-6xl font-black tracking-tighter">
+                  FADE THE EDGES
+                </div>
+              )}
+            </Mask>
+          </div>
+        );
+      },
     },
     ...loadComponentExamples(examplesData, examplesJson),
   ],
