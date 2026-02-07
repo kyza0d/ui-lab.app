@@ -4,6 +4,7 @@
   "private": true,
   "description": "UI Lab - A modern component library",
   "packageManager": "pnpm@10.21.0",
+  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm --filter ./apps/* run dev",

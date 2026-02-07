@@ -10,7 +10,7 @@ const rootDir = path.resolve(__dirname, '..');
 // Configuration
 const PACKAGES = {
   'ui-lab-registry': path.join(rootDir, 'packages/registry/package.json'),
-  'ui-lab-components': path.join(rootDir, 'packages/components/package.json'),
+  'ui-lab-components': path.join(rootDir, 'packages/@ui/package.json'),
 };
 
 const TARGET_FILES = [
