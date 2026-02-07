@@ -4894,12 +4894,6 @@ packages:
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
-  ui-lab-components@0.1.5:
-    resolution: {integrity: sha512-FGnUannd+IBMDkANHkXX2YhXv9HqCIcG2Qkxcb2DIvKrhGLDqzxLEqPFkyzX5uSMGmCBjxlK3ZdXWXt6T14mbQ==}
-    peerDependencies:
-      react: ^19.0.0
-      react-dom: ^19.0.0
-
   ui-lab-components@0.1.6:
     resolution: {integrity: sha512-A6C/1z61rccNmVde5Owij+NvXSBvtgHS4zsRY9tg1dj4ax5K204/zpIhRwtNtaef9zWogQ6VU0qFLuJiFMDRbA==}
     peerDependencies:
@@ -10767,33 +10761,6 @@ snapshots:
 
   ufo@1.6.1: {}
 
-  ui-lab-components@0.1.5(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
-    dependencies:
-      '@floating-ui/react-dom': 2.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@gsap/react': 2.1.2(gsap@3.14.2)(react@19.2.1)
-      '@react-aria/dialog': 3.5.32(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/focus': 3.21.3(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/interactions': 3.26.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/listbox': 3.15.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/overlays': 3.31.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/searchfield': 3.8.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/utils': 3.32.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-stately/list': 3.13.2(react@19.2.1)
-      '@react-stately/overlays': 3.6.21(react@19.2.1)
-      '@react-stately/searchfield': 3.5.17(react@19.2.1)
-      '@react-stately/slider': 3.7.3(react@19.2.1)
-      '@react-stately/toggle': 3.9.3(react@19.2.1)
-      class-variance-authority: 0.7.1
-      clsx: 2.1.1
-      gsap: 3.14.2
-      lucide-react: 0.525.0(react@19.2.1)
-      postcss: 8.5.6
-      react: 19.2.1
-      react-aria: 3.45.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      react-dom: 19.2.1(react@19.2.1)
-      react-icons: 5.5.0(react@19.2.1)
-      react-stately: 3.43.0(react@19.2.1)
-
   ui-lab-components@0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
     dependencies:
       '@floating-ui/react-dom': 2.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -10824,7 +10791,7 @@ snapshots:
   ui-lab-registry@0.1.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
     dependencies:
       react-icons: 5.5.0(react@19.2.1)
-      ui-lab-components: 0.1.5(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      ui-lab-components: 0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -10833,7 +10800,7 @@ snapshots:
     dependencies:
       lucide-react: 0.562.0(react@19.2.1)
       react-icons: 5.5.0(react@19.2.1)
-      ui-lab-components: 0.1.5(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      ui-lab-components: 0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
     transitivePeerDependencies:
       - react
       - react-dom
