@@ -1,7 +1,7 @@
 {
   "id": "frame",
   "name": "Frame",
-  "description": "A decorative border/frame component with advanced SVG path support for custom shapes.",
+  "description": "Decorative border/frame component with advanced SVG path support.",
   "category": "container",
   "source": {
     "packageName": "ui-lab-components",

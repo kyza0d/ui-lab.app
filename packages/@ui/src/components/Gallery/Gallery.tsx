@@ -10,16 +10,16 @@ import styles from "./Gallery.module.css"
 type GridColumns = "1" | "2" | "3" | "4" | "5" | "6"
 type GridGap = "xs" | "sm" | "md" | "lg" | "xl"
 type ResponsiveColumns = {
-  base?: number
-  sm?: number
-  md?: number
-  lg?: number
-  xl?: number
+  sm?: GridColumns
+  md?: GridColumns
+  lg?: GridColumns
+  xl?: GridColumns
 }
 
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   columns?: GridColumns | number | ResponsiveColumns
   gap?: GridGap | number | string
+  containerQueryResponsive?: boolean
 }
 
 interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
@@ -37,13 +37,11 @@ interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
 interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 // Helper to map numeric columns to Grid's column values
-const mapColumnsToGrid = (columns?: GridColumns | number | ResponsiveColumns): GridColumns => {
+const mapColumnsToGrid = (columns?: GridColumns | number | ResponsiveColumns): GridColumns | ResponsiveColumns => {
   if (!columns) return "3"
   if (typeof columns === "string") return columns
   if (typeof columns === "object") {
-    const baseValue = columns.base || 3
-    if (baseValue >= 1 && baseValue <= 6) return baseValue.toString() as GridColumns
-    return "3"
+    return columns as ResponsiveColumns
   }
   if (columns >= 1 && columns <= 6) return columns.toString() as GridColumns
   return "3" // default fallback
@@ -68,15 +66,16 @@ const mapGapToGrid = (gap?: GridGap | number | string): GridGap => {
 
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, gap = "md", className, children, ...props }, ref) => {
+  ({ columns = 3, gap = "md", containerQueryResponsive, className, children, ...props }, ref) => {
     const gridColumns = mapColumnsToGrid(columns)
     const gridGap = mapGapToGrid(gap)
 
     return (
       <Grid
         ref={ref}
-        columns={gridColumns}
+        columns={gridColumns as GridColumns | ResponsiveColumns}
         gap={gridGap}
+        containerQueryResponsive={containerQueryResponsive}
         className={className}
         {...props}
       >

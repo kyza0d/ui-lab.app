@@ -1,7 +1,7 @@
 {
   "id": "aichatinput",
   "name": "AI Chat Input",
-  "description": "Specialized input field component for AI chat prompts with suggestions and formatting support.",
+  "description": "Specialized input field for AI chat prompts with suggestions and formatting support.",
   "category": "form",
   "tags": ["input", "chat", "ai", "prompt", "form"]
 }

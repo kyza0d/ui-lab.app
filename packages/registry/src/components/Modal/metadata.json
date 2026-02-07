@@ -1,7 +1,7 @@
 {
   "id": "modal",
   "name": "Modal",
-  "description": "A modal dialog for focusing user attention on important content.",
+  "description": "Modal dialog for focusing user attention on important content.",
   "category": "container",
   "source": {
     "packageName": "ui-lab-components",

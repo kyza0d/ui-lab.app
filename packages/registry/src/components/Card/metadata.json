@@ -1,7 +1,7 @@
 {
   "id": "card",
   "name": "Card",
-  "description": "A card component for grouping related content.",
+  "description": "Container for grouping related content.",
   "category": "container",
   "source": {
     "packageName": "ui-lab-components",

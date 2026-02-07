@@ -10,7 +10,7 @@ import {
 import {
   getSemanticColorSafely,
   getSemanticChromaLimit,
-} from "../../lib/semantic-color-utils";
+} from "../../lib/color/semantic";
 import {
   ColorRow,
   GlobalAdjustmentsPanel,

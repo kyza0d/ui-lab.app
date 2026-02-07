@@ -1,7 +1,7 @@
 {
   "id": "menu",
   "name": "Menu",
-  "description": "A context menu for right-click actions.",
+  "description": "Context menu for right-click actions.",
   "category": "navigation",
   "source": {
     "packageName": "ui-lab-components",

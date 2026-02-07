@@ -371,6 +371,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           ref={mergedRef}
           className={cn(styles.root, styles.horizontal, className)}
           style={{
+            width: "100%",
             maxWidth,
             ...propsStyle,
           }}
@@ -423,6 +424,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         ref={mergedRef}
         className={cn(styles.root, styles.vertical, className)}
         style={{
+          height: "100%",
           maxHeight,
           ...propsStyle,
         }}

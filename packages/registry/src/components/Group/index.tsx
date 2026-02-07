@@ -6,19 +6,6 @@ import Example2, { metadata as metadata2 } from './examples/02-active-buttons.js
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className='flex border overflow-hidden rounded-md h-8 pl-2 items-center border-background-700 w-full'>
-      <div style={{ width: "36%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-2'></div>
-      <Divider size="sm" orientation='vertical' />
-      <div style={{ width: "36%", backgroundColor: "var(--background-500)" }} className='mr-2 opacity-10 rounded-sm h-2'></div>
-      <div style={{ width: "24%" }} className='border-l border-background-700 flex items-center px-2 h-full bg-background-900'>
-        <div style={{ width: "100%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-sm h-2'></div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-group', Component: Example1, metadata: metadata1 },
   { id: '02-active-buttons', Component: Example2, metadata: metadata2 },

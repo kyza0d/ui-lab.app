@@ -1,7 +1,7 @@
 {
   "id": "switch",
   "name": "Switch",
-  "description": "A toggle switch for boolean input.",
+  "description": "Toggle switch for boolean input.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",

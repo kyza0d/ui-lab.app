@@ -1,7 +1,7 @@
 {
   "id": "radio",
   "name": "Radio",
-  "description": "A radio button for selecting one option from a group.",
+  "description": "Radio button for selecting one option from a group.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",

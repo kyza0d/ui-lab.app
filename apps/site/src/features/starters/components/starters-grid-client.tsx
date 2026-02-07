@@ -1,5 +1,5 @@
 'use client';
-import { GenericContentGrid } from '@/shared/components/generic-content-grid';
+import { GenericContentGrid } from '@/features/elements/components/generic-content-grid';
 import { getLayoutConfig } from '../lib/layout-registry';
 import { getPreviewComponent } from '../lib/get-starter-preview';
 import type { StarterMetadata } from 'ui-lab-registry';

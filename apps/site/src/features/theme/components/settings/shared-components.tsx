@@ -11,7 +11,7 @@ import {
   type HueRange,
   oklchToCss,
 } from "../../lib/color-utils";
-import { getScaleName } from "@/shared/lib/config-generator";
+import { getScaleName } from "../../lib/config-generator";
 import {
   Slider,
   Divider,
@@ -369,8 +369,8 @@ export const ColorPicker = memo(
             >
               {isSelected && (
                 <FaCheck
-                  className={getCheckmarkDark(isNeutral) ? "text-black" : "text-white"}
-                  size={10}
+                  className={getCheckmarkDark(isNeutral) ? "text-background-950" : "text-accent-50"}
+                  size={14}
                 />
               )}
             </button>

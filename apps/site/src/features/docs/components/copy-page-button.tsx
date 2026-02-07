@@ -40,7 +40,7 @@ export function CopyPage() {
       title="Copy rendered content as Markdown"
     >
       {isCopied ? <FaClipboardCheck /> : <FaClipboard />}
-      Copy Markdow
+      Copy Markdown
     </Button>
   );
 }

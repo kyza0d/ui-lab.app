@@ -1,7 +1,7 @@
 {
   "id": "group",
   "name": "Group",
-  "description": "A flexible container for grouping Button, Input, and Select components with unified styling.",
+  "description": "Flexible container for grouping Button, Input, and Select components with unified styling.",
   "category": "composition",
   "source": {
     "packageName": "ui-lab-components",

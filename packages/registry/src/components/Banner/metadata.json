@@ -1,7 +1,7 @@
 {
   "id": "banner",
   "name": "Banner",
-  "description": "A full-width banner component for displaying important information, notifications, or messages. Can be used at the top of pages or within documentation as alerts and notices.",
+  "description": "Full-width banner for displaying important information, notifications, and alerts.",
   "category": "information",
   "source": {
     "packageName": "ui-lab-components",

@@ -7,19 +7,20 @@ import styles from "./Grid.module.css";
 type GridColumns = "1" | "2" | "3" | "4" | "5" | "6" | "auto-fit" | "auto-fill";
 type GridRows = "1" | "2" | "3" | "4" | "5" | "6" | "auto";
 type GridGap = "xs" | "sm" | "md" | "lg" | "xl";
-type GridGapAxis = "xs" | "sm" | "md" | "lg" | "xl";
 type GridJustifyItems = "start" | "end" | "center" | "stretch";
 type GridAlignItems = "start" | "end" | "center" | "stretch" | "baseline";
 type GridJustifyContent = "start" | "end" | "center" | "stretch" | "space-between" | "space-around" | "space-evenly";
 type GridAlignContent = "start" | "end" | "center" | "stretch" | "space-between" | "space-around" | "space-evenly";
 type GridAutoFlow = "row" | "column" | "row-dense" | "column-dense";
 
+type ResponsiveValue<T> = { sm?: T; md?: T; lg?: T; xl?: T };
+
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
-  columns?: GridColumns;
-  rows?: GridRows;
-  gap?: GridGap;
-  rowGap?: GridGapAxis;
-  columnGap?: GridGapAxis;
+  columns?: GridColumns | ResponsiveValue<GridColumns>;
+  rows?: GridRows | ResponsiveValue<GridRows>;
+  gap?: GridGap | ResponsiveValue<GridGap>;
+  rowGap?: GridGap;
+  columnGap?: GridGap;
   justifyItems?: GridJustifyItems;
   alignItems?: GridAlignItems;
   justifyContent?: GridJustifyContent;
@@ -28,97 +29,38 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   containerQueryResponsive?: boolean;
 }
 
-const columnsMap = {
-  "1": styles["columns-1"],
-  "2": styles["columns-2"],
-  "3": styles["columns-3"],
-  "4": styles["columns-4"],
-  "5": styles["columns-5"],
-  "6": styles["columns-6"],
-  "auto-fit": styles["columns-auto-fit"],
-  "auto-fill": styles["columns-auto-fill"],
-} as const;
+const isResponsive = <T,>(v: unknown): v is ResponsiveValue<T> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
 
-const rowsMap = {
-  "1": styles["rows-1"],
-  "2": styles["rows-2"],
-  "3": styles["rows-3"],
-  "4": styles["rows-4"],
-  "5": styles["rows-5"],
-  "6": styles["rows-6"],
-  auto: styles["rows-auto"],
-} as const;
+const colsToTpl = (c: GridColumns): string => {
+  if (c === "auto-fit") return "repeat(auto-fit, minmax(200px, 1fr))";
+  if (c === "auto-fill") return "repeat(auto-fill, minmax(200px, 1fr))";
+  return `repeat(${c}, 1fr)`;
+};
 
-const gapMap = {
-  xs: styles["gap-xs"],
-  sm: styles["gap-sm"],
-  md: styles["gap-md"],
-  lg: styles["gap-lg"],
-  xl: styles["gap-xl"],
-} as const;
+const rowsToTpl = (r: GridRows): string =>
+  r === "auto" ? "auto" : `repeat(${r}, auto)`;
 
-const rowGapMap = {
-  xs: styles["row-gap-xs"],
-  sm: styles["row-gap-sm"],
-  md: styles["row-gap-md"],
-  lg: styles["row-gap-lg"],
-  xl: styles["row-gap-xl"],
-} as const;
+const gapVal: Record<GridGap, string> = {
+  xs: "var(--spacing-xs, 0.25rem)",
+  sm: "var(--spacing-sm, 0.5rem)",
+  md: "var(--spacing-md, 1rem)",
+  lg: "var(--spacing-lg, 1.5rem)",
+  xl: "var(--spacing-xl, 2rem)",
+};
 
-const columnGapMap = {
-  xs: styles["column-gap-xs"],
-  sm: styles["column-gap-sm"],
-  md: styles["column-gap-md"],
-  lg: styles["column-gap-lg"],
-  xl: styles["column-gap-xl"],
-} as const;
-
-const justifyItemsMap = {
-  start: styles["justify-items-start"],
-  end: styles["justify-items-end"],
-  center: styles["justify-items-center"],
-  stretch: styles["justify-items-stretch"],
-} as const;
-
-const alignItemsMap = {
-  start: styles["align-items-start"],
-  end: styles["align-items-end"],
-  center: styles["align-items-center"],
-  stretch: styles["align-items-stretch"],
-  baseline: styles["align-items-baseline"],
-} as const;
-
-const justifyContentMap = {
-  start: styles["justify-content-start"],
-  end: styles["justify-content-end"],
-  center: styles["justify-content-center"],
-  stretch: styles["justify-content-stretch"],
-  "space-between": styles["justify-content-space-between"],
-  "space-around": styles["justify-content-space-around"],
-  "space-evenly": styles["justify-content-space-evenly"],
-} as const;
-
-const alignContentMap = {
-  start: styles["align-content-start"],
-  end: styles["align-content-end"],
-  center: styles["align-content-center"],
-  stretch: styles["align-content-stretch"],
-  "space-between": styles["align-content-space-between"],
-  "space-around": styles["align-content-space-around"],
-  "space-evenly": styles["align-content-space-evenly"],
-} as const;
-
-const autoFlowMap = {
-  row: styles["auto-flow-row"],
-  column: styles["auto-flow-column"],
-  "row-dense": styles["auto-flow-row-dense"],
-  "column-dense": styles["auto-flow-column-dense"],
-} as const;
+const flowVal: Record<GridAutoFlow, string> = {
+  row: "row",
+  column: "column",
+  "row-dense": "row dense",
+  "column-dense": "column dense",
+};
 
 const Grid = React.forwardRef<HTMLDivElement, GridProps>(
   (
     {
       className,
+      style,
       columns = "3",
       rows = "auto",
       gap = "md",
@@ -135,40 +77,70 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     },
     ref
   ) => {
-    if (containerQueryResponsive) {
+    const responsiveCols = isResponsive<GridColumns>(columns);
+    const responsiveRows = isResponsive<GridRows>(rows);
+    const responsiveGap = isResponsive<GridGap>(gap);
+    const needsContainer = responsiveCols || responsiveRows || responsiveGap || containerQueryResponsive;
+
+    const vars: Record<string, string> = {};
+
+    if (responsiveCols) {
+      const rc = columns as ResponsiveValue<GridColumns>;
+      if (rc.sm) vars["--grid-tpl-sm"] = colsToTpl(rc.sm);
+      if (rc.md) vars["--grid-tpl-md"] = colsToTpl(rc.md);
+      if (rc.lg) vars["--grid-tpl-lg"] = colsToTpl(rc.lg);
+      if (rc.xl) vars["--grid-tpl-xl"] = colsToTpl(rc.xl);
+    } else {
+      vars["--grid-tpl"] = colsToTpl(columns as GridColumns);
+    }
+
+    if (responsiveRows) {
+      const rr = rows as ResponsiveValue<GridRows>;
+      if (rr.sm) vars["--grid-rows-sm"] = rowsToTpl(rr.sm);
+      if (rr.md) vars["--grid-rows-md"] = rowsToTpl(rr.md);
+      if (rr.lg) vars["--grid-rows-lg"] = rowsToTpl(rr.lg);
+      if (rr.xl) vars["--grid-rows-xl"] = rowsToTpl(rr.xl);
+    } else {
+      vars["--grid-rows"] = rowsToTpl(rows as GridRows);
+    }
+
+    if (responsiveGap) {
+      const rg = gap as ResponsiveValue<GridGap>;
+      if (rg.sm) vars["--grid-gap-sm"] = gapVal[rg.sm];
+      if (rg.md) vars["--grid-gap-md"] = gapVal[rg.md];
+      if (rg.lg) vars["--grid-gap-lg"] = gapVal[rg.lg];
+      if (rg.xl) vars["--grid-gap-xl"] = gapVal[rg.xl];
+    } else {
+      vars["--grid-gap"] = gapVal[gap as GridGap];
+    }
+
+    if (rowGap) vars["--grid-row-gap"] = gapVal[rowGap];
+    if (columnGap) vars["--grid-col-gap"] = gapVal[columnGap];
+
+    vars["--grid-ji"] = justifyItems;
+    vars["--grid-ai"] = alignItems;
+    vars["--grid-jc"] = justifyContent;
+    vars["--grid-ac"] = alignContent;
+    vars["--grid-flow"] = flowVal[autoFlow];
+
+    const gridClasses = cn(
+      styles.grid,
+      responsiveCols && styles["responsive-cols"],
+      responsiveGap && styles["responsive-gap"],
+      responsiveRows && styles["responsive-rows"],
+      rowGap && styles["has-row-gap"],
+      columnGap && styles["has-col-gap"],
+    );
+
+    if (needsContainer) {
       return (
         <div
           ref={ref}
-          className={cn(styles["container-query-parent"], className)}
-          data-container-responsive="true"
+          className={cn(styles.container, className)}
+          style={style}
           {...props}
         >
-          <div
-            className={cn(
-              styles.grid,
-              columnsMap[columns],
-              rowsMap[rows],
-              gapMap[gap],
-              rowGap && rowGapMap[rowGap],
-              columnGap && columnGapMap[columnGap],
-              justifyItemsMap[justifyItems],
-              alignItemsMap[alignItems],
-              justifyContentMap[justifyContent],
-              alignContentMap[alignContent],
-              autoFlowMap[autoFlow],
-              styles["container-responsive"]
-            )}
-            data-columns={columns}
-            data-rows={rows}
-            data-gap={gap}
-            data-row-gap={rowGap}
-            data-column-gap={columnGap}
-            data-justify-items={justifyItems}
-            data-align-items={alignItems}
-            data-justify-content={justifyContent}
-            data-align-content={alignContent}
-            data-auto-flow={autoFlow}
-          >
+          <div className={gridClasses} style={vars as React.CSSProperties}>
             {children}
           </div>
         </div>
@@ -178,31 +150,8 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          styles.grid,
-          columnsMap[columns],
-          rowsMap[rows],
-          gapMap[gap],
-          rowGap && rowGapMap[rowGap],
-          columnGap && columnGapMap[columnGap],
-          justifyItemsMap[justifyItems],
-          alignItemsMap[alignItems],
-          justifyContentMap[justifyContent],
-          alignContentMap[alignContent],
-          autoFlowMap[autoFlow],
-          className
-        )}
-        data-columns={columns}
-        data-rows={rows}
-        data-gap={gap}
-        data-row-gap={rowGap}
-        data-column-gap={columnGap}
-        data-justify-items={justifyItems}
-        data-align-items={alignItems}
-        data-justify-content={justifyContent}
-        data-align-content={alignContent}
-        data-auto-flow={autoFlow}
-        data-container-responsive={containerQueryResponsive || undefined}
+        className={cn(gridClasses, className)}
+        style={{ ...vars, ...style } as React.CSSProperties}
         {...props}
       >
         {children}
@@ -214,3 +163,4 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 Grid.displayName = "Grid";
 
 export { Grid };
+export type { GridColumns, GridRows, GridGap, GridAutoFlow, ResponsiveValue };

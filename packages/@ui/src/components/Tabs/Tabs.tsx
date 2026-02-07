@@ -118,9 +118,9 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           {React.Children.map(children, (child) =>
             React.isValidElement(child) && child.type === TabsTrigger
               ? React.cloneElement(child, {
-                  _registerDisabled: registerDisabledTab,
-                  _unregisterDisabled: unregisterDisabledTab,
-                } as any)
+                _registerDisabled: registerDisabledTab,
+                _unregisterDisabled: unregisterDisabledTab,
+              } as any)
               : child
           )}
         </div>
@@ -303,7 +303,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         aria-label={ariaLabel}
         aria-orientation={orientation}
         className={cn("tabsList", styles.tabsList, className)}
-        style={{ position: "relative", overflow: "hidden" }}
+        style={{ position: "relative" }}
       >
         <div
           className={cn("indicator", styles.indicator, {

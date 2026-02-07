@@ -1,7 +1,7 @@
 {
   "id": "anchor",
   "name": "Anchor",
-  "description": "A styled link component with custom underline animation and popover preview on hover.",
+  "description": "Styled link with custom underline animation and popover preview on hover.",
   "category": "information",
   "source": {
     "packageName": "ui-lab-components",

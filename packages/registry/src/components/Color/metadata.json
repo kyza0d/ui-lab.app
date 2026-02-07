@@ -1,7 +1,7 @@
 {
   "id": "color",
   "name": "Color",
-  "description": "A custom color component with 2D canvas, hue slider, and format selection.",
+  "description": "Custom color picker with 2D canvas, hue slider, and format selection.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",

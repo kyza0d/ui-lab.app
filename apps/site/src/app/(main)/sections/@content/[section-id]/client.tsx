@@ -67,7 +67,7 @@ export default function SectionDetailClient({
   }
 
   return (
-    <div className="pl-12 pt-(header-height)">
+    <div className="pt-(header-height)">
       <div className="w-full bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
           <div className="mb-28">

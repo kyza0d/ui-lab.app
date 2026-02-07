@@ -3,7 +3,8 @@
 import { ComponentConfigurator } from "@/features/component-docs";
 import { getComponentById, getComponentMetadata } from "@/features/component-docs";
 import { TableOfContents, Table, type Column } from "@/features/docs";
-import { CodeBlock, InlineCodeHighlight, cn } from "@/shared";
+import { cn } from "@/shared";
+import { CodeBlock, InlineCodeHighlight } from "@/features/docs";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
@@ -134,7 +135,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
             )}
             <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="w-full min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
-                <TabsList className="grid w-fit grid-cols-3 h-10">
+                <TabsList className="grid w-fit grid-cols-3 mb-1">
                   <TabsTrigger className="text-sm" value="examples">Examples</TabsTrigger>
                   <TabsTrigger className="text-sm" value="api">API</TabsTrigger>
                   <TabsTrigger className="text-sm" value="styles">Styles</TabsTrigger>

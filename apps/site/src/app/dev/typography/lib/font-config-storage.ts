@@ -16,24 +16,26 @@ export function getDefaultMetrics(fontName: FontKey): FontDevMetrics {
     return getKarlaDefaults();
   }
   return {
-    fontSizeScale: font.metrics.fontSizeScale,
-    fontWeightScale: font.metrics.fontWeightScale,
-    typeSizeRatio: font.metrics.typeSizeRatio,
-    headerLetterSpacingScale: font.metrics.headerLetterSpacingScale ?? 1,
-    bodyLetterSpacingScale: font.metrics.bodyLetterSpacingScale ?? 1,
+    headerTypeSizeRatio: font.metrics.typeSizeRatio ?? 1.2,
+    headerFontSizeScale: font.metrics.fontSizeScale ?? 1,
     headerFontWeightScale: font.metrics.headerFontWeightScale ?? 1,
+    headerLetterSpacingScale: font.metrics.headerLetterSpacingScale ?? 1,
+    bodyTypeSizeRatio: font.metrics.typeSizeRatio ?? 1.2,
+    bodyFontSizeScale: font.metrics.fontSizeScale ?? 1,
     bodyFontWeightScale: font.metrics.bodyFontWeightScale ?? 1,
+    bodyLetterSpacingScale: font.metrics.bodyLetterSpacingScale ?? 1,
   };
 }
 
 function getKarlaDefaults(): FontDevMetrics {
   return {
-    fontSizeScale: 1,
-    fontWeightScale: 1,
-    typeSizeRatio: 1.2,
-    headerLetterSpacingScale: 1,
-    bodyLetterSpacingScale: 1,
+    headerTypeSizeRatio: 1.2,
+    headerFontSizeScale: 1,
     headerFontWeightScale: 1,
+    headerLetterSpacingScale: 1,
+    bodyTypeSizeRatio: 1.2,
+    bodyFontSizeScale: 1,
     bodyFontWeightScale: 1,
+    bodyLetterSpacingScale: 1,
   };
 }

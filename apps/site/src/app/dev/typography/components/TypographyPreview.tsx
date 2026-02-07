@@ -16,70 +16,73 @@ export const TypographyPreview = memo(
     const fontConfig = getFontConfig(fontName, "sans");
     const fontFamily = fontConfig?.family || '"Karla Variable", system-ui, sans-serif';
 
-    const ratioExponent = (level: number) => Math.log(metrics.typeSizeRatio) * (6 - level);
-    const computeSize = (level: number) =>
-      16 * metrics.fontSizeScale * Math.exp(ratioExponent(level));
+    const headerRatioExponent = (level: number) => Math.log(metrics.headerTypeSizeRatio) * (6 - level);
+    const bodyRatioExponent = (level: number) => Math.log(metrics.bodyTypeSizeRatio) * (6 - level);
+    const computeHeaderSize = (level: number) =>
+      16 * metrics.headerFontSizeScale * Math.exp(headerRatioExponent(level));
+    const computeBodySize = (baseSize: number) =>
+      baseSize * metrics.bodyFontSizeScale;
 
     const styles = useMemo(
       () => ({
         container: {
           fontFamily,
-          fontSize: `${16 * metrics.fontSizeScale}px`,
+          fontSize: `${16 * metrics.bodyFontSizeScale}px`,
         },
         h1: {
-          fontSize: `${computeSize(1)}px`,
-          fontWeight: Math.round(700 * metrics.fontWeightScale * metrics.headerFontWeightScale),
+          fontSize: `${computeHeaderSize(1)}px`,
+          fontWeight: Math.round(700 * metrics.headerFontWeightScale),
           letterSpacing: `${-0.03 * metrics.headerLetterSpacingScale}em`,
           lineHeight: "1.2",
           marginBottom: "1em",
         },
         h2: {
-          fontSize: `${computeSize(2)}px`,
-          fontWeight: Math.round(600 * metrics.fontWeightScale * metrics.headerFontWeightScale),
+          fontSize: `${computeHeaderSize(2)}px`,
+          fontWeight: Math.round(600 * metrics.headerFontWeightScale),
           letterSpacing: `${-0.02 * metrics.headerLetterSpacingScale}em`,
           lineHeight: "1.3",
           marginBottom: "0.8em",
         },
         h3: {
-          fontSize: `${computeSize(3)}px`,
-          fontWeight: Math.round(600 * metrics.fontWeightScale * metrics.headerFontWeightScale),
+          fontSize: `${computeHeaderSize(3)}px`,
+          fontWeight: Math.round(600 * metrics.headerFontWeightScale),
           letterSpacing: `${-0.01 * metrics.headerLetterSpacingScale}em`,
           lineHeight: "1.3",
           marginBottom: "0.7em",
         },
         h4: {
-          fontSize: `${computeSize(4)}px`,
-          fontWeight: Math.round(600 * metrics.fontWeightScale * metrics.headerFontWeightScale),
+          fontSize: `${computeHeaderSize(4)}px`,
+          fontWeight: Math.round(600 * metrics.headerFontWeightScale),
           letterSpacing: `${0 * metrics.headerLetterSpacingScale}em`,
           lineHeight: "1.4",
           marginBottom: "0.6em",
         },
         h5: {
-          fontSize: `${computeSize(5)}px`,
-          fontWeight: Math.round(500 * metrics.fontWeightScale * metrics.headerFontWeightScale),
+          fontSize: `${computeHeaderSize(5)}px`,
+          fontWeight: Math.round(500 * metrics.headerFontWeightScale),
           letterSpacing: `${0.01 * metrics.headerLetterSpacingScale}em`,
           lineHeight: "1.4",
           marginBottom: "0.5em",
         },
         h6: {
-          fontSize: `${computeSize(6)}px`,
-          fontWeight: Math.round(500 * metrics.fontWeightScale * metrics.headerFontWeightScale),
+          fontSize: `${computeHeaderSize(6)}px`,
+          fontWeight: Math.round(500 * metrics.headerFontWeightScale),
           letterSpacing: `${0.02 * metrics.headerLetterSpacingScale}em`,
           lineHeight: "1.5",
           marginBottom: "0.5em",
         },
         body: {
-          fontSize: `${16 * metrics.fontSizeScale}px`,
-          fontWeight: Math.round(400 * metrics.fontWeightScale * metrics.bodyFontWeightScale),
+          fontSize: `${computeBodySize(16)}px`,
+          fontWeight: Math.round(400 * metrics.bodyFontWeightScale),
           letterSpacing: `${0.005 * metrics.bodyLetterSpacingScale}em`,
           lineHeight: "1.6",
           marginBottom: "1.5em",
           color: "var(--color-foreground-200)",
         },
         code: {
-          fontSize: `${14 * metrics.fontSizeScale}px`,
+          fontSize: `${computeBodySize(14)}px`,
           fontFamily: 'var(--font-mono)',
-          fontWeight: Math.round(400 * metrics.fontWeightScale * metrics.bodyFontWeightScale),
+          fontWeight: Math.round(400 * metrics.bodyFontWeightScale),
           letterSpacing: `${0.01 * metrics.bodyLetterSpacingScale}em`,
           lineHeight: "1.6",
           backgroundColor: "var(--color-background-800)",

@@ -156,11 +156,11 @@ export function ElementsList({
               }}
               className="rounded-md"
             >
-              <Fold.Trigger className="text-sm capitalize">
-                <span>{pkg.name}</span>
+              <Fold.Trigger className="text-sm  capitalize">
+                <span className='font-medium'>{pkg.name}</span>
               </Fold.Trigger>
               <Fold.Content className="pl-3">
-                <div className="space-y-0.5 mt-1">
+                <div className="mt-1">
                   {pkgElements.map((element) => {
                     const elementHref = `/elements/${pkg.id}/${element.id}`;
                     const isElementActive = currentElementId === element.id;
@@ -170,10 +170,10 @@ export function ElementsList({
                         key={element.id}
                         href={elementHref}
                         className={cn(
-                          'block px-3 py-2 text-sm rounded-md cursor-pointer capitalize transition-colors',
+                          'block px-3 py-2 font-medium text-sm rounded-md cursor-pointer capitalize transition-colors',
                           isElementActive
                             ? 'text-foreground-50 bg-background-800 font-medium'
-                            : 'text-foreground-500 hover:text-foreground-300 hover:bg-background-800/50'
+                            : 'text-foreground-300 hover:text-foreground-300 hover:bg-background-800/50'
                         )}
                       >
                         {element.name}

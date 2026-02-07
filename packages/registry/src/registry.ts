@@ -4,7 +4,7 @@ export const componentRegistry: ComponentRegistry = {
   anchor: {
     id: "anchor",
     name: "Anchor",
-    description: "A styled link component with custom underline animation and popover preview on hover.",
+    description: "Styled link with custom underline animation and popover preview on hover.",
     category: "information",
     source: {
   "packageName": "ui-lab-components",
@@ -26,7 +26,7 @@ export const componentRegistry: ComponentRegistry = {
   badge: {
     id: "badge",
     name: "Badge",
-    description: "A small badge component for displaying labels or status.",
+    description: "Small badge for displaying labels or status indicators.",
     category: "information",
     source: {
   "packageName": "ui-lab-components",
@@ -53,7 +53,7 @@ export const componentRegistry: ComponentRegistry = {
   banner: {
     id: "banner",
     name: "Banner",
-    description: "A full-width banner component for displaying important information, notifications, or messages. Can be used at the top of pages or within documentation as alerts and notices.",
+    description: "Full-width banner for displaying important information, notifications, and alerts.",
     category: "information",
     source: {
   "packageName": "ui-lab-components",
@@ -75,7 +75,7 @@ export const componentRegistry: ComponentRegistry = {
   breadcrumbs: {
     id: "breadcrumbs",
     name: "Breadcrumbs",
-    description: "A navigation component that displays the current page in a hierarchy and allows users to navigate to parent pages.",
+    description: "Navigation component showing page hierarchy with links to parent pages.",
     category: "navigation",
     source: {
   "packageName": "ui-lab-components",
@@ -97,7 +97,7 @@ export const componentRegistry: ComponentRegistry = {
   button: {
     id: "button",
     name: "Button",
-    description: "A clickable element that triggers an action.",
+    description: "Clickable element that triggers an action.",
     category: "action",
     source: {
   "packageName": "ui-lab-components",
@@ -113,7 +113,7 @@ export const componentRegistry: ComponentRegistry = {
   card: {
     id: "card",
     name: "Card",
-    description: "A card component for grouping related content.",
+    description: "Container for grouping related content.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",
@@ -155,7 +155,7 @@ export const componentRegistry: ComponentRegistry = {
   checkbox: {
     id: "checkbox",
     name: "Checkbox",
-    description: "A checkbox input for selecting one or multiple options.",
+    description: "Input for selecting one or multiple options.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -182,7 +182,7 @@ export const componentRegistry: ComponentRegistry = {
   color: {
     id: "color",
     name: "Color",
-    description: "A custom color component with 2D canvas, hue slider, and format selection.",
+    description: "Custom color picker with 2D canvas, hue slider, and format selection.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -214,7 +214,7 @@ export const componentRegistry: ComponentRegistry = {
   command: {
     id: "command",
     name: "Command",
-    description: "A searchable command palette for quick access to actions.",
+    description: "Searchable command palette for quick action access.",
     category: "action",
     source: {
   "packageName": "ui-lab-components",
@@ -236,7 +236,7 @@ export const componentRegistry: ComponentRegistry = {
   confirm: {
     id: "confirm",
     name: "Confirm",
-    description: "A confirm dialog for critical user actions.",
+    description: "Confirm dialog for critical user actions.",
     category: "action",
     source: {
   "packageName": "ui-lab-components",
@@ -258,7 +258,7 @@ export const componentRegistry: ComponentRegistry = {
   date: {
     id: "date",
     name: "Date",
-    description: "A minimal, modern date component for date selection with keyboard navigation and accessibility support.",
+    description: "Minimal date picker with keyboard navigation and full accessibility support.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -274,7 +274,7 @@ export const componentRegistry: ComponentRegistry = {
   divider: {
     id: "divider",
     name: "Divider",
-    description: "A horizontal or vertical divider for separating content.",
+    description: "Horizontal or vertical separator for dividing content.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -306,7 +306,7 @@ export const componentRegistry: ComponentRegistry = {
   flex: {
     id: "flex",
     name: "Flex",
-    description: "A flexible layout component with container query support for responsive flex layouts.",
+    description: "Flexible layout component with container query support for responsive designs.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -328,7 +328,7 @@ export const componentRegistry: ComponentRegistry = {
   fold: {
     id: "fold",
     name: "Fold",
-    description: "A collapsible disclosure component for expanding and collapsing content sections.",
+    description: "Collapsible disclosure component for expanding and collapsing sections.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -350,7 +350,7 @@ export const componentRegistry: ComponentRegistry = {
   frame: {
     id: "frame",
     name: "Frame",
-    description: "A decorative border/frame component with advanced SVG path support for custom shapes.",
+    description: "Decorative border/frame component with advanced SVG path support.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",
@@ -382,7 +382,7 @@ export const componentRegistry: ComponentRegistry = {
   gallery: {
     id: "gallery",
     name: "Gallery",
-    description: "A responsive grid layout component for displaying media content like images, videos, and product cards.",
+    description: "Responsive grid layout for displaying media content, images, videos, and product cards.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -404,7 +404,7 @@ export const componentRegistry: ComponentRegistry = {
   grid: {
     id: "grid",
     name: "Grid",
-    description: "A powerful grid layout component with container query support for responsive grid layouts.",
+    description: "Powerful grid layout component with container query support for responsive designs.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -426,7 +426,7 @@ export const componentRegistry: ComponentRegistry = {
   group: {
     id: "group",
     name: "Group",
-    description: "A flexible container for grouping Button, Input, and Select components with unified styling.",
+    description: "Flexible container for grouping Button, Input, and Select components with unified styling.",
     category: "composition",
     source: {
   "packageName": "ui-lab-components",
@@ -524,7 +524,7 @@ export const componentRegistry: ComponentRegistry = {
   mask: {
     id: "mask",
     name: "Mask",
-    description: "A container component that creates fading effects on its content edges.",
+    description: "Container component that creates fading edge effects on content.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",
@@ -551,7 +551,7 @@ export const componentRegistry: ComponentRegistry = {
   menu: {
     id: "menu",
     name: "Menu",
-    description: "A context menu for right-click actions.",
+    description: "Context menu for right-click actions.",
     category: "navigation",
     source: {
   "packageName": "ui-lab-components",
@@ -578,7 +578,7 @@ export const componentRegistry: ComponentRegistry = {
   modal: {
     id: "modal",
     name: "Modal",
-    description: "A modal dialog for focusing user attention on important content.",
+    description: "Modal dialog for focusing user attention on important content.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",
@@ -605,7 +605,7 @@ export const componentRegistry: ComponentRegistry = {
   popover: {
     id: "popover",
     name: "Popover",
-    description: "A popover component for displaying content on demand.",
+    description: "Popover component for displaying content on demand.",
     category: "feedback",
     source: {
   "packageName": "ui-lab-components",
@@ -627,7 +627,7 @@ export const componentRegistry: ComponentRegistry = {
   progress: {
     id: "progress",
     name: "Progress",
-    description: "A progress bar component for showing completion status.",
+    description: "Progress bar component for showing completion status.",
     category: "feedback",
     source: {
   "packageName": "ui-lab-components",
@@ -649,7 +649,7 @@ export const componentRegistry: ComponentRegistry = {
   radio: {
     id: "radio",
     name: "Radio",
-    description: "A radio button for selecting one option from a group.",
+    description: "Radio button for selecting one option from a group.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -676,7 +676,7 @@ export const componentRegistry: ComponentRegistry = {
   scroll: {
     id: "scroll",
     name: "Scroll",
-    description: "A scroll area component with custom scrollbars for overflowing content.",
+    description: "Scroll area component with custom scrollbars for overflowing content.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",
@@ -725,7 +725,7 @@ export const componentRegistry: ComponentRegistry = {
   slider: {
     id: "slider",
     name: "Slider",
-    description: "A slider component for selecting a value from a range.",
+    description: "Slider component for selecting a value from a range.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -747,7 +747,7 @@ export const componentRegistry: ComponentRegistry = {
   switch: {
     id: "switch",
     name: "Switch",
-    description: "A toggle switch for boolean input.",
+    description: "Toggle switch for boolean input.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -769,7 +769,7 @@ export const componentRegistry: ComponentRegistry = {
   table: {
     id: "table",
     name: "Table",
-    description: "A table component for displaying and organizing tabular data.",
+    description: "Table component for displaying and organizing tabular data.",
     category: "data",
     source: {
   "packageName": "ui-lab-components",
@@ -791,7 +791,7 @@ export const componentRegistry: ComponentRegistry = {
   tabs: {
     id: "tabs",
     name: "Tabs",
-    description: "A tabbed interface for organizing content into sections.",
+    description: "Tabbed interface for organizing content into sections.",
     category: "navigation",
     source: {
   "packageName": "ui-lab-components",
