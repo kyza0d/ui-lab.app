@@ -1,13 +1,14 @@
 import type { FontKey } from "@/features/theme/constants/font-config";
 
 export interface FontDevMetrics {
-  fontSizeScale: number;
-  fontWeightScale: number;
-  typeSizeRatio: number;
-  headerLetterSpacingScale: number;
-  bodyLetterSpacingScale: number;
+  headerTypeSizeRatio: number;
+  headerFontSizeScale: number;
   headerFontWeightScale: number;
+  headerLetterSpacingScale: number;
+  bodyTypeSizeRatio: number;
+  bodyFontSizeScale: number;
   bodyFontWeightScale: number;
+  bodyLetterSpacingScale: number;
 }
 
 export interface FontDevConfig {

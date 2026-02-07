@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { cn, InlineCodeHighlight } from "@/shared";
+import { cn } from "@/shared";
+import { InlineCodeHighlight } from "@/features/docs";
 
 export interface Column<T> {
   key: keyof T;
@@ -11,6 +12,7 @@ export interface Column<T> {
   isCode?: boolean;
   codeLanguage?: string;
   render?: (value: any, row: T) => React.ReactNode;
+  width?: string;
 }
 
 export interface TableProps<T> {
@@ -75,10 +77,11 @@ export function Table<T extends Record<string, any>>({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">
-              {columns.map((col) => (
+              {columns.map((col, idx) => (
                 <th
-                  key={String(col.key)}
+                  key={idx}
                   className="px-4 py-3 text-left font-semibold text-foreground-200"
+                  style={{ width: col.width }}
                 >
                   {col.label}
                 </th>
@@ -98,10 +101,11 @@ export function Table<T extends Record<string, any>>({
                       : ""
                   )}
                 >
-                  {columns.map((col) => (
+                  {columns.map((col, idx) => (
                     <td
-                      key={String(col.key)}
+                      key={idx}
                       className="px-4 py-3 text-foreground-300"
+                      style={{ width: col.width }}
                     >
                       {col.render ? (
                         col.render(row[col.key], row)

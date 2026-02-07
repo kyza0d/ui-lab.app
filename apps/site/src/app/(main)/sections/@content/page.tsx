@@ -7,6 +7,7 @@ import { getAllSections, searchSections } from 'ui-lab-registry';
 import type { SectionMetadata } from 'ui-lab-registry';
 import { SectionsGridClient } from '@/features/sections';
 import { ElementsSearchHeader, ElementsSortDropdown, ElementsFilterPopover } from '@/features/elements';
+import { GridCTA } from '@/features/landing/components/grid-cta';
 
 const placeholderSections: SectionMetadata[] = [
   {
@@ -50,7 +51,7 @@ export default function SectionsPage() {
 
   const allSections = useMemo(() => {
     const sections = getAllSections();
-    return [...sections, ...placeholderSections];
+    return [...placeholderSections, ...sections];
   }, []);
 
   const filteredSections = useMemo(() => {
@@ -123,7 +124,7 @@ export default function SectionsPage() {
   }, [router]);
 
   return (
-    <div className='pl-12 mt-38 pt-(header-height)'>
+    <div className='mt-38 pt-(header-height)'>
       <BreadcrumbsNav />
       <div className="w-full bg-background-950  px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
@@ -157,7 +158,15 @@ export default function SectionsPage() {
               />
             </div>
           </div>
-          <SectionsGridClient sections={filteredSections} />
+          <div className="relative overflow-hidden">
+            <div className="space-y-6">
+              <SectionsGridClient sections={filteredSections} />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 h-[200px] pointer-events-none bg-gradient-to-b from-transparent from-0% via-background-950 via-70% to-background-950 to-100%" />
+          </div>
+          <div className="-mt-60 relative z-10 px-6 py-16">
+            <GridCTA contentType="sections" />
+          </div>
         </div>
       </div>
     </div>

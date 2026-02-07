@@ -3,8 +3,8 @@
 import { useState, useMemo } from "react";
 import type { ElementFile } from "ui-lab-registry";
 import { getStarterById } from "ui-lab-registry";
-import { CodeBlock } from "@/shared";
-import { ContentHeader } from "@/shared/components/content-header";
+import { CodeBlock } from "@/features/docs/components/code-display/code-block";
+import { ContentHeader } from "@/features/navigation/components/content-header";
 
 interface StarterDetailClientProps {
   starterId: string;
@@ -113,11 +113,10 @@ function FileTreeNode({
               onToggle(node.path);
             }
           }}
-          className={`flex-1 text-left px-2 py-1.5 rounded text-sm transition-colors flex items-center gap-2 group ${
-            isFile && activeFile === node.path
+          className={`flex-1 text-left px-2 py-1.5 rounded text-sm transition-colors flex items-center gap-2 group ${isFile && activeFile === node.path
               ? "bg-background-800 text-foreground-50"
               : "text-foreground-400 hover:bg-background-800 hover:text-foreground-200"
-          }`}
+            }`}
         >
           <span className="text-xs opacity-60 flex-shrink-0">
             {isFile ? "📄" : "📁"}
@@ -186,7 +185,7 @@ export default function StarterDetailClient({
   }
 
   return (
-    <div className="pl-12 pt-(header-height)">
+    <div className="pt-(header-height)">
       <div className="w-full bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1">
           <ContentHeader title={starter.name} description={starter.description} pricing={starter.pricing} purchaseUrl={starter.pricing?.purchaseUrl}>
@@ -211,47 +210,47 @@ export default function StarterDetailClient({
 
           <div className="space-y-8 flex-1">
             <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-3 space-y-2">
-                  <h3 className="text-sm font-semibold text-foreground-200 mb-3">
-                    Project Files
-                  </h3>
-                  <div className="bg-background-900 rounded border border-background-700 p-2 overflow-hidden">
-                    {fileTree.map((node) => (
-                      <FileTreeNode
-                        key={node.path}
-                        node={node}
-                        expanded={expandedFolders}
-                        onToggle={handleToggleFolder}
-                        onSelectFile={setActiveFile}
-                        activeFile={activeFile || currentFile?.filename || ""}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="col-span-9">
-                  {currentFile && (
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-semibold text-foreground-200">
-                          {currentFile.filename}
-                        </h3>
-                        <span className="text-xs text-foreground-500 uppercase">
-                          {currentFile.language}
-                        </span>
-                      </div>
-                      {currentFile.description && (
-                        <p className="text-sm text-foreground-400">
-                          {currentFile.description}
-                        </p>
-                      )}
-                      <CodeBlock language={currentFile.language}>
-                        {currentFile.code || ''}
-                      </CodeBlock>
-                    </div>
-                  )}
+              <div className="col-span-3 space-y-2">
+                <h3 className="text-sm font-semibold text-foreground-200 mb-3">
+                  Project Files
+                </h3>
+                <div className="bg-background-900 rounded border border-background-700 p-2 overflow-hidden">
+                  {fileTree.map((node) => (
+                    <FileTreeNode
+                      key={node.path}
+                      node={node}
+                      expanded={expandedFolders}
+                      onToggle={handleToggleFolder}
+                      onSelectFile={setActiveFile}
+                      activeFile={activeFile || currentFile?.filename || ""}
+                    />
+                  ))}
                 </div>
               </div>
+
+              <div className="col-span-9">
+                {currentFile && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-foreground-200">
+                        {currentFile.filename}
+                      </h3>
+                      <span className="text-xs text-foreground-500 uppercase">
+                        {currentFile.language}
+                      </span>
+                    </div>
+                    {currentFile.description && (
+                      <p className="text-sm text-foreground-400">
+                        {currentFile.description}
+                      </p>
+                    )}
+                    <CodeBlock language={currentFile.language}>
+                      {currentFile.code || ''}
+                    </CodeBlock>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

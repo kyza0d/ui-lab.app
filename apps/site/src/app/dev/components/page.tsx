@@ -9,7 +9,6 @@ import {
   getCategoriesInOrder,
   getCategoryIcon,
 } from "@/features/component-docs";
-import { cn } from "@/shared";
 import { FaArrowLeft, FaUpRightFromSquare } from "react-icons/fa6";
 
 function ComponentRow({ id, name, description, exampleCount }: { id: string; name: string; description: string; exampleCount: number }) {

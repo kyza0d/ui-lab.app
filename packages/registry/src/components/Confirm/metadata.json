@@ -1,7 +1,7 @@
 {
   "id": "confirm",
   "name": "Confirm",
-  "description": "A confirm dialog for critical user actions.",
+  "description": "Confirm dialog for critical user actions.",
   "category": "action",
   "source": {
     "packageName": "ui-lab-components",

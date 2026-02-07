@@ -6,18 +6,6 @@ import Example2, { metadata as metadata2 } from './examples/02-validation.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className='flex flex-col'>
-      <div style={{ width: "50%", backgroundColor: "var(--background-500)" }} className='opacity-10 ml-2 mb-2 rounded-sm h-2'></div>
-      <div style={{ width: 140, height: 30, borderRadius: "var(--radius-md)" }} className="w-full flex bg-background-900 pl-2 pr-4 items-center border border-background-700">
-        <div style={{ width: "80%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
-        <div style={{ backgroundColor: "var(--background-500)" }} className='w-px opacity-30 rounded-md h-4 ml-2'></div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-input', Component: Example1, metadata: metadata1 },
   { id: '02-validation', Component: Example2, metadata: metadata2 },

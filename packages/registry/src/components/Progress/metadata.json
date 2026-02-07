@@ -1,7 +1,7 @@
 {
   "id": "progress",
   "name": "Progress",
-  "description": "A progress bar component for showing completion status.",
+  "description": "Progress bar component for showing completion status.",
   "category": "feedback",
   "source": {
     "packageName": "ui-lab-components",

@@ -5,19 +5,6 @@ import Example1, { metadata as metadata1 } from './examples/01-basic-anchor.js';
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className='w-full grid grid-rows-2 items-start gap-2 justify-center'>
-      <div>
-        <div>
-          <div style={{ width: 70, backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-3'></div>
-          <Divider size='sm' variant='dashed' />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-anchor', Component: Example1, metadata: metadata1 },
 ];

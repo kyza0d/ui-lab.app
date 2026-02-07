@@ -9,14 +9,6 @@ import Example5, { metadata as metadata5 } from './examples/05-pagination-contro
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: 80, height: 30 }} className="w-full flex bg-background-900 items-center justify-center border border-background-700 rounded-md">
-      <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
-    </div>
-  );
-}
-
 // Define examplesData locally
 const examplesData = [
   { id: '01-variants', Component: Example1, metadata: metadata1 },

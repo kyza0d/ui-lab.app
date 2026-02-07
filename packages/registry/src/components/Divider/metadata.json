@@ -1,7 +1,7 @@
 {
   "id": "divider",
   "name": "Divider",
-  "description": "A horizontal or vertical divider for separating content.",
+  "description": "Horizontal or vertical separator for dividing content.",
   "category": "layout",
   "source": {
     "packageName": "ui-lab-components",

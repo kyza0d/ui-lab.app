@@ -10,4 +10,4 @@ export * from "./lib/mdx-components";
 export * from "./lib/table-parser";
 export * from "./lib/generated-docs";
 export { type TocRegistry, tocRegistry } from "./lib/generated-toc-registry";
-export { CodeBlock, InlineCodeHighlight } from "@/shared";
+export { CodeBlock, CodeBlockWithPackageManager, InlineCodeHighlight, InstallationFlow, PackageManagerTabs } from "./components/code-display/index";

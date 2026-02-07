@@ -10,9 +10,8 @@ export { SettingsContent } from "./components/settings/settings-content";
 
 // Utilities
 export * from "./lib/color-utils";
-export * from "./lib/color-data";
+export * from "./lib/color/semantic";
 export * from "./lib/css-variable-generator";
-export * from "./lib/semantic-color-utils";
 export * from "./lib/theme-cache";
 export * from "./lib/theme-persistence";
 

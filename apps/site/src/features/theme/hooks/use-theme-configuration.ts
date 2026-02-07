@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { applyDynamicThemeScales, applyDynamicSpacingScale } from "@/shared/lib/config-generator";
+import { applyDynamicThemeScales, applyDynamicSpacingScale } from "../lib/config-generator";
 
 /**
  * Grouped configuration objects to reduce dependency array size

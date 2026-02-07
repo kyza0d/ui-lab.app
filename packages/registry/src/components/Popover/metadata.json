@@ -1,7 +1,7 @@
 {
   "id": "popover",
   "name": "Popover",
-  "description": "A popover component for displaying content on demand.",
+  "description": "Popover component for displaying content on demand.",
   "category": "feedback",
   "source": {
     "packageName": "ui-lab-components",

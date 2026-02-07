@@ -7,15 +7,6 @@ import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaChevronDown } from 'react-icons/fa6';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div style={{ width: 140, height: 30 }} className="w-full flex bg-background-900 pl-2 pr-4 items-center justify-center border border-background-700 rounded-md">
-      <div style={{ width: "70%", backgroundColor: "var(--background-500)" }} className='opacity-10 rounded-md h-2'></div>
-      <FaChevronDown size={10} className='text-foreground-500 ml-auto' />
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-basic-select', Component: Example1, metadata: metadata1 },
   { id: '02-searchable-select', Component: Example2, metadata: metadata2 },

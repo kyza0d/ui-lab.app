@@ -1,7 +1,7 @@
 {
   "id": "toc",
   "name": "Table of Contents",
-  "description": "Hierarchical document navigation component for displaying table of contents with nested sections.",
+  "description": "Hierarchical document navigation for table of contents with nested sections.",
   "category": "navigation",
   "tags": ["toc", "navigation", "documentation", "outline"]
 }

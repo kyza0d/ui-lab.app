@@ -1,7 +1,7 @@
 {
   "id": "slider",
   "name": "Slider",
-  "description": "A slider component for selecting a value from a range.",
+  "description": "Slider component for selecting a value from a range.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",

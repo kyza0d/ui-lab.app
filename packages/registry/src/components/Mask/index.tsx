@@ -6,19 +6,6 @@ import Example2, { metadata as metadata2 } from './examples/02-text-gradient.js'
 import examplesJson from './examples.json';
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
-export function getPreview(): React.ReactNode {
-  return (
-    <div className="w-full h-32 rounded-md overflow-hidden">
-      <Mask variant="y">
-        <div className="w-full h-full flex flex-col items-center justify-center bg-muted/50">
-          <div className="text-foreground text-sm font-semibold">Mask Preview</div>
-          <div className="text-muted-foreground text-xs mt-1">Refined Fade & Gradient Effects</div>
-        </div>
-      </Mask>
-    </div>
-  );
-}
-
 const examplesData = [
   { id: '01-read-more-fade', Component: Example1, metadata: metadata1 },
   { id: '02-text-gradient', Component: Example2, metadata: metadata2 },

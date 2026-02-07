@@ -96,6 +96,27 @@
     border-bottom-right-radius: var(--radius-sm);
   }
 
+  /* spacing="none": Apply radius to first/last inputs (merged edges) */
+  .group.none.horizontal:not(.ghost) .itemWrapper:first-child .groupInputWrapper input {
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .group.none.horizontal:not(.ghost) .itemWrapper:last-child .groupInputWrapper input {
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  .group.none.vertical:not(.ghost) .itemWrapper:first-child .groupInputWrapper input {
+    border-top-left-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-sm);
+  }
+
+  .group.none.vertical:not(.ghost) .itemWrapper:last-child .groupInputWrapper input {
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
   /* spacing="none": Apply radius to Button and Trigger within Group.Select (split-action pattern) */
   .group.none.horizontal:not(.ghost) .groupSelectWrapper .groupItem {
     border-top-left-radius: var(--radius-sm);
@@ -146,7 +167,7 @@
 
   .group.horizontal .separator {
     width: 1px;
-    height: 100%;
+    align-self: stretch;
   }
 
   .group.vertical .separator {
@@ -184,6 +205,7 @@
     align-items: stretch;
     height: 100%;
     flex: 1;
+    overflow: visible;
   }
 
   .groupInputWrapper input {
