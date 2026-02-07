@@ -13,7 +13,9 @@ const placeholderStarters: StarterMetadata[] = [
     category: 'dashboard',
     tags: ['premium', 'enterprise', 'dashboard', 'analytics'],
     files: [],
-    pricing: { price: 99.99 }
+    pricing: { price: 99.99, gumroadProductId: 'premium-dashboard' },
+    gumroadProductId: 'premium-dashboard',
+    bundledElements: ['chart', 'analytics', 'data-table'],
   },
   {
     id: 'saas-landing',
@@ -22,7 +24,9 @@ const placeholderStarters: StarterMetadata[] = [
     category: 'landing',
     tags: ['saas', 'landing', 'conversion', 'premium'],
     files: [],
-    pricing: { price: 79.99 }
+    pricing: { price: 79.99, gumroadProductId: 'saas-landing' },
+    gumroadProductId: 'saas-landing',
+    bundledElements: ['hero', 'cta', 'testimonials'],
   }
 ];
 

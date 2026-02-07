@@ -13,7 +13,8 @@ const placeholderPackages: ElementPackageMetadata[] = [
     description: 'Advanced component collection with enterprise-grade styling and interactions.',
     tags: ['premium', 'enterprise', 'advanced'],
     elements: ['Button', 'Input', 'Modal', 'Dropdown'],
-    pricing: { price: 49.99 }
+    pricing: { price: 49.99, gumroadProductId: 'premium-ui-kit' },
+    gumroadProductId: 'premium-ui-kit',
   },
   {
     id: 'pro-components',
@@ -21,7 +22,8 @@ const placeholderPackages: ElementPackageMetadata[] = [
     description: 'Extended component library with specialized controls and complex interactions.',
     tags: ['pro', 'advanced', 'specialized'],
     elements: ['DatePicker', 'TimePicker', 'FileUpload', 'RichEditor'],
-    pricing: { price: 29.99 }
+    pricing: { price: 29.99, gumroadProductId: 'pro-components' },
+    gumroadProductId: 'pro-components',
   }
 ];
 
