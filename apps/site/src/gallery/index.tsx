@@ -306,7 +306,9 @@ export const previews: Record<string, React.ReactNode> = {
 
   mask: (
     <div className="w-full h-32 rounded-md overflow-hidden">
-      <Mask variant="y">
+      <Mask>
+        <Mask.Fade direction="top" intensity={0.8} />
+        <Mask.Fade direction="bottom" intensity={0.8} />
         <div className="w-full h-full flex flex-col items-center justify-center bg-muted/50">
           <div className="text-foreground text-sm font-semibold">
             Mask Preview
