@@ -77,7 +77,7 @@ function AsciiRevealPreview() {
       onMouseMove={handleMouseMove}
     >
       <Mask.Gradient
-        gradient={`radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, var(--accent-500) 10%, var(--background-950) 50%, var(--background-950) 50%)`}
+        gradient={`radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, var(--accent-500) 5%, var(--background-950) 45%, var(--background-950) 90%)`}
       >
         <pre className="w-full h-full flex items-center justify-center text-[11px] leading-[1.15] select-none whitespace-pre overflow-hidden m-0 p-2">
           {grid}

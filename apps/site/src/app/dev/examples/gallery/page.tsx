@@ -198,7 +198,7 @@ function ColumnSpanPreview() {
 
 function RowSpanPreview() {
   return (
-    <Gallery columns={3} gap={12} rows={3}>
+    <Gallery columns={3} gap={12} rows="3">
       <Gallery.Item rowSpan={2} aria-label="Featured tall item">
         <Gallery.View aspectRatio="1/2">
           <Item title="Featured" description="Spans 2 rows" />
