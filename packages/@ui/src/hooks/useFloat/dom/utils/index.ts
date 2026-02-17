@@ -1,0 +1,11 @@
+export { getBoundingClientRect } from './getBoundingClientRect';
+export { getCssDimensions } from './getCssDimensions';
+export { getDocumentRect } from './getDocumentRect';
+export { getHTMLOffset } from './getHTMLOffset';
+export { getRectRelativeToOffsetParent } from './getRectRelativeToOffsetParent';
+export { getViewportRect } from './getViewportRect';
+export { getVisualOffsets, shouldAddVisualOffsets } from './getVisualOffsets';
+export { getWindowScrollBarX } from './getWindowScrollBarX';
+export { isStaticPositioned } from './isStaticPositioned';
+export { rectsAreEqual } from './rectsAreEqual';
+export { unwrapElement } from './unwrapElement';
