@@ -57,6 +57,9 @@ importers:
       '@types/three':
         specifier: ^0.181.0
         version: 0.181.0
+      animejs:
+        specifier: ^4.3.6
+        version: 4.3.6
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
@@ -109,11 +112,11 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2
       ui-lab-components:
-        specifier: 0.1.6
-        version: 0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+        specifier: workspace:*
+        version: link:../../packages/@ui
       ui-lab-registry:
-        specifier: 0.1.8
-        version: 0.1.8(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+        specifier: workspace:*
+        version: link:../../packages/registry
     devDependencies:
       '@iconify/react':
         specifier: ^6.0.2
@@ -152,8 +155,8 @@ importers:
         specifier: ^1.0.4
         version: 1.25.1(hono@4.11.3)(zod@4.3.2)
       ui-lab-registry:
-        specifier: 0.1.7
-        version: 0.1.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+        specifier: workspace:*
+        version: link:../registry
     devDependencies:
       '@types/node':
         specifier: ^22.10.2
@@ -304,8 +307,8 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.1)
       ui-lab-components:
-        specifier: 0.1.6
-        version: 0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+        specifier: workspace:*
+        version: link:../@ui
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.11
@@ -2470,6 +2473,9 @@ packages:
 
   ajv@8.17.1:
     resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
+
+  animejs@4.3.6:
+    resolution: {integrity: sha512-rzZ4bDc8JAtyx6hYwxj7s5M/yWfnM5qqY4hZDnhy1cWFvMb6H5/necHS2sbCY3WQTDbRLuZL10dPXSxSCFOr/w==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -4893,18 +4899,6 @@ packages:
 
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
-
-  ui-lab-components@0.1.6:
-    resolution: {integrity: sha512-A6C/1z61rccNmVde5Owij+NvXSBvtgHS4zsRY9tg1dj4ax5K204/zpIhRwtNtaef9zWogQ6VU0qFLuJiFMDRbA==}
-    peerDependencies:
-      react: ^19.0.0
-      react-dom: ^19.0.0
-
-  ui-lab-registry@0.1.7:
-    resolution: {integrity: sha512-s9LuncEGre0Zy02rvG0jXqo/E3phc7onkyrdJHj8WyfZ/nM4bkBqIEtIK/wG7S3e6wa9F/iVq3+z2rxAwyUqLw==}
-
-  ui-lab-registry@0.1.8:
-    resolution: {integrity: sha512-jsWv3Vkhh9s7Yu7ZZS7N+LXXhyv3xyTzGaWKwz8K92gk29dyt/EaYnTmNpq0srMxs7VvJPXqlcZbPkxi4uBqYw==}
 
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
@@ -7645,6 +7639,8 @@ snapshots:
       fast-uri: 3.1.0
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
+
+  animejs@4.3.6: {}
 
   ansi-regex@5.0.1: {}
 
@@ -10760,50 +10756,6 @@ snapshots:
   typescript@5.9.3: {}
 
   ufo@1.6.1: {}
-
-  ui-lab-components@0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
-    dependencies:
-      '@floating-ui/react-dom': 2.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@gsap/react': 2.1.2(gsap@3.14.2)(react@19.2.1)
-      '@react-aria/dialog': 3.5.32(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/focus': 3.21.3(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/interactions': 3.26.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/listbox': 3.15.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/overlays': 3.31.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/searchfield': 3.8.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-aria/utils': 3.32.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@react-stately/list': 3.13.2(react@19.2.1)
-      '@react-stately/overlays': 3.6.21(react@19.2.1)
-      '@react-stately/searchfield': 3.5.17(react@19.2.1)
-      '@react-stately/slider': 3.7.3(react@19.2.1)
-      '@react-stately/toggle': 3.9.3(react@19.2.1)
-      class-variance-authority: 0.7.1
-      clsx: 2.1.1
-      gsap: 3.14.2
-      lucide-react: 0.525.0(react@19.2.1)
-      postcss: 8.5.6
-      react: 19.2.1
-      react-aria: 3.45.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      react-dom: 19.2.1(react@19.2.1)
-      react-icons: 5.5.0(react@19.2.1)
-      react-stately: 3.43.0(react@19.2.1)
-
-  ui-lab-registry@0.1.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
-    dependencies:
-      react-icons: 5.5.0(react@19.2.1)
-      ui-lab-components: 0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-    transitivePeerDependencies:
-      - react
-      - react-dom
-
-  ui-lab-registry@0.1.8(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
-    dependencies:
-      lucide-react: 0.562.0(react@19.2.1)
-      react-icons: 5.5.0(react@19.2.1)
-      ui-lab-components: 0.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-    transitivePeerDependencies:
-      - react
-      - react-dom
 
   unbox-primitive@1.1.0:
     dependencies:
