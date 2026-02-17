@@ -52,7 +52,7 @@ export const TypographyPanel = memo(
     onBodyLetterSpacingChange,
   }: TypographyPanelProps) => {
     return (
-      <div className="px-[6px] m-0 space-y-2">
+      <div className="m-0 space-y-2">
         <div className="mx-[6px] mb-4 p-3 bg-background-800/40 rounded-[12px] border border-background-700 space-y-3">
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground-400 block">
@@ -101,8 +101,8 @@ export const TypographyPanel = memo(
 
         <Divider />
 
-        <div className="px-[6px] space-y-3">
-          <div className="bg-background-800 border border-background-700 rounded-md p-4">
+        <div className="m-0 space-y-3">
+          <div className="bg-background-800 border border-background-700 rounded-[12px] p-4">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
                 <h4 className="text-xs mb-0">H1</h4>

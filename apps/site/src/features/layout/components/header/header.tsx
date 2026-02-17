@@ -24,12 +24,12 @@ import { useSidebarToggle } from "@/features/layout/hooks/sidebar-context";
 import { useLandingSidebarToggle } from "@/features/layout/hooks/landing-sidebar-context";
 
 const TabItem = memo(({ tab }: { tab: TabConfig }) => {
-  const Icon = tab.icon as any;
   return (
     <Link href={tab.path}>
       <TabsTrigger
         value={tab.id}
         disabled={tab.isPlaceholder}
+        className="pb-[13px] pt-[17px]"
       >
         {tab.label}
       </TabsTrigger>
@@ -78,7 +78,7 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700 bg-background-950 h-16">
+      <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700 bg-background-950 h-[58px]">
         <div className="h-full max-w-(--page-width) mx-auto border-x border-background-700 flex items-center justify-between px-3 w-full overflow-hidden">
           <div className=" flex items-center flex-1 min-w-0">
 

@@ -137,7 +137,7 @@ export function ComponentConfigurator({
 
               <TabsContent value="preview" className="overflow-hidden mt-0">
                 <div
-                  className={cn("px-10 py-14 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                  className={cn("px-10 py-20 min-h-100 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                   style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
                 >
                   {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}

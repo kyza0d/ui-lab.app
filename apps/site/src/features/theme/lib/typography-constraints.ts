@@ -1,4 +1,4 @@
-import { generateTypeScaleFromRatio } from "./config-generator";
+import { generateTypeScaleFromRatio } from "../config";
 
 const MIN_FONT_SIZE_REM = 0.875;
 

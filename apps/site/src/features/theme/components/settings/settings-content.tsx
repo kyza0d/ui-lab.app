@@ -26,6 +26,7 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
+  Button,
 } from "ui-lab-components";
 import { ColorsPanel } from "./colors-panel";
 import { TypographyPanel } from "./typography-panel";
@@ -232,13 +233,13 @@ export const SettingsContent = () => {
 
   return (
     <div className="w-full h-full select-none flex flex-col bg-background-900/90 text-foreground">
-      <div className="pr-[8px] py-[2px] flex items-center justify-between border-b border-background-700 shrink-0">
+      <div className="pr-[8px] flex items-center justify-between border-b border-background-700 shrink-0">
         <Tabs
           variant="underline"
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
         >
-          <TabsList className="h-[44px] border-none -mb-0.5">
+          <TabsList className="h-[48px] border-none -mb-0.5">
             <TabsTrigger
               className="text-sm w-[100px]"
               value="colors"
@@ -264,12 +265,12 @@ export const SettingsContent = () => {
         </Tabs>
       </div>
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar pt-[8px]">
+      <div className="border-b border-background-700 flex-1 overflow-y-auto custom-scrollbar">
         <Tabs
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
         >
-          <TabsContent value="colors">
+          <TabsContent value="colors" className="py-[8px]">
             <ColorsPanel
               localColors={localColors}
               expandedColor={expandedColor}
@@ -281,7 +282,7 @@ export const SettingsContent = () => {
             />
           </TabsContent>
 
-          <TabsContent value="fonts">
+          <TabsContent value="fonts" className="py-[8px]">
             <TypographyPanel
               selectedSansFont={selectedSansFont}
               selectedMonoFont={selectedMonoFont}
@@ -394,7 +395,7 @@ export const SettingsContent = () => {
             />
           </TabsContent>
 
-          <TabsContent value="layout">
+          <TabsContent value="layout" className="py-[8px]">
             <LayoutPanel
               radius={radius}
               borderWidth={borderWidth}
@@ -425,15 +426,11 @@ export const SettingsContent = () => {
         </Tabs>
       </div>
 
-      <div className="border-t border-background-700 px-[8px] py-[6px] bg-background-800/50 flex items-center justify-between shrink-0">
-        <Link
-          href="/config"
-          className="ml-auto inline-flex cursor-pointer items-center justify-center rounded-md text-sm px-[10px] py-[5px] border border-background-600 bg-background-700 text-foreground-300 hover:text-foreground-50 hover:bg-background-600 active:bg-accent-400 gap-2"
-        >
-          <FaGear className="mr-2" />
+      <Link href="/config" className="ml-auto m-2" >
+        <Button icon={{ left: <FaGear className="mr-2" /> }}>
           Configuration
-        </Link>
-      </div>
+        </Button>
+      </Link>
     </div>
   );
 };

@@ -6,6 +6,8 @@ import {
   Frame,
   Mask,
 } from "ui-lab-components";
+import { GridAnimation } from "./timelines/grid.animation";
+import { FlexAnimation } from "./timelines/flex.animation";
 import {
   FaInfo,
   FaCircleInfo,
@@ -202,12 +204,7 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  flex: (
-    <div className="w-[60%]">
-      <div className="w-full h-10 border border-background-700 rounded bg-background-950 mb-2" />
-      <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
-    </div>
-  ),
+  flex: <FlexAnimation />,
 
   fold: (
     <div className="w-full flex flex-col gap-2 max-w-sm">
@@ -241,23 +238,7 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
-
-  grid: (
-    <div className="w-[60%]">
-      <div className="w-full flex flex-col gap-2">
-        <div className="flex gap-2">
-          <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
-          <div className="w-16 h-10 border border-background-700 rounded bg-background-950" />
-        </div>
-
-        <div className="flex gap-2">
-          <div className="w-12 h-10 border border-background-700 rounded bg-background-950" />
-          <div className="w-full h-10 border border-background-700 rounded bg-background-950" />
-        </div>
-      </div>
-    </div>
-  ),
-
+  grid: <GridAnimation />,
   group: (
     <div className="flex border overflow-hidden rounded-md h-8 pl-2 items-center border-background-700 w-full">
       <div className="w-[36%] h-2 opacity-10 rounded-sm bg-background-500"></div>
@@ -568,6 +549,20 @@ export const previews: Record<string, React.ReactNode> = {
   page: (
     <div className="flex items-center justify-center h-22">
       <FaQuestion className="w-9 h-9 text-accent-500" />
+    </div>
+  ),
+
+  panel: (
+    <div className="w-full h-40 flex flex-col border border-background-700 rounded overflow-hidden">
+      <div className="h-8 bg-background-900 border-b border-background-700 flex items-center px-2">
+        <div className="w-[40%] h-2 opacity-10 rounded-md bg-background-500"></div>
+      </div>
+      <div className="flex-1 bg-background-950 flex items-center justify-center">
+        <div className="w-[60%] h-2 opacity-10 rounded-md bg-background-500"></div>
+      </div>
+      <div className="h-6 bg-background-900 border-t border-background-700 flex items-center px-2">
+        <div className="w-[30%] h-2 opacity-10 rounded-md bg-background-500"></div>
+      </div>
     </div>
   ),
 };

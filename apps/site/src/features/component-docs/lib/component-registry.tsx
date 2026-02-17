@@ -22,6 +22,7 @@ import { labelDetail } from "ui-lab-registry/components/Label";
 import { menuDetail } from "ui-lab-registry/components/Menu";
 import { toastDetail } from "ui-lab-registry/components/Toast";
 import { modalDetail } from "ui-lab-registry/components/Modal";
+import { pageDetail } from "ui-lab-registry/components/Page";
 import { maskDetail } from "ui-lab-registry/components/Mask";
 import { popoverDetail } from "ui-lab-registry/components/Popover";
 import { confirmDetail } from "ui-lab-registry/components/Confirm";
@@ -37,6 +38,7 @@ import { tabsDetail } from "ui-lab-registry/components/Tabs";
 import { textareaDetail } from "ui-lab-registry/components/Textarea";
 import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
 import { listDetail } from "ui-lab-registry/components/List";
+import { panelDetail } from "ui-lab-registry/components/Panel";
 import { frameDetail } from "ui-lab-registry/components/Frame";
 import { ComponentDetail } from "@/types/component";
 import { previews } from "@/gallery";
@@ -154,6 +156,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   popover: popoverDetail,
   toast: toastDetail,
   modal: modalDetail,
+  page: pageDetail,
   mask: maskDetail,
   slider: sliderDetail,
   progress: progressDetail,
@@ -169,6 +172,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   frame: frameDetail,
   scroll: scrollDetail,
   list: listDetail,
+  panel: panelDetail,
 };
 export const getComponentById = cache(
   (id: string): ComponentDetail | undefined => {

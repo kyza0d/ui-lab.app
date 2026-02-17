@@ -90,7 +90,7 @@ export function Sidebar() {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [activeNavItem, activeElementsNav, isElementsOrSectionsOrStarters]);
 
-  const sidebarWidth = isElementsOrSectionsOrStarters ? 'w-80 md:w-60 lg:w-54 xl:w-64' : 'w-80 md:w-60 lg:w-50 xl:w-64';
+  const sidebarWidth = isElementsOrSectionsOrStarters ? 'w-80 md:w-64 lg:w-54 xl:w-64' : 'w-80 md:w-64 lg:w-50 xl:w-64';
 
   return (
     <>
@@ -158,7 +158,7 @@ export function Sidebar() {
             fadeY
           >
             {isElementsOrSectionsOrStarters ? (
-              <div className="py-5 px-5">
+              <div className="px-5">
                 <ElementsList
                   activeNav={activeElementsNav}
                   elements={elementsList}
@@ -167,7 +167,7 @@ export function Sidebar() {
                 />
               </div>
             ) : (
-              <div className="py-4 px-5 space-y-8 pt-8">
+              <div className="py-4 px-5 space-y-8">
                 {sections.map((section) => (
                   <div key={section.label}>
                     <h5 className="text-sm font-medium text-foreground-400">{section.label}</h5>

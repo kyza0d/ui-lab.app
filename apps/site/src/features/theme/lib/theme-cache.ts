@@ -113,6 +113,34 @@ export function cacheCompleteTheme(
   }
 }
 
+/**
+ * Extract typography CSS variables from a complete cache.
+ * These are the values that can be safely applied during initial hydration.
+ *
+ * Includes:
+ * - --text-* (xs through 5xl)
+ * - --header-text-* (xs through 5xl)
+ * - --letter-spacing-* (xs through 5xl)
+ * - --font-weight-* (header and body variants)
+ * - Scale/ratio variables (--header-type-size-ratio, etc.)
+ */
+export function extractTypographyVariablesFromCache(
+  cssVariables: Record<string, string>
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(cssVariables).filter(([key]) =>
+      key.startsWith("--text-") ||
+      key.startsWith("--header-text-") ||
+      key.startsWith("--letter-spacing-") ||
+      key.startsWith("--font-weight-") ||
+      key.startsWith("--header-type-size-ratio") ||
+      key.startsWith("--header-font-size-scale") ||
+      key.startsWith("--body-type-size-ratio") ||
+      key.startsWith("--body-font-size-scale")
+    )
+  );
+}
+
 export function applyThemeCacheToDOM(cache: CompleteThemeCache): void {
   const root = document.documentElement;
   root.setAttribute("data-theme", cache.themeMode);
