@@ -17,12 +17,11 @@ The UI Lab MCP Server bridges the gap between component metadata and AI agent ca
 ### Tools (Agent-Callable Functions)
 
 1. **search_components** - Search for components by query and category
-2. **get_component_details** - Get full metadata for a specific component
-3. **get_component_api** - Get prop types and sub-component APIs
-4. **resolve_dependencies** - Find all npm packages required for components
-5. **generate_component_code** - Generate TSX code for a component
-6. **get_installation_plan** - Get installation instructions
-7. **get_component_examples** - Get code examples and usage patterns
+2. **get_component** - Get full metadata for a specific component
+3. **get_semantic_color** - Get recommended color for a component with intent
+4. **generate_component** - Generate TSX code for a component
+5. **transform_ui** - Transform entire UI file to use UI Lab components
+6. **get_theme_setup** - Get theme system setup instructions and code for light/dark mode
 
 ### Quick Start
 

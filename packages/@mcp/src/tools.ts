@@ -1,11 +1,12 @@
 /**
- * MCP Tools - Simplified (4 Core Tools)
+ * MCP Tools - Simplified (5 Core Tools)
  *
- * The refactored MCP provides exactly 4 core tools:
+ * The refactored MCP provides exactly 5 core tools:
  * 1. get_component(id) - Get component metadata + design guidance
  * 2. get_semantic_color(component, intent) - Get ONE recommended color
  * 3. generate_component(spec) - Generate TSX from spec
  * 4. transform_ui(filePath) - Transform entire UI file
+ * 5. get_theme_setup(include_fouc_script) - Get theme system setup instructions
  */
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
@@ -13,6 +14,7 @@ import { registryAdapter } from './adapters/registry-adapter.js';
 import { designTokensAdapter } from './adapters/design-tokens-adapter.js';
 import { generateComponentCode } from './generation/component-generator.js';
 import { formatDesignGuidelines } from './context/design-guidelines.js';
+import { transformUIFile } from './orchestrators/ui-transformer.js';
 
 import type {
   ComponentGenerationSpec,
@@ -185,14 +187,154 @@ export const transformUITool: Tool = {
   },
 };
 
-export async function handleTransformUI(_input: {
+export async function handleTransformUI(input: {
   file_path: string;
   context?: string;
 }): Promise<any> {
-  // TODO: Implement single-pass orchestrator
+  const result = await transformUIFile(input.file_path, input.context);
   return {
-    success: false,
-    message: 'Transform UI not yet implemented',
+    ...result,
+    designGuidelines: formatDesignGuidelines(),
+  };
+}
+
+/**
+ * Tool 5: get_theme_setup
+ * Get complete setup instructions and code for light/dark mode theme system
+ * Returns provider setup, toggle component code, and integration guide
+ */
+export const getThemeSetupTool: Tool = {
+  name: 'get_theme_setup',
+  description:
+    'Get complete setup instructions and code for UI Lab theme system with light/dark mode. Returns provider setup, toggle component code, and integration guide. Includes automatic FOUC prevention, localStorage persistence, and device preference detection.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      include_fouc_script: {
+        type: 'boolean',
+        description: 'Include FOUC prevention script details in response',
+        default: true,
+      },
+    },
+  },
+};
+
+export async function handleGetThemeSetup(input: {
+  include_fouc_script?: boolean;
+}): Promise<any> {
+  // Query registry for theme provider metadata
+  const themeProvider = registryAdapter.getProviderById('theme');
+  if (!themeProvider) {
+    throw new Error('Theme provider not found in registry');
+  }
+
+  // Build hooks object from registry data
+  const hooks: Record<string, any> = {};
+  for (const hook of themeProvider.hooks) {
+    hooks[hook.name] = {
+      import: hook.import,
+      description: hook.description,
+      signature: hook.signature,
+      returns: hook.returns,
+    };
+  }
+
+  // Build features object from registry data
+  const features = themeProvider.features.map((feature: any) => ({
+    name: feature.name,
+    description: feature.description,
+    status: feature.status,
+    details: feature.details,
+  }));
+
+  return {
+    success: true,
+    provider: {
+      id: themeProvider.id,
+      name: themeProvider.name,
+      description: themeProvider.description,
+      packageName: themeProvider.packageName,
+      exportName: themeProvider.exportName,
+      version: themeProvider.version,
+    },
+    setup: {
+      provider: {
+        import: "import { ThemeProvider } from '@ui/providers'",
+        code: `export function Providers({ children }: { children: React.ReactNode }) {
+  return <ThemeProvider>{children}</ThemeProvider>
+}`,
+        path: 'app/providers.tsx',
+        usage: 'Wrap your entire app root in <Providers>',
+        instructions: [
+          'Create file: app/providers.tsx',
+          'Copy the code above',
+          'In app/layout.tsx, import Providers: import { Providers } from "./providers"',
+          'Wrap children: <Providers>{children}</Providers>',
+        ],
+      },
+      hooks,
+      toggleComponent: {
+        import: "import { useTheme } from '@ui/providers'",
+        code: `'use client'
+
+import { useTheme } from '@ui/providers'
+import { Button } from 'ui-lab-components'
+
+export function ThemeToggle() {
+  const { themeMode, toggleThemeMode } = useTheme()
+
+  return (
+    <Button
+      variant="ghost"
+      onPress={toggleThemeMode}
+      aria-label="Toggle theme"
+    >
+      {themeMode === 'dark' ? '☀️ Light' : '🌙 Dark'}
+    </Button>
+  )
+}`,
+        path: 'components/theme-toggle.tsx',
+        usage: 'Import and place in header/navigation',
+      },
+      fouc_prevention: input.include_fouc_script
+        ? {
+            name: 'FOUC Prevention (Flash of Unstyled Content)',
+            status: 'Automatic - No setup required',
+            details:
+              'ThemeProvider automatically injects a blocking script in document.head on mount. This prevents the flash of unstyled content before theme CSS variables are applied.',
+            script_location: 'Injected via document.head in <ThemeProvider>',
+            initialization_order: [
+              '1. Script is injected with ID "theme-provider-script"',
+              '2. Script reads localStorage for saved theme',
+              '3. Script applies CSS variables immediately',
+              '4. Page renders with correct colors (no flash)',
+            ],
+          }
+        : undefined,
+      features,
+      colorBehavior: {
+        title: 'Automatic Color Inversion',
+        explanation:
+          'All semantic color tokens automatically invert. No dark: prefixes needed.',
+        shadeMap: {
+          '50': '↔ 950 (lightest ↔ darkest)',
+          '100': '↔ 900',
+          '200': '↔ 800',
+          '300': '↔ 700',
+          '400': '↔ 600',
+          '500': '↔ 500 (constant)',
+        },
+        example: {
+          code: '<div className="bg-background-900 text-foreground-300">Content</div>',
+          darkMode: 'bg-background-900 (very dark), text-foreground-300 (light)',
+          lightMode: 'bg-background-100 (very light), text-foreground-700 (dark)',
+          result: 'Single code works perfectly in both themes',
+        },
+      },
+      integrationSteps: themeProvider.integrationSteps,
+      bestPractices: themeProvider.bestPractices || [],
+    },
+    designGuidelines: formatDesignGuidelines(),
   };
 }
 
@@ -205,6 +347,7 @@ export const tools: Tool[] = [
   getSemanticColorTool,
   generateComponentTool,
   transformUITool,
+  getThemeSetupTool,
 ];
 
 /**
@@ -225,6 +368,8 @@ export async function handleTool(
       return handleGenerateComponent(toolInput as any);
     case 'transform_ui':
       return handleTransformUI(toolInput as any);
+    case 'get_theme_setup':
+      return handleGetThemeSetup(toolInput as any);
     default:
       throw new Error(`Unknown tool: ${toolName}`);
   }
