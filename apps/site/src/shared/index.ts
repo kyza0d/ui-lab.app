@@ -11,4 +11,4 @@ export { Dashboard } from "./lib/demos/dashboard";
 // Re-export from features for backward compatibility
 export { getHeaderHeight, shouldShowHeaderTabs, getActiveTabValue, getDomainsWithTabs, shouldShowHeaderSearch, shouldApplyRevealCollapse, DOMAINS, getTabGroupForPathname, getActiveTabForPathname, shouldShowTabsForPathname, TAB_GROUPS, type TabConfig, type TabGroup } from "@/features/layout/lib/route-config";
 export { Logo, Sidebar } from "@/features/layout/components";
-export { copyToClipboard, generateFullThemeConfig } from "@/features/theme/lib/config-generator";
+export { copyToClipboard, generateFullThemeConfig } from "@/features/theme/config";

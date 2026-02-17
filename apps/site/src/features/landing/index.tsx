@@ -8,7 +8,15 @@ import {
   FaTags,
   FaWaveSquare,
   FaHammer,
-  FaShapes
+  FaShapes,
+  FaCubesStacked,
+  FaCubes,
+  FaList,
+  FaArrowDown,
+  FaArrowRight,
+  FaDownLeftAndUpRightToCenter,
+  FaUpDownLeftRight,
+  FaArrowDownLong
 } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
 
@@ -36,11 +44,11 @@ function HeroSection() {
             </p>
             <div className="flex gap-3 mt-8 mb-6 md:mt-10 md:mb-0">
               <Link href="/docs">
-                <Button variant="primary" size="sm" className="flex justify-evenly">
+                <Button variant="default" size="sm" className="flex justify-evenly">
                   Get Started</Button>
               </Link>
               <Link href="/components">
-                <Button variant="outline" size="sm" className="bg-background-950">View Components</Button>
+                <Button variant="ghost" size="sm">View Components</Button>
               </Link>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { cn } from '@/shared';
 import { usePrefetchOnHover } from '@/shared/hooks/use-prefetch-on-hover';
 import { useLandingSidebarToggle } from '@/features/layout/hooks/landing-sidebar-context';
 import {
+  FaBook,
   FaSwatchbook,
   FaTags,
   FaUsers,
@@ -53,9 +54,10 @@ const SidebarItemLink = memo(function SidebarItemLink({
 });
 
 const LANDING_NAV_ITEMS = [
+  { id: 'docs', label: 'Getting Started', href: '/docs', icon: FaBook },
+  { id: 'design-system', label: 'Design System', href: '/design-system', icon: FaSwatchbook },
   { id: 'release-notes', label: 'Release Notes', href: '/releases', icon: FaTags },
   { id: 'community', label: 'Community', href: '/community', icon: FaUsers },
-  { id: 'design-system', label: 'Design System', href: '/design-system', icon: FaSwatchbook },
 ];
 
 const QUICK_LINKS = [
@@ -66,10 +68,9 @@ const QUICK_LINKS = [
 ];
 
 const AGENT_LINKS = [
-  { label: 'Skills', href: '/docs/agent/skills' },
   { label: 'MCP', href: '/docs/agents-mcps-installation' },
   { label: 'LLMS.txt', href: '/llms.txt' },
-  { label: 'AGENTS.txt', href: '/agents.txt' },
+  { label: 'Skills', href: '/docs/agent/skills' },
 ];
 
 export function LandingSidebar() {
@@ -81,14 +82,14 @@ export function LandingSidebar() {
       {isOpen && <div className="fixed inset-0 bg-black/50 z-50 lg:hidden" onClick={closeSidebar} />}
 
       <aside className={cn(
-        'w-68 flex flex-col lg:-mt-4',
-        'fixed lg:static left-0 top-0 h-screen lg:h-auto',
+        'w-64 flex flex-col lg:-mt-4',
+        'fixed lg:static left-0 top-0 h-screen lg:h-auto border-r border-background-700',
         'z-[55] lg:z-20',
         'transition-transform duration-300 ease-out',
         'lg:transition-none lg:transform-none',
         isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       )}>
-        <div className="flex border-r bg-background-950 border-background-700 flex-col sticky md:sticky top-(--header-height) z-20 h-screen md:h-auto">
+        <div className="flex bg-background-950 flex-col sticky md:sticky top-(--header-height) z-20 h-screen md:h-auto">
           <div className="z-10">
             <nav className="py-3 px-2 space-y-1">
               {LANDING_NAV_ITEMS.map((navItem) => {

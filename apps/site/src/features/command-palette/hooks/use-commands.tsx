@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa6";
 import { componentRegistry, getCategoryIcon } from "@/features/component-docs";
 import { toolsItems } from "@/features/layout/components/header/data";
-import type { Command } from "ui-lab-components";
+import type { CommandItem } from "ui-lab-components";
 
 interface UseCommandsParams {
   currentThemeMode: "light" | "dark";
@@ -24,7 +24,7 @@ export function useCommands({
   const router = useRouter();
 
   return useMemo(() => {
-    const cmds: Command[] = [];
+    const cmds: CommandItem[] = [];
 
     cmds.push({
       id: "docs-overview",

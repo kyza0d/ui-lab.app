@@ -3,6 +3,7 @@
 import { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { SettingsContent } from "./settings/settings-content";
+import { HiX } from "react-icons/hi";
 
 interface FloatingSettingsDialogProps {
   isOpen: boolean;
@@ -144,10 +145,7 @@ export const SettingsDialog = ({
   // ---------------------------------------------------------------------------
   return createPortal(
     <>
-      <div
-        className="fixed inset-0 z-[9998]"
-        onClick={() => onOpenChange(false)}
-      />
+      <div className="fixed inset-0 z-[9998] pointer-events-none" />
       <div
         ref={dialogRef}
         onMouseDown={handleDragStart}
@@ -165,11 +163,22 @@ export const SettingsDialog = ({
       >
         <div
           data-drag-handle
-          className="h-10 shrink-0 bg-background-800 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center px-4 select-none hover:bg-background-800/70 transition-colors"
+          className="h-10 shrink-0 bg-background-800 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center justify-between px-4 select-none hover:bg-background-800/70 transition-colors"
         >
           <span className="text-sm font-semibold text-foreground-400 pointer-events-none">
             Theme Settings
           </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenChange(false);
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            className="text-foreground-400 hover:text-foreground-300 transition-colors flex items-center justify-center w-6 h-6 rounded hover:bg-background-700/50 cursor-pointer"
+            aria-label="Close settings"
+          >
+            <HiX />
+          </button>
         </div>
 
         <div className="flex-1 overflow-hidden flex flex-col">

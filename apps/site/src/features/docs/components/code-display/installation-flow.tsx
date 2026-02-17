@@ -141,7 +141,7 @@ export function InstallationFlow() {
             <div key={key} className="relative">
               <Card
                 onClick={() => setFramework(key)}
-                className={`cursor-pointer p-3 relative rounded-md border ${framework === key
+                className={`cursor-pointer p-3 relative border ${framework === key
                   ? "bg-background-700 border-background-600"
                   : "bg-background-900 border-background-700 hover:border-background-600"
                   } ${["vite", "remix", "tauri"].includes(key) ? "opacity-50" : ""}`}

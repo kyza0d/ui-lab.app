@@ -11,7 +11,7 @@ import {
   type HueRange,
   oklchToCss,
 } from "../../lib/color-utils";
-import { getScaleName } from "../../lib/config-generator";
+import { getScaleName } from "../../config";
 import {
   Slider,
   Divider,
