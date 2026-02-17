@@ -13,6 +13,7 @@ import {
   searchComponents,
   getAllComponentIds as getAllComponentIdsFromRegistry,
   generatedAPI,
+  getProviderById as getProviderByIdFromRegistry,
 } from 'ui-lab-registry';
 
 import type { ComponentMetadata } from 'ui-lab-registry';
@@ -65,6 +66,17 @@ function getAllComponentIds(): string[] {
 }
 
 /**
+ * Get a provider by ID
+ */
+function getProviderById(id: string): any {
+  try {
+    return getProviderByIdFromRegistry(id);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Simple singleton exports for compatibility
  */
 export const registryAdapter = {
@@ -72,4 +84,5 @@ export const registryAdapter = {
   search: (query: string, _category?: any, limit?: number) =>
     searchRegistry(query, limit || 20),
   getAllComponentIds,
+  getProviderById,
 };
