@@ -22,6 +22,9 @@ export type { FrameProps } from "./components/Frame";
 export { Grid } from "./components/Grid";
 export type { GridProps } from "./components/Grid";
 
+export { Panel, PanelContext, usePanelContext } from "./components/Panel";
+export type { PanelProps, PanelHeaderProps, PanelContentProps, PanelFooterProps, PanelContextValue } from "./components/Panel";
+
 export { Badge } from "./components/Badge";
 export type { BadgeProps } from "./components/Badge";
 
@@ -42,7 +45,6 @@ export {
   Searchable,
   Multi,
   useSelectContext,
-  useMultiSelectContext,
 } from "./components/Select";
 
 export { Input } from "./components/Input";
@@ -107,8 +109,9 @@ export * as Slider from "./components/Slider";
 export { Divider, dividerVariants } from "./components/Divider";
 export type { DividerProps } from "./components/Divider";
 
-export { Command, Command as CommandPalette } from "./components/Command";
-export type { CommandPaletteProps, Command as CommandType } from "./components/Command";
+export { Command, Command as CommandPalette, useCommandContext } from "./components/Command";
+export type { CommandItem, CommandGroupedItems, CommandProps, CommandGroupsProps } from "./components/Command";
+export { scoreCommandRelevance } from "./components/Command";
 
 export { Confirmation } from "./components/Confirmation";
 export type { ConfirmationProps } from "./components/Confirmation";
@@ -125,6 +128,9 @@ export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps
 export { Color } from "./components/Color";
 export type { ColorProps } from "./components/Color";
 
+export { Page, PageContext, usePageContext } from "./components/Page";
+export type { PageProps, PageContextValue, PagePadding } from "./components/Page";
+
 export { Scroll } from "./components/Scroll";
 export type { ScrollProps } from "./components/Scroll";
 
@@ -133,9 +139,14 @@ export type { TableProps, Column } from "./components/Table";
 
 export { List } from "./components/List";
 export type {
+  ListRef,
+  ListNavigateCallbacks,
   ListContainerProps,
   ListHeaderProps,
   ListItemProps,
+  ListCheckboxProps,
+  ListMediaProps,
+  ListDescProps,
   ListActionGroupProps,
   ListDividerProps,
   ListFooterProps,
@@ -152,3 +163,5 @@ export { extractThemeVariables, applyThemeCSSVariables } from "./providers/extra
 export type { ThemeConfig, OklchColor, ColorPalette, ColorShade, ThemePalettes } from "./providers/extractThemeVars";
 
 export { generateThemeScript } from "./providers/themeScript";
+
+export { useFilter } from "./hooks/useFilter";

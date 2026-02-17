@@ -4,30 +4,120 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Divider as FoldDivider } from '@/components/Divider';
 import styles from './List.module.css';
+import { ListContext } from './list.context';
 import {
   ListContainerProps,
   ListHeaderProps,
-  ListItemProps,
-  ListActionGroupProps,
-  ListDividerProps,
-  ListFooterProps,
+  ListNavigateCallbacks,
+  ListRef,
+  ActionGroupComponentProps,
+  FooterComponentProps,
 } from './list.types';
+import { DividerProps } from '@/components/Divider';
 
-const Container = React.forwardRef<HTMLDivElement, ListContainerProps>(
-  ({ ariaLabel, variant = 'default', children, className, onSelect, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="list"
-      aria-label={ariaLabel}
-      className={cn(styles.container, className)}
-      data-variant={variant}
-      {...(props as React.HTMLAttributes<HTMLDivElement>)}
-    >
-      {children}
-    </div>
-  )
+// Ref container for keyboard navigation
+const Container = React.forwardRef<ListRef, ListContainerProps>(
+  ({ items = [], variant = 'default', spacing = 'default', onNavigate, children, className, ...props }, ref) => {
+    const [highlightedIndex, setHighlightedIndex] = React.useState<number | null>(null);
+    const itemRefsContainer = React.useRef<(HTMLElement | null)[]>([]);
+    const itemCountRef = React.useRef(0);
+    const prevItemsLengthRef = React.useRef(items.length);
+
+    // Reset counter if items length changes significantly
+    if (items.length !== prevItemsLengthRef.current) {
+      itemCountRef.current = 0;
+      itemRefsContainer.current = [];
+      prevItemsLengthRef.current = items.length;
+    }
+
+    // Expose ref methods for keyboard navigation
+    React.useImperativeHandle(ref, () => ({
+      focusNext: () => {
+        setHighlightedIndex((prev) => {
+          const next = prev === null ? 0 : Math.min(prev + 1, items.length - 1);
+          onNavigate?.down?.();
+          return next;
+        });
+      },
+      focusPrev: () => {
+        setHighlightedIndex((prev) => {
+          const next = prev === null ? items.length - 1 : Math.max(prev - 1, 0);
+          onNavigate?.up?.();
+          return next;
+        });
+      },
+      focusFirst: () => {
+        setHighlightedIndex(0);
+        onNavigate?.down?.();
+      },
+      focusLast: () => {
+        setHighlightedIndex(items.length - 1);
+        onNavigate?.up?.();
+      },
+      selectHighlighted: () => {
+        onNavigate?.enter?.();
+      },
+      clearHighlight: () => {
+        setHighlightedIndex(null);
+      },
+      getHighlightedIndex: () => highlightedIndex,
+    }), [highlightedIndex, items.length, onNavigate]);
+
+    React.useEffect(() => {
+      const el = highlightedIndex !== null ? itemRefsContainer.current[highlightedIndex] : null;
+      if (!el) return;
+      let scroller: HTMLElement | null = el.parentElement;
+      while (scroller && scroller !== document.body && scroller.scrollHeight <= scroller.clientHeight) {
+        scroller = scroller.parentElement;
+      }
+      if (!scroller || scroller === document.body) return;
+      const scrollerRect = scroller.getBoundingClientRect();
+      const itemRect = el.getBoundingClientRect();
+      const buffer = el.offsetHeight * 2;
+      const itemTop = itemRect.top - scrollerRect.top;
+      const itemBottom = itemRect.bottom - scrollerRect.top;
+      if (itemTop < buffer) {
+        scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + itemTop - buffer), behavior: 'smooth' });
+      } else if (itemBottom > scroller.clientHeight - buffer) {
+        scroller.scrollTo({ top: scroller.scrollTop + itemBottom - scroller.clientHeight + buffer, behavior: 'smooth' });
+      }
+    }, [highlightedIndex]);
+
+    const registerItem = React.useCallback((ref: HTMLElement | null) => {
+      const index = itemCountRef.current;
+      itemRefsContainer.current[index] = ref;
+      itemCountRef.current++;
+      return index;
+    }, [items.length]);
+
+    const contextValue = React.useMemo(
+      () => ({
+        highlightedIndex,
+        focusItem: (index: number) => {
+          setHighlightedIndex(index);
+        },
+        registerItem,
+        itemRefs: itemRefsContainer,
+      }),
+      [highlightedIndex, registerItem]
+    );
+
+    return (
+      <ListContext.Provider value={contextValue}>
+        <div
+          role="list"
+          className={cn(styles.container, className)}
+          data-variant={variant}
+          data-spacing={spacing}
+          {...(props as React.HTMLAttributes<HTMLDivElement>)}
+        >
+          {children}
+        </div>
+      </ListContext.Provider>
+    );
+  }
 );
-Container.displayName = 'List.Container';
+Container.displayName = 'List';
 
 const Header = React.forwardRef<HTMLElement, ListHeaderProps>(
   ({ sticky, children, className, ...props }, ref) => (
@@ -42,23 +132,7 @@ const Header = React.forwardRef<HTMLElement, ListHeaderProps>(
 );
 Header.displayName = 'List.Header';
 
-const Item = React.forwardRef<HTMLElement, ListItemProps>(
-  ({ selected, interactive, onClick, children, className, ...props }, ref) => (
-    <article
-      ref={ref}
-      className={cn(styles.item, className)}
-      data-interactive={interactive ? 'true' : 'false'}
-      data-selected={selected ? 'true' : 'false'}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </article>
-  )
-);
-Item.displayName = 'List.Item';
-
-const ActionGroup = React.forwardRef<HTMLDivElement, ListActionGroupProps>(
+const ActionGroup = React.forwardRef<HTMLDivElement, ActionGroupComponentProps>(
   ({ justify = 'flex-start', children, className, ...props }, ref) => (
     <div
       ref={ref}
@@ -72,7 +146,7 @@ const ActionGroup = React.forwardRef<HTMLDivElement, ListActionGroupProps>(
 );
 ActionGroup.displayName = 'List.ActionGroup';
 
-const Divider = React.forwardRef<HTMLDivElement, ListDividerProps>(
+const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   ({ className, ...props }, ref) => (
     <FoldDivider
       ref={ref}
@@ -83,7 +157,7 @@ const Divider = React.forwardRef<HTMLDivElement, ListDividerProps>(
 );
 Divider.displayName = 'List.Divider';
 
-const Footer = React.forwardRef<HTMLElement, ListFooterProps>(
+const Footer = React.forwardRef<HTMLElement, FooterComponentProps>(
   ({ align = 'center', children, className, ...props }, ref) => (
     <footer
       ref={ref}
@@ -100,18 +174,14 @@ Footer.displayName = 'List.Footer';
 // Compound component
 const List = Object.assign(Container, {
   Header,
-  Item,
+  Item: null as any, // Set in index.ts
+  Checkbox: null as any,
+  Media: null as any,
+  Desc: null as any,
   ActionGroup,
   Divider,
   Footer,
 });
 
-export { List, Container, Header, Item, ActionGroup, Divider, Footer };
-export type {
-  ListContainerProps,
-  ListHeaderProps,
-  ListItemProps,
-  ListActionGroupProps,
-  ListDividerProps,
-  ListFooterProps,
-};
+export { List, Container, Header, ActionGroup, Divider, Footer };
+export type { ListRef };

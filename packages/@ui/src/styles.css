@@ -18,6 +18,7 @@
   --spacing-scale: 1;
   --spacing: clamp(0.200rem, 2.5vw, 0.250rem);
 
+  --radius-ratio: 0.5;
   --radius-xs: 0.05rem;
   --radius-sm: 0.1rem;
   --radius-md: 0.3rem;
@@ -28,59 +29,59 @@
 
   --border-width-base: 1.0px;
 
-  --background-500: oklch(50% 0 0);
-  --background-600: oklch(32% 0 0);
-  --background-700: oklch(26% 0 0);
-  --background-800: oklch(23% 0 0);
-  --background-900: oklch(21% 0 0);
-  --background-950: oklch(18% 0 0);
+  --color-background-500: oklch(50% 0 0);
+  --color-background-600: oklch(32% 0 0);
+  --color-background-700: oklch(26% 0 0);
+  --color-background-800: oklch(23% 0 0);
+  --color-background-900: oklch(21% 0 0);
+  --color-background-950: oklch(18% 0 0);
 
-  --foreground-50:  oklch(98% 0.000 0);
-  --foreground-100: oklch(95% 0.000 0);
-  --foreground-200: oklch(90% 0.000 0);
-  --foreground-300: oklch(84% 0.000 0);
-  --foreground-400: oklch(65% 0.000 0);
-  --foreground-500: oklch(50% 0.000 0);
-  --foreground-600: oklch(32% 0.000 0);
-  --foreground-700: oklch(26% 0.000 0);
-  --foreground-800: oklch(23% 0.000 0);
-  --foreground-900: oklch(21% 0.000 0);
-  --foreground-950: oklch(18% 0.000 0);
+  --color-foreground-50:  oklch(98% 0.000 0);
+  --color-foreground-100: oklch(95% 0.000 0);
+  --color-foreground-200: oklch(90% 0.000 0);
+  --color-foreground-300: oklch(84% 0.000 0);
+  --color-foreground-400: oklch(65% 0.000 0);
+  --color-foreground-500: oklch(50% 0.000 0);
+  --color-foreground-600: oklch(32% 0.000 0);
+  --color-foreground-700: oklch(26% 0.000 0);
+  --color-foreground-800: oklch(23% 0.000 0);
+  --color-foreground-900: oklch(21% 0.000 0);
+  --color-foreground-950: oklch(18% 0.000 0);
 
-  --accent-50: oklch(12.0% 0.000 0.0);
-  --accent-100: oklch(20.0% 0.000 0.0);
-  --accent-200: oklch(32.0% 0.000 0.0);
-  --accent-300: oklch(44.0% 0.000 0.0);
-  --accent-400: oklch(58.0% 0.000 0.0);
-  --accent-500: oklch(72.0% 0.000 0.0);
-  --accent-600: oklch(91.0% 0.000 0.0);
+  --color-accent-50: oklch(12.0% 0.000 0.0);
+  --color-accent-100: oklch(20.0% 0.000 0.0);
+  --color-accent-200: oklch(32.0% 0.000 0.0);
+  --color-accent-300: oklch(44.0% 0.000 0.0);
+  --color-accent-400: oklch(58.0% 0.000 0.0);
+  --color-accent-500: oklch(72.0% 0.000 0.0);
+  --color-accent-600: oklch(91.0% 0.000 0.0);
 
-  --color-background-500: var(--background-500, oklch(50% 0 0));
-  --color-background-600: var(--background-600, oklch(32% 0 0));
-  --color-background-700: var(--background-700, oklch(26% 0 0));
-  --color-background-800: var(--background-800, oklch(23% 0 0));
-  --color-background-900: var(--background-900, oklch(21% 0 0));
-  --color-background-950: var(--background-950, oklch(18% 0 0));
+  --background-500: var(--color-background-500, oklch(50% 0 0));
+  --background-600: var(--color-background-600, oklch(32% 0 0));
+  --background-700: var(--color-background-700, oklch(26% 0 0));
+  --background-800: var(--color-background-800, oklch(23% 0 0));
+  --background-900: var(--color-background-900, oklch(21% 0 0));
+  --background-950: var(--color-background-950, oklch(18% 0 0));
 
-  --color-foreground-50: var(--foreground-50, oklch(98% 0.000 0.0));
-  --color-foreground-100: var(--foreground-100, oklch(95% 0.000 0.0));
-  --color-foreground-200: var(--foreground-200, oklch(90% 0.000 0.0));
-  --color-foreground-300: var(--foreground-300, oklch(84% 0.000 0.0));
-  --color-foreground-400: var(--foreground-400, oklch(65% 0.000 0.0));
-  --color-foreground-500: var(--foreground-500, oklch(50% 0.000 0.0));
-  --color-foreground-600: var(--foreground-600, oklch(32% 0.000 0.0));
-  --color-foreground-700: var(--foreground-700, oklch(83.0% 0.000 0.0));
-  --color-foreground-800: var(--foreground-800, oklch(91.0% 0.000 0.0));
-  --color-foreground-900: var(--foreground-900, oklch(93.0% 0.000 0.0));
-  --color-foreground-950: var(--foreground-950, oklch(94.0% 0.000 0.0));
+  --foreground-50: var(--color-foreground-50, oklch(98% 0.000 0.0));
+  --foreground-100: var(--color-foreground-100, oklch(95% 0.000 0.0));
+  --foreground-200: var(--color-foreground-200, oklch(90% 0.000 0.0));
+  --foreground-300: var(--color-foreground-300, oklch(84% 0.000 0.0));
+  --foreground-400: var(--color-foreground-400, oklch(65% 0.000 0.0));
+  --foreground-500: var(--color-foreground-500, oklch(50% 0.000 0.0));
+  --foreground-600: var(--color-foreground-600, oklch(32% 0.000 0.0));
+  --foreground-700: var(--color-foreground-700, oklch(26% 0.000 0.0));
+  --foreground-800: var(--color-foreground-800, oklch(23% 0.000 0.0));
+  --foreground-900: var(--color-foreground-900, oklch(21% 0.000 0.0));
+  --foreground-950: var(--color-foreground-950, oklch(18% 0.000 0.0));
 
-  --color-accent-50: var(--accent-50, oklch(99.0% 0.000 0.0));
-  --color-accent-100: var(--accent-100, oklch(97.0% 0.000 0.0));
-  --color-accent-200: var(--accent-200, oklch(91.0% 0.000 0.0));
-  --color-accent-300: var(--accent-300, oklch(72.0% 0.000 0.0));
-  --color-accent-400: var(--accent-400, oklch(58.0% 0.000 0.0));
-  --color-accent-500: var(--accent-500, oklch(32.0% 0.000 0.0));
-  --color-accent-600: var(--accent-600, oklch(28.0% 0.000 0.0));
+  --accent-50: var(--color-accent-50, oklch(12.0% 0.000 0.0));
+  --accent-100: var(--color-accent-100, oklch(20.0% 0.000 0.0));
+  --accent-200: var(--color-accent-200, oklch(32.0% 0.000 0.0));
+  --accent-300: var(--color-accent-300, oklch(44.0% 0.000 0.0));
+  --accent-400: var(--color-accent-400, oklch(58.0% 0.000 0.0));
+  --accent-500: var(--color-accent-500, oklch(72.0% 0.000 0.0));
+  --accent-600: var(--color-accent-600, oklch(91.0% 0.000 0.0));
 
   --color-success-50: var(--success-50, oklch(16.0% 0.000 142.0));
   --color-success-100: var(--success-100, oklch(29.0% 0.016 142.0));

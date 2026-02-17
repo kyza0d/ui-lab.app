@@ -39,7 +39,7 @@ interface DismissButtonProps {
 }
 
 function DismissButton({ onDismiss, size }: DismissButtonProps) {
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const buttonRef = React.useRef<HTMLDivElement>(null);
 
   const { buttonProps, isPressed } = useButton(
     {
@@ -53,17 +53,18 @@ function DismissButton({ onDismiss, size }: DismissButtonProps) {
   const { hoverProps, isHovered } = useHover({});
 
   return (
-    <button
+    <div
       {...mergeProps(buttonProps, focusProps, hoverProps)}
       ref={buttonRef}
-      type="button"
+      role="button"
+      tabIndex={0}
       className={styles.dismissButton}
       data-pressed={isPressed || undefined}
       data-hovered={isHovered || undefined}
       data-focus-visible={isFocusVisible || undefined}
     >
       <HiX size={14} />
-    </button>
+    </div>
   );
 }
 

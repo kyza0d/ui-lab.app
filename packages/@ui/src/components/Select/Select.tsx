@@ -1,22 +1,24 @@
 import * as React from "react"
-import { useButton, useFocusRing, useHover, mergeProps, useFilter, type Key } from "react-aria"
+import { useButton, useFocusRing, useHover, mergeProps, type Key } from "react-aria"
 import { cn } from "@/lib/utils"
 import styles from "./Select.module.css"
+import { useListNavigation, useMergedRef, type ItemData } from "./Select.shared"
+import { useFilter } from "../../hooks/useFilter"
 
-export interface SelectItemData {
-  key: Key
-  textValue: string
-  isDisabled?: boolean
-}
+export type SelectItemData = ItemData
 
 export type SelectTriggerMode = "click" | "hover"
+export type SelectMode = "single" | "multiple"
 
 export interface SelectContextValue {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  mode: SelectMode
   selectedKey: Key | null
+  selectedKeys?: Set<Key>
   selectedTextValue: string
   onSelect: (key: Key) => void
+  onToggle?: (key: Key) => void
   triggerRef: React.MutableRefObject<HTMLElement | null>
   wrapperRef: React.MutableRefObject<HTMLElement | null>
   triggerProps: any
@@ -39,6 +41,8 @@ export interface SelectContextValue {
   maxItems: number
   triggerMode: SelectTriggerMode
   handleHoverIntent: (isHovering: boolean) => void
+  mouseMoveDetectedRef: React.MutableRefObject<boolean>
+  filter?: (item: any) => boolean
 }
 
 const SelectContext = React.createContext<SelectContextValue | null>(null)
@@ -51,25 +55,32 @@ export function useSelectContext() {
   return context
 }
 
-export interface SelectProps<T> extends React.PropsWithChildren {
+export interface SelectProps<T = any> extends React.PropsWithChildren {
+  mode?: SelectMode
   items?: Array<T>
   selectedKey?: Key | null
   defaultSelectedKey?: Key | null
+  selectedKeys?: Key[]
+  defaultSelectedKeys?: Key[]
   defaultValue?: string | null
-  onSelectionChange?: (key: Key | null) => void
+  onSelectionChange?: (value: any) => void
   isDisabled?: boolean
   autoFocus?: boolean
   maxItems?: number
   className?: string
   trigger?: SelectTriggerMode
+  filter?: (item: T) => boolean
 }
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
   (
     {
+      mode = "single",
       items: propItems = [],
       selectedKey: controlledSelectedKey,
       defaultSelectedKey,
+      selectedKeys: controlledSelectedKeys,
+      defaultSelectedKeys = [],
       defaultValue,
       onSelectionChange,
       isDisabled = false,
@@ -78,11 +89,13 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       children,
       className,
       trigger: triggerMode = "click",
+      filter,
     },
     ref
   ) => {
     const triggerRef = React.useRef<HTMLElement>(null)
     const wrapperRef = React.useRef<HTMLElement>(null)
+    const mouseMoveDetectedRef = React.useRef(true)
     const [isOpen, setIsOpen] = React.useState(false)
     const hoverTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -109,45 +122,26 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
         }
       }
     }, [])
+
     const [uncontrolledSelectedKey, setUncontrolledSelectedKey] = React.useState<Key | null>(
       defaultSelectedKey ?? null
     )
-    const [searchValue, setSearchValue] = React.useState("")
-    const [focusedKey, setFocusedKey] = React.useState<Key | null>(null)
+    const [uncontrolledSelectedKeys, setUncontrolledSelectedKeys] = React.useState<Set<Key>>(
+      new Set(defaultSelectedKeys)
+    )
     const [selectedTextValue, setSelectedTextValue] = React.useState(defaultValue ?? "")
     const selectedKey = controlledSelectedKey !== undefined ? controlledSelectedKey : uncontrolledSelectedKey
-    const registeredItemsRef = React.useRef<Map<Key, SelectItemData>>(new Map())
-    const [registeredItems, setRegisteredItems] = React.useState<SelectItemData[]>([])
+    const selectedKeys = controlledSelectedKeys !== undefined ? new Set(controlledSelectedKeys) : uncontrolledSelectedKeys
 
-    const { contains } = useFilter({ sensitivity: 'base' })
+    const filteredPropItems = useFilter(propItems, filter)
 
-    const registerItem = React.useCallback((key: Key, textValue: string, isDisabled?: boolean) => {
-      registeredItemsRef.current.set(key, { key, textValue, isDisabled })
-      setRegisteredItems(Array.from(registeredItemsRef.current.values()))
-    }, [])
-
-    const unregisterItem = React.useCallback((key: Key) => {
-      registeredItemsRef.current.delete(key)
-      setRegisteredItems(Array.from(registeredItemsRef.current.values()))
-    }, [])
-
-    const items = propItems.length > 0 ? propItems : registeredItems
-
-    const filteredItems = React.useMemo(() => {
-      if (!searchValue.trim()) return items
-      return items.filter(item => contains(item.textValue, searchValue))
-    }, [items, searchValue, contains])
-
-    const visibleKeys = React.useMemo(() => {
-      return new Set(filteredItems.map(item => item.key))
-    }, [filteredItems])
-
-    const enabledFilteredItems = React.useMemo(() => {
-      return filteredItems.filter(item => !item.isDisabled)
-    }, [filteredItems])
+    const nav = useListNavigation({
+      isOpen,
+      externalItems: filteredPropItems.length > 0 ? filteredPropItems : undefined,
+    })
 
     const onSelect = React.useCallback((key: Key) => {
-      const item = items.find(i => i.key === key)
+      const item = nav.items.find(i => i.key === key)
       if (item) {
         setSelectedTextValue(item.textValue)
       }
@@ -156,75 +150,63 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       }
       onSelectionChange?.(key)
       setIsOpen(false)
-      setSearchValue("")
-    }, [controlledSelectedKey, onSelectionChange, items])
+      nav.setSearchValue("")
+    }, [controlledSelectedKey, onSelectionChange, nav.items])
 
-    const navigateToNextItem = React.useCallback(() => {
-      if (enabledFilteredItems.length === 0) return
-
-      const currentIndex = focusedKey !== null ? enabledFilteredItems.findIndex(item => item.key === focusedKey) : -1
-      const nextIndex = currentIndex < enabledFilteredItems.length - 1 ? currentIndex + 1 : 0
-
-      setFocusedKey(enabledFilteredItems[nextIndex].key)
-    }, [enabledFilteredItems, focusedKey])
-
-    // Navigate to previous enabled item
-    const navigateToPrevItem = React.useCallback(() => {
-      if (enabledFilteredItems.length === 0) return
-
-      const currentIndex = focusedKey !== null ? enabledFilteredItems.findIndex(item => item.key === focusedKey) : 0
-      const prevIndex = currentIndex > 0 ? currentIndex - 1 : enabledFilteredItems.length - 1
-
-      setFocusedKey(enabledFilteredItems[prevIndex].key)
-    }, [enabledFilteredItems, focusedKey])
+    const onToggle = React.useCallback((key: Key) => {
+      const newKeys = new Set(selectedKeys)
+      if (newKeys.has(key)) {
+        newKeys.delete(key)
+      } else {
+        newKeys.add(key)
+      }
+      if (controlledSelectedKeys === undefined) {
+        setUncontrolledSelectedKeys(newKeys)
+      }
+      onSelectionChange?.(Array.from(newKeys))
+    }, [selectedKeys, controlledSelectedKeys, onSelectionChange])
 
     const selectFocusedItem = React.useCallback(() => {
-      if (focusedKey !== null) {
-        const item = enabledFilteredItems.find(item => item.key === focusedKey)
+      if (nav.focusedKey !== null) {
+        const item = nav.enabledFilteredItems.find(item => item.key === nav.focusedKey)
         if (item && !item.isDisabled) {
-          onSelect(focusedKey)
+          if (mode === "multiple") {
+            onToggle(nav.focusedKey)
+          } else {
+            onSelect(nav.focusedKey)
+          }
         }
       }
-    }, [focusedKey, enabledFilteredItems, onSelect])
+    }, [nav.focusedKey, nav.enabledFilteredItems, onSelect, onToggle, mode])
 
     React.useEffect(() => {
       if (isOpen) {
-        if (selectedKey !== null && visibleKeys.has(selectedKey)) {
-          const selectedItem = filteredItems.find(item => item.key === selectedKey)
-          if (selectedItem && !selectedItem.isDisabled) {
-            setFocusedKey(selectedKey)
+        // Only initialize focusedKey if it's not already valid
+        if (nav.focusedKey !== null && nav.visibleKeys.has(nav.focusedKey)) {
+          const item = nav.filteredItems.find(item => item.key === nav.focusedKey)
+          if (item && !item.isDisabled) {
+            return  // Keep current keyboard focus, don't reset it
+          }
+        }
+
+        const focusKey = mode === "multiple" && selectedKeys.size > 0
+          ? Array.from(selectedKeys)[0]
+          : selectedKey
+
+        if (focusKey !== null && nav.visibleKeys.has(focusKey)) {
+          const item = nav.filteredItems.find(item => item.key === focusKey)
+          if (item && !item.isDisabled) {
+            nav.setFocusedKey(focusKey)
             return
           }
         }
-        // Fall back to first enabled item
-        if (enabledFilteredItems.length > 0) {
-          setFocusedKey(enabledFilteredItems[0].key)
+        if (nav.enabledFilteredItems.length > 0) {
+          nav.setFocusedKey(nav.enabledFilteredItems[0].key)
         } else {
-          setFocusedKey(null)
+          nav.setFocusedKey(null)
         }
       }
-    }, [isOpen, selectedKey, visibleKeys, enabledFilteredItems, filteredItems])
-
-    React.useEffect(() => {
-      if (focusedKey !== null && !visibleKeys.has(focusedKey)) {
-        if (enabledFilteredItems.length > 0) {
-          setFocusedKey(enabledFilteredItems[0].key)
-        } else {
-          setFocusedKey(null)
-        }
-      }
-    }, [visibleKeys, enabledFilteredItems, focusedKey])
-
-    // Auto-focus first filtered item when search value changes
-    React.useEffect(() => {
-      if (isOpen && searchValue) {
-        if (enabledFilteredItems.length > 0) {
-          setFocusedKey(enabledFilteredItems[0].key)
-        } else {
-          setFocusedKey(null)
-        }
-      }
-    }, [isOpen, searchValue, enabledFilteredItems])
+    }, [isOpen, selectedKey, selectedKeys, nav.visibleKeys, nav.enabledFilteredItems, nav.filteredItems, mode, nav.focusedKey])
 
     const { buttonProps, isPressed } = useButton({
       isDisabled,
@@ -244,33 +226,20 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       }
     }, [autoFocus])
 
-    // Clear search when dropdown closes
     React.useEffect(() => {
-      if (!isOpen) {
-        setSearchValue("")
-      }
-    }, [isOpen])
-
-    // Sync selectedTextValue with selectedKey
-    React.useEffect(() => {
-      if (selectedKey === null) {
-        setSelectedTextValue("")
-      } else {
-        const selectedItem = items.find(item => item.key === selectedKey)
-        if (selectedItem) {
-          setSelectedTextValue(selectedItem.textValue)
+      if (mode === "single") {
+        if (selectedKey === null) {
+          setSelectedTextValue("")
+        } else {
+          const selectedItem = nav.items.find(item => item.key === selectedKey)
+          if (selectedItem) {
+            setSelectedTextValue(selectedItem.textValue)
+          }
         }
       }
-    }, [selectedKey, items])
+    }, [selectedKey, nav.items, mode])
 
-    const rootRef = React.useCallback(
-      (el: HTMLDivElement | null) => {
-        wrapperRef.current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
+    const rootRef = useMergedRef<HTMLDivElement>(wrapperRef, ref)
 
     const childrenArray = React.Children.toArray(children)
     const trigger = childrenArray.find(child => React.isValidElement(child) && (child.type as any)?.displayName === 'SelectTrigger')
@@ -282,9 +251,12 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
         value={{
           isOpen,
           setIsOpen,
+          mode,
           selectedKey,
+          selectedKeys: mode === "multiple" ? selectedKeys : undefined,
           selectedTextValue,
           onSelect,
+          onToggle: mode === "multiple" ? onToggle : undefined,
           triggerRef,
           wrapperRef,
           triggerProps,
@@ -292,24 +264,26 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           isPressed,
           isHovered,
           isDisabled,
-          items,
-          registerItem,
-          unregisterItem,
-          searchValue,
-          setSearchValue,
-          filteredItems,
-          visibleKeys,
-          focusedKey,
-          setFocusedKey,
-          navigateToNextItem,
-          navigateToPrevItem,
+          items: nav.items,
+          registerItem: nav.registerItem,
+          unregisterItem: nav.unregisterItem,
+          searchValue: nav.searchValue,
+          setSearchValue: nav.setSearchValue,
+          filteredItems: nav.filteredItems,
+          visibleKeys: nav.visibleKeys,
+          focusedKey: nav.focusedKey,
+          setFocusedKey: nav.setFocusedKey,
+          navigateToNextItem: nav.navigateToNextItem,
+          navigateToPrevItem: nav.navigateToPrevItem,
           selectFocusedItem,
           maxItems,
           triggerMode,
           handleHoverIntent,
+          mouseMoveDetectedRef,
+          filter,
         }}
       >
-        <div ref={rootRef} className={cn('select', styles.select, className)}>
+        <div ref={rootRef} className={cn('select', styles.select, className)} data-mode={mode}>
           {otherContent}
           {trigger}
           {contentItems}
@@ -320,99 +294,4 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
 )
 Select.displayName = "Select"
 
-interface SelectListProps extends React.PropsWithChildren {
-  className?: string
-}
-
-const SelectListBox = React.forwardRef<HTMLUListElement, SelectListProps>(
-  ({ children, className }, forwardedRef) => {
-    const {
-      setIsOpen,
-      isOpen,
-      navigateToNextItem,
-      navigateToPrevItem,
-      selectFocusedItem,
-      filteredItems,
-      setFocusedKey,
-    } = useSelectContext()
-    const listBoxRef = React.useRef<HTMLUListElement>(null)
-
-    const mergedRef = React.useCallback(
-      (el: HTMLUListElement | null) => {
-        (listBoxRef as React.MutableRefObject<HTMLUListElement | null>).current = el
-        if (typeof forwardedRef === "function") forwardedRef(el)
-        else if (forwardedRef) forwardedRef.current = el
-      },
-      [forwardedRef]
-    )
-
-    const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
-      if (!isOpen) return
-      switch (e.key) {
-        case 'ArrowDown':
-          e.preventDefault()
-          navigateToNextItem()
-          break
-        case 'ArrowUp':
-          e.preventDefault()
-          navigateToPrevItem()
-          break
-        case 'Home':
-          e.preventDefault()
-          if (filteredItems.length > 0) {
-            const firstEnabled = filteredItems.find(item => !item.isDisabled)
-            if (firstEnabled) setFocusedKey(firstEnabled.key)
-          }
-          break
-        case 'End':
-          e.preventDefault()
-          if (filteredItems.length > 0) {
-            const lastEnabled = [...filteredItems].reverse().find(item => !item.isDisabled)
-            if (lastEnabled) setFocusedKey(lastEnabled.key)
-          }
-          break
-        case 'Enter':
-          e.preventDefault()
-          selectFocusedItem()
-          break
-        case ' ':
-          if (document.activeElement?.tagName !== 'INPUT') {
-            e.preventDefault()
-            selectFocusedItem()
-          }
-          break
-        case 'Escape':
-          e.preventDefault()
-          setIsOpen(false)
-          break
-      }
-    }, [isOpen, navigateToNextItem, navigateToPrevItem, selectFocusedItem, setIsOpen, filteredItems, setFocusedKey])
-
-    React.useEffect(() => {
-      if (isOpen) {
-        if (document.activeElement?.tagName !== 'INPUT') {
-          requestAnimationFrame(() => {
-            listBoxRef.current?.focus({ preventScroll: true })
-          })
-        }
-      }
-    }, [isOpen])
-
-    return (
-      <ul
-        ref={mergedRef}
-        role="listbox"
-        tabIndex={isOpen ? 0 : -1}
-        className={cn('list', styles.list, className)}
-        onKeyDown={handleKeyDown}
-        style={{ outline: 'none' }}
-      >
-        {children}
-      </ul>
-    )
-  }
-)
-SelectListBox.displayName = "Select.List"
-
-export { Select, SelectListBox, SelectContext }
-export type { SelectListProps }
+export { Select, SelectContext }

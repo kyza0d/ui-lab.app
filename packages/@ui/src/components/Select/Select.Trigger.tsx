@@ -5,6 +5,7 @@ import styles from "./Select.module.css"
 import { useSelectContext } from "./Select"
 import { GroupContext } from "../Group/Group"
 import groupStyles from "../Group/Group.module.css"
+import { useMergedRef, handleListKeyDown } from "./Select.shared"
 
 export const SelectTriggerContext = React.createContext<boolean>(false)
 
@@ -16,16 +17,8 @@ interface SelectTriggerProps extends React.PropsWithChildren {
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ children, className, chevron }, ref) => {
     const groupContext = React.useContext(GroupContext)
-    const { triggerProps, triggerRef } = useSelectContext()
-
-    const mergedRef = React.useCallback(
-      (el: HTMLButtonElement | null) => {
-        triggerRef.current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
+    const { triggerProps, triggerRef, mode, selectedKeys } = useSelectContext()
+    const mergedRef = useMergedRef<HTMLButtonElement>(triggerRef, ref)
 
     return (
       <SelectTriggerContext.Provider value={true}>
@@ -40,10 +33,18 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
           type="button"
           {...triggerProps}
         >
-          <div className={styles.valueSection}>
-            {children}
+          <div className={styles['value-section']}>
+            {mode === "multiple" && children === undefined ? (
+              <span className={styles.placeholder}>
+                {selectedKeys && selectedKeys.size > 0
+                  ? `${selectedKeys.size} selected`
+                  : "Select items..."}
+              </span>
+            ) : (
+              children
+            )}
           </div>
-          <div className={styles.iconSection}>
+          <div className={styles['icon-section']}>
             <div className={styles.icon}>
               {chevron !== undefined ? chevron : <FaChevronDown />}
             </div>
@@ -77,72 +78,37 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
     } = useSelectContext()
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [isSearchActive, setIsSearchActive] = React.useState(false)
+    const mergedRef = useMergedRef<HTMLInputElement>(inputRef, ref)
 
-    const mergedRef = React.useCallback(
-      (el: HTMLInputElement | null) => {
-        inputRef.current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
-
-    // Reset search active state when dropdown closes
     React.useEffect(() => {
       if (!isOpen) {
         setIsSearchActive(false)
       }
     }, [isOpen])
 
-    // Show searchValue if user is actively searching (even if empty),
-    // otherwise show the selected value
     const displayValue = isSearchActive ? searchValue : (selectedTextValue || "")
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      switch (e.key) {
-        case 'ArrowDown':
+      if (!isOpen) {
+        if (e.key === 'ArrowDown' || e.key === 'Enter') {
           e.preventDefault()
-          if (!isOpen) {
-            setIsOpen(true)
-          } else {
-            navigateToNextItem()
-          }
-          break
-        case 'ArrowUp':
-          e.preventDefault()
-          if (isOpen) {
-            navigateToPrevItem()
-          }
-          break
-        case 'Enter':
-          e.preventDefault()
-          if (isOpen) {
-            selectFocusedItem()
-          } else {
-            setIsOpen(true)
-          }
-          break
-        case 'Escape':
-          e.preventDefault()
+          setIsOpen(true)
+        }
+        return
+      }
+      handleListKeyDown(e, {
+        navigateNext: navigateToNextItem,
+        navigatePrev: navigateToPrevItem,
+        confirm: selectFocusedItem,
+        close: () => {
           setIsOpen(false)
           setSearchValue("")
           setIsSearchActive(false)
-          break
-        case 'Home':
-          if (isOpen && e.ctrlKey) {
-            e.preventDefault()
-            const firstEnabled = filteredItems.find(item => !item.isDisabled)
-            if (firstEnabled) setFocusedKey(firstEnabled.key)
-          }
-          break
-        case 'End':
-          if (isOpen && e.ctrlKey) {
-            e.preventDefault()
-            const lastEnabled = [...filteredItems].reverse().find(item => !item.isDisabled)
-            if (lastEnabled) setFocusedKey(lastEnabled.key)
-          }
-          break
-      }
+        },
+        filteredItems,
+        setFocusedKey,
+        requireCtrlForHomeEnd: true,
+      })
     }
 
     const handleClick = () => {

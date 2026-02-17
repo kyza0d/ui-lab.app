@@ -56,6 +56,13 @@ const variantMap: Record<Variant, string | undefined> = {
   ghost: styles.ghost,
 }
 
+// Detect Divider elements by checking for separator role or orientation prop
+function isDivider(child: React.ReactNode): boolean {
+  if (!React.isValidElement(child)) return false
+  const props = (child.props || {}) as Record<string, unknown>
+  return props.role === "separator" || "orientation" in props
+}
+
 // Root component
 const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
   (
@@ -89,6 +96,8 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
         <div
           ref={ref}
           className={cn(
+            'group',
+            orientation,
             styles.group,
             orientationMap[orientation],
             spacingMap[spacing],
@@ -99,36 +108,26 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
           aria-disabled={isDisabled || undefined}
           {...props}
         >
-          {childrenArray.flatMap((child, index) => {
+          {childrenArray.map((child, index) => {
             const isFirst = index === 0
             const isLast = index === childrenArray.length - 1
+            const isDividerChild = isDivider(child)
 
-            const elements: React.ReactNode[] = [
+            return (
               <div
                 key={`item-${index}`}
                 className={cn(
-                  styles.itemWrapper,
+                  'item',
+                  styles.item,
                   isVertical ? styles.vertical : styles.horizontal,
                   isFirst && styles.first,
-                  isLast && styles.last
+                  isLast && styles.last,
+                  isDividerChild && styles.divider
                 )}
               >
                 {child}
-              </div>,
-            ]
-
-            // Add divider after this item (unless it's the last item, or variant is ghost)
-            if (!isLast && variant !== "ghost") {
-              elements.push(
-                <div
-                  key={`divider-${index}`}
-                  className={styles.separator}
-                  aria-orientation={orientation}
-                />
-              )
-            }
-
-            return elements
+              </div>
+            )
           })}
         </div>
       </GroupContext.Provider>
@@ -152,7 +151,7 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
 
     if (isInSelectTrigger) {
       return (
-        <span className={cn(styles.groupItem, className)}>
+        <span className={cn(styles['group-item'], className)}>
           {restProps.icon?.left}
           {restProps.children}
           {restProps.icon?.right}
@@ -174,7 +173,7 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
       variant: buttonVariant,
       isDisabled,
       className: cn(
-        styles.groupItem,
+        styles['group-item'],
         active && styles.active,
         className
       ),
@@ -196,7 +195,7 @@ const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
     const disabled = props.disabled ?? context.groupIsDisabled
 
     return (
-      <div className={styles.groupInputWrapper}>
+      <div className={styles['group-input-wrapper']}>
         <Input
           ref={ref}
           {...props}
@@ -220,7 +219,7 @@ const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperPr
     const disabled = props.disabled ?? context.groupIsDisabled
 
     return (
-      <div className={styles.groupInputWrapper}>
+      <div className={styles['group-input-wrapper']}>
         <Input
           ref={ref}
           {...props}
@@ -248,7 +247,7 @@ const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
         ref={ref}
         {...props}
         isDisabled={disabled}
-        className={cn('groupSelectWrapper', styles.groupSelectWrapper, className)}
+        className={cn('groupSelectWrapper', styles['group-select-wrapper'], className)}
       />
     )
   }

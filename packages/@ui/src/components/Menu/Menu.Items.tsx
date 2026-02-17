@@ -1,208 +1,174 @@
 import * as React from "react"
-import { useFocusRing } from "react-aria"
 import { Check, Circle } from "lucide-react"
 import { useMenuContext, useMenuSubmenuContext, useRadioGroupContext } from "./Menu"
-import type { MenuItemProps, MenuCheckboxItemProps, MenuRadioItemProps } from "./Menu"
+import type { MenuItemProps, MenuCheckboxItemProps, MenuRadioItemProps } from "./menu.types"
 import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
+import { List } from "../List"
 
 const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
-  ({ children, disabled = false, onSelect, textValue, inset, className, _index = 0, _isHighlighted, _isInSubmenu }, ref) => {
+  ({ children, disabled = false, onSelect, textValue, inset, className }, ref) => {
     const parentContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
-    const isInSubmenu = _isInSubmenu || (submenuContext?.isOpen ?? false)
-    const { registerItem, unregisterItem, setHighlightedIndex } = isInSubmenu && submenuContext
-      ? submenuContext
-      : parentContext
-    const itemRef = React.useRef<HTMLDivElement>(null)
-    const [isHovered, setIsHovered] = React.useState(false)
-    const { focusProps, isFocusVisible } = useFocusRing()
+    const isInSubmenu = submenuContext?.isOpen ?? false
+    const ctx = isInSubmenu && submenuContext ? submenuContext : parentContext
+    const { registerItem, unregisterItem, setFocusedKey, focusedKey } = ctx
+    const mouseMoveRef = isInSubmenu && submenuContext ? submenuContext.mouseMoveDetectedRef : parentContext.mouseMoveDetectedRef
 
-    const key = React.useMemo(() => textValue ?? String(children) ?? `item-${_index}`, [textValue, children, _index])
+    const key = React.useMemo(() => textValue ?? String(children) ?? `item-${React.useId()}`, [textValue, children])
     const finalTextValue = textValue ?? String(children)
     const close = parentContext.close
+    const isHighlighted = focusedKey === key
 
-    const handleSelect = React.useCallback(() => {
+    const handleSelectRef = React.useRef<() => void>(null)
+    handleSelectRef.current = () => {
       if (disabled) return
       onSelect?.()
       close()
-    }, [disabled, onSelect, close])
+    }
 
     React.useEffect(() => {
-      registerItem(key, finalTextValue, disabled, handleSelect)
+      registerItem(key, finalTextValue, disabled, () => handleSelectRef.current?.())
       return () => unregisterItem(key)
-    }, [key, finalTextValue, disabled, handleSelect])
-
-    const mergedRef = React.useCallback(
-      (el: HTMLDivElement | null) => {
-        (itemRef as React.MutableRefObject<HTMLDivElement | null>).current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
+    }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
     return (
-      <div
-        ref={mergedRef}
+      <List.Item
+        ref={ref}
+        value={key}
         role="menuitem"
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
         className={cn(styles.item, className)}
-        data-highlighted={_isHighlighted || isHovered || undefined}
+        data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-inset={inset || undefined}
-        data-focus-visible={isFocusVisible || undefined}
         onMouseEnter={() => {
-          setIsHovered(true)
-          setHighlightedIndex(_index)
+          if (!disabled) {
+            setFocusedKey(key)
+            mouseMoveRef.current = true
+          }
         }}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={handleSelect}
-        {...focusProps}
+        onClick={() => handleSelectRef.current?.()}
       >
         {children}
-      </div>
+      </List.Item>
     )
   }
 )
 MenuItem.displayName = "MenuItem"
 
 const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
-  ({ children, checked = false, onCheckedChange, disabled = false, onSelect, textValue, className, _index = 0, _isHighlighted, _isInSubmenu }, ref) => {
+  ({ children, checked = false, onCheckedChange, disabled = false, onSelect, textValue, className }, ref) => {
     const parentContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
-    const isInSubmenu = _isInSubmenu || (submenuContext?.isOpen ?? false)
-    const { registerItem, unregisterItem, setHighlightedIndex } = isInSubmenu && submenuContext
-      ? submenuContext
-      : parentContext
-    const itemRef = React.useRef<HTMLDivElement>(null)
-    const [isHovered, setIsHovered] = React.useState(false)
-    const { focusProps, isFocusVisible } = useFocusRing()
+    const isInSubmenu = submenuContext?.isOpen ?? false
+    const ctx = isInSubmenu && submenuContext ? submenuContext : parentContext
+    const { registerItem, unregisterItem, setFocusedKey, focusedKey } = ctx
+    const mouseMoveRef = isInSubmenu && submenuContext ? submenuContext.mouseMoveDetectedRef : parentContext.mouseMoveDetectedRef
 
-    const key = React.useMemo(() => textValue ?? String(children) ?? `checkbox-${_index}`, [textValue, children, _index])
+    const key = React.useMemo(() => textValue ?? String(children) ?? `checkbox-${React.useId()}`, [textValue, children])
     const finalTextValue = textValue ?? String(children)
     const close = parentContext.close
+    const isHighlighted = focusedKey === key
 
-    const handleSelect = React.useCallback(() => {
+    const handleSelectRef = React.useRef<() => void>(null)
+    handleSelectRef.current = () => {
       if (disabled) return
       onCheckedChange?.(!checked)
       onSelect?.()
       close()
-    }, [disabled, checked, onCheckedChange, onSelect, close])
+    }
 
     React.useEffect(() => {
-      registerItem(key, finalTextValue, disabled, handleSelect)
+      registerItem(key, finalTextValue, disabled, () => handleSelectRef.current?.())
       return () => unregisterItem(key)
-    }, [key, finalTextValue, disabled, handleSelect])
-
-    const mergedRef = React.useCallback(
-      (el: HTMLDivElement | null) => {
-        (itemRef as React.MutableRefObject<HTMLDivElement | null>).current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
+    }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
     return (
-      <div
-        ref={mergedRef}
+      <List.Item
+        ref={ref}
+        value={key}
         role="menuitemcheckbox"
         tabIndex={disabled ? -1 : 0}
         aria-checked={checked}
         aria-disabled={disabled || undefined}
         className={cn(styles.checkboxItem, className)}
-        data-highlighted={_isHighlighted || isHovered || undefined}
+        data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-state={checked ? "checked" : "unchecked"}
-        data-focus-visible={isFocusVisible || undefined}
         onMouseEnter={() => {
-          setIsHovered(true)
-          setHighlightedIndex(_index)
+          if (!disabled) {
+            setFocusedKey(key)
+            mouseMoveRef.current = true
+          }
         }}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={handleSelect}
-        {...focusProps}
+        onClick={() => handleSelectRef.current?.()}
       >
         <span className={styles.itemIndicator}>
           {checked && <Check className="h-3 w-3" />}
         </span>
         {children}
-      </div>
+      </List.Item>
     )
   }
 )
 MenuCheckboxItem.displayName = "MenuCheckboxItem"
 
-// ============================================================================
-// Radio Menu Item
-// ============================================================================
-
 const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
-  ({ children, value, disabled = false, onSelect, textValue, className, _index = 0, _isHighlighted, _isInSubmenu }, ref) => {
+  ({ children, value, disabled = false, onSelect, textValue, className }, ref) => {
     const parentContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
-    const isInSubmenu = _isInSubmenu || (submenuContext?.isOpen ?? false)
-    const { registerItem, unregisterItem, setHighlightedIndex } = isInSubmenu && submenuContext
-      ? submenuContext
-      : parentContext
+    const isInSubmenu = submenuContext?.isOpen ?? false
+    const ctx = isInSubmenu && submenuContext ? submenuContext : parentContext
+    const { registerItem, unregisterItem, setFocusedKey, focusedKey } = ctx
+    const mouseMoveRef = isInSubmenu && submenuContext ? submenuContext.mouseMoveDetectedRef : parentContext.mouseMoveDetectedRef
     const radioGroupContext = useRadioGroupContext()
-    const itemRef = React.useRef<HTMLDivElement>(null)
-    const [isHovered, setIsHovered] = React.useState(false)
-    const { focusProps, isFocusVisible } = useFocusRing()
 
     const isSelected = radioGroupContext?.value === value
-    const key = React.useMemo(() => textValue ?? String(children) ?? `radio-${_index}`, [textValue, children, _index])
+    const key = React.useMemo(() => textValue ?? String(children) ?? `radio-${React.useId()}`, [textValue, children])
     const finalTextValue = textValue ?? String(children)
     const close = parentContext.close
+    const isHighlighted = focusedKey === key
 
-    const handleSelect = React.useCallback(() => {
+    const handleSelectRef = React.useRef<() => void>(null)
+    handleSelectRef.current = () => {
       if (disabled) return
       radioGroupContext?.onValueChange(value)
       onSelect?.()
       close()
-    }, [disabled, radioGroupContext, value, onSelect, close])
+    }
 
     React.useEffect(() => {
-      registerItem(key, finalTextValue, disabled, handleSelect)
+      registerItem(key, finalTextValue, disabled, () => handleSelectRef.current?.())
       return () => unregisterItem(key)
-    }, [key, finalTextValue, disabled, handleSelect])
-
-    const mergedRef = React.useCallback(
-      (el: HTMLDivElement | null) => {
-        (itemRef as React.MutableRefObject<HTMLDivElement | null>).current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
+    }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
     return (
-      <div
-        ref={mergedRef}
+      <List.Item
+        ref={ref}
+        value={key}
         role="menuitemradio"
         tabIndex={disabled ? -1 : 0}
         aria-checked={isSelected}
         aria-disabled={disabled || undefined}
         className={cn(styles.radioItem, className)}
-        data-highlighted={_isHighlighted || isHovered || undefined}
+        data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-state={isSelected ? "checked" : "unchecked"}
-        data-focus-visible={isFocusVisible || undefined}
         onMouseEnter={() => {
-          setIsHovered(true)
-          setHighlightedIndex(_index)
+          if (!disabled) {
+            setFocusedKey(key)
+            mouseMoveRef.current = true
+          }
         }}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={handleSelect}
-        {...focusProps}
+        onClick={() => handleSelectRef.current?.()}
       >
         <span className={styles.itemIndicator}>
           {isSelected && <Circle className="h-2 w-2 fill-current" />}
         </span>
         {children}
-      </div>
+      </List.Item>
     )
   }
 )

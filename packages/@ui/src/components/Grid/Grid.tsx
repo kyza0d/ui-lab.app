@@ -42,11 +42,11 @@ const rowsToTpl = (r: GridRows): string =>
   r === "auto" ? "auto" : `repeat(${r}, auto)`;
 
 const gapVal: Record<GridGap, string> = {
-  xs: "var(--spacing-xs, 0.25rem)",
-  sm: "var(--spacing-sm, 0.5rem)",
-  md: "var(--spacing-md, 1rem)",
-  lg: "var(--spacing-lg, 1.5rem)",
-  xl: "var(--spacing-xl, 2rem)",
+  xs: "calc(var(--spacing, 0.25rem) * 1)",
+  sm: "calc(var(--spacing, 0.25rem) * 2)",
+  md: "calc(var(--spacing, 0.25rem) * 4)",
+  lg: "calc(var(--spacing, 0.25rem) * 6)",
+  xl: "calc(var(--spacing, 0.25rem) * 8)",
 };
 
 const flowVal: Record<GridAutoFlow, string> = {
