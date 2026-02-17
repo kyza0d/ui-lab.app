@@ -2,6 +2,9 @@
 
 @layer components {
   .select {
+    --padding: calc(var(--spacing) * 1.5);
+    --radius: calc(var(--padding) * var(--radius-ratio));
+    --inner-radius: calc(var(--radius) - var(--border-width-base));
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -10,9 +13,9 @@
     gap: 0;
     font-size: var(--text-sm);
     background-color: color-mix(in srgb, var(--background-800) 50%, transparent);
-    color: var(--foreground-50);
+    color: var(--foreground-300);
     border: var(--border-width-base) solid var(--background-700);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     user-select: none;
     cursor: pointer;
 
@@ -39,11 +42,12 @@
     user-select: none;
     flex: 1;
     gap: 0;
+    height: 100%;
     min-width: 0;
-    padding: 0.375rem 0.5rem;
+    padding: var(--padding) calc(var(--padding) * 1.50);
 
     &:focus-visible {
-      outline: 2px solid var(--accent-500);
+      box-shadow: 0 0 0 1px var(--ring-color);
       outline-offset: 2px;
     }
 
@@ -56,13 +60,13 @@
     padding: 0;
   }
 
-  .valueSection {
+  .value-section {
     display: flex;
     align-items: center;
     flex: 1;
     min-width: 0;
-    padding: 0.375rem 0.5rem;
-    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    padding: var(--padding) calc(var(--padding) * 1.50);
+    border-radius: var(--inner-radius) 0 0 var(--inner-radius);
     transition: background-color 0.15s ease;
     gap: 0.5rem;
 
@@ -77,19 +81,19 @@
         background-color: var(--background-800);
       }
 
-      .trigger:not([data-disabled]):has(.iconSection:hover) & {
+      .trigger:not([data-disabled]):has(.icon-section:hover) & {
         background-color: transparent;
       }
     }
   }
 
-  .iconSection {
+  .icon-section {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    padding: 0.375rem 0.5rem;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: var(--padding) calc(var(--padding) * 1.50);
+    border-radius: 0 var(--inner-radius) var(--inner-radius) 0;
     transition: background-color 0.15s ease;
 
     @media (hover: hover) {
@@ -98,23 +102,17 @@
       }
 
       .trigger:not([data-disabled]) &:hover {
-        border-radius: var(--radius-sm);
+        background-color: var(--background-700);
       }
     }
-  }
-
-  /* Optional: subtle pressed/expanded state on trigger if you want */
-  .select[aria-expanded="true"] .trigger {
-    /* You can keep this if you want extra contrast when open */
-    /* background: var(--background-800); */
   }
 
   .icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 0.7rem;
+    height: 0.7rem;
     opacity: 0.7;
   }
 
@@ -122,7 +120,6 @@
     transform: rotate(180deg);
   }
 
-  /* The rest remains mostly unchanged */
   .value {
     display: flex;
     align-items: center;
@@ -135,36 +132,30 @@
     padding: 0;
   }
 
-  .valueIcon {
+  .value-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    color: var(--foreground-50);
+    color: var(--foreground-300);
   }
 
-  .valueText {
+  .value-text {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .valueChevron {
-    flex-shrink: 0;
-    width: 0.625rem;
-    height: 0.625rem;
-    margin-left: auto;
-    opacity: 0.7;
-    transition: transform 0.2s ease;
-  }
-
   .content {
+    --padding: calc(var(--spacing) * 1.5);
+    --radius: calc(var(--padding) * var(--radius-ratio));
+    --inner-radius: calc(var(--radius) - var(--border-width-base));
     position: absolute;
     z-index: 50000;
     overflow: hidden;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius);
     border: var(--border-width-base) solid var(--background-700);
     background-color: var(--background-900);
 
@@ -185,10 +176,6 @@
     }
   }
 
-  .viewport {
-    padding: 0.25rem;
-  }
-
   .list {
     @apply space-y-1;
   }
@@ -196,23 +183,17 @@
   .item {
     display: flex;
     align-items: center;
-    @apply py-1.5 px-2;
+    padding: var(--padding);
     @apply gap-2;
-    border-radius: var(--radius-sm);
+    border-radius: var(--inner-radius);
     font-size: var(--text-sm);
     cursor: default;
     user-select: none;
     outline: none;
-    color: var(--foreground-50);
+    color: var(--foreground-300);
 
     &[data-selected="true"] {
-      color: var(--foreground-50);
-    }
-
-    @media (hover: hover) {
-      &:hover:not([data-disabled]) {
-        /* background-color: handled by focus state */
-      }
+      color: var(--foreground-300);
     }
 
     &[data-disabled] {
@@ -221,51 +202,48 @@
       pointer-events: none;
     }
 
-    &[data-focus-visible] {
+    &[data-highlighted="true"] {
       background-color: color-mix(in srgb, var(--background-700) 50%, transparent);
     }
 
-    &[data-hovered] {
-      /* background-color: handled by focus state */
-    }
   }
 
-  .itemIcon {
+  .item-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    color: var(--foreground-50);
+    color: var(--foreground-300);
   }
 
-  .itemIndicator {
+  .item-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    color: var(--accent-500);
+    color: var(--accent-300);
     margin-left: auto;
   }
 
-  .itemContent {
+  .item-content {
     flex: 1;
     min-width: 0;
     display: flex;
     flex-direction: column;
   }
 
-  .itemText {
+  .item-text {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .itemDescription {
+  .item-description {
     font-size: var(--text-xs);
     color: var(--foreground-400);
     overflow: hidden;
@@ -273,16 +251,16 @@
     white-space: nowrap;
   }
 
-  .itemWithDescription {
+  .item-with-description {
     align-items: flex-start;
     @apply py-2;
   }
 
-  .itemIconWithDescription {
+  .item-icon-with-description {
     margin-top: 0.125rem;
   }
 
-  .itemIndicatorWithDescription {
+  .item-indicator-with-description {
     margin-top: 0.125rem;
   }
 
@@ -290,15 +268,6 @@
     margin: 0.25rem -0.25rem;
     height: 1px;
     background-color: var(--background-700);
-  }
-
-  .scrollButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.25rem;
-    cursor: default;
-    color: var(--foreground-50);
   }
 
   @keyframes slideInFromTop {
@@ -343,5 +312,13 @@
       opacity: 0;
       translate: 0 2px;
     }
+  }
+
+  .placeholder {
+    color: var(--foreground-400);
+  }
+
+  .select[data-mode="multiple"] .item {
+    gap: 0.5rem;
   }
 }

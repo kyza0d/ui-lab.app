@@ -28,6 +28,8 @@ interface TabsContextValue {
   isDisabledTab: (value: string) => boolean
   hoveredValue: string | null
   setHoveredValue: (value: string | null) => void
+  indicatorReady: boolean
+  setIndicatorReady: (ready: boolean) => void
 }
 
 const TabsContext = React.createContext<TabsContextValue | null>(null)
@@ -97,6 +99,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       })
     }, [])
 
+    const [indicatorReady, setIndicatorReady] = React.useState(false)
+
     return (
       <TabsContext.Provider
         value={{
@@ -107,6 +111,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           isDisabledTab,
           hoveredValue,
           setHoveredValue,
+          indicatorReady,
+          setIndicatorReady,
         }}
       >
         <div
@@ -138,7 +144,7 @@ interface TabsListProps {
 
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
   ({ className, children, "aria-label": ariaLabel }, ref) => {
-    const { selectedValue, hoveredValue, variant, orientation } = useTabsContext()
+    const { selectedValue, hoveredValue, variant, orientation, setIndicatorReady } = useTabsContext()
     const listRef = React.useRef<HTMLDivElement>(null)
     const [indicator, setIndicator] = React.useState<IndicatorPosition>({
       left: 0,
@@ -150,6 +156,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       width: 0,
       height: 0,
     })
+
 
     const measureTrigger = React.useCallback((element: HTMLElement | null) => {
       if (!element) return null
@@ -197,13 +204,11 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       [measureTrigger]
     )
 
-    React.useEffect(() => {
-      const rafId = requestAnimationFrame(() => {
-        measureList()
-        updateIndicator(selectedValue)
-      })
-      return () => cancelAnimationFrame(rafId)
-    }, [selectedValue, updateIndicator, measureList])
+    React.useLayoutEffect(() => {
+      measureList()
+      updateIndicator(selectedValue)
+      setIndicatorReady(true)
+    }, [selectedValue, updateIndicator, measureList, setIndicatorReady])
 
     React.useEffect(() => {
       if (!listRef.current) return
@@ -237,10 +242,11 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
         willChange: "transform",
         pointerEvents: "none",
+        opacity: indicator.width === 0 && indicator.height === 0 ? 0 : 1,
       }
 
       if (indicator.width === 0 && indicator.height === 0) {
-        return { ...baseStyle, opacity: 0 }
+        return baseStyle
       }
 
       if (orientation === "vertical") {
@@ -249,7 +255,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
             ...baseStyle,
             left: 0,
             top: indicator.top,
-            width: 3,
+            width: 2,
             height: indicator.height,
           }
         }
@@ -269,7 +275,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         return {
           ...baseStyle,
           left: indicator.left,
-          top: indicator.top + indicator.height,
+          top: indicator.top + indicator.height - 2,
           width: indicator.width,
           height: 2,
         }
@@ -303,15 +309,19 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         aria-label={ariaLabel}
         aria-orientation={orientation}
         className={cn("tabsList", styles.tabsList, className)}
+        data-variant={variant}
+        data-orientation={orientation}
         style={{ position: "relative" }}
       >
-        <div
-          className={cn("indicator", styles.indicator, {
-            [styles.indicatorDefault]: variant === "default",
-            [styles.indicatorUnderline]: variant === "underline",
-          })}
-          style={getIndicatorStyle}
-        />
+        {indicator.width > 0 && (
+          <div
+            className={cn("indicator", styles.indicator, {
+              [styles.indicatorDefault]: variant === "default",
+              [styles.indicatorUnderline]: variant === "underline",
+            })}
+            style={getIndicatorStyle}
+          />
+        )}
         {children}
       </div>
     )
@@ -342,7 +352,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
     },
     ref
   ) => {
-    const { selectedValue, setSelectedValue, hoveredValue, setHoveredValue } =
+    const { selectedValue, setSelectedValue, hoveredValue, setHoveredValue, indicatorReady } =
       useTabsContext()
     const buttonRef = React.useRef<HTMLButtonElement>(null)
     const isSelected = value === selectedValue
@@ -433,6 +443,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         data-disabled={disabled ? "true" : undefined}
         data-focus-visible={isFocusVisible ? "true" : undefined}
         data-hovered={isHoverActive ? "true" : "false"}
+        data-indicator-ready={isSelected && indicatorReady ? "true" : undefined}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         onMouseEnter={() => !disabled && setHoveredValue(value)}

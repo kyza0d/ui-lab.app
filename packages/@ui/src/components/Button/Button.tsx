@@ -5,7 +5,7 @@ import { useButton, useFocusRing, useHover, mergeProps } from "react-aria";
 import { cn } from "@/lib/utils";
 import styles from "./Button.module.css";
 
-type ButtonVariant = "primary" | "default" | "secondary" | "outline" | "ghost";
+type ButtonVariant = "primary" | "default" | "secondary" | "outline" | "ghost" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -25,6 +25,7 @@ const variantMap = {
   secondary: styles["secondary"],
   outline: styles["outline"],
   ghost: styles["ghost"],
+  danger: styles["danger"],
 } as const;
 
 const sizeMap = {
@@ -78,8 +79,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         className={cn("button", variant, size, styles.button, variantMap[variant], sizeMap[size], className)}
-        data-variant={variant}
-        data-size={size}
         data-disabled={isButtonDisabled ? "true" : undefined}
         data-pressed={isPressed ? "true" : "false"}
         data-hovered={isHovered ? "true" : "false"}

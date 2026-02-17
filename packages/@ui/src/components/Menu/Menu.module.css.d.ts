@@ -1,6 +1,6 @@
 declare const styles: {
   content: string
-  viewport: string
+  list: string
   item: string
   checkboxItem: string
   radioItem: string
