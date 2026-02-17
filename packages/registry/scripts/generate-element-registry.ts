@@ -100,7 +100,7 @@ function generateIndexFile(elements: DiscoveredElement[]): string {
 
   // Generate imports
   const imports = sortedElements
-    .map((el) => `import ${el.variableName} from './${el.importPath}';`)
+    .map((el) => `import ${el.variableName} from './${el.importPath}/index.js';`)
     .join('\n');
 
   // Generate registry entries
@@ -125,8 +125,8 @@ import type { ElementRegistry } from '../types';
 ${imports}
 
 // Type exports (preserved)
-export type { ElementMetadata, ElementVariant, ElementPackageMetadata } from '../types';
-export type { ElementCategoryId, ElementCategoryDefinition } from './categories';
+export type { ElementMetadata, ElementVariant, ElementPackageMetadata } from '../types.js';
+export type { ElementCategoryId, ElementCategoryDefinition } from './categories.js';
 
 // Category exports (preserved)
 export {
@@ -137,7 +137,7 @@ export {
   groupElementsByCategory,
   getElementsInCategory,
   getCategoriesWithElements,
-} from './categories';
+} from './categories.js';
 
 // Package exports
 export {
@@ -146,7 +146,7 @@ export {
   getAllPackages,
   getElementsInPackage,
   getPackageForElement,
-} from './packages';
+} from './packages.js';
 
 // Registry (auto-generated)
 export const elementRegistry: ElementRegistry = {

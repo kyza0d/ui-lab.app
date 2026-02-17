@@ -24,6 +24,7 @@ const REACT_ARIA_PLACEHOLDERS: Record<string, string> = {
   slider: 'https://react-spectrum.adobe.com/react-aria/useSlider.html',
   select: 'https://react-spectrum.adobe.com/react-aria/useSelect.html',
   modal: 'https://react-spectrum.adobe.com/react-aria/useDialog.html',
+  page: '',
   popover: 'https://react-spectrum.adobe.com/react-aria/usePopover.html',
   tooltip: 'https://react-spectrum.adobe.com/react-aria/useTooltip.html',
   tabs: 'https://react-spectrum.adobe.com/react-aria/useTabs.html',
@@ -45,6 +46,7 @@ const REACT_ARIA_PLACEHOLDERS: Record<string, string> = {
   form: '',
   confirm: '',
   'command-palette': '',
+  panel: '',
 };
 
 function getComponentIds(): string[] {

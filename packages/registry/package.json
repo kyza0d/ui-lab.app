@@ -82,6 +82,14 @@
       "import": "./dist/starters/*/index.js",
       "types": "./dist/starters/*/index.d.ts"
     },
+    "./patterns": {
+      "import": "./dist/patterns/index.js",
+      "types": "./dist/patterns/index.d.ts"
+    },
+    "./patterns/*": {
+      "import": "./dist/patterns/*/index.js",
+      "types": "./dist/patterns/*/index.d.ts"
+    },
     "./demo-registry": {
       "import": "./dist/demo-registry.js",
       "types": "./dist/demo-registry.d.ts"
@@ -95,7 +103,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm generate && npm run build:css && tsc",
+    "build": "pnpm generate && npm run build:css && tsc && node scripts/fix-esm-imports.js",
     "build:css": "pnpm exec postcss src/styles.css -o dist/styles.css",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",
@@ -105,7 +113,7 @@
   "dependencies": {
     "lucide-react": "^0.562.0",
     "react-icons": "^5.5.0",
-    "ui-lab-components": "0.1.6"
+    "ui-lab-components": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
