@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
-import { Button, Group, Divider, Select } from "ui-lab-components";
+import { Button, Group, Divider, Select, Tooltip } from "ui-lab-components";
 import { FaList, FaGrip, FaTable, FaBold, FaItalic, FaUnderline, FaChevronLeft, FaChevronRight, FaEllipsis, FaPlay, FaPlus, FaTrash, FaGear, FaStrikethrough, FaListUl, FaLink, FaImage, FaQuoteLeft } from "react-icons/fa6";
 
 function VariantsPreview() {
@@ -75,7 +75,7 @@ function SplitActionPreview() {
       <Group.Select selectedKey={action} onSelectionChange={setAction}>
         <Group.Button className="border-r border-background-700" size="md">Run Pipeline</Group.Button>
         <Select.Trigger />
-        <Select.Content>
+        <Select.Content >
           <Select.List>
             <Select.Item value="run" textValue="Run Pipeline">Run Pipeline</Select.Item>
             <Select.Item value="schedule" textValue="Schedule Run">Schedule Run</Select.Item>
@@ -93,7 +93,7 @@ function ToolbarPreview() {
     <div className="flex flex-col gap-8">
       <Group orientation="horizontal" spacing="sm">
         <Group.Select selectedKey={textStyle} onSelectionChange={setTextStyle}>
-          <Select.Trigger className='w-34 py-2'>
+          <Select.Trigger className='w-34'>
             <Select.Value placeholder="Text Style" />
           </Select.Trigger>
           <Select.Content>
@@ -107,58 +107,84 @@ function ToolbarPreview() {
           </Select.Content>
         </Group.Select>
 
-        <Divider orientation='vertical' />
-
-        <Group.Button title="Bold">
-          <FaBold size={16} />
-        </Group.Button>
-
-        <Divider orientation='vertical' />
-
-        <Group.Button title="Italic">
-          <FaItalic size={16} />
-        </Group.Button>
+        <Tooltip content="Bold">
+          <Group.Button>
+            <FaBold size={16} />
+          </Group.Button>
+        </Tooltip>
 
         <Divider orientation='vertical' />
 
-        <Group.Button title="More Options">
-          <FaEllipsis size={16} />
-        </Group.Button>
+        <Tooltip content="Italic">
+          <Group.Button>
+            <FaItalic size={16} />
+          </Group.Button>
+        </Tooltip>
+
+        <Divider orientation='vertical' />
+
+        <Tooltip content="More Options">
+          <Group.Button>
+            <FaEllipsis size={16} />
+          </Group.Button>
+        </Tooltip>
 
 
-        <Group.Button title="Underline">
-          <FaUnderline size={16} />
-        </Group.Button>
-        <Group.Button title="Strikethrough">
-          <FaStrikethrough size={16} />
-        </Group.Button>
+        <Tooltip content="Underline">
+          <Group.Button>
+            <FaUnderline size={16} />
+          </Group.Button>
+        </Tooltip>
+        <Tooltip content="Strikethrough">
+          <Group.Button>
+            <FaStrikethrough size={16} />
+          </Group.Button>
+        </Tooltip>
 
-        <Group.Button title="Bullet List">
-          <FaList size={16} />
-        </Group.Button>
-        <Group.Button title="Numbered List">
-          <FaListUl size={16} />
-        </Group.Button>
+        <Tooltip content="Bullet List">
+          <Group.Button>
+            <FaList size={16} />
+          </Group.Button>
+        </Tooltip>
+        <Tooltip content="Numbered List">
+          <Group.Button>
+            <FaListUl size={16} />
+          </Group.Button>
+        </Tooltip>
 
 
-        <Group.Button title="Insert Link">
-          <FaLink size={16} />
-        </Group.Button>
-        <Group.Button title="Insert Image">
-          <FaImage size={16} />
-        </Group.Button>
+        <Tooltip content="Insert Link">
+          <Group.Button>
+            <FaLink size={16} />
+          </Group.Button>
+        </Tooltip>
+        <Tooltip content="Insert Image">
+          <Group.Button>
+            <FaImage size={16} />
+          </Group.Button>
+        </Tooltip>
 
 
-        <Group.Button title="Block Quote">
-          <FaQuoteLeft size={16} />
-        </Group.Button>
+        <Tooltip content="Block Quote">
+          <Group.Button>
+            <FaQuoteLeft size={16} />
+          </Group.Button>
+        </Tooltip>
       </Group>
       <Group orientation="horizontal" spacing="none">
-        <Group.Button title="Bold"><FaBold /></Group.Button>
-        <Group.Button title="Italic"><FaItalic /></Group.Button>
-        <Group.Button title="Underline"><FaUnderline /></Group.Button>
+        <Tooltip content="Bold">
+          <Group.Button><FaBold /></Group.Button>
+        </Tooltip>
+        <Tooltip content="Italic">
+          <Group.Button><FaItalic /></Group.Button>
+        </Tooltip>
+        <Tooltip content="Underline">
+          <Group.Button><FaUnderline /></Group.Button>
+        </Tooltip>
         <Divider orientation="vertical" />
-        <Group.Button title="More options"><FaEllipsis /></Group.Button>
+        <Tooltip content="More options">
+          <Group.Button><FaEllipsis /></Group.Button>
+        </Tooltip>
       </Group>
     </div>
   );
@@ -274,17 +300,25 @@ export function Example() {
     id: "toolbar",
     title: "Editor Toolbar",
     description: "Icon buttons grouped together with a divider to separate related actions.",
-    code: `import { Group, Divider } from "ui-lab-components";
+    code: `import { Group, Divider, Tooltip } from "ui-lab-components";
 import { FaBold, FaItalic, FaUnderline, FaEllipsis } from "react-icons/fa6";
 
 export function EditorToolbar() {
   return (
     <Group orientation="horizontal" spacing="none">
-      <Group.Button title="Bold"><FaBold /></Group.Button>
-      <Group.Button title="Italic"><FaItalic /></Group.Button>
-      <Group.Button title="Underline"><FaUnderline /></Group.Button>
+      <Tooltip content="Bold">
+        <Group.Button><FaBold /></Group.Button>
+      </Tooltip>
+      <Tooltip content="Italic">
+        <Group.Button><FaItalic /></Group.Button>
+      </Tooltip>
+      <Tooltip content="Underline">
+        <Group.Button><FaUnderline /></Group.Button>
+      </Tooltip>
       <Divider orientation="vertical" />
-      <Group.Button title="More options"><FaEllipsis /></Group.Button>
+      <Tooltip content="More options">
+        <Group.Button><FaEllipsis /></Group.Button>
+      </Tooltip>
     </Group>
   );
 }`,

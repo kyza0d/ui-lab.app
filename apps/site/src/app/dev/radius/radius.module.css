@@ -1,0 +1,21 @@
+@reference "tailwindcss";
+
+@layer components {
+  .box {
+    --padding: var(--spacing);
+    --radius-ratio: 0.5;
+
+    padding: var(--padding);
+    border-radius: calc(var(--padding) * var(--radius-ratio));
+    border: var(--border-width-base) solid var(--background-700);
+    background-color: var(--background-800);
+    color: var(--foreground-50);
+  }
+
+  .box.inner {
+    --inner-padding: calc(var(--spacing) * 1.5);
+  }
+  .box.outer {
+    --padding: calc(var(--spacing) * 3);
+  }
+}
