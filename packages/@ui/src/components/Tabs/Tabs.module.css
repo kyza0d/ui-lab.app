@@ -32,12 +32,12 @@
       background-color: transparent;
       border-radius: 0;
       padding: 0;
-      border-bottom: var(--border-width-base) solid var(--background-700);
     }
 
     &[data-variant="underline"][data-orientation="vertical"] {
       border-bottom: none;
-      border-right: var(--border-width-base) solid var(--background-700);
+      border-left: var(--border-width-base) solid var(--background-700);
+      align-items: stretch;
     }
   }
 
@@ -59,8 +59,6 @@
   }
 
   .indicatorUnderline {
-    @apply mt-2;
-
     background-color: var(--accent-500);
     border-radius: 0;
   }
@@ -85,6 +83,7 @@
     border-radius: var(--radius-sm);
     flex-shrink: 0;
 
+
     &:not([data-disabled]) {
       &:hover {
         color: var(--foreground-200);
@@ -97,6 +96,21 @@
 
     &[data-selected="true"] {
       color: var(--foreground-50);
+    }
+
+    &[data-selected="true"]:not([data-indicator-ready="true"]) {
+      .tabsList:not([data-variant="underline"]) & {
+        background-color: color-mix(in srgb, var(--background-700) 50%, transparent);
+      }
+
+      .tabsList[data-variant="underline"] & {
+        border-bottom-color: var(--accent-500);
+      }
+
+      .tabsList[data-variant="underline"][data-orientation="vertical"] & {
+        border-bottom-color: transparent;
+        border-left-color: var(--accent-500);
+      }
     }
 
     &[data-focus-visible] {
@@ -116,17 +130,13 @@
       border-bottom: 2px solid transparent;
     }
 
-    .tabsList[data-variant="underline"] &[data-selected="true"] {
-      border-bottom-color: var(--accent-500);
-    }
-
     .tabsList[data-variant="underline"][data-orientation="vertical"] & {
       border-bottom: none;
-      border-right: 2px solid transparent;
+      border-left: 2px solid transparent;
     }
 
-    .tabsList[data-variant="underline"][data-orientation="vertical"] &[data-selected="true"] {
-      border-right-color: var(--accent-500);
+    .tabsList[data-variant="underline"][data-orientation="vertical"] &[data-selected="true"]:not([data-indicator-ready="true"]) {
+      border-left-color: var(--accent-500);
       border-bottom: none;
     }
   }

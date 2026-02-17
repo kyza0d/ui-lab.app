@@ -4,23 +4,27 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useMemo,
   useCallback,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import { createPortal } from "react-dom";
 import { useOverlayTriggerState } from "@react-stately/overlays";
 import { useDialog } from "@react-aria/dialog";
-import { useSearchField } from "@react-aria/searchfield";
-import { useSearchFieldState } from "@react-stately/searchfield";
 import { FocusScope } from "@react-aria/focus";
 import { filterDOMProps } from "@react-aria/utils";
 import { cn } from "@/lib/utils";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useScrollLock } from "../../hooks/useScrollLock";
 import { Card } from "../Card";
 import { Badge } from "../Badge";
+import { Scroll } from "../Scroll";
+import { List } from "../List";
+import type { Key } from "react-aria";
 import styles from "./Command.module.css";
 
-interface Command {
+export interface CommandItem {
   id: string;
   label: string;
   description?: string;
@@ -31,304 +35,153 @@ interface Command {
   action: () => void | Promise<void>;
 }
 
-interface CommandPaletteProps {
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  commands?: Command[];
-  onCommandExecute?: (command: Command) => void;
-  placeholder?: string;
-  emptyStateMessage?: string;
-  showCategories?: boolean;
-  closeOnExecute?: boolean;
-  className?: string;
-  contentClassName?: string;
-  overlayClassName?: string;
-  enableSmartSearch?: boolean;
+export interface CommandGroupedItems {
+  category: string | undefined;
+  items: CommandItem[];
 }
 
-export type { CommandPaletteProps };
+interface CommandContextValue {
+  isOpen: boolean;
+  close: () => void;
+  focusedKey: Key | null;
+  setFocusedKey: Dispatch<SetStateAction<Key | null>>;
+  registerItem: (key: Key, textValue: string) => void;
+  unregisterItem: (key: Key) => void;
+  actionRef: React.MutableRefObject<Map<Key, () => void | Promise<void>>>;
+  searchInputRef: React.MutableRefObject<HTMLInputElement | null>;
+  scrollableRef: React.MutableRefObject<HTMLDivElement | null>;
+  searchValue: string;
+  setSearchValue: Dispatch<SetStateAction<string>>;
+  filteredItems: CommandItem[];
+  groupedItems: CommandGroupedItems[];
+}
 
-/**
- * Search ranking utility: Scores command relevance to query
- */
-function scoreCommandRelevance(command: Command, query: string): number {
-  const label = command.label.toLowerCase();
-  const description = (command.description || "").toLowerCase();
-  const id = command.id.toLowerCase();
+const CommandContext = React.createContext<CommandContextValue | undefined>(
+  undefined,
+);
 
-  // Exact match on label (highest priority - 1000)
-  if (label === query) {
-    return 1000;
+function useCommandContext() {
+  const ctx = React.useContext(CommandContext);
+  if (!ctx) {
+    throw new Error("Command sub-components must be used within Command");
   }
-  // Label starts with query (900)
-  if (label.startsWith(query)) {
-    return 900;
-  }
-  // Exact word match in label (800)
-  if (label.split(/\s+/).some((word: string) => word === query)) {
-    return 800;
-  }
-  // Partial match in label, earlier is better (700-710)
-  if (label.includes(query)) {
-    const index = label.indexOf(query);
+  return ctx;
+}
+
+function scoreCommandRelevance(
+  text: string,
+  query: string,
+): number {
+  const t = text.toLowerCase();
+  const q = query.toLowerCase();
+
+  if (t === q) return 1000;
+  if (t.startsWith(q)) return 900;
+  if (t.split(/\s+/).some((word) => word === q)) return 800;
+  if (t.includes(q)) {
+    const index = t.indexOf(q);
     return 710 - Math.min(index, 10);
   }
-  // Exact word match in description (300)
-  if (description.split(/\s+/).some((word: string) => word === query)) {
-    return 300;
-  }
-  // Partial match in description (200)
-  if (description.includes(query)) {
-    return 200;
-  }
-  // Partial match in ID (100)
-  if (id.includes(query)) {
-    return 100;
-  }
-
   return 0;
 }
 
-/**
- * Search Field component using react-aria useSearchField
- */
-function PaletteSearchInput({
-  searchValue,
-  onSearchChange,
-  placeholder,
-  inputRef,
-}: {
-  searchValue: string;
-  onSearchChange: (value: string) => void;
-  placeholder: string;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-}) {
-  const state = useSearchFieldState({
-    value: searchValue,
-    onChange: onSearchChange,
-  });
+// ============================================================================
+// Command (root component)
+// ============================================================================
 
-  const { inputProps, clearButtonProps } = useSearchField(
-    {
-      "aria-label": "Search commands",
-      value: state.value,
-      onClear: () => {
-        onSearchChange("");
-      },
-      placeholder,
-    },
-    state,
-    inputRef,
-  );
-
-  // Handle input change directly to ensure filtering works
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.currentTarget.value;
-      onSearchChange(value);
-    },
-    [onSearchChange],
-  );
-
-  return (
-    <div className={styles["search-container"]}>
-      <div className={styles["search-icon"]}>
-        <FaMagnifyingGlass className="w-4 h-4" />
-      </div>
-      <input
-        {...filterDOMProps(inputProps)}
-        ref={inputRef}
-        value={searchValue}
-        onChange={handleInputChange}
-        className={styles["search-input"]}
-      />
-      <button
-        {...filterDOMProps(clearButtonProps)}
-        aria-label="Clear search"
-        className={styles["search-clear"]}
-      >
-        ✕
-      </button>
-    </div>
-  );
+export interface CommandProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  className?: string;
+  overlayClassName?: string;
+  items?: CommandItem[];
+  filter?: (command: CommandItem, query: string) => boolean;
+  children?: ReactNode;
 }
 
-/**
- * Command List Item component
- */
-function CommandListItemSimple({
-  command,
-  isSelected,
-  onSelect,
-}: {
-  command: Command;
-  isSelected: boolean;
-  onSelect: (command: Command) => void;
-}) {
-  return (
-    <div
-      onClick={() => onSelect(command)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          onSelect(command);
-        }
-      }}
-      role="option"
-      aria-selected={isSelected ? "true" : "false"}
-      tabIndex={isSelected ? 0 : -1}
-      className={cn("item", styles["item"])}
-    >
-      <div className={cn("item-content", styles["item-content"])}>
-        {command.icon && (
-          <div className={styles["item-icon"]}>{command.icon}</div>
-        )}
-        <div className={styles["item-labels"]}>
-          <div className={styles["item-label"]}>{command.label}</div>
-          {command.description && (
-            <div className={styles["item-description"]}>
-              {command.description}
-            </div>
-          )}
-        </div>
-      </div>
-      {command.shortcut && (
-        <Badge
-          size="sm"
-          variant="default"
-          className="ml-3 flex-shrink-0 font-mono"
-        >
-          {command.shortcut}
-        </Badge>
-      )}
-    </div>
-  );
-}
-
-/**
- * Command List component - renders filtered commands
- */
-function CommandList({
-  commands,
-  selectedIndex,
-  onSelect,
-  loading,
-  emptyMessage,
-  showCategories,
-}: {
-  commands: Command[];
-  selectedIndex: number;
-  onSelect: (command: Command) => void;
-  loading: boolean;
-  emptyMessage: string;
-  showCategories?: boolean;
-}) {
-  const listRef = useRef<HTMLDivElement>(null);
-
-  // Scroll selected item into view
-  useEffect(() => {
-    if (listRef.current) {
-      // We need to account for category headers which are also children
-      // The logic below assumes children are only items.
-      // With category headers, we can't just use index.
-      // Better approach: querySelector for the selected item?
-      const selectedItem = listRef.current.querySelector(
-        '[aria-selected="true"]',
-      );
-      if (selectedItem) {
-        (selectedItem as HTMLElement).scrollIntoView({
-          block: "nearest",
-        });
-      }
-    }
-  }, [selectedIndex, commands]); // Added commands dependency
-
-  return (
-    <div
-      ref={listRef}
-      className={cn("list", styles["list"])}
-      role="listbox"
-      aria-label="Commands"
-    >
-      {commands.length === 0 ? (
-        <div className={styles["empty"]}>{emptyMessage}</div>
-      ) : (
-        commands.map((command, idx) => {
-          const prev = commands[idx - 1];
-          const showHeader =
-            showCategories &&
-            command.category &&
-            (!prev || prev.category !== command.category);
-
-          return (
-            <React.Fragment key={command.id}>
-              {showHeader && (
-                <div className={styles["category-header"]}>
-                  {command.category}
-                </div>
-              )}
-              <CommandListItemSimple
-                command={command}
-                isSelected={idx === selectedIndex}
-                onSelect={onSelect}
-              />
-            </React.Fragment>
-          );
-        })
-      )}
-    </div>
-  );
-}
-
-/**
- * Command component that provides keyboard-accessible command execution
- * with search, categories, and keyboard navigation using react-aria hooks.
- */
-const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
+const Command = React.forwardRef<HTMLDivElement, CommandProps>(
   (
-    {
-      open = false,
-      onOpenChange,
-      commands = [],
-      onCommandExecute,
-      placeholder = "Type a command or search...",
-      emptyStateMessage = "No commands found.",
-      showCategories = true,
-      closeOnExecute = true,
-      className,
-      contentClassName,
-      overlayClassName,
-    },
+    { open = false, onOpenChange, className, overlayClassName, items = [], filter, children },
     ref,
   ) => {
     const [mounted, setMounted] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
-
-    // Modal state management
     const overlayState = useOverlayTriggerState({
       isOpen: open,
-      onOpenChange: (newOpen) => {
-        if (!newOpen) {
-          setSearchQuery("");
-        }
-        onOpenChange?.(newOpen);
-      },
+      onOpenChange,
     });
 
     const modalRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
     const paletteRef = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const scrollableRef = useRef<HTMLDivElement>(null);
 
-    // Use combined refs
+    useScrollLock(overlayState.isOpen, scrollableRef.current);
+    const itemsRef = useRef<Map<Key, string>>(new Map());
+    const actionRef = useRef<Map<Key, () => void | Promise<void>>>(
+      new Map(),
+    );
+    const focusedKeyRef = useRef<Key | null>(null);
+
+    const [focusedKey, setFocusedKey] = useState<Key | null>(null);
+    const [itemCount, setItemCount] = useState(0);
+    const [searchValue, setSearchValue] = useState("");
+
+    const filteredItems = items.filter((cmd) => !filter || filter(cmd, searchValue));
+
+    const groupedItems = React.useMemo(() => {
+      const groups = new Map<string | undefined, CommandItem[]>();
+      filteredItems.forEach((cmd) => {
+        const cat = cmd.category;
+        if (!groups.has(cat)) {
+          groups.set(cat, []);
+        }
+        groups.get(cat)!.push(cmd);
+      });
+
+      // Maintain category order from original items
+      const categoryOrder = new Map<string | undefined, number>();
+      let idx = 0;
+      items.forEach((cmd) => {
+        if (!categoryOrder.has(cmd.category)) {
+          categoryOrder.set(cmd.category, idx++);
+        }
+      });
+
+      return Array.from(groups.entries())
+        .sort(
+          ([a], [b]) =>
+            (categoryOrder.get(a) ?? Infinity) - (categoryOrder.get(b) ?? Infinity),
+        )
+        .map(([category, items]) => ({ category, items }));
+    }, [filteredItems, items]);
+
     React.useImperativeHandle(ref, () => paletteRef.current as HTMLDivElement);
 
-    // Handle mount to prevent hydration issues
     useEffect(() => {
       setMounted(true);
     }, []);
 
-    // Global keyboard shortcut listener (Cmd+K / Ctrl+K)
+    // Sync focusedKeyRef with focusedKey
+    useEffect(() => {
+      focusedKeyRef.current = focusedKey;
+    }, [focusedKey]);
+
+    // Auto-focus search input when opening
+    useEffect(() => {
+      if (overlayState.isOpen && searchInputRef.current) {
+        setTimeout(() => searchInputRef.current?.focus(), 0);
+      }
+    }, [overlayState.isOpen]);
+
+    // Cleanup state when overlay closes
+    useEffect(() => {
+      if (!overlayState.isOpen) {
+        scrollableRef.current = null;
+        setSearchValue("");
+      }
+    }, [overlayState.isOpen]);
+
+    // Cmd+K global listener
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         const isMac =
@@ -348,148 +201,94 @@ const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
       };
     }, [overlayState]);
 
-    // Handle command execution
-    const handleExecuteCommand = useCallback(
-      async (command: Command) => {
-        try {
-          setLoading(true);
-          onCommandExecute?.(command);
-          await command.action();
-          if (closeOnExecute) {
-            overlayState.close();
-          }
-        } catch (error) {
-          console.error(`Error executing command ${command.id}:`, error);
-        } finally {
-          setLoading(false);
-        }
-      },
-      [closeOnExecute, onCommandExecute, overlayState],
-    );
-
-    // Determine category order based on original commands array
-    const categoryOrder = useMemo(() => {
-      const order = new Map<string, number>();
-      let idx = 0;
-      commands.forEach((c) => {
-        if (c.category && !order.has(c.category)) {
-          order.set(c.category, idx++);
-        }
-      });
-      return order;
-    }, [commands]);
-
-    // Filter and sort commands based on search query
-    const filteredCommands = useMemo(() => {
-      const query = searchQuery.toLowerCase().trim();
-
-      if (!query) {
-        return commands;
-      }
-
-      const results = commands
-        .map((command) => ({
-          command,
-          score: scoreCommandRelevance(command, query),
-        }))
-        .filter(({ score }) => score > 0);
-
-      if (showCategories) {
-        results.sort((a, b) => {
-          // Sort by category first
-          const catA = a.command.category;
-          const catB = b.command.category;
-
-          if (catA !== catB) {
-            if (!catA) return 1; // No category goes last
-            if (!catB) return -1;
-
-            const orderA = categoryOrder.get(catA) ?? Infinity;
-            const orderB = categoryOrder.get(catB) ?? Infinity;
-            return orderA - orderB;
-          }
-
-          // Then by score
-          return b.score - a.score;
-        });
-      } else {
-        results.sort((a, b) => b.score - a.score);
-      }
-
-      return results.map(({ command }) => command);
-    }, [commands, searchQuery, showCategories, categoryOrder]);
-
-    // Manage keyboard navigation state manually
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
-    // Handle keyboard navigation
+    // Auto-focus first item when items change (filtering, opening)
     useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (!overlayState.isOpen) return;
+      if (!overlayState.isOpen) return;
 
+      const keys = Array.from(itemsRef.current.keys());
+      if (keys.length > 0) {
+        setFocusedKey(keys[0]);
+      } else {
+        setFocusedKey(null);
+      }
+    }, [itemCount, overlayState.isOpen]);
+
+    // Keyboard navigation
+    useEffect(() => {
+      if (!overlayState.isOpen) return;
+
+      const handleKeyDown = (event: KeyboardEvent) => {
         switch (event.key) {
-          case "ArrowDown":
+          case "ArrowDown": {
             event.preventDefault();
-            setSelectedIndex((prev) =>
-              prev < filteredCommands.length - 1 ? prev + 1 : 0,
-            );
-            break;
-          case "ArrowUp":
-            event.preventDefault();
-            setSelectedIndex((prev) =>
-              prev > 0 ? prev - 1 : filteredCommands.length - 1,
-            );
-            break;
-          case "Enter":
-            event.preventDefault();
-            if (filteredCommands[selectedIndex]) {
-              handleExecuteCommand(filteredCommands[selectedIndex]);
+            const keys = Array.from(itemsRef.current.keys());
+            if (keys.length === 0) return;
+            if (focusedKey === null) {
+              setFocusedKey(keys[0]);
+            } else {
+              const idx = keys.indexOf(focusedKey);
+              setFocusedKey(keys[(idx + 1) % keys.length]);
             }
             break;
-          case "Escape":
+          }
+          case "ArrowUp": {
+            event.preventDefault();
+            const keys = Array.from(itemsRef.current.keys());
+            if (keys.length === 0) return;
+            if (focusedKey === null) {
+              setFocusedKey(keys[keys.length - 1]);
+            } else {
+              const idx = keys.indexOf(focusedKey);
+              setFocusedKey(keys[idx === 0 ? keys.length - 1 : idx - 1]);
+            }
+            break;
+          }
+          case "Enter": {
+            event.preventDefault();
+            if (focusedKey !== null) {
+              const action = actionRef.current.get(focusedKey);
+              if (action) {
+                action();
+                overlayState.close();
+              }
+            }
+            break;
+          }
+          case "Escape": {
             event.preventDefault();
             overlayState.close();
             break;
+          }
         }
       };
 
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [
-      overlayState.isOpen,
-      filteredCommands,
-      selectedIndex,
-      handleExecuteCommand,
-      overlayState,
-    ]);
+    }, [overlayState.isOpen, focusedKey]);
 
-    // Reset selection when search changes
-    useEffect(() => {
-      setSelectedIndex(0);
-    }, [searchQuery]);
+    const registerItem = useCallback((key: Key, textValue: string) => {
+      itemsRef.current.set(key, textValue);
+      setItemCount((c) => c + 1);
+    }, []);
 
-    // Auto-focus the search input when palette opens
-    useEffect(() => {
-      if (overlayState.isOpen && inputRef.current) {
-        inputRef.current.focus();
-      }
-    }, [overlayState.isOpen]);
+    const unregisterItem = useCallback((key: Key) => {
+      itemsRef.current.delete(key);
+      setItemCount((c) => c + 1);
+    }, []);
 
-    // Dialog behavior for accessibility
-    const { dialogProps } = useDialog(
-      { "aria-label": "Command palette" },
-      modalRef,
-    );
-
-    // Handle click outside to dismiss (without scroll locking)
+    // Click outside to close
     const handleOverlayClick = useCallback(
       (e: React.MouseEvent) => {
-        // Only close if clicking directly on the overlay, not on children
         if (e.target === e.currentTarget) {
           overlayState.close();
         }
       },
       [overlayState],
+    );
+
+    const { dialogProps } = useDialog(
+      { "aria-label": "Command palette" },
+      modalRef,
     );
 
     if (!mounted || !overlayState.isOpen) {
@@ -499,10 +298,13 @@ const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
     return createPortal(
       <FocusScope contain restoreFocus>
         <div
-          className={cn(styles["palette"], styles["overlay"], overlayClassName)}
+          className={cn(
+            styles["palette"],
+            styles["overlay"],
+            overlayClassName,
+          )}
           onClick={handleOverlayClick}
         >
-          {/* Command Palette content */}
           <Card
             {...filterDOMProps(dialogProps)}
             ref={modalRef}
@@ -510,46 +312,25 @@ const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
             role="dialog"
             aria-modal="true"
           >
-            <Card.Header className={styles["search"]}>
-              {/* Search Input */}
-              <PaletteSearchInput
-                searchValue={searchQuery}
-                onSearchChange={setSearchQuery}
-                placeholder={placeholder}
-                inputRef={inputRef}
-              />
-            </Card.Header>
-
-            <div className={cn(styles["inner"], contentClassName)}>
-              {/* Results List */}
-              <CommandList
-                commands={filteredCommands}
-                selectedIndex={selectedIndex}
-                onSelect={handleExecuteCommand}
-                loading={loading}
-                emptyMessage={emptyStateMessage}
-                showCategories={showCategories}
-              />
-            </div>
-            <Card.Footer className={styles["footer"]}>
-              {/* Footer hint */}
-              {commands.length > 0 && (
-                <>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">Navigate</span>
-                    <Badge size="sm" variant="default">↑↓</Badge>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">Select</span>
-                    <Badge size="sm" variant="default">↵</Badge>
-                  </div>
-                  <div className="ml-auto flex items-center gap-2">
-                    <span className="text-sm">Close</span>
-                    <Badge size="sm" variant="default">Esc</Badge>
-                  </div>
-                </>
-              )}
-            </Card.Footer>
+            <CommandContext.Provider
+              value={{
+                isOpen: overlayState.isOpen,
+                close: overlayState.close,
+                focusedKey,
+                setFocusedKey,
+                registerItem,
+                unregisterItem,
+                actionRef,
+                searchInputRef,
+                scrollableRef,
+                searchValue,
+                setSearchValue,
+                filteredItems,
+                groupedItems,
+              }}
+            >
+              {children}
+            </CommandContext.Provider>
           </Card>
         </div>
       </FocusScope>,
@@ -560,5 +341,264 @@ const Command = React.forwardRef<HTMLDivElement, CommandPaletteProps>(
 
 Command.displayName = "Command";
 
-export { Command };
-export { Command as CommandPalette };
+// ============================================================================
+// Command.SearchInput
+// ============================================================================
+
+interface CommandSearchInputProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}
+
+const CommandSearchInput = React.forwardRef<
+  HTMLInputElement,
+  CommandSearchInputProps
+>(({ value: externalValue, onChange: externalOnChange, placeholder = "Search..." }, ref) => {
+  const { searchInputRef, searchValue, setSearchValue } = useCommandContext();
+
+  // Use external value/onChange if provided, otherwise use internal context state
+  const value = externalValue !== undefined ? externalValue : searchValue;
+  const onChange = externalOnChange || setSearchValue;
+
+  // Use internal Command ref for auto-focus, or user-provided ref
+  const inputRef = (ref || searchInputRef) as React.RefObject<HTMLInputElement>;
+
+  return (
+    <Card.Header className={styles["search"]}>
+      <div className={styles["search-container"]}>
+        <div className={styles["search-icon"]}>
+          <FaMagnifyingGlass className="w-4 h-4" />
+        </div>
+        <input
+          ref={inputRef}
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className={styles["search-input"]}
+          aria-label="Search commands"
+        />
+        {value && (
+          <button
+            aria-label="Clear search"
+            onClick={() => onChange("")}
+            className={styles["search-clear"]}
+          >
+            ✕
+          </button>
+        )}
+      </div>
+    </Card.Header>
+  );
+});
+
+CommandSearchInput.displayName = "Command.SearchInput";
+
+// ============================================================================
+// Command.List
+// ============================================================================
+
+interface CommandListProps {
+  children?: ReactNode;
+  emptyMessage?: string;
+  className?: string;
+}
+
+const CommandListComponent = React.forwardRef<
+  HTMLDivElement,
+  CommandListProps
+>(({ children, emptyMessage = "No items found.", className }, ref) => {
+  const { scrollableRef } = useCommandContext();
+
+  return (
+    <div className={cn(styles["inner"], className)}>
+      <Scroll
+        ref={(el) => {
+          if (ref) {
+            if (typeof ref === "function") {
+              ref(el);
+            } else {
+              ref.current = el;
+            }
+          }
+          scrollableRef.current = el;
+        }}
+        className={styles["list"]}
+        maxHeight="44dvh"
+        fadeY={true}
+      >
+        <div role="listbox" aria-label="Commands">
+          {!children ? (
+            <div className={styles["empty"]}>{emptyMessage}</div>
+          ) : (
+            children
+          )}
+        </div>
+      </Scroll>
+    </div>
+  );
+});
+
+CommandListComponent.displayName = "Command.List";
+
+// ============================================================================
+// Command.Item
+// ============================================================================
+
+interface CommandItemProps {
+  value: Key;
+  textValue: string;
+  action: () => void | Promise<void>;
+  children?: ReactNode;
+  className?: string;
+}
+
+const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
+  ({ value, textValue, action, children, className }, ref) => {
+    const { focusedKey, registerItem, unregisterItem, actionRef } =
+      useCommandContext();
+
+    useEffect(() => {
+      registerItem(value, textValue);
+      actionRef.current.set(value, action);
+      return () => {
+        unregisterItem(value);
+        actionRef.current.delete(value);
+      };
+    }, [value, textValue, action, registerItem, unregisterItem, actionRef]);
+
+    const isHighlighted = focusedKey === value;
+
+    return (
+      <div
+        ref={ref}
+        data-highlighted={isHighlighted}
+        role="option"
+        aria-selected={isHighlighted}
+        onClick={() => action()}
+        className={cn("item", styles["item"], className)}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+CommandItem.displayName = "Command.Item";
+
+// ============================================================================
+// Command.Category
+// ============================================================================
+
+interface CommandCategoryProps {
+  children?: ReactNode;
+  className?: string;
+}
+
+const CommandCategory = React.forwardRef<
+  HTMLDivElement,
+  CommandCategoryProps
+>(({ children, className }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={cn(styles["category-header"], className)}
+    >
+      {children}
+    </div>
+  );
+});
+
+CommandCategory.displayName = "Command.Category";
+
+// ============================================================================
+// Command.Footer
+// ============================================================================
+
+interface CommandFooterProps {
+  children?: ReactNode;
+  className?: string;
+}
+
+const CommandFooter = React.forwardRef<HTMLDivElement, CommandFooterProps>(
+  ({ children, className }, ref) => {
+    return (
+      <Card.Footer ref={ref} className={cn(styles["footer"], className)}>
+        {children}
+      </Card.Footer>
+    );
+  },
+);
+
+CommandFooter.displayName = "Command.Footer";
+
+// ============================================================================
+// Command.Groups
+// ============================================================================
+
+export interface CommandGroupsProps {
+  renderCategory?: (category: string | undefined) => ReactNode;
+  renderItem: (command: CommandItem) => ReactNode;
+  className?: string;
+}
+
+const CommandGroups = React.forwardRef<HTMLDivElement, CommandGroupsProps>(
+  ({ renderCategory, renderItem, className }, ref) => {
+    const { groupedItems } = useCommandContext();
+
+    return (
+      <div ref={ref} className={className}>
+        {groupedItems.map(({ category, items }) => (
+          <div key={category || "uncategorized"}>
+            {renderCategory && renderCategory(category)}
+            {items.map((cmd) => (
+              <React.Fragment key={cmd.id}>{renderItem(cmd)}</React.Fragment>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  },
+);
+
+CommandGroups.displayName = "Command.Groups";
+
+// ============================================================================
+// Compound Component Type
+// ============================================================================
+
+interface CommandComponent
+  extends React.ForwardRefExoticComponent<
+    CommandProps & React.RefAttributes<HTMLDivElement>
+  > {
+  SearchInput: typeof CommandSearchInput;
+  List: typeof CommandListComponent;
+  Item: typeof CommandItem;
+  Category: typeof CommandCategory;
+  Footer: typeof CommandFooter;
+  Groups: typeof CommandGroups;
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+const CommandWithSubcomponents = Object.assign(Command, {
+  SearchInput: CommandSearchInput,
+  List: CommandListComponent,
+  Item: CommandItem,
+  Category: CommandCategory,
+  Footer: CommandFooter,
+  Groups: CommandGroups,
+}) as CommandComponent;
+
+export { CommandWithSubcomponents as Command };
+export { CommandSearchInput as CommandInput };
+export { CommandListComponent as CommandListComponent };
+export { CommandCategory };
+export { CommandFooter };
+export { CommandGroups };
+export { scoreCommandRelevance };
+export { useCommandContext };

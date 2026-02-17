@@ -9,7 +9,12 @@ export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   maxHeight?: string;
   maxWidth?: string;
   direction?: "vertical" | "horizontal";
+  paddingY?: string | number;
   fadeY?: boolean;
+  fadeDistance?: number;
+  fadeSize?: number;
+  enabled?: boolean;
+  hide?: boolean;
 }
 
 const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
@@ -20,7 +25,12 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       maxHeight = "100%",
       maxWidth = "100%",
       direction = "vertical",
+      paddingY = 4,
       fadeY = false,
+      fadeDistance = 5,
+      fadeSize = 4,
+      enabled = true,
+      hide = true,
       ...props
     },
     ref
@@ -46,45 +56,55 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
 
       const container = containerRef.current;
       const content = contentRef.current;
+      const paddingYValue = paddingY ? (typeof paddingY === 'number' ? paddingY : parseInt(paddingY)) : 0;
 
       if (direction === "horizontal") {
         const containerWidth = container.clientWidth;
-        const contentWidth = content.scrollWidth;
+        const contentWidth = content.scrollWidth || containerWidth;
         const scrollLeft = content.scrollLeft;
 
         const needs = contentWidth > containerWidth;
         setNeedsScrollbar(needs);
 
-        if (needs) {
-          const scrollRatio = containerWidth / contentWidth;
-          const newThumbWidth = Math.max(20, containerWidth * scrollRatio);
-          const scrollProgress = scrollLeft / (contentWidth - containerWidth);
-          const maxThumbLeft = containerWidth - newThumbWidth;
-          const newThumbLeft = scrollProgress * maxThumbLeft;
+        const scrollRatio = containerWidth / Math.max(1, contentWidth);
+        const newThumbWidth = Math.max(20, Math.min(containerWidth, containerWidth * scrollRatio));
+        const scrollProgress = needs ? scrollLeft / (contentWidth - containerWidth) : 0;
+        const maxThumbLeft = containerWidth - newThumbWidth;
+        const newThumbLeft = scrollProgress * maxThumbLeft;
 
-          setThumbSize(newThumbWidth);
-          setThumbPosition(newThumbLeft);
-        }
+        setThumbSize(newThumbWidth);
+        setThumbPosition(newThumbLeft);
       } else {
         const containerHeight = container.clientHeight;
-        const contentHeight = content.scrollHeight;
+        const contentHeight = content.scrollHeight || containerHeight;
         const scrollTop = content.scrollTop;
+        const trackHeight = containerHeight - (paddingYValue * 2);
 
         const needs = contentHeight > containerHeight;
         setNeedsScrollbar(needs);
 
-        if (needs) {
-          const scrollRatio = containerHeight / contentHeight;
-          const newThumbHeight = Math.max(20, containerHeight * scrollRatio);
-          const scrollProgress = scrollTop / (contentHeight - containerHeight);
-          const maxThumbTop = containerHeight - newThumbHeight;
-          const newThumbTop = scrollProgress * maxThumbTop;
+        const scrollRatio = trackHeight / Math.max(1, contentHeight);
+        const newThumbHeight = Math.max(20, Math.min(trackHeight, trackHeight * scrollRatio));
+        const scrollProgress = needs ? scrollTop / (contentHeight - containerHeight) : 0;
+        const maxThumbTop = trackHeight - newThumbHeight;
+        const newThumbTop = scrollProgress * maxThumbTop;
 
-          setThumbSize(newThumbHeight);
-          setThumbPosition(newThumbTop);
+        setThumbSize(newThumbHeight);
+        setThumbPosition(newThumbTop);
+
+        if (fadeY && needs) {
+          const maxScroll = contentHeight - containerHeight;
+          const topP = Math.min(1, Math.max(0, scrollTop / fadeDistance));
+          const botP = Math.min(1, Math.max(0, (maxScroll - scrollTop) / fadeDistance));
+          const gradient = `linear-gradient(to bottom, transparent 0%, black ${topP * fadeSize}%, black ${100 - botP * fadeSize}%, transparent 100%)`;
+          content.style.maskImage = gradient;
+          content.style.webkitMaskImage = gradient;
+        } else {
+          content.style.maskImage = "";
+          content.style.webkitMaskImage = "";
         }
       }
-    }, [contentRef, direction]);
+    }, [contentRef, direction, paddingY, fadeY, fadeDistance, fadeSize]);
 
     const handleScroll = useCallback(() => {
       updateScrollbar();
@@ -202,6 +222,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         const content = contentRef.current;
         const rect = container.getBoundingClientRect();
         const thumbRect = thumbRef.current.getBoundingClientRect();
+        const paddingYValue = paddingY ? (typeof paddingY === 'number' ? paddingY : parseInt(paddingY)) : 0;
 
         if (direction === "horizontal") {
           const clickX = e.clientX - rect.left;
@@ -241,9 +262,9 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
             scrollOrigin: content.scrollLeft,
           });
         } else {
-          const clickY = e.clientY - rect.top;
-          const relativeThumbTop = thumbRect.top - rect.top;
-          const relativeThumbBottom = thumbRect.bottom - rect.top;
+          const clickY = e.clientY - rect.top - paddingYValue;
+          const relativeThumbTop = thumbRect.top - rect.top - paddingYValue;
+          const relativeThumbBottom = thumbRect.bottom - rect.top - paddingYValue;
 
           if (clickY >= relativeThumbTop && clickY <= relativeThumbBottom)
             return;
@@ -251,14 +272,15 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           const containerHeight = container.clientHeight;
           const contentHeight = content.scrollHeight;
           const maxScroll = contentHeight - containerHeight;
+          const trackHeight = containerHeight - (paddingYValue * 2);
 
           const newThumbHeight = Math.max(
             20,
-            containerHeight * (containerHeight / contentHeight)
+            trackHeight * (trackHeight / contentHeight)
           );
           const targetThumbCenter = clickY;
           const targetThumbTop = targetThumbCenter - newThumbHeight / 2;
-          const maxThumbTop = containerHeight - newThumbHeight;
+          const maxThumbTop = trackHeight - newThumbHeight;
           const clampedThumbTop = Math.max(
             0,
             Math.min(maxThumbTop, targetThumbTop)
@@ -279,7 +301,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           });
         }
       },
-      [contentRef, direction]
+      [contentRef, direction, paddingY]
     );
 
     const handleWheel = useCallback(
@@ -330,7 +352,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         resizeObserver.disconnect();
         mutationObserver.disconnect();
       };
-    }, [updateScrollbar, contentRef]);
+    }, [updateScrollbar, contentRef, enabled]);
 
     useEffect(() => {
       if (childrenRef.current !== children) {
@@ -361,8 +383,27 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       };
     }, []);
 
-    const showOpacity = needsScrollbar && (isHoveredRight || isDragging || isScrolling) ? 1 : 0;
-    const fadeYPadding = fadeY && needsScrollbar ? "12px 0" : "0";
+    // When disabled, just render children without scroll functionality
+    if (!enabled) {
+      const { style: propsStyle, ...restProps } = props;
+      return (
+        <div
+          ref={ref}
+          className={cn(styles.root, className)}
+          style={{
+            ...(direction === "horizontal"
+              ? { width: "100%", maxWidth }
+              : { height: "100%", maxHeight }),
+            ...propsStyle,
+          }}
+          {...restProps}
+        >
+          {children}
+        </div>
+      );
+    }
+
+    const showOpacity = !hide ? 1 : (needsScrollbar && (isHoveredRight || isDragging || isScrolling) ? 1 : 0);
 
     if (direction === "horizontal") {
       const { style: propsStyle, ...restProps } = props;
@@ -385,24 +426,21 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
             className={styles.content}
             onScroll={handleScroll}
             onWheel={handleWheel}
-            style={{
-              maxWidth: "inherit",
-              padding: fadeYPadding,
-            }}
-            data-fade-y={fadeY ? "true" : "false"}
+            style={{ maxWidth: "inherit" }}
           >
             {children}
           </div>
 
           <div
             className={styles.track}
+            data-hide={hide ? "true" : "false"}
             style={{
               opacity: showOpacity,
               pointerEvents: needsScrollbar ? "auto" : "none",
             }}
             onMouseDown={handleTrackClick}
           >
-            {needsScrollbar && (
+            {(needsScrollbar || !hide) && (
               <div
                 ref={thumbRef}
                 className={styles.thumb}
@@ -419,6 +457,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
     }
 
     const { style: propsStyle, ...restProps } = props;
+    const paddingYValue = paddingY ? (typeof paddingY === 'number' ? `${paddingY}px` : paddingY) : undefined;
     return (
       <div
         ref={mergedRef}
@@ -426,8 +465,9 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         style={{
           height: "100%",
           maxHeight,
+          ...(paddingYValue ? { "--scroll-padding-y": paddingYValue } : {}),
           ...propsStyle,
-        }}
+        } as React.CSSProperties}
         onMouseMove={handleContainerMouseMove}
         onMouseLeave={handleContainerMouseLeave}
         data-dragging={isDragging ? "true" : "false"}
@@ -437,24 +477,21 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           ref={contentRef}
           className={styles.content}
           onScroll={handleScroll}
-          style={{
-            maxHeight: "inherit",
-            padding: fadeYPadding,
-          }}
-          data-fade-y={fadeY ? "true" : "false"}
+          style={{ maxHeight: "inherit" }}
         >
           {children}
         </div>
 
         <div
           className={styles.track}
+          data-hide={hide ? "true" : "false"}
           style={{
             opacity: showOpacity,
             pointerEvents: needsScrollbar ? "auto" : "none",
           }}
           onMouseDown={handleTrackClick}
         >
-          {needsScrollbar && (
+          {(needsScrollbar || !hide) && (
             <div
               ref={thumbRef}
               className={styles.thumb}

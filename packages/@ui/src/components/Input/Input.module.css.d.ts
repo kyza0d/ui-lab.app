@@ -1,9 +1,12 @@
 declare const styles: {
   input: string;
-  iconWrapper: string;
-  prefixIcon: string;
-  suffixIcon: string;
+  "icon-wrapper": string;
+  "prefix-icon": string;
+  "suffix-icon": string;
   container: string;
+  "number-controls": string;
+  disabled: string;
+  "spin-button": string;
 };
 
 export default styles;

@@ -1,36 +1,27 @@
 import * as React from "react"
-import * as ReactDOM from "react-dom"
-import { useInteractOutside } from "react-aria"
-import { useMenuContext } from "./Menu"
-import type { MenuTriggerProps, MenuContentProps } from "./Menu"
-import styles from "./Menu.module.css"
+import { createPortal } from "react-dom"
+import { useFloating, flip, offset, autoUpdate } from "@floating-ui/react-dom"
 import { cn } from "@/lib/utils"
-
-// ============================================================================
-// Trigger Component
-// ============================================================================
+import styles from "./Menu.module.css"
+import { useMenuContext } from "./Menu"
+import type { MenuTriggerProps, MenuContentProps } from "./menu.types"
+import { useMergedRef, handleListKeyDown, scrollItemIntoView } from "../../utils/list-navigation"
+import { Scroll } from "../Scroll"
+import { List } from "../List"
+import { useScrollLock } from "../../hooks/useScrollLock"
 
 const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
   ({ children, disabled = false, className }, ref) => {
-    const { setIsOpen, setPosition, triggerRef: contextTriggerRef } = useMenuContext()
-    const triggerRef = React.useRef<HTMLDivElement>(null)
+    const { setIsOpen, clickPositionRef, triggerRef: contextTriggerRef } = useMenuContext()
 
     const handleMenu = React.useCallback((e: React.MouseEvent) => {
       if (disabled) return
       e.preventDefault()
-      setPosition({ x: e.clientX, y: e.clientY })
+      clickPositionRef.current = { x: e.clientX, y: e.clientY }
       setIsOpen(true)
-    }, [disabled, setIsOpen, setPosition])
+    }, [disabled, setIsOpen, clickPositionRef])
 
-    const mergedRef = React.useCallback(
-      (el: HTMLDivElement | null) => {
-        (triggerRef as React.MutableRefObject<HTMLDivElement | null>).current = el
-        contextTriggerRef.current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref, contextTriggerRef]
-    )
+    const mergedRef = useMergedRef<HTMLDivElement>(contextTriggerRef, ref)
 
     return (
       <div
@@ -45,198 +36,191 @@ const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
 )
 MenuTrigger.displayName = "MenuTrigger"
 
-// ============================================================================
-// Content Component
-// ============================================================================
-
 const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
-  ({ children, className, onEscapeKeyDown, onPointerDownOutside, sideOffset = 0 }, ref) => {
-    const { isOpen, position, close, items, highlightedIndex, setHighlightedIndex, triggerRef } = useMenuContext()
-    const contentRef = React.useRef<HTMLDivElement>(null)
-    const itemsRef = React.useRef<typeof items>(items)
-    const highlightedIndexRef = React.useRef<number>(highlightedIndex)
-    const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null)
-    const [portalStyle, setPortalStyle] = React.useState<React.CSSProperties>({})
+  ({ children, className, onEscapeKeyDown, sideOffset = 0 }, ref) => {
+    const {
+      isOpen,
+      close,
+      items,
+      focusedKey,
+      setFocusedKey,
+      navigateToNextItem,
+      navigateToPrevItem,
+      selectFocusedItem,
+      isFocusedItemSubmenu,
+      mouseMoveDetectedRef,
+      clickPositionRef,
+      triggerRef,
+    } = useMenuContext()
+    useScrollLock(isOpen)
+    const [mounted, setMounted] = React.useState(false)
+    const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null)
+    const [needsScroll, setNeedsScroll] = React.useState(false)
+    const wasJustOpenedRef = React.useRef(false)
 
-    // Handle click outside using useInteractOutside
-    useInteractOutside({
-      ref: contentRef,
-      isDisabled: !isOpen,
-      onInteractOutside: (e) => {
-        // Don't close if clicking on the trigger
-        if (triggerRef.current?.contains(e.target as Node)) {
-          return
-        }
-        onPointerDownOutside?.(e as PointerEvent)
-        close()
-      },
+    const { refs, floatingStyles, x, y, placement } = useFloating({
+      placement: "bottom-start",
+      strategy: "absolute",
+      whileElementsMounted: autoUpdate,
+      middleware: [
+        offset({ mainAxis: sideOffset }),
+        flip(),
+      ],
     })
 
-    React.useEffect(() => {
-      itemsRef.current = items
-      highlightedIndexRef.current = highlightedIndex
-    }, [items, highlightedIndex])
+    const isPositioned = x !== null && y !== null
 
-    React.useEffect(() => {
-      if (typeof document === "undefined") return
-
-      const container = document.createElement("div")
-      container.setAttribute("data-menu-portal", "")
-      container.style.cssText = "position: absolute; top: 0; left: 0; z-index: 50;"
-      document.body.appendChild(container)
-      setPortalContainer(container)
-
-      return () => {
-        document.body.removeChild(container)
+    React.useLayoutEffect(() => {
+      if (!isOpen) return
+      const pos = clickPositionRef.current
+      if (pos.x === 0 && pos.y === 0 && triggerRef.current) {
+        refs.setReference(triggerRef.current)
+      } else {
+        refs.setReference({
+          getBoundingClientRect: () => ({
+            x: pos.x, y: pos.y, width: 0, height: 0,
+            top: pos.y, left: pos.x, bottom: pos.y, right: pos.x,
+          }),
+        })
       }
+    }, [isOpen, refs, clickPositionRef, triggerRef])
+
+    React.useEffect(() => {
+      setMounted(true)
     }, [])
 
     React.useEffect(() => {
       if (isOpen) {
-        // If position is {0,0}, this was opened via hover - position relative to trigger
-        if (position.x === 0 && position.y === 0 && triggerRef.current) {
-          const triggerRect = triggerRef.current.getBoundingClientRect()
-          const top = triggerRect.bottom + window.scrollY + sideOffset
-          const left = triggerRect.left + window.scrollX
-          setPortalStyle({ position: "absolute", top, left })
-        } else {
-          // Position at click location (right-click context menu)
-          const top = position.y + window.scrollY + sideOffset
-          const left = position.x + window.scrollX
-          setPortalStyle({ position: "absolute", top, left })
-        }
-      }
-    }, [isOpen, position, sideOffset, triggerRef])
-
-    React.useEffect(() => {
-      if (!isOpen) return
-
-      const handleKeyDown = (e: KeyboardEvent) => {
-        const items = itemsRef.current
-        const highlightedIndex = highlightedIndexRef.current
-
-        // Check if focus is inside a submenu portal - if so, let the submenu handler process the event
-        const activeElement = document.activeElement as Element | null
-        const isInSubmenu = activeElement?.closest('[data-menu-sub-portal]') !== null
-
-        // For arrow keys, only process if NOT in a submenu (submenu's handler will take precedence)
-        if ((e.key === "ArrowDown" || e.key === "ArrowUp") && isInSubmenu) {
-          return
-        }
-
-        switch (e.key) {
-          case "Escape":
-            e.preventDefault()
-            onEscapeKeyDown?.(e)
-            close()
-            break
-          case "ArrowDown": {
-            e.preventDefault()
-            const enabledIndices = items.map((item, i) => item.isDisabled ? -1 : i).filter(i => i >= 0)
-            const currentIdx = enabledIndices.indexOf(highlightedIndex)
-            if (currentIdx < enabledIndices.length - 1) {
-              setHighlightedIndex(enabledIndices[currentIdx + 1])
-            } else if (enabledIndices.length > 0) {
-              setHighlightedIndex(enabledIndices[0])
-            }
-            break
-          }
-          case "ArrowUp": {
-            e.preventDefault()
-            const enabledIndices = items.map((item, i) => item.isDisabled ? -1 : i).filter(i => i >= 0)
-            const currentIdx = enabledIndices.indexOf(highlightedIndex)
-            if (currentIdx > 0) {
-              setHighlightedIndex(enabledIndices[currentIdx - 1])
-            } else if (enabledIndices.length > 0) {
-              setHighlightedIndex(enabledIndices[enabledIndices.length - 1])
-            }
-            break
-          }
-          case "ArrowRight": {
-            e.preventDefault()
-            const item = items[highlightedIndex]
-            if (item && !item.isDisabled && item.isSubmenuTrigger && item.onSelect) {
-              item.onSelect()
-            }
-            break
-          }
-          case "Enter":
-          case " ": {
-            e.preventDefault()
-            const item = items[highlightedIndex]
-            if (item && !item.isDisabled) {
-              if (item.isSubmenuTrigger && item.onSelect) {
-                item.onSelect()
-              } else if (item.onSelect) {
-                item.onSelect()
-              }
-            }
-            break
-          }
-          case "Home": {
-            e.preventDefault()
-            const enabledIndices = items.map((item, i) => item.isDisabled ? -1 : i).filter(i => i >= 0)
-            if (enabledIndices.length > 0) {
-              setHighlightedIndex(enabledIndices[0])
-            }
-            break
-          }
-          case "End": {
-            e.preventDefault()
-            const enabledIndices = items.map((item, i) => item.isDisabled ? -1 : i).filter(i => i >= 0)
-            if (enabledIndices.length > 0) {
-              setHighlightedIndex(enabledIndices[enabledIndices.length - 1])
-            }
-            break
-          }
-        }
-      }
-
-      document.addEventListener("keydown", handleKeyDown)
-      return () => {
-        document.removeEventListener("keydown", handleKeyDown)
-      }
-    }, [isOpen, close, onEscapeKeyDown, setHighlightedIndex])
-
-    React.useEffect(() => {
-      if (isOpen && contentRef.current) {
-        contentRef.current.focus({ preventScroll: true })
+        wasJustOpenedRef.current = true
       }
     }, [isOpen])
 
-    const mergedRef = React.useCallback(
-      (el: HTMLDivElement | null) => {
-        (contentRef as React.MutableRefObject<HTMLDivElement | null>).current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      },
-      [ref]
-    )
+    React.useEffect(() => {
+      if (isOpen && floatingElement) {
+        requestAnimationFrame(() => {
+          floatingElement?.focus({ preventScroll: true })
+        })
+      }
+    }, [isOpen, floatingElement])
 
-    if (!portalContainer) return null
+    React.useEffect(() => {
+      if (!isOpen) return
+      const handleWindowKeyDown = (e: KeyboardEvent) => {
+        if (["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
+          mouseMoveDetectedRef.current = false
+        }
+      }
+      const handleWindowMouseMove = () => {
+        if (!mouseMoveDetectedRef.current) {
+          mouseMoveDetectedRef.current = true
+        }
+      }
+      window.addEventListener("keydown", handleWindowKeyDown)
+      window.addEventListener("mousemove", handleWindowMouseMove)
+      return () => {
+        window.removeEventListener("keydown", handleWindowKeyDown)
+        window.removeEventListener("mousemove", handleWindowMouseMove)
+      }
+    }, [isOpen, mouseMoveDetectedRef])
 
-    return ReactDOM.createPortal(
-      <div
-        ref={mergedRef}
-        role="menu"
-        tabIndex={isOpen ? 0 : -1}
-        className={cn(styles.content, className)}
-        data-state={isOpen ? "open" : "closed"}
-        style={isOpen ? portalStyle : { position: "absolute", visibility: "hidden", pointerEvents: "none" }}
-      >
-        <div className={styles.viewport}>
-          {React.Children.map(children, (child, index) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child as React.ReactElement<any>, {
-                _index: index,
-                _isHighlighted: isOpen && index === highlightedIndex,
-              })
-            }
-            return child
-          })}
-        </div>
-      </div>,
-      portalContainer
+    React.useEffect(() => {
+      if (!isOpen || focusedKey === null || !floatingElement) return
+      const shouldScroll = !mouseMoveDetectedRef.current || wasJustOpenedRef.current
+      if (!shouldScroll) return
+      wasJustOpenedRef.current = false
+      const el = floatingElement.querySelector('[data-highlighted="true"]') as HTMLElement
+      if (el) scrollItemIntoView(el)
+    }, [focusedKey, isOpen, floatingElement, mouseMoveDetectedRef])
+
+    React.useEffect(() => {
+      if (!isOpen || !floatingElement) return
+      const maxHeightPx = 384
+      const measure = () => {
+        const listElement = floatingElement.querySelector('[role="list"]') as HTMLElement | null
+        if (!listElement) return
+        const scrollContainer = listElement.parentElement?.parentElement as HTMLElement | null
+        if (!scrollContainer) return
+        setNeedsScroll(scrollContainer.scrollHeight > maxHeightPx)
+      }
+      measure()
+      const observer = new ResizeObserver(measure)
+      observer.observe(floatingElement)
+      return () => observer.disconnect()
+    }, [isOpen, floatingElement])
+
+    const mergedRef = useMergedRef<HTMLDivElement>(refs.setFloating, setFloatingElement, ref)
+
+    const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        if (isFocusedItemSubmenu()) {
+          e.preventDefault()
+          selectFocusedItem()
+          return
+        }
+      }
+
+      if (e.key === "Escape") {
+        e.preventDefault()
+        close()
+        onEscapeKeyDown?.(e.nativeEvent)
+        return
+      }
+
+      handleListKeyDown(e, {
+        navigateNext: navigateToNextItem,
+        navigatePrev: navigateToPrevItem,
+        confirm: selectFocusedItem,
+        close,
+        filteredItems: items,
+        setFocusedKey,
+      })
+    }, [navigateToNextItem, navigateToPrevItem, selectFocusedItem, close, items, setFocusedKey, isFocusedItemSubmenu, onEscapeKeyDown])
+
+    const showContent = isOpen && isPositioned
+
+    if (!mounted) return null
+
+    return createPortal(
+      <>
+        {showContent && (
+          <div
+            style={{ position: "fixed", inset: 0, zIndex: 49999 }}
+            onClick={close}
+          />
+        )}
+        {isOpen && (
+          <div
+            ref={mergedRef}
+            role="menu"
+            tabIndex={-1}
+            className={cn(styles.content, className)}
+            data-state={showContent ? "open" : "closed"}
+            data-placement={placement.split("-")[0]}
+            onKeyDown={handleKeyDown}
+            style={{
+              ...floatingStyles,
+              zIndex: 50000,
+              visibility: isPositioned ? "visible" : "hidden",
+              outline: "none",
+            }}
+          >
+            <Scroll
+              className={styles.list}
+              direction="vertical"
+              fadeY
+              enabled={needsScroll}
+              hide={false}
+            >
+              <div style={{ padding: "0.25rem" }}>
+                <List items={items}>
+                  {children}
+                </List>
+              </div>
+            </Scroll>
+          </div>
+        )}
+      </>,
+      document.body
     )
   }
 )

@@ -154,7 +154,7 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
         ref={ref}
         className={cn(
           dividerVariants({ variant, orientation: resolvedOrientation, size, spacing: resolvedSpacing }),
-          className,
+          'divider', className,
         )}
         style={{ ...getMaskStyles(), ...style }}
         role="separator"

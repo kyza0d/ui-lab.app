@@ -5,13 +5,14 @@ declare const styles: {
   none: string;
   sm: string;
   ghost: string;
-  itemWrapper: string;
+  item: string;
+  divider: string;
   first: string;
   last: string;
   separator: string;
-  groupItem: string;
-  groupInputWrapper: string;
-  groupSelectWrapper: string;
+  "group-item": string;
+  "group-input-wrapper": string;
+  "group-select-wrapper": string;
   active: string;
   trigger: string;
 };

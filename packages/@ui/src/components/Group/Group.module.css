@@ -1,8 +1,10 @@
 @reference "tailwindcss";
 
 @layer components {
-  /* Container */
   .group {
+    --radius-basis: calc(var(--spacing) * 1.5);
+    --padding: var(--radius-basis);
+    
     --background: var(--background-950);
     --border: var(--background-700);
 
@@ -10,8 +12,11 @@
     width: fit-content;
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
     overflow: hidden;
+    
+    padding: var(--padding);
   }
 
   /* Orientations */
@@ -26,11 +31,14 @@
 
   /* Spacing */
   .group.none {
-    @apply p-0 gap-0;
+    --padding: 0;
+    @apply gap-0;
   }
 
   .group.sm {
-    @apply p-1 gap-1;
+    --radius-basis: calc(var(--spacing) * 1.25);
+    --padding: var(--radius-basis);
+    @apply space-x-2;
   }
 
   /* Variants */
@@ -42,165 +50,159 @@
     @apply gap-1;
   }
 
-  .itemWrapper {
-    /* Spacing is handled by group's gap property */
+  .item {
     display: flex;
     align-items: stretch;
   }
 
-  /* Override child component styles when in group */
-  .group:not(.ghost) .itemWrapper .groupItem,
-  .group:not(.ghost) .groupInputWrapper input,
-  .group:not(.ghost) .itemWrapper .groupSelectWrapper {
+  .group:not(.ghost) .item .group-item,
+  .group:not(.ghost) .group-input-wrapper input,
+  .group:not(.ghost) .item .group-select-wrapper {
     border: none;
   }
 
-  /* spacing="none": Remove radius from all items (merged appearance) */
-  .group.none:not(.ghost) .itemWrapper .groupItem,
-  .group.none:not(.ghost) .groupInputWrapper input,
-  .group.none:not(.ghost) .itemWrapper .groupSelectWrapper,
-  .group.none:not(.ghost) .itemWrapper .trigger {
+  .group.none:not(.ghost) .item .group-item,
+  .group.none:not(.ghost) .group-input-wrapper input,
+  .group.none:not(.ghost) .item .group-select-wrapper,
+  .group.none:not(.ghost) .item .trigger {
     border-radius: 0;
   }
 
-  /* spacing="sm": Apply full radius to all items (separated appearance) */
-  .group.sm:not(.ghost) .itemWrapper .groupItem,
-  .group.sm:not(.ghost) .itemWrapper .trigger,
-  .group.sm:not(.ghost) .groupSelectWrapper .groupItem,
-  .group.sm:not(.ghost) .groupSelectWrapper .trigger {
-    border-radius: var(--radius-sm);
+  .group.sm:not(.ghost) .item .group-item,
+  .group.sm:not(.ghost) .item .trigger,
+  .group.sm:not(.ghost) .group-select-wrapper .group-item,
+  .group.sm:not(.ghost) .group-select-wrapper .trigger {
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.sm:not(.ghost) .groupInputWrapper input {
-    border-radius: var(--radius-sm);
+  .group.sm:not(.ghost) .group-input-wrapper input {
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  /* spacing="none": Apply radius to first and last items only (merged edges) */
-  .group.none.horizontal:not(.ghost) .itemWrapper:first-child > .groupItem {
-    border-top-left-radius: var(--radius-sm);
-    border-bottom-left-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .item:first-child > .group-item {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.horizontal:not(.ghost) .itemWrapper:last-child > .groupItem {
-    border-top-right-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .item:last-child > .group-item {
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .itemWrapper:first-child > .groupItem {
-    border-top-left-radius: var(--radius-sm);
-    border-top-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .item:first-child > .group-item {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .itemWrapper:last-child > .groupItem {
-    border-bottom-left-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .item:last-child > .group-item {
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  /* spacing="none": Apply radius to first/last inputs (merged edges) */
-  .group.none.horizontal:not(.ghost) .itemWrapper:first-child .groupInputWrapper input {
-    border-top-left-radius: var(--radius-sm);
-    border-bottom-left-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .item:first-child .group-input-wrapper input {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.horizontal:not(.ghost) .itemWrapper:last-child .groupInputWrapper input {
-    border-top-right-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .item:last-child .group-input-wrapper input {
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .itemWrapper:first-child .groupInputWrapper input {
-    border-top-left-radius: var(--radius-sm);
-    border-top-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .item:first-child .group-input-wrapper input {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .itemWrapper:last-child .groupInputWrapper input {
-    border-bottom-left-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .item:last-child .group-input-wrapper input {
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  /* spacing="none": Apply radius to Button and Trigger within Group.Select (split-action pattern) */
-  .group.none.horizontal:not(.ghost) .groupSelectWrapper .groupItem {
-    border-top-left-radius: var(--radius-sm);
-    border-bottom-left-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .group-select-wrapper .group-item {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.horizontal:not(.ghost) .groupSelectWrapper .trigger {
-    border-top-right-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .group-select-wrapper .trigger {
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .groupSelectWrapper .groupItem {
-    border-top-left-radius: var(--radius-sm);
-    border-top-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .group-select-wrapper .group-item {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .groupSelectWrapper .trigger {
-    border-bottom-left-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .group-select-wrapper .trigger {
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  /* spacing="none": Apply radius to triggers in first/last position (for standalone triggers) */
-  .group.none.horizontal:not(.ghost) .itemWrapper:first-child > .trigger {
-    border-top-left-radius: var(--radius-sm);
-    border-bottom-left-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .item:first-child > .trigger {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.horizontal:not(.ghost) .itemWrapper:last-child > .trigger {
-    border-top-right-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.horizontal:not(.ghost) .item:last-child > .trigger {
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .itemWrapper:first-child > .trigger {
-    border-top-left-radius: var(--radius-sm);
-    border-top-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .item:first-child > .trigger {
+    border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .itemWrapper:last-child > .trigger {
-    border-bottom-left-radius: var(--radius-sm);
-    border-bottom-right-radius: var(--radius-sm);
+  .group.none.vertical:not(.ghost) .item:last-child > .trigger {
+    border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
+    border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  /* Separator styling for automatic dividers */
-  .separator {
-    background-color: var(--background-700);
-    flex-shrink: 0;
+  .item.divider {
+    padding: 0;
+    display: flex;
+    align-items: stretch;
   }
 
-  .group.horizontal .separator {
-    width: 1px;
-    align-self: stretch;
-  }
-
-  .group.vertical .separator {
+  .item.divider > [role="separator"] {
+    height: 100%;
     width: 100%;
-    height: 1px;
   }
 
-  /* Ghost variant */
-  .group.ghost .itemWrapper .groupItem:not(.active) {
-    border-radius: var(--radius-sm);
+  .group.horizontal .item.divider {
+    margin-top: calc(var(--padding) * -1);
+    margin-bottom: calc(var(--padding) * -1);
+  }
+
+  .group.vertical .item.divider {
+    margin-left: calc(var(--padding) * -1);
+    margin-right: calc(var(--padding) * -1);
+  }
+
+  .group.ghost .item .group-item:not(.active) {
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
     border: var(--border-width-base) solid transparent;
   }
 
-  /* Focus styles - box-shadow follows border-radius */
-  .group:not(.ghost) .itemWrapper .groupItem:focus-visible,
-  .group:not(.ghost) .itemWrapper .trigger:focus-visible,
-  .groupInputWrapper input:focus-visible {
+  .group:not(.ghost) .item .group-item:focus-visible,
+  .group:not(.ghost) .item .trigger:focus-visible,
+  .group-input-wrapper input:focus-visible {
     outline: none;
-    box-shadow: inset 0 0 0 2px var(--accent-500);
+    box-shadow: inset 0 0 0 1px var(--accent-500);
     position: relative;
     z-index: 1;
   }
 
-  .group.ghost .itemWrapper .groupItem:focus-visible,
-  .group.ghost .itemWrapper .trigger:focus-visible {
+  .group.ghost .item .group-item:focus-visible,
+  .group.ghost .item .trigger:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--accent-500);
+    box-shadow: 0 0 0 1px var(--accent-500);
     position: relative;
     z-index: 1;
   }
 
-  /* Input wrapper should fill available height */
-  .groupInputWrapper {
+  .group-input-wrapper {
     display: flex;
     align-items: stretch;
     height: 100%;
@@ -208,23 +210,28 @@
     overflow: visible;
   }
 
-  .groupInputWrapper input {
+  .group-input-wrapper input {
     height: 100%;
   }
 
-  /* Fill height for buttons in groups */
-  .itemWrapper .groupItem {
+  .item .group-item {
     display: flex;
     height: 100%;
   }
 
-  /* Full width for vertical orientation */
-  .group.vertical .itemWrapper .groupItem {
+  .group.vertical .item .group-item {
     width: 100%;
   }
 
-  /* Default padding for Group.Select */
-  .groupSelectWrapper {
+  .group.sm .item button.group-item {
+    padding: calc(var(--spacing) * 1.50) calc(var(--spacing) * 2.00);
+  }
+
+  .group.none .item button.group-item {
+    padding: calc(var(--spacing) * 2.25);
+  }
+
+  .group-select-wrapper {
     display: flex;
     align-items: stretch;
     padding: 0;
@@ -232,8 +239,6 @@
     background-color: transparent;
   }
 
-
-  /* Trigger styling for SelectTrigger in Group context */
   .group.none:not(.ghost) .trigger {
     border-radius: 0;
   }
@@ -242,25 +247,20 @@
     border: none;
   }
 
-  /* Make Select fill height when in group */
-  .groupSelectWrapper .select {
+  .group-select-wrapper .select {
     height: 100%;
     width: 100%;
   }
 
-  /* Active button state */
-  .groupItem.active {
+  .group-item.active {
     position: relative;
   }
 
-  /* Active state for ghost variant - restore full button styling */
-  .group.ghost .groupItem.active {
-    border-radius: var(--radius-sm);
-    /* Border is preserved from Button's default variant */
+  .group.ghost .group-item.active {
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  /* Active state for other variants */
-  .group:not(.ghost) .groupItem.active {
+  .group:not(.ghost) .group-item.active {
     background-color: var(--background-800);
     font-weight: 500;
   }

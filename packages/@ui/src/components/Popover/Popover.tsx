@@ -63,7 +63,6 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
   ({ children, content, position = "bottom", className, contentClassName, isOpen: controlledIsOpen, onOpenChange, showArrow = false }, ref) => {
     const triggerRef = React.useRef<HTMLDivElement>(null);
     const popoverContentRef = React.useRef<HTMLDivElement>(null);
-    const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null);
     const [isAnimating, setIsAnimating] = React.useState(false);
     const [isExiting, setIsExiting] = React.useState(false);
 
@@ -117,20 +116,6 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     React.useLayoutEffect(() => {
       refs.setReference(triggerRef.current);
     }, [refs]);
-
-    React.useEffect(() => {
-      if (typeof document === 'undefined') return;
-      const container = document.createElement('div');
-      container.setAttribute('data-popover-portal', '');
-      container.style.cssText = 'position: fixed; top: 0; left: 0; z-index: 500;';
-      document.body.appendChild(container);
-      setPortalContainer(container);
-      return () => {
-        if (document.body.contains(container)) {
-          document.body.removeChild(container);
-        }
-      };
-    }, []);
 
     React.useEffect(() => {
       if (!state.isOpen) return;
@@ -204,20 +189,22 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     return (
       <>
         {triggerElement}
-        {portalContainer && (state.isOpen || isExiting) &&
+        {(state.isOpen || isExiting) &&
           createPortal(
             <div
               ref={mergedContentRef}
               style={{
                 ...floatingStyles,
                 pointerEvents: "none",
+                transition: 'none',
+                zIndex: 500,
               }}
             >
               <div
                 style={{
                   opacity: isAnimating ? 1 : 0,
                   transform: isAnimating ? "scale(1)" : getInitialTransform(placement),
-                  transition: 'opacity 0.2s ease-out, transform 0.2s ease-out',
+                  transition: 'opacity 0.2s ease-out',
                   pointerEvents: isAnimating ? 'auto' : 'none',
                 }}
               >
@@ -243,7 +230,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
                 </Frame>
               </div>
             </div>,
-            portalContainer!
+            document.body
           )}
       </>
     );

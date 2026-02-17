@@ -5,6 +5,7 @@ export interface Styles {
   "secondary": string;
   "outline": string;
   "ghost": string;
+  "danger": string;
   "sm": string;
   "md": string;
   "lg": string;

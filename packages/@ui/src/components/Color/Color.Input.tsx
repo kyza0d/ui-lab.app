@@ -85,14 +85,12 @@ export const ColorInput = React.forwardRef<
             <Select.Value placeholder="Format" />
           </Select.Trigger>
           <Select.Content>
-            <Select.List>
-              <Select.Item value="hex" textValue="Hex">
-                Hex
-              </Select.Item>
-              <Select.Item value="rgb" textValue="RGB">
-                RGB
-              </Select.Item>
-            </Select.List>
+            <Select.Item value="hex" textValue="Hex">
+              Hex
+            </Select.Item>
+            <Select.Item value="rgb" textValue="RGB">
+              RGB
+            </Select.Item>
           </Select.Content>
         </Group.Select>
         {showPreview && (

@@ -1,0 +1,42 @@
+@reference "tailwindcss";
+
+@layer components {
+  .trigger {
+    display: inline-block;
+  }
+
+  .root {
+    position: absolute;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .content {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    pointer-events: none;
+  }
+
+  .content[data-visible="true"] {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .content[data-instant] {
+    transition: none;
+  }
+
+  [data-scrolling] .content {
+    transition: none;
+  }
+
+  .content-frame {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    color: var(--foreground-200);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+}

@@ -30,7 +30,7 @@
 
     &[data-active] {
       border-color: var(--ring-color);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring-color) 20%, transparent);
     }
 
     &[data-focus-visible] {
@@ -53,12 +53,12 @@
 
       &[data-active] {
         border-color: var(--danger-600);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-600) 20%, transparent);
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);
       }
 
       &[data-focus-visible] {
         border-color: var(--danger-600);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-600) 20%, transparent);
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);
       }
     }
 
@@ -89,7 +89,7 @@
     }
   }
 
-  .iconWrapper {
+  .icon-wrapper {
     position: absolute;
     top: 50%;
     display: flex;
@@ -100,11 +100,11 @@
     z-index: 10;
   }
 
-  .prefixIcon {
+  .prefix-icon {
     left: 0.60rem;
   }
 
-  .suffixIcon {
+  .suffix-icon {
     right: 1.00rem;
   }
 
@@ -113,7 +113,7 @@
     width: 100%;
   }
 
-  .numberControls {
+  .number-controls {
     position: absolute;
     top: 50%;
     right: 0.50rem;
@@ -130,7 +130,7 @@
     cursor: not-allowed;
   }
 
-  .spinButton {
+  .spin-button {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "../Button"
 import { Card } from "../Card"
 import { HiExclamationCircle, HiExclamation, HiInformationCircle, HiCheckCircle } from "react-icons/hi"
+import styles from "./Confirmation.module.css"
 
 export interface ConfirmationProps {
   mode?: "inline" | "dialog" | "auto"
@@ -28,25 +29,25 @@ export interface ConfirmationProps {
 const severityConfig = {
   low: {
     icon: <HiInformationCircle className="w-5 h-5 text-blue-500" />,
-    color: "bg-blue-500/20 border-blue-500/30",
-    buttonVariant: "primary",
+    warningBoxClass: styles["warning-box-low"],
+    buttonVariant: "primary" as const,
   },
   medium: {
     icon: <HiExclamation className="w-5 h-5 text-yellow-500" />,
-    color: "bg-yellow-500/20 border-yellow-500/30",
-    buttonVariant: "secondary",
+    warningBoxClass: styles["warning-box-medium"],
+    buttonVariant: "secondary" as const,
   },
   high: {
     icon: <HiExclamationCircle className="w-5 h-5 text-orange-500" />,
-    color: "bg-orange-500/20 border-orange-500/30",
-    buttonVariant: "secondary",
+    warningBoxClass: styles["warning-box-high"],
+    buttonVariant: "secondary" as const,
   },
   critical: {
     icon: <HiExclamationCircle className="w-5 h-5 text-red-500" />,
-    color: "bg-red-500/20 border-red-500/30",
-    buttonVariant: "secondary",
+    warningBoxClass: styles["warning-box-critical"],
+    buttonVariant: "secondary" as const,
   },
-}
+} as const
 
 /**
  * Confirmation component for destructive or important actions
@@ -159,25 +160,25 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
 
     if (effectiveMode === "inline" && !showDialogMode) {
       return (
-        <div ref={ref}>
+        <div ref={ref} className={styles.container}>
           {!isConfirming ? (
             <Button
               onClick={handleTrigger}
               isDisabled={disabled || isLoading}
-              variant={config.buttonVariant as any}
+              variant={config.buttonVariant}
             >
               {triggerLabel}
             </Button>
           ) : (
-            <Card className="max-w-sm">
-              <Card.Body className="space-y-3">
+            <Card className={cn(styles.card)}>
+              <Card.Body className={cn(styles.body, styles['body-compact'])}>
                 {description && (
-                  <p className="text-sm text-foreground-300">{description}</p>
+                  <p className={styles.description}>{description}</p>
                 )}
                 {error && (
-                  <p className="text-sm text-red-400">{error}</p>
+                  <p className={styles['error-message']}>{error}</p>
                 )}
-                <div className="flex gap-2">
+                <div className={cn(styles.actions, styles['actions-inline'])}>
                   <Button
                     size="sm"
                     variant="primary"
@@ -207,38 +208,38 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
       return (
         <div ref={ref}>
           {isConfirming && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-              <Card className="max-w-md mx-4">
-                <Card.Header className="space-y-2">
-                  <div className="flex items-start gap-3">
+            <div className={styles['dialog-overlay']}>
+              <Card className={cn(styles['dialog-card'])}>
+                <Card.Header className={styles.body}>
+                  <div className={styles.header}>
                     {icon || config.icon}
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-foreground-100">
+                    <div className={styles['header-content']}>
+                      <h4 className={styles['header-title']}>
                         {title || triggerLabel}
                       </h4>
                     </div>
                   </div>
                 </Card.Header>
-                <Card.Body className="space-y-4">
+                <Card.Body className={cn(styles.body)}>
                   {description && (
-                    <p className="text-sm text-foreground-300">{description}</p>
+                    <p className={styles.description}>{description}</p>
                   )}
                   {destructiveActionWarning && (
                     <div className={cn(
-                      "p-3 rounded-md border text-sm",
-                      config.color
+                      styles['warning-box'],
+                      config.warningBoxClass
                     )}>
                       {destructiveActionWarning}
                     </div>
                   )}
                   {countdownSeconds && countdown > 0 && (
-                    <div className="text-sm text-foreground-400">
+                    <div className={styles['countdown-text']}>
                       Please wait {countdown}s before confirming
                     </div>
                   )}
                   {requiresReason && (
                     <div>
-                      <label className="text-sm ml-1 text-foreground-300">
+                      <label className={styles['input-label']}>
                         Type "{confirmationText}" to confirm:
                       </label>
                       <input
@@ -249,15 +250,15 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
                           setError(null)
                         }}
                         placeholder={confirmationText}
-                        className="w-full mt-2 px-3 py-2 rounded-md bg-background-800 border border-background-700 text-foreground-100 text-sm"
+                        className={styles.input}
                       />
                     </div>
                   )}
                   {error && (
-                    <p className="text-sm text-red-400">{error}</p>
+                    <p className={styles['error-message']}>{error}</p>
                   )}
                 </Card.Body>
-                <Card.Footer className="flex gap-2 justify-end">
+                <Card.Footer className={cn(styles.actions, styles['actions-dialog'])}>
                   <Button
                     size="sm"
                     variant="outline"
@@ -283,11 +284,11 @@ const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
     }
 
     return (
-      <div ref={ref}>
+      <div ref={ref} className={styles.container}>
         <Button
           onClick={handleTrigger}
           isDisabled={disabled || isLoading}
-          variant={config.buttonVariant as any}
+          variant={config.buttonVariant}
         >
           {triggerLabel}
         </Button>

@@ -76,4 +76,4 @@ export type {
   MenuSubContentProps,
 }
 
-export type { SelectionMode, Position, ItemData, MenuContextValue, MenuSubmenuContextValue, RadioGroupContextValue } from "./Menu"
+export type { SelectionMode, MenuContextValue, MenuSubmenuContextValue, RadioGroupContextValue } from "./Menu"

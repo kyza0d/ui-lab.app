@@ -67,7 +67,7 @@
     flex: 1;
   }
 
-  .closeButton {
+  .close-button {
     display: flex;
     align-items: center;
     justify-content: center;

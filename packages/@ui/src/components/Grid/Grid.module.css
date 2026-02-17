@@ -6,7 +6,7 @@
     width: 100%;
     grid-template-columns: var(--grid-tpl, repeat(3, 1fr));
     grid-template-rows: var(--grid-rows, auto);
-    gap: var(--grid-gap, var(--spacing-md, 1rem));
+    gap: var(--grid-gap, calc(var(--spacing, 0.25rem) * 4));
     justify-items: var(--grid-ji, stretch);
     align-items: var(--grid-ai, stretch);
     justify-content: var(--grid-jc, start);
@@ -42,24 +42,24 @@
   }
 
   .grid.responsive-gap {
-    gap: var(--grid-gap-sm, var(--spacing-sm, 0.5rem));
+    gap: var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 2));
   }
 
   @media (min-width: 640px) {
     .grid.responsive-gap {
-      gap: var(--grid-gap-md, var(--grid-gap-sm, var(--spacing-md, 1rem)));
+      gap: var(--grid-gap-md, var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 4)));
     }
   }
 
   @media (min-width: 1024px) {
     .grid.responsive-gap {
-      gap: var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--spacing-md, 1rem))));
+      gap: var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 4))));
     }
   }
 
   @media (min-width: 1280px) {
     .grid.responsive-gap {
-      gap: var(--grid-gap-xl, var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, var(--spacing-md, 1rem)))));
+      gap: var(--grid-gap-xl, var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 4)))));
     }
   }
 
@@ -96,7 +96,7 @@
   @container grid-ctx (width < 400px) {
     .container .grid {
       grid-template-columns: 1fr;
-      gap: var(--spacing-sm, 0.5rem);
+      gap: calc(var(--spacing, 0.25rem) * 2);
     }
   }
 }

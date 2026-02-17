@@ -22,7 +22,7 @@
   .vertical .content {
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 12px;
+    padding-right: 16px;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -31,27 +31,10 @@
     display: none;
   }
 
-  .vertical .content[data-fade-y="true"] {
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 4%,
-      black 96%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 4%,
-      black 96%,
-      transparent 100%
-    );
-  }
-
   .horizontal .content {
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: 12px;
+    padding-bottom: 16px;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -63,20 +46,24 @@
   .track {
     position: absolute;
     z-index: 10;
+  }
+
+  .track[data-hide="true"] {
     transition-property: opacity;
     transition-duration: 200ms;
   }
 
   .vertical .track {
-    right: 0;
-    top: 0;
+    right: 4px;
+    top: var(--scroll-padding-y, 0);
     width: 12px;
-    height: 100%;
+    height: calc(100% - 2 * var(--scroll-padding-y, 0));
     background-color: transparent;
+    box-sizing: border-box;
   }
 
   .horizontal .track {
-    bottom: 0;
+    bottom: 2px;
     left: 0;
     height: 12px;
     width: 100%;

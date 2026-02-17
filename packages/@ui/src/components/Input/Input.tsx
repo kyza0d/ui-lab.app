@@ -79,7 +79,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={styles.container}>
         {hasPrefix && (
-          <div className={cn(styles.iconWrapper, styles.prefixIcon)}>
+          <div className={cn(styles['icon-wrapper'], styles['prefix-icon'])}>
             {prefixIcon}
           </div>
         )}
@@ -106,12 +106,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {isNumberType && (
           <div
-            className={cn((styles as any).numberControls, disabled && (styles as any).disabled)}
+            className={cn(styles['number-controls'], disabled && styles.disabled)}
             data-disabled={disabled || undefined}
           >
             <button
               type="button"
-              className={(styles as any).spinButton}
+              className={styles['spin-button']}
               onClick={() => handleSpinClick("up")}
               disabled={disabled}
               tabIndex={-1}
@@ -121,7 +121,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
             <button
               type="button"
-              className={(styles as any).spinButton}
+              className={styles['spin-button']}
               onClick={() => handleSpinClick("down")}
               disabled={disabled}
               tabIndex={-1}
@@ -132,7 +132,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
         {hasSuffix && (
-          <div className={cn(styles.iconWrapper, styles.suffixIcon)}>
+          <div className={cn(styles['icon-wrapper'], styles['suffix-icon'])}>
             {suffixIcon}
           </div>
         )}

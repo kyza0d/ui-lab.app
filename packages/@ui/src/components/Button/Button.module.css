@@ -2,30 +2,32 @@
 
 @layer components {
   .button {
+    @apply px-3 py-1;
+
     --ring-color: var(--accent-500);
-    --button-bg: var(--background-800);
-    --button-fg: var(--foreground-50);
-    --button-border: var(--background-700);
+    --background: var(--background-800);
+    --foreground: var(--foreground-300);
+    --border: var(--border-width-base) solid var(--background-700);
 
-    background-color: var(--button-bg);
-    color: var(--button-fg);
-    border: var(--border-width-base) solid var(--button-border);
+    background-color: var(--background);
+    color: var(--foreground);
+    border: var(--border);
+    border-radius: var(--radius-sm);
 
-    @apply px-3 py-1.5;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-md);
+    line-height: var(--leading-snug);
+
+    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out, filter 0.15s ease-out, color 0.15s ease-out;
+    filter: invert(0%);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     font-family: inherit;
-    font-weight: var(--font-weight-medium);
-    font-size: var(--text-md);
-    line-height: var(--leading-snug);
     user-select: none;
     cursor: pointer;
-    border-radius: var(--radius-sm);
-
-    transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out, filter 0.15s ease-out, color 0.15s ease-out;
-    filter: brightness(100%);
 
     &:focus-visible {
       box-shadow: 0 0 0 3px var(--ring-color);
@@ -36,37 +38,38 @@
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      filter: none; /* Prevent brightness shifts on disabled */
+      filter: none;
     }
 
     &:hover:not(:disabled) {
-      filter: brightness(106%); 
-      border-color: var(--button-border); /* Ensures border follows suit if needed */
+      filter: invert(7.5%); 
+      border: var(--border);
     }
   }
 
   .button.primary {
-    --button-bg: var(--accent-600);
-    --button-fg: var(--accent-50);
-    --button-border: var(--accent-600);
+    --background: var(--accent-600);
+    --foreground: var(--accent-50);
+    --border: var(--border-width-base) solid var(--background);
   }
 
   .button.default {
-    --button-bg: var(--background-800);
-    --button-fg: var(--foreground-50);
-    --button-border: var(--background-700);
+    --background: var(--background-800);
+    --foreground: var(--foreground-300);
+    --border: var(--border-width-base) solid var(--background-700);
   }
 
   .button.secondary {
-    --button-bg: var(--background-700);
-    --button-fg: var(--foreground-50);
-    --button-border: var(--background-600);
+    --background: var(--background-700);
+    --foreground: var(--foreground-300);
+    --border: var(--border-width-base) solid var(--background-600);
   }
 
   .button.outline {
-    --button-bg: transparent;
-    --button-fg: var(--foreground-300);
-    --button-border: var(--background-700);
+    --background: transparent;
+    --foreground: var(--foreground-300);
+    --border: var(--border-width-base) solid var(--background-700);
+
     outline-style: unset !important;
     
     &:hover:not(:disabled) {
@@ -75,30 +78,37 @@
   }
 
   .button.ghost {
-    --button-bg: transparent;
-    --button-fg: var(--foreground-300);
-    --button-border: transparent;
+    --background: transparent;
+    --foreground: var(--foreground-300);
+    --border: var(--border-width-base) solid transparent;
 
     @media (hover: hover) {
       &:hover:not(:disabled) {
-        background-color: var(--background-800);
+        background-color: var(--background-900);
       }
     }
   }
 
+  .button.danger {
+    --background: var(--danger-600);
+    --foreground: var(--background-900);
+    --border: var(--border-width-base) solid var(--danger-700);
+    --ring-color: var(--danger-600);
+  }
+
   .button.sm {
-    @apply px-3.5 py-1.5;
+    @apply px-3 py-1.5;
     font-size: var(--text-sm);
   }
 
   .button.md {
-    @apply px-4.5 py-2;
-    font-size: var(--text-md);
+    @apply px-4 py-1.5;
+    font-size: var(--text-sm);
   }
 
   .button.lg {
-    @apply px-5 py-2;
-    font-size: var(--text-md);
+    @apply px-7 py-1.5;
+    font-size: var(--text-sm);
   }
 
   .icon-sm {
