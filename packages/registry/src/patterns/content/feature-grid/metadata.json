@@ -1,0 +1,17 @@
+{
+  "id": "feature-grid",
+  "name": "Feature Grid",
+  "description": "Responsive grid of feature cards with icons, titles, and descriptions. Ideal for showcasing product capabilities or service offerings.",
+  "category": "content",
+  "tags": ["features", "grid", "cards", "icons", "showcase", "capabilities"],
+  "useCases": [
+    "Product features section",
+    "Service offerings page",
+    "Benefits overview",
+    "Technology stack display"
+  ],
+  "components": ["Grid", "Card", "Flex"],
+  "complexity": "simple",
+  "relatedPatterns": ["hero-with-cta", "pricing-cards"],
+  "notes": "Grid uses responsive columns (1 on mobile, 2 on medium, 3 on large). Cards use subtle border styling with hover states. Icons are passed as children for flexibility."
+}

@@ -1,0 +1,17 @@
+{
+  "id": "settings-form-layout",
+  "name": "Settings Form Layout",
+  "description": "Structured settings form with labeled inputs, toggle switches, and a submit button. Common pattern for account settings and preference pages.",
+  "category": "forms",
+  "tags": ["form", "settings", "input", "switch", "toggle", "preferences", "account"],
+  "useCases": [
+    "Account settings page",
+    "Notification preferences",
+    "Profile editing form",
+    "Application configuration"
+  ],
+  "components": ["Input", "Label", "Switch", "Button", "Flex", "Card"],
+  "complexity": "moderate",
+  "relatedPatterns": ["sticky-header"],
+  "notes": "Form sections are separated by dividers. Labels are associated with inputs for accessibility. Switch toggles use descriptive labels. Submit button is placed at the bottom with right alignment."
+}

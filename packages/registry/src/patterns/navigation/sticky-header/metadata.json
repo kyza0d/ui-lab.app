@@ -1,0 +1,17 @@
+{
+  "id": "sticky-header",
+  "name": "Sticky Header",
+  "description": "Fixed-position header with logo, navigation links, and action buttons. Stays visible while scrolling for persistent access to navigation.",
+  "category": "navigation",
+  "tags": ["header", "navigation", "sticky", "fixed", "navbar", "menu", "responsive"],
+  "useCases": [
+    "Marketing website navigation",
+    "Application top bar",
+    "Documentation site header",
+    "Portfolio navigation"
+  ],
+  "components": ["Button", "Group", "Flex"],
+  "complexity": "simple",
+  "relatedPatterns": ["hero-with-cta", "settings-form-layout"],
+  "notes": "Uses sticky positioning with backdrop blur for visual depth. Navigation links use ghost button styling for consistency. Logo area and nav actions are separated with space-between layout."
+}
