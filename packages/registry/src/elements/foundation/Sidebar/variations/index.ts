@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicSidebar } from './01-basic';
+export { BasicSidebar } from './01-basic/index.js';
 
 // Type for all variations
 export type SidebarVariations = 'BasicSidebar';

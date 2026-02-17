@@ -3,7 +3,7 @@ import { Divider, Group } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-group.js';
 import Example2, { metadata as metadata2 } from './examples/02-active-buttons.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
@@ -147,4 +147,4 @@ export const groupDetail: ComponentDetail = {
 };
 
 export { groupControls };
-export * from './examples';
+export * from './examples/index';

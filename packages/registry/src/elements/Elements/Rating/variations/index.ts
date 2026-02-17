@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicRating } from './01-basic';
+export { BasicRating } from './01-basic/index.js';
 
 // Type for all variations
 export type RatingVariations = 'BasicRating';

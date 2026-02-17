@@ -1,0 +1,22 @@
+{
+  "id": "panel",
+  "name": "Panel",
+  "description": "A flexible region coordinator that manages header, footer, and content areas with responsive stacking behavior.",
+  "category": "composition",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Panel",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": ["page", "grid", "flex"],
+  "tags": ["composition", "panel", "regions", "responsive", "sticky"],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Uses semantic HTML elements (header, main, footer)",
+      "Provides context to child components",
+      "Supports responsive viewport detection",
+      "Sticky header respects user preferences"
+    ]
+  }
+}

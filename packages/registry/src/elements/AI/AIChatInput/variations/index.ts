@@ -1,6 +1,6 @@
 // Export all variation components
-export { BasicAIChatInput } from './01-basic';
-export { AIChatInputWithSuggestions } from './02-with-suggestions';
+export { BasicAIChatInput } from './01-basic/index.js';
+export { AIChatInputWithSuggestions } from './02-with-suggestions/index.js';
 
 // Type for all variations
 export type AIChatInputVariations = 'BasicAIChatInput' | 'AIChatInputWithSuggestions';

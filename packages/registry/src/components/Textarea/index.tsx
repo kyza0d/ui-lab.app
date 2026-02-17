@@ -2,7 +2,7 @@ import React from 'react';
 import { TextArea } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-textarea.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 // Define examplesData locally
@@ -77,4 +77,4 @@ export const textareaDetail: ComponentDetail = {
 };
 
 export { textareaControls };
-export * from './examples';
+export * from './examples/index';

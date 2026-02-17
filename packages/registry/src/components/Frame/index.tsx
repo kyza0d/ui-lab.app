@@ -4,7 +4,7 @@ import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-default-frame.js';
 import Example2, { metadata as metadata2 } from './examples/02-tooltip-example.js';
 import Example3, { metadata as metadata3 } from './examples/03-sidebar-tab.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
@@ -88,4 +88,4 @@ export const frameDetail: ComponentDetail = {
 };
 
 export { frameControls };
-export * from './examples';
+export * from './examples/index';

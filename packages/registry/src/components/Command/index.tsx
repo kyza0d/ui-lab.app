@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Command, Button, type Command as CommandType } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import { FaKeyboard } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-command.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
-import { FaSearch } from 'react-icons/fa';
 
 const examplesData = [
   { id: '01-basic-command', Component: Example1, metadata: metadata1 },
@@ -20,7 +18,7 @@ const commandControls: ControlDef[] = [
   },
 ];
 
-const commandBasicCode = `import { Command, Button } from "ui-lab-components";
+const commandBasicCode = `import { Command, Button, Badge } from "ui-lab-components";
 import { useState } from "react";
 
 export function Example() {
@@ -51,8 +49,26 @@ export function Example() {
       <Command
         open={open}
         onOpenChange={setOpen}
-        commands={commands}
-      />
+        items={commands}
+      >
+        <Command.SearchInput placeholder="Search..." />
+        <Command.List>
+          <Command.Groups
+            renderItem={(cmd) => (
+              <Command.Item
+                value={cmd.id}
+                textValue={cmd.label}
+                action={cmd.action}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div>{cmd.label}</div>
+                  {cmd.shortcut && <Badge>{cmd.shortcut}</Badge>}
+                </div>
+              </Command.Item>
+            )}
+          />
+        </Command.List>
+      </Command>
     </>
   );
 }`;
@@ -78,7 +94,25 @@ const CommandPreview = () => {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Palette</Button>
-      <Command open={open} onOpenChange={setOpen} commands={commands} />
+      <Command open={open} onOpenChange={setOpen} items={commands}>
+        <Command.SearchInput placeholder="Search..." />
+        <Command.List>
+          <Command.Groups
+            renderItem={(cmd) => (
+              <Command.Item
+                value={cmd.id}
+                textValue={cmd.label}
+                action={cmd.action}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div>{cmd.label}</div>
+                  {cmd.shortcut && <span style={{ fontSize: '0.875em', opacity: 0.7 }}>{cmd.shortcut}</span>}
+                </div>
+              </Command.Item>
+            )}
+          />
+        </Command.List>
+      </Command>
     </>
   );
 };
@@ -110,8 +144,26 @@ const CommandRenderPreview = (props: any) => {
           setOpen(value);
           props.handleControlChange('open', value);
         }}
-        commands={commands}
-      />
+        items={commands}
+      >
+        <Command.SearchInput placeholder="Search..." />
+        <Command.List>
+          <Command.Groups
+            renderItem={(cmd) => (
+              <Command.Item
+                value={cmd.id}
+                textValue={cmd.label}
+                action={cmd.action}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div>{cmd.label}</div>
+                  {cmd.shortcut && <span style={{ fontSize: '0.875em', opacity: 0.7 }}>{cmd.shortcut}</span>}
+                </div>
+              </Command.Item>
+            )}
+          />
+        </Command.List>
+      </Command>
     </>
   );
 };
@@ -154,4 +206,4 @@ export const commandDetail: ComponentDetail = {
 };
 
 export { commandControls };
-export * from './examples';
+export * from './examples/index';

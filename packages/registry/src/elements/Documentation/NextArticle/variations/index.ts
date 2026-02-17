@@ -1,6 +1,6 @@
 // Export all variation components
-export { BasicNextArticle } from './01-basic';
-export { NextArticleWithIcon } from './02-with-icon';
+export { BasicNextArticle } from './01-basic/index.js';
+export { NextArticleWithIcon } from './02-with-icon/index.js';
 
 // Type for all variations
 export type NextArticleVariations = 'BasicNextArticle' | 'NextArticleWithIcon';

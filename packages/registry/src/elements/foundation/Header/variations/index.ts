@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicHeader } from './01-basic';
+export { BasicHeader } from './01-basic/index.js';
 
 // Type for all variations
 export type HeaderVariations = 'BasicHeader';

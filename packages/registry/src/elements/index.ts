@@ -12,23 +12,23 @@
 import type { ElementRegistry } from '../types';
 
 // Element imports (auto-generated)
-import aichatinputElement from './AI/AIChatInput';
-import chainofthoughtElement from './AI/ChainOfThought';
-import chatElement from './AI/Chat';
-import copypageElement from './Documentation/CopyPage';
-import nextarticleElement from './Documentation/NextArticle';
-import tocElement from './Documentation/TOC';
-import carouselElement from './Elements/Carousel';
-import ratingElement from './Elements/Rating';
-import timelineElement from './Elements/Timeline';
-import treeviewElement from './Elements/TreeView';
-import headerElement from './foundation/Header';
-import pageElement from './foundation/Page';
-import sidebarElement from './foundation/Sidebar';
+import aichatinputElement from './AI/AIChatInput/index.js';
+import chainofthoughtElement from './AI/ChainOfThought/index.js';
+import chatElement from './AI/Chat/index.js';
+import copypageElement from './Documentation/CopyPage/index.js';
+import nextarticleElement from './Documentation/NextArticle/index.js';
+import tocElement from './Documentation/TOC/index.js';
+import carouselElement from './Elements/Carousel/index.js';
+import ratingElement from './Elements/Rating/index.js';
+import timelineElement from './Elements/Timeline/index.js';
+import treeviewElement from './Elements/TreeView/index.js';
+import headerElement from './foundation/Header/index.js';
+import pageElement from './foundation/Page/index.js';
+import sidebarElement from './foundation/Sidebar/index.js';
 
 // Type exports (preserved)
-export type { ElementMetadata, ElementVariant, ElementPackageMetadata } from '../types';
-export type { ElementCategoryId, ElementCategoryDefinition } from './categories';
+export type { ElementMetadata, ElementVariant, ElementPackageMetadata } from '../types.js';
+export type { ElementCategoryId, ElementCategoryDefinition } from './categories.js';
 
 // Category exports (preserved)
 export {
@@ -39,7 +39,7 @@ export {
   groupElementsByCategory,
   getElementsInCategory,
   getCategoriesWithElements,
-} from './categories';
+} from './categories.js';
 
 // Package exports
 export {
@@ -48,7 +48,7 @@ export {
   getAllPackages,
   getElementsInPackage,
   getPackageForElement,
-} from './packages';
+} from './packages.js';
 
 // Registry (auto-generated)
 export const elementRegistry: ElementRegistry = {

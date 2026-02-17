@@ -1,4 +1,3 @@
-import React from 'react';
 import { Menu } from 'ui-lab-components';
 
 export const metadata = {
@@ -23,7 +22,7 @@ export default function Example() {
             <Menu.Item>Sublime Text</Menu.Item>
             <Menu.Item>Vim</Menu.Item>
             <Menu.Separator />
-            <Menu.Item>Choose another app...</Menu.Item>
+            <Menu.Item>Other Application...</Menu.Item>
           </Menu.SubContent>
         </Menu.Sub>
         <Menu.Sub>

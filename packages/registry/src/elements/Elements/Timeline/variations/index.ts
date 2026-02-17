@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicTimeline } from './01-basic';
+export { BasicTimeline } from './01-basic/index.js';
 
 // Type for all variations
 export type TimelineVariations = 'BasicTimeline';

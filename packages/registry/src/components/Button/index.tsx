@@ -6,7 +6,7 @@ import Example2, { metadata as metadata2 } from './examples/02-joined-toggle-but
 import Example3, { metadata as metadata3 } from './examples/03-split-action-button.js';
 import Example4, { metadata as metadata4 } from './examples/04-toolbar-buttons.js';
 import Example5, { metadata as metadata5 } from './examples/05-pagination-controls.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 // Define examplesData locally
@@ -101,4 +101,4 @@ export const buttonDetail: ComponentDetail = {
 };
 
 export { buttonControls };
-export * from './examples';
+export * from './examples/index';

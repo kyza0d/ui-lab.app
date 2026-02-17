@@ -107,4 +107,4 @@ export const dividerDetail: ComponentDetail = {
 };
 
 export { dividerControls };
-export * from "./examples";
+export * from "./examples/index";

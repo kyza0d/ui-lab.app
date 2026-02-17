@@ -3,6 +3,7 @@
   "name": "Group",
   "description": "Flexible container for grouping Button, Input, and Select components with unified styling.",
   "category": "composition",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Group",

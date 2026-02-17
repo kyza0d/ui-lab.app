@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { CommandPalette, Button } from 'ui-lab-components';
+import { Command, Button, Badge } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Command Palette',
-  description: 'A searchable command palette with keyboard shortcuts. Use this for quick access to application actions.'
+  description: 'A searchable command palette with keyboard shortcuts. Use Cmd+K (or Ctrl+K) to open.'
 };
 
 export default function Example() {
@@ -40,11 +40,42 @@ export default function Example() {
       <Button onClick={() => setOpen(true)}>
         Open Palette (⌘K)
       </Button>
-      <CommandPalette
+      <Command
         open={open}
         onOpenChange={setOpen}
-        commands={commands}
-      />
+        items={commands}
+      >
+        <Command.SearchInput placeholder="Search commands..." />
+        <Command.List>
+          <Command.Groups
+            renderCategory={(category) =>
+              category ? <Command.Category>{category}</Command.Category> : null
+            }
+            renderItem={(cmd) => (
+              <Command.Item
+                key={cmd.id}
+                value={cmd.id}
+                textValue={cmd.label}
+                action={cmd.action}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <div style={{ fontWeight: 500 }}>{cmd.label}</div>
+                    {cmd.description && (
+                      <div style={{ fontSize: '0.875em', opacity: 0.7 }}>
+                        {cmd.description}
+                      </div>
+                    )}
+                  </div>
+                  {cmd.shortcut && (
+                    <Badge>{cmd.shortcut}</Badge>
+                  )}
+                </div>
+              </Command.Item>
+            )}
+          />
+        </Command.List>
+      </Command>
     </>
   );
 }

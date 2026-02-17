@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicCarousel } from './01-basic';
+export { BasicCarousel } from './01-basic/index.js';
 
 // Type for all variations
 export type CarouselVariations = 'BasicCarousel';

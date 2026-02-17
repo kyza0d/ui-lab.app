@@ -3,6 +3,7 @@
   "name": "List",
   "description": "Compound component for displaying item collections with selection and actions.",
   "category": "composition",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "List",

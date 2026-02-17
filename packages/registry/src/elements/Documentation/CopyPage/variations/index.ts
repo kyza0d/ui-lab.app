@@ -1,6 +1,6 @@
 // Export all variation components
-export { BasicCopyPage } from './01-basic';
-export { CopyPageWithSuccess } from './02-with-success';
+export { BasicCopyPage } from './01-basic/index.js';
+export { CopyPageWithSuccess } from './02-with-success/index.js';
 
 // Type for all variations
 export type CopyPageVariations = 'BasicCopyPage' | 'CopyPageWithSuccess';

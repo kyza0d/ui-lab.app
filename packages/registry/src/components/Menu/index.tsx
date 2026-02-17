@@ -3,7 +3,7 @@ import { Menu } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-menu.js';
 import Example2, { metadata as metadata2 } from './examples/02-nested-menu.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaArrowsRotate, FaStar, FaTrash } from 'react-icons/fa6';
 
@@ -90,4 +90,4 @@ export const menuDetail: ComponentDetail = {
 };
 
 export { menuControls };
-export * from './examples';
+export * from './examples/index';
