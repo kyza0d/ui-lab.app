@@ -1,0 +1,108 @@
+{
+  "id": "theme",
+  "name": "ThemeProvider",
+  "description": "Production-ready theme provider for light/dark mode with automatic color inversion, localStorage persistence, and device preference detection. Integrates with UI Lab's semantic color system for automatic theme-aware styling.",
+  "category": "theme",
+  "packageName": "@ui/providers",
+  "exportName": "ThemeProvider",
+  "version": "1.0.0",
+  "tags": ["theme", "light-mode", "dark-mode", "color-system", "context-api"],
+  "hooks": [
+    {
+      "name": "useTheme",
+      "import": "import { useTheme } from '@ui/providers'",
+      "description": "Access full theme context including mode, device preference, and manual overrides. Use this for reading current theme state and theme-related metadata.",
+      "signature": "useTheme(): ThemeContextType",
+      "returns": {
+        "themeMode": "'light' | 'dark' - Current active theme mode",
+        "themeSource": "'manual' | 'device' | 'system' - How the theme was set",
+        "devicePreference": "'light' | 'dark' | 'no-preference' - Device OS preference",
+        "toggleThemeMode": "() => void - Switch between light and dark modes",
+        "setThemeMode": "(mode: 'light' | 'dark') => void - Set theme to specific mode",
+        "resetToDevicePreference": "() => void - Revert to device OS preference"
+      }
+    },
+    {
+      "name": "useThemeMode",
+      "import": "import { useThemeMode } from '@ui/providers'",
+      "description": "Lightweight hook for theme mode only (light/dark). Use this when you only need the current mode, not the full context.",
+      "signature": "useThemeMode(): 'light' | 'dark'",
+      "returns": {
+        "return": "'light' | 'dark' - Current theme mode"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "provider-setup",
+      "title": "Provider Setup",
+      "description": "Wrap your application root in ThemeProvider to enable theme support.",
+      "filePath": "examples/01-provider-setup.tsx",
+      "category": "setup"
+    },
+    {
+      "id": "toggle-component",
+      "title": "Theme Toggle Component",
+      "description": "Create a simple toggle button to switch between light and dark modes.",
+      "filePath": "examples/02-toggle-component.tsx",
+      "category": "usage"
+    },
+    {
+      "id": "advanced-patterns",
+      "title": "Advanced Patterns",
+      "description": "Programmatic control, conditional rendering, and View Transition API integration.",
+      "filePath": "examples/03-advanced-patterns.tsx",
+      "category": "advanced"
+    }
+  ],
+  "features": [
+    {
+      "name": "Automatic Color Inversion",
+      "description": "Colors automatically invert between light and dark modes using shade pairing (50↔950, 100↔900, etc.)",
+      "status": "automatic",
+      "details": "No need for dark: prefixes or manual color overrides. The semantic color system handles all inversions transparently."
+    },
+    {
+      "name": "FOUC Prevention",
+      "description": "Prevents Flash of Unstyled Content by loading theme preference before rendering.",
+      "status": "automatic",
+      "details": "Include the initialization script in your layout.tsx before the closing </body> tag to prevent theme flickering on page load."
+    },
+    {
+      "name": "localStorage Persistence",
+      "description": "Theme preference persists across sessions using browser localStorage.",
+      "status": "automatic",
+      "details": "User's theme choice is automatically saved and restored on subsequent visits."
+    },
+    {
+      "name": "Device Preference Detection",
+      "description": "Respects system OS theme preferences using prefers-color-scheme.",
+      "status": "automatic",
+      "details": "Automatically detects and applies device theme. User can override with manual selection."
+    },
+    {
+      "name": "View Transition API Integration",
+      "description": "Smooth transitions between themes using CSS View Transitions.",
+      "status": "optional",
+      "details": "Wrap toggleThemeMode() in startViewTransition() for animated theme changes in supported browsers."
+    }
+  ],
+  "integrationSteps": [
+    "Wrap your app root in ThemeProvider at app/providers.tsx",
+    "Import and use providers in app/layout.tsx: <Providers>{children}</Providers>",
+    "Add FOUC prevention script to layout.tsx before closing </body> tag",
+    "Create ThemeToggle component using useTheme() hook",
+    "Place toggle in navigation or header for user access"
+  ],
+  "bestPractices": [
+    "Always wrap your entire app in ThemeProvider - place it at the root level before all other providers",
+    "Use useThemeMode for simple mode checks, useTheme for advanced features like device preference",
+    "Don't hardcode color hex values - use semantic Tailwind classes (text-foreground-50, bg-background-900, etc.)",
+    "No need for dark: prefixes in Tailwind - colors automatically adapt to the current theme",
+    "Initialize theme before first render to prevent FOUC - use the provided initialization script",
+    "Semantic colors automatically invert: 50↔950, 100↔900, 200↔800, 300↔700, 400↔600, 500 stays same",
+    "For smooth transitions, wrap toggleThemeMode in View Transition API: document.startViewTransition(() => toggleThemeMode())",
+    "Store theme preference in localStorage automatically - no manual storage needed"
+  ],
+  "relatedProviders": []
+}
