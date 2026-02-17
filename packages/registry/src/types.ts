@@ -287,3 +287,84 @@ export interface ComponentDetail {
   }>;
   usage?: React.ReactNode;
 }
+
+// Provider Registry Types
+export type ProviderCategory = 'theme' | 'auth' | 'state' | 'data' | 'routing' | 'other';
+
+export interface ProviderHook {
+  name: string;
+  import: string;
+  description: string;
+  returns: Record<string, string>;
+  signature?: string;
+}
+
+export interface ProviderExample {
+  id: string;
+  title: string;
+  description: string;
+  filePath: string;
+  category: 'setup' | 'usage' | 'advanced' | 'patterns';
+}
+
+export interface ProviderFeature {
+  name: string;
+  description: string;
+  status?: 'automatic' | 'manual' | 'optional';
+  details?: string;
+}
+
+export interface ProviderMetadata {
+  id: string;
+  name: string;
+  description: string;
+  category: ProviderCategory;
+  packageName: string;
+  exportName: string;
+  version?: string;
+  tags?: string[];
+  hooks: ProviderHook[];
+  examples: ProviderExample[];
+  features: ProviderFeature[];
+  integrationSteps: string[];
+  bestPractices?: string[];
+  relatedProviders?: string[];
+}
+
+export interface ProviderRegistry {
+  [providerId: string]: ProviderMetadata;
+}
+
+export interface ProviderCategoryDefinition {
+  id: ProviderCategory;
+  name: string;
+  label: string;
+  description: string;
+  iconName?: string;
+}
+
+export type PatternCategory =
+  | 'hero-landing'
+  | 'navigation'
+  | 'forms'
+  | 'content'
+  | 'sections';
+
+export type PatternComplexity = 'simple' | 'moderate' | 'complex';
+
+export interface PatternMetadata {
+  id: string;
+  name: string;
+  description: string;
+  category: PatternCategory;
+  tags: string[];
+  useCases: string[];
+  components: string[];
+  complexity: PatternComplexity;
+  relatedPatterns: string[];
+  notes: string;
+}
+
+export interface PatternRegistry {
+  [patternId: string]: PatternMetadata;
+}
