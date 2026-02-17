@@ -17,3 +17,4 @@ packages/registry/.cache
 .agents/
 .playwright-mcp/
 skills/
+reports/

@@ -1,307 +1,95 @@
 
-> ui-lab-monorepo@0.1.0 build /home/kyza/Projects/ui-lab/app
-> pnpm -r run build
+> ui-lab-components@0.1.6 build /home/kyza/Projects/ui-lab/app/packages/@ui
+> vite build && npm run build:css && npm run build:postcss
 
-Scope: 5 of 6 workspace projects
-packages/@ui build$ vite build && npm run build:css && npm run build:postcss
-packages/@ui build: vite v5.4.21 building for production...
-packages/@ui build: transforming...
-packages/@ui build: ✓ 2804 modules transformed.
-packages/@ui build: rendering chunks...
-packages/@ui build: [vite:dts] Start generate declaration files...
-packages/@ui build: computing gzip size...
-packages/@ui build: dist/style.css            71.98 kB │ gzip:  11.35 kB
-packages/@ui build: dist/theme-script.es.js    1.00 kB │ gzip:   0.47 kB
-packages/@ui build: dist/ui-lab-ui.es.js     438.40 kB │ gzip: 120.84 kB
-packages/@ui build: [vite:dts] Declaration files built in 2247ms.
-packages/@ui build: ✓ built in 4.28s
-packages/@ui build: npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
-packages/@ui build: > ui-lab-components@0.1.5 build:css
-packages/@ui build: > npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css || (echo 'Error: Failed to build CSS files' && exit 1)
-packages/@ui build: npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
-packages/@ui build: npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
-packages/@ui build: > ui-lab-components@0.1.5 build:postcss
-packages/@ui build: > cp src/postcss-ui-lab.mjs dist/postcss-ui-lab.mjs
-packages/@ui build: Done
-packages/registry build$ pnpm validate:elements && pnpm generate && npm run build:css && tsc
-packages/registry build: > ui-lab-registry@0.1.7 validate:elements /home/kyza/Projects/ui-lab/app/packages/registry
-packages/registry build: > tsx scripts/validate-element-registry.ts
-packages/registry build: ✓ Element Registry Validation Complete
-packages/registry build: Summary:
-packages/registry build:   Total Elements: 3
-packages/registry build:   Total Variations: 3
-packages/registry build: Validations Passed:
-packages/registry build:   ✓ Variation Exports
-packages/registry build:   ✓ variations.json Consistency
-packages/registry build:   ✓ Demo Component Map
-packages/registry build:   ✓ Element Registry
-packages/registry build:   ✓ Cross-Element Uniqueness
-packages/registry build:   ✓ Type Safety
-packages/registry build: Build can proceed.
-packages/registry build: > ui-lab-registry@0.1.7 generate /home/kyza/Projects/ui-lab/app/packages/registry
-packages/registry build: > tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-demo-map.ts && tsx scripts/generate-manifest.ts && tsx scripts/validate-element-structure.ts
-packages/registry build: 📝 Generating examples.json files...
-packages/registry build: ✅ Anchor
-packages/registry build: ✅ Badge
-packages/registry build: ✅ Banner
-packages/registry build: ✅ Breadcrumbs
-packages/registry build: ✅ Button
-packages/registry build: ✅ Card
-packages/registry build: ✅ Checkbox
-packages/registry build: ✅ Command
-packages/registry build: ✅ Confirm
-packages/registry build: ✅ Divider
-packages/registry build: ✅ Flex
-packages/registry build: ✅ Fold
-packages/registry build: ✅ Frame
-packages/registry build: ✅ Gallery
-packages/registry build: ✅ Grid
-packages/registry build: ✅ Group
-packages/registry build: ✅ Input
-packages/registry build: ✅ Label
-packages/registry build: ✅ List
-packages/registry build: ✅ Menu
-packages/registry build: ✅ Modal
-packages/registry build: ✅ Popover
-packages/registry build: ✅ Progress
-packages/registry build: ✅ Radio
-packages/registry build: ✅ Scroll
-packages/registry build: ✅ Select
-packages/registry build: ✅ Slider
-packages/registry build: ✅ Switch
-packages/registry build: ✅ Table
-packages/registry build: ✅ Tabs
-packages/registry build: ✅ Textarea
-packages/registry build: ✅ Toast
-packages/registry build: ✅ Tooltip
-packages/registry build: ✨ Done!
-packages/registry build:    ✅ 33 components with examples.json
-packages/registry build:    ⏭️  0 components skipped
-packages/registry build: 🔧 Generating registry.ts from components...
-packages/registry build: ✅ Anchor (1 examples)
-packages/registry build: ✅ Badge (1 examples)
-packages/registry build: ✅ Banner (1 examples)
-packages/registry build: ✅ Breadcrumbs (1 examples)
-packages/registry build: ✅ Button (1 examples)
-packages/registry build: ✅ Card (2 examples)
-packages/registry build: ✅ Checkbox (1 examples)
-packages/registry build: ✅ Command (1 examples)
-packages/registry build: ✅ Confirm (1 examples)
-packages/registry build: ✅ Divider (3 examples)
-packages/registry build: ✅ Flex (1 examples)
-packages/registry build: ✅ Fold (1 examples)
-packages/registry build: ✅ Frame (3 examples)
-packages/registry build: ✅ Gallery (1 examples)
-packages/registry build: ✅ Grid (1 examples)
-packages/registry build: ✅ Group (1 examples)
-packages/registry build: ✅ Input (1 examples)
-packages/registry build: ✅ Label (1 examples)
-packages/registry build: ✅ List (1 examples)
-packages/registry build: ✅ Menu (1 examples)
-packages/registry build: ✅ Modal (1 examples)
-packages/registry build: ✅ Popover (1 examples)
-packages/registry build: ✅ Progress (1 examples)
-packages/registry build: ✅ Radio (1 examples)
-packages/registry build: ✅ Scroll (1 examples)
-packages/registry build: ✅ Select (1 examples)
-packages/registry build: ✅ Slider (1 examples)
-packages/registry build: ✅ Switch (1 examples)
-packages/registry build: ✅ Table (1 examples)
-packages/registry build: ✅ Tabs (1 examples)
-packages/registry build: ✅ Textarea (1 examples)
-packages/registry build: ✅ Toast (5 examples)
-packages/registry build: ✅ Tooltip (1 examples)
-packages/registry build: ✨ Registry generated!
-packages/registry build:    📝 /home/kyza/Projects/ui-lab/app/packages/registry/src/registry.ts
-packages/registry build:    ✅ 33 components
-packages/registry build:    ⏭️  0 skipped
-packages/registry build:    Total examples: 42
-packages/registry build: Starting registry data extraction...
-packages/registry build: Found 34 components: Anchor, Badge, Banner, Breadcrumbs, Button, Card, Checkbox, Command, Confirmation, Divider, EasingPreview, Flex, Fold, Frame, Gallery, Grid, Group, Input, Label, List, Menu, Modal, Popover, Progress, Radio, Scroll, Select, Slider, Switch, Table, Tabs, Textarea, Toast, Tooltip
-packages/registry build: Extracting API documentation...
-packages/registry build: Loaded API cache with 34 entries
-packages/registry build: Cache: 32 hits, 1 parsed, total 33 components
-packages/registry build: Extracted API for 33 components
-packages/registry build: Extracting styles data...
-packages/registry build: Extracted styles for 27 components
-packages/registry build: Extracting source code...
-packages/registry build: Extracted source code for 34 components
-packages/registry build: Extracting package metadata...
-packages/registry build: Package version: 0.1.7
-packages/registry build: Generated data written to: /home/kyza/Projects/ui-lab/app/packages/registry/src/generated-data.ts
-packages/registry build: Summary:
-packages/registry build: --------
-packages/registry build: Anchor: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Badge: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Banner: API=✗ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Breadcrumbs: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Button: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Card: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Checkbox: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Command: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Confirmation: API=✓ Styles=✗ Source=✓ ReactAria=-
-packages/registry build: Divider: API=✓ Styles=✗ Source=✓ ReactAria=-
-packages/registry build: EasingPreview: API=✓ Styles=✗ Source=✓ ReactAria=-
-packages/registry build: Flex: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Fold: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Frame: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Gallery: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Grid: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Group: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Input: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Label: API=✓ Styles=✗ Source=✓ ReactAria=✓
-packages/registry build: List: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Menu: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Modal: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Popover: API=✓ Styles=✗ Source=✓ ReactAria=✓
-packages/registry build: Progress: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Radio: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Scroll: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Select: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Slider: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Switch: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Table: API=✓ Styles=✗ Source=✓ ReactAria=✓
-packages/registry build: Tabs: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Textarea: API=✓ Styles=✓ Source=✓ ReactAria=✓
-packages/registry build: Toast: API=✓ Styles=✓ Source=✓ ReactAria=-
-packages/registry build: Tooltip: API=✓ Styles=✗ Source=✓ ReactAria=✓
-packages/registry build: Done! Run `pnpm build` to rebuild the registry package.
-packages/registry build: 🔍 Discovering element variations...
-packages/registry build:   ✓ Header (1 variations)
-packages/registry build:     - 01-basic: "Basic Header"
-packages/registry build:   ✓ Page (1 variations)
-packages/registry build:     - 01-basic: "Basic Page"
-packages/registry build:   ✓ Sidebar (1 variations)
-packages/registry build:     - 01-basic: "Basic Sidebar"
-packages/registry build: 📝 Generating variations.json files...
-packages/registry build:   ✓ Header/variations.json
-packages/registry build:   ✓ Page/variations.json
-packages/registry build:   ✓ Sidebar/variations.json
-packages/registry build: ✅ Element variation discovery complete!
-packages/registry build: 🔍 Discovering elements...
-packages/registry build:   ✓ Header (id: "header")
-packages/registry build:   ✓ Page (id: "page")
-packages/registry build:   ✓ Sidebar (id: "sidebar")
-packages/registry build: 📝 Generating element registry...
-packages/registry build:   ✓ index.ts (3 elements)
-packages/registry build: ✅ Element registry generation complete!
-packages/registry build: 🗺️  Generating demo component map...
-packages/registry build:   ✓ get-element-demo.ts
-packages/registry build: ✅ Demo map generation complete!
-packages/registry build: 📋 Generating manifest files...
-packages/registry build:   ✓ Header/manifest.ts
-packages/registry build:   ✓ Page/manifest.ts
-packages/registry build:   ✓ Sidebar/manifest.ts
-packages/registry build: ✅ Manifest generation complete!
-packages/registry build: 🔍 Validating element structure...
-packages/registry build: ✅ Validation passed!
-packages/registry build: npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
-packages/registry build: npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
-packages/registry build: npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
-packages/registry build: npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
-packages/registry build: > ui-lab-registry@0.1.7 build:css
-packages/registry build: > pnpm exec postcss src/styles.css -o dist/styles.css
-packages/registry build: Done
-packages/@cli build$ tsup
-packages/@mcp build$ tsc
-apps/site build$ npm run generate:docs && next build
-apps/site build: npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
-apps/site build: npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
-apps/site build: npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
-apps/site build: npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
-apps/site build: > @ui-lab/site@0.1.0 generate:docs
-apps/site build: > node scripts/generate-docs.mjs
-apps/site build: Generating sidebar registry...
-apps/site build: Processing domain: docs
-apps/site build:   Content directory: /home/kyza/Projects/ui-lab/app/apps/site/content/docs
-apps/site build:   Found 7 content files
-apps/site build:   Extracted metadata for 7 files
-apps/site build:   Organized into 3 sections:
-apps/site build:     - Getting Started (1 items)
-apps/site build:     - Development (3 items)
-apps/site build:     - How-To (3 items)
-apps/site build: Processing domain: agents-mcps
-apps/site build:   Content directory: /home/kyza/Projects/ui-lab/app/apps/site/content/agents-mcps
-apps/site build:   Found 31 content files
-apps/site build:   Extracted metadata for 31 files
-apps/site build:   Organized into 6 sections:
-apps/site build:     - Getting Started (10 items)
-apps/site build:     - Concepts (1 items)
-apps/site build:     - Building Workflows (8 items)
-apps/site build:     - Reference (3 items)
-apps/site build:     - Technical Reference (8 items)
-apps/site build:     - Development (1 items)
-apps/site build:   Navigation mappings for sub-items:
-apps/site build:     - agents-mcps-introduction: [Getting Started]
-apps/site build:     - agents-mcps-workflows: [Building Workflows]
-apps/site build:     - agents-mcps-references: [Reference, Technical Reference]
-apps/site build: Processing domain: cli
-apps/site build:   Content directory: /home/kyza/Projects/ui-lab/app/apps/site/content/cli
-apps/site build:   Found 9 content files
-apps/site build:   Extracted metadata for 9 files
-apps/site build:   Organized into 2 sections:
-apps/site build:     - Getting Started (3 items)
-apps/site build:     - Advanced (6 items)
-apps/site build:   Navigation mappings for sub-items:
-apps/site build:     - cli-getting-started: [Getting Started]
-apps/site build:     - cli-advanced: [Advanced]
-apps/site build: Processing domain: design-system
-apps/site build:   Content directory: /home/kyza/Projects/ui-lab/app/apps/site/content/design-system
-apps/site build:   Found 7 content files
-apps/site build:   Extracted metadata for 7 files
-apps/site build:   Organized into 3 sections:
-apps/site build:     - Foundation (3 items)
-apps/site build:     - Systems (2 items)
-apps/site build:     - Guidelines (2 items)
-apps/site build: ✓ Generated sidebar registry: /home/kyza/Projects/ui-lab/app/apps/site/src/features/navigation/lib/generated-sidebar-registry.ts
-apps/site build: ✓ Generated legacy docs output: /home/kyza/Projects/ui-lab/app/apps/site/src/features/docs/lib/generated-docs.ts
-apps/site build: ✓ All generators completed successfully
-packages/@cli build: CLI Building entry: {"index":"src/index.ts","bin/ui-lab":"src/bin/ui-lab.ts"}
-packages/@cli build: CLI Using tsconfig: tsconfig.json
-packages/@cli build: CLI tsup v8.5.1
-packages/@cli build: CLI Using tsup config: /home/kyza/Projects/ui-lab/app/packages/@cli/tsup.config.ts
-packages/@cli build: CLI Target: node18
-packages/@cli build: CLI Cleaning output folder
-packages/@cli build: ESM Build start
-packages/@cli build: ESM dist/index.js          110.52 KB
-packages/@cli build: ESM dist/bin/ui-lab.js     111.26 KB
-packages/@cli build: ESM dist/index.js.map      202.94 KB
-packages/@cli build: ESM dist/bin/ui-lab.js.map 204.62 KB
-packages/@cli build: ESM ⚡️ Build success in 31ms
-packages/@cli build: DTS Build start
-apps/site build: ▲ Next.js 16.1.1 (Turbopack, Cache Components)
-apps/site build:   Creating an optimized production build ...
-packages/@mcp build: Done
-packages/@cli build: DTS ⚡️ Build success in 2021ms
-packages/@cli build: DTS dist/bin/ui-lab.d.ts 20.00 B
-packages/@cli build: DTS dist/index.d.ts      10.89 KB
-packages/@cli build: Done
-apps/site build: ✓ Compiled successfully in 4.9s
-apps/site build:   Running TypeScript ...
-apps/site build: Failed to compile.
-apps/site build: ./src/features/elements/components/elements-sidebar.tsx:54:51
-apps/site build: Type error: Argument of type 'RefObject<HTMLDivElement | null>' is not assignable to parameter of type 'RefObject<HTMLDivElement>'.
-apps/site build:   Type 'HTMLDivElement | null' is not assignable to type 'HTMLDivElement'.
-apps/site build:     Type 'null' is not assignable to type 'HTMLDivElement'.
-apps/site build: [0m [90m 52 |[39m   )[33m;[39m
-apps/site build:  [90m 53 |[39m
-apps/site build: [31m[1m>[22m[39m[90m 54 |[39m   useSidebarScroll([32m`sidebar-scroll-${activeNav}`[39m[33m,[39m scrollContainerRef)[33m;[39m
-apps/site build:  [90m    |[39m                                                   [31m[1m^[22m[39m
-apps/site build:  [90m 55 |[39m
-apps/site build:  [90m 56 |[39m   [36mreturn[39m (
-apps/site build:  [90m 57 |[39m     [33m<[39m[33maside[39m className[33m=[39m[32m"hidden md:flex w-56 flex-col"[39m[33m>[39m[0m
-apps/site build: Next.js build worker exited with code: 1 and signal: null
-apps/site build: Failed
-/home/kyza/Projects/ui-lab/app/apps/site:
- ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @ui-lab/site@0.1.0 build: `npm run generate:docs && next build`
-Exit status 1
- ELIFECYCLE  Command failed with exit code 1.
+vite v5.4.21 building for production...
+[96msrc/components/Command/Command.tsx[0m:[93m40[0m:[93m10[0m - [91merror[0m[90m TS4033: [0mProperty 'items' of exported interface has or is using private name 'Command'.
+
+[7m40[0m   items: Command[];
+[7m  [0m [91m         ~~~~~~~[0m
+[96msrc/components/Command/Command.tsx[0m:[93m55[0m:[93m18[0m - [91merror[0m[90m TS4033: [0mProperty 'filteredItems' of exported interface has or is using private name 'Command'.
+
+[7m55[0m   filteredItems: Command[];
+[7m  [0m [91m                 ~~~~~~~[0m
+[96msrc/components/Command/Command.tsx[0m:[93m97[0m:[93m11[0m - [91merror[0m[90m TS4033: [0mProperty 'items' of exported interface has or is using private name 'Command'.
+
+[7m97[0m   items?: Command[];
+[7m  [0m [91m          ~~~~~~~[0m
+[96msrc/components/Command/Command.tsx[0m:[93m98[0m:[93m22[0m - [91merror[0m[90m TS4078: [0mParameter 'command' of exported function has or is using private name 'Command'.
+
+[7m98[0m   filter?: (command: Command, query: string) => boolean;
+[7m  [0m [91m                     ~~~~~~~[0m
+[96msrc/components/Command/Command.tsx[0m:[93m543[0m:[93m25[0m - [91merror[0m[90m TS4078: [0mParameter 'command' of exported function has or is using private name 'Command'.
+
+[7m543[0m   renderItem: (command: Command) => ReactNode;
+[7m   [0m [91m                        ~~~~~~~[0m
+[96msrc/components/List/index.ts[0m:[93m7[0m:[93m7[0m - [91merror[0m[90m TS4023: [0mExported variable 'List' has or is using name 'ActionGroupComponentProps' from external module "/home/kyza/Projects/ui-lab/app/packages/@ui/src/components/List/List" but cannot be named.
+
+[7m7[0m const List = Object.assign(ListRoot, {
+[7m [0m [91m      ~~~~[0m
+[96msrc/components/List/index.ts[0m:[93m7[0m:[93m7[0m - [91merror[0m[90m TS4023: [0mExported variable 'List' has or is using name 'FooterComponentProps' from external module "/home/kyza/Projects/ui-lab/app/packages/@ui/src/components/List/List" but cannot be named.
+
+[7m7[0m const List = Object.assign(ListRoot, {
+[7m [0m [91m      ~~~~[0m
+[96msrc/components/Select/index.ts[0m:[93m7[0m:[93m7[0m - [91merror[0m[90m TS4023: [0mExported variable 'Select' has or is using name 'SelectListProps' from external module "/home/kyza/Projects/ui-lab/app/packages/@ui/src/components/Select/Select.Items" but cannot be named.
+
+[7m7[0m const Select = Object.assign(SelectRoot, {
+[7m [0m [91m      ~~~~~~[0m
+[96msrc/components/Select/index.ts[0m:[93m22[0m:[93m7[0m - [91merror[0m[90m TS4023: [0mExported variable 'Multi' has or is using name 'SelectListProps' from external module "/home/kyza/Projects/ui-lab/app/packages/@ui/src/components/Select/Select.Items" but cannot be named.
+
+[7m22[0m const Multi = Object.assign(SelectRoot, {
+[7m  [0m [91m      ~~~~~[0m
+[96msrc/components/Command/Command.tsx[0m:[93m606[0m:[93m15[0m - [91merror[0m[90m TS2484: [0mExport declaration conflicts with exported declaration of 'CommandGroupedItems'.
+
+[7m606[0m export type { CommandGroupedItems };
+[7m   [0m [91m              ~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/Menu/index.tsx[0m:[93m79[0m:[93m30[0m - [91merror[0m[90m TS2305: [0mModule '"./Menu"' has no exported member 'Position'.
+
+[7m79[0m export type { SelectionMode, Position, ItemData, MenuContextValue, MenuSubmenuContextValue, RadioGroupContextValue } from "./Menu"
+[7m  [0m [91m                             ~~~~~~~~[0m
+[96msrc/components/Menu/index.tsx[0m:[93m79[0m:[93m40[0m - [91merror[0m[90m TS2305: [0mModule '"./Menu"' has no exported member 'ItemData'.
+
+[7m79[0m export type { SelectionMode, Position, ItemData, MenuContextValue, MenuSubmenuContextValue, RadioGroupContextValue } from "./Menu"
+[7m  [0m [91m                                       ~~~~~~~~[0m
+[96msrc/components/Tooltip/Tooltip.tsx[0m:[93m28[0m:[93m17[0m - [91merror[0m[90m TS2554: [0mExpected 1 arguments, but got 0.
+
+[7m28[0m   const idRef = useRef<ReturnType<typeof setTimeout>>();
+[7m  [0m [91m                ~~~~~~[0m
+
+  [96m../../node_modules/.pnpm/@types+react@19.2.7/node_modules/@types/react/index.d.ts[0m:[93m1728[0m:[93m24[0m
+    [7m1728[0m     function useRef<T>(initialValue: T): RefObject<T>;
+    [7m    [0m [96m                       ~~~~~~~~~~~~~~~[0m
+    An argument for 'initialValue' was not provided.
+
+transforming...
+✓ 2876 modules transformed.
+rendering chunks...
+
+[vite:dts] Start generate declaration files...
+computing gzip size...
+dist/style.css            97.91 kB │ gzip:  14.33 kB
+dist/theme-script.es.js    1.00 kB │ gzip:   0.47 kB
+dist/ui-lab-ui.es.js     496.26 kB │ gzip: 137.23 kB
+[vite:dts] Declaration files built in 2963ms.
+
+✓ built in 5.31s
+npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
+npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
+npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
+npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
+
+> ui-lab-components@0.1.6 build:css
+> npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css || (echo 'Error: Failed to build CSS files' && exit 1)
+
+npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
+npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
+npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
+npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
+npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
+npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
+npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
+npm warn Unknown env config "recursive". This will stop working in the next major version of npm.
+
+> ui-lab-components@0.1.6 build:postcss
+> cp src/postcss-ui-lab.mjs dist/postcss-ui-lab.mjs
+
