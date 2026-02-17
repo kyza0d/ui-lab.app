@@ -2,7 +2,7 @@ import React from 'react';
 import { List, Button } from 'ui-lab-components';
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
@@ -202,4 +202,4 @@ export function Example() {
   ],
 };
 
-export * from './examples';
+export * from './examples/index';

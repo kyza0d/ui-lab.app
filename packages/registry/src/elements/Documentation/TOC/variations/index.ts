@@ -1,6 +1,6 @@
 // Export all variation components
-export { BasicTOC } from './01-basic';
-export { ExpandedTOC } from './02-expanded';
+export { BasicTOC } from './01-basic/index.js';
+export { ExpandedTOC } from './02-expanded/index.js';
 
 // Type for all variations
 export type TOCVariations = 'BasicTOC' | 'ExpandedTOC';

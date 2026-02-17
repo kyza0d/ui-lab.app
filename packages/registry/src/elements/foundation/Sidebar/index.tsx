@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ElementMetadata } from '../../../types';
-import variationsData from './variations.json';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'sidebar',
@@ -50,7 +50,7 @@ export function getPreview(): React.ReactNode {
 export const metadata = baseMetadata;
 export default elementMetadata;
 
-export { BasicSidebar } from './variations';
-export type { SidebarVariations } from './variations';
+export { BasicSidebar } from './variations/index.js';
+export type { SidebarVariations } from './variations/index.js';
 
-export { DEMO_MAP, variationComponentMap } from './variations';
+export { DEMO_MAP, variationComponentMap } from './variations/index.js';

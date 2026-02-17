@@ -1,5 +1,5 @@
-import { categoryIconConfig } from '../icons-config';
-import { categories } from '../categories';
+import { categoryIconConfig } from '../icons-config.js';
+import { categories } from '../categories.js';
 import type { ComponentCategory } from '../types';
 
 // Generate icon map from config

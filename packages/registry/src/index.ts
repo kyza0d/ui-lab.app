@@ -20,9 +20,11 @@ export const sourceUrls: Record<string, string> = {
   "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Group",
   "input": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Input",
   "label": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Label",
+  "panel": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Panel",
   "list": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/List",
   "menu": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Menu",
   "modal": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Modal",
+  "page": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Page",
   "popover": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Popover",
   "progress": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Progress",
   "radio": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Radio",
@@ -75,7 +77,8 @@ export type {
   ComponentAccessibilityNote,
   SiteComponentExample,
   ComponentDetail,
-  PricingInfo
+  PricingInfo,
+  PatternComplexity
 } from './types.js';
 
 // Helpers
@@ -125,12 +128,8 @@ export type { ElementCategoryId, ElementCategoryDefinition, ElementPackageMetada
 export { elementOrder, getElementsInOrder, getAllElementsInOrder } from './element-order.js';
 
 // Element components
-export { BasicHeader, DEMO_MAP as headerDemoMap } from './elements/foundation/Header';
-export { default as headerElement } from './elements/foundation/Header';
-export { BasicSidebar, DEMO_MAP as sidebarDemoMap } from './elements/foundation/Sidebar';
-export { default as sidebarElement } from './elements/foundation/Sidebar';
-export { BasicPage, DEMO_MAP as pageDemoMap } from './elements/foundation/Page';
-export { default as pageElement } from './elements/foundation/Page';
+// Note: Foundation elements (Header, Sidebar, Page) are loaded through the elements registry, not directly exported
+// to avoid JSON import issues in ES modules
 
 // Sections
 export {
@@ -161,4 +160,46 @@ export {
   getAllStarterCategories,
   getAllStarterTags,
 } from './starters/index.js';
+
+// Patterns
+export {
+  patternRegistry,
+  getPatternById,
+  getAllPatterns,
+  getPatternsByCategory,
+  getPatternsByTag,
+  searchPatterns,
+  getPatternsByComplexity,
+  getPatternsByComponent,
+  getAllPatternCategories,
+  getAllPatternTags,
+  getRelatedPatterns,
+} from './patterns/index.js';
+export type {
+  PatternMetadata,
+  PatternRegistry,
+  PatternCategory,
+} from './patterns/index.js';
+
+// Providers
+export {
+  providerRegistry,
+  providerCategories,
+  getProviderById,
+  getAllProviders,
+  getAllProviderIds,
+  getProvidersByCategory,
+  searchProviders,
+  getProviderCategoriesInOrder,
+  getProviderCategoryDefinition,
+} from './providers/index.js';
+export type {
+  ProviderMetadata,
+  ProviderCategory,
+  ProviderCategoryDefinition,
+  ProviderHook,
+  ProviderExample,
+  ProviderFeature,
+  ProviderRegistry,
+} from './providers/index.js';
 

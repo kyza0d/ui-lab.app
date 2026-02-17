@@ -1,9 +1,9 @@
-import HeroMetadata from './Hero';
-import CTAMetadata from './CTA';
-import FeaturesMetadata from './Features';
-import TestimonialsMetadata from './Testimonials';
-import PricingMetadata from './Pricing';
-import type { SectionRegistry, SectionMetadata } from '../types';
+import HeroMetadata from './Hero/index.js';
+import CTAMetadata from './CTA/index.js';
+import FeaturesMetadata from './Features/index.js';
+import TestimonialsMetadata from './Testimonials/index.js';
+import PricingMetadata from './Pricing/index.js';
+import type { SectionRegistry, SectionMetadata } from '../types.js';
 
 export const sectionRegistry: SectionRegistry = {
   hero: HeroMetadata,
@@ -60,6 +60,6 @@ export function getAllSectionTags(): string[] {
   return Array.from(tags).sort();
 }
 
-export type { SectionRegistry, SectionMetadata, SectionVariant } from '../types';
-export type { SectionCategoryId, SectionCategoryDefinition } from './categories';
-export { sectionCategories, getCategoryForSection, groupSectionsByCategory } from './categories';
+export type { SectionRegistry, SectionMetadata, SectionVariant } from '../types.js';
+export type { SectionCategoryId, SectionCategoryDefinition } from './categories.js';
+export { sectionCategories, getCategoryForSection, groupSectionsByCategory } from './categories.js';

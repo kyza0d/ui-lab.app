@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ElementMetadata } from '../../../types';
-import variationsData from './variations.json';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'nextarticle',
@@ -41,7 +41,7 @@ export function getPreview(): React.ReactNode {
 export const metadata = baseMetadata;
 export default elementMetadata;
 
-export { BasicNextArticle } from './variations';
-export type { NextArticleVariations } from './variations';
+export { BasicNextArticle } from './variations/index.js';
+export type { NextArticleVariations } from './variations/index.js';
 
-export { DEMO_MAP, variationComponentMap } from './variations';
+export { DEMO_MAP, variationComponentMap } from './variations/index.js';

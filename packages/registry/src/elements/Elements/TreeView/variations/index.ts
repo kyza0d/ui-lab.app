@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicTreeView } from './01-basic';
+export { BasicTreeView } from './01-basic/index.js';
 
 // Type for all variations
 export type TreeViewVariations = 'BasicTreeView';

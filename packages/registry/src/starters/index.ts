@@ -1,12 +1,12 @@
-import type { StarterRegistry, StarterMetadata } from '../types';
-import nextjsStarter from './NextJS';
-import viteStarter from './Vite';
-import tauriStarter from './Tauri';
-import astroStarter from './Astro';
-import documentationStarter from './Documentation';
-import productivityStarter from './Productivity';
-import crmStarter from './CRM';
-import blogStarter from './Blog';
+import type { StarterRegistry, StarterMetadata } from '../types.js';
+import nextjsStarter from './NextJS/index.js';
+import viteStarter from './Vite/index.js';
+import tauriStarter from './Tauri/index.js';
+import astroStarter from './Astro/index.js';
+import documentationStarter from './Documentation/index.js';
+import productivityStarter from './Productivity/index.js';
+import crmStarter from './CRM/index.js';
+import blogStarter from './Blog/index.js';
 
 export const starterRegistry: StarterRegistry = {
   [nextjsStarter.id]: nextjsStarter,
@@ -66,4 +66,4 @@ export function getAllStarterTags(): string[] {
   return Array.from(tags).sort();
 }
 
-export type { StarterRegistry, StarterMetadata, StarterVariant } from '../types';
+export type { StarterRegistry, StarterMetadata, StarterVariant } from '../types.js';

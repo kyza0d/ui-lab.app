@@ -1,5 +1,5 @@
 // Export all variation components
-export { BasicPage } from './01-basic';
+export { BasicPage } from './01-basic/index.js';
 
 // Type for all variations
 export type PageVariations = 'BasicPage';

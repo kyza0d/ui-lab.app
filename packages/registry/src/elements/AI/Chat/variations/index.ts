@@ -1,6 +1,6 @@
 // Export all variation components
-export { BasicChat } from './01-basic';
-export { ChatWithActions } from './02-with-actions';
+export { BasicChat } from './01-basic/index.js';
+export { ChatWithActions } from './02-with-actions/index.js';
 
 // Type for all variations
 export type ChatVariations = 'BasicChat' | 'ChatWithActions';

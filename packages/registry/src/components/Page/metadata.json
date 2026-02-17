@@ -1,0 +1,32 @@
+{
+  "id": "page",
+  "name": "Page",
+  "description": "A lightweight page container that provides page-level context, constraints, and semantic structure.",
+  "category": "container",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Page",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "flex",
+    "card",
+    "grid"
+  ],
+  "tags": [
+    "container",
+    "layout",
+    "page-wrapper",
+    "responsive",
+    "context"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Uses semantic main role for page structure",
+      "Provides page-level context to child components",
+      "Mobile viewport detection for responsive behavior",
+      "Flexible padding and max-width constraints"
+    ]
+  }
+}

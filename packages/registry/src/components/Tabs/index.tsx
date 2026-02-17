@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-tabs.js';
 import Example2, { metadata as metadata2 } from './examples/02-vertical-tabs.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 // Define examplesData locally
@@ -154,4 +154,4 @@ export const tabsDetail: ComponentDetail = {
 };
 
 export { tabsControls };
-export * from './examples';
+export * from './examples/index';

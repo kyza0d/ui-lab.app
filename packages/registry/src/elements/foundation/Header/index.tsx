@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ElementMetadata } from '../../../types';
-import variationsData from './variations.json';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'header',
@@ -44,7 +44,7 @@ export function getPreview(): React.ReactNode {
 export const metadata = baseMetadata;
 export default elementMetadata;
 
-export { BasicHeader } from './variations';
-export type { HeaderVariations } from './variations';
+export { BasicHeader } from './variations/index.js';
+export type { HeaderVariations } from './variations/index.js';
 
-export { DEMO_MAP, variationComponentMap } from './variations';
+export { DEMO_MAP, variationComponentMap } from './variations/index.js';

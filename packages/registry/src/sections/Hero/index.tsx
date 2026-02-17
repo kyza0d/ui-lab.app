@@ -1,7 +1,7 @@
 import React from 'react';
 import type { SectionMetadata } from '../../types';
-import { createSectionSkeleton } from '../utils/create-section-skeleton';
-import variationsData from './variations.json';
+import { createSectionSkeleton } from '../utils/create-section-skeleton.js';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'hero',
@@ -41,5 +41,5 @@ export function getPreview(): React.ReactNode {
 export const metadata = baseMetadata;
 export default sectionMetadata;
 
-export { SimpleHero, HeroWithCTA } from './variations';
-export { DEMO_MAP } from './variations';
+export { SimpleHero, HeroWithCTA } from './variations/index.js';
+export { DEMO_MAP } from './variations/index.js';

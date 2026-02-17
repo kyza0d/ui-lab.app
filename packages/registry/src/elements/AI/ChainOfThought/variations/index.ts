@@ -1,6 +1,6 @@
 // Export all variation components
-export { BasicChainOfThought } from './01-basic';
-export { ChainOfThoughtWithDetails } from './02-with-details';
+export { BasicChainOfThought } from './01-basic/index.js';
+export { ChainOfThoughtWithDetails } from './02-with-details/index.js';
 
 // Type for all variations
 export type ChainOfThoughtVariations = 'BasicChainOfThought' | 'ChainOfThoughtWithDetails';

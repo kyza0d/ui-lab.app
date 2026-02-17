@@ -59,6 +59,28 @@ export const elementPackages: ElementPackageRegistry = {
       }));
     },
   },
+  extras: {
+    id: 'extras',
+    name: 'Extras',
+    description: 'Useful extras, completely free. Tree views, ratings, timelines, carousels.',
+    tags: ['free', 'extra', 'components'],
+    elements: ['treeview', 'rating', 'timeline', 'carousel'],
+    layout: {
+      columnSpan: 2,
+      rowSpan: 1,
+    },
+    pricing: {
+      price: null,
+      features: ['Expandable tree view', 'Star/heart ratings', 'Vertical timeline', 'Touch-friendly carousel', 'Copy-paste ready'],
+    },
+    getPreview: () => {
+      return () => React.createElement('div', {
+        className: 'flex items-center justify-center h-full w-full',
+      }, React.createElement(ElementsLogo, {
+        className: 'w-10 h-10 text-foreground-200',
+      }));
+    },
+  },
   ai: {
     id: 'ai',
     name: 'AI',
@@ -103,28 +125,6 @@ export const elementPackages: ElementPackageRegistry = {
       return () => React.createElement('div', {
         className: 'flex items-center justify-center h-full w-full',
       }, React.createElement(DocumentationLogo, {
-        className: 'w-10 h-10 text-foreground-200',
-      }));
-    },
-  },
-  extras: {
-    id: 'extras',
-    name: 'Extras',
-    description: 'Useful extras, completely free. Tree views, ratings, timelines, carousels.',
-    tags: ['free', 'extra', 'components'],
-    elements: ['treeview', 'rating', 'timeline', 'carousel'],
-    layout: {
-      columnSpan: 2,
-      rowSpan: 1,
-    },
-    pricing: {
-      price: null,
-      features: ['Expandable tree view', 'Star/heart ratings', 'Vertical timeline', 'Touch-friendly carousel', 'Copy-paste ready'],
-    },
-    getPreview: () => {
-      return () => React.createElement('div', {
-        className: 'flex items-center justify-center h-full w-full',
-      }, React.createElement(ElementsLogo, {
         className: 'w-10 h-10 text-foreground-200',
       }));
     },

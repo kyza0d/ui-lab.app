@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ElementMetadata, LayoutConfig } from '../../../types';
-import variationsData from './variations.json';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'page',
@@ -43,7 +43,7 @@ export function getPreview(): React.ReactNode {
 export const metadata = baseMetadata;
 export default elementMetadata;
 
-export { BasicPage } from './variations';
-export type { PageVariations } from './variations';
+export { BasicPage } from './variations/index.js';
+export type { PageVariations } from './variations/index.js';
 
-export { DEMO_MAP, variationComponentMap } from './variations';
+export { DEMO_MAP, variationComponentMap } from './variations/index.js';

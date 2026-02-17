@@ -3,6 +3,7 @@
   "name": "Mask",
   "description": "Container component that creates fading edge effects on content.",
   "category": "container",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Mask",

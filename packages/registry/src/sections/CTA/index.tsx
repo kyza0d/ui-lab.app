@@ -1,7 +1,7 @@
 import React from 'react';
 import type { SectionMetadata } from '../../types';
-import { createSectionSkeleton } from '../utils/create-section-skeleton';
-import variationsData from './variations.json';
+import { createSectionSkeleton } from '../utils/create-section-skeleton.js';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'cta',

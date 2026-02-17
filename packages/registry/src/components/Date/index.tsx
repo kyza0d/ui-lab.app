@@ -3,7 +3,7 @@ import { Date } from 'ui-lab-components'
 import { ControlDef, ComponentDetail } from '@/types'
 import Example1, { metadata as metadata1 } from './examples/01-basic-date.js'
 import Example2, { metadata as metadata2 } from './examples/02-with-disabled-dates.js'
-import examplesJson from './examples.json'
+import examplesJson from './examples.json' with { type: 'json' }
 import { loadComponentExamples } from '../../utils/load-component-examples'
 
 const examplesData = [

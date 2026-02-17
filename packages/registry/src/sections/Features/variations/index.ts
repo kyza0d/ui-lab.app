@@ -1,5 +1,5 @@
-export { GridFeatures } from './01-grid';
-export { FeatureList } from './02-list';
+export { GridFeatures } from './01-grid/index.js';
+export { FeatureList } from './02-list/index.js';
 
 export const DEMO_MAP = {
   'features-grid': { key: '01-grid', export: 'GridFeatures' },

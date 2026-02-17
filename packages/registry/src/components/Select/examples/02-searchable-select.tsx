@@ -40,13 +40,11 @@ export default function Example() {
     <Select>
       <Searchable.Trigger placeholder="Search countries..." />
       <Searchable.Content searchPlaceholder="Type to filter...">
-        <Select.List>
-          {countries.map((country) => (
-            <Select.Item key={country.value} value={country.value}>
-              {country.label}
-            </Select.Item>
-          ))}
-        </Select.List>
+        {countries.map((country) => (
+          <Select.Item key={country.value} value={country.value} textValue={country.label}>
+            {country.label}
+          </Select.Item>
+        ))}
       </Searchable.Content>
     </Select>
   );

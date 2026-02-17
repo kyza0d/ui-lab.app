@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ElementMetadata } from '../../../types';
-import variationsData from './variations.json';
+import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'carousel',
@@ -39,7 +39,7 @@ export function getPreview(): React.ReactNode {
 export const metadata = baseMetadata;
 export default elementMetadata;
 
-export { BasicCarousel } from './variations';
-export type { CarouselVariations } from './variations';
+export { BasicCarousel } from './variations/index.js';
+export type { CarouselVariations } from './variations/index.js';
 
-export { DEMO_MAP, variationComponentMap } from './variations';
+export { DEMO_MAP, variationComponentMap } from './variations/index.js';

@@ -3,7 +3,7 @@ import { Gallery } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaImage } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-gallery.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
@@ -145,4 +145,4 @@ export const galleryDetail: ComponentDetail = {
 };
 
 export { galleryControls };
-export * from './examples';
+export * from './examples/index';

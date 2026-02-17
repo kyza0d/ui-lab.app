@@ -9,7 +9,7 @@ import Example2, { metadata as metadata2 } from './examples/02-success-toast.js'
 import Example3, { metadata as metadata3 } from './examples/03-destructive-toast.js';
 import Example4, { metadata as metadata4 } from './examples/04-info-toast.js';
 import Example5, { metadata as metadata5 } from './examples/05-warning-toast.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaInfoCircle } from 'react-icons/fa';
 
@@ -128,4 +128,4 @@ export const toastDetail: ComponentDetail = {
 };
 
 export { toastControls };
-export * from './examples';
+export * from './examples/index';

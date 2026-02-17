@@ -2,7 +2,7 @@ import React from 'react';
 import { Breadcrumbs, Breadcrumb } from 'ui-lab-components';
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-breadcrumbs.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 import { FaChevronRight } from 'react-icons/fa6';
 
@@ -69,4 +69,4 @@ export const breadcrumbsDetail: ComponentDetail = {
   ],
 };
 
-export * from './examples';
+export * from './examples/index';

@@ -6,7 +6,7 @@ import Example2, { metadata as metadata2 } from './examples/02-user-profile-card
 import Example3, { metadata as metadata3 } from './examples/03-settings-panel-card.js';
 import Example4, { metadata as metadata4 } from './examples/04-task-progress-card.js';
 import Example5, { metadata as metadata5 } from './examples/05-data-summary-card.js';
-import examplesJson from './examples.json';
+import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
@@ -87,4 +87,4 @@ export const cardDetail: ComponentDetail = {
 };
 
 export { cardControls };
-export * from './examples';
+export * from './examples/index';
