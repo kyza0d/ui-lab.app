@@ -93,11 +93,11 @@ export function ComponentClient({ componentId }: { componentId: string }) {
 
   return (
     <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
-      <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
+      <div className={cn("flex flex-col mx-auto w-full max-w-5xl justify-center mt-(--header-height)")}>
         <BreadcrumbsNav />
         <Toaster />
         <div className="flex items-center">
-          <div className="pt-12 mx-auto max-w-3xl pb-12">
+          <div className="w-full pt-12 pb-12">
             <div className="space-y-2 min-h-32">
               <div className="flex flex-col mb-12 relative">
                 {metadata?.experimental && (
@@ -133,12 +133,12 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 </ComponentConfigurator>
               </div>
             )}
-            <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="w-full min-h-[calc(100vh-var(--header-height))]">
+            <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
-                <TabsList className="grid w-fit grid-cols-3 mb-1">
-                  <TabsTrigger className="text-sm" value="examples">Examples</TabsTrigger>
-                  <TabsTrigger className="text-sm" value="api">API</TabsTrigger>
-                  <TabsTrigger className="text-sm" value="styles">Styles</TabsTrigger>
+                <TabsList className="grid w-fit grid-cols-3">
+                  <TabsTrigger className="text-sm pb-3" value="examples">Examples</TabsTrigger>
+                  <TabsTrigger className="text-sm pb-3" value="api">API</TabsTrigger>
+                  <TabsTrigger className="text-sm pb-3" value="styles">Styles</TabsTrigger>
                 </TabsList>
               </Flex>
               <TabsContent value="examples" className="mt-6">

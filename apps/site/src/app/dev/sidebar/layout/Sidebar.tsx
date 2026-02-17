@@ -79,7 +79,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
 
       {/* Navigation Items */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
-        <List ariaLabel="Main navigation" className="p-2 space-y-2">
+        <List aria-label="Main navigation" className="p-2 space-y-2">
           {mainNavItems.map((item) =>
             item.id === 'projects' && !isCollapsed ? (
               <Fold key={item.id}>
@@ -123,7 +123,7 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
 
         <List.Divider />
 
-        <List ariaLabel="Secondary navigation" className="px-4 py-2 space-y-1">
+        <List aria-label="Secondary navigation" className="px-4 py-2 space-y-1">
           {secondaryNavItems.map((item) => (
             <NavItem key={item.id} item={item} isActive={activeItem === item.id} isCollapsed={isCollapsed} />
           ))}

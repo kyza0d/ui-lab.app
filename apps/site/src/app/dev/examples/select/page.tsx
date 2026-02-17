@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
-import { Select, Searchable, Multi } from "ui-lab-components";
+import { Select, Searchable, Badge } from "ui-lab-components";
 import { SiTypescript, SiJavascript, SiPython, SiRust, SiGo, SiSwift, SiKotlin, SiRuby, SiCplusplus, SiPhp, SiGithub, SiGitlab, SiBitbucket } from "react-icons/si";
-import { FaFlag } from "react-icons/fa6";
 
 const languages = [
   { value: "typescript", label: "TypeScript", icon: SiTypescript, color: "#3178C6" },
@@ -123,7 +122,11 @@ function CountrySelectPreview() {
     <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground-300">Country</label>
-        <Select selectedKey={country} onSelectionChange={setCountry} className="w-72">
+        <Select
+          selectedKey={country}
+          onSelectionChange={setCountry}
+          className="w-72"
+        >
           <Searchable.Trigger placeholder="Search countries..." />
           <Select.Content>
             <Select.List>
@@ -161,19 +164,42 @@ const techStack = [
 
 function MultiSelectPreview() {
   const [selected, setSelected] = useState<(string | number)[]>(["typescript", "rust"]);
+  const selectedItems = techStack.filter(t => selected.includes(t.value));
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground-300">Tech Stack</label>
-        <Multi selectedKeys={selected} onSelectionChange={setSelected} className="w-80">
-          <Multi.Trigger placeholder="Select technologies..." />
-          <Multi.Content searchPlaceholder="Search technologies...">
-            <Multi.List>
+        <Select mode="multiple" selectedKeys={selected} onSelectionChange={(keys) => setSelected(keys as (string | number)[])} className="w-full">
+          <Select.Trigger>
+            {selectedItems.length === 0 ? (
+              <span className="text-foreground-500">Select technologies...</span>
+            ) : (
+              <div className="flex flex-wrap gap-1.5">
+                {selectedItems.map((item) => {
+                  const ItemIcon = item.icon;
+                  return (
+                    <Badge
+                      key={item.value}
+                      variant="default"
+                      size="sm"
+                      icon={<ItemIcon style={{ color: item.color }} className="w-3 h-3" />}
+                      dismissible
+                      onDismiss={() => setSelected(selected.filter(s => s !== item.value))}
+                    >
+                      {item.label}
+                    </Badge>
+                  );
+                })}
+              </div>
+            )}
+          </Select.Trigger>
+          <Select.Content>
+            <Select.List>
               {techStack.map((tech) => {
                 const TechIcon = tech.icon;
                 return (
-                  <Multi.Item
+                  <Select.Item
                     key={tech.value}
                     value={tech.value}
                     textValue={tech.label}
@@ -181,12 +207,12 @@ function MultiSelectPreview() {
                     description={tech.description}
                   >
                     {tech.label}
-                  </Multi.Item>
+                  </Select.Item>
                 );
               })}
-            </Multi.List>
-          </Multi.Content>
-        </Multi>
+            </Select.List>
+          </Select.Content>
+        </Select>
       </div>
     </div>
   );
@@ -317,9 +343,9 @@ export function CountrySelect() {
   {
     id: "multi-select",
     title: "Multi-Select Tech Stack",
-    description: "Select multiple technologies with checkboxes, descriptions, and badges with icons.",
+    description: "Select multiple technologies with dismissable badges shown in the trigger area.",
     code: `import { useState } from "react";
-import { Multi } from "ui-lab-components";
+import { Select, Badge } from "ui-lab-components";
 import { SiTypescript, SiPython, SiRust } from "react-icons/si";
 
 const techStack = [
@@ -330,16 +356,39 @@ const techStack = [
 
 export function TechStackSelect() {
   const [selected, setSelected] = useState(["typescript"]);
+  const selectedItems = techStack.filter(t => selected.includes(t.value));
 
   return (
-    <Multi selectedKeys={selected} onSelectionChange={setSelected} className="w-80">
-      <Multi.Trigger placeholder="Select technologies..." />
-      <Multi.Content searchPlaceholder="Search technologies...">
-        <Multi.List>
+    <Select mode="multiple" selectedKeys={selected} onSelectionChange={setSelected} className="w-full">
+      <Select.Trigger>
+        {selectedItems.length === 0 ? (
+          <span className="text-foreground-500">Select technologies...</span>
+        ) : (
+          <div className="flex flex-wrap gap-1.5">
+            {selectedItems.map((item) => {
+              const ItemIcon = item.icon;
+              return (
+                <Badge
+                  key={item.value}
+                  variant="default"
+                  size="sm"
+                  icon={<ItemIcon style={{ color: item.color }} className="w-3 h-3" />}
+                  dismissible
+                  onDismiss={() => setSelected(selected.filter(s => s !== item.value))}
+                >
+                  {item.label}
+                </Badge>
+              );
+            })}
+          </div>
+        )}
+      </Select.Trigger>
+      <Select.Content>
+        <Select.List>
           {techStack.map((tech) => {
             const TechIcon = tech.icon;
             return (
-              <Multi.Item
+              <Select.Item
                 key={tech.value}
                 value={tech.value}
                 textValue={tech.label}
@@ -347,12 +396,12 @@ export function TechStackSelect() {
                 description={tech.description}
               >
                 {tech.label}
-              </Multi.Item>
+              </Select.Item>
             );
           })}
-        </Multi.List>
-      </Multi.Content>
-    </Multi>
+        </Select.List>
+      </Select.Content>
+    </Select>
   );
 }`,
     preview: <MultiSelectPreview />,

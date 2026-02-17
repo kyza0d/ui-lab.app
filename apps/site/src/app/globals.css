@@ -1,3 +1,15 @@
+:root {
+  /* Border Radius Scale */
+  --radius-xs: 0.05rem;
+  --radius-sm: 0.1rem;
+  --radius-base: 0.2rem;
+  --radius-md: 0.3rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+}
+
 @import "tailwindcss";
 
 @source "./src";
@@ -163,16 +175,6 @@
   --spacing-scale: 1;
   --spacing: clamp(0.200rem, 2.5vw, 0.250rem);
 
-  /* Border Radius Scale */
-  --radius-xs: 0.05rem;
-  --radius-sm: 0.1rem;
-  --radius-base: 0.2rem;
-  --radius-md: 0.3rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
-  --radius-full: 9999px;
-
   /* Border Width Scale */
   --border-width-none: 0;
   --border-width-thin: 1px;
@@ -315,10 +317,6 @@
   strong {
     color: var(--color-foreground-100);
     font-weight: var(--font-weight-body-semibold);
-  }
-
-  span {
-    font-weight: var(--font-weight-body-normal);
   }
 }
 
@@ -498,15 +496,23 @@ pre.shiki .indent::before {
 }
 
 @layer components {
-  .button.md {
+  .button.md, .button.lg, .button.sm {
     font-size: var(--text-sm)
   }
+
   .button.primary {
     /* background: linear-gradient(to bottom, var(--accent-500), var(--accent-400)) padding-box, linear-gradient(to bottom, var(--accent-100), var(--accent-400)) border-box; */
     /* background: color-mix(in srgb, var(--accent-500) 10%, transparent); */
     /* border: 1px solid color-mix(in srgb, var(--accent-500) 20%, transparent); */
     /* color: var(--accent-500) */
   }
+
+  /* experiments */
+  /* .button.primary { */
+  /*   --background: color-mix(in srgb, var(--accent-600) 10%, transparent); */
+  /*   --foreground: var(--accent-500); */
+  /*   --border: 1px solid red */
+  /* } */
 }
 
 .grid-paper {
@@ -534,7 +540,18 @@ pre.shiki .indent::before {
 }
 
 body {
-  border: var(--border-width-base) solid var(--background-700);
+  border-left: var(--border-width-base) solid var(--background-700);
+  border-right: var(--border-width-base) solid var(--background-700);
   max-width: var(--page-width);
   margin: 0 auto;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent-600) 10%, transparent);
+  color: var(--accent-600)
+}
+
+::-moz-selection {
+  background: color-mix(in srgb, var(--accent-600) 10%, transparent);
+  color: color-mix(in srgb, var(--accent-600) 90%, var(--foreground-50));
 }
