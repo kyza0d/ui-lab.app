@@ -288,39 +288,6 @@ const examples: DevExample[] = [
     id: "language-select",
     title: "Language Select with Icons",
     description: "Searchable select with colored programming language icons from Simple Icons.",
-    code: `import { useState } from "react";
-import { Select, Searchable } from "ui-lab-components";
-import { SiTypescript, SiPython, SiRust } from "react-icons/si";
-
-const languages = [
-  { value: "typescript", label: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-  { value: "python", label: "Python", icon: SiPython, color: "#3776AB" },
-  { value: "rust", label: "Rust", icon: SiRust, color: "#DEA584" },
-];
-
-export function LanguageSelect() {
-  const [language, setLanguage] = useState(null);
-
-  return (
-    <Select selectedKey={language} onSelectionChange={setLanguage} className="w-72">
-      <Searchable.Trigger placeholder="Search languages..." />
-      <Select.Content>
-        <Select.List>
-          {languages.map((lang) => (
-            <Select.Item
-              key={lang.value}
-              value={lang.value}
-              textValue={lang.label}
-              icon={<lang.icon style={{ color: lang.color }} />}
-            >
-              {lang.label}
-            </Select.Item>
-          ))}
-        </Select.List>
-      </Select.Content>
-    </Select>
-  );
-}`,
     preview: <LanguageSelectPreview />,
     previewLayout: "start",
   },
@@ -328,42 +295,6 @@ export function LanguageSelect() {
     id: "source-control",
     title: "Source Control Provider",
     description: "Select with item descriptions for choosing a Git hosting provider.",
-    code: `import { useState } from "react";
-import { Select } from "ui-lab-components";
-import { SiGithub, SiGitlab, SiBitbucket } from "react-icons/si";
-
-const providers = [
-  { value: "github", label: "GitHub", icon: SiGithub, description: "The world's leading software development platform" },
-  { value: "gitlab", label: "GitLab", icon: SiGitlab, description: "Complete DevOps platform with built-in CI/CD" },
-  { value: "bitbucket", label: "Bitbucket", icon: SiBitbucket, description: "Git solution for professional teams" },
-];
-
-export function ProviderSelect() {
-  const [provider, setProvider] = useState("github");
-  const selected = providers.find(p => p.value === provider);
-
-  return (
-    <Select selectedKey={provider} onSelectionChange={setProvider} className="w-80">
-      <Select.Trigger>
-        <Select.Value placeholder="Select provider" icon={selected && <selected.icon />} />
-      </Select.Trigger>
-      <Select.Content>
-        <Select.List>
-          {providers.map((p) => (
-            <Select.Item
-              key={p.value}
-              value={p.value}
-              icon={<p.icon />}
-              description={p.description}
-            >
-              {p.label}
-            </Select.Item>
-          ))}
-        </Select.List>
-      </Select.Content>
-    </Select>
-  );
-}`,
     preview: <SourceControlPreview />,
     previewLayout: "start",
   },
@@ -371,37 +302,6 @@ export function ProviderSelect() {
     id: "country-select",
     title: "Country Selector",
     description: "Searchable country picker with flag emojis and dial codes.",
-    code: `import { useState } from "react";
-import { Select, Searchable } from "ui-lab-components";
-
-const countries = [
-  { value: "us", label: "United States", flag: "🇺🇸", code: "+1" },
-  { value: "gb", label: "United Kingdom", flag: "🇬🇧", code: "+44" },
-  { value: "de", label: "Germany", flag: "🇩🇪", code: "+49" },
-  { value: "jp", label: "Japan", flag: "🇯🇵", code: "+81" },
-];
-
-export function CountrySelect() {
-  const [country, setCountry] = useState("us");
-
-  return (
-    <Select selectedKey={country} onSelectionChange={setCountry} className="w-72">
-      <Searchable.Trigger placeholder="Search countries..." />
-      <Select.Content>
-        <Select.List>
-          {countries.map((c) => (
-            <Select.Item key={c.value} value={c.value} icon={<span>{c.flag}</span>}>
-              <div className="flex items-center justify-between w-full">
-                <span>{c.label}</span>
-                <span className="text-xs text-foreground-400">{c.code}</span>
-              </div>
-            </Select.Item>
-          ))}
-        </Select.List>
-      </Select.Content>
-    </Select>
-  );
-}`,
     preview: <CountrySelectPreview />,
     previewLayout: "start",
   },
@@ -409,66 +309,6 @@ export function CountrySelect() {
     id: "multi-select",
     title: "Multi-Select Tech Stack",
     description: "Select multiple technologies with dismissable badges shown in the trigger area.",
-    code: `import { useState } from "react";
-import { Select, Badge } from "ui-lab-components";
-import { SiTypescript, SiPython, SiRust } from "react-icons/si";
-
-const techStack = [
-  { value: "typescript", label: "TypeScript", icon: SiTypescript, color: "#3178C6", description: "Typed superset of JavaScript" },
-  { value: "python", label: "Python", icon: SiPython, color: "#3776AB", description: "General-purpose programming" },
-  { value: "rust", label: "Rust", icon: SiRust, color: "#DEA584", description: "Systems programming language" },
-];
-
-export function TechStackSelect() {
-  const [selected, setSelected] = useState(["typescript"]);
-  const selectedItems = techStack.filter(t => selected.includes(t.value));
-
-  return (
-    <Select mode="multiple" selectedKeys={selected} onSelectionChange={setSelected} className="w-full">
-      <Select.Trigger>
-        {selectedItems.length === 0 ? (
-          <span className="text-foreground-400">Select technologies...</span>
-        ) : (
-          <div className="flex flex-wrap gap-1.5">
-            {selectedItems.map((item) => {
-              const ItemIcon = item.icon;
-              return (
-                <Badge
-                  key={item.value}
-                  variant="default"
-                  size="sm"
-                  icon={<ItemIcon style={{ color: item.color }} className="w-3 h-3" />}
-                  dismissible
-                  onDismiss={() => setSelected(selected.filter(s => s !== item.value))}
-                >
-                  {item.label}
-                </Badge>
-              );
-            })}
-          </div>
-        )}
-      </Select.Trigger>
-      <Select.Content>
-        <Select.List>
-          {techStack.map((tech) => {
-            const TechIcon = tech.icon;
-            return (
-              <Select.Item
-                key={tech.value}
-                value={tech.value}
-                textValue={tech.label}
-                icon={<TechIcon style={{ color: tech.color }} className="w-4 h-4" />}
-                description={tech.description}
-              >
-                {tech.label}
-              </Select.Item>
-            );
-          })}
-        </Select.List>
-      </Select.Content>
-    </Select>
-  );
-}`,
     preview: <MultiSelectPreview />,
     previewLayout: "start",
   },
@@ -476,52 +316,6 @@ export function TechStackSelect() {
     id: "submenu-select",
     title: "Submenu Select (Insert Block)",
     description: "Select with nested submenus grouped by category — Text, Media, Layout. Hover or press ArrowRight to open a submenu.",
-    code: `import { useState } from "react";
-import { Select } from "ui-lab-components";
-import { Type, Image, Layout, Heading1, Pilcrow, Code2, ImageIcon, Film, Columns2 } from "lucide-react";
-
-export function InsertBlockSelect() {
-  const [selected, setSelected] = useState(null);
-
-  return (
-    <Select selectedKey={selected} onSelectionChange={setSelected} className="w-64">
-      <Select.Trigger>
-        <Select.Value placeholder="Select block type..." />
-      </Select.Trigger>
-      <Select.Content>
-        <Select.List>
-          <Select.Sub>
-            <Select.SubTrigger textValue="Text">
-              <Type className="w-4 h-4" /> Text
-            </Select.SubTrigger>
-            <Select.SubContent>
-              <Select.Item value="h1" icon={<Heading1 className="w-4 h-4" />}>Heading 1</Select.Item>
-              <Select.Item value="paragraph" icon={<Pilcrow className="w-4 h-4" />}>Paragraph</Select.Item>
-              <Select.Item value="code" icon={<Code2 className="w-4 h-4" />}>Code Block</Select.Item>
-            </Select.SubContent>
-          </Select.Sub>
-          <Select.Sub>
-            <Select.SubTrigger textValue="Media">
-              <Image className="w-4 h-4" /> Media
-            </Select.SubTrigger>
-            <Select.SubContent>
-              <Select.Item value="image" icon={<ImageIcon className="w-4 h-4" />}>Image</Select.Item>
-              <Select.Item value="video" icon={<Film className="w-4 h-4" />}>Video</Select.Item>
-            </Select.SubContent>
-          </Select.Sub>
-          <Select.Sub>
-            <Select.SubTrigger textValue="Layout">
-              <Layout className="w-4 h-4" /> Layout
-            </Select.SubTrigger>
-            <Select.SubContent>
-              <Select.Item value="columns" icon={<Columns2 className="w-4 h-4" />}>Columns</Select.Item>
-            </Select.SubContent>
-          </Select.Sub>
-        </Select.List>
-      </Select.Content>
-    </Select>
-  );
-}`,
     preview: <SubmenuSelectPreview />,
     previewLayout: "start",
   },

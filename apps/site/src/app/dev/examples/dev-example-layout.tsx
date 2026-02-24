@@ -27,7 +27,7 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
   return (
     <div className="min-h-screen bg-background">
       <Toaster />
-      <div className="sticky top-0 z-10 bg-background-950 border-b border-background-700">
+      <div className="sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-8 py-3">
           <Link href={backHref} className="inline-flex items-center gap-2 text-sm text-foreground-400 hover:text-foreground-200">
             <FaArrowLeft className="w-3 h-3" /> {backLabel}
@@ -48,7 +48,7 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
                 <h2 className="text-base font-semibold text-foreground-100">{example.title}</h2>
                 <p className="text-sm text-foreground-400">{example.description}</p>
               </div>
-              <div className={`flex rounded-lg border border-background-700 bg-background-950 p-6 ${example.previewLayout === "center" ? "justify-center items-center" : example.previewLayout === "start" ? "justify-start items-start" : ""}`}>
+              <div className={`flex rounded-lg p-6 ${example.previewLayout === "center" ? "justify-center items-center" : example.previewLayout === "start" ? "justify-start items-start" : ""}`}>
                 {example.preview}
               </div>
             </div>

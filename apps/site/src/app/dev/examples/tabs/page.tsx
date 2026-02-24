@@ -81,25 +81,6 @@ const examples: DevExample[] = [
     id: "default-variant",
     title: "Default Variant",
     description: "Basic horizontal tabs with background highlight on active tab.",
-    code: `import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
-
-export function DefaultTabs() {
-  const [selected, setSelected] = useState("tab1");
-
-  return (
-    <Tabs value={selected} onValueChange={setSelected}>
-      <TabsList>
-        <TabsTrigger value="tab1">Overview</TabsTrigger>
-        <TabsTrigger value="tab2">Features</TabsTrigger>
-        <TabsTrigger value="tab3">Pricing</TabsTrigger>
-      </TabsList>
-      <TabsContent value="tab1">Overview content</TabsContent>
-      <TabsContent value="tab2">Features content</TabsContent>
-      <TabsContent value="tab3">Pricing content</TabsContent>
-    </Tabs>
-  );
-}`,
     preview: <DefaultTabsPreview />,
     previewLayout: "start",
   },
@@ -107,25 +88,6 @@ export function DefaultTabs() {
     id: "underline-variant",
     title: "Underline Variant",
     description: "Horizontal tabs with underline indicator. Great for documentation sites.",
-    code: `import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
-
-export function UnderlineTabs() {
-  const [selected, setSelected] = useState("tab1");
-
-  return (
-    <Tabs value={selected} onValueChange={setSelected} variant="underline">
-      <TabsList>
-        <TabsTrigger value="tab1">Install</TabsTrigger>
-        <TabsTrigger value="tab2">Usage</TabsTrigger>
-        <TabsTrigger value="tab3">API</TabsTrigger>
-      </TabsList>
-      <TabsContent value="tab1">Installation instructions</TabsContent>
-      <TabsContent value="tab2">How to use</TabsContent>
-      <TabsContent value="tab3">API reference</TabsContent>
-    </Tabs>
-  );
-}`,
     preview: <UnderlineTabsPreview />,
     previewLayout: "start",
   },
@@ -133,27 +95,6 @@ export function UnderlineTabs() {
     id: "vertical-layout",
     title: "Vertical Layout",
     description: "Vertical tabs with default variant. Perfect for settings pages and sidebars.",
-    code: `import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
-
-export function VerticalTabs() {
-  const [selected, setSelected] = useState("tab1");
-
-  return (
-    <Tabs value={selected} onValueChange={setSelected} orientation="vertical" className="flex gap-4">
-      <TabsList className="flex flex-col w-32">
-        <TabsTrigger value="tab1">Account</TabsTrigger>
-        <TabsTrigger value="tab2">Settings</TabsTrigger>
-        <TabsTrigger value="tab3">Security</TabsTrigger>
-      </TabsList>
-      <div className="flex-1">
-        <TabsContent value="tab1">Account content</TabsContent>
-        <TabsContent value="tab2">Settings content</TabsContent>
-        <TabsContent value="tab3">Security content</TabsContent>
-      </div>
-    </Tabs>
-  );
-}`,
     preview: <VerticalTabsPreview />,
     previewLayout: "start",
   },
@@ -161,27 +102,6 @@ export function VerticalTabs() {
     id: "vertical-underline",
     title: "Vertical Underline",
     description: "Vertical tabs with underline variant indicator.",
-    code: `import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
-
-export function VerticalUnderlineTabs() {
-  const [selected, setSelected] = useState("tab1");
-
-  return (
-    <Tabs value={selected} onValueChange={setSelected} variant="underline" orientation="vertical" className="flex gap-4">
-      <TabsList className="flex flex-col w-32">
-        <TabsTrigger value="tab1">Profile</TabsTrigger>
-        <TabsTrigger value="tab2">Billing</TabsTrigger>
-        <TabsTrigger value="tab3">Team</TabsTrigger>
-      </TabsList>
-      <div className="flex-1">
-        <TabsContent value="tab1">Profile content</TabsContent>
-        <TabsContent value="tab2">Billing content</TabsContent>
-        <TabsContent value="tab3">Team content</TabsContent>
-      </div>
-    </Tabs>
-  );
-}`,
     preview: <VerticalUnderlineTabsPreview />,
     previewLayout: "start",
   },

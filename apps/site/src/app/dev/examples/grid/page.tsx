@@ -109,33 +109,18 @@ function AutoFitPreview() {
   );
 }
 
-const gridControls = [
-  { name: "columns", label: "Columns", type: "select" as const, options: [{ label: "1", value: "1" }, { label: "2", value: "2" }, { label: "3", value: "3" }, { label: "4", value: "4" }, { label: "5", value: "5" }, { label: "6", value: "6" }, { label: "Auto Fit", value: "auto-fit" }], defaultValue: "3" },
-  { name: "gap", label: "Gap", type: "select" as const, options: [{ label: "XS", value: "xs" }, { label: "SM", value: "sm" }, { label: "MD", value: "md" }, { label: "LG", value: "lg" }, { label: "XL", value: "xl" }], defaultValue: "md" },
-];
-
 const examples: DevExample[] = [
   {
     id: "interactive",
     title: "Interactive Grid",
     description: "Adjust properties to see how they affect the container.",
-    code: `<Grid columns="3" gap="md">
-  {items.map((item, i) => (
-    <div key={i}>{item}</div>
-  ))}
-</Grid>`,
     preview: <InteractivePreview columns="3" gap="md" />,
-    controls: gridControls,
-    renderPreview: InteractivePreview,
     previewLayout: "start",
   },
   {
     id: "columns",
     title: "Column Counts",
     description: "Fixed column layouts from 1 to 6 columns.",
-    code: `<Grid columns="2">...</Grid>
-<Grid columns="3">...</Grid>
-<Grid columns="4">...</Grid>`,
     preview: <ColumnsPreview />,
     previewLayout: "start",
   },
@@ -143,13 +128,6 @@ const examples: DevExample[] = [
     id: "span",
     title: "Spanning Cells",
     description: "Items can span multiple columns.",
-    code: `<Grid columns="4" gap="md">
-  <div style={{ gridColumn: "span 2" }}>Span 2</div>
-  <div>1</div>
-  <div>1</div>
-  <div style={{ gridColumn: "span 3" }}>Span 3</div>
-  <div style={{ gridColumn: "span 4" }}>Full width</div>
-</Grid>`,
     preview: <SpanPreview />,
     previewLayout: "start",
   },
@@ -157,9 +135,6 @@ const examples: DevExample[] = [
     id: "gap",
     title: "Gap Sizes",
     description: "Spacing between grid cells.",
-    code: `<Grid columns="4" gap="xs">...</Grid>
-<Grid columns="4" gap="md">...</Grid>
-<Grid columns="4" gap="xl">...</Grid>`,
     preview: <GapPreview />,
     previewLayout: "start",
   },
@@ -167,11 +142,6 @@ const examples: DevExample[] = [
     id: "autofit",
     title: "Auto-Fit",
     description: "Columns adjust automatically based on available width.",
-    code: `<Grid columns="auto-fit" gap="md">
-  {items.map((item, i) => (
-    <div key={i} className="min-w-28">{item}</div>
-  ))}
-</Grid>`,
     preview: <AutoFitPreview />,
     previewLayout: "start",
   },

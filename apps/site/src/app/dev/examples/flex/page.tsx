@@ -126,35 +126,18 @@ function GapPreview() {
   );
 }
 
-const flexControls = [
-  { name: "direction", label: "Direction", type: "select" as const, options: [{ label: "Row", value: "row" }, { label: "Column", value: "column" }], defaultValue: "row" },
-  { name: "justify", label: "Justify", type: "select" as const, options: [{ label: "Start", value: "flex-start" }, { label: "Center", value: "center" }, { label: "End", value: "flex-end" }, { label: "Space Between", value: "space-between" }, { label: "Space Evenly", value: "space-evenly" }], defaultValue: "flex-start" },
-  { name: "align", label: "Align", type: "select" as const, options: [{ label: "Start", value: "flex-start" }, { label: "Center", value: "center" }, { label: "End", value: "flex-end" }, { label: "Stretch", value: "stretch" }], defaultValue: "stretch" },
-  { name: "gap", label: "Gap", type: "select" as const, options: [{ label: "XS", value: "xs" }, { label: "SM", value: "sm" }, { label: "MD", value: "md" }, { label: "LG", value: "lg" }, { label: "XL", value: "xl" }], defaultValue: "md" },
-  { name: "wrap", label: "Wrap", type: "select" as const, options: [{ label: "No Wrap", value: "nowrap" }, { label: "Wrap", value: "wrap" }], defaultValue: "nowrap" },
-];
-
 const examples: DevExample[] = [
   {
     id: "interactive",
     title: "Interactive Flex",
     description: "Adjust properties to see how they affect the container.",
-    code: `<Flex direction="row" justify="flex-start" align="stretch" gap="md">
-  <div>A</div>
-  <div>B</div>
-  <div>C</div>
-</Flex>`,
     preview: <InteractivePreview direction="row" justify="flex-start" align="stretch" gap="md" wrap="nowrap" />,
-    controls: flexControls,
-    renderPreview: InteractivePreview,
     previewLayout: "start",
   },
   {
     id: "direction",
     title: "Direction",
     description: "Row arranges items horizontally, column stacks them vertically.",
-    code: `<Flex direction="row" gap="sm">...</Flex>
-<Flex direction="column" gap="sm">...</Flex>`,
     preview: <DirectionPreview />,
     previewLayout: "start",
   },
@@ -162,9 +145,6 @@ const examples: DevExample[] = [
     id: "justify",
     title: "Justify Content",
     description: "Controls distribution along the main axis.",
-    code: `<Flex justify="flex-start">...</Flex>
-<Flex justify="center">...</Flex>
-<Flex justify="space-between">...</Flex>`,
     preview: <JustifyPreview />,
     previewLayout: "start",
   },
@@ -172,9 +152,6 @@ const examples: DevExample[] = [
     id: "align",
     title: "Align Items",
     description: "Controls alignment along the cross axis.",
-    code: `<Flex align="flex-start">...</Flex>
-<Flex align="center">...</Flex>
-<Flex align="stretch">...</Flex>`,
     preview: <AlignPreview />,
     previewLayout: "start",
   },
@@ -182,9 +159,6 @@ const examples: DevExample[] = [
     id: "gap",
     title: "Gap Sizes",
     description: "Spacing between flex items.",
-    code: `<Flex gap="xs">...</Flex>
-<Flex gap="md">...</Flex>
-<Flex gap="xl">...</Flex>`,
     preview: <GapPreview />,
     previewLayout: "start",
   },

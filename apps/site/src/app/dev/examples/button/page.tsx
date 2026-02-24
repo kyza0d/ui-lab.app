@@ -11,7 +11,7 @@ type DeployStage = "idle" | "queued" | "deploying" | "succeeded" | "failed";
 
 function DeployPipelineButton() {
   const [stage, setStage] = useState<DeployStage>("idle");
-  const wrapperRef = useAnimatedWidth({ duration: 300, easing: "ease-out", trigger: stage });
+  const wrapperRef = useAnimatedWidth({ duration: 200, easing: "cubic-bezier(0.25, 0, 0.25, 1)", trigger: stage });
 
   useEffect(() => {
     if (stage === "queued") {
@@ -477,12 +477,11 @@ function BulkActionToolbar() {
 
         {/* Floating bottom toolbar */}
         {count > 0 && (
-          <div className="absolute bottom-4 right-4 flex justify-center pointer-events-none">
-            <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-sm border border-background-700 bg-background-900 shadow-lg">
-              <span className="text-xs text-foreground-400">{count} selected</span>
-              <Divider orientation="vertical" />
+          <div className="h-14 absolute bottom-4 right-4 flex justify-center pointer-events-none">
+            <Group className="w-80 px-2 pointer-events-auto flex justify-between items-center gap-2 py-1.5 rounded-sm border border-background-700 bg-background-900 shadow-sm" orientation="horizontal" spacing="sm">
+              {deleteStage === "idle" && <span className="text-xs text-foreground-400">{count} selected</span>}
               {deleteStage === "idle" ? (
-                <Group orientation="horizontal" spacing="sm">
+                <div>
                   <Tooltip content="Move">
                     <Group.Button onPress={handleMove}><FaFolder size={13} /></Group.Button>
                   </Tooltip>
@@ -492,19 +491,18 @@ function BulkActionToolbar() {
                   <Tooltip content="Archive">
                     <Group.Button onPress={handleArchive}><FaBoxArchive size={13} /></Group.Button>
                   </Tooltip>
-                  <Divider orientation="vertical" />
                   <Tooltip content="Delete">
                     <Group.Button onPress={() => setDeleteStage("confirm")}><FaTrash size={13} /></Group.Button>
                   </Tooltip>
-                </Group>
+                </div>
               ) : (
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-foreground-300">Delete {count}?</span>
+                <div className="flex w-full items-center gap-1.5">
+                  <span className="text-xs mr-auto text-foreground-300">Delete {count}?</span>
                   <Button variant="danger" size="sm" icon={{ left: <FaCheck /> }} onPress={handleBulkDelete}>Yes</Button>
                   <Button variant="ghost" size="sm" icon={{ left: <FaXmark /> }} onPress={() => setDeleteStage("idle")}>Cancel</Button>
                 </div>
               )}
-            </div>
+            </Group>
           </div>
         )}
       </div>

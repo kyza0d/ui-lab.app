@@ -93,40 +93,6 @@ const examples: DevExample[] = [
     id: "filter-bar",
     title: "Filter Bar with Selects",
     description: "Horizontal group combining Select dropdowns with action buttons for filtering interfaces.",
-    code: `import { useState } from "react";
-import { Group, Select } from "ui-lab-components";
-import { FaFilter, FaXmark } from "react-icons/fa6";
-
-export function FilterBar() {
-  const [category, setCategory] = useState("all");
-  const [status, setStatus] = useState("active");
-
-  return (
-    <Group orientation="horizontal" spacing="sm">
-      <Group.Select selectedKey={category} onSelectionChange={setCategory}>
-        <Select.Trigger><Select.Value placeholder="Category" /></Select.Trigger>
-        <Select.Content>
-          <Select.List>
-            <Select.Item value="all">All Items</Select.Item>
-            <Select.Item value="recent">Recent</Select.Item>
-            <Select.Item value="featured">Featured</Select.Item>
-          </Select.List>
-        </Select.Content>
-      </Group.Select>
-      <Group.Select selectedKey={status} onSelectionChange={setStatus}>
-        <Select.Trigger><Select.Value placeholder="Status" /></Select.Trigger>
-        <Select.Content>
-          <Select.List>
-            <Select.Item value="active">Active</Select.Item>
-            <Select.Item value="inactive">Inactive</Select.Item>
-          </Select.List>
-        </Select.Content>
-      </Group.Select>
-      <Group.Button variant="primary"><FaFilter className="mr-1.5" /> Apply</Group.Button>
-      <Group.Button variant="ghost"><FaXmark className="mr-1.5" /> Clear</Group.Button>
-    </Group>
-  );
-}`,
     preview: <FilterBarPreview />,
     previewLayout: "start",
   },
@@ -134,41 +100,6 @@ export function FilterBar() {
     id: "input-groups",
     title: "Input with Button Groups",
     description: "Search bars, email subscriptions, and copy-to-clipboard patterns with icon prefixes.",
-    code: `import { Group } from "ui-lab-components";
-import { FaMagnifyingGlass, FaEnvelope, FaCopy } from "react-icons/fa6";
-
-export function SearchBar() {
-  return (
-    <Group>
-      <div className="bg-background-800 flex items-center px-3 text-foreground-400">
-        <FaMagnifyingGlass />
-      </div>
-      <Group.Input placeholder="Search documentation..." className="w-64" />
-      <Group.Button variant="primary">Search</Group.Button>
-    </Group>
-  );
-}
-
-export function EmailSubscribe() {
-  return (
-    <Group>
-      <div className="bg-background-800 flex items-center px-3 text-foreground-400">
-        <FaEnvelope />
-      </div>
-      <Group.Input placeholder="you@example.com" type="email" />
-      <Group.Button variant="primary">Subscribe</Group.Button>
-    </Group>
-  );
-}
-
-export function CopyCommand() {
-  return (
-    <Group>
-      <Group.Input defaultValue="npm install ui-lab" readOnly className="font-mono text-sm" />
-      <Group.Button variant="outline"><FaCopy className="mr-1.5" /> Copy</Group.Button>
-    </Group>
-  );
-}`,
     preview: <InputGroupPreview />,
     previewLayout: "start",
   },
@@ -176,29 +107,6 @@ export function CopyCommand() {
     id: "slider-integration",
     title: "Slider with Input Group",
     description: "Numeric input synced with a slider for precise value selection.",
-    code: `import { useState } from "react";
-import { Group, Slider } from "ui-lab-components";
-import { FaPercent } from "react-icons/fa6";
-
-export function SliderInput() {
-  const [value, setValue] = useState([45]);
-
-  return (
-    <div className="space-y-4">
-      <Group>
-        <Group.Input
-          type="number"
-          value={value[0]}
-          onChange={(e) => setValue([+e.target.value])}
-        />
-        <div className="bg-background-800 px-3 flex items-center">
-          <FaPercent />
-        </div>
-      </Group>
-      <Slider.Root value={value} onValueChange={setValue} max={100} />
-    </div>
-  );
-}`,
     preview: <SliderGroupPreview />,
   },
 ];
