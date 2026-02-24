@@ -13,8 +13,8 @@ export type { GroupProps } from "./components/Group";
 export { Flex } from "./components/Flex";
 export type { FlexProps } from "./components/Flex";
 
-export { Fold } from "./components/Fold";
-export type { FoldProps } from "./components/Fold";
+export { Expand } from "./components/Expand";
+export type { ExpandProps, ExpandIconProps } from "./components/Expand";
 
 export { Frame } from "./components/Frame";
 export type { FrameProps } from "./components/Frame";

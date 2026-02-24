@@ -73,7 +73,7 @@
 
   .thumb {
     position: absolute;
-    border-radius: var(--radius-md);
+    border-radius: calc(var(--radius-xs) * 0.80);
     background-color: var(--background-700);
     transition-property: background-color, width, height;
     transition-duration: 150ms;
