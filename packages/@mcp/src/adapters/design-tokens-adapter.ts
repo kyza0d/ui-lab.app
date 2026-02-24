@@ -7,7 +7,7 @@
  *   No options, no alternatives - just the right choice with rationale
  */
 
-import { getColorRecommendation } from '../generation/registries/design-token-registry.js';
+import { getColorRecommendation } from 'ui-lab-registry';
 
 /**
  * Get the semantic color recommendation for a component:intent combination
