@@ -1,0 +1,7 @@
+{
+  "01-basic-expand": {
+    "title": "Basic Expand",
+    "description": "An expandable/collapsible disclosure component. Use this to show and hide content sections while maintaining accessibility and keyboard support.",
+    "code": "import React from 'react';\nimport { Expand } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Expand title=\"What is an Expand component?\">\n      <p className=\"text-foreground-300\">\n        An Expand component is a disclosure widget that expands and collapses content.\n        It's built with React Aria for full accessibility support.\n      </p>\n    </Expand>\n  );\n}"
+  }
+}
