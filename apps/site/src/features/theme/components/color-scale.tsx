@@ -2,7 +2,6 @@
 
 import { useColorVariables } from '../hooks/use-color-variables'
 import { CHROMA_BOUNDARIES, getShadesForRole, oklchToHex, oklchToCss, type ColorRole } from '../lib/color-utils'
-import { Table } from '@/features/docs'
 import { Divider } from 'ui-lab-components'
 import { ColorPreviewCell, CopyableCell } from './color-table-cells'
 
@@ -24,8 +23,6 @@ export function ColorScale({ family }: ColorScaleProps) {
     .map(shade => ({ shade, color: colors[shade] }))
     .filter(item => item.color !== null)
 
-  type ColorRow = typeof colorRows[number]
-
   return (
     <div>
       <div className='mb-8'>
@@ -37,47 +34,42 @@ export function ColorScale({ family }: ColorScaleProps) {
         </p>
       </div>
 
-      <Table<ColorRow>
-        data={colorRows}
-        columns={[
-          {
-            key: 'color' as const,
-            label: '',
-            width: '60px',
-            render: (_, row) => (
-              <div className="flex justify-center">
-                <ColorPreviewCell oklch={row.color!} family={family} shade={row.shade.toString()} />
-              </div>
-            ),
-          },
-          {
-            key: 'shade' as const,
-            label: 'Shade',
-            render: (value) => <span className="font-semibold text-foreground-200">{value}</span>,
-          },
-          {
-            key: 'shade' as const,
-            label: 'Hex',
-            render: (_, row) => (
-              <CopyableCell value={oklchToHex(row.color!)} label="hex" />
-            ),
-          },
-          {
-            key: 'shade' as const,
-            label: 'CSS Variable',
-            render: (_, row) => (
-              <CopyableCell value={`--${family}-${row.shade}`} label="var" />
-            ),
-          },
-          {
-            key: 'shade' as const,
-            label: 'OKLCH',
-            render: (_, row) => (
-              <CopyableCell value={oklchToCss(row.color!)} label="oklch" />
-            ),
-          },
-        ]}
-      />
+      <div className="overflow-x-auto my-6 border border-background-800 rounded-md">
+        <table className="w-full text-xs">
+          <thead className="bg-background-900 border-b border-background-800">
+            <tr className="border-b border-background-800 last:border-b-0">
+              <th className="px-4 py-3 text-left font-semibold text-foreground-200 w-[60px]"></th>
+              <th className="px-4 py-3 text-left font-semibold text-foreground-200">Shade</th>
+              <th className="px-4 py-3 text-left font-semibold text-foreground-200">Hex</th>
+              <th className="px-4 py-3 text-left font-semibold text-foreground-200">CSS Variable</th>
+              <th className="px-4 py-3 text-left font-semibold text-foreground-200">OKLCH</th>
+            </tr>
+          </thead>
+          <tbody>
+            {colorRows.map(({ shade, color }) => (
+              <tr key={shade} className="border-b border-background-800 last:border-b-0">
+                <td className="px-4 text-xs py-3 text-foreground-300">
+                  <div className="flex justify-center">
+                    <ColorPreviewCell oklch={color!} family={family} shade={shade.toString()} />
+                  </div>
+                </td>
+                <td className="px-4 text-xs py-3 text-foreground-300">
+                  <span className="font-semibold text-foreground-200">{shade}</span>
+                </td>
+                <td className="px-4 text-xs py-3 text-foreground-300">
+                  <CopyableCell value={oklchToHex(color!)} label="hex" />
+                </td>
+                <td className="px-4 text-xs py-3 text-foreground-300">
+                  <CopyableCell value={`--${family}-${shade}`} label="var" />
+                </td>
+                <td className="px-4 text-xs py-3 text-foreground-300">
+                  <CopyableCell value={oklchToCss(color!)} label="oklch" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <Divider variant='dashed' className='my-24' />
     </div>

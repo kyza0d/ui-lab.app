@@ -14,7 +14,7 @@ export function ColorPreviewCell({ oklch, family, shade }: ColorPreviewCellProps
 
   return (
     <div
-      className="w-7 h-7 rounded-sm border border-background-700"
+      className="w-5 h-5 rounded-xs border border-background-700"
       style={{ backgroundColor: cssValue }}
       title={`${family} ${shade}`}
     />
@@ -38,7 +38,7 @@ export function CopyableCell({ value, label }: CopyableCellProps) {
   return (
     <button
       onClick={handleCopy}
-      className="w-full text-left font-mono text-sm hover:text-foreground-100 transition-colors"
+      className="w-full text-left font-mono text-xs hover:text-foreground-100 transition-colors"
       title={value}
     >
       {copied ? (
