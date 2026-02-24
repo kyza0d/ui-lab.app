@@ -26,10 +26,11 @@ function getComponentById(id: string): ComponentMetadata | null {
     const component = getComponentByIdFromRegistry(id);
     if (!component) return null;
 
-    // Merge API data
-    // Note: generatedAPI uses PascalCase keys (e.g., "Select"), but registry uses lowercase (e.g., "select")
-    const pascalCaseId = id.charAt(0).toUpperCase() + id.slice(1);
-    const api = generatedAPI[pascalCaseId as keyof typeof generatedAPI];
+    // Merge API data — generatedAPI uses lowercase keys derived from @ui folder names,
+    // which may differ from the registry ID (e.g. registry "confirm" → generatedAPI "confirmation")
+    const generatedAPIAliases: Record<string, string> = { confirm: 'confirmation' };
+    const generatedAPIKey = generatedAPIAliases[id] ?? id;
+    const api = generatedAPI[generatedAPIKey as keyof typeof generatedAPI];
     if (api) {
       component.api = api;
     }
