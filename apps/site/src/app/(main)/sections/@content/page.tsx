@@ -130,7 +130,7 @@ export default function SectionsPage() {
         <div className="space-y-4 mb-12">
           <h2 className="font-bold text-foreground-50">Sections</h2>
           <p className="text-foreground-400 max-w-2xl">
-            Production-ready section templates for common website layouts. Click any section to view all variations and code.
+            Section templates for common website layouts. Click any section to view all variations and code.
           </p>
         </div>
         <div className="space-y-6">

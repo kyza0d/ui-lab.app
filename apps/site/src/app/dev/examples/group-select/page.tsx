@@ -12,7 +12,6 @@ function FilterBarPreview() {
   return (
     <Group orientation="horizontal">
       <Group.Input prefixIcon={<FaMagnifyingGlass />} placeholder="Search...">
-
       </Group.Input>
       <Group.Select selectedKey={category} onSelectionChange={setCategory} className="w-44">
         <Select.Trigger><Select.Value placeholder="Category" /></Select.Trigger>
@@ -49,6 +48,7 @@ function InputGroupPreview() {
         <div className="bg-background-800 flex items-center px-3 text-foreground-400">
           <FaMagnifyingGlass />
         </div>
+        <Divider />
         <Group.Input placeholder="Search documentation..." className="w-64" />
         <Group.Button variant="primary">Search</Group.Button>
       </Group>
@@ -56,6 +56,7 @@ function InputGroupPreview() {
         <div className="bg-background-800 flex items-center px-3 text-foreground-400">
           <FaEnvelope />
         </div>
+        <Divider />
         <Group.Input placeholder="you@example.com" type="email" className="w-64" />
         <Group.Button variant="primary">Subscribe</Group.Button>
       </Group>
