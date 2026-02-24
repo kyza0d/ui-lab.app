@@ -1,6 +1,6 @@
 ---
 title: "Getting started"
-description: "Build your first UI in seconds with UI Lab components."
+description: "A React component library with enforced design quality. OKLCH tokens, compound components, and an MCP server so AI agents build correctly — not by hallucination."
 category: "guides"
 publishedOn: "2026-01-15"
 tags: ["getting-started", "setup", "basics"]
@@ -13,62 +13,147 @@ tags: ["getting-started", "setup", "basics"]
   </Banner.Body>
 </Banner>
 
+## What is UI Lab
 
-### Overview
+UI Lab is a React component library where design quality is enforced, not hoped for. Components are built on React Aria and Tailwind v4, with a token system that makes correct usage the path of least resistance.
 
-UI Lab is a component library for React devs who want things simple and fast. Components are designed to work together—combine a Button with a Group, nest Modals with Forms, compose Tabs with Cards. Each piece fits naturally with the others. Drop them into a landing page, dashboard, or bigger app. Tweak as needed.
+The AI-native angle: an MCP server lets agents query live component APIs, semantic color recommendations, and curated patterns — so AI-generated UI code is design-system-compliant by default, not by accident.
 
-### Core values
+## The problem it solves
 
-**Components that compose.** UI Lab components are built to combine. Group handles layout for Buttons. Select works inside Form. Tabs contain any content. You build complex UIs by snapping small pieces together, not wrestling with monolithic widgets.
+AI-generated UIs tend toward visual mediocrity. Hallucinated props, arbitrary hex colors, Tailwind utility names that don't exist in the design system, no enforced color hierarchy. The result is code that runs but looks like it was assembled without taste.
 
-**Ship faster.** Minimal components that skip the bloat. They cover what you actually need without the overkill. Accessible by default, good defaults, easy to adjust. No starting from zero.
+UI Lab makes correct usage machine-readable. The MCP server returns one recommended color per semantic intent — not options, one WCAG-verified answer. It returns real component APIs, not invented prop names. The `/design` Claude Code skill audits code for violations and substitutes correct tokens mechanically.
 
-**Your styles stay yours.** Built on Tailwind. You control it all with utility classes. No CSS-in-JS, no style clashes, no hidden magic.
+## Four levels of abstraction
 
-**Focus on dev experience.** Props are clean. Behavior's predictable. Feels like normal React. Less docs, more building.
+**Components** — 40+ primitives built with React Aria. Compound patterns (`Panel.Sidebar`, `List.Item`, `Menu.Item`) that compose naturally and share state through context. This is the atomic layer everything else builds from.
 
-### Who this is for
+**Patterns** — 15 curated UI compositions as copy-paste TSX. Media objects, stat blocks, empty states, labeled form fields, data table rows, inline alerts. Proven patterns you'd otherwise re-implement across every project.
 
-React developers with Tailwind v4. You know components, hooks, JSX. This gets you building in minutes.
+**Elements** — multi-component UI blocks for specific domains. The free Foundation package gives you header, sidebar, and page shells. Paid packages add AI chat interfaces ($59.99) and documentation components — scroll-synced TOC, article navigation, copy buttons ($49.99).
 
-### Installation
+**Sections & Starters** — five full-width landing page sections (Hero, Features, CTA, Pricing, Testimonials) and eight project templates — free framework starters (Next.js, Vite, Tauri, Astro) and complete paid applications (documentation site, CRM, blog, productivity app at $49.99 each).
 
-UI Lab prioritizes speed. One command, zero config, immediate use.
+## Quick start
 
 ```bash
 npx ui-lab init
 ```
 
-That's it. Components are available. Start building.
+Or manually:
 
-For manual setup or existing projects, see the <Anchor href="/docs/installation">Installation guide</Anchor>.
-
-### Composing components
-
-Components work together by design:
-
-```tsx
-<Group>
-  <Button>Save</Button>
-  <Button variant="ghost">Cancel</Button>
-</Group>
+```bash
+pnpm add ui-lab-components
 ```
 
 ```tsx
-<Card>
-  <Tabs>
-    <Tabs.List>
-      <Tabs.Tab>Overview</Tabs.Tab>
-      <Tabs.Tab>Settings</Tabs.Tab>
-    </Tabs.List>
-    <Tabs.Panel>Content here</Tabs.Panel>
-  </Tabs>
-</Card>
+// Root layout (app/layout.tsx or main.tsx)
+import 'ui-lab-components/styles.css';
 ```
 
-Nest them. Combine them. Build complex UIs from simple parts.
+```tsx
+import { Button, Group, Panel } from 'ui-lab-components';
 
-### Next steps
+<Panel>
+  <Panel.Header>Settings</Panel.Header>
+  <Panel.Content>
+    <Group>
+      <Button>Save</Button>
+      <Button variant="ghost">Cancel</Button>
+    </Group>
+  </Panel.Content>
+</Panel>
+```
 
-Explore the <Anchor href="/elements">Elements</Anchor> to see what you can build. Browse <Anchor href="/components">Components</Anchor> for the full library. Check the <Anchor href="https://github.com/anthropics/ui-lab">source on GitHub</Anchor>.
+For step-by-step setup, see the <Anchor href="/docs/installation">Installation guide</Anchor>.
+
+## The design system
+
+UI Lab uses OKLCH — a perceptually-uniform color space that scales correctly across lightness and generates accessible palettes programmatically. Dark mode is automatic: the token direction reverses, no `dark:` prefixes needed. The same class works in both modes.
+
+Seven semantic color families with enforced shade ranges:
+
+| Family | Shades | Use for |
+|--------|--------|---------|
+| `background` | 500–950 | Page backgrounds, borders, cards, containers |
+| `foreground` | 50–400 | Text, icons |
+| `accent` | 50–600 | Primary buttons, links, focus rings |
+| `success` | 50–600 | Confirmations, positive states |
+| `danger` | 50–600 | Errors, destructive actions |
+| `warning` | 50–600 | Cautions, pending states |
+| `info` | 50–600 | Neutral information |
+
+```tsx
+// Correct — works in light and dark mode automatically
+<div className="bg-background-800 text-foreground-100 border border-background-700">
+
+// Wrong — breaks dark mode and design system
+<div className="bg-white text-gray-900 border-gray-200">
+```
+
+See the <Anchor href="/design-system/colors">Colors reference</Anchor> for the full token documentation.
+
+## AI-native tooling
+
+This is where UI Lab differs from every other component library.
+
+### MCP server (`ui-lab-mcp`)
+
+The MCP server gives AI agents 12 tools that cover the full design workflow:
+
+- **Component discovery** — `search_components`, `get_component` return real prop APIs with design guidance, not documentation summaries
+- **Design decisions** — `get_semantic_color` returns one WCAG-verified color recommendation per component intent, no guessing
+- **Pattern & element discovery** — `search_patterns`, `get_inspiration`, `get_variation_code` — agents find existing patterns before building from scratch
+- **Landing blocks** — `search_sections`, `get_section` for Hero, Features, CTA, Pricing, Testimonials
+- **Theme setup** — `get_theme_setup` with provider code, toggle component, and FOUC prevention
+
+Every tool response injects the design rules: seven color families, enforced shade ranges, and a blocklist of forbidden patterns — arbitrary hex values, Tailwind defaults like `bg-white` and `bg-zinc-*`, shadow utilities, gradient classes.
+
+Setup takes two minutes. See the <Anchor href="/docs/agents-mcps-installation">MCP installation guide</Anchor>.
+
+### `/design` Claude Code skill
+
+The `/design` skill routes to four sub-agents based on intent:
+
+- **design-ideator** — structured design brief process for new UI
+- **design-auditor** — detects violations: wrong shade ranges, arbitrary colors, incorrect sub-component usage
+- **design-refactorer** — mechanical substitution of violations for correct tokens using live MCP data
+- **pattern-explorer** — discovers existing patterns before building new ones
+
+The auditor enforces hard rules. `bg-white` → `bg-background-950`. `text-gray-900` → `text-foreground-300`. `shadow-md` → removed. Violations are corrected in the tool response, not flagged for a human to fix later.
+
+See <Anchor href="/docs/agents-mcps-workflows">Agent workflows</Anchor> for usage examples.
+
+## Composing components
+
+Components are built to combine. Compound sub-components share state through context without prop drilling:
+
+```tsx
+<Panel>
+  <Panel.Sidebar defaultOpen side="left">
+    <Panel.Toggle />
+  </Panel.Sidebar>
+  <Panel.Content>
+    <List>
+      {items.map(item => (
+        <List.Item key={item.id} value={item.id}>
+          <List.Media>{item.icon}</List.Media>
+          {item.label}
+          <List.Desc>{item.description}</List.Desc>
+        </List.Item>
+      ))}
+    </List>
+  </Panel.Content>
+</Panel>
+```
+
+`List` exposes an imperative ref (`focusNext`, `focusPrev`, `selectHighlighted`) that `Select`, `Menu`, and `Command` use internally. You can wire the same keyboard handling into your own components.
+
+## Next steps
+
+- <Anchor href="/components">Browse Components</Anchor> — full library reference with live examples
+- <Anchor href="/elements">Explore Elements</Anchor> — multi-component UI blocks
+- <Anchor href="/docs/installation">Installation guide</Anchor> — manual setup, Tailwind v4 config
+- <Anchor href="/docs/agents-mcps-installation">MCP server setup</Anchor> — connect Claude, Cursor, or any MCP-compatible agent
+- <Anchor href="https://github.com/kyza0d/ui-lab.app">GitHub</Anchor> — source, issues, releases
