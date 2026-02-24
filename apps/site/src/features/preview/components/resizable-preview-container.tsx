@@ -122,14 +122,14 @@ export function PreviewContainer({
         </div>
         <div
           onMouseDown={startDrag}
-          className="absolute right-0 top-1/2 w-6 h-12 bg-background-700 border border-background-600 rounded-full flex items-center justify-center cursor-ew-resize hover:bg-background-600 hover:border-background-500 transition-colors z-20"
+          className="absolute right-0 top-1/2 w-6 h-12 bg-background-700 border border-background-600 rounded-sm flex items-center justify-center cursor-ew-resize hover:bg-background-600 hover:border-background-500 transition-colors z-20"
           style={{ transform: "translate(50%, -50%)" }}
           title="Drag to resize"
         >
           <div className="flex flex-col gap-0.5">
-            <div className="w-1 h-1 bg-background-400 rounded-full" />
-            <div className="w-1 h-1 bg-background-400 rounded-full" />
-            <div className="w-1 h-1 bg-background-400 rounded-full" />
+            <div className="w-1 h-1 bg-background-400 rounded-sm" />
+            <div className="w-1 h-1 bg-background-400 rounded-sm" />
+            <div className="w-1 h-1 bg-background-400 rounded-sm" />
           </div>
         </div>
       </div>
@@ -160,7 +160,7 @@ export function PreviewContainer({
         </div>
 
         <div className="flex items-center gap-3 mb-2">
-          <Group variant="outline" spacing="none">
+          <Group variant="outline" spacing="sm">
             <Group.Button
               variant={deviceVariant === "mobile" ? "secondary" : "ghost"}
               onClick={() => onDeviceVariantChange("mobile")}
@@ -187,7 +187,7 @@ export function PreviewContainer({
         </div>
       </div>
 
-      <div className="border border-background-700 rounded-md">
+      <div className="border border-background-700 rounded-sm">
         {activeTab === "preview" ? renderPreviewContent() : children}
       </div>
     </div>

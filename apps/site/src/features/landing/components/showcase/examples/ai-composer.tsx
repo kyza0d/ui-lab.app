@@ -48,7 +48,7 @@ export function AIComposer() {
   const ProviderIcon = PROVIDER_ICONS[selectedModel.provider] as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
 
   return (
-    <div className="w-full h-fit bg-background-200 border border-background-700 rounded-md overflow-hidden shadow-sm">
+    <div className="w-full h-fit bg-background-200 border border-background-700 rounded-md overflow-hidden">
 
       {/* ── Textarea ── */}
       <textarea

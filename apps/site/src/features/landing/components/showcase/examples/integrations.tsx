@@ -52,7 +52,7 @@ export function IntegrationsPanel() {
   }
 
   return (
-    <div className="shadow-sm w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
+    <div className="w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
       <div className="px-3 py-2.5 border-b border-background-700">
         <Group >
           <Group.Input
