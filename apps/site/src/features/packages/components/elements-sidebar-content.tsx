@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Fold } from 'ui-lab-components';
 import { cn } from '@/shared';
@@ -13,12 +13,9 @@ import {
   getAllPackages,
   getElementsInPackage,
   elementRegistry,
-  getAllPatterns,
   getAllPatternCategories,
   getPatternsByCategory,
   type ElementMetadata,
-  type SectionMetadata,
-  type StarterMetadata,
   type ElementCategoryId,
   type SectionCategoryId,
 } from 'ui-lab-registry';
@@ -28,6 +25,39 @@ interface ElementsSidebarContentProps {
   elements: ElementMetadata[];
   pathname: string;
   activeCategory?: ElementCategoryId | SectionCategoryId | null;
+}
+
+const NAV_LINK_BASE = 'block py-1.5 text-xs rounded-md cursor-pointer transition-colors duration-300 ease-out hover:duration-0';
+const LINK_ACTIVE = 'text-foreground-50 bg-background-800 font-medium';
+const LINK_INACTIVE = 'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50';
+
+function NavLink({ href, isActive, children }: { href: string; isActive: boolean; children: React.ReactNode }) {
+  return (
+    <SidebarItemLink href={href} className={cn(NAV_LINK_BASE, isActive ? LINK_ACTIVE : LINK_INACTIVE)}>
+      {children}
+    </SidebarItemLink>
+  );
+}
+
+function FoldGroup({
+  name, isExpanded, onToggle, triggerBold, children,
+}: {
+  name: string;
+  isExpanded: boolean;
+  onToggle: (expanded: boolean) => void;
+  triggerBold?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Fold isExpanded={isExpanded} onExpandedChange={onToggle} className="rounded-md">
+      <Fold.Trigger className="text-xs">
+        <span className={triggerBold ? 'font-medium' : undefined}>{name}</span>
+      </Fold.Trigger>
+      <Fold.Content className="pl-3">
+        <div className="space-y-0.5 mt-1">{children}</div>
+      </Fold.Content>
+    </Fold>
+  );
 }
 
 export function ElementsList({
@@ -40,6 +70,14 @@ export function ElementsList({
   const searchParams = useSearchParams();
   const currentVariant = searchParams.get('variant');
 
+  const toggleItem = useCallback((id: string) => (expanded: boolean) => {
+    setExpandedItems(prev => {
+      const next = new Set(prev);
+      if (expanded) next.add(id); else next.delete(id);
+      return next;
+    });
+  }, []);
+
   const currentItemId = useMemo(() => {
     if (activeNav === 'sections') {
       const match = pathname.match(/\/sections\/([^/?]+)/);
@@ -47,6 +85,10 @@ export function ElementsList({
     }
     if (activeNav === 'starters') {
       const match = pathname.match(/\/starters\/([^/?]+)/);
+      return match ? match[1] : null;
+    }
+    if (activeNav === 'patterns') {
+      const match = pathname.match(/\/patterns\/([^/?]+)/);
       return match ? match[1] : null;
     }
     const match = pathname.match(/\/elements\/([^/?]+)/);
@@ -70,39 +112,18 @@ export function ElementsList({
   }, [activeNav, currentPackageId]);
 
   useEffect(() => {
-    if (currentItemId) {
-      setExpandedItems((prev) => new Set([...prev, currentItemId]));
-    }
-    if (currentElementId) {
-      setExpandedItems((prev) => new Set([...prev, currentElementId]));
-    }
-    if (currentPackageId && activeNav === 'packages') {
-      setExpandedItems((prev) => new Set([...prev, currentPackageId]));
-    }
+    if (currentItemId) setExpandedItems(prev => new Set([...prev, currentItemId]));
+    if (currentElementId) setExpandedItems(prev => new Set([...prev, currentElementId]));
+    if (currentPackageId && activeNav === 'packages') setExpandedItems(prev => new Set([...prev, currentPackageId]));
   }, [currentItemId, currentElementId, currentPackageId, activeNav]);
 
   const sections = useMemo(() => getAllSections(), []);
   const starters = useMemo(() => getAllStarters(), []);
 
-  const filteredSections = useMemo(() => {
-    if (!activeCategory) return sections;
-    return getSectionsInCategory(sections, activeCategory as SectionCategoryId);
+  const sortedSections = useMemo(() => {
+    const filtered = activeCategory ? getSectionsInCategory(sections, activeCategory as SectionCategoryId) : sections;
+    return [...filtered].sort((a, b) => a.name.localeCompare(b.name));
   }, [sections, activeCategory]);
-
-  const sortedSections = useMemo(
-    () => [...filteredSections].sort((a, b) => a.name.localeCompare(b.name)),
-    [filteredSections]
-  );
-
-  const filteredElements = useMemo(() => {
-    if (!activeCategory) return elements;
-    return getElementsInCategory(elements, activeCategory as ElementCategoryId);
-  }, [elements, activeCategory]);
-
-  const sortedElements = useMemo(
-    () => [...filteredElements].sort((a, b) => a.name.localeCompare(b.name)),
-    [filteredElements]
-  );
 
   const sortedStarters = useMemo(
     () => [...starters].sort((a, b) => a.name.localeCompare(b.name)),
@@ -112,80 +133,43 @@ export function ElementsList({
   const packages = useMemo(() => getAllPackages(), []);
   const packageElements = useMemo(() => {
     if (!currentPackageId) return [];
-    const elementIds = getElementsInPackage(currentPackageId);
-    return elementIds.map(id => elementRegistry[id]).filter(Boolean);
+    return getElementsInPackage(currentPackageId).map(id => elementRegistry[id]).filter(Boolean);
   }, [currentPackageId]);
 
   if (activeNav === 'packages' && !isOnPackageRoute) {
     return (
       <div className="space-y-1">
         {packages.map((pkg) => {
-          const isActive = currentPackageId === pkg.id;
+          const pkgElements = getElementsInPackage(pkg.id).map(id => elementRegistry[id]).filter(Boolean);
           const href = `/packages/${pkg.id}`;
-          const pkgElementIds = getElementsInPackage(pkg.id);
-          const pkgElements = pkgElementIds.map(id => elementRegistry[id]).filter(Boolean);
 
           if (pkgElements.length === 0) {
-            return (
-              <SidebarItemLink
-                key={pkg.id}
-                href={href}
-                className={cn(
-                  'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
-                  'transition-colors duration-300 ease-out hover:duration-0',
-                  isActive
-                    ? 'text-foreground-50 bg-background-800 font-medium'
-                    : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
-                )}
-              >
-                {pkg.name}
-              </SidebarItemLink>
-            );
+            return <NavLink key={pkg.id} href={href} isActive={currentPackageId === pkg.id}>{pkg.name}</NavLink>;
           }
 
-          const isExpanded = expandedItems.has(pkg.id);
-
           return (
-            <Fold
+            <FoldGroup
               key={pkg.id}
-              isExpanded={isExpanded}
-              onExpandedChange={(expanded) => {
-                setExpandedItems((prev) => {
-                  const next = new Set(prev);
-                  if (expanded) next.add(pkg.id);
-                  else next.delete(pkg.id);
-                  return next;
-                });
-              }}
-              className="rounded-md"
+              name={pkg.name}
+              isExpanded={expandedItems.has(pkg.id)}
+              onToggle={toggleItem(pkg.id)}
+              triggerBold
             >
-              <Fold.Trigger className="text-sm">
-                <span className='font-medium'>{pkg.name}</span>
-              </Fold.Trigger>
-              <Fold.Content className="pl-3">
-                <div className="mt-1">
-                  {pkgElements.map((element) => {
-                    const elementHref = `/packages/${pkg.id}/${element.id}`;
-                    const isElementActive = currentElementId === element.id;
-
-                    return (
-                      <SidebarItemLink
-                        key={element.id}
-                        href={elementHref}
-                        className={cn(
-                          'block px-3 py-2 font-medium text-sm rounded-md cursor-pointer transition-colors',
-                          isElementActive
-                            ? 'text-foreground-50 bg-background-800 font-medium'
-                            : 'text-foreground-300 hover:text-foreground-300 hover:bg-background-800/50'
-                        )}
-                      >
-                        {element.name}
-                      </SidebarItemLink>
-                    );
-                  })}
-                </div>
-              </Fold.Content>
-            </Fold>
+              {pkgElements.map((element) => (
+                <SidebarItemLink
+                  key={element.id}
+                  href={`/packages/${pkg.id}/${element.id}`}
+                  className={cn(
+                    'block py-2 font-medium text-xs rounded-md cursor-pointer transition-colors',
+                    currentElementId === element.id
+                      ? 'text-foreground-50 bg-background-800 font-medium'
+                      : 'text-foreground-300 hover:text-foreground-300 hover:bg-background-800/50'
+                  )}
+                >
+                  {element.name}
+                </SidebarItemLink>
+              ))}
+            </FoldGroup>
           );
         })}
       </div>
@@ -196,9 +180,7 @@ export function ElementsList({
     if (packageElements.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
-          <p className="text-foreground-400 text-sm">
-            No elements in this package yet.
-          </p>
+          <p className="text-foreground-400 text-xs">No elements in this package yet.</p>
         </div>
       );
     }
@@ -210,67 +192,35 @@ export function ElementsList({
           const href = `/packages/${currentPackageId}/${element.id}`;
 
           if (element.variants.length === 0) {
-            return (
-              <SidebarItemLink
-                key={element.id}
-                href={href}
-                className={cn(
-                  'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
-                  'transition-colors duration-300 ease-out hover:duration-0',
-                  isActive
-                    ? 'text-foreground-50 bg-background-800 font-medium'
-                    : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
-                )}
-              >
-                {element.name}
-              </SidebarItemLink>
-            );
+            return <NavLink key={element.id} href={href} isActive={isActive}>{element.name}</NavLink>;
           }
 
-          const isExpanded = expandedItems.has(element.id);
-
           return (
-            <Fold
+            <FoldGroup
               key={element.id}
-              isExpanded={isExpanded}
-              onExpandedChange={(expanded) => {
-                setExpandedItems((prev) => {
-                  const next = new Set(prev);
-                  if (expanded) next.add(element.id);
-                  else next.delete(element.id);
-                  return next;
-                });
-              }}
-              className="rounded-md"
+              name={element.name}
+              isExpanded={expandedItems.has(element.id)}
+              onToggle={toggleItem(element.id)}
             >
-              <Fold.Trigger className="text-sm">
-                <span>{element.name}</span>
-              </Fold.Trigger>
-              <Fold.Content className="pl-3">
-                <div className="space-y-0.5 mt-1">
-                  {element.variants.map((variant, index) => {
-                    const variantId = variant.demoPath || `variant-${index}`;
-                    const variantHref = `${href}?variant=${variantId}`;
-                    const isVariantActive = isActive && currentVariant === variantId;
-
-                    return (
-                      <SidebarItemLink
-                        key={`${element.id}-${index}`}
-                        href={variantHref}
-                        className={cn(
-                          'block px-3 py-2 text-sm rounded-md cursor-pointer transition-colors',
-                          isVariantActive
-                            ? 'text-foreground-50 bg-background-800 font-medium'
-                            : 'text-foreground-300 hover:text-foreground-200 hover:bg-background-800/50'
-                        )}
-                      >
-                        {variant.name}
-                      </SidebarItemLink>
-                    );
-                  })}
-                </div>
-              </Fold.Content>
-            </Fold>
+              {element.variants.map((variant, i) => {
+                const variantId = variant.demoPath || `variant-${i}`;
+                const isVariantActive = isActive && currentVariant === variantId;
+                return (
+                  <SidebarItemLink
+                    key={`${element.id}-${i}`}
+                    href={`${href}?variant=${variantId}`}
+                    className={cn(
+                      'block py-2 text-xs rounded-md cursor-pointer transition-colors',
+                      isVariantActive
+                        ? 'text-foreground-200 bg-background-800 font-medium'
+                        : 'text-foreground-300 hover:text-foreground-200 hover:bg-background-800/50'
+                    )}
+                  >
+                    {variant.name}
+                  </SidebarItemLink>
+                );
+              })}
+            </FoldGroup>
           );
         })}
       </div>
@@ -281,42 +231,24 @@ export function ElementsList({
     if (sortedStarters.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
-          <p className="text-foreground-400 text-sm">
-            No starters available yet.
-          </p>
+          <p className="text-foreground-400 text-xs">No starters available yet.</p>
         </div>
       );
     }
 
     return (
       <div className="space-y-1">
-        {sortedStarters.map((starter) => {
-          const isActive = currentItemId === starter.id;
-          const href = `/starters/${starter.id}`;
-
-          return (
-            <SidebarItemLink
-              key={starter.id}
-              href={href}
-              className={cn(
-                'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
-                'transition-colors duration-300 ease-out hover:duration-0',
-                isActive
-                  ? 'text-foreground-50 bg-background-800 font-medium'
-                  : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
-              )}
-            >
-              {starter.name}
-            </SidebarItemLink>
-          );
-        })}
+        {sortedStarters.map((starter) => (
+          <NavLink key={starter.id} href={`/starters/${starter.id}`} isActive={currentItemId === starter.id}>
+            {starter.name}
+          </NavLink>
+        ))}
       </div>
     );
   }
 
   if (activeNav === 'patterns') {
     const patternCategories = getAllPatternCategories();
-    const currentPatternId = pathname.match(/\/patterns\/([^/?]+)/)?.[1] ?? null;
 
     return (
       <div className="space-y-4 py-4">
@@ -324,26 +256,36 @@ export function ElementsList({
           const patterns = getPatternsByCategory(category);
           return (
             <div key={category}>
-              <p className="px-3 mb-1 text-xs font-semibold text-foreground-500">
-                {category}
-              </p>
+              <p className="mb-1 text-xs font-semibold text-foreground-200 capitalize">{category}</p>
               <div className="space-y-0.5">
                 {patterns.map((pattern) => {
-                  const isActive = currentPatternId === pattern.id;
+                  const href = `/patterns/${pattern.id}`;
+
+                  if (pattern.variations.length === 0) {
+                    return (
+                      <NavLink key={pattern.id} href={href} isActive={currentItemId === pattern.id}>
+                        {pattern.name}
+                      </NavLink>
+                    );
+                  }
+
                   return (
-                    <SidebarItemLink
+                    <FoldGroup
                       key={pattern.id}
-                      href={`/patterns/${pattern.id}`}
-                      className={cn(
-                        'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
-                        'transition-colors duration-300 ease-out hover:duration-0',
-                        isActive
-                          ? 'text-foreground-50 bg-background-800 font-medium'
-                          : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
-                      )}
+                      name={pattern.name}
+                      isExpanded={expandedItems.has(pattern.id)}
+                      onToggle={toggleItem(pattern.id)}
                     >
-                      {pattern.name}
-                    </SidebarItemLink>
+                      {pattern.variations.map((variation, i) => (
+                        <SidebarItemLink
+                          key={`${pattern.id}-${i}`}
+                          href={href}
+                          className="block py-2 text-xs rounded-md cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
+                        >
+                          {variation.name}
+                        </SidebarItemLink>
+                      ))}
+                    </FoldGroup>
                   );
                 })}
               </div>
@@ -358,9 +300,7 @@ export function ElementsList({
     if (sortedSections.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
-          <p className="text-foreground-400 text-sm">
-            No sections in this category yet.
-          </p>
+          <p className="text-foreground-400 text-xs">No sections in this category yet.</p>
         </div>
       );
     }
@@ -368,60 +308,29 @@ export function ElementsList({
     return (
       <div className="space-y-1">
         {sortedSections.map((section) => {
-          const isActive = currentItemId === section.id;
           const href = `/sections/${section.id}`;
 
           if (section.variants.length === 0) {
-            return (
-              <SidebarItemLink
-                key={section.id}
-                href={href}
-                className={cn(
-                  'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
-                  'transition-colors duration-300 ease-out hover:duration-0',
-                  isActive
-                    ? 'text-foreground-50 bg-background-800 font-medium'
-                    : 'text-foreground-400 hover:text-foreground-200 hover:bg-background-800/50'
-                )}
-              >
-                {section.name}
-              </SidebarItemLink>
-            );
+            return <NavLink key={section.id} href={href} isActive={currentItemId === section.id}>{section.name}</NavLink>;
           }
 
-          const isExpanded = expandedItems.has(section.id);
-
           return (
-            <Fold
+            <FoldGroup
               key={section.id}
-              isExpanded={isExpanded}
-              onExpandedChange={(expanded) => {
-                setExpandedItems((prev) => {
-                  const next = new Set(prev);
-                  if (expanded) next.add(section.id);
-                  else next.delete(section.id);
-                  return next;
-                });
-              }}
-              className="rounded-md"
+              name={section.name}
+              isExpanded={expandedItems.has(section.id)}
+              onToggle={toggleItem(section.id)}
             >
-              <Fold.Trigger className="text-sm">
-                <span>{section.name}</span>
-              </Fold.Trigger>
-              <Fold.Content className="pl-3">
-                <div className="space-y-0.5 mt-1">
-                  {section.variants.map((variant, index) => (
-                    <SidebarItemLink
-                      key={`${section.id}-${index}`}
-                      href={href}
-                      className="block px-3 py-2 text-sm rounded-md cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
-                    >
-                      {variant.name}
-                    </SidebarItemLink>
-                  ))}
-                </div>
-              </Fold.Content>
-            </Fold>
+              {section.variants.map((variant, i) => (
+                <SidebarItemLink
+                  key={`${section.id}-${i}`}
+                  href={href}
+                  className="block py-2 text-xs rounded-md cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
+                >
+                  {variant.name}
+                </SidebarItemLink>
+              ))}
+            </FoldGroup>
           );
         })}
       </div>

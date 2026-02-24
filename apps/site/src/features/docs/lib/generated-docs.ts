@@ -33,11 +33,11 @@ export const DOCUMENTATION_SECTIONS: SidebarSection[] = [
     "items": [
       {
         "id": "agents-mcps-installation",
-        "label": "MCP Server Installation"
+        "label": "Overview"
       },
       {
         "id": "agents-mcps-workflows",
-        "label": "MCP Workflows"
+        "label": "Workflows"
       }
     ]
   }

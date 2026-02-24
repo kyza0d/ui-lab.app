@@ -1,5 +1,5 @@
 export const minFontSizeConstraints = {
-  xs: 0.875,
+  xs: 0.900,
   sm: 1.0,
   md: 1.0,
   base: 1.0,
