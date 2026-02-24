@@ -1,0 +1,30 @@
+{
+  "id": "expand",
+  "name": "Expand",
+  "description": "Collapsible disclosure component for expanding and collapsing sections.",
+  "category": "layout",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Expand",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [
+    "card",
+    "modal"
+  ],
+  "tags": [
+    "disclosure",
+    "accordion",
+    "collapsible",
+    "expandable"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Full ARIA disclosure pattern support",
+      "Keyboard navigation with Tab and Enter/Space",
+      "Proper button and panel roles",
+      "Screen reader friendly"
+    ]
+  }
+}

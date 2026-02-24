@@ -1,0 +1,185 @@
+@reference "tailwindcss";
+
+@layer components {
+  .expand {
+    --expand-trigger-background: transparent;
+    --expand-trigger-background-hover: var(--background-900);
+    --expand-trigger-foreground: var(--foreground-50);
+    --expand-content-background: transparent;
+    --expand-content-foreground: var(--foreground-300);
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .expand[data-disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .trigger {
+    @apply text-left cursor-pointer;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    color: var(--expand-trigger-foreground);
+    background-color: var(--expand-trigger-background);
+    border: none;
+    border-radius: var(--radius-sm);
+
+    &[data-disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @apply px-3 py-2;
+    flex-shrink: 0;
+    color: inherit;
+    border-radius: var(--radius-sm);
+
+    @media (hover: hover) {
+      .trigger:not([data-disabled]):hover & {
+        background-color: var(--expand-trigger-background-hover);
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      }
+
+      /* When the icon itself is hovered, it should be isolated and fully rounded */
+      .trigger:not([data-disabled]) &:hover {
+        border-radius: var(--radius-sm);
+      }
+    }
+  }
+
+  .icon > * {
+    transition: transform 250ms var(--ease-smooth-settle);
+  }
+
+  .expand:has(.trigger[data-expanded="true"]) .icon > * {
+    transform: rotate(180deg);
+  }
+
+  /* from="above": content expands upward above the trigger */
+  .expand:has(.content[data-from="above"]) {
+    flex-direction: column-reverse;
+
+    .icon > * {
+      transform: rotate(180deg);
+    }
+
+    &:has(.trigger[data-expanded="true"]) .icon > * {
+      transform: rotate(0deg);
+    }
+  }
+
+  /* from="left": content appears left of trigger */
+  .expand:has(.content[data-from="left"]) {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+
+    .trigger {
+      width: auto;
+      flex-direction: column;
+    }
+
+    .icon > * {
+      transform: rotate(-90deg);
+    }
+
+    &:has(.trigger[data-expanded="true"]) .icon > * {
+      transform: rotate(90deg);
+    }
+  }
+
+  /* from="right": content appears right of trigger */
+  .expand:has(.content[data-from="right"]) {
+    flex-direction: row;
+    align-items: flex-start;
+
+    .trigger {
+      width: auto;
+      flex-direction: column;
+    }
+
+    .icon > * {
+      transform: rotate(90deg);
+    }
+
+    &:has(.trigger[data-expanded="true"]) .icon > * {
+      transform: rotate(-90deg);
+    }
+  }
+
+  /* Horizontal content animation */
+  .content[data-from="left"],
+  .content[data-from="right"] {
+    grid-template-rows: 1fr;
+    grid-template-columns: 0fr;
+    transition: grid-template-columns 300ms var(--ease-smooth-settle);
+
+    &[data-expanded="true"] {
+      grid-template-columns: 1fr;
+    }
+
+    .contentInner {
+      min-height: unset;
+      min-width: 0;
+    }
+  }
+
+  .title {
+    flex: 1;
+    font-weight: var(--font-weight-medium);
+    @apply py-2 pl-3;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    min-width: 0;
+    overflow: hidden;
+
+    @media (hover: hover) {
+      .trigger:not([data-disabled]):hover & {
+        background-color: var(--expand-trigger-background-hover);
+      }
+
+      /* When icon is hovered, remove background from title */
+      .trigger:not([data-disabled]):has(.icon:hover) & {
+        background-color: transparent;
+      }
+    }
+
+    .trigger:not([data-disabled]) {
+      background-color: transparent;
+    }
+  }
+
+  .content {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 300ms var(--ease-smooth-settle);
+
+    &[data-expanded="true"] {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  .contentInner {
+    overflow: hidden;
+    min-height: 0;
+    color: var(--expand-content-foreground);
+    background-color: var(--expand-content-background);
+  }
+
+  .expand:has(.trigger[data-disabled]) {
+    pointer-events: none;
+  }
+}
