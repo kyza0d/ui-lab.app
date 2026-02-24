@@ -129,13 +129,13 @@
 
 .dayCell[data-disabled="true"] {
   --cell-bg: var(--background-700);
-  --cell-text: var(--foreground-500);
+  --cell-text: var(--foreground-400);
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 .dayCell[data-out-of-range="true"] {
-  --cell-text: var(--foreground-500);
+  --cell-text: var(--foreground-400);
   opacity: 0.5;
 }
 

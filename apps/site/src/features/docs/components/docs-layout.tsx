@@ -22,12 +22,15 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
       <div className={cn("grid grid-cols-1 w-full max-w-(--page-width) mx-auto min-h-[calc(100vh-var(--header-height))]", isChatOpen ? "lg:grid-cols-[auto_1fr]" : "lg:grid-cols-[auto_4fr_1fr]")}>
         <Sidebar />
         <div id="docs" className={cn(
-          "flex flex-col justify-center mt-(--header-height)",
+          "flex flex-col justify-center mt-(--header-height) min-w-0",
           // "bg-background-900/30 rounded-2xl border border-background-700"
         )}>
           <BreadcrumbsNav />
-          <div className="flex  items-center">
-            <div className="pt-12 px-4 md:px-6 mx-auto max-w-3xl pb-12">
+          <div className="flex items-center w-full min-w-0">
+            {/* overflow-x-clip: enforces the 48rem boundary structurally.
+                Unlike overflow-x-hidden, clip does not create a scroll container,
+                so sticky children and fixed elements are unaffected. */}
+            <div className="pt-12 px-4 md:px-6 mx-auto max-w-3xl pb-12 w-full min-w-0">
               {children}
             </div>
           </div>

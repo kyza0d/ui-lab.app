@@ -48,7 +48,7 @@ export default function ReleasesPage() {
           <section key={release.version} id={`v${release.version}`} className="border-b border-background-800 pb-8 last:border-0">
             <div className="flex items-baseline gap-3 mb-4">
               <h2 className="text-base font-medium text-foreground-100">v{release.version}</h2>
-              <span className="text-sm text-foreground-500">{release.date}</span>
+              <span className="text-sm text-foreground-400">{release.date}</span>
             </div>
             <ul className="space-y-1.5 text-sm text-foreground-300">
               {release.changes.map((change, i) => (

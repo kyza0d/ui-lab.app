@@ -25,7 +25,7 @@ export function BreadcrumbsNav({ className }: BreadcrumbsNavProps) {
         className
       )}
     >
-      <Breadcrumbs separator={<FaChevronRight className="text-foreground-500 mt-0.5" size={10} />}>
+      <Breadcrumbs separator={<FaChevronRight className="text-foreground-400 mt-0.5" size={10} />}>
         {items.map((item: any, index: number) => (
           <Breadcrumb
             key={index}

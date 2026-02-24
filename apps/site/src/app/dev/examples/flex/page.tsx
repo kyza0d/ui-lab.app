@@ -38,7 +38,7 @@ function DirectionPreview() {
   return (
     <div className="flex gap-8">
       <div>
-        <p className="text-xs text-foreground-500 mb-2">Row</p>
+        <p className="text-xs text-foreground-400 mb-2">Row</p>
         <Flex direction="row" gap="sm">
           <Box>A</Box>
           <Box>B</Box>
@@ -46,7 +46,7 @@ function DirectionPreview() {
         </Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">Column</p>
+        <p className="text-xs text-foreground-400 mb-2">Column</p>
         <Flex direction="column" gap="sm">
           <Box>A</Box>
           <Box>B</Box>
@@ -61,19 +61,19 @@ function JustifyPreview() {
   return (
     <div className="space-y-4 w-full">
       <div>
-        <p className="text-xs text-foreground-500 mb-2">flex-start</p>
+        <p className="text-xs text-foreground-400 mb-2">flex-start</p>
         <Flex justify="flex-start" gap="sm" className="border border-background-700 rounded p-3">
           <Box>A</Box><Box>B</Box><Box>C</Box>
         </Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">center</p>
+        <p className="text-xs text-foreground-400 mb-2">center</p>
         <Flex justify="center" gap="sm" className="border border-background-700 rounded p-3">
           <Box>A</Box><Box>B</Box><Box>C</Box>
         </Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">space-between</p>
+        <p className="text-xs text-foreground-400 mb-2">space-between</p>
         <Flex justify="space-between" gap="sm" className="border border-background-700 rounded p-3">
           <Box>A</Box><Box>B</Box><Box>C</Box>
         </Flex>
@@ -86,19 +86,19 @@ function AlignPreview() {
   return (
     <div className="space-y-4 w-full">
       <div>
-        <p className="text-xs text-foreground-500 mb-2">flex-start</p>
+        <p className="text-xs text-foreground-400 mb-2">flex-start</p>
         <Flex align="flex-start" gap="sm" className="border border-background-700 rounded p-3 h-24">
           <Box>A</Box><Box className="h-12">B</Box><Box>C</Box>
         </Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">center</p>
+        <p className="text-xs text-foreground-400 mb-2">center</p>
         <Flex align="center" gap="sm" className="border border-background-700 rounded p-3 h-24">
           <Box>A</Box><Box className="h-12">B</Box><Box>C</Box>
         </Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">stretch</p>
+        <p className="text-xs text-foreground-400 mb-2">stretch</p>
         <Flex align="stretch" gap="sm" className="border border-background-700 rounded p-3 h-24">
           <Box>A</Box><Box>B</Box><Box>C</Box>
         </Flex>
@@ -111,15 +111,15 @@ function GapPreview() {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-xs text-foreground-500 mb-2">gap="xs"</p>
+        <p className="text-xs text-foreground-400 mb-2">gap="xs"</p>
         <Flex gap="xs"><Box>A</Box><Box>B</Box><Box>C</Box></Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">gap="md"</p>
+        <p className="text-xs text-foreground-400 mb-2">gap="md"</p>
         <Flex gap="md"><Box>A</Box><Box>B</Box><Box>C</Box></Flex>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">gap="xl"</p>
+        <p className="text-xs text-foreground-400 mb-2">gap="xl"</p>
         <Flex gap="xl"><Box>A</Box><Box>B</Box><Box>C</Box></Flex>
       </div>
     </div>

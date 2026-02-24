@@ -13,7 +13,6 @@
 @import "tailwindcss";
 
 @source "./src";
-@source "../../packages/registry/src";
 @source "../../packages/components/src";
 
 @font-face {
@@ -121,13 +120,7 @@
   --color-foreground-100: var(--foreground-100, oklch(95% 0.000 0.0));
   --color-foreground-200: var(--foreground-200, oklch(90% 0.000 0.0));
   --color-foreground-300: var(--foreground-300, oklch(84% 0.000 0.0));
-  --color-foreground-400: var(--foreground-400, oklch(65% 0.000 0.0));
-  --color-foreground-500: var(--foreground-500, oklch(50% 0.000 0.0));
-  --color-foreground-600: var(--foreground-600, oklch(32% 0.000 0.0));
-  --color-foreground-700: var(--foreground-700, oklch(83.0% 0.000 0.0));
-  --color-foreground-800: var(--foreground-800, oklch(91.0% 0.000 0.0));
-  --color-foreground-900: var(--foreground-900, oklch(93.0% 0.000 0.0));
-  --color-foreground-950: var(--foreground-950, oklch(94.0% 0.000 0.0));
+  --color-foreground-400: var(--foreground-400, oklch(80% 0.000 0.0));
   --color-accent-50: var(--accent-50, oklch(99.0% 0.000 0.0));
   --color-accent-100: var(--accent-100, oklch(97.0% 0.000 0.0));
   --color-accent-200: var(--accent-200, oklch(91.0% 0.000 0.0));

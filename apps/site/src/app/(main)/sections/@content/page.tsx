@@ -6,7 +6,7 @@ import { BreadcrumbsNav } from '@/features/navigation';
 import { getAllSections, searchSections } from 'ui-lab-registry';
 import type { SectionMetadata } from 'ui-lab-registry';
 import { SectionsGridClient } from '@/features/sections';
-import { ElementsSearchHeader, ElementsSortDropdown, ElementsFilterPopover } from '@/features/elements';
+import { ElementsSearchHeader, ElementsSortDropdown, ElementsFilterPopover } from '@/features/packages';
 import { GridCTA } from '@/features/landing/components/grid-cta';
 
 const placeholderSections: SectionMetadata[] = [

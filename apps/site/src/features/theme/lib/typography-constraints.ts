@@ -1,6 +1,6 @@
 import { generateTypeScaleFromRatio } from "../config";
 
-const MIN_FONT_SIZE_REM = 0.875;
+const MIN_FONT_SIZE_REM = 0.850;
 
 export function getSmallestMinSize(typeSizeRatio: number, fontSizeScale: number): number {
   const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale);
@@ -18,7 +18,7 @@ export function clampTypographyConfig(
   fontSizeScale: number,
 ): { typeSizeRatio: number; fontSizeScale: number } {
   const clampedRatio = Math.max(1.067, Math.min(1.2, typeSizeRatio));
-  const clampedScale = Math.max(0.85, Math.min(1.15, fontSizeScale));
+  const clampedScale = Math.max(0.85, Math.min(1.1, fontSizeScale));
 
   if (isValidTypographyConfig(clampedRatio, clampedScale)) {
     return { typeSizeRatio: clampedRatio, fontSizeScale: clampedScale };

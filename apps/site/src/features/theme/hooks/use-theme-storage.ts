@@ -43,7 +43,7 @@ const DEFAULT_TYPOGRAPHY: TypographyConfig = {
   bodyFontWeightScale: 1,
   bodyLetterSpacingScale: 1,
 };
-const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.5, borderWidth: 2, spacingScale: 0.9 };
+const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.9, borderWidth: 2, spacingScale: 0.9 };
 const DEFAULT_FONTS: FontsConfig = { sansFont: "Karla", monoFont: "Ioskeley Mono" };
 
 function buildConfig(source: ThemeSourceConfig | null, mode: "light" | "dark"): ThemeConfig {

@@ -141,23 +141,6 @@ function ThemeConfigurationApplier() {
     radius, borderWidth, spacingScale
   } = useApp();
 
-  // Apply configuration only after preferences are loaded from storage.
-  // This defers React's DOM updates until state synchronization is complete.
-  //
-  // TIMING:
-  // 1. Page load: inline script applies cached values (typography + non-typography)
-  // 2. React hydrates: isThemeInitialized=false → useThemeConfiguration disabled
-  // 3. Storage loads (useEffect line 188): state updates with cached values
-  // 4. setIsThemeInitialized(true) → useThemeConfiguration enabled
-  // 5. Hook runs: applies typography with state values from storage
-  //
-  // This ensures:
-  // - No FOUC: typography renders immediately from inline script cache
-  // - No oscillation: React applies values that match inline (verified sync)
-  // - Single source: React handles all future updates exclusively
-  //
-  // Hook is called unconditionally (required by React Rules of Hooks), but the actual
-  // DOM updates are deferred via the isEnabled parameter until isThemeInitialized is true.
   useThemeConfiguration({
     typography: { headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, headerLetterSpacingScale, bodyTypeSizeRatio, bodyFontSizeScale, bodyFontWeightScale, bodyLetterSpacingScale },
     layout: { radius, borderWidth, spacingScale },

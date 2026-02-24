@@ -42,7 +42,7 @@ export function CopyableCell({ value, label }: CopyableCellProps) {
       title={value}
     >
       {copied ? (
-        <span className="text-green-500 font-bold">Copied!</span>
+        <span className="text-foreground-400/60 font-bold">Copied!</span>
       ) : (
         <span className="text-foreground-400 truncate">{value}</span>
       )}

@@ -14,7 +14,7 @@ import {
   FaCodeBranch,
   FaBars
 } from "react-icons/fa6";
-import { HiChat, HiX } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 import { HiMiniSparkles } from "react-icons/hi2";
 import { PanelRight } from "lucide-react";
 import { getTabGroupForPathname, getActiveTabForPathname, shouldApplyRevealCollapse, type TabConfig } from "@/shared";
@@ -70,11 +70,11 @@ export default function Header({
       id: item.name,
       label: item.label,
       icon: item.icon,
-      path: item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : "/components",
+      path: item.name === "documentation" ? "/docs" : item.name === "elements" ? "/packages" : "/components",
       isPlaceholder: false,
     })), []);
 
-  const activeHomeTab = pathname === "/docs" ? "documentation" : pathname === "/elements" ? "elements" : pathname === "/components" ? "components" : undefined;
+  const activeHomeTab = pathname === "/docs" ? "documentation" : pathname === "/packages" ? "elements" : pathname === "/components" ? "components" : undefined;
 
   return (
     <>

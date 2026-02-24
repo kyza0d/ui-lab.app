@@ -18,7 +18,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Agents & MCPs"
         },
         {
-          "label": "Installation"
+          "label": "MCP Server Installation"
         }
       ]
     },
@@ -35,7 +35,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Agents & MCPs"
         },
         {
-          "label": "Workflows"
+          "label": "MCP Workflows"
         }
       ]
     },
@@ -97,7 +97,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Guidelines"
         },
         {
-          "label": "\"Accessibility Standards\""
+          "label": "\"Accessibility\""
         }
       ]
     },
@@ -131,7 +131,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Guidelines"
         },
         {
-          "label": "\"Component Guidelines\""
+          "label": "\"Components\""
         }
       ]
     },
@@ -211,37 +211,6 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
         {
           "label": "Design System",
           "href": "/design-system"
-        }
-      ]
-    },
-    {
-      "path": "/agents-mcps/api-reference",
-      "domain": "/agents-mcps",
-      "domainLabel": "Agents & MCPs",
-      "breadcrumbs": [
-        {
-          "label": "Agents & MCPs",
-          "href": "/agents-mcps"
-        },
-        {
-          "label": "Technical Reference"
-        },
-        {
-          "label": "API Reference"
-        }
-      ]
-    },
-    {
-      "path": "/agents-mcps/getting-started",
-      "domain": "/agents-mcps",
-      "domainLabel": "Agents & MCPs",
-      "breadcrumbs": [
-        {
-          "label": "Agents & MCPs",
-          "href": "/agents-mcps"
-        },
-        {
-          "label": "Getting Started"
         }
       ]
     },

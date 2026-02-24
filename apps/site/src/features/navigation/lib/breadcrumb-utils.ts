@@ -1,5 +1,6 @@
 import { BREADCRUMB_REGISTRY } from "../lib/generated-breadcrumb-registry";
 import { getComponentMetadata, categoryMap } from "@/features/component-docs";
+import { getPatternById } from "ui-lab-registry";
 
 export interface BreadcrumbItem {
   label: string;
@@ -18,6 +19,22 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
   if (registryItem) {
     return registryItem.breadcrumbs;
+  }
+
+  // Fallback for patterns
+  if (normalizedPath.startsWith('/patterns/')) {
+    const patternId = normalizedPath.slice('/patterns/'.length);
+    const pattern = getPatternById(patternId);
+    if (pattern) {
+      return [
+        { label: "Patterns", href: "/patterns" },
+        { label: pattern.name },
+      ];
+    }
+    return [
+      { label: "Patterns", href: "/patterns" },
+      { label: patternId },
+    ];
   }
 
   // Fallback for components - they're dynamically registered, not pre-discovered

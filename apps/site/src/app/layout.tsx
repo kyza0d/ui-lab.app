@@ -1,5 +1,4 @@
 import "ui-lab-components/styles.css"
-import "ui-lab-registry/styles.css"
 
 import "./globals.css";
 
@@ -9,12 +8,13 @@ import "@fontsource-variable/geist";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/work-sans";
 import "@fontsource-variable/jetbrains-mono";
+import { Metadata } from "next";
 
 import { Suspense } from "react";
 import { RootLayoutClient } from "./client";
 import { generateMetadata } from "@/shared/lib/metadata";
 
-export const metadata = generateMetadata();
+export const metadata: Metadata = generateMetadata();
 
 export default function RootLayout({
   children,

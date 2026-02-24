@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from 'ui-lab-components';
 import { FaFolder, FaFolderOpen, FaFile, FaExpand } from 'react-icons/fa6';
 import { PreviewContainer, DEVICE_PRESETS, calculateVariantFromWidth, PreviewDeviceVariant } from '@/features/preview';
-import { CodeBlock } from '@/features/docs/components/code-display/code-block';
+import { Code } from '@/features/docs/components/code-display/code';
 import { useExternalWindow } from '@/features/preview/hooks/use-external-window';
 import type { ElementFile } from 'ui-lab-registry';
 
@@ -191,9 +191,9 @@ export function SectionPreviewContent({
 
             <div className="flex-1 flex flex-col min-w-0">
               <div className="max-h-220">
-                <CodeBlock className="border-0 h-full" language={currentFile?.language || 'tsx'} filename={currentFile?.filename}>
+                <Code className="border-0 h-full" language={currentFile?.language || 'tsx'} filename={currentFile?.filename}>
                   {currentFile?.code || '// No source code available'}
-                </CodeBlock>
+                </Code>
               </div>
             </div>
           </div>

@@ -5,22 +5,25 @@ import {
   FaSwatchbook,
   FaBook,
   FaRocket,
+  FaTableCells,
 } from 'react-icons/fa6';
 
 export type SidebarDomain =
   | 'docs'
   | 'components'
-  | 'elements'
+  | 'packages'
   | 'sections'
   | 'starters'
+  | 'patterns'
   | 'design-system';
 
 export type MainNavItem =
   | 'overview'
   | 'components-core'
-  | 'elements'
+  | 'packages'
   | 'sections'
   | 'starters'
+  | 'patterns'
   | 'design-system';
 
 interface MainNavItemConfig {
@@ -56,17 +59,17 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
   },
   {
     id: 'components-core',
-    label: 'Components',
+    label: 'Library',
     href: '/components',
     icon: FaShapes,
     domain: 'components',
   },
   {
-    id: 'elements',
-    label: 'Elements',
-    href: '/elements',
+    id: 'packages',
+    label: 'Packages',
+    href: '/packages',
     icon: FaCube,
-    domain: 'elements',
+    domain: 'packages',
   },
   {
     id: 'sections',
@@ -82,14 +85,22 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
     icon: FaRocket,
     domain: 'starters',
   },
+  {
+    id: 'patterns',
+    label: 'Patterns',
+    href: '/patterns',
+    icon: FaTableCells,
+    domain: 'patterns',
+  },
 ];
 
 export function getActiveDomainForPathname(pathname: string): SidebarDomain {
   if (pathname.startsWith('/docs')) return 'docs';
   if (pathname.startsWith('/components')) return 'components';
-  if (pathname.startsWith('/elements')) return 'elements';
+  if (pathname.startsWith('/packages')) return 'packages';
   if (pathname.startsWith('/sections')) return 'sections';
   if (pathname.startsWith('/starters')) return 'starters';
+  if (pathname.startsWith('/patterns')) return 'patterns';
   if (pathname.startsWith('/design-system')) return 'design-system';
   return 'docs';
 }
@@ -101,10 +112,10 @@ export function getActiveNavItemForDomain(domain: SidebarDomain): MainNavItem {
 
 export function getMainNavItemsForDomain(domain: SidebarDomain): MainNavItemConfig[] {
   if (domain === 'components') {
-    return [];
+    return MAIN_NAV_ITEMS.filter(item => item.domain === 'components');
   }
-  if (domain === 'elements' || domain === 'sections' || domain === 'starters') {
-    return MAIN_NAV_ITEMS.filter(item => item.domain === 'elements' || item.domain === 'sections' || item.domain === 'starters');
+  if (domain === 'packages' || domain === 'sections' || domain === 'starters' || domain === 'patterns') {
+    return MAIN_NAV_ITEMS.filter(item => item.domain === 'packages' || item.domain === 'sections' || item.domain === 'starters' || item.domain === 'patterns');
   }
   return MAIN_NAV_ITEMS.filter(item => item.domain === 'docs' || item.domain === 'design-system');
 }
