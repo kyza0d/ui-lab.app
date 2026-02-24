@@ -14,7 +14,7 @@ export const componentDependencies: Record<string, ComponentDeps> = {
   'confirm': { npm: [], internal: ['modal', 'button', 'card'] },
   'divider': { npm: [], internal: [] },
   'flex': { npm: [], internal: [] },
-  'fold': { npm: ['gsap', '@gsap/react'], internal: [] },
+  'expand': { npm: ['gsap', '@gsap/react'], internal: [] },
   'frame': { npm: [], internal: [] },
   'form': { npm: [], internal: ['input', 'label'] },
   'gallery': { npm: [], internal: ['card'] },
