@@ -425,53 +425,17 @@ function BulkActionToolbar() {
 
   return (
     <>
-      <Toaster />
-      <div className="flex flex-col w-full max-w-md">
-        {/* Morphing header row */}
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-background-700 min-h-[36px]">
-          <Checkbox
-            size="sm"
-            isIndeterminate={someSelected}
-            checked={allSelected}
-            onChange={toggleAll}
-          />
-          {count === 0 ? (
-            <span className="text-xs text-foreground-400 select-none flex-1">Name</span>
-          ) : deleteStage === "idle" ? (
-            <>
-              <span className="text-xs text-foreground-300 flex-1">{count} selected</span>
-              <Group variant="ghost" spacing="sm">
-                <Tooltip content="Move">
-                  <Group.Button onPress={handleMove}><FaFolder size={13} /></Group.Button>
-                </Tooltip>
-                <Tooltip content="Duplicate">
-                  <Group.Button><FaCopy size={13} /></Group.Button>
-                </Tooltip>
-                <Tooltip content="Archive">
-                  <Group.Button onPress={handleArchive}><FaBoxArchive size={13} /></Group.Button>
-                </Tooltip>
-              </Group>
-              <Divider orientation="vertical" />
-              <Button variant="danger" size="sm" icon={{ left: <FaTrash /> }} onPress={() => setDeleteStage("confirm")}>
-                Delete
-              </Button>
-            </>
-          ) : (
-            <>
-              <span className="text-xs text-foreground-300 flex-1">{count} selected</span>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs text-foreground-300">Confirm?</span>
-                <Button variant="danger" size="sm" icon={{ left: <FaCheck /> }} onPress={handleBulkDelete}>Yes</Button>
-                <Button variant="ghost" size="sm" icon={{ left: <FaXmark /> }} onPress={() => setDeleteStage("idle")}>Cancel</Button>
-              </div>
-            </>
-          )}
+      <div className={"border border-background-700 rounded-sm flex flex-col w-full max-w-md relative"}>
+        <Toaster />
+        {/* Header */}
+        <div className="flex items-center gap-2 px-3 py-2 border-b border-background-700">
+          <Checkbox size="sm" isIndeterminate={someSelected} checked={allSelected} onChange={toggleAll} />
+          <span className="text-xs text-foreground-400 select-none">Name</span>
         </div>
 
         {/* File rows */}
         {files.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-2 py-10 text-foreground-400">
-            {/* SUGGESTION: FaFile icon meaning is identical to "No files" label — use an empty-folder icon or drop the icon */}
             <FaFile size={24} className="text-foreground-300" />
             <span className="text-sm">No files</span>
           </div>
@@ -480,40 +444,68 @@ function BulkActionToolbar() {
             <div
               key={file.id}
               className={[
-                "group flex items-center gap-3 px-3 py-2.5 border-b border-background-800 last:border-b-0 cursor-pointer transition-colors",
-                selected.has(file.id) ? "bg-background-800" : "hover:bg-background-900"
+                "group flex h-14 items-center gap-3 px-3 py-2.5 border-b border-background-800 last:border-b-0 cursor-pointer transition-colors",
+                selected.has(file.id) ? "bg-background-800/50" : "hover:bg-background-900"
               ].join(" ")}
               onClick={() => toggleItem(file.id)}
             >
-              <Checkbox
-                size="sm"
-                checked={selected.has(file.id)}
-                onChange={() => toggleItem(file.id)}
-              />
+              <Checkbox size="sm" checked={selected.has(file.id)} onChange={() => toggleItem(file.id)} />
               <FaFile size={12} className="text-foreground-400 shrink-0" />
               <span className="text-sm text-foreground-200 flex-1">{file.name}</span>
               {count === 0 && (
                 <div
-                  className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
                   onClick={e => e.stopPropagation()}
                 >
-                  {/* SUGGESTION: Move and Archive duplicate bulk toolbar actions with no scope distinction — consider removing or scoping differently */}
                   <Tooltip content="Move">
-                    <Button variant="ghost" size="sm" icon={{ left: <FaFolder size={11} /> }} onPress={() => toast({ title: "File moved", variant: "info" })} />
+                    <Button variant="ghost" className="p-2" icon={{ left: <FaFolder size={14} /> }} onPress={() => toast({ title: "File moved", variant: "info" })} />
                   </Tooltip>
                   <Tooltip content="Duplicate">
-                    <Button variant="ghost" size="sm" icon={{ left: <FaCopy size={11} /> }} onPress={() => { }} />
+                    <Button variant="ghost" className="p-2" icon={{ left: <FaCopy size={14} /> }} onPress={() => { }} />
                   </Tooltip>
                   <Tooltip content="Archive">
-                    <Button variant="ghost" size="sm" icon={{ left: <FaBoxArchive size={11} /> }} onPress={() => toast({ title: "File archived", variant: "info" })} />
+                    <Button variant="ghost" className="p-2" icon={{ left: <FaBoxArchive size={14} /> }} onPress={() => toast({ title: "File archived", variant: "info" })} />
                   </Tooltip>
                   <Tooltip content="Delete">
-                    <Button variant="ghost" size="sm" icon={{ left: <FaTrash size={11} /> }} onPress={() => handleRowDelete(file.id)} />
+                    <Button variant="ghost" className="p-2" icon={{ left: <FaTrash size={14} /> }} onPress={() => handleRowDelete(file.id)} />
                   </Tooltip>
                 </div>
               )}
             </div>
           ))
+        )}
+
+        {/* Floating bottom toolbar */}
+        {count > 0 && (
+          <div className="absolute bottom-4 right-4 flex justify-center pointer-events-none">
+            <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-sm border border-background-700 bg-background-900 shadow-lg">
+              <span className="text-xs text-foreground-400">{count} selected</span>
+              <Divider orientation="vertical" />
+              {deleteStage === "idle" ? (
+                <Group orientation="horizontal" spacing="sm">
+                  <Tooltip content="Move">
+                    <Group.Button onPress={handleMove}><FaFolder size={13} /></Group.Button>
+                  </Tooltip>
+                  <Tooltip content="Duplicate">
+                    <Group.Button><FaCopy size={13} /></Group.Button>
+                  </Tooltip>
+                  <Tooltip content="Archive">
+                    <Group.Button onPress={handleArchive}><FaBoxArchive size={13} /></Group.Button>
+                  </Tooltip>
+                  <Divider orientation="vertical" />
+                  <Tooltip content="Delete">
+                    <Group.Button onPress={() => setDeleteStage("confirm")}><FaTrash size={13} /></Group.Button>
+                  </Tooltip>
+                </Group>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-foreground-300">Delete {count}?</span>
+                  <Button variant="danger" size="sm" icon={{ left: <FaCheck /> }} onPress={handleBulkDelete}>Yes</Button>
+                  <Button variant="ghost" size="sm" icon={{ left: <FaXmark /> }} onPress={() => setDeleteStage("idle")}>Cancel</Button>
+                </div>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </>
@@ -522,29 +514,10 @@ function BulkActionToolbar() {
 
 const examples: DevExample[] = [
   {
-    id: "variants",
-    title: "Deploy Pipeline Button",
-    description: "Stateful button cycling through idle → queued → deploying → succeeded/failed. Variant and icon communicate state; no extra UI needed.",
-    preview: <DeployPipelineButton />,
-    previewLayout: "start" as const,
-  },
-  {
     id: "joined-toggle",
     title: "Joined Toggle Buttons",
     description: "Multiple buttons grouped together for view/mode selection with active state indication.",
     preview: <JoinedTogglePreview />,
-  },
-  {
-    id: "split-action",
-    title: "AI Workflow Runner",
-    description: "Split button for triggering AI pipelines. Mode dropdown switches between Run, Schedule, Debug, and Dry Run. Icon toolbar provides Stop, Logs toggle, and Settings. Simulates async execution with streamed log output and a success/failed badge.",
-    preview: <SplitActionPreview />,
-  },
-  {
-    id: "toolbar",
-    title: "Editor Toolbar",
-    description: "Icon buttons grouped together with a divider to separate related actions.",
-    preview: <ToolbarPreview />,
   },
   {
     id: "pagination",
@@ -553,11 +526,29 @@ const examples: DevExample[] = [
     preview: <PaginationPreview />,
   },
   {
+    id: "toolbar",
+    title: "Editor Toolbar",
+    description: "Icon buttons grouped together with a divider to separate related actions.",
+    preview: <ToolbarPreview />,
+  },
+  {
+    id: "variants",
+    title: "Deploy Pipeline Button",
+    description: "Stateful button cycling through idle → queued → deploying → succeeded/failed. Variant and icon communicate state; no extra UI needed.",
+    preview: <DeployPipelineButton />,
+    previewLayout: "start" as const,
+  },
+  {
+    id: "split-action",
+    title: "AI Workflow Runner",
+    description: "Split button for triggering AI pipelines. Mode dropdown switches between Run, Schedule, Debug, and Dry Run. Icon toolbar provides Stop, Logs toggle, and Settings. Simulates async execution with streamed log output and a success/failed badge.",
+    preview: <SplitActionPreview />,
+  },
+  {
     id: "action-buttons",
     title: "Bulk Action Toolbar",
-    description: "File list with per-row actions and a contextual bottom toolbar that slides in when items are selected. Two-stage inline confirmation prevents accidental deletes.",
+    description: "File list with per-row actions and a floating toolbar that appears when items are selected. Two-stage inline confirmation prevents accidental deletes.",
     preview: <BulkActionToolbar />,
-    previewLayout: "center" as const,
   },
 ];
 

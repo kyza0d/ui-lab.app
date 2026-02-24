@@ -30,7 +30,7 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
-  Fold,
+  Expand,
   Scroll,
 } from "ui-lab-components";
 import { FaEye, FaCode, FaDownload, FaBars, FaXmark } from "react-icons/fa6";
@@ -285,7 +285,7 @@ function ExportSection({
         </TabsContent>
       </Tabs>
 
-      <Fold title="Setup Instructions" defaultExpanded={false}>
+      <Expand title="Setup Instructions" defaultExpanded={false}>
         <div className="space-y-4 p-4">
           <div className="space-y-1">
             <span className="text-sm font-medium text-foreground-300">1. Install the package</span>
@@ -310,7 +310,7 @@ function ExportSection({
             </Code>
           </div>
         </div>
-      </Fold>
+      </Expand>
     </div>
   );
 }

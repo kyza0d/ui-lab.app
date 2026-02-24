@@ -12,7 +12,7 @@ export default function PatternsPage() {
         <div className="space-y-4 mb-12">
           <h2 className="font-bold text-foreground-50">Patterns</h2>
           <p className="text-foreground-400 max-w-2xl">
-            Production-ready code patterns for common UI challenges. Copy and adapt them to your project.
+            Code patterns for common UI challenges. Copy and adapt them to your project.
           </p>
         </div>
         <PatternsGridClient patterns={patterns} />

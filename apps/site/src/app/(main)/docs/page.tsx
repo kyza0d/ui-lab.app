@@ -84,8 +84,8 @@ export default async function DocsPage() {
                     <Icon className="w-6 h-6 text-foreground-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-foreground-200">{name}</div>
-                    <div className="text-sm text-foreground-400">{version}</div>
+                    <div className="text-xs font-medium text-foreground-200">{name}</div>
+                    <div className="text-xs text-foreground-400">{version}</div>
                   </div>
                 </a>
               ))}
