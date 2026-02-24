@@ -14,8 +14,7 @@ import { TogglesAndSwitches } from "./examples/preferences";
 export function Showcase() {
   return (
     <div className="bg-background-950 min-h-300 overflow-hidden">
-      <Grid columns={{ sm: "1", md: "2", lg: "3" }} rows="masonry" alignItems="start" gap="md">
-        <AIComposer />
+      <Grid columns={{ sm: "1", md: "2" }} rows="masonry" alignItems="start" gap="md">
         <TogglesAndSwitches />
         <TextEditor />
         <div>
@@ -30,9 +29,10 @@ export function Showcase() {
           </div>
         </div>
         <IntegrationsPanel />
-        <FormInputs />
+        <AIComposer />
         <FileBrowser />
         <SessionConfigPanel />
+        <FormInputs />
         <MemberRolePanel />
       </Grid>
     </div>

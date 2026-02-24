@@ -29,7 +29,7 @@ const TabItem = memo(({ tab }: { tab: TabConfig }) => {
       <TabsTrigger
         value={tab.id}
         disabled={tab.isPlaceholder}
-        className="text-xs pb-[13px] pt-[17px]"
+        className="text-xs pb-[15px] pt-[17px]"
       >
         {tab.label}
       </TabsTrigger>
@@ -101,7 +101,7 @@ export default function Header({
               <Tabs className="hidden ml-8 lg:block" value={activeHomeTab || ""} variant="underline">
                 <TabsList>
                   {homeNavTabs.map((tab) => (
-                    <TabItem cla key={tab.id} tab={tab} />
+                    <TabItem key={tab.id} tab={tab} />
                   ))}
                 </TabsList>
               </Tabs>
@@ -123,11 +123,11 @@ export default function Header({
               <Input
                 placeholder="Search..."
                 prefixIcon={<FaMagnifyingGlass size={13} />}
-                className="w-50 md:w-90 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                className="text-xs w-50 md:w-90 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                 onClick={() => setIsCommandPaletteOpen(true)}
                 readOnly
               />
-              <Badge className="text-foreground-300 text-xs absolute px-2 top-1/2 -translate-y-1/2 right-1.5 rounded-xs gap-1 border border-background-700" size="sm">
+              <Badge className="text-foreground-300 font-semibold text-xs absolute px-2 top-1/2 -translate-y-1/2 right-1.5 rounded-xs gap-1 border border-background-700" size="sm">
                 Ctrl {" "} K
               </Badge>
             </div>

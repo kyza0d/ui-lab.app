@@ -12,7 +12,7 @@ import { checkboxDetail } from "ui-lab-registry/components/Checkbox";
 import { colorDetail } from "ui-lab-registry/components/Color";
 import { dividerDetail } from "ui-lab-registry/components/Divider";
 import { flexDetail } from "ui-lab-registry/components/Flex";
-import { foldDetail } from "ui-lab-registry/components/Fold";
+import { expandDetail } from "ui-lab-registry/components/Expand";
 import { galleryDetail } from "ui-lab-registry/components/Gallery";
 import { gridDetail } from "ui-lab-registry/components/Grid";
 import { groupDetail } from "ui-lab-registry/components/Group";
@@ -166,7 +166,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   command: commandDetail,
   confirm: confirmDetail,
   divider: dividerDetail,
-  fold: foldDetail,
+  expand: expandDetail,
   gallery: galleryDetail,
   frame: frameDetail,
   scroll: scrollDetail,
