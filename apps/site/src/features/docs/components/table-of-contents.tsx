@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/shared";
+import { Scroll } from "ui-lab-components";
 
 export interface TableOfContentsItem {
   id: string;
@@ -20,7 +21,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const observerRef = useRef<MutationObserver | null>(null);
   const filterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const tocContainerRef = useRef<HTMLElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const filterVisibleHeadings = useCallback(() => {
     const registryIds = new Set(initialItems.map(item => item.id));
@@ -127,18 +128,20 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
   }, [findActiveHeading]);
 
   useEffect(() => {
-    if (!activeId || !tocContainerRef.current) return;
-    const activeButton = tocContainerRef.current.querySelector(
+    if (!activeId || !scrollRef.current) return;
+    const scrollContent = scrollRef.current.firstElementChild as HTMLElement;
+    if (!scrollContent) return;
+    const activeButton = scrollContent.querySelector(
       `button[data-toc-id="${activeId}"]`
     ) as HTMLButtonElement | null;
     if (!activeButton) return;
 
-    const container = tocContainerRef.current;
-    const containerHeight = container.clientHeight;
-    const buttonTop = activeButton.offsetTop;
-    const targetPosition = buttonTop - containerHeight * 0.33;
-
-    container.scrollTop = Math.max(0, targetPosition);
+    const buttonTop =
+      activeButton.getBoundingClientRect().top -
+      scrollContent.getBoundingClientRect().top +
+      scrollContent.scrollTop;
+    const targetPosition = buttonTop - scrollContent.clientHeight * 0.33;
+    scrollContent.scrollTop = Math.max(0, targetPosition);
   }, [activeId]);
 
   const handleClick = (id: string) => {
@@ -169,42 +172,41 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
 
   return (
     <>
-      <aside
-        ref={tocContainerRef}
-        className="pb-42 pr-4 w-[14rem] overflow-x-hidden h-screen top-(--header-height) sticky overflow-y-auto hidden lg:block"
-      >
+      <aside className="pr-4 w-[18rem] top-(--header-height) sticky hidden lg:block self-start">
         <nav className="space-y-6 px-4 py-5">
           <div>
             <span className="text-md font-semibold text-foreground-50">
               On this page
             </span>
-            <div className="flex flex-col space-y-0 mt-2">
-              {visibleItems.map((item) => (
-                <button
-                  key={item.id}
-                  data-toc-id={item.id}
-                  onClick={() => handleClick(item.id)}
-                  className={cn(
-                    "block w-full text-left text-sm px-2 py-1.5 rounded-md cursor-pointer overflow-hidden",
-                    "transition-colors duration-300 ease-out",
-                    "hover:duration-0",
+            <div className="mt-2">
+              <Scroll fadeY ref={scrollRef} maxHeight="65vh">
+                <div className="flex flex-col space-y-0">
+                  {visibleItems.map((item) => (
+                    <button
+                      key={item.id}
+                      data-toc-id={item.id}
+                      onClick={() => handleClick(item.id)}
+                      className={cn(
+                        "block w-full text-left text-xs px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
+                        "transition-colors duration-300 ease-out",
+                        "hover:duration-0",
 
-                    // 3. Indentation Logic
-                    item.level === 3 && "pl-6",
-                    item.level === 4 && "pl-10",
-                    item.level && item.level > 4 && "pl-14",
+                        item.level === 3 && "pl-6",
+                        item.level === 4 && "pl-10",
+                        item.level && item.level > 4 && "pl-14",
 
-                    // 4. Active vs Inactive State
-                    activeId === item.id
-                      ? "text-foreground-50 bg-background-800 font-medium"
-                      : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50"
-                  )}
-                >
-                  <span className="whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
-                    {item.title}
-                  </span>
-                </button>
-              ))}
+                        activeId === item.id
+                          ? "text-foreground-50 bg-background-800"
+                          : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50"
+                      )}
+                    >
+                      <span className="whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
+                        {item.title}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </Scroll>
             </div>
           </div>
         </nav>

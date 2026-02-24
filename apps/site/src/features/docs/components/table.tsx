@@ -55,7 +55,7 @@ export function Table<T extends Record<string, any>>({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filterableColumns.map((col) => (
               <div key={String(col.key)}>
-                <label className="block text-sm font-medium text-foreground-300 mb-2">
+                <label className="block text-xs font-medium text-foreground-300 mb-2">
                   {col.label}
                 </label>
                 <input
@@ -74,7 +74,7 @@ export function Table<T extends Record<string, any>>({
       )}
 
       <div className="overflow-x-auto border border-background-800 rounded-sm">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full text-xs">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">
               {columns.map((col, idx) => (

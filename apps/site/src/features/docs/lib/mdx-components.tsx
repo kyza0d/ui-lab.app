@@ -55,17 +55,17 @@ export const mdxComponents = {
       const code = children.props?.children as string || ''
       const language = children.props?.className?.replace('language-', '') || 'text'
       return (
-        <Code language={language}>
+        <Code className='mb-4' language={language}>
           {code}
         </Code>
       )
     }
-    return <pre className="bg-background-900 rounded">{children}</pre>
+    return <pre className="bg-background-900 rounded-sm">{children}</pre>
   },
   code: ({ children, className }: any) => {
     const isInline = !className
     return isInline ? (
-      <code className="bg-background-800 px-2 py-1 rounded font-mono text-sm text-foreground-200">
+      <code className="bg-background-800 text-xs px-2 py-1 rounded-sm font-mono text-foreground-200">
         {children}
       </code>
     ) : (
@@ -98,7 +98,7 @@ export const mdxComponents = {
     </li>
   ),
   table: ({ children }: any) => (
-    <div className="overflow-x-auto my-6 border border-background-800 rounded-md">
+    <div className="overflow-x-auto my-6 border border-background-800 rounded-sm">
       <table className="w-full text-xs">{children}</table>
     </div>
   ),

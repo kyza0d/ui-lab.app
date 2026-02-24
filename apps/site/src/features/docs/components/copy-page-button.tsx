@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from 'ui-lab-components';
+import { Button, Divider, Group } from 'ui-lab-components';
 import TurndownService from 'turndown';
-import { FaClipboard, FaClipboardCheck, FaCopy } from 'react-icons/fa6';
+import { FaCheck, FaClipboard, FaClipboardCheck, FaCopy, FaFileLines, FaPercent } from 'react-icons/fa6';
 
 export function CopyPage() {
   const [isCopied, setIsCopied] = useState(false);
@@ -33,14 +33,20 @@ export function CopyPage() {
   };
 
   return (
-    <Button
-      onClick={handleCopy}
-      className='underline text-foreground-400'
-      variant='ghost'
-      title="Copy rendered content as Markdown"
-    >
-      {isCopied ? <FaClipboardCheck /> : <FaClipboard />}
-      Copy Markdown
-    </Button>
+    <Group>
+      <div className="bg-background-800 w-10 flex items-center px-3 text-foreground-400 text-sm font-medium">
+        <FaFileLines />
+      </div>
+      <Divider />
+      <Group.Button
+        onClick={handleCopy}
+        variant='outline'
+        title="Copy rendered content as Markdown"
+        className="text-xs justify-start w-55"
+      >
+
+        {isCopied ? <>Copied! <FaCheck className='ml-auto' /></> : <>Copy Markdown</>}
+      </Group.Button>
+    </Group>
   );
 }
