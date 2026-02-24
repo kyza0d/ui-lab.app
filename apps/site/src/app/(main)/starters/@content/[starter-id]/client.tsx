@@ -3,9 +3,9 @@
 import { useState, useMemo } from "react";
 import type { ElementFile } from "ui-lab-registry";
 import { getStarterById } from "ui-lab-registry";
-import { CodeBlock } from "@/features/docs/components/code-display/code-block";
+import { Code } from "@/features/docs/components/code-display/code";
 import { ContentHeader } from "@/features/navigation/components/content-header";
-import { PurchaseModalClient, usePurchaseModal } from "@/features/elements";
+import { PurchaseModalClient, usePurchaseModal } from "@/features/packages";
 import { Button } from "ui-lab-components";
 import { FaShop } from "react-icons/fa6";
 
@@ -197,7 +197,7 @@ function StarterDetailContent({ starterId }: StarterDetailClientProps) {
             <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4 md:gap-8 mb-12">
               <div className="flex items-center justify-center">
                 <div className="w-full h-48 bg-background-800 rounded border border-background-700 flex items-center justify-center">
-                  <div className="text-foreground-500">Preview</div>
+                  <div className="text-foreground-400">Preview</div>
                 </div>
               </div>
               <div className="flex relative flex-col justify-between gap-4">
@@ -263,7 +263,7 @@ function StarterDetailContent({ starterId }: StarterDetailClientProps) {
                       <h3 className="text-sm font-semibold text-foreground-200">
                         {currentFile.filename}
                       </h3>
-                      <span className="text-xs text-foreground-500 uppercase">
+                      <span className="text-xs text-foreground-400 uppercase">
                         {currentFile.language}
                       </span>
                     </div>
@@ -272,9 +272,9 @@ function StarterDetailContent({ starterId }: StarterDetailClientProps) {
                         {currentFile.description}
                       </p>
                     )}
-                    <CodeBlock language={currentFile.language}>
+                    <Code language={currentFile.language}>
                       {currentFile.code || ''}
-                    </CodeBlock>
+                    </Code>
                   </div>
                 )}
               </div>

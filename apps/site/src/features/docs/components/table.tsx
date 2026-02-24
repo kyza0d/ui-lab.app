@@ -65,7 +65,7 @@ export function Table<T extends Record<string, any>>({
                     handleFilterChange(String(col.key), e.target.value)
                   }
                   placeholder={`Filter by ${col.label.toLowerCase()}`}
-                  className="w-full px-3 py-2 rounded-sm border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
+                  className="w-full px-3 py-2 rounded-sm border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
                 />
               </div>
             ))}
@@ -74,7 +74,7 @@ export function Table<T extends Record<string, any>>({
       )}
 
       <div className="overflow-x-auto border border-background-800 rounded-sm">
-        <table className="w-full text-sm">
+        <table className="min-w-full text-sm">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">
               {columns.map((col, idx) => (

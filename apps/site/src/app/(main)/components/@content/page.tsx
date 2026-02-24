@@ -14,7 +14,7 @@ export default function ComponentsPage() {
     <div>
       {/* Breadcrumbs */}
       <BreadcrumbsNav />
-      <div className="max-w-6xl mx-auto px-4 pt-(--header-height) pb-12">
+      <div className="px-4 pt-(--header-height) pb-12">
         <main className="w-full">
           {/* Page Header */}
           <div className="space-y-4 mb-28 mt-12">
@@ -32,7 +32,7 @@ export default function ComponentsPage() {
                 <div key={category} className="space-y-4">
                   <div className="flex gap-4">
                     {/* Category Header */}
-                    <div className="bg-background-800 border border-background-700 w-12 h-12 flex items-center justify-center rounded-md text-foreground-200 mr-3">
+                    <div className="bg-background-800 border border-background-700 w-12 h-12 flex items-center justify-center rounded-sm text-foreground-200 mr-3">
                       {getCategoryIcon(category as any)}
                     </div>
                     <div>
@@ -44,7 +44,7 @@ export default function ComponentsPage() {
                       </p>
                     </div>
                   </div>
-                  <Divider size="sm" className="mb-8 mt-10" />
+                  <Divider variant="dashed" size="sm" className="-mx-3 w-[calc(100%+1.6rem)]! mb-8 mt-10" />
                   {/* Components Grid */}
                   <Gallery columns={{ sm: "1", md: "2", lg: "2", xl: "3" }} gap="xl" containerQueryResponsive>
                     {componentsInCategory.map((component) => {
@@ -61,16 +61,16 @@ export default function ComponentsPage() {
                           />
                           <Gallery.Item
                             href={href}
-                            className='group rounded-md h-80 bg-background-950 hover:bg-background-900/50 flex-col'
+                            className='group rounded-md h-90 bg-background-950 hover:bg-background-900/50 flex-col'
                             orientation='horizontal'
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
                             onClick={() => router.push(href)}
                           >
                             <Gallery.View
-                              className="w-full h-45 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
+                              className="w-full h-60 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
                             >
-                              <div className='w-90 px-4 gap-2 flex items-center justify-center'>
+                              <div className='w-80 px-4 gap-2 flex items-center justify-center'>
                                 {component.preview}
                               </div>
                               <div className='absolute top-0 left-0 w-full h-full'>

@@ -133,7 +133,7 @@ export function PreviewContainer({
           </div>
         </div>
       </div>
-      {showWidthLabel && <div className="text-xs text-foreground-500 font-mono mt-3">{Math.round(width)}px</div>}
+      {showWidthLabel && <div className="text-xs text-foreground-400 font-mono mt-3">{Math.round(width)}px</div>}
     </div>
   );
 

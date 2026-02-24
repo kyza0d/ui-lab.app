@@ -1,5 +1,5 @@
-export { CodeBlock } from "./code-block";
-export { CodeBlockWithPackageManager } from "./code-block-with-package-manager";
+export { Code } from "./code";
+export { CodeWithPackageManager } from "./code-with-package-manager";
 export { CopyButton } from "./copy-button";
 export { EnumUnionHighlight } from "./enum-union-highlight";
 export { InlineCodeHighlight } from "./inline-code-highlight";

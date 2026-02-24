@@ -4,7 +4,7 @@ import { createLayoutConfigGetter } from '@/shared/lib/layout-utils';
 
 const DEFAULT_LAYOUT: LayoutConfig = {
   layoutClass: 'default',
-  columnSpan: 8,
+  columnSpan: 1,
   rowSpan: 8,
 };
 

@@ -3,7 +3,7 @@ import type { ColorRole, OklchColor, ScaleRange, ShadeScale, ChromaBounds, Globa
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n));
 
 export const SCALE_RANGES: Record<ColorRole, ScaleRange> = {
-  foreground: { min: 50, max: 600 },
+  foreground: { min: 50, max: 400 },
   background: { min: 500, max: 950 },
   accent: { min: 50, max: 600 },
   success: { min: 50, max: 600 },

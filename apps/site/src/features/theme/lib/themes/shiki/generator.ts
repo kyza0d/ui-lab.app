@@ -15,9 +15,9 @@ export function generateShikiTheme(
     'editor.background': oklchToHex(palettes.background[900]!),
     'editor.foreground': oklchToHex(palettes.foreground[300]!),
     'editor.lineHighlightBackground': oklchToHex(palettes.background[800]!),
-    'editorLineNumber.foreground': oklchToHex(palettes.foreground[600]!),
+    'editorLineNumber.foreground': oklchToHex(palettes.foreground[400]!),
     'editorCursor.foreground': oklchToHex(palettes.accent[500]!),
-    'editorWhitespace.foreground': oklchToHex(palettes.foreground[600]!),
+    'editorWhitespace.foreground': oklchToHex(palettes.foreground[400]!),
     'editor.selectionBackground': oklchToHex(palettes.background[700]!),
     'editor.inactiveSelectionBackground': oklchToHex(palettes.background[800]!)
   }

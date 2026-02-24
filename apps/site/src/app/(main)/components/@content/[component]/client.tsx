@@ -4,7 +4,7 @@ import { ComponentConfigurator } from "@/features/component-docs";
 import { getComponentById, getComponentMetadata } from "@/features/component-docs";
 import { TableOfContents, Table, type Column } from "@/features/docs";
 import { cn } from "@/shared";
-import { CodeBlock, InlineCodeHighlight } from "@/features/docs";
+import { Code, InlineCodeHighlight } from "@/features/docs";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
@@ -93,7 +93,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
 
   return (
     <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
-      <div className={cn("flex flex-col mx-auto w-full max-w-5xl justify-center mt-(--header-height)")}>
+      <div className={cn("flex flex-col max-w-3xl mx-auto w-full justify-center mt-(--header-height)")}>
         <BreadcrumbsNav />
         <Toaster />
         <div className="flex items-center">
@@ -211,7 +211,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
       key: "required",
       label: "Required",
       render: (value: any) => (
-        <span className={value ? "text-danger-400" : "text-foreground-500"}>
+        <span className={value ? "text-danger-400" : "text-foreground-400"}>
           {value ? "Yes" : "No"}
         </span>
       ),
@@ -220,7 +220,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
       key: "defaultValue",
       label: "Default",
       render: (value: any) => (
-        value ? <InlineCodeHighlight code={value} language="typescript" /> : <span className="text-foreground-500">-</span>
+        value ? <InlineCodeHighlight code={value} language="typescript" /> : <span className="text-foreground-400">-</span>
       ),
     },
   ];
@@ -253,7 +253,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
       key: "required",
       label: "Required",
       render: (value: any) => (
-        <span className={value ? "text-danger-400" : "text-foreground-500"}>
+        <span className={value ? "text-danger-400" : "text-foreground-400"}>
           {value ? "Yes" : "No"}
         </span>
       ),
@@ -309,7 +309,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
   return (
     <div className="space-y-8">
       <div id="styles-css-module" className="scroll-mt-20">
-        <CodeBlock language="css" heading="styles.module.css">{styles}</CodeBlock>
+        <Code language="css" heading="styles.module.css">{styles}</Code>
       </div>
     </div>
   );

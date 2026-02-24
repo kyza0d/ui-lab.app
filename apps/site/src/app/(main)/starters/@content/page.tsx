@@ -51,7 +51,7 @@ export default function StartersPage() {
           <div className="absolute bottom-0 left-0 right-0 h-[200px]  pointer-events-none bg-gradient-to-b from-transparent from-0% via-background-950 via-70% to-background-950 to-100%" />
         </div>
         <div className="-mt-60 relative z-10 px-6 py-16">
-          <GridCTA contentType="elements" />
+          <GridCTA contentType="starters" />
         </div>
       </div>
     </div>
