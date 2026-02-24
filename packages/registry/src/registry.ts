@@ -319,6 +319,28 @@ export const componentRegistry: ComponentRegistry = {
 ],
   },
 
+  expand: {
+    id: "expand",
+    name: "Expand",
+    description: "Collapsible disclosure component for expanding and collapsing sections.",
+    category: "layout",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Expand",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: ["card","modal"],
+    tags: ["disclosure","accordion","collapsible","expandable"],
+    accessibility: {"hasAriaSupport":true,"notes":["Full ARIA disclosure pattern support","Keyboard navigation with Tab and Enter/Space","Proper button and panel roles","Screen reader friendly"]},
+    examples: [
+    {
+        "title": "Basic Expand",
+        "description": "An expandable/collapsible disclosure component. Use this to show and hide content sections while maintaining accessibility and keyboard support.",
+        "code": "import React from 'react';\nimport { Expand } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Expand title=\"What is an Expand component?\">\n      <p className=\"text-foreground-300\">\n        An Expand component is a disclosure widget that expands and collapses content.\n        It's built with React Aria for full accessibility support.\n      </p>\n    </Expand>\n  );\n}"
+    }
+],
+  },
+
   flex: {
     id: "flex",
     name: "Flex",
@@ -337,28 +359,6 @@ export const componentRegistry: ComponentRegistry = {
         "title": "Basic Flex",
         "description": "A simple flex layout arranging items in a row. Use this component to easily create flexible layouts with consistent spacing.",
         "code": "import React from 'react';\nimport { Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex gap=\"md\">\n      <div className=\"h-16 w-20 bg-background-800 rounded border border-accent-500/50 flex items-center justify-center\">1</div>\n      <div className=\"h-16 w-20 bg-background-800 rounded border border-accent-500/50 flex items-center justify-center\">2</div>\n      <div className=\"h-16 w-20 bg-background-800 rounded border border-accent-500/50 flex items-center justify-center\">3</div>\n    </Flex>\n  );\n}"
-    }
-],
-  },
-
-  fold: {
-    id: "fold",
-    name: "Fold",
-    description: "Collapsible disclosure component for expanding and collapsing sections.",
-    category: "layout",
-    source: {
-  "packageName": "ui-lab-components",
-  "exportName": "Fold",
-  "packagePath": "dist/index.d.ts"
-},
-    relatedComponents: ["card","modal"],
-    tags: ["disclosure","accordion","collapsible","expandable"],
-    accessibility: {"hasAriaSupport":true,"notes":["Full ARIA disclosure pattern support","Keyboard navigation with Tab and Enter/Space","Proper button and panel roles","Screen reader friendly"]},
-    examples: [
-    {
-        "title": "Basic Fold",
-        "description": "An expandable/collapsible disclosure component. Use this to show and hide content sections while maintaining accessibility and keyboard support.",
-        "code": "import React from 'react';\nimport { Fold } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Fold title=\"What is a Fold component?\">\n      <p className=\"text-foreground-300\">\n        A Fold component is a disclosure widget that expands and collapses content.\n        It's built with React Aria for full accessibility support.\n      </p>\n    </Fold>\n  );\n}"
     }
 ],
   },

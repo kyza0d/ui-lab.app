@@ -32,7 +32,7 @@ export const sourceUrls: Record<string, string> = {
   "confirmation": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Confirmation",
   "divider": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Divider",
   "flex": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Flex",
-  "fold": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Fold",
+  "expand": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Expand",
   "frame": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Frame",
   "grid": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Grid",
   "group": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Group",
