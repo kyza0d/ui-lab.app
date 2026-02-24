@@ -12,7 +12,7 @@ import {
   FaBriefcase,
   FaCube
 } from 'react-icons/fa6';
-import { Divider, List, Fold } from 'ui-lab-components';
+import { Divider, List, Expand } from 'ui-lab-components';
 
 interface SidebarProps {
   activeItem?: string;
@@ -81,8 +81,8 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
         <List aria-label="Main navigation" className="p-2 space-y-2">
           {mainNavItems.map((item) =>
             item.id === 'projects' && !isCollapsed ? (
-              <Fold key={item.id}>
-                <Fold.Trigger className="text-foreground-400 h-10 text-xs group rounded-sm">
+              <Expand key={item.id}>
+                <Expand.Trigger className="text-foreground-400 h-10 text-xs group rounded-sm">
                   <div className="flex items-center gap-4 min-w-0">
                     <item.icon
                       size={17}
@@ -90,8 +90,8 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
                     />
                     Projects
                   </div>
-                </Fold.Trigger>
-                <Fold.Content>
+                </Expand.Trigger>
+                <Expand.Content>
                   <div className="flex flex-col gap-0.5 pl-3 pr-2 mt-1">
                     {[
                       'Website Redesign',
@@ -107,8 +107,8 @@ export function Sidebar({ activeItem = 'home' }: SidebarProps) {
                       </a>
                     ))}
                   </div>
-                </Fold.Content>
-              </Fold>
+                </Expand.Content>
+              </Expand>
             ) : (
               <NavItem
                 key={item.id}
