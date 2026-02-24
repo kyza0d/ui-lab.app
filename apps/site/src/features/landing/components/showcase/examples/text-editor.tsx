@@ -12,7 +12,7 @@ export function TextEditor() {
   const [align, setAlign] = useState("left");
 
   return (
-    <div className="shadow-sm w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden">
+    <div className="w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden">
       <div className="border-b border-background-700">
         <Group variant="ghost" orientation="horizontal" spacing="sm">
           <Group.Select selectedKey={textStyle} onSelectionChange={setTextStyle} className="w-40">

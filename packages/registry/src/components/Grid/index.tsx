@@ -116,7 +116,7 @@ export const gridDetail: ComponentDetail = {
       previewLayout: 'center',
       renderPreview: (props: any) => {
         const GridCell = ({ children }: { children?: React.ReactNode }) => (
-          <div className="bg-accent-500/10 border border-accent-500/10 rounded flex items-center justify-center text-accent-500 text-sm font-medium shadow-sm h-20">
+          <div className="bg-accent-500/10 border border-accent-500/10 rounded flex items-center justify-center text-accent-500 text-sm font-medium h-20">
             {children}
           </div>
         );

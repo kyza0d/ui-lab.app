@@ -239,25 +239,22 @@ export const SettingsContent = () => {
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
         >
-          <TabsList className="h-[48px] border-none -mb-0.5">
+          <TabsList className="h-[28px] mt-[10px] border-none">
             <TabsTrigger
-              className="text-sm w-[100px]"
+              className="text-xs pb-[9px] mb-[6px] w-[80px]"
               value="colors"
-              icon={<FaBrush size={14} />}
             >
               Theme
             </TabsTrigger>
             <TabsTrigger
-              className="text-sm w-[100px]"
+              className="text-xs pb-[9px] mb-[6px] w-[80px]"
               value="fonts"
-              icon={<FaFont size={14} />}
             >
               Fonts
             </TabsTrigger>
             <TabsTrigger
-              className="text-sm w-[100px]"
+              className="text-xs pb-[9px] mb-[6px] w-[80px]"
               value="layout"
-              icon={<FaRulerCombined size={14} />}
             >
               Layout
             </TabsTrigger>
@@ -427,7 +424,7 @@ export const SettingsContent = () => {
       </div>
 
       <Link href="/config" className="ml-auto m-2" >
-        <Button icon={{ left: <FaGear className="mr-2" /> }}>
+        <Button size="sm">
           Configuration
         </Button>
       </Link>

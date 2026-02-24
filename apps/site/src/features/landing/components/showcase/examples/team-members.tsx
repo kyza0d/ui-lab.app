@@ -46,7 +46,7 @@ export function MemberRolePanel() {
   }
 
   return (
-    <div className="shadow-sm h-fit w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
+    <div className="h-fit w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
 
       {/* Header */}
       <div className="px-4 pt-3.5 pb-3 border-b border-background-700 flex justify-between">

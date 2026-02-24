@@ -103,7 +103,7 @@ export function BuildStatus() {
   const latest = deployments[0];
 
   return (
-    <div className="shadow-sm w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
+    <div className="w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
 
       <div className="px-5 pt-4 pb-3">
         <div className="flex items-center justify-between gap-2">

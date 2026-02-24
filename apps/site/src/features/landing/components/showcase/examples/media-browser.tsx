@@ -60,7 +60,7 @@ export function FileBrowser() {
   };
 
   return (
-    <div className="shadow-sm w-full bg-background-200 border border-background-700 rounded-md overflow-hidden flex flex-col">
+    <div className="w-full bg-background-200 border border-background-700 rounded-md overflow-hidden flex flex-col">
       <div className="px-4 pt-3.5 pb-3 border-b border-background-700 flex items-center justify-between">
         <span className="text-sm font-semibold text-foreground-100">Media</span>
         <span className="text-xs text-foreground-500">{filteredFiles.length} files</span>
