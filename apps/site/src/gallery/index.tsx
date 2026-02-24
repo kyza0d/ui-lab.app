@@ -208,7 +208,7 @@ export const previews: Record<string, React.ReactNode> = {
 
   flex: <FlexAnimation />,
 
-  fold: (
+  expand: (
     <div className="w-full flex flex-col gap-2 max-w-sm">
       <div className="h-8 flex border-b border-background-700">
         <div className="w-[80%] h-2 opacity-10 rounded-md mt-2 bg-background-500"></div>

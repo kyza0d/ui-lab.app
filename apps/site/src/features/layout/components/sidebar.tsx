@@ -69,7 +69,6 @@ export function Sidebar() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const isElementsOrSectionsOrStarters = activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns';
-  const elementsList = useMemo(() => (isElementsOrSectionsOrStarters ? getElementsListForSidebar() : []), [isElementsOrSectionsOrStarters]);
   const activeElementsNav = useMemo(() => (isElementsOrSectionsOrStarters ? getActiveElementsNavFromPathname(pathname) : 'packages'), [isElementsOrSectionsOrStarters, pathname]);
 
   useEffect(() => {
@@ -149,7 +148,6 @@ export function Sidebar() {
               <div className="px-4">
                 <ElementsList
                   activeNav={activeElementsNav}
-                  elements={elementsList}
                   pathname={pathname}
                   activeCategory={null}
                 />

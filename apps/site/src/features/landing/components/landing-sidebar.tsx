@@ -98,7 +98,7 @@ export function LandingSidebar() {
 
                 if (navItem.label === "Community") {
                   return (
-                    <Tooltip position='right' key={navItem.id} content="Coming soon" showArrow={true}>
+                    <Tooltip position='right' key={navItem.id} content="Under Construction" showArrow={true}>
                       <div className='relative'>
                         <button
                           className="opacity-60 flex items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs font-semibold rounded-full text-foreground-400 border border-transparent"
