@@ -1,13 +1,424 @@
 ---
-title: Workflows
-description: Build AI workflows with UI Lab components
+title: MCP Workflows
+description: All 10 MCP tools, resource URIs, design guidelines, and example agent workflows for building UI with AI.
 category: Agents & MCPs
 ---
 
-# Workflows
+# MCP Workflows
 
-Create intelligent workflows using UI Lab components with AI agents and MCPs.
+Once the UI Lab MCP server is connected, AI agents have access to 10 tools and 4 resource URI types. This page documents each tool, how they chain together in real workflows, and the design system rules that are automatically enforced in every response.
 
-## Coming Soon
+---
 
-This section is coming soon. Learn how to build AI-powered workflows that generate and manage UI components dynamically.
+## Tools overview
+
+<MarkdownTable markdown="| Tool | Purpose |\n|---|---|\n| \`search_components\` | Find components by natural language query |\n| \`get_component\` | Get full component metadata: API, examples, design guidance |\n| \`get_semantic_color\` | Get ONE authoritative color recommendation for a component + intent |\n| \`get_theme_setup\` | Get complete light/dark theme setup with provider code |\n| \`search_patterns\` | Find design patterns by use case |\n| \`get_pattern\` | Get a pattern's full TSX code and design rationale |\n| \`search_elements\` | Find pre-built multi-component UI blocks |\n| \`get_element\` | Get an element's variations and file structure |\n| \`search_sections\` | Find landing page sections |\n| \`get_section\` | Get a section's variations |" />
+
+---
+
+## Components
+
+### `search_components`
+
+Searches all UI Lab components using natural language. Returns up to 10 results ranked by relevance.
+
+**Input:**
+```json
+{
+  "query": "input form field text"
+}
+```
+
+**Returns:** Array of component summaries with `id`, `name`, `description`, `tags`.
+
+**Example queries:**
+- `"button primary action"` → Button
+- `"dropdown select option"` → Select
+- `"text input form field"` → Input
+- `"modal dialog overlay"` → Modal
+- `"data table rows columns"` → Table
+- `"toast notification message"` → Toast
+
+---
+
+### `get_component`
+
+Fetches complete component metadata by ID. Use after `search_components` to get the full API.
+
+**Input:**
+```json
+{
+  "id": "button",
+  "detail": "api"
+}
+```
+
+**`detail` options:**
+- `"api"` — props + subComponents only. Use when writing code — smallest response, no examples.
+- `"examples"` — description + usage examples only. Use when learning patterns.
+- `"full"` — everything: API, examples, design guidelines (default).
+
+**Returns:** Component metadata including:
+- `api.props` — all props with types, defaults, descriptions
+- `api.subComponents` — compound component slots (e.g. `Card.Header`, `Card.Footer`)
+- `api.examples` — working TSX code examples
+- `designGuidelines` — mandatory color token rules (only in `full` mode)
+
+**Typical workflow:**
+
+```
+1. search_components("button")
+   → [{id: "button", name: "Button", ...}]
+
+2. get_component("button", detail="api")
+   → {props: [{name: "variant", type: "..."}, ...], subComponents: [...]}
+
+3. Generate code using the props
+```
+
+---
+
+## Design tokens
+
+### `get_semantic_color`
+
+Returns ONE authoritative color recommendation for a component and intent combination. Does not offer options — it returns the correct choice.
+
+**Input:**
+```json
+{
+  "component": "button",
+  "semantic_intent": "danger"
+}
+```
+
+**`semantic_intent` values:** `primary`, `secondary`, `danger`, `success`, `warning`, `info`
+
+**Returns:**
+```json
+{
+  "recommended": {
+    "background": { "family": "danger", "shade": 600, "cssVar": "--color-danger-600" },
+    "text": { "family": "foreground", "shade": 50, "cssVar": "--color-foreground-50" },
+    "border": { "family": "danger", "shade": 500, "cssVar": "--color-danger-500" },
+    "hover": { "family": "danger", "shade": 500, "cssVar": "--color-danger-500" },
+    "active": { "family": "danger", "shade": 400, "cssVar": "--color-danger-400" },
+    "disabled": { "family": "foreground", "shade": 200, "cssVar": "--color-foreground-200" }
+  },
+  "rationale": "...",
+  "wcag": { "level": "AA", "message": "All combinations meet WCAG AA" }
+}
+```
+
+Call this before generating component code to get the right Tailwind token classes to use.
+
+---
+
+## Theme
+
+### `get_theme_setup`
+
+Returns complete setup instructions and code for integrating the UI Lab theme system with light/dark mode.
+
+**Input:**
+```json
+{
+  "include_fouc_script": true
+}
+```
+
+**Returns:**
+- `setup.provider` — `ThemeProvider` wrapper code for your root layout
+- `setup.hooks` — `useTheme`, `useThemeMode`, etc. with signatures
+- `setup.toggleComponent` — ready-to-use `ThemeToggle` component code
+- `setup.fouc_prevention` — explanation of automatic FOUC prevention (no setup needed)
+- `setup.colorBehavior` — how shades invert automatically in dark mode
+- `setup.integrationSteps` — step-by-step instructions
+
+**FOUC prevention is automatic.** `ThemeProvider` injects a blocking script into `document.head` on mount that reads localStorage and applies CSS variables before the page renders. No manual script tag needed.
+
+**How dark mode color inversion works:**
+
+Shades invert automatically — no `dark:` prefix needed in Tailwind classes:
+
+<MarkdownTable markdown="| Shade | Dark mode equivalent |\n|---|---|\n| \`background-500\` | ↔ \`background-500\` (stays constant) |\n| \`background-600\` | ↔ \`background-900\` |\n| \`background-700\` | ↔ \`background-800\` |\n| \`background-900\` | ↔ \`background-600\` |\n| \`background-950\` | ↔ \`background-500\` |" />
+
+```tsx
+// This single class works correctly in both light and dark mode:
+<div className="bg-background-900 text-foreground-300">Content</div>
+// Light: very dark background, medium text
+// Dark: inverts to light background, medium text
+```
+
+---
+
+## Patterns
+
+Patterns are opinionated, ready-to-use TSX implementations of common UI problems. They use the correct design tokens and component APIs.
+
+### `search_patterns`
+
+**Input:**
+```json
+{
+  "query": "delete confirmation modal"
+}
+```
+
+**Example queries:**
+- `"auth login form"` → auth-form
+- `"destructive confirm dialog"` → destructive-confirm
+- `"empty state placeholder"` → empty-state
+- `"settings form layout"` → settings-form-layout
+- `"status list item"` → status-list-item
+- `"pricing cards"` → pricing-cards
+- `"feature grid"` → feature-grid
+
+**Returns:** Array of pattern summaries with `id`, `name`, `description`, `category`, `complexity`, `tags`.
+
+---
+
+### `get_pattern`
+
+Fetches the full pattern including complete TSX code and design notes.
+
+**Input:**
+```json
+{
+  "id": "destructive-confirm"
+}
+```
+
+**Returns:**
+- `pattern.code` — complete working TSX implementation
+- `pattern.designNotes` — why each token and component choice was made
+- `designGuidelines` — mandatory color rules
+
+Patterns are meant to be copied as-is and adapted. They demonstrate the correct way to combine UI Lab components for common scenarios.
+
+---
+
+## Elements
+
+Elements are pre-built, multi-component UI blocks that solve complete UI problems — chat interfaces, sidebars, tables of contents, AI input areas, etc.
+
+### `search_elements`
+
+**Input:**
+```json
+{
+  "query": "AI chat interface"
+}
+```
+
+**Available elements:**
+
+<MarkdownTable markdown="| Category | Elements |\n|---|---|\n| AI | Chat, AIChatInput, ChainOfThought |\n| Documentation | TOC, NextArticle, CopyPage |\n| Foundation | Page, Sidebar, Header, Carousel, Timeline, Rating, TreeView |" />
+
+**Example queries:**
+- `"chat interface"` → Chat
+- `"AI input prompt"` → AIChatInput
+- `"sidebar navigation"` → Sidebar
+- `"table of contents"` → TOC
+- `"reasoning steps"` → ChainOfThought
+
+---
+
+### `get_element`
+
+**Input:**
+```json
+{
+  "id": "chat"
+}
+```
+
+**Returns:**
+- `element.variations` — all available variations with names and descriptions
+- `element.files` — file structure for each variation
+- `element.packageId` — which UI Lab package the element belongs to
+
+Elements have multiple variations (e.g. Chat has "basic" and "with actions"). Each variation is a self-contained set of files you can copy into your project.
+
+---
+
+## Sections
+
+Sections are full-width landing page blocks ready to drop into marketing pages.
+
+### `search_sections`
+
+**Input:**
+```json
+{
+  "query": "pricing comparison table"
+}
+```
+
+**Available sections:** Hero, Features, CTA, Pricing, Testimonials
+
+**Each has multiple variations:**
+- `hero` → simple, with-image, with-video
+- `features` → grid, list
+- `pricing` → cards, comparison
+- `cta` → centered, split
+- `testimonials` → cards, featured
+
+---
+
+### `get_section`
+
+**Input:**
+```json
+{
+  "id": "pricing"
+}
+```
+
+**Returns:** All variations with complete TSX code for each.
+
+---
+
+## Resources
+
+In addition to tools, the server exposes all content as MCP resources. Agents can enumerate and read resources directly by URI — useful for agents that prefer resource-based access over tool calls.
+
+**Resource URI schemes:**
+
+<MarkdownTable markdown="| Scheme | Example | Content |\n|---|---|---|\n| \`component://\` | \`component://button\` | Full component metadata |\n| \`pattern://\` | \`pattern://auth-form\` | Pattern with TSX code |\n| \`element://\` | \`element://chat\` | Element variations and files |\n| \`section://\` | \`section://hero\` | Section variations |" />
+
+`ListResources` returns every component, pattern, element, and section indexed together. `ReadResource` reads a specific URI.
+
+---
+
+## Design guidelines (always injected)
+
+Every `get_component`, `get_pattern`, `get_semantic_color`, and `get_theme_setup` response includes a `designGuidelines` field with the complete set of mandatory color token rules. These are injected automatically so agents always have the constraints in context when generating code.
+
+### Color families
+
+These are the only color families allowed. No Tailwind built-in colors, no hex codes.
+
+<MarkdownTable markdown="| Family | Use for |\n|---|---|\n| \`accent\` | Primary actions, CTAs, brand elements |\n| \`success\` | Success states, confirmations, approved |\n| \`danger\` | Errors, destructive actions, delete |\n| \`warning\` | Warnings, cautions, pending states |\n| \`info\` | Information, help, neutral messages |\n| \`background\` | Page and card backgrounds (grayscale) |\n| \`foreground\` | Text, borders, labels (grayscale) |" />
+
+### Shade ranges
+
+Shades are strictly bounded per family:
+
+<MarkdownTable markdown="| Family | Min shade | Max shade | Notes |\n|---|---|---|---|\n| \`background\` (bg) | 500 | 950 | 500 = lightest, 950 = darkest |\n| \`foreground\` (text/border) | 50 | 400 | 50 = lightest, 400 = darkest |\n| \`accent\` | 50 | 600 | |\n| \`success\`, \`danger\`, \`warning\`, \`info\` | 50 | 600 | |" />
+
+### Class format
+
+```
+bg-{family}-{shade}
+text-{family}-{shade}
+border-{family}-{shade}
+hover:bg-{family}-{shade}
+```
+
+### Common mistakes and corrections
+
+<MarkdownTable markdown="| Wrong | Correct |\n|---|---|\n| \`bg-white\` | \`bg-background-500\` |\n| \`text-gray-900\` | \`text-foreground-300\` |\n| \`bg-zinc-100\` | \`bg-background-600\` |\n| \`shadow-md\` | _(remove — no shadows)_ |\n| \`from-blue-500 to-purple-600\` | _(remove — no gradients)_ |\n| \`border-red-500\` | \`border-danger-500\` |\n| \`bg-background-50\` | \`bg-background-500\` (min is 500) |\n| \`text-foreground-500\` | \`text-foreground-400\` (max is 400) |\n| \`bg-accent-700\` | \`bg-accent-600\` (max is 600) |" />
+
+### Correct examples
+
+```tsx
+// Button
+<button className="bg-accent-600 text-foreground-50 hover:bg-accent-500">
+  Action
+</button>
+
+// Alert
+<div className="bg-success-100 border border-success-300 text-success-600">
+  Success
+</div>
+
+// Input
+<input className="bg-background-500 border border-foreground-200 text-foreground-400" />
+
+// Card
+<div className="bg-background-600 border border-foreground-200">
+  Content
+</div>
+```
+
+---
+
+## Typical agent workflows
+
+### Workflow 1: Build a component from scratch
+
+```
+User: "Build a danger button"
+
+Agent:
+1. search_components("button")
+2. get_component("button", detail="api")        → props and subComponents
+3. get_semantic_color("button", "danger")       → exact token classes
+4. Generate: <Button className="bg-danger-600 text-foreground-50 hover:bg-danger-500">Delete</Button>
+```
+
+---
+
+### Workflow 2: Find and use a pattern
+
+```
+User: "I need a delete confirmation dialog"
+
+Agent:
+1. search_patterns("delete confirmation")
+2. get_pattern("destructive-confirm")           → complete TSX + design notes
+3. Adapt the pattern to the user's data model
+```
+
+---
+
+### Workflow 3: Set up theming
+
+```
+User: "Add dark mode to my app"
+
+Agent:
+1. get_theme_setup({ include_fouc_script: true })
+2. Return provider setup code, toggle component, integration steps
+3. Note: FOUC prevention is automatic, no extra script needed
+```
+
+---
+
+### Workflow 4: Build a landing page
+
+```
+User: "Build a SaaS landing page with hero, features, and pricing"
+
+Agent:
+1. search_sections("hero")                      → available hero variations
+2. get_section("hero")                          → code for hero variations
+3. search_sections("features")
+4. get_section("features")
+5. search_sections("pricing")
+6. get_section("pricing")
+7. Compose sections into a single page
+```
+
+---
+
+### Workflow 5: Find a pre-built UI block
+
+```
+User: "I need an AI chat interface"
+
+Agent:
+1. search_elements("AI chat")
+2. get_element("chat")                          → variations: basic, with-actions
+3. Return file structure and code for chosen variation
+```
+
+---
+
+## Next steps
+
+- [MCP Installation](/docs/agents-mcps-installation) — connect the server to Claude Desktop or Cursor
+- [Design System: Colors](/design-system/colors) — the OKLCH color system behind the tokens
+- [Design System: Tokens](/design-system/tokens) — full token reference
+- [Components](/components) — browse the full component library

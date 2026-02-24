@@ -1,13 +1,186 @@
 ---
-title: Installation
-description: Install and set up UI Lab with Agents & MCPs
+title: MCP Server Installation
+description: Install and configure the UI Lab MCP server for Claude and other AI agents.
 category: Agents & MCPs
 ---
 
-# Installation
+# MCP Server Installation
 
-Get UI Lab working with Agents & MCPs in your project.
+The UI Lab MCP server gives AI agents direct, structured access to the component library, design tokens, patterns, elements, and sections. Instead of pasting documentation into prompts, agents call tools to look up exactly what they need in real time.
 
-## Coming Soon
+---
 
-This section is coming soon. Learn how to install and configure the MCP server for integration with Claude and other AI systems.
+## How it works
+
+The server implements the [Model Context Protocol](https://modelcontextprotocol.io) over stdio (stdin/stdout). When connected, AI agents can call 10 tools and read 4 resource types to discover and use UI Lab's design system.
+
+The server is the `ui-lab-mcp` package. It runs as a child process that your AI client (Claude Desktop, Cursor, etc.) manages automatically.
+
+---
+
+## Prerequisites
+
+- **Node.js ≥ 18** — the server is pure ES Module
+- **UI Lab installed** in your project — see [Installation](/docs/installation)
+
+---
+
+## Quick start: Claude Desktop
+
+Add this to your Claude Desktop config file.
+
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "ui-lab": {
+      "command": "npx",
+      "args": ["ui-lab-mcp"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop. The server connects automatically on startup.
+
+---
+
+## Quick start: Cursor
+
+Add to `.cursor/mcp.json` in your project root (or the global Cursor settings):
+
+```json
+{
+  "mcpServers": {
+    "ui-lab": {
+      "command": "npx",
+      "args": ["ui-lab-mcp"]
+    }
+  }
+}
+```
+
+---
+
+## Quick start: Local install
+
+If you prefer not to use `npx`, install the package directly:
+
+```bash
+pnpm add -D ui-lab-mcp
+# or
+npm install --save-dev ui-lab-mcp
+```
+
+Then point your client to the installed binary:
+
+```json
+{
+  "mcpServers": {
+    "ui-lab": {
+      "command": "node",
+      "args": ["./node_modules/.bin/ui-lab-mcp"]
+    }
+  }
+}
+```
+
+---
+
+## Verifying the connection
+
+When the server starts successfully it logs to stderr:
+
+```
+[UI Lab MCP] Server started successfully
+[UI Lab MCP] Listening for connections...
+```
+
+In Claude Desktop, the MCP icon in the chat input turns active when the server is connected. You can test it by asking Claude:
+
+> "Search for a button component using UI Lab tools"
+
+Claude will call `search_components` and return structured results from the registry.
+
+---
+
+## What the server exposes
+
+Once connected, the agent has access to:
+
+<MarkdownTable markdown="| Category | Tools | Resources |\n|---|---|---|\n| Components | \`search_components\`, \`get_component\` | \`component://&lt;id&gt;\` |\n| Design tokens | \`get_semantic_color\` | — |\n| Theme | \`get_theme_setup\` | — |\n| Patterns | \`search_patterns\`, \`get_pattern\` | \`pattern://&lt;id&gt;\` |\n| Elements | \`search_elements\`, \`get_element\` | \`element://&lt;id&gt;\` |\n| Sections | \`search_sections\`, \`get_section\` | \`section://&lt;id&gt;\` |" />
+
+See [Workflows](/docs/agents-mcps-workflows) for details on each tool.
+
+---
+
+## Troubleshooting
+
+### Server doesn't start
+
+Verify Node.js version:
+
+```bash
+node --version
+# must be 18.x or higher
+```
+
+Test the server manually:
+
+```bash
+npx ui-lab-mcp
+# Should print: [UI Lab MCP] Server started successfully
+```
+
+If it hangs silently, the server is running and waiting for MCP protocol input over stdin — that's correct behavior.
+
+### "Module not found" errors
+
+The registry package must be built. If you're running from a local monorepo clone:
+
+```bash
+pnpm --filter ui-lab-registry run build
+pnpm --filter ui-lab-mcp run build
+```
+
+### Claude doesn't call any tools
+
+Verify the server name in config matches what you expect — Claude Desktop uses the key name (e.g., `"ui-lab"`) as the server identifier. Check that the config file is valid JSON.
+
+### npx downloads every time
+
+Install the package locally in your project and reference the local binary instead of using `npx`.
+
+---
+
+## Running from source
+
+If you're developing UI Lab itself or want to run the server from the monorepo:
+
+```bash
+cd packages/@mcp
+pnpm build
+node dist/index.js
+```
+
+Point your client config to the absolute path:
+
+```json
+{
+  "mcpServers": {
+    "ui-lab": {
+      "command": "node",
+      "args": ["/absolute/path/to/packages/@mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+---
+
+## Next steps
+
+- [Workflows](/docs/agents-mcps-workflows) — all 10 tools, resource URIs, design guidelines, and example agent conversations
+- [Design System](/design-system) — understand the color token system the MCP enforces

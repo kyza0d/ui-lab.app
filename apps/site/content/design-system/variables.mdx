@@ -50,7 +50,7 @@ All CSS variables follow the pattern: `--{category}-{property}`
 **Colors**
 ```css
 --background-50
---foreground-950
+--foreground-400
 --accent-600
 --success-500
 --danger-700
@@ -126,27 +126,21 @@ Text and foreground elements:
 --foreground-100
 --foreground-200
 --foreground-300
---foreground-400
---foreground-500
---foreground-600
---foreground-700
---foreground-800
---foreground-900
---foreground-950   /* Darkest text */
+--foreground-400   /* Darkest text */
 ```
 
 **Usage:**
 ```css
 body {
-  color: var(--foreground-950);
+  color: var(--foreground-400);
 }
 
 .secondary-text {
-  color: var(--foreground-500);
+  color: var(--foreground-300);
 }
 
 .placeholder {
-  color: var(--foreground-400);
+  color: var(--foreground-200);
 }
 ```
 
@@ -503,7 +497,7 @@ button {
 
 .button.secondary {
   background-color: var(--background-100);
-  color: var(--foreground-950);
+  color: var(--foreground-400);
   border: 1px solid var(--foreground-200);
 }
 
@@ -523,7 +517,7 @@ button {
   border: 1px solid var(--foreground-200);
   border-radius: var(--radius-md);
   background-color: var(--background-50);
-  color: var(--foreground-950);
+  color: var(--foreground-400);
   font-family: var(--font-family-sans);
   transition: border-color var(--duration-base) var(--ease-in-out);
 }
@@ -536,7 +530,7 @@ button {
 
 .input:disabled {
   background-color: var(--background-100);
-  color: var(--foreground-500);
+  color: var(--foreground-400);
   cursor: not-allowed;
 }
 
@@ -544,7 +538,7 @@ label {
   display: block;
   margin-bottom: var(--space-1);
   font: var(--text-label);
-  color: var(--foreground-900);
+  color: var(--foreground-400);
 }
 ```
 
@@ -560,13 +554,13 @@ label {
 
 .card-title {
   font: var(--text-h3);
-  color: var(--foreground-950);
+  color: var(--foreground-400);
   margin-bottom: var(--space-3);
 }
 
 .card-description {
   font: var(--text-body-sm);
-  color: var(--foreground-600);
+  color: var(--foreground-400);
   margin-bottom: var(--space-4);
 }
 

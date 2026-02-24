@@ -52,35 +52,37 @@ Below is the comprehensive color palette for all color families. Click any value
 ### Core Colors
 
 **Background** — Grayscale palette for surfaces and containers
-- **Shade Scale**: 50 (lightest) to 950 (darkest)
+- **Shade Scale**: 500–950 (only these shades exist; no 50–400 variants)
 - **Usage**: Page backgrounds, card surfaces, elevated containers
-- **Tip**: Ensure sufficient contrast with foreground colors for readability
+- **Tip**: Lower numbers (500–600) are used for primary surfaces; higher numbers (700–950) for deeper/elevated layers. Direction reverses between light and dark mode.
 
 **Foreground** — Grayscale palette optimized for text and icons
-- **Shade Scale**: 50 (lightest) to 950 (darkest)
+- **Shade Scale**: 50–400 (only these shades exist; no 500–950 variants)
 - **Usage**: Body text, labels, icons, borders, dividers
-- **Accessibility**: All shades meet WCAG AAA contrast standards
+- **Tip**: Lower numbers (50–100) are lighter; higher numbers (300–400) are darker. Direction reverses between light and dark mode.
 
 **Accent** — Primary interactive color (dynamically themable)
-- **Shade Scale**: 50 (lightest) to 950 (darkest)
+- **Shade Scale**: 50–600 (only these shades exist)
 - **Usage**: Primary buttons, links, focus indicators, highlights
 - **Theming**: Can be customized per theme while maintaining accessibility
 
 ### Semantic Colors
 
-**Success** (Green, 142° hue) — Positive actions and confirmations
+All semantic families share the same shade range: **50–600 only**. Shades 700–950 do not exist for semantic colors.
+
+**Success** — Positive actions and confirmations
 - **Chroma Range**: 0.01 – 0.28
 - **Use**: Success messages, confirmations, approved states, positive feedback
 
-**Danger** (Red, 25° hue) — Errors and destructive actions
+**Danger** — Errors and destructive actions
 - **Chroma Range**: 0.01 – 0.28
 - **Use**: Error messages, destructive action confirmations, failed states
 
-**Warning** (Orange, 65° hue) — Cautions and attention-needed states
+**Warning** — Cautions and attention-needed states
 - **Chroma Range**: 0.01 – 0.26
 - **Use**: Warning messages, pending states, important notices
 
-**Info** (Blue, 255° hue) — Information and neutral states
+**Info** — Information and neutral states
 - **Chroma Range**: 0.01 – 0.24
 - **Use**: Info messages, documentation links, neutral metadata
 
@@ -91,7 +93,10 @@ Below is the comprehensive color palette for all color families. Click any value
 ### Selecting Colors
 
 1. **Choose the Right Family**: Select based on semantic meaning (success, danger, etc.), not appearance
-2. **Pick a Shade**: Light backgrounds use 50–300, medium use 400–500, dark use 600–950
+2. **Pick a Shade by family**:
+   - **Background (500–950)**: 500–600 for primary surfaces, 700–950 for deeper/elevated layers
+   - **Foreground (50–400)**: 50–100 for subtle text/icons, 200–300 for secondary, 400 for primary text
+   - **Semantic / Accent (50–600)**: 50–200 for light tints (backgrounds/badges), 300–400 for medium tones, 500–600 for bold/interactive use
 3. **Verify Contrast**: Always check that text/background pairs meet WCAG AA (4.5:1 minimum)
 4. **Consider Both Themes**: All colors work in light and dark modes
 
@@ -100,21 +105,21 @@ Below is the comprehensive color palette for all color families. Click any value
 **Success Message**
 ```html
 <!-- Background: success-50 or success-100 -->
-<!-- Text: success-900 or success-950 -->
-<!-- Border: success-300 -->
+<!-- Text: success-500 or success-600 -->
+<!-- Border: success-200 or success-300 -->
 ```
 
 **Error/Danger Button**
 ```html
-<!-- Background: danger-600 or danger-700 -->
+<!-- Background: danger-500 or danger-600 -->
 <!-- Text: foreground-50 -->
-<!-- Hover: danger-700 or danger-800 -->
+<!-- Hover: danger-600 -->
 ```
 
 **Info Badge**
 ```html
-<!-- Background: info-200 -->
-<!-- Text: info-900 -->
+<!-- Background: info-100 or info-200 -->
+<!-- Text: info-500 or info-600 -->
 ```
 
 ### CSS Variables
