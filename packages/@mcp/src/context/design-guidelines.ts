@@ -16,10 +16,10 @@ export const DESIGN_GUIDELINES = {
   },
 
   shadeRanges: {
-    "bg-background": "600-950 (600=lightest, 950=darkest)",
-    "text/border-foreground": "50-600 (50=lightest, 600=darkest)",
+    "bg-background": "500-950 (500=lightest, 950=darkest)",
+    "text/border-foreground": "50-400 (50=lightest, 400=darkest)",
     "accent": "50-600 (for any use, 50=lightest, 600=darkest)",
-    "success/danger/warning/info": "50-950 (full range available)",
+    "success/danger/warning/info": "50-600 (50=lightest, 600=darkest)",
   },
 
   rules: [
@@ -32,19 +32,22 @@ export const DESIGN_GUIDELINES = {
   ],
 
   commonMistakes: [
-    "❌ bg-white (use bg-background-50)",
-    "❌ text-gray-900 (use text-foreground-950)",
-    "❌ bg-zinc-100 (use bg-foreground-100)",
+    "❌ bg-white (use bg-background-950)",
+    "❌ text-gray-900 (use text-foreground-300)",
+    "❌ bg-zinc-100 (use bg-background-600)",
     "❌ shadow-md (use nothing - no shadows allowed)",
     "❌ gradient (use nothing - no gradients allowed)",
     "❌ border-red-500 (use border-danger-500)",
+    "❌ bg-background-50 (background min is 500)",
+    "❌ text-foreground-500 (foreground max is 400)",
+    "❌ bg-accent-700 (accent/semantic max is 600)",
   ],
 
   examples: {
-    button: `<button className="bg-accent-600 text-foreground-50 hover:bg-accent-700">Action</button>`,
-    alert: `<div className="bg-success-100 border border-success-300 text-success-900">Success</div>`,
-    input: `<input className="bg-foreground-50 border border-foreground-300 text-foreground-950" />`,
-    card: `<div className="bg-background-50 border border-foreground-200">Content</div>`,
+    button: `<button className="bg-accent-600 text-foreground-50 hover:bg-accent-500">Action</button>`,
+    alert: `<div className="bg-success-100 border border-success-300 text-success-600">Success</div>`,
+    input: `<input className="bg-background-500 border border-foreground-200 text-foreground-400" />`,
+    card: `<div className="bg-background-600 border border-foreground-200">Content</div>`,
   },
 
   enforcement:
@@ -82,9 +85,9 @@ ${DESIGN_GUIDELINES.commonMistakes.map((mistake) => `${mistake}`).join("\n")}
 - Card: ${DESIGN_GUIDELINES.examples.card}
 
 ### Color + Shade Combinations
-Background colors: bg-background-50, bg-background-100, ..., bg-background-950
-Text colors: text-accent-50, text-accent-100, ..., text-accent-950 (or any family)
-Border colors: border-danger-600, border-success-300, etc.
-Hover states: hover:bg-accent-700, hover:text-foreground-900, etc.
+Background colors: bg-background-500, bg-background-600, ..., bg-background-950 (min: 500)
+Foreground colors: text-foreground-50, text-foreground-100, ..., text-foreground-400 (max: 400)
+Accent/Semantic colors: bg-accent-50, ..., bg-accent-600 / text-success-50, ..., text-danger-600 (max: 600)
+Hover states: hover:bg-accent-500, hover:text-foreground-300, etc.
 `;
 }
