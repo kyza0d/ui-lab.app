@@ -33,7 +33,7 @@ export function getPreview(): React.ReactNode {
         <div className="text-xs text-foreground-400 mb-1">Next Article</div>
         <div className="text-sm font-medium text-foreground-200">Advanced Setup Guide</div>
       </div>
-      <div className="text-foreground-500">→</div>
+      <div className="text-foreground-400">→</div>
     </div>
   );
 }

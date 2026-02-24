@@ -1,6 +1,24 @@
 // Registry
 export { componentRegistry, componentMetadata } from './registry.js';
 
+// Design tokens
+export {
+  getColorRecommendation,
+  getAllColorRecommendations,
+  hasColorFamily,
+  getColorFamilyInfo,
+  hasColorShade,
+  getColorCssVar,
+  getAllColorFamilies,
+  getColorFamilyShades,
+  getColorFamilyWCAGLevel,
+} from './design-tokens/index.js';
+export type {
+  ColorFamilyInfo,
+  ColorRecommendation,
+  ColorRecommendationRegistry,
+} from './design-tokens/index.js';
+
 // Generated data (auto-populated by scripts/generate-registry-data.ts)
 export { generatedAPI, generatedStyles, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies, packageMetadata } from './generated-data.js';
 
@@ -35,7 +53,8 @@ export const sourceUrls: Record<string, string> = {
   "textarea": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/TextArea",
   "toast": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Toast",
   "tooltip": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Tooltip",
-  "scroll": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Scroll"
+  "scroll": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Scroll",
+  "code": "https://github.com/kyza0d/ui-lab.app/blob/master/packages/components/src/components/Code"
 };
 
 // Categories
@@ -127,10 +146,6 @@ export type { ElementCategoryId, ElementCategoryDefinition, ElementPackageMetada
 // Element Order
 export { elementOrder, getElementsInOrder, getAllElementsInOrder } from './element-order.js';
 
-// Element components
-// Note: Foundation elements (Header, Sidebar, Page) are loaded through the elements registry, not directly exported
-// to avoid JSON import issues in ES modules
-
 // Sections
 export {
   sectionRegistry,
@@ -170,15 +185,14 @@ export {
   getPatternsByTag,
   searchPatterns,
   getPatternsByComplexity,
-  getPatternsByComponent,
   getAllPatternCategories,
   getAllPatternTags,
-  getRelatedPatterns,
 } from './patterns/index.js';
 export type {
   PatternMetadata,
   PatternRegistry,
   PatternCategory,
+  PatternVariation,
 } from './patterns/index.js';
 
 // Providers

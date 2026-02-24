@@ -1,0 +1,31 @@
+{
+  "id": "empty-state-pattern",
+  "name": "Empty State",
+  "description": "Centered zero-state with icon, heading, supporting message, and optional action button. Fills a list, table, or panel when there is nothing to show.",
+  "category": "feedback",
+  "tags": [
+    "empty",
+    "zero-state",
+    "placeholder",
+    "no-data",
+    "onboarding",
+    "cta"
+  ],
+  "complexity": "simple",
+  "notes": "py-12 provides enough vertical breathing room to feel intentional rather than broken. Icon in a bg-background-800 pill prevents the icon from appearing as a large decorative element.",
+  "code": "import { Button } from 'ui-lab-components'\n\nfunction EmptyState({ icon, title, description, actionLabel, onAction }) {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-4 py-12 text-center\">\n      {icon && (\n        <div className=\"w-12 h-12 flex items-center justify-center rounded-full bg-background-800 text-foreground-400\">\n          {icon}\n        </div>\n      )}\n      <div className=\"max-w-xs space-y-1\">\n        <p className=\"text-sm font-medium text-foreground-200\">{title}</p>\n        {description && (\n          <p className=\"text-sm text-foreground-400\">{description}</p>\n        )}\n      </div>\n      {actionLabel && (\n        <Button size=\"sm\" onPress={onAction}>{actionLabel}</Button>\n      )}\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "empty-state-with-cta",
+      "name": "With CTA",
+      "description": "Full empty state with icon, title, description, and a primary action button to get started.",
+      "code": "import { Button } from 'ui-lab-components'\n\nfunction EmptyStateWithCTA() {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-4 py-12 text-center\">\n      <div className=\"w-12 h-12 flex items-center justify-center rounded-full bg-background-800 text-foreground-400\">\n        <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n          <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z\" />\n        </svg>\n      </div>\n      <div className=\"max-w-xs space-y-1\">\n        <p className=\"text-sm font-medium text-foreground-200\">No projects yet</p>\n        <p className=\"text-sm text-foreground-400\">Create your first project to get started with your team.</p>\n      </div>\n      <Button size=\"sm\">Create project</Button>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "empty-state-minimal",
+      "name": "Minimal",
+      "description": "Icon and message only \u2014 no action button. For read-only views or states where the user cannot take action.",
+      "code": "function EmptyStateMinimal({ icon, message }) {\n  return (\n    <div className=\"flex flex-col items-center justify-center gap-3 py-10 text-center\">\n      {icon && (\n        <div className=\"w-10 h-10 flex items-center justify-center rounded-full bg-background-800 text-foreground-500\">\n          {icon}\n        </div>\n      )}\n      <p className=\"text-sm text-foreground-400 max-w-xs\">{message}</p>\n    </div>\n  )\n}"
+    }
+  ]
+}

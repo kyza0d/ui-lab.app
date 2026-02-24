@@ -1,0 +1,33 @@
+{
+  "id": "progress-metric",
+  "name": "Progress Metric",
+  "description": "A label, Progress bar, and trailing value. The standard pattern for skill bars, usage meters, quota displays, and upload progress rows.",
+  "category": "data",
+  "tags": [
+    "progress",
+    "bar",
+    "metric",
+    "usage",
+    "skill",
+    "quota",
+    "upload",
+    "percentage"
+  ],
+  "complexity": "simple",
+  "notes": "Fixed-width label with flex-1 on the bar prevents layout shift when label text varies. Trailing value is right-aligned with a fixed width.",
+  "code": "import { Progress } from 'ui-lab-components'\n\nfunction ProgressMetric({ label, value, max = 100 }) {\n  const pct = Math.round((value / max) * 100)\n  return (\n    <div className=\"flex items-center gap-3\">\n      <span className=\"text-xs text-foreground-400 w-32 flex-shrink-0 truncate\">{label}</span>\n      <Progress value={value} maxValue={max} className=\"flex-1\" />\n      <span className=\"text-xs text-foreground-400 w-8 text-right flex-shrink-0 tabular-nums\">{pct}%</span>\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "progress-metric-stacked",
+      "name": "Stacked",
+      "description": "Label above the bar, value below \u2014 for wider display areas where horizontal space is not constrained.",
+      "code": "import { Progress } from 'ui-lab-components'\n\nfunction ProgressMetricStacked({ label, value, max = 100 }) {\n  const pct = Math.round((value / max) * 100)\n  return (\n    <div className=\"flex flex-col gap-1.5\">\n      <div className=\"flex items-center justify-between\">\n        <span className=\"text-xs font-medium text-foreground-300\">{label}</span>\n        <span className=\"text-xs text-foreground-400 tabular-nums\">{pct}%</span>\n      </div>\n      <Progress value={value} maxValue={max} />\n    </div>\n  )\n}"
+    },
+    {
+      "id": "progress-metric-colored",
+      "name": "Semantic Color",
+      "description": "Bar color shifts to reflect semantic state \u2014 accent for normal, muted warning for high usage.",
+      "code": "import { Progress } from 'ui-lab-components'\n\nfunction ProgressMetricColored({ label, value, max = 100 }) {\n  const pct = Math.round((value / max) * 100)\n  const isHigh = pct >= 80\n  return (\n    <div className=\"flex flex-col gap-1.5\">\n      <div className=\"flex items-center justify-between\">\n        <span className=\"text-xs font-medium text-foreground-300\">{label}</span>\n        <span className={`text-xs tabular-nums ${isHigh ? 'text-foreground-200' : 'text-foreground-400'}`}>\n          {pct}%\n        </span>\n      </div>\n      <Progress\n        value={value}\n        maxValue={max}\n        className={isHigh ? 'text-foreground-300' : undefined}\n      />\n    </div>\n  )\n}"
+    }
+  ]
+}

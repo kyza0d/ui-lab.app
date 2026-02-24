@@ -1,17 +1,37 @@
 import type { PatternMetadata, PatternRegistry, PatternCategory } from '../types.js';
 
-import heroWithCtaMetadata from './hero-landing/hero-with-cta/metadata.json' with { type: 'json' };
-import featureGridMetadata from './content/feature-grid/metadata.json' with { type: 'json' };
-import settingsFormLayoutMetadata from './forms/settings-form-layout/metadata.json' with { type: 'json' };
-import pricingCardsMetadata from './content/pricing-cards/metadata.json' with { type: 'json' };
-import stickyHeaderMetadata from './navigation/sticky-header/metadata.json' with { type: 'json' };
+import mediaObjectMetadata from './layout/media-object/metadata.json' with { type: 'json' };
+import splitRowMetadata from './layout/split-row/metadata.json' with { type: 'json' };
+import statBlockMetadata from './layout/stat-block/metadata.json' with { type: 'json' };
+import labeledFieldMetadata from './form/labeled-field/metadata.json' with { type: 'json' };
+import searchInputMetadata from './form/search-input/metadata.json' with { type: 'json' };
+import toggleSettingRowMetadata from './form/toggle-setting-row/metadata.json' with { type: 'json' };
+import selectRowMetadata from './form/select-row/metadata.json' with { type: 'json' };
+import badgeRowMetadata from './data/badge-row/metadata.json' with { type: 'json' };
+import progressMetricMetadata from './data/progress-metric/metadata.json' with { type: 'json' };
+import dataTableRowMetadata from './data/data-table-row/metadata.json' with { type: 'json' };
+import buttonGroupPatternMetadata from './interaction/button-group-pattern/metadata.json' with { type: 'json' };
+import iconActionBarMetadata from './interaction/icon-action-bar/metadata.json' with { type: 'json' };
+import tabContentHeaderMetadata from './interaction/tab-content-header/metadata.json' with { type: 'json' };
+import inlineAlertMetadata from './feedback/inline-alert/metadata.json' with { type: 'json' };
+import emptyStatePatternMetadata from './feedback/empty-state-pattern/metadata.json' with { type: 'json' };
 
 export const patternRegistry: PatternRegistry = {
-  [heroWithCtaMetadata.id]: heroWithCtaMetadata as PatternMetadata,
-  [featureGridMetadata.id]: featureGridMetadata as PatternMetadata,
-  [settingsFormLayoutMetadata.id]: settingsFormLayoutMetadata as PatternMetadata,
-  [pricingCardsMetadata.id]: pricingCardsMetadata as PatternMetadata,
-  [stickyHeaderMetadata.id]: stickyHeaderMetadata as PatternMetadata,
+  [mediaObjectMetadata.id]: mediaObjectMetadata as PatternMetadata,
+  [splitRowMetadata.id]: splitRowMetadata as PatternMetadata,
+  [statBlockMetadata.id]: statBlockMetadata as PatternMetadata,
+  [labeledFieldMetadata.id]: labeledFieldMetadata as PatternMetadata,
+  [searchInputMetadata.id]: searchInputMetadata as PatternMetadata,
+  [toggleSettingRowMetadata.id]: toggleSettingRowMetadata as PatternMetadata,
+  [selectRowMetadata.id]: selectRowMetadata as PatternMetadata,
+  [badgeRowMetadata.id]: badgeRowMetadata as PatternMetadata,
+  [progressMetricMetadata.id]: progressMetricMetadata as PatternMetadata,
+  [dataTableRowMetadata.id]: dataTableRowMetadata as PatternMetadata,
+  [buttonGroupPatternMetadata.id]: buttonGroupPatternMetadata as PatternMetadata,
+  [iconActionBarMetadata.id]: iconActionBarMetadata as PatternMetadata,
+  [tabContentHeaderMetadata.id]: tabContentHeaderMetadata as PatternMetadata,
+  [inlineAlertMetadata.id]: inlineAlertMetadata as PatternMetadata,
+  [emptyStatePatternMetadata.id]: emptyStatePatternMetadata as PatternMetadata,
 };
 
 export function getPatternById(id: string): PatternMetadata | undefined {
@@ -41,8 +61,7 @@ export function searchPatterns(query: string): PatternMetadata[] {
     (pattern) =>
       pattern.name.toLowerCase().includes(lowerQuery) ||
       pattern.description.toLowerCase().includes(lowerQuery) ||
-      pattern.tags.some((tag) => tag.toLowerCase().includes(lowerQuery)) ||
-      pattern.useCases.some((uc) => uc.toLowerCase().includes(lowerQuery))
+      pattern.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
   );
 }
 
@@ -51,13 +70,6 @@ export function getPatternsByComplexity(
 ): PatternMetadata[] {
   return Object.values(patternRegistry).filter(
     (pattern) => pattern.complexity === complexity
-  );
-}
-
-export function getPatternsByComponent(componentName: string): PatternMetadata[] {
-  const lowerName = componentName.toLowerCase();
-  return Object.values(patternRegistry).filter((pattern) =>
-    pattern.components.some((c) => c.toLowerCase() === lowerName)
   );
 }
 
@@ -77,12 +89,4 @@ export function getAllPatternTags(): string[] {
   return Array.from(tags).sort();
 }
 
-export function getRelatedPatterns(patternId: string): PatternMetadata[] {
-  const pattern = getPatternById(patternId);
-  if (!pattern) return [];
-  return pattern.relatedPatterns
-    .map((id) => getPatternById(id))
-    .filter((p): p is PatternMetadata => p !== undefined);
-}
-
-export type { PatternMetadata, PatternRegistry, PatternCategory } from '../types.js';
+export type { PatternMetadata, PatternRegistry, PatternCategory, PatternVariation } from '../types.js';

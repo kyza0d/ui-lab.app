@@ -45,14 +45,14 @@ export default function Example() {
     <Flex direction="column" gap="lg">
       <Flex direction="column" gap="md">
         <div>
-          <div className="text-sm font-medium text-foreground-700 mb-2">
+          <div className="text-sm font-medium text-foreground-400 mb-2">
             Check-in Date
           </div>
           <DatePicker value={startDate} onChange={handleStartDateChange} />
         </div>
 
         <div>
-          <div className="text-sm font-medium text-foreground-700 mb-2">
+          <div className="text-sm font-medium text-foreground-400 mb-2">
             Check-out Date
           </div>
           <DatePicker
@@ -65,14 +65,14 @@ export default function Example() {
 
       {/* Range summary */}
       <div className="p-3 bg-background-300 rounded-md">
-        <div className="text-sm text-foreground-600 mb-1">
+        <div className="text-sm text-foreground-400 mb-1">
           Selected Range
         </div>
-        <div className="text-foreground-900 font-medium">
+        <div className="text-foreground-400 font-medium">
           {formatDate(startDate)} → {formatDate(endDate)}
         </div>
         {daysDifference !== null && (
-          <div className="text-sm text-foreground-600 mt-2">
+          <div className="text-sm text-foreground-400 mt-2">
             Duration: {daysDifference} {daysDifference === 1 ? 'day' : 'days'}
           </div>
         )}

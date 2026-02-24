@@ -32,7 +32,7 @@ export function getPreview(): React.ReactNode {
       <input
         type="text"
         placeholder="Ask AI..."
-        className="flex-1 bg-background-800 border border-background-700 rounded px-2 py-1 text-xs text-foreground-400 placeholder-foreground-500"
+        className="flex-1 bg-background-800 border border-background-700 rounded px-2 py-1 text-xs text-foreground-400 placeholder-foreground-400"
         readOnly
       />
       <button className="px-2 py-1 bg-accent-500 text-foreground-50 rounded text-xs font-medium hover:bg-accent-600">

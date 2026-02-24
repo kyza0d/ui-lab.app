@@ -62,12 +62,12 @@ export const categories = {
     description: 'Components that group and organize related content with visual and semantic structure.',
     iconName: categoryIconConfig.container.name,
   },
-  data: {
-    id: 'data',
-    name: 'Data Components',
-    label: 'Data',
-    description: 'Components for displaying and interacting with datasets, such as tables, lists, and data visualizations.',
-    iconName: categoryIconConfig.data.name,
+  display: {
+    id: 'display',
+    name: 'Display Components',
+    label: 'Display',
+    description: 'Components for displaying and presenting content, such as tables, galleries, and data visualizations.',
+    iconName: categoryIconConfig.display.name,
   },
 } as const;
 

@@ -1,0 +1,33 @@
+{
+  "id": "data-table-row",
+  "name": "Data Table Row",
+  "description": "A standard table row with truncated primary text, secondary label, trailing Badge, and timestamp. The repeating unit inside data tables, activity feeds, and resource lists.",
+  "category": "data",
+  "tags": [
+    "table",
+    "row",
+    "list",
+    "data",
+    "feed",
+    "activity",
+    "selectable",
+    "expandable"
+  ],
+  "complexity": "simple",
+  "notes": "hover:bg-background-900 for interactive rows. group class on the row enables child opacity transitions for action buttons that appear on hover.",
+  "code": "import { Badge } from 'ui-lab-components'\n\nconst statusVariant = {\n  active: 'success',\n  pending: 'warning',\n  failed: 'danger',\n  inactive: 'default',\n} as const\n\nfunction DataTableRow({ primary, secondary, status, timestamp }) {\n  return (\n    <div className=\"flex items-center gap-4 px-4 py-3 border-b border-background-800 hover:bg-background-900 transition-colors\">\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200 truncate\">{primary}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{secondary}</p>\n      </div>\n      <div className=\"flex items-center gap-2 flex-shrink-0\">\n        <span className=\"text-xs text-foreground-400\">{timestamp}</span>\n        <Badge size=\"sm\" variant={statusVariant[status] ?? 'default'}>{status}</Badge>\n      </div>\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "data-table-row-selectable",
+      "name": "Selectable",
+      "description": "Leading Checkbox for multi-select operations.",
+      "code": "import { Badge, Checkbox } from 'ui-lab-components'\n\nconst statusVariant = {\n  active: 'success',\n  pending: 'warning',\n  failed: 'danger',\n  inactive: 'default',\n} as const\n\nfunction DataTableRowSelectable({ primary, secondary, status, timestamp, isSelected, onChange }) {\n  return (\n    <div className={`flex items-center gap-4 px-4 py-3 border-b border-background-800 transition-colors ${isSelected ? 'bg-background-900' : 'hover:bg-background-900'}`}>\n      <Checkbox isSelected={isSelected} onChange={onChange} aria-label={`Select ${primary}`} />\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200 truncate\">{primary}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{secondary}</p>\n      </div>\n      <div className=\"flex items-center gap-2 flex-shrink-0\">\n        <span className=\"text-xs text-foreground-400\">{timestamp}</span>\n        <Badge size=\"sm\" variant={statusVariant[status] ?? 'default'}>{status}</Badge>\n      </div>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "data-table-row-expandable",
+      "name": "Expandable",
+      "description": "Trailing chevron button that toggles an expanded detail area below the row.",
+      "code": "import { Badge, Button } from 'ui-lab-components'\nimport { useState } from 'react'\n\nconst statusVariant = {\n  active: 'success',\n  pending: 'warning',\n  failed: 'danger',\n  inactive: 'default',\n} as const\n\nfunction DataTableRowExpandable({ primary, secondary, status, timestamp, details }) {\n  const [expanded, setExpanded] = useState(false)\n  return (\n    <div className=\"border-b border-background-800\">\n      <div className=\"flex items-center gap-4 px-4 py-3 hover:bg-background-900 transition-colors\">\n        <div className=\"flex-1 min-w-0\">\n          <p className=\"text-sm font-medium text-foreground-200 truncate\">{primary}</p>\n          <p className=\"text-xs text-foreground-400 truncate\">{secondary}</p>\n        </div>\n        <div className=\"flex items-center gap-2 flex-shrink-0\">\n          <span className=\"text-xs text-foreground-400\">{timestamp}</span>\n          <Badge size=\"sm\" variant={statusVariant[status] ?? 'default'}>{status}</Badge>\n          <Button variant=\"ghost\" size=\"sm\" onPress={() => setExpanded(!expanded)} aria-label=\"Toggle details\">\n            <svg width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" className={`transition-transform ${expanded ? 'rotate-180' : ''}`}>\n              <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M19 9l-7 7-7-7\" />\n            </svg>\n          </Button>\n        </div>\n      </div>\n      {expanded && (\n        <div className=\"px-4 pb-3 text-xs text-foreground-400\">{details}</div>\n      )}\n    </div>\n  )\n}"
+    }
+  ]
+}

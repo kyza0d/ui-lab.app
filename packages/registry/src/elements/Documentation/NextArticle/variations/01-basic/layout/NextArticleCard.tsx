@@ -18,7 +18,7 @@ export function NextArticleCard({ title, description, href }: NextArticleCardPro
           </h3>
           <p className="text-sm text-foreground-400">{description}</p>
         </div>
-        <div className="ml-4 text-xl text-foreground-500 group-hover:text-accent-400 transition-colors flex-shrink-0">
+        <div className="ml-4 text-xl text-foreground-400 group-hover:text-accent-400 transition-colors flex-shrink-0">
           →
         </div>
       </div>

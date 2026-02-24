@@ -3,13 +3,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'nextjs-basic',
-  name: 'Next.js 16 Starter',
+  name: 'Next.js 16',
   description: 'Basic Next.js App Router starter with TypeScript and modern best practices',
   category: 'app' as const,
   tags: ['nextjs', 'typescript', 'app-router', 'react'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],
@@ -123,7 +123,7 @@ export function getPreview(): React.ReactNode {
       </div>
       <div className="flex-1 border border-background-700 rounded bg-background-900/50 p-2 text-xs font-mono">
         <div className="text-foreground-300 mb-1">📁 Project Structure</div>
-        <div className="pl-2 text-foreground-500 space-y-0.5">
+        <div className="pl-2 text-foreground-400 space-y-0.5">
           <div>📄 package.json</div>
           <div>📄 tsconfig.json</div>
           <div>📄 next.config.js</div>

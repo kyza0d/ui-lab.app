@@ -25,7 +25,7 @@ export default function Example() {
   return (
     <>
       <Button onClick={() => setIsOpen(true)}>Edit Profile</Button>
-      <Modal isOpen={isOpen} onOpenChange={setIsOpen} size="md">
+      <Modal isOpen={isOpen} onOpenChange={setIsOpen} size="auto">
         <Modal.Header>Edit Profile</Modal.Header>
         <Modal.Body>
           <form id="profile-form" onSubmit={handleSubmit}>

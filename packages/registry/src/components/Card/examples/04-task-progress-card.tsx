@@ -39,7 +39,7 @@ export default function Example() {
           {/* Team & Metadata */}
           <div className="grid grid-cols-2 gap-3 pt-2 border-t border-background-800">
             <div>
-              <p className="text-xs text-foreground-500 uppercase tracking-wide mb-2">Assigned To</p>
+              <p className="text-xs text-foreground-400mb-2">Assigned To</p>
               <div className="flex -space-x-2">
                 <div className="w-6 h-6 rounded-full bg-background-700 border border-background-800 flex items-center justify-center text-[10px] font-semibold text-foreground-300">
                   SA
@@ -50,9 +50,9 @@ export default function Example() {
               </div>
             </div>
             <div>
-              <p className="text-xs text-foreground-500 uppercase tracking-wide mb-2">Due Date</p>
+              <p className="text-xs text-foreground-400mb-2">Due Date</p>
               <div className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-foreground-500" />
+                <Calendar className="w-4 h-4 text-foreground-400" />
                 <span className="text-sm font-medium text-foreground-300">Mar 15</span>
               </div>
             </div>

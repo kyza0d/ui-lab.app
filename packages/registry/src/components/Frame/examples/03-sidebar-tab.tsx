@@ -13,9 +13,9 @@ const Example3 = () => {
     <div className="flex flex-row gap-0 p-12 items-center justify-center bg-background-950 min-h-[400px]">
       {/* Mock Sidebar */}
       <div className="flex flex-col items-end justify-center space-y-8 pr-6 border-background-800/50 h-64">
-        <div className="text-foreground-600 font-medium cursor-pointer hover:text-foreground-400 transition-colors">Dashboard</div>
+        <div className="text-foreground-400 font-medium cursor-pointer hover:text-foreground-400 transition-colors">Dashboard</div>
         <div className="text-accent-500 font-bold cursor-default">Settings</div>
-        <div className="text-foreground-600 font-medium cursor-pointer hover:text-foreground-400 transition-colors">Profile</div>
+        <div className="text-foreground-400 font-medium cursor-pointer hover:text-foreground-400 transition-colors">Profile</div>
       </div>
 
       {/* Frame content - visually connecting to "Settings" */}

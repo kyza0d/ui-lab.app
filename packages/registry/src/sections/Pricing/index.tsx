@@ -11,7 +11,7 @@ const baseMetadata = {
   tags: ['pricing', 'plans', 'billing', 'monetization'],
   layout: {
     layoutClass: 'pricing',
-    columnSpan: 4,
+    columnSpan: 1,
     rowSpan: 4,
   },
   componentDependencies: ['Button'],

@@ -37,7 +37,7 @@ export default function Example() {
           ))}
 
           {currentPage > 5 && (
-            <span className="text-foreground-500 text-xs px-2 flex items-center">…</span>
+            <span className="text-foreground-400 text-xs px-2 flex items-center">…</span>
           )}
 
           {totalPages > 3 && (

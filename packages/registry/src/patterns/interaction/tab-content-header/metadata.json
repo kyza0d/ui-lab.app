@@ -1,0 +1,32 @@
+{
+  "id": "tab-content-header",
+  "name": "Tab Content Header",
+  "description": "A title with optional description on the left, and a right-aligned action button. The standard header pattern inside tabbed panels, Card sections, and settings group blocks.",
+  "category": "interaction",
+  "tags": [
+    "header",
+    "title",
+    "action",
+    "button",
+    "panel",
+    "card",
+    "section"
+  ],
+  "complexity": "simple",
+  "notes": "border-b border-background-800 and pb-4 separates the header from the content below. Action button is optional \u2014 omit when the section is read-only.",
+  "code": "import { Button } from 'ui-lab-components'\n\nfunction TabContentHeader({ title, description, actionLabel, onAction }) {\n  return (\n    <div className=\"flex items-start justify-between gap-4 pb-4 border-b border-background-800\">\n      <div>\n        <h3 className=\"text-sm font-semibold text-foreground-100\">{title}</h3>\n        {description && (\n          <p className=\"text-sm text-foreground-400 mt-0.5\">{description}</p>\n        )}\n      </div>\n      {actionLabel && (\n        <Button size=\"sm\" variant=\"secondary\" onPress={onAction}>\n          {actionLabel}\n        </Button>\n      )}\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "tab-content-header-minimal",
+      "name": "Minimal",
+      "description": "Title only \u2014 no description or action. For sections that need a heading without extra chrome.",
+      "code": "function TabContentHeaderMinimal({ title }) {\n  return (\n    <div className=\"pb-3 border-b border-background-800\">\n      <h3 className=\"text-sm font-semibold text-foreground-100\">{title}</h3>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "tab-content-header-with-badge",
+      "name": "With Count Badge",
+      "description": "Title with a Badge showing an item count \u2014 for lists where the number of items is meaningful.",
+      "code": "import { Button, Badge } from 'ui-lab-components'\n\nfunction TabContentHeaderWithBadge({ title, count, actionLabel, onAction }) {\n  return (\n    <div className=\"flex items-center justify-between gap-4 pb-4 border-b border-background-800\">\n      <div className=\"flex items-center gap-2\">\n        <h3 className=\"text-sm font-semibold text-foreground-100\">{title}</h3>\n        <Badge size=\"sm\" variant=\"secondary\">{count}</Badge>\n      </div>\n      {actionLabel && (\n        <Button size=\"sm\" variant=\"secondary\" onPress={onAction}>\n          {actionLabel}\n        </Button>\n      )}\n    </div>\n  )\n}"
+    }
+  ]
+}

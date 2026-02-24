@@ -1,0 +1,33 @@
+{
+  "id": "inline-alert",
+  "name": "Inline Alert",
+  "description": "An inline notification banner with icon, title, and message. Lives inside content areas \u2014 not a toast, not a modal. Used for persistent contextual warnings, info banners, and error states.",
+  "category": "feedback",
+  "tags": [
+    "alert",
+    "notification",
+    "warning",
+    "error",
+    "info",
+    "banner",
+    "feedback",
+    "inline"
+  ],
+  "complexity": "simple",
+  "notes": "bg-background-800 border border-background-700 is the neutral base. Info variant uses bg-accent-900/20 border-accent-800 to create a subtle tinted inset without arbitrary blue/green.",
+  "code": "function InlineAlert({ title, message, variant = 'info' }) {\n  const styles = {\n    info: 'bg-background-800 border-background-600',\n    warning: 'bg-background-800 border-background-600',\n    error: 'bg-background-800 border-background-700',\n  }\n  const iconColor = {\n    info: 'text-accent-400',\n    warning: 'text-foreground-300',\n    error: 'text-foreground-200',\n  }\n  const icons = {\n    info: (\n      <svg width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" />\n      </svg>\n    ),\n    warning: (\n      <svg width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z\" />\n      </svg>\n    ),\n    error: (\n      <svg width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z\" />\n      </svg>\n    ),\n  }\n  return (\n    <div className={`flex gap-3 px-4 py-3 rounded-lg border ${styles[variant]}`} role=\"alert\">\n      <span className={`flex-shrink-0 mt-0.5 ${iconColor[variant]}`}>{icons[variant]}</span>\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-100\">{title}</p>\n        {message && <p className=\"text-sm text-foreground-300 mt-0.5\">{message}</p>}\n      </div>\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "inline-alert-info",
+      "name": "Info",
+      "description": "Informational alert using accent color for the icon \u2014 draws attention without urgency.",
+      "code": "function InlineAlertInfo({ title, message }) {\n  return (\n    <div className=\"flex gap-3 px-4 py-3 rounded-lg border bg-background-800 border-background-600\" role=\"status\">\n      <svg width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" className=\"flex-shrink-0 mt-0.5 text-accent-400\">\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" />\n      </svg>\n      <div>\n        <p className=\"text-sm font-medium text-foreground-100\">{title}</p>\n        {message && <p className=\"text-sm text-foreground-300 mt-0.5\">{message}</p>}\n      </div>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "inline-alert-error",
+      "name": "Error",
+      "description": "Error alert with high-contrast styling and role='alert' for immediate announcement to screen readers.",
+      "code": "function InlineAlertError({ title, message }) {\n  return (\n    <div className=\"flex gap-3 px-4 py-3 rounded-lg border bg-background-900 border-background-700\" role=\"alert\" aria-live=\"assertive\">\n      <svg width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" className=\"flex-shrink-0 mt-0.5 text-foreground-200\">\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z\" />\n      </svg>\n      <div>\n        <p className=\"text-sm font-semibold text-foreground-100\">{title}</p>\n        {message && <p className=\"text-sm text-foreground-300 mt-0.5\">{message}</p>}\n      </div>\n    </div>\n  )\n}"
+    }
+  ]
+}

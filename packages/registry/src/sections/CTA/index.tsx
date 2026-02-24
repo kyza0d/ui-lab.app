@@ -11,7 +11,7 @@ const baseMetadata = {
   tags: ['cta', 'conversion', 'action', 'engagement'],
   layout: {
     layoutClass: 'cta',
-    columnSpan: 4,
+    columnSpan: 1,
     rowSpan: 3,
   },
   componentDependencies: ['Button'],

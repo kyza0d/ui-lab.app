@@ -47,7 +47,7 @@ export function getPreview(): React.ReactNode {
         </div>
       </div>
       <div className="border-t border-background-700 p-2 bg-background-800">
-        <div className="h-6 bg-background-700 rounded text-xs flex items-center px-2 text-foreground-500">
+        <div className="h-6 bg-background-700 rounded text-xs flex items-center px-2 text-foreground-400">
           Type a message...
         </div>
       </div>

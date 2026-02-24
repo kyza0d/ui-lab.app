@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'astro-static',
-  name: 'Astro Starter',
+  name: 'Astro',
   description: 'Modern static site generator with islands architecture for zero-JavaScript by default',
   category: 'framework' as const,
   tags: ['astro', 'static-site', 'islands', 'zero-js'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

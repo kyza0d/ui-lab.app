@@ -1,0 +1,24 @@
+{
+  "id": "code",
+  "name": "Code",
+  "description": "Syntax-highlighted code display with horizontal scroll, line expand, and copy button.",
+  "category": "display",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Code",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [],
+  "tags": [
+    "code",
+    "syntax-highlighting",
+    "display"
+  ],
+  "accessibility": {
+    "hasAriaSupport": false,
+    "notes": [
+      "Pre-formatted content",
+      "Copy button is keyboard accessible"
+    ]
+  }
+}

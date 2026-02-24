@@ -39,7 +39,7 @@ export function PromptInputWithSuggestions({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="flex-1 bg-transparent border-0 text-foreground-50 placeholder-foreground-500 focus:outline-none resize-none"
+        className="flex-1 bg-transparent border-0 text-foreground-50 placeholder-foreground-400 focus:outline-none resize-none"
         rows={1}
       />
       <div className="flex flex-col gap-2">

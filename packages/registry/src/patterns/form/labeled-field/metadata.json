@@ -1,0 +1,31 @@
+{
+  "id": "labeled-field",
+  "name": "Labeled Field",
+  "description": "The canonical form unit: Label stacked above Input with optional helper text below. Every form is composed of this atomic pattern repeated.",
+  "category": "form",
+  "tags": [
+    "form",
+    "input",
+    "label",
+    "field",
+    "validation",
+    "helper"
+  ],
+  "complexity": "simple",
+  "notes": "gap-1.5 between label and input is the standard spacing. Helper text uses text-foreground-400 at text-xs. Error state replaces helper text with an error message.",
+  "code": "import { Label, Input } from 'ui-lab-components'\n\nfunction LabeledField({ id, label, placeholder, hint }) {\n  return (\n    <div className=\"flex flex-col gap-1.5\">\n      <Label htmlFor={id}>{label}</Label>\n      <Input id={id} placeholder={placeholder} />\n      {hint && <p className=\"text-xs text-foreground-400\">{hint}</p>}\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "labeled-field-with-hint",
+      "name": "With Hint",
+      "description": "Gray helper text below the input providing format or context guidance.",
+      "code": "import { Label, Input } from 'ui-lab-components'\n\nfunction LabeledFieldWithHint({ id, label, placeholder }) {\n  return (\n    <div className=\"flex flex-col gap-1.5\">\n      <Label htmlFor={id}>{label}</Label>\n      <Input id={id} placeholder={placeholder} />\n      <p className=\"text-xs text-foreground-400\">Shown publicly on your profile.</p>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "labeled-field-with-error",
+      "name": "With Error",
+      "description": "Error message below the input with input in invalid state.",
+      "code": "import { Label, Input } from 'ui-lab-components'\n\nfunction LabeledFieldWithError({ id, label, placeholder, error }) {\n  return (\n    <div className=\"flex flex-col gap-1.5\">\n      <Label htmlFor={id}>{label}</Label>\n      <Input\n        id={id}\n        placeholder={placeholder}\n        aria-invalid={Boolean(error)}\n        aria-describedby={error ? `${id}-error` : undefined}\n      />\n      {error && (\n        <p id={`${id}-error`} className=\"text-xs text-foreground-300 flex items-center gap-1\">\n          <span className=\"text-foreground-100\">&#9679;</span> {error}\n        </p>\n      )}\n    </div>\n  )\n}"
+    }
+  ]
+}

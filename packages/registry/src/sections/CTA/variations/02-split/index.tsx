@@ -22,10 +22,10 @@ export function SplitCTA() {
               <span className="text-sm font-medium text-accent-600">Limited Time Offer</span>
             </div>
 
-            <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+            <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
               Get 50% off for the first 3 months
             </h2>
-            <p className="mb-8 text-lg text-foreground-600">
+            <p className="mb-8 text-lg text-foreground-400">
               Upgrade your workflow and unlock powerful features that will transform how your team collaborates.
             </p>
 
@@ -33,7 +33,7 @@ export function SplitCTA() {
               {features.map((feature, index) => (
                 <li key={index} className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-accent-500" />
-                  <span className="text-foreground-700">{feature}</span>
+                  <span className="text-foreground-400">{feature}</span>
                 </li>
               ))}
             </ul>
@@ -47,7 +47,7 @@ export function SplitCTA() {
               </Button>
             </div>
 
-            <p className="mt-6 text-sm text-foreground-500">
+            <p className="mt-6 text-sm text-foreground-400">
               No credit card needed. Cancel anytime.
             </p>
           </div>
@@ -69,7 +69,7 @@ export function SplitCTA() {
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="rounded bg-background-700 p-3 text-center">
                         <div className="text-lg font-bold text-accent-500">42K</div>
-                        <div className="text-xs text-foreground-500">Active Users</div>
+                        <div className="text-xs text-foreground-400">Active Users</div>
                       </div>
                     ))}
                   </div>

@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'vite-react',
-  name: 'Vite + React Starter',
+  name: 'Vite + React',
   description: 'Modern, fast build tool with React 19 and TypeScript for instant development experience',
   category: 'framework' as const,
   tags: ['vite', 'react', 'typescript', 'fast-refresh'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

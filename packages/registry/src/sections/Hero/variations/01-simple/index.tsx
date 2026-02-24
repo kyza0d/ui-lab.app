@@ -26,7 +26,7 @@ export function SimpleHero() {
         </div>
 
         <div className="pt-12 border-t border-background-700">
-          <p className="text-sm text-foreground-500 mb-6">Trusted by leading companies</p>
+          <p className="text-sm text-foreground-400 mb-6">Trusted by leading companies</p>
           <div className="flex justify-center items-center gap-8 flex-wrap">
             <div className="h-8 w-24 bg-background-700 rounded opacity-40" />
             <div className="h-8 w-24 bg-background-700 rounded opacity-40" />

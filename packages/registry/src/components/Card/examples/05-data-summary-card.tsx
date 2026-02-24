@@ -24,22 +24,22 @@ export default function Example() {
         {/* Body: Primary Metric */}
         <Card.Body className="space-y-4">
           <div>
-            <p className="text-xs text-foreground-500 uppercase tracking-wide mb-1">Total Revenue</p>
+            <p className="text-xs text-foreground-400mb-1">Total Revenue</p>
             <p className="text-3xl font-bold text-foreground-100">$24,580</p>
           </div>
 
           {/* Secondary Metrics Grid */}
           <div className="grid grid-cols-3 gap-3 pt-3 border-t border-background-700">
             <div>
-              <p className="text-xs text-foreground-500 uppercase tracking-wide mb-2">Orders</p>
+              <p className="text-xs text-foreground-400mb-2">Orders</p>
               <p className="text-lg font-semibold text-foreground-100">342</p>
             </div>
             <div>
-              <p className="text-xs text-foreground-500 uppercase tracking-wide mb-2">Average</p>
+              <p className="text-xs text-foreground-400mb-2">Average</p>
               <p className="text-lg font-semibold text-foreground-100">$72</p>
             </div>
             <div>
-              <p className="text-xs text-foreground-500 uppercase tracking-wide mb-2">Growth</p>
+              <p className="text-xs text-foreground-400mb-2">Growth</p>
               <div className="flex items-center gap-1">
                 <TrendingUp className="w-4 h-4 text-green-500" />
                 <p className="text-lg font-semibold text-green-500">12%</p>

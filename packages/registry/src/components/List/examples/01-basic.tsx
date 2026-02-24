@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function Example() {
   return (
-    <List ariaLabel="Basic List Example">
+    <List aria-label="Basic List Example">
       <List.Header>
         <h2>Items</h2>
       </List.Header>

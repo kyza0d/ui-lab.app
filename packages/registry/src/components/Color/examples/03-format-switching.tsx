@@ -23,7 +23,7 @@ export default function Example() {
           </p>
           <button
             onClick={handleFormatChange}
-            className="px-3 py-1 text-xs bg-foreground-800 hover:bg-foreground-700 text-foreground-100 rounded transition-colors"
+            className="px-3 py-1 text-xs bg-foreground-400 hover:bg-foreground-400 text-foreground-100 rounded transition-colors"
           >
             Format: {format.toUpperCase()}
           </button>
@@ -35,7 +35,7 @@ export default function Example() {
           defaultValue="#3B82F6"
         />
       </div>
-      <div className="mt-4 p-3 bg-foreground-850 rounded border border-foreground-800">
+      <div className="mt-4 p-3 bg-foreground-400 rounded border border-foreground-400">
         <p className="text-xs text-foreground-300">
           <strong>Tip:</strong> Click the format button to switch between hex and RGB output formats.
           This is useful when you need to copy colors in different formats for different contexts.

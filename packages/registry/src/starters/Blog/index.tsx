@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'blog-platform',
-  name: 'Blog Platform Starter',
+  name: 'Blog Platform',
   description: 'Blogging platform template with markdown content, categories, and social sharing',
   category: 'documentation' as const,
   tags: ['blog', 'astro', 'markdown', 'content'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

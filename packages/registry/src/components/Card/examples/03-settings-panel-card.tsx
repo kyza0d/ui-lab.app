@@ -25,7 +25,7 @@ export default function Example() {
         <Card.Body className="space-y-3">
           {/* Notification Setting */}
           <div className="flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors">
-            <Bell className="w-4 h-4 text-foreground-500 mt-1 flex-shrink-0" />
+            <Bell className="w-4 h-4 text-foreground-400 mt-1 flex-shrink-0" />
             <Checkbox
               id="notifications"
               checked={notificationsEnabled}
@@ -42,7 +42,7 @@ export default function Example() {
 
           {/* Preview Mode Setting */}
           <div className="flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors">
-            <Eye className="w-4 h-4 text-foreground-500 mt-1 flex-shrink-0" />
+            <Eye className="w-4 h-4 text-foreground-400 mt-1 flex-shrink-0" />
             <Checkbox
               id="preview"
               checked={previewMode}
@@ -59,7 +59,7 @@ export default function Example() {
 
           {/* Privacy Mode Setting */}
           <div className="flex items-start gap-3 py-2 px-2 rounded hover:bg-background-900 transition-colors">
-            <Lock className="w-4 h-4 text-foreground-500 mt-1 flex-shrink-0" />
+            <Lock className="w-4 h-4 text-foreground-400 mt-1 flex-shrink-0" />
             <Checkbox
               id="privacy"
               checked={privateMode}

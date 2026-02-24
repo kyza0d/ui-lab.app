@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'tauri-desktop',
-  name: 'Tauri Desktop Starter',
+  name: 'Tauri Desktop',
   description: 'Cross-platform desktop app with Rust backend and React frontend using Tauri framework',
   category: 'framework' as const,
   tags: ['tauri', 'rust', 'desktop', 'electron-alternative'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

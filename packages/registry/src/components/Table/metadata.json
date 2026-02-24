@@ -2,7 +2,7 @@
   "id": "table",
   "name": "Table",
   "description": "Table component for displaying and organizing tabular data.",
-  "category": "data",
+  "category": "display",
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Table",

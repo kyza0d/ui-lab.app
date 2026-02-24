@@ -11,7 +11,7 @@ const baseMetadata = {
   tags: ['testimonials', 'social-proof', 'reviews', 'trust'],
   layout: {
     layoutClass: 'testimonials',
-    columnSpan: 4,
+    columnSpan: 1,
     rowSpan: 3,
   },
   componentDependencies: ['Button'],

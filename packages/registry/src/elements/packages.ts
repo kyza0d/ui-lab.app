@@ -44,7 +44,7 @@ export const elementPackages: ElementPackageRegistry = {
     tags: ['layout', 'structure', 'core'],
     elements: ['header', 'sidebar', 'page'],
     layout: {
-      columnSpan: 2,
+      columnSpan: 1,
       rowSpan: 1,
     },
     pricing: {
@@ -66,7 +66,7 @@ export const elementPackages: ElementPackageRegistry = {
     tags: ['free', 'extra', 'components'],
     elements: ['treeview', 'rating', 'timeline', 'carousel'],
     layout: {
-      columnSpan: 2,
+      columnSpan: 1,
       rowSpan: 1,
     },
     pricing: {
@@ -88,7 +88,7 @@ export const elementPackages: ElementPackageRegistry = {
     tags: ['ai', 'chat', 'interactive'],
     elements: ['chat', 'chainofthought', 'aichatinput'],
     layout: {
-      columnSpan: 2,
+      columnSpan: 1,
       rowSpan: 1,
     },
     pricing: {
@@ -112,7 +112,7 @@ export const elementPackages: ElementPackageRegistry = {
     tags: ['documentation', 'reference', 'content'],
     elements: ['toc', 'copypage', 'nextarticle'],
     layout: {
-      columnSpan: 2,
+      columnSpan: 1,
       rowSpan: 1,
     },
     pricing: {

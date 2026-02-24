@@ -1,0 +1,32 @@
+{
+  "id": "split-row",
+  "name": "Split Row",
+  "description": "Primary content left, secondary content or actions right. The universal shell for list rows, settings entries, and table rows where metadata or controls live opposite the label.",
+  "category": "layout",
+  "tags": [
+    "row",
+    "list",
+    "split",
+    "actions",
+    "meta",
+    "layout",
+    "two-column"
+  ],
+  "complexity": "simple",
+  "notes": "border-b border-background-800 for row separators. flex-shrink-0 on the right side prevents it from wrapping under long titles.",
+  "code": "import { Badge } from 'ui-lab-components'\n\nfunction SplitRow({ title, description, timestamp, status }) {\n  const variant = status === 'active' ? 'success' : status === 'pending' ? 'warning' : 'default'\n  return (\n    <div className=\"flex items-center gap-4 py-3 border-b border-background-800 hover:bg-background-900 transition-colors px-2 -mx-2 rounded\">\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200 truncate\">{title}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{description}</p>\n      </div>\n      <div className=\"flex items-center gap-3 flex-shrink-0\">\n        <span className=\"text-xs text-foreground-400\">{timestamp}</span>\n        <Badge size=\"sm\" variant={variant}>{status}</Badge>\n      </div>\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "split-row-actions",
+      "name": "With Actions",
+      "description": "Right side shows icon action buttons instead of metadata.",
+      "code": "import { Button, Group } from 'ui-lab-components'\n\nfunction SplitRowActions({ title, description, onEdit, onDelete }) {\n  return (\n    <div className=\"flex items-center gap-4 py-3 border-b border-background-800 group\">\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200 truncate\">{title}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{description}</p>\n      </div>\n      <div className=\"flex items-center gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity\">\n        <Button variant=\"ghost\" size=\"sm\" onPress={onEdit}>Edit</Button>\n        <Button variant=\"ghost\" size=\"sm\" onPress={onDelete}>Delete</Button>\n      </div>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "split-row-meta",
+      "name": "With Meta",
+      "description": "Right side shows two metadata values (e.g. size + date) in a column.",
+      "code": "function SplitRowMeta({ title, description, primaryMeta, secondaryMeta }) {\n  return (\n    <div className=\"flex items-center gap-4 py-3 border-b border-background-800\">\n      <div className=\"flex-1 min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200 truncate\">{title}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{description}</p>\n      </div>\n      <div className=\"flex flex-col items-end flex-shrink-0\">\n        <span className=\"text-xs font-medium text-foreground-300\">{primaryMeta}</span>\n        <span className=\"text-xs text-foreground-500\">{secondaryMeta}</span>\n      </div>\n    </div>\n  )\n}"
+    }
+  ]
+}

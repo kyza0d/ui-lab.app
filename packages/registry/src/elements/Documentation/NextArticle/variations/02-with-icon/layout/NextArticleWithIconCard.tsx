@@ -26,7 +26,7 @@ export function NextArticleWithIconCard({
         </h3>
         <p className="text-sm text-foreground-400">{description}</p>
       </div>
-      <div className="text-foreground-500 group-hover:text-accent-400 transition-colors flex-shrink-0 text-lg">
+      <div className="text-foreground-400 group-hover:text-accent-400 transition-colors flex-shrink-0 text-lg">
         →
       </div>
     </a>

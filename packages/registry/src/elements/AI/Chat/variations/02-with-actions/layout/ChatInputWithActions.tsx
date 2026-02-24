@@ -22,7 +22,7 @@ export function ChatInputWithActions({ onSendMessage }: ChatInputWithActionsProp
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type a message..."
-        className="flex-1 bg-background-700 border border-background-600 rounded px-3 py-2 text-sm text-foreground-50 placeholder-foreground-500 focus:outline-none focus:border-accent-500"
+        className="flex-1 bg-background-700 border border-background-600 rounded px-3 py-2 text-sm text-foreground-50 placeholder-foreground-400 focus:outline-none focus:border-accent-500"
       />
       <button
         type="submit"

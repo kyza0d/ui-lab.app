@@ -1,0 +1,32 @@
+{
+  "id": "select-row",
+  "name": "Select Row",
+  "description": "Label and description on the left, Select dropdown on the right. Mirrors the toggle-setting-row pattern for enum choices in settings panels.",
+  "category": "form",
+  "tags": [
+    "select",
+    "dropdown",
+    "settings",
+    "preference",
+    "row",
+    "form",
+    "enum"
+  ],
+  "complexity": "simple",
+  "notes": "items-center (not items-start) here because Select is a single-line control that should align with the label's baseline, not float to the top.",
+  "code": "import { Select, Label } from 'ui-lab-components'\n\nconst options = [\n  { id: 'system', label: 'System' },\n  { id: 'light', label: 'Light' },\n  { id: 'dark', label: 'Dark' },\n]\n\nfunction SelectRow({ id, label, description, defaultValue }) {\n  return (\n    <div className=\"flex items-center justify-between gap-4 py-3 border-b border-background-800\">\n      <div className=\"flex-1 min-w-0\">\n        <Label htmlFor={id} className=\"text-sm font-medium text-foreground-200\">\n          {label}\n        </Label>\n        {description && (\n          <p className=\"text-xs text-foreground-400 mt-0.5\">{description}</p>\n        )}\n      </div>\n      <Select defaultSelectedKey={defaultValue}>\n        {options.map((opt) => (\n          <Select.Option key={opt.id} id={opt.id}>{opt.label}</Select.Option>\n        ))}\n      </Select>\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "select-row-inline",
+      "name": "Inline",
+      "description": "No description text. Tighter single-line layout for compact setting groups.",
+      "code": "import { Select, Label } from 'ui-lab-components'\n\nconst timezones = [\n  { id: 'utc', label: 'UTC' },\n  { id: 'et', label: 'Eastern Time' },\n  { id: 'pt', label: 'Pacific Time' },\n]\n\nfunction SelectRowInline({ id, label, defaultValue }) {\n  return (\n    <div className=\"flex items-center justify-between gap-4 py-2 border-b border-background-800\">\n      <Label htmlFor={id} className=\"text-sm text-foreground-200\">\n        {label}\n      </Label>\n      <Select defaultSelectedKey={defaultValue}>\n        {timezones.map((tz) => (\n          <Select.Option key={tz.id} id={tz.id}>{tz.label}</Select.Option>\n        ))}\n      </Select>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "select-row-with-icon",
+      "name": "With Icon",
+      "description": "Leading icon before the label for visual scanning in longer settings lists.",
+      "code": "import { Select, Label } from 'ui-lab-components'\n\nconst languages = [\n  { id: 'en', label: 'English' },\n  { id: 'fr', label: 'French' },\n  { id: 'de', label: 'German' },\n]\n\nfunction SelectRowWithIcon({ id, label, description, icon, defaultValue }) {\n  return (\n    <div className=\"flex items-center gap-4 py-3 border-b border-background-800\">\n      <div className=\"w-8 h-8 flex items-center justify-center rounded-md bg-background-800 text-foreground-400 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"flex-1 min-w-0\">\n        <Label htmlFor={id} className=\"text-sm font-medium text-foreground-200\">\n          {label}\n        </Label>\n        {description && (\n          <p className=\"text-xs text-foreground-400 mt-0.5\">{description}</p>\n        )}\n      </div>\n      <Select defaultSelectedKey={defaultValue}>\n        {languages.map((lang) => (\n          <Select.Option key={lang.id} id={lang.id}>{lang.label}</Select.Option>\n        ))}\n      </Select>\n    </div>\n  )\n}"
+    }
+  ]
+}
