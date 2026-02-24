@@ -22,8 +22,19 @@ export type { FrameProps } from "./components/Frame";
 export { Grid } from "./components/Grid";
 export type { GridProps } from "./components/Grid";
 
-export { Panel, PanelContext, usePanelContext } from "./components/Panel";
-export type { PanelProps, PanelHeaderProps, PanelContentProps, PanelFooterProps, PanelContextValue } from "./components/Panel";
+export { Panel, PanelContext, PanelGroupContext, usePanelContext, usePanelGroupContext } from "./components/Panel";
+export type {
+  PanelProps,
+  PanelHeaderProps,
+  PanelContentProps,
+  PanelFooterProps,
+  PanelSidebarProps,
+  PanelToggleProps,
+  PanelGroupProps,
+  PanelResizeProps,
+  PanelContextValue,
+  PanelGroupContextValue,
+} from "./components/Panel";
 
 export { Badge } from "./components/Badge";
 export type { BadgeProps } from "./components/Badge";
@@ -137,6 +148,9 @@ export type { ScrollProps } from "./components/Scroll";
 export { Table } from "./components/Table";
 export type { TableProps, Column } from "./components/Table";
 
+export { Code } from "./components/Code";
+export type { CodeProps } from "./components/Code";
+
 export { List } from "./components/List";
 export type {
   ListRef,
@@ -165,3 +179,4 @@ export type { ThemeConfig, OklchColor, ColorPalette, ColorShade, ThemePalettes }
 export { generateThemeScript } from "./providers/themeScript";
 
 export { useFilter } from "./hooks/useFilter";
+export { useAnimatedWidth } from "./hooks/useAnimatedWidth";

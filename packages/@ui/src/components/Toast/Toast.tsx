@@ -27,7 +27,9 @@ const toastIcons = {
 };
 
 interface ToastComponentProps {
+  /** Toast data object containing content and display options */
   toast: ToastData;
+  /** Whether the auto-dismiss timer pauses on mouse hover */
   pauseOnHover?: boolean;
 }
 

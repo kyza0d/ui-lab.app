@@ -13,9 +13,13 @@ type Spacing = "none" | "sm"
 type Variant = "primary" | "secondary" | "outline" | "ghost"
 
 interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Controls the axis that children are arranged along */
   orientation?: Orientation
+  /** Controls the gap between group items */
   spacing?: Spacing
+  /** Controls the shared visual style applied to group items */
   variant?: Variant
+  /** Whether all items in the group are non-interactive */
   isDisabled?: boolean
 }
 
@@ -138,6 +142,7 @@ GroupRoot.displayName = "Group"
 
 // Group.Button component
 interface GroupButtonProps extends ButtonProps {
+  /** Whether this button is in an active/pressed state */
   active?: boolean
 }
 

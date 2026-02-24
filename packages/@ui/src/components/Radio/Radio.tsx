@@ -29,14 +29,21 @@ const useRadioGroupContext = () => {
 
 // Radio.Group Component
 export interface RadioGroupProps {
+  /** Controlled selected radio value */
   value?: string;
+  /** Initial selected value for uncontrolled usage */
   defaultValue?: string;
+  /** Called when the selected value changes */
   onValueChange?: (value: string) => void;
+  /** Whether all radios in the group are disabled */
   disabled?: boolean;
+  /** Size of all radio buttons in the group */
   size?: Size;
   children: React.ReactNode;
   className?: string;
+  /** Accessible label for the radio group */
   label?: string;
+  /** Descriptive text shown below the group label */
   description?: string;
 }
 
@@ -88,7 +95,7 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
             </label>
           )}
           {description && (
-            <p className="text-sm text-foreground-500">
+            <p className="text-sm text-foreground-400">
               {description}
             </p>
           )}
@@ -106,12 +113,19 @@ RadioGroup.displayName = "RadioGroup";
 // Radio.Item Component
 export interface RadioItemProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
+  /** Size of the radio button */
   size?: Size;
+  /** Label text or element displayed next to the radio */
   label?: React.ReactNode;
+  /** Secondary description shown below the label */
   description?: React.ReactNode;
+  /** Helper text shown below the radio item */
   helperText?: React.ReactNode;
+  /** Whether to style the helper text as an error */
   helperTextError?: boolean;
+  /** Whether to apply error styling */
   error?: boolean;
+  /** Value submitted when this radio is selected */
   value: string;
 }
 
@@ -226,7 +240,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
           <p
             className={cn(
               "text-xs mt-2 ml-8 transition-colors",
-              helperTextError ? "text-danger-600" : "text-foreground-500"
+              helperTextError ? "text-danger-600" : "text-foreground-400"
             )}
           >
             {helperText}
@@ -242,11 +256,17 @@ RadioItem.displayName = "RadioItem";
 // Standalone Radio component for backward compatibility
 export interface RadioProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
+  /** Size of the radio button */
   size?: Size;
+  /** Label text or element displayed next to the radio */
   label?: React.ReactNode;
+  /** Secondary description shown below the label */
   description?: React.ReactNode;
+  /** Helper text shown below the radio item */
   helperText?: React.ReactNode;
+  /** Whether to style the helper text as an error */
   helperTextError?: boolean;
+  /** Whether to apply error styling */
   error?: boolean;
 }
 
@@ -352,7 +372,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
           <p
             className={cn(
               "text-xs mt-2 ml-8 transition-colors",
-              helperTextError ? "text-danger-600" : "text-foreground-500"
+              helperTextError ? "text-danger-600" : "text-foreground-400"
             )}
           >
             {helperText}

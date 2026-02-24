@@ -13,7 +13,7 @@ const ARROW_PATH = "M 0 0 L 6 -12 L 12 0";
 const ARROW_WIDTH = 12;
 const TOOLTIP_GAP = 8;
 const ARROW_POSITIONING_SIZE = 6;
-const DEFAULT_SHOW_DELAY_MS = 200;
+const DEFAULT_SHOW_DELAY_MS = 600;
 const SWAP_WINDOW_MS = 150;
 const EXIT_ANIMATION_MS = 160;
 
@@ -80,13 +80,21 @@ const getInitialTransform = (placement: string): string => {
 
 export interface TooltipProps {
   children: React.ReactNode;
+  /** Content to display inside the tooltip */
   content: React.ReactNode;
+  /** Preferred side of the trigger where the tooltip appears */
   position?: TooltipPosition;
+  /** Additional CSS class for the trigger wrapper */
   className?: string;
+  /** Milliseconds before the tooltip appears after hover */
   delay?: number;
+  /** Whether the tooltip is disabled */
   isDisabled?: boolean;
+  /** Controlled open state */
   isOpen?: boolean;
+  /** Called when the tooltip opens or closes */
   onOpenChange?: (isOpen: boolean) => void;
+  /** Whether to render a directional arrow pointing at the trigger */
   showArrow?: boolean;
 }
 

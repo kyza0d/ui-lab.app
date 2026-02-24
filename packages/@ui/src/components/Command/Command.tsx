@@ -90,12 +90,19 @@ function scoreCommandRelevance(
 // ============================================================================
 
 export interface CommandProps {
+  /** Whether the command palette is open */
   open?: boolean;
+  /** Called when the open state changes */
   onOpenChange?: (open: boolean) => void;
+  /** Additional CSS class for the palette dialog */
   className?: string;
+  /** Additional CSS class for the backdrop overlay */
   overlayClassName?: string;
+  /** List of command items to display */
   items?: CommandItem[];
+  /** Custom filter function for commands against the query */
   filter?: (command: CommandItem, query: string) => boolean;
+  /** Child elements rendered inside the palette */
   children?: ReactNode;
 }
 
@@ -205,13 +212,18 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
     useEffect(() => {
       if (!overlayState.isOpen) return;
 
+      if (!searchValue) {
+        setFocusedKey(null);
+        return;
+      }
+
       const keys = Array.from(itemsRef.current.keys());
       if (keys.length > 0) {
         setFocusedKey(keys[0]);
       } else {
         setFocusedKey(null);
       }
-    }, [itemCount, overlayState.isOpen]);
+    }, [itemCount, overlayState.isOpen, searchValue]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -346,9 +358,13 @@ Command.displayName = "Command";
 // ============================================================================
 
 interface CommandSearchInputProps {
+  /** Controlled search text value */
   value?: string;
+  /** Called when the search text changes */
   onChange?: (value: string) => void;
+  /** Placeholder text for the search input */
   placeholder?: string;
+  /** Additional CSS class for the search container */
   className?: string;
 }
 
@@ -401,8 +417,11 @@ CommandSearchInput.displayName = "Command.SearchInput";
 // ============================================================================
 
 interface CommandListProps {
+  /** Child elements rendered inside the list */
   children?: ReactNode;
+  /** Message shown when no items match the search */
   emptyMessage?: string;
+  /** Additional CSS class for the list wrapper */
   className?: string;
 }
 
@@ -448,10 +467,15 @@ CommandListComponent.displayName = "Command.List";
 // ============================================================================
 
 interface CommandItemProps {
+  /** Unique key identifying this command item */
   value: Key;
+  /** Plain-text label used for keyboard navigation lookup */
   textValue: string;
+  /** Called when the item is selected */
   action: () => void | Promise<void>;
+  /** Child elements rendered inside the item */
   children?: ReactNode;
+  /** Additional CSS class for the item */
   className?: string;
 }
 
@@ -493,7 +517,9 @@ CommandItem.displayName = "Command.Item";
 // ============================================================================
 
 interface CommandCategoryProps {
+  /** Child elements rendered inside the category header */
   children?: ReactNode;
+  /** Additional CSS class for the category header */
   className?: string;
 }
 
@@ -518,7 +544,9 @@ CommandCategory.displayName = "Command.Category";
 // ============================================================================
 
 interface CommandFooterProps {
+  /** Child elements rendered inside the footer */
   children?: ReactNode;
+  /** Additional CSS class for the footer */
   className?: string;
 }
 
@@ -539,8 +567,11 @@ CommandFooter.displayName = "Command.Footer";
 // ============================================================================
 
 export interface CommandGroupsProps {
+  /** Renders a category header for the given category name */
   renderCategory?: (category: string | undefined) => ReactNode;
+  /** Renders a single command item row */
   renderItem: (command: CommandItem) => ReactNode;
+  /** Additional CSS class for the groups container */
   className?: string;
 }
 

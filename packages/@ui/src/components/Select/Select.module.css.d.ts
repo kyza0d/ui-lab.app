@@ -23,6 +23,10 @@ declare const styles: {
   separator: string;
   "scroll-button": string;
   placeholder: string;
+  "icon-prefix": string;
+  subTrigger: string;
+  subTriggerChevron: string;
+  subContent: string;
 };
 
 export default styles;

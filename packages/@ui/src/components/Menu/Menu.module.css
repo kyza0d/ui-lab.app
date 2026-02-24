@@ -196,7 +196,7 @@
     margin-left: auto;
     font-size: var(--text-xs);
     letter-spacing: 0.1em;
-    color: var(--foreground-500);
+    color: var(--foreground-400);
   }
 
   @keyframes slideInFromTop {

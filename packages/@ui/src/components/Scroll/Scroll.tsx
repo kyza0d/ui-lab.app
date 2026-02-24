@@ -5,15 +5,25 @@ import { cn } from "@/lib/utils";
 import styles from "./Scroll.module.css";
 
 export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Content to render inside the scroll container */
   children: React.ReactNode;
+  /** Maximum height before scrolling becomes active */
   maxHeight?: string;
+  /** Maximum width before scrolling becomes active */
   maxWidth?: string;
+  /** Scroll direction */
   direction?: "vertical" | "horizontal";
+  /** Padding on the top and bottom of the scrollbar track in pixels */
   paddingY?: string | number;
+  /** Whether to apply a fade mask at the top and bottom scroll edges */
   fadeY?: boolean;
+  /** Pixels scrolled before the fade mask begins to appear */
   fadeDistance?: number;
+  /** Percentage of container height used for the fade gradient */
   fadeSize?: number;
+  /** Whether to render the custom scrollbar; when false, renders children without scroll */
   enabled?: boolean;
+  /** Whether to hide the scrollbar when not actively scrolling */
   hide?: boolean;
 }
 

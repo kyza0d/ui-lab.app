@@ -3,8 +3,11 @@ import type { EasingKey } from "../../utils/easing";
 import { EASING_FUNCTIONS } from "../../utils/easing";
 
 export interface EasingPreviewProps {
+  /** The easing function key to visualize */
   easing: EasingKey;
+  /** Size of the SVG preview graphic */
   size?: "sm" | "md";
+  /** Additional CSS class names */
   className?: string;
 }
 

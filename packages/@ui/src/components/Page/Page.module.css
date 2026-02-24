@@ -1,35 +1,39 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-}
+@reference "tailwindcss";
 
-.page[data-centered="true"] {
-  align-items: center;
-}
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+  }
 
-.page[data-fullscreen="false"] {
-  margin-left: auto;
-  margin-right: auto;
-}
+  .page[data-centered="true"] {
+    align-items: center;
+  }
 
-.paddingNone {
-  padding: 0;
-}
+  .page[data-fullscreen="false"] {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-.paddingSm {
-  padding: var(--spacing-sm, 0.5rem);
-}
+  .paddingNone {
+    padding: 0;
+  }
 
-.paddingMd {
-  padding: var(--spacing-md, 1rem);
-}
+  .paddingSm {
+    padding: var(--spacing-sm, 0.5rem);
+  }
 
-.paddingLg {
-  padding: var(--spacing-lg, 1.5rem);
-}
+  .paddingMd {
+    padding: var(--spacing-md, 1rem);
+  }
 
-.paddingXl {
-  padding: var(--spacing-xl, 2rem);
+  .paddingLg {
+    padding: var(--spacing-lg, 1.5rem);
+  }
+
+  .paddingXl {
+    padding: var(--spacing-xl, 2rem);
+  }
 }

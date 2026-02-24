@@ -10,12 +10,19 @@ type BadgeVariant = "default" | "success" | "warning" | "danger" | "info";
 type BadgeSize = "sm" | "md" | "lg";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Visual color style of the badge */
   variant?: BadgeVariant;
+  /** Size of the badge */
   size?: BadgeSize;
+  /** Icon element displayed before the badge label */
   icon?: React.ReactNode;
+  /** Whether to show a dismiss button */
   dismissible?: boolean;
+  /** Called when the dismiss button is clicked */
   onDismiss?: () => void;
+  /** Whether to render with a fully rounded pill shape */
   pill?: boolean;
+  /** Numeric count to display; replaces children when provided */
   count?: number;
 }
 

@@ -29,6 +29,7 @@ const useFoldContext = () => {
 
 export interface FoldIconProps
   extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Custom icon element; defaults to a chevron */
   children?: React.ReactNode;
 }
 
@@ -47,6 +48,7 @@ FoldIcon.displayName = "Fold.Icon";
 
 export interface FoldTriggerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Label or content of the trigger button */
   children: React.ReactNode;
 }
 
@@ -103,6 +105,7 @@ const FoldTrigger = React.forwardRef<HTMLButtonElement, FoldTriggerProps>(
 FoldTrigger.displayName = "Fold.Trigger";
 
 export interface FoldContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Content shown when the fold is expanded */
   children: React.ReactNode;
 }
 
@@ -144,14 +147,23 @@ FoldDivider.displayName = "Fold.Divider";
 
 export interface FoldProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "onChange"> {
-  title?: React.ReactNode; // Made optional for compound usage
+  /** Header text or element for the trigger button in preset (non-compound) mode */
+  title?: React.ReactNode;
+  /** Controlled expanded state */
   isExpanded?: boolean;
+  /** Initial expanded state for uncontrolled usage */
   defaultExpanded?: boolean;
+  /** Called when the expanded state changes */
   onExpandedChange?: (isExpanded: boolean) => void;
+  /** Alias for onExpandedChange */
   onChange?: (isExpanded: boolean) => void;
+  /** Whether the fold is disabled */
   isDisabled?: boolean;
+  /** Compound sub-components or content nodes */
   children?: React.ReactNode;
+  /** Additional CSS class for the trigger button */
   triggerClassName?: string;
+  /** Additional CSS class for the content area */
   contentClassName?: string;
 }
 

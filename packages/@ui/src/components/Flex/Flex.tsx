@@ -22,11 +22,17 @@ type FlexAlign =
 type FlexGap = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Direction of the flex container */
   direction?: FlexDirection;
+  /** Whether items wrap to the next line when they overflow */
   wrap?: FlexWrap;
+  /** Gap between flex items */
   gap?: FlexGap;
+  /** Alignment of items along the main axis */
   justify?: FlexJustify;
+  /** Alignment of items along the cross axis */
   align?: FlexAlign;
+  /** Wraps the flex container in a container query parent for breakpoint-aware responsiveness */
   containerQueryResponsive?: boolean;
 }
 

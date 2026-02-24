@@ -12,10 +12,15 @@ export interface Column<T> {
 }
 
 export interface TableProps<T> {
+  /** Array of data rows to display */
   data: T[];
+  /** Column definitions including key, label, and optional render function */
   columns: Column<T>[];
+  /** Whether to show filter inputs above the table */
   showFilters?: boolean;
+  /** Called when a table row is clicked */
   onRowClick?: (row: T) => void;
+  /** Called when any column filter value changes */
   onFilterChange?: (filters: Record<string, string>) => void;
 }
 
@@ -61,7 +66,7 @@ export function Table<T extends Record<string, any>>({
                     handleFilterChange(String(col.key), e.target.value)
                   }
                   placeholder={`Filter by ${col.label.toLowerCase()}`}
-                  className="w-full px-3 py-2 rounded-md border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
+                  className="w-full px-3 py-2 rounded-md border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
                 />
               </div>
             ))}

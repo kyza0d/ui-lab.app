@@ -8,21 +8,37 @@ import { HiExclamationCircle, HiExclamation, HiInformationCircle, HiCheckCircle 
 import styles from "./Confirmation.module.css"
 
 export interface ConfirmationProps {
+  /** Display mode: inline expands in place, dialog shows a modal, auto chooses based on severity */
   mode?: "inline" | "dialog" | "auto"
+  /** Severity level that affects styling and default mode selection */
   severity?: "low" | "medium" | "high" | "critical"
+  /** Called when the user confirms the action */
   onConfirm: () => void | Promise<void>
+  /** Called when the user cancels the action */
   onCancel?: () => void
+  /** Label for the trigger button */
   triggerLabel: string
+  /** Label for the confirm button */
   confirmLabel?: string
+  /** Label for the cancel button */
   cancelLabel?: string
+  /** Whether the trigger button is disabled */
   disabled?: boolean
+  /** Title shown in dialog mode */
   title?: string
+  /** Description text shown during the confirmation step */
   description?: string
+  /** Custom icon shown in the confirmation header */
   icon?: React.ReactNode
+  /** Warning message displayed in a colored box before confirming */
   destructiveActionWarning?: string
+  /** Seconds the user must wait before the confirm button becomes active */
   countdownSeconds?: number
+  /** Whether the user must type confirmationText to enable the confirm button */
   requiresReason?: boolean
+  /** Text the user must type to confirm when requiresReason is true */
   confirmationText?: string
+  /** Milliseconds after which the inline confirmation auto-resets to idle state */
   autoResetAfter?: number
 }
 

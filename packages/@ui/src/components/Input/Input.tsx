@@ -9,9 +9,13 @@ import styles from "./Input.module.css";
 type Variant = "default" | "ghost";
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "size"> {
+  /** Controls the visual style of the input */
   variant?: Variant;
+  /** Whether the input is in an error state */
   error?: boolean;
+  /** Icon displayed before the input value */
   prefixIcon?: React.ReactNode;
+  /** Icon displayed after the input value */
   suffixIcon?: React.ReactNode;
 }
 

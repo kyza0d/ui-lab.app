@@ -37,11 +37,17 @@ export function useDateContext() {
  * Props for Calendar component
  */
 export interface DateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Controlled selected date */
   value?: Date | null
+  /** Called when the user selects a date */
   onChange?: (date: Date) => void
+  /** Function returning true for dates that should be unselectable */
   disabled?: (date: Date) => boolean
+  /** Earliest selectable date */
   minDate?: Date
+  /** Latest selectable date */
   maxDate?: Date
+  /** Month shown initially when no date is selected */
   defaultMonth?: Date
 }
 
@@ -360,6 +366,7 @@ DateDayHeaders.displayName = "Date.DayHeaders"
  * Calendar Grid component
  */
 interface DateGridProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Calendar grid rows, each containing 7 Date objects */
   grid: Date[][]
 }
 
@@ -404,6 +411,7 @@ DateGrid.displayName = "Date.Grid"
  * Calendar Day component
  */
 interface DateDayProps extends React.HTMLAttributes<HTMLButtonElement> {
+  /** The date this cell represents */
   date: Date
 }
 

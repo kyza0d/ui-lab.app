@@ -19,6 +19,7 @@ import { DividerProps } from '@/components/Divider';
 const Container = React.forwardRef<ListRef, ListContainerProps>(
   ({ items = [], variant = 'default', spacing = 'default', onNavigate, children, className, ...props }, ref) => {
     const [highlightedIndex, setHighlightedIndex] = React.useState<number | null>(null);
+    const [isKeyboardMode, setIsKeyboardMode] = React.useState(false);
     const itemRefsContainer = React.useRef<(HTMLElement | null)[]>([]);
     const itemCountRef = React.useRef(0);
     const prevItemsLengthRef = React.useRef(items.length);
@@ -33,6 +34,7 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
     // Expose ref methods for keyboard navigation
     React.useImperativeHandle(ref, () => ({
       focusNext: () => {
+        setIsKeyboardMode(true);
         setHighlightedIndex((prev) => {
           const next = prev === null ? 0 : Math.min(prev + 1, items.length - 1);
           onNavigate?.down?.();
@@ -40,6 +42,7 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
         });
       },
       focusPrev: () => {
+        setIsKeyboardMode(true);
         setHighlightedIndex((prev) => {
           const next = prev === null ? items.length - 1 : Math.max(prev - 1, 0);
           onNavigate?.up?.();
@@ -47,10 +50,12 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
         });
       },
       focusFirst: () => {
+        setIsKeyboardMode(true);
         setHighlightedIndex(0);
         onNavigate?.down?.();
       },
       focusLast: () => {
+        setIsKeyboardMode(true);
         setHighlightedIndex(items.length - 1);
         onNavigate?.up?.();
       },
@@ -93,13 +98,15 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
     const contextValue = React.useMemo(
       () => ({
         highlightedIndex,
+        isKeyboardMode,
         focusItem: (index: number) => {
+          setIsKeyboardMode(false);
           setHighlightedIndex(index);
         },
         registerItem,
         itemRefs: itemRefsContainer,
       }),
-      [highlightedIndex, registerItem]
+      [highlightedIndex, isKeyboardMode, registerItem]
     );
 
     return (
@@ -109,6 +116,7 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
           className={cn(styles.container, className)}
           data-variant={variant}
           data-spacing={spacing}
+          data-keyboard-mode={isKeyboardMode ? 'true' : undefined}
           {...(props as React.HTMLAttributes<HTMLDivElement>)}
         >
           {children}

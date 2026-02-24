@@ -8,18 +8,31 @@ import styles from "./Slider.module.css";
 type SliderSize = 'sm' | 'md' | 'lg';
 
 interface SliderRootProps {
+  /** Size of the slider track and thumb */
   size?: SliderSize;
+  /** Whether the slider is disabled */
   disabled?: boolean;
+  /** Additional CSS class for the slider container */
   className?: string;
+  /** Inline styles for the slider container */
   style?: React.CSSProperties;
+  /** Minimum value of the slider range */
   min?: number;
+  /** Maximum value of the slider range */
   max?: number;
+  /** Step increment between values */
   step?: number;
+  /** Initial value(s) for uncontrolled usage */
   defaultValue?: number | number[];
+  /** Controlled value(s) for the slider thumb(s) */
   value?: number | number[];
+  /** Called when the value changes */
   onValueChange?: (value: number[]) => void;
+  /** Orientation of the slider track */
   orientation?: 'horizontal' | 'vertical';
+  /** Accessible label for the slider */
   'aria-label'?: string;
+  /** ID of an element that labels the slider */
   'aria-labelledby'?: string;
 }
 

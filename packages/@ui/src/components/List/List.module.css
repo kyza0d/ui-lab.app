@@ -7,7 +7,7 @@
     max-width: 28rem;
     margin-left: auto;
     margin-right: auto;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
     color: var(--foreground);
   }
 
@@ -46,7 +46,7 @@
   }
 
   .item {
-    --background-hover: var(--background-900);
+    --background-hover: var(--background-800);
     --background-highlighted: var(--background-800);
 
     display: flex;
@@ -57,11 +57,11 @@
     cursor: pointer;
   }
 
-  .item:hover {
+  .container .item:hover {
     background-color: var(--background-hover);
   }
 
-  .item[data-highlighted="true"] {
+  .container[data-keyboard-mode="true"] .item[data-highlighted="true"] {
     background-color: var(--background-highlighted);
   }
 

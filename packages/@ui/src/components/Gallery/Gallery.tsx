@@ -17,21 +17,31 @@ type ResponsiveColumns = {
 }
 
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Number of columns in the gallery grid */
   columns?: GridColumns | number | ResponsiveColumns
+  /** Gap between gallery items */
   gap?: GridGap | number | string
+  /** Number of rows in the gallery grid */
   rows?: "1" | "2" | "3" | "4" | "5" | "6" | "auto"
+  /** Whether to enable container-query-based responsive columns */
   containerQueryResponsive?: boolean
 }
 
 interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
+  /** URL the item links to */
   href?: string
+  /** Called when the item is pressed */
   onPress?: (href?: string) => void
+  /** Number of columns this item spans */
   columnSpan?: number
+  /** Number of rows this item spans */
   rowSpan?: number
+  /** Controls the item's layout orientation */
   orientation?: "vertical" | "horizontal"
 }
 
 interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Aspect ratio of the view area (e.g. "16/9") */
   aspectRatio?: string
 }
 

@@ -4,17 +4,23 @@ import React, { ReactNode, forwardRef } from 'react';
 import styles from "./Breadcrumbs.module.css";
 
 export interface BreadcrumbItemProps {
+  /** URL this breadcrumb item links to */
   href?: string;
+  /** Called when the breadcrumb item is pressed */
   onPress?: () => void;
   children: ReactNode;
+  /** Whether this is the current/active page */
   isCurrent?: boolean;
+  /** Whether the item is non-interactive */
   isDisabled?: boolean;
   className?: string;
 }
 
 export interface BreadcrumbsProps {
   children: ReactNode;
+  /** Additional CSS class for the breadcrumbs container */
   className?: string;
+  /** Custom separator element between breadcrumb items */
   separator?: ReactNode;
 }
 

@@ -54,6 +54,7 @@ const AnchorPreview = React.forwardRef<HTMLSpanElement, AnchorPreviewProps>(
 AnchorPreview.displayName = "Anchor.Preview";
 
 export interface AnchorUnderlineProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Controls the line style of the underline */
   variant?: "solid" | "dashed" | "dotted";
 }
 
@@ -100,8 +101,11 @@ AnchorUnderline.displayName = "Anchor.Underline";
 export interface AnchorProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   children?: React.ReactNode;
+  /** Additional CSS class for the anchor element */
   className?: string;
+  /** URL the anchor navigates to */
   href?: string;
+  /** Browsing context for the link (e.g. "_blank") */
   target?: string;
 }
 

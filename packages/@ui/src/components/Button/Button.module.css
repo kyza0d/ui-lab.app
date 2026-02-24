@@ -19,8 +19,6 @@
     line-height: var(--leading-snug);
 
     transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out, filter 0.15s ease-out, color 0.15s ease-out;
-    filter: invert(0%);
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -42,7 +40,7 @@
     }
 
     &:hover:not(:disabled) {
-      filter: invert(7.5%); 
+      background-color: color-mix(in srgb, var(--background-600) 50%, transparent);
       border: var(--border);
     }
   }
@@ -73,7 +71,7 @@
     outline-style: unset !important;
     
     &:hover:not(:disabled) {
-       background-color: var(--background-800); /* Optional: explicit hover bg */
+      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);
     }
   }
 
@@ -90,19 +88,23 @@
   }
 
   .button.danger {
-    --background: var(--danger-600);
-    --foreground: var(--background-900);
-    --border: var(--border-width-base) solid var(--danger-700);
+    --background: color-mix(in srgb, var(--danger-600) 20%, transparent);
+    --foreground: var(--danger-600);
+    --border: var(--border-width-base) solid transparent;
     --ring-color: var(--danger-600);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--danger-600) 30%, transparent);
+    }
   }
 
   .button.sm {
-    @apply px-3 py-1.5;
+    @apply px-4 py-1.5;
     font-size: var(--text-sm);
   }
 
   .button.md {
-    @apply px-4 py-1.5;
+    @apply px-5 py-2;
     font-size: var(--text-sm);
   }
 

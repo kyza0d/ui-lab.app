@@ -11,7 +11,7 @@ const labelVariants = cva(
         lg: "text-md",
       },
       disabled: {
-        true: "text-foreground-500 opacity-60 cursor-not-allowed",
+        true: "text-foreground-400 opacity-60 cursor-not-allowed",
         false: "",
       },
       error: {
@@ -30,9 +30,18 @@ const labelVariants = cva(
 export interface LabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement>,
   VariantProps<typeof labelVariants> {
+  /** Whether to show a required asterisk indicator */
   required?: boolean;
+  /** Helper text shown below the label */
   helperText?: React.ReactNode;
+  /** Whether to style the helper text as an error */
   helperTextError?: boolean;
+  /** Size of the label text */
+  size?: "sm" | "md" | "lg" | null;
+  /** Whether the label appears disabled */
+  disabled?: boolean | null;
+  /** Whether to apply error styling */
+  error?: boolean | null;
 }
 
 const Label = ({
@@ -64,7 +73,7 @@ const Label = ({
       {helperText && (
         <p className={cn(
           "text-xs mt-1 transition-colors",
-          helperTextError ? "text-danger-600" : "text-foreground-500"
+          helperTextError ? "text-danger-600" : "text-foreground-400"
         )}>
           {helperText}
         </p>

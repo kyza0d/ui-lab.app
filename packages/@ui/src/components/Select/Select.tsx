@@ -27,7 +27,7 @@ export interface SelectContextValue {
   isHovered: boolean
   isDisabled: boolean
   items: SelectItemData[]
-  registerItem: (key: Key, textValue: string, isDisabled?: boolean) => void
+  registerItem: (key: Key, textValue: string, isDisabled?: boolean, onSelect?: () => void, isSubmenuTrigger?: boolean) => void
   unregisterItem: (key: Key) => void
   searchValue: string
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
@@ -38,6 +38,7 @@ export interface SelectContextValue {
   navigateToNextItem: () => void
   navigateToPrevItem: () => void
   selectFocusedItem: () => void
+  isFocusedItemSubmenu: () => boolean
   maxItems: number
   triggerMode: SelectTriggerMode
   handleHoverIntent: (isHovering: boolean) => void
@@ -56,19 +57,33 @@ export function useSelectContext() {
 }
 
 export interface SelectProps<T = any> extends React.PropsWithChildren {
+  /** Selection mode: "single" for one item, "multiple" for multi-item selection */
   mode?: SelectMode
+  /** External items array — used when items are provided as data rather than JSX */
   items?: Array<T>
+  /** Controlled selected key for single-select mode */
   selectedKey?: Key | null
+  /** Default selected key for uncontrolled single-select */
   defaultSelectedKey?: Key | null
+  /** Controlled selected keys for multi-select mode */
   selectedKeys?: Key[]
+  /** Default selected keys for uncontrolled multi-select */
   defaultSelectedKeys?: Key[]
+  /** Default display text shown in the trigger when nothing is selected */
   defaultValue?: string | null
+  /** Called when selection changes; receives a single key (single) or key array (multiple) */
   onSelectionChange?: (value: any) => void
+  /** Disables the entire select and prevents interaction */
   isDisabled?: boolean
+  /** Focuses the trigger automatically on mount */
   autoFocus?: boolean
+  /** Maximum number of items visible before the dropdown scrolls */
   maxItems?: number
+  /** Additional CSS class for the root wrapper */
   className?: string
+  /** How the dropdown opens: "click" (default) or "hover" */
   trigger?: SelectTriggerMode
+  /** Custom filter predicate applied to the items array */
   filter?: (item: T) => boolean
 }
 
@@ -96,6 +111,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const triggerRef = React.useRef<HTMLElement>(null)
     const wrapperRef = React.useRef<HTMLElement>(null)
     const mouseMoveDetectedRef = React.useRef(true)
+    const itemExtrasRef = React.useRef<Map<Key, { onSelect?: () => void; isSubmenuTrigger?: boolean }>>(new Map())
     const [isOpen, setIsOpen] = React.useState(false)
     const hoverTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -140,6 +156,21 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       externalItems: filteredPropItems.length > 0 ? filteredPropItems : undefined,
     })
 
+    const registerItem = React.useCallback((key: Key, textValue: string, isDisabled?: boolean, onSelect?: () => void, isSubmenuTrigger?: boolean) => {
+      nav.registerItem(key, textValue, isDisabled)
+      itemExtrasRef.current.set(key, { onSelect, isSubmenuTrigger })
+    }, [nav.registerItem])
+
+    const unregisterItem = React.useCallback((key: Key) => {
+      nav.unregisterItem(key)
+      itemExtrasRef.current.delete(key)
+    }, [nav.unregisterItem])
+
+    const isFocusedItemSubmenu = React.useCallback(() => {
+      if (nav.focusedKey === null) return false
+      return itemExtrasRef.current.get(nav.focusedKey)?.isSubmenuTrigger ?? false
+    }, [nav.focusedKey])
+
     const onSelect = React.useCallback((key: Key) => {
       const item = nav.items.find(i => i.key === key)
       if (item) {
@@ -170,7 +201,10 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       if (nav.focusedKey !== null) {
         const item = nav.enabledFilteredItems.find(item => item.key === nav.focusedKey)
         if (item && !item.isDisabled) {
-          if (mode === "multiple") {
+          const extras = itemExtrasRef.current.get(nav.focusedKey)
+          if (extras?.onSelect) {
+            extras.onSelect()
+          } else if (mode === "multiple") {
             onToggle(nav.focusedKey)
           } else {
             onSelect(nav.focusedKey)
@@ -234,10 +268,12 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           const selectedItem = nav.items.find(item => item.key === selectedKey)
           if (selectedItem) {
             setSelectedTextValue(selectedItem.textValue)
+          } else if (defaultValue !== undefined && defaultValue !== null) {
+            setSelectedTextValue(defaultValue)
           }
         }
       }
-    }, [selectedKey, nav.items, mode])
+    }, [selectedKey, nav.items, mode, defaultValue])
 
     const rootRef = useMergedRef<HTMLDivElement>(wrapperRef, ref)
 
@@ -265,8 +301,8 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           isHovered,
           isDisabled,
           items: nav.items,
-          registerItem: nav.registerItem,
-          unregisterItem: nav.unregisterItem,
+          registerItem,
+          unregisterItem,
           searchValue: nav.searchValue,
           setSearchValue: nav.setSearchValue,
           filteredItems: nav.filteredItems,
@@ -276,6 +312,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           navigateToNextItem: nav.navigateToNextItem,
           navigateToPrevItem: nav.navigateToPrevItem,
           selectFocusedItem,
+          isFocusedItemSubmenu,
           maxItems,
           triggerMode,
           handleHoverIntent,

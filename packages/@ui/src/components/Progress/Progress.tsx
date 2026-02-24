@@ -8,13 +8,21 @@ type ProgressVariant = "default" | "success" | "warning" | "error";
 type ProgressSize = "sm" | "md" | "lg";
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Current progress value */
   value?: number;
+  /** Maximum value that represents 100% */
   max?: number;
+  /** Visual color variant indicating progress state */
   variant?: ProgressVariant;
+  /** Size of the progress bar */
   size?: ProgressSize;
+  /** Whether to show an infinite loading animation instead of a fixed value */
   indeterminate?: boolean;
+  /** Accessible label describing what is progressing */
   label?: string;
+  /** Whether to display the percentage value next to the label */
   showValue?: boolean;
+  /** Whether to show a shimmer animation on the progress fill */
   animated?: boolean;
 }
 

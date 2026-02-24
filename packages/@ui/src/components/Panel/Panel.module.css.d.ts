@@ -5,6 +5,10 @@ declare const styles: {
   readonly content: string;
   readonly footer: string;
   readonly fixed: string;
+  readonly sidebar: string;
+  readonly toggle: string;
+  readonly group: string;
+  readonly resize: string;
   readonly spacingNone: string;
   readonly spacingSm: string;
   readonly spacingMd: string;

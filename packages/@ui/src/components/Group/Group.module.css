@@ -38,7 +38,7 @@
   .group.sm {
     --radius-basis: calc(var(--spacing) * 1.25);
     --padding: var(--radius-basis);
-    @apply space-x-2;
+    @apply space-x-1;
   }
 
   /* Variants */
@@ -66,6 +66,11 @@
   .group.none:not(.ghost) .item .group-select-wrapper,
   .group.none:not(.ghost) .item .trigger {
     border-radius: 0;
+  }
+
+  .group.none:not(.ghost) .item .group-select-wrapper {
+    --radius: 0;
+    --inner-radius: 0;
   }
 
   .group.sm:not(.ghost) .item .group-item,
@@ -119,22 +124,22 @@
     border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.horizontal:not(.ghost) .group-select-wrapper .group-item {
+  .group.none.horizontal:not(.ghost) .item:first-child .group-select-wrapper .group-item {
     border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
     border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.horizontal:not(.ghost) .group-select-wrapper .trigger {
+  .group.none.horizontal:not(.ghost) .item:last-child .group-select-wrapper .trigger {
     border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
     border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .group-select-wrapper .group-item {
+  .group.none.vertical:not(.ghost) .item:first-child .group-select-wrapper .group-item {
     border-top-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
     border-top-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
-  .group.none.vertical:not(.ghost) .group-select-wrapper .trigger {
+  .group.none.vertical:not(.ghost) .item:last-child .group-select-wrapper .trigger {
     border-bottom-left-radius: calc(var(--radius-basis) * var(--radius-ratio));
     border-bottom-right-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
@@ -180,9 +185,32 @@
     margin-right: calc(var(--padding) * -1);
   }
 
-  .group.ghost .item .group-item:not(.active) {
+  .group.ghost:not(.none) .item .group-item:not(.active) {
     border-radius: calc(var(--radius-basis) * var(--radius-ratio));
     border: var(--border-width-base) solid transparent;
+  }
+
+  /* ghost + none: flat children — no borders or radius */
+  .group.ghost.none {
+    @apply gap-0;
+  }
+
+  .group.ghost.none .item .group-item,
+  .group.ghost.none .group-item.active {
+    border: none;
+    border-radius: 0;
+  }
+
+  .group.ghost.none .group-input-wrapper input {
+    border: none;
+    border-radius: 0;
+  }
+
+  .group.ghost.none .group-select-wrapper {
+    --radius: 0;
+    --inner-radius: 0;
+    border: none;
+    border-radius: 0;
   }
 
   .group:not(.ghost) .item .group-item:focus-visible,
@@ -228,7 +256,7 @@
   }
 
   .group.none .item button.group-item {
-    padding: calc(var(--spacing) * 2.25);
+    padding: calc(var(--spacing) * 2.00) calc(var(--spacing) * 2.50);
   }
 
   .group-select-wrapper {

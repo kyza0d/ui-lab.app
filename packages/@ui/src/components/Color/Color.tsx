@@ -22,15 +22,25 @@ import { ColorInput } from "./Color.Input";
 
 export interface ColorProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  /** Controlled color value as a CSS color string */
   value?: string;
+  /** Initial color value for uncontrolled usage */
   defaultValue?: string;
+  /** Called continuously while the user drags the color picker */
   onChange?: (color: string) => void;
+  /** Called once when the user finishes a drag interaction */
   onChangeComplete?: (color: string) => void;
+  /** Whether to show the opacity/alpha slider */
   showOpacity?: boolean;
+  /** Whether to show a color preview swatch next to the input */
   showPreview?: boolean;
+  /** Output format of the color value string */
   format?: "hex" | "rgb";
+  /** Whether the color picker is disabled */
   disabled?: boolean;
+  /** Size of the color picker */
   size?: "sm" | "md" | "lg";
+  /** Additional CSS class for the root element */
   className?: string;
 }
 

@@ -91,9 +91,13 @@ const dividerVariants = cva("shrink-0", {
 export interface DividerProps
   extends React.HTMLAttributes<HTMLDivElement>,
   VariantProps<typeof dividerVariants> {
+  /** Controls the line style of the divider */
   variant?: "solid" | "dashed" | "dotted";
+  /** Controls the axis the divider spans */
   orientation?: "horizontal" | "vertical";
+  /** Size of the divider thickness */
   size?: "sm" | "md" | "lg";
+  /** Controls the margin around the divider */
   spacing?: "none" | "sm" | "md" | "lg";
 }
 

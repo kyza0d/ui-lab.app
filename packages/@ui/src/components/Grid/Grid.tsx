@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import styles from "./Grid.module.css";
 
 type GridColumns = "1" | "2" | "3" | "4" | "5" | "6" | "auto-fit" | "auto-fill";
-type GridRows = "1" | "2" | "3" | "4" | "5" | "6" | "auto";
+type GridRows = "1" | "2" | "3" | "4" | "5" | "6" | "auto" | "masonry";
 type GridGap = "xs" | "sm" | "md" | "lg" | "xl";
 type GridJustifyItems = "start" | "end" | "center" | "stretch";
 type GridAlignItems = "start" | "end" | "center" | "stretch" | "baseline";
@@ -16,16 +16,27 @@ type GridAutoFlow = "row" | "column" | "row-dense" | "column-dense";
 type ResponsiveValue<T> = { sm?: T; md?: T; lg?: T; xl?: T };
 
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Number of grid columns, or responsive object per breakpoint */
   columns?: GridColumns | ResponsiveValue<GridColumns>;
+  /** Number of grid rows, or responsive object per breakpoint */
   rows?: GridRows | ResponsiveValue<GridRows>;
+  /** Gap between all grid cells, or responsive object per breakpoint */
   gap?: GridGap | ResponsiveValue<GridGap>;
+  /** Override gap between rows only */
   rowGap?: GridGap;
+  /** Override gap between columns only */
   columnGap?: GridGap;
+  /** Horizontal alignment of items within their cells */
   justifyItems?: GridJustifyItems;
+  /** Vertical alignment of items within their cells */
   alignItems?: GridAlignItems;
+  /** Horizontal distribution of the grid within its container */
   justifyContent?: GridJustifyContent;
+  /** Vertical distribution of the grid rows within its container */
   alignContent?: GridAlignContent;
+  /** Direction items are auto-placed when no explicit placement is set */
   autoFlow?: GridAutoFlow;
+  /** Wraps the grid in a container query parent for breakpoint-aware responsiveness */
   containerQueryResponsive?: boolean;
 }
 
@@ -38,8 +49,10 @@ const colsToTpl = (c: GridColumns): string => {
   return `repeat(${c}, 1fr)`;
 };
 
-const rowsToTpl = (r: GridRows): string =>
-  r === "auto" ? "auto" : `repeat(${r}, auto)`;
+const rowsToTpl = (r: GridRows): string => {
+  if (r === "masonry" || r === "auto") return r;
+  return `repeat(${r}, auto)`;
+};
 
 const gapVal: Record<GridGap, string> = {
   xs: "calc(var(--spacing, 0.25rem) * 1)",

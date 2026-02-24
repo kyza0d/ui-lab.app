@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import styles from "./Switch.module.css";
 
 const sizeMap = {
-  sm: styles["sm"],
   md: styles["md"],
   lg: styles["lg"],
 };
@@ -19,18 +18,23 @@ const shapeMap = {
 };
 
 const thumbPositions = {
-  sm: { unchecked: 0.25, checked: 1.25 },
-  md: { unchecked: 0.25, checked: 1.5 },
-  lg: { unchecked: 0.25, checked: 1.75 },
+  md: { unchecked: 0.25, checked: 1 },
+  lg: { unchecked: 0.25, checked: 1.5 },
 };
 
 export interface SwitchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size" | "onChange" | "checked" | "defaultChecked"> {
+  /** Controlled selected (on) state */
   isSelected?: boolean;
+  /** Called when the switch is toggled */
   onChange?: (isSelected: boolean) => void;
+  /** Initial selected state for uncontrolled usage */
   defaultSelected?: boolean;
-  size?: "sm" | "md" | "lg";
+  /** Size of the switch */
+  size?: "md" | "lg";
+  /** Whether to render with a fully rounded pill shape */
   pill?: boolean;
+  /** Whether the switch is disabled */
   isDisabled?: boolean;
 }
 
@@ -38,7 +42,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   (
     {
       className,
-      size = "md",
+      size = "lg",
       isDisabled = false,
       isSelected: controlledSelected,
       onChange,

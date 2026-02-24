@@ -50,12 +50,19 @@ const getInitialTransform = (placement: string): string => {
 
 export interface PopoverProps {
   children: React.ReactNode;
+  /** Content to display inside the popover panel */
   content: React.ReactNode;
+  /** Preferred side of the trigger where the popover appears */
   position?: PopoverPosition;
+  /** Additional CSS class for the trigger element */
   className?: string;
+  /** Additional CSS class for the popover content panel */
   contentClassName?: string;
+  /** Controlled open state */
   isOpen?: boolean;
+  /** Called when the popover opens or closes */
   onOpenChange?: (isOpen: boolean) => void;
+  /** Whether to render a directional arrow pointing at the trigger */
   showArrow?: boolean;
 }
 

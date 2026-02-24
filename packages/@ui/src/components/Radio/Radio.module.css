@@ -113,14 +113,14 @@
   .radio-label-disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    color: var(--radio-foreground-disabled, var(--foreground-500));
+    color: var(--radio-foreground-disabled, var(--foreground-400));
   }
 
   .radio-description {
     font-size: 0.875rem;
     margin-top: 0.125rem;
     transition: color 200ms var(--ease-snappy-pop);
-    color: var(--radio-helper, var(--foreground-500));
+    color: var(--radio-helper, var(--foreground-400));
   }
 
   .radio-description-error {

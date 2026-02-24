@@ -8,10 +8,15 @@ import styles from "./Textarea.module.css";
 type Size = "sm" | "md" | "lg";
 
 export interface TextAreaProps extends Omit<ComponentPropsWithoutRef<"textarea">, "size"> {
+  /** Size of the textarea */
   size?: Size;
+  /** Whether to apply error styling */
   error?: boolean;
+  /** Whether the textarea can be manually resized by the user */
   resizable?: boolean;
+  /** Whether to display a character count below the textarea */
   showCharacterCount?: boolean;
+  /** Maximum number of characters allowed */
   maxCharacters?: number;
 }
 

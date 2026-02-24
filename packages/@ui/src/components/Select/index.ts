@@ -3,6 +3,7 @@ import { SelectTrigger, SearchableTrigger } from "./Select.Trigger"
 import { SelectContent, SearchableContent } from "./Select.Content"
 import { SelectGroup, SelectValue, SelectItem, SelectList } from "./Select.Items"
 import { SelectSeparator } from "./Select.Decorative"
+import { SelectSub, SelectSubTrigger, SelectSubContent } from "./Select.Sub"
 
 const Select = Object.assign(SelectRoot, {
   Trigger: SelectTrigger,
@@ -12,6 +13,9 @@ const Select = Object.assign(SelectRoot, {
   Group: SelectGroup,
   Value: SelectValue,
   Separator: SelectSeparator,
+  Sub: SelectSub,
+  SubTrigger: SelectSubTrigger,
+  SubContent: SelectSubContent,
 })
 
 const Searchable = Object.assign(() => null, {
@@ -40,3 +44,5 @@ export type { SelectTriggerProps, SearchableTriggerProps } from "./Select.Trigge
 export type { SelectContentProps, SearchableContentProps } from "./Select.Content"
 export type { SelectGroupProps, SelectValueProps, SelectItemProps, SelectListProps } from "./Select.Items"
 export type { SelectSeparatorProps } from "./Select.Decorative"
+export type { SelectSubProps, SelectSubTriggerProps, SelectSubContentProps, SelectSubmenuContextValue } from "./Select.Sub"
+export { useSelectSubmenuContext } from "./Select.Sub"

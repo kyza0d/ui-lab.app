@@ -4,7 +4,7 @@
   .textarea {
     --background: var(--background-950);
     --foreground: var(--foreground-50);
-    --placeholder: var(--foreground-500);
+    --placeholder: var(--foreground-400);
     --border: var(--background-700);
     --border-hover: var(--background-600);
     --ring-color: var(--accent-500);
@@ -17,7 +17,7 @@
     color: var(--foreground);
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     resize: vertical;
     @apply px-3 py-2;
 
@@ -40,7 +40,7 @@
 
     &[data-disabled] {
       background-color: var(--background-900);
-      color: var(--foreground-500);
+      color: var(--foreground-400);
       cursor: not-allowed;
       opacity: 0.6;
     }
@@ -85,7 +85,7 @@
 
   .characterCount {
     font-size: var(--text-xs);
-    color: var(--foreground-500);
+    color: var(--foreground-400);
     @apply mt-1;
     transition: color 0.15s var(--ease-snappy-pop);
   }

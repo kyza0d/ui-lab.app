@@ -33,25 +33,35 @@ const useModalKeyboard = (
 };
 
 export interface ModalProps {
+  /** Whether the modal is open */
   isOpen?: boolean;
+  /** Callback when the open state changes */
   onOpenChange?: (isOpen: boolean) => void;
+  /** Optional title rendered in the modal header bar */
   title?: React.ReactNode;
+  /** Modal body content */
   children: React.ReactNode;
+  /** Optional footer content rendered below the body */
   footer?: React.ReactNode;
+  /** Whether to show the X close button in the header */
   closeButton?: boolean;
-  size?: "sm" | "md" | "lg" | "xl";
+  /** Controls modal width: "fit" adapts to content, "auto" uses default width */
+  size?: "fit" | "auto";
+  /** Whether clicking the backdrop dismisses the modal */
   isDismissable?: boolean;
+  /** Prevents the Escape key from dismissing the modal */
   isKeyboardDismissDisabled?: boolean;
+  /** Additional class for the modal panel */
   className?: string;
+  /** Additional class for the inner content area */
   contentClassName?: string;
+  /** Additional class for the backdrop overlay */
   overlayClassName?: string;
 }
 
 const sizeClasses: Record<string, string> = {
-  sm: styles["size-sm"],
-  md: styles["size-md"],
-  lg: styles["size-lg"],
-  xl: styles["size-xl"],
+  fit: (styles as any)["size-fit"],
+  auto: (styles as any)["size-auto"],
 };
 
 /**
@@ -68,7 +78,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       children,
       footer,
       closeButton = true,
-      size = "md",
+      size = "auto",
       isDismissable = true,
       isKeyboardDismissDisabled = false,
       className,
@@ -234,18 +244,10 @@ const ModalFooter = React.forwardRef<
 
 ModalFooter.displayName = "Modal.Footer";
 
-/**
- * Modal with compound components
- */
-interface ModalComponent extends React.ForwardRefExoticComponent<ModalProps & React.RefAttributes<HTMLDivElement>> {
-  Header: typeof ModalHeader;
-  Body: typeof ModalBody;
-  Footer: typeof ModalFooter;
-}
-
-const Modal = ModalBase as ModalComponent;
-Modal.Header = ModalHeader;
-Modal.Body = ModalBody;
-Modal.Footer = ModalFooter;
+const Modal = Object.assign(ModalBase, {
+  Header: ModalHeader,
+  Body: ModalBody,
+  Footer: ModalFooter,
+});
 
 export { Modal, ModalHeader, ModalBody, ModalFooter };

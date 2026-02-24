@@ -47,8 +47,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build && npm run build:css && npm run build:postcss",
-    "build:css": "npx postcss src/styles.css -o dist/styles.css && cat dist/style.css >> dist/styles.css || (echo 'Error: Failed to build CSS files' && exit 1)",
+    "build": "vite build && pnpm run build:css && pnpm run build:postcss",
+    "build:css": "postcss src/styles.css -o dist/styles.css && (cat dist/style.css >> dist/styles.css 2>/dev/null || true)",
     "build:postcss": "cp src/postcss-ui-lab.mjs dist/postcss-ui-lab.mjs",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
@@ -84,6 +84,8 @@
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.6",
+    "@shikijs/transformers": "^3.20.0",
+    "shiki": "^3.17.1",
     "@gsap/react": "^2.1.2",
     "@react-aria/dialog": "^3.5.14",
     "@react-aria/focus": "^3.17.1",

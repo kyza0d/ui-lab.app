@@ -8,10 +8,15 @@ type Size = "sm" | "md" | "lg";
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+  /** Size of the checkbox */
   size?: Size;
+  /** Label text or element displayed next to the checkbox */
   label?: React.ReactNode;
+  /** Helper text shown below the checkbox */
   helperText?: React.ReactNode;
+  /** Whether to style the helper text as an error */
   helperTextError?: boolean;
+  /** Whether to show an indeterminate (partial selection) state */
   isIndeterminate?: boolean;
 }
 

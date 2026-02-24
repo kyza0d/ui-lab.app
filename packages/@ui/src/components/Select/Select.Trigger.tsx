@@ -12,13 +12,17 @@ export const SelectTriggerContext = React.createContext<boolean>(false)
 interface SelectTriggerProps extends React.PropsWithChildren {
   className?: string
   chevron?: React.ReactNode
+  icon?: { prefix?: React.ReactNode; chevron?: React.ReactNode }
+  variant?: 'ghost'
 }
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ children, className, chevron }, ref) => {
+  ({ children, className, chevron, icon, variant }, ref) => {
     const groupContext = React.useContext(GroupContext)
     const { triggerProps, triggerRef, mode, selectedKeys } = useSelectContext()
     const mergedRef = useMergedRef<HTMLButtonElement>(triggerRef, ref)
+
+    const resolvedChevron = icon?.chevron !== undefined ? icon.chevron : chevron !== undefined ? chevron : <FaChevronDown />
 
     return (
       <SelectTriggerContext.Provider value={true}>
@@ -31,9 +35,11 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
             className
           )}
           type="button"
+          data-variant={variant}
           {...triggerProps}
         >
           <div className={styles['value-section']}>
+            {icon?.prefix && <span className={styles['icon-prefix']}>{icon.prefix}</span>}
             {mode === "multiple" && children === undefined ? (
               <span className={styles.placeholder}>
                 {selectedKeys && selectedKeys.size > 0
@@ -44,11 +50,13 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
               children
             )}
           </div>
-          <div className={styles['icon-section']}>
-            <div className={styles.icon}>
-              {chevron !== undefined ? chevron : <FaChevronDown />}
+          {resolvedChevron !== null && (
+            <div className={styles['icon-section']}>
+              <div className={styles.icon}>
+                {resolvedChevron}
+              </div>
             </div>
-          </div>
+          )}
         </button>
       </SelectTriggerContext.Provider>
     )

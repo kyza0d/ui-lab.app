@@ -26,14 +26,26 @@ const frameVariants = cva("relative w-full group isolate", {
 export interface FrameProps
   extends React.HTMLAttributes<HTMLDivElement>,
   VariantProps<typeof frameVariants> {
+  /** SVG path data for the notch or tab shape cut into the frame border */
   path?: string;
+  /** Width of the path shape in pixels */
   pathWidth?: number;
+  /** Which side of the frame the path shape appears on */
   side?: "top" | "bottom" | "left" | "right";
+  /** Corner radius of the frame border in pixels */
   cornerRadius?: number;
+  /** Fill color applied behind the frame content area */
   fill?: string;
+  /** Whether the path shape indents into the frame or extends out from it */
   shapeMode?: "indent" | "extend";
+  /** Stroke width of the frame border in pixels */
   borderWidth?: number;
+  /** Color of the frame border stroke */
   borderColor?: string;
+  /** Visual color style of the frame */
+  variant?: "default" | "accent" | null;
+  /** Internal padding preset */
+  padding?: "none" | "small" | "medium" | "large" | null;
 }
 
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(

@@ -43,11 +43,17 @@ function useTabsContext() {
 }
 
 interface TabsProps {
+  /** Visual style of the tab list indicator */
   variant?: TabsVariant
+  /** Direction of the tab list layout */
   orientation?: TabsOrientation
+  /** Initially selected tab value for uncontrolled usage */
   defaultValue?: string
+  /** Controlled selected tab value */
   value?: string
+  /** Called when the selected tab changes */
   onValueChange?: (value: string) => void
+  /** Additional CSS class for the tabs root */
   className?: string
   children?: React.ReactNode
 }
@@ -139,6 +145,7 @@ Tabs.displayName = "Tabs"
 interface TabsListProps {
   className?: string
   children?: React.ReactNode
+  /** Accessible label for the tab list */
   "aria-label"?: string
 }
 
@@ -330,8 +337,11 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
 TabsList.displayName = "TabsList"
 
 interface TabsTriggerProps {
+  /** Unique identifier matching the associated TabsContent value */
   value: string
+  /** Whether the tab trigger is disabled */
   disabled?: boolean
+  /** Icon element displayed before the tab label */
   icon?: React.ReactNode
   className?: string
   children?: React.ReactNode
@@ -458,6 +468,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
 TabsTrigger.displayName = "Tab"
 
 interface TabsContentProps {
+  /** Unique identifier matching the associated TabsTrigger value */
   value: string
   className?: string
   children?: React.ReactNode

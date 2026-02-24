@@ -4,6 +4,7 @@ import React from 'react';
 
 export interface ListContextValue {
   highlightedIndex: number | null;
+  isKeyboardMode: boolean;
   focusItem: (index: number) => void;
   registerItem: (ref: HTMLElement | null) => number;
   itemRefs: React.MutableRefObject<(HTMLElement | null)[]>;

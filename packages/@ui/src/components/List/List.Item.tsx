@@ -7,7 +7,7 @@ import { ListItemProps } from './list.types';
 import styles from './List.module.css';
 
 const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
-  ({ value, children, className, ...props }, ref) => {
+  ({ value, children, className, interactive, selected, ...props }, ref) => {
     const { highlightedIndex, focusItem, registerItem } = useListContext();
     const itemRef = React.useRef<HTMLDivElement>(null);
     const itemIndexRef = React.useRef<number | null>(null);
@@ -30,6 +30,8 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
         className={cn(styles.item, className)}
         data-highlighted={isHighlighted ? 'true' : 'false'}
         data-value={value}
+        data-interactive={interactive ? 'true' : undefined}
+        data-selected={selected ? 'true' : undefined}
         onMouseEnter={() => {
           if (itemIndexRef.current !== null) {
             focusItem(itemIndexRef.current);
