@@ -12,7 +12,20 @@ Once the UI Lab MCP server is connected, AI agents have access to 10 tools and 4
 
 ## Tools overview
 
-<MarkdownTable markdown="| Tool | Purpose |\n|---|---|\n| \`search_components\` | Find components by natural language query |\n| \`get_component\` | Get full component metadata: API, examples, design guidance |\n| \`get_semantic_color\` | Get ONE authoritative color recommendation for a component + intent |\n| \`get_theme_setup\` | Get complete light/dark theme setup with provider code |\n| \`search_patterns\` | Find design patterns by use case |\n| \`get_pattern\` | Get a pattern's full TSX code and design rationale |\n| \`search_elements\` | Find pre-built multi-component UI blocks |\n| \`get_element\` | Get an element's variations and file structure |\n| \`search_sections\` | Find landing page sections |\n| \`get_section\` | Get a section's variations |" />
+
+| Tool | Purpose |
+|---|---|
+| `search_components` | Find components by natural language query |
+| `get_component` | Get full component metadata: API, examples, design guidance |
+| `get_semantic_color` | Get ONE authoritative color recommendation for a component + intent |
+| `get_theme_setup` | Get complete light/dark theme setup with provider code |
+| `search_patterns` | Find design patterns by use case |
+| `get_pattern` | Get a pattern's full TSX code and design rationale |
+| `search_elements` | Find pre-built multi-component UI blocks |
+| `get_element` | Get an element's variations and file structure |
+| `search_sections` | Find landing page sections |
+| `get_section` | Get a section's variations |
+
 
 ---
 
@@ -141,7 +154,15 @@ Returns complete setup instructions and code for integrating the UI Lab theme sy
 
 Shades invert automatically — no `dark:` prefix needed in Tailwind classes:
 
-<MarkdownTable markdown="| Shade | Dark mode equivalent |\n|---|---|\n| \`background-500\` | ↔ \`background-500\` (stays constant) |\n| \`background-600\` | ↔ \`background-900\` |\n| \`background-700\` | ↔ \`background-800\` |\n| \`background-900\` | ↔ \`background-600\` |\n| \`background-950\` | ↔ \`background-500\` |" />
+
+| Shade | Dark mode equivalent |
+|---|---|
+| `background-500` | ↔ `background-500` (stays constant) |
+| `background-600` | ↔ `background-900` |
+| `background-700` | ↔ `background-800` |
+| `background-900` | ↔ `background-600` |
+| `background-950` | ↔ `background-500` |
+
 
 ```tsx
 // This single class works correctly in both light and dark mode:
@@ -213,7 +234,13 @@ Elements are pre-built, multi-component UI blocks that solve complete UI problem
 
 **Available elements:**
 
-<MarkdownTable markdown="| Category | Elements |\n|---|---|\n| AI | Chat, AIChatInput, ChainOfThought |\n| Documentation | TOC, NextArticle, CopyPage |\n| Foundation | Page, Sidebar, Header, Carousel, Timeline, Rating, TreeView |" />
+
+| Category | Elements |
+|---|---|
+| AI | Chat, AIChatInput, ChainOfThought |
+| Documentation | TOC, NextArticle, CopyPage |
+| Foundation | Page, Sidebar, Header, Carousel, Timeline, Rating, TreeView |
+
 
 **Example queries:**
 - `"chat interface"` → Chat
@@ -285,7 +312,14 @@ In addition to tools, the server exposes all content as MCP resources. Agents ca
 
 **Resource URI schemes:**
 
-<MarkdownTable markdown="| Scheme | Example | Content |\n|---|---|---|\n| \`component://\` | \`component://button\` | Full component metadata |\n| \`pattern://\` | \`pattern://auth-form\` | Pattern with TSX code |\n| \`element://\` | \`element://chat\` | Element variations and files |\n| \`section://\` | \`section://hero\` | Section variations |" />
+
+| Scheme | Example | Content |
+|---|---|---|
+| `component://` | `component://button` | Full component metadata |
+| `pattern://` | `pattern://auth-form` | Pattern with TSX code |
+| `element://` | `element://chat` | Element variations and files |
+| `section://` | `section://hero` | Section variations |
+
 
 `ListResources` returns every component, pattern, element, and section indexed together. `ReadResource` reads a specific URI.
 
@@ -299,13 +333,30 @@ Every `get_component`, `get_pattern`, `get_semantic_color`, and `get_theme_setup
 
 These are the only color families allowed. No Tailwind built-in colors, no hex codes.
 
-<MarkdownTable markdown="| Family | Use for |\n|---|---|\n| \`accent\` | Primary actions, CTAs, brand elements |\n| \`success\` | Success states, confirmations, approved |\n| \`danger\` | Errors, destructive actions, delete |\n| \`warning\` | Warnings, cautions, pending states |\n| \`info\` | Information, help, neutral messages |\n| \`background\` | Page and card backgrounds (grayscale) |\n| \`foreground\` | Text, borders, labels (grayscale) |" />
+
+| Family | Use for |
+|---|---|
+| `accent` | Primary actions, CTAs, brand elements |
+| `success` | Success states, confirmations, approved |
+| `danger` | Errors, destructive actions, delete |
+| `warning` | Warnings, cautions, pending states |
+| `info` | Information, help, neutral messages |
+| `background` | Page and card backgrounds (grayscale) |
+| `foreground` | Text, borders, labels (grayscale) |
+
 
 ### Shade ranges
 
 Shades are strictly bounded per family:
 
-<MarkdownTable markdown="| Family | Min shade | Max shade | Notes |\n|---|---|---|---|\n| \`background\` (bg) | 500 | 950 | 500 = lightest, 950 = darkest |\n| \`foreground\` (text/border) | 50 | 400 | 50 = lightest, 400 = darkest |\n| \`accent\` | 50 | 600 | |\n| \`success\`, \`danger\`, \`warning\`, \`info\` | 50 | 600 | |" />
+
+| Family | Min shade | Max shade | Notes |
+|---|---|---|---|
+| `background` (bg) | 500 | 950 | 500 = lightest, 950 = darkest |
+| `foreground` (text/border) | 50 | 400 | 50 = lightest, 400 = darkest |
+| `accent` | 50 | 600 | |
+| `success`, `danger`, `warning`, `info` | 50 | 600 | |
+
 
 ### Class format
 
@@ -318,7 +369,19 @@ hover:bg-{family}-{shade}
 
 ### Common mistakes and corrections
 
-<MarkdownTable markdown="| Wrong | Correct |\n|---|---|\n| \`bg-white\` | \`bg-background-500\` |\n| \`text-gray-900\` | \`text-foreground-300\` |\n| \`bg-zinc-100\` | \`bg-background-600\` |\n| \`shadow-md\` | _(remove — no shadows)_ |\n| \`from-blue-500 to-purple-600\` | _(remove — no gradients)_ |\n| \`border-red-500\` | \`border-danger-500\` |\n| \`bg-background-50\` | \`bg-background-500\` (min is 500) |\n| \`text-foreground-500\` | \`text-foreground-400\` (max is 400) |\n| \`bg-accent-700\` | \`bg-accent-600\` (max is 600) |" />
+
+| Wrong | Correct |
+|---|---|
+| `bg-white` | `bg-background-500` |
+| `text-gray-900` | `text-foreground-300` |
+| `bg-zinc-100` | `bg-background-600` |
+| `shadow-md` | _(remove — no shadows)_ |
+| `from-blue-500 to-purple-600` | _(remove — no gradients)_ |
+| `border-red-500` | `border-danger-500` |
+| `bg-background-50` | `bg-background-500` (min is 500) |
+| `text-foreground-500` | `text-foreground-400` (max is 400) |
+| `bg-accent-700` | `bg-accent-600` (max is 600) |
+
 
 ### Correct examples
 
