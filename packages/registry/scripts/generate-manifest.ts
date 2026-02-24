@@ -51,14 +51,24 @@ export type DemoPaths = keyof typeof DEMO_PATH_MAP;
 async function main() {
   try {
     const elementsPath = path.join(__dirname, '..', 'src', 'elements');
-    const elements = fs
-      .readdirSync(elementsPath)
-      .filter(
-        (f) =>
-          fs.statSync(path.join(elementsPath, f)).isDirectory() &&
-          !f.startsWith('.')
-      )
-      .sort();
+
+    function findElements(dirPath: string, relativePath: string = ''): string[] {
+      const results: string[] = [];
+      const entries = fs.readdirSync(dirPath).filter(
+        (f) => fs.statSync(path.join(dirPath, f)).isDirectory() && !f.startsWith('.')
+      );
+      for (const entry of entries) {
+        const entryRelPath = relativePath ? `${relativePath}/${entry}` : entry;
+        if (fs.existsSync(path.join(dirPath, entry, 'variations.json'))) {
+          results.push(entryRelPath);
+        } else {
+          results.push(...findElements(path.join(dirPath, entry), entryRelPath));
+        }
+      }
+      return results;
+    }
+
+    const elements = findElements(elementsPath).sort();
 
     console.log('\n📋 Generating manifest files...\n');
 

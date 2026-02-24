@@ -26,7 +26,6 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./styles.css": "./dist/styles.css",
     "./generated-data": {
       "import": "./dist/generated-data.js",
       "types": "./dist/generated-data.d.ts"
@@ -103,8 +102,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm generate && npm run build:css && tsc && node scripts/fix-esm-imports.js",
-    "build:css": "pnpm exec postcss src/styles.css -o dist/styles.css",
+    "build": "pnpm generate && tsc && node scripts/fix-esm-imports.js",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",
     "validate": "tsx scripts/validate-registry.ts",

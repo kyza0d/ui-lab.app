@@ -26,7 +26,7 @@ export function NodeSection({
       {showNodes && (
         <>
           <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-px border-background-700 bg-background-700"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-(--border-width-base) border-background-700 bg-background-700"
             aria-hidden="true"
           />
           <div
