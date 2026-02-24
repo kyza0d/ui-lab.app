@@ -78,9 +78,15 @@ function getComponentFiles(componentDirName: string): string[] {
   const componentDir = path.join(COMPONENTS_DIR, componentDirName);
   if (!fs.existsSync(componentDir)) return [];
 
-  const files = fs.readdirSync(componentDir);
-  return files
+  const mainFileName = `${componentDirName}.tsx`;
+  return fs.readdirSync(componentDir)
     .filter(f => f.endsWith('.tsx') && !f.endsWith('.test.tsx'))
+    .sort((a, b) => {
+      // Main component file first so allDocs[0] is always the root component
+      if (a === mainFileName) return -1;
+      if (b === mainFileName) return 1;
+      return a.localeCompare(b);
+    })
     .map(f => path.join(componentDir, f));
 }
 
@@ -100,12 +106,12 @@ export function extractComponentAPI(componentDirName: string): ComponentAPI | nu
 
   if (allDocs.length === 0) return null;
 
-  const mainDoc = allDocs[0];
+  // Prefer the doc whose displayName matches the component directory name (e.g. "Modal" for Modal dir)
+  const mainDoc = allDocs.find(d => d.displayName === componentDirName) || allDocs[0];
   const mainProps = extractPropsFromDoc(mainDoc);
 
   const subComponents: Record<string, PropDefinition[]> = {};
-  for (let i = 1; i < allDocs.length; i++) {
-    const doc = allDocs[i];
+  for (const doc of allDocs) {
     if (doc.displayName && doc.displayName !== mainDoc.displayName) {
       subComponents[doc.displayName] = extractPropsFromDoc(doc);
     }

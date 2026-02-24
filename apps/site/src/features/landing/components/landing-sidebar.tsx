@@ -68,9 +68,9 @@ const QUICK_LINKS = [
 ];
 
 const AGENT_LINKS = [
-  { label: 'MCP', href: '/docs/agents-mcps-installation' },
+  { label: 'Skill', href: '/docs/agent/skills' },
   { label: 'LLMS.txt', href: '/llms.txt' },
-  { label: 'Skills', href: '/docs/agent/skills' },
+  { label: 'MCP', href: '/docs/agents-mcps-installation' },
 ];
 
 export function LandingSidebar() {
@@ -133,7 +133,7 @@ export function LandingSidebar() {
                     >
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="font-semibold">{navItem.label}</span>
+                    <span className="text-sm font-semibold">{navItem.label}</span>
                   </Link>
                 );
               })}
@@ -152,13 +152,13 @@ export function LandingSidebar() {
                         key={link.href}
                         href={link.href}
                         className={cn(
-                          'block px-3 py-1.5  font-medium text-sm rounded-md cursor-pointer',
+                          'block px-3 py-1.5  rounded-md cursor-pointer',
                           'transition-colors duration-300 ease-out',
                           'hover:duration-0',
                           'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
                         )}
                       >
-                        {link.label}
+                        <span className='text-sm font-medium'>{link.label}</span>
                       </SidebarItemLink>
                     ))}
                   </div>
@@ -197,7 +197,7 @@ export function LandingSidebar() {
               </div>
 
               <div>
-                <span className="text-sm font-semibold text-foreground-400">Agents</span>
+                <span className="text-sm font-semibold text-foreground-400">AI & Agents</span>
                 <div className="relative mt-2.5">
                   <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                   <div className="space-y-1 pl-3">

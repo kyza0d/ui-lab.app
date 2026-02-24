@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Group } from 'ui-lab-components';
+import { Divider, Group } from 'ui-lab-components';
 import styles from './grid-cta.module.css';
 import { FaEnvelope } from 'react-icons/fa6';
 
-type ContentType = 'elements' | 'starters' | 'sections';
+type ContentType = 'packages' | 'starters' | 'sections';
 
 interface GridCTAProps {
   contentType: ContentType;
@@ -116,6 +116,7 @@ export function GridCTA({ contentType, onSubmit }: GridCTAProps) {
               aria-label="Email address"
               className={styles.input}
             />
+            <Divider orientation='vertical' />
             <Group.Button type="submit" disabled={isSubmitting} isDisabled={isSubmitting}>
               {isSubmitting ? 'Subscribing...' : 'Subscribe'}
             </Group.Button>
