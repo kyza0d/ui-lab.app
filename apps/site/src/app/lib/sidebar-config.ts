@@ -1,17 +1,12 @@
 import {
-  FaShapes,
   FaCube,
   FaRegWindowMaximize,
   FaSwatchbook,
   FaBook,
-  FaRocket,
   FaTableCells,
-  FaBox,
-  FaBoxOpen,
-  FaToolbox,
   FaGift,
-  FaFile,
   FaSeedling,
+  FaPuzzlePiece,
 } from 'react-icons/fa6';
 
 export type SidebarDomain =
@@ -88,7 +83,7 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
     id: 'patterns',
     label: 'Patterns',
     href: '/patterns',
-    icon: FaTableCells,
+    icon: FaPuzzlePiece,
     domain: 'patterns',
   },
   {
