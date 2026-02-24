@@ -99,7 +99,7 @@ export const mdxComponents = {
   ),
   table: ({ children }: any) => (
     <div className="overflow-x-auto my-6 border border-background-800 rounded-md">
-      <table className="w-full text-sm">{children}</table>
+      <table className="w-full text-xs">{children}</table>
     </div>
   ),
   thead: ({ children }: any) => (
@@ -113,7 +113,7 @@ export const mdxComponents = {
     <th className="px-4 py-3 text-left font-semibold text-foreground-200">{children}</th>
   ),
   td: ({ children }: any) => (
-    <td className="px-4 py-3 text-foreground-300">{children}</td>
+    <td className="px-4 text-xs py-3 text-foreground-300">{children}</td>
   ),
   blockquote: ({ children }: any) => (
     <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 italic text-foreground-400">

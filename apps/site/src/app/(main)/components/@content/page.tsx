@@ -15,14 +15,7 @@ export default function ComponentsPage() {
       {/* Breadcrumbs */}
       <BreadcrumbsNav />
       <div className="px-4 pt-(--header-height) pb-12">
-        <main className="w-full">
-          {/* Page Header */}
-          <div className="space-y-4 mb-28 mt-12">
-            <h3 className="font-bold text-foreground-50">Components</h3>
-            <p className="text-foreground-400">
-              Explore our collection of reusable, accessible components. Click on any component to view details, examples, and code.
-            </p>
-          </div>
+        <main className="w-full pt-24">
           {/* Organized Components by Category */}
           <div className="space-y-32">
             {getCategoriesInOrder().map((category) => {
