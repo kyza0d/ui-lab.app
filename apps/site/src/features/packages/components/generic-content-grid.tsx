@@ -75,13 +75,13 @@ export function GenericContentGrid<T extends ContentItem>({
         onPress={isNonClickable ? undefined : handlePress}
         columnSpan={columnSpan}
         rowSpan={layoutConfig.rowSpan}
-        className={`rounded-md overflow-hidden ${isNonClickable ? 'pointer-events-none' : ''}`}
+        className={`relative overflow-hidden ${isNonClickable ? 'pointer-events-none' : ''}`}
         {...(isNonClickable && { tabIndex: -1 })}
       >
         <PreviewContainer layoutConfig={layoutConfig}>
           {PreviewComponent ? <PreviewComponent /> : <div className="text-foreground-400">Preview</div>}
         </PreviewContainer>
-        <Gallery.Body className="p-3 relative w-full">
+        <Gallery.Body className="p-3 w-full">
           <div className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
@@ -90,12 +90,12 @@ export function GenericContentGrid<T extends ContentItem>({
               </div>
             </div>
           </div>
-          {item.pricing && item.pricing.price !== null && (
-            <div className="absolute right-2 top-2 flex-shrink-0">
-              <PricingBadge price={item.pricing.price} />
-            </div>
-          )}
         </Gallery.Body>
+        {item.pricing && item.pricing.price !== null && (
+          <div className="absolute right-2 top-2 flex-shrink-0">
+            <PricingBadge price={item.pricing.price} />
+          </div>
+        )}
       </Gallery.Item>
     );
   };
@@ -106,7 +106,7 @@ export function GenericContentGrid<T extends ContentItem>({
   if (!getCategory) {
     return (
       <div className="flex flex-col gap-12">
-        <Gallery columns={galleryColumns} gap="xl" className='p-1'>
+        <Gallery columns={galleryColumns} gap="sm" className='p-1'>
           {items.map(renderItem)}
         </Gallery>
       </div>
@@ -132,7 +132,7 @@ export function GenericContentGrid<T extends ContentItem>({
               {categoryLabels?.[categoryId] || categoryId}
             </h2>
           )}
-          <Gallery columns={galleryColumns} gap="xl" className='p-1'>
+          <Gallery columns={galleryColumns} gap="sm" className='p-1'>
             {categoryItems.map(renderItem)}
           </Gallery>
         </div>
