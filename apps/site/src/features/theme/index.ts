@@ -5,7 +5,6 @@ export type { AppContextType } from "./lib/app-context";
 // Components
 export { default as ColorPaletteGrid } from "./components/color-palette-grid";
 export { ColorScale } from "./components/color-scale";
-export { ColorSwatch } from "./components/color-swatch";
 export { SettingsContent } from "./components/settings/settings-content";
 
 // Utilities

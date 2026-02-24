@@ -1,23 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { ComponentConfigurator } from "@/features/component-docs";
-import { CodeBlock } from "@/features/docs/components/code-display/code-block";
-import { cn } from "@/shared";
-import { Toaster, Flex, Button, Tabs, TabsList, TabsTrigger, TabsContent } from "ui-lab-components";
+import { Toaster } from "ui-lab-components";
 import { FaArrowLeft } from "react-icons/fa6";
 
 export interface DevExample {
   id: string;
   title: string;
   description: string;
-  code: string;
   preview: React.ReactNode;
-  controls?: any[];
-  renderPreview?: (props: Record<string, any>) => React.ReactNode;
-  previewHeight?: string;
-  previewLayout?: "center" | "start";
+  code?: string;
+  controls?: unknown;
+  renderPreview?: unknown;
+  previewLayout?: "center" | "start" | "flex-start";
 }
 
 export interface DevExampleLayoutProps {
@@ -29,9 +24,6 @@ export interface DevExampleLayoutProps {
 }
 
 export function DevExampleLayout({ title, description, examples, backHref = "/dev", backLabel = "Dev Playground" }: DevExampleLayoutProps) {
-  const firstExample = examples[0];
-  const remainingExamples = examples.slice(1);
-
   return (
     <div className="min-h-screen bg-background">
       <Toaster />
@@ -49,44 +41,19 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
           <p className="text-foreground-400">{description}</p>
         </div>
 
-        {firstExample && (
-          <div className="mb-12">
-            <ComponentConfigurator
-              title=""
-              description=""
-              code={firstExample.code}
-              language="typescript"
-              controls={firstExample.controls}
-              renderPreview={firstExample.renderPreview}
-              previewHeight={firstExample.previewHeight}
-              previewLayout={firstExample.previewLayout}
-            >
-              {firstExample.preview}
-            </ComponentConfigurator>
-          </div>
-        )}
-
-        {remainingExamples.length > 0 && (
-          <div className="space-y-8">
-            <h2 className="text-xl font-semibold text-foreground-100 border-b border-background-700 pb-4">Examples</h2>
-            {remainingExamples.map((example) => (
-              <div key={example.id} id={example.id} className="scroll-mt-20">
-                <ComponentConfigurator
-                  title={example.title}
-                  description={example.description}
-                  code={example.code}
-                  language="typescript"
-                  controls={example.controls}
-                  renderPreview={example.renderPreview}
-                  previewHeight={example.previewHeight}
-                  previewLayout={example.previewLayout}
-                >
-                  {example.preview}
-                </ComponentConfigurator>
+        <div className="space-y-8">
+          {examples.map((example) => (
+            <div key={example.id} id={example.id} className="scroll-mt-20 space-y-2">
+              <div>
+                <h2 className="text-base font-semibold text-foreground-100">{example.title}</h2>
+                <p className="text-sm text-foreground-400">{example.description}</p>
               </div>
-            ))}
-          </div>
-        )}
+              <div className={`flex rounded-lg border border-background-700 bg-background-950 p-6 ${example.previewLayout === "center" ? "justify-center items-center" : example.previewLayout === "start" ? "justify-start items-start" : ""}`}>
+                {example.preview}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

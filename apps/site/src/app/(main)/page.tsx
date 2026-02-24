@@ -45,13 +45,14 @@ export default function Home() {
       <main className="flex-1 h-full w-full flex flex-col items-center md:overflow-x-hidden">
 
         <section className="w-full px-4 sm:px-6 md:px-12 lg:px-24 border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
-          <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px] max-w-[95vw] md:max-w-full">
+          <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px]">
             <HeroSection />
           </div>
         </section>
-        <div className="w-full px-4 sm:px-6 md:px-12 lg:px-24">
-          <NodeSection>
-            <div className="w-full border-t border-background-700 ml-auto">
+        <div className="w-full px-4 border-t border-background-700">
+
+          <NodeSection className="hidden">
+            <div className="border-b w-full border-background-700 ml-auto">
               <div className="space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 items-center">
                   {[
@@ -104,9 +105,9 @@ export default function Home() {
             </div>
           </NodeSection>
 
-          <NodeSection>
+          <div className="pt-6">
             <Showcase />
-          </NodeSection>
+          </div>
           <div className="hidden">
             <NodeSection>
               <FeaturesSection />

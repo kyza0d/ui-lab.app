@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
-import { Group, Select, Divider, Slider } from "ui-lab-components";
+import { Divider, Group, Select, Slider } from "ui-lab-components";
 import { FaPercent, FaMagnifyingGlass, FaCopy, FaEnvelope, FaFilter, FaXmark, FaPencil, FaStar, FaTrash } from "react-icons/fa6";
 
 function FilterBarPreview() {
@@ -10,12 +10,13 @@ function FilterBarPreview() {
   const [status, setStatus] = useState<string | number | null>("active");
 
   return (
-    <Group orientation="horizontal" spacing="sm">
+    <Group orientation="horizontal">
       <Group.Input prefixIcon={<FaMagnifyingGlass />} placeholder="Search...">
 
       </Group.Input>
       <Group.Select selectedKey={category} onSelectionChange={setCategory} className="w-44">
         <Select.Trigger><Select.Value placeholder="Category" /></Select.Trigger>
+        <Divider />
         <Select.Content>
           <Select.List>
             <Select.Item value="all" textValue="All Items">All Items</Select.Item>
@@ -24,6 +25,7 @@ function FilterBarPreview() {
           </Select.List>
         </Select.Content>
       </Group.Select>
+      <Divider />
       <Group.Select selectedKey={status} onSelectionChange={setStatus} className="w-36">
         <Select.Trigger><Select.Value placeholder="Status" /></Select.Trigger>
         <Select.Content>
@@ -34,8 +36,8 @@ function FilterBarPreview() {
           </Select.List>
         </Select.Content>
       </Group.Select>
+      <Divider />
       <Group.Button variant="default" size="md"><FaFilter className="mr-1.5" /> Apply</Group.Button>
-      <Group.Button variant="ghost" size="md"><FaXmark /></Group.Button>
     </Group>
   );
 }
@@ -44,14 +46,14 @@ function InputGroupPreview() {
   return (
     <div className="space-y-4">
       <Group>
-        <div className="bg-background-800 flex items-center px-3 text-foreground-500">
+        <div className="bg-background-800 flex items-center px-3 text-foreground-400">
           <FaMagnifyingGlass />
         </div>
         <Group.Input placeholder="Search documentation..." className="w-64" />
         <Group.Button variant="primary">Search</Group.Button>
       </Group>
       <Group>
-        <div className="bg-background-800 flex items-center px-3 text-foreground-500">
+        <div className="bg-background-800 flex items-center px-3 text-foreground-400">
           <FaEnvelope />
         </div>
         <Group.Input placeholder="you@example.com" type="email" className="w-64" />
@@ -59,7 +61,7 @@ function InputGroupPreview() {
       </Group>
       <Group>
         <Group.Input defaultValue="npm install ui-lab" readOnly className="w-64 font-mono text-sm" />
-        <Group.Button variant="outline"><FaCopy className="mr-1.5" /> Copy</Group.Button>
+        <Group.Button variant="outline" icon={{ left: <FaCopy className="mr-1.5 text-foreground-400" /> }} />
       </Group>
     </div>
   );
@@ -76,7 +78,7 @@ function SliderGroupPreview() {
     <div className="space-y-4 w-64">
       <Group>
         <Group.Input type="number" min={0} max={100} value={sliderValue[0]} onChange={handleInputChange} className="w-full" />
-        <div className="bg-background-800 flex items-center px-3 text-foreground-500 text-sm font-medium">
+        <div className="bg-background-800 flex items-center px-3 text-foreground-400 text-sm font-medium">
           <FaPercent />
         </div>
       </Group>
@@ -137,7 +139,7 @@ import { FaMagnifyingGlass, FaEnvelope, FaCopy } from "react-icons/fa6";
 export function SearchBar() {
   return (
     <Group>
-      <div className="bg-background-800 flex items-center px-3 text-foreground-500">
+      <div className="bg-background-800 flex items-center px-3 text-foreground-400">
         <FaMagnifyingGlass />
       </div>
       <Group.Input placeholder="Search documentation..." className="w-64" />
@@ -149,7 +151,7 @@ export function SearchBar() {
 export function EmailSubscribe() {
   return (
     <Group>
-      <div className="bg-background-800 flex items-center px-3 text-foreground-500">
+      <div className="bg-background-800 flex items-center px-3 text-foreground-400">
         <FaEnvelope />
       </div>
       <Group.Input placeholder="you@example.com" type="email" />

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/shared";
-import { CodeBlock } from "@/features/docs/components/code-display/code-block";
+import { Code } from "@/features/docs/components/code-display/code";
 import { Button, EasingPreview, EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "ui-lab-components";
 import {
   Select,
@@ -71,11 +71,6 @@ export function ComponentConfigurator({
   previewLayout = "center",
 }: ComponentConfiguratorProps) {
   const [activeTab, setActiveTab] = useState<number>(0);
-  const [controlValues, setControlValues] = useState<Record<string, any>>({});
-  const [showCode, setShowCode] = useState<boolean>(false);
-  const [selectedEasing, setSelectedEasing] = useState<EasingKey>("snappyPop");
-
-  // Memoize initial control values to prevent infinite re-renders
   const initialControlValues = useMemo(() => {
     const initialValues: Record<string, any> = {};
     controls.forEach((control) => {
@@ -84,11 +79,9 @@ export function ComponentConfigurator({
     });
     return initialValues;
   }, []);
-
-  // Initialize control values only once
-  useEffect(() => {
-    setControlValues(initialControlValues);
-  }, []);
+  const [controlValues, setControlValues] = useState<Record<string, any>>(initialControlValues);
+  const [showCode, setShowCode] = useState<boolean>(false);
+  const [selectedEasing, setSelectedEasing] = useState<EasingKey>("snappyPop");
 
   const allTabs = [{ label: "Usage", code }, ...tabs];
   const currentCode = allTabs[activeTab]?.code || code;
@@ -160,7 +153,7 @@ export function ComponentConfigurator({
                   </div>
                 )}
                 <div className="p-0">
-                  <CodeBlock className="border-0" language={language}>{currentCode}</CodeBlock>
+                  <Code className="border-0" language={language}>{currentCode}</Code>
                 </div>
               </TabsContent>
             </Tabs>
@@ -224,8 +217,8 @@ export function ComponentConfigurator({
                         className={cn(
                           "w-full px-3 py-1.5 text-sm font-medium rounded-sm",
                           controlValues[control.name]
-                            ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
-                            : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
+                            ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
+                            : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
                         )}
                       >
                         {controlValues[control.name]
@@ -240,7 +233,7 @@ export function ComponentConfigurator({
                         onChange={(e) =>
                           handleControlChange(control.name, e.target.value)
                         }
-                        className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-600 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
                       />
                     )}
                   </div>

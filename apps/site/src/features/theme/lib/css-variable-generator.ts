@@ -110,6 +110,7 @@ function computeRadiusVars(layout: ThemeConfig['layout']): Record<string, string
     vars[`--radius-${name}`] = scaledValue > 100 ? '9999px' : `${scaledValue.toFixed(3)}rem`;
   });
   vars['--radius-full'] = '9999px';
+  vars['--radius-ratio'] = String((layout.radius / 0.2) * 0.5);
 
   return vars;
 }

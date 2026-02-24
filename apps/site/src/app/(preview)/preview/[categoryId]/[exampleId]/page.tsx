@@ -27,7 +27,7 @@ function PlaceholderContent({
       <div className="text-center max-w-md">
         <h1 className="text-3xl font-bold text-foreground-50 mb-4">{exampleName}</h1>
         <p className="text-foreground-400 mb-2">Preview: {categoryId}/{exampleId}</p>
-        <p className="text-foreground-500 text-sm">
+        <p className="text-foreground-400 text-sm">
           This is a standalone preview window for the {exampleName} example.
         </p>
         <div className="mt-8 p-6 bg-background-900 rounded-md border border-background-700">

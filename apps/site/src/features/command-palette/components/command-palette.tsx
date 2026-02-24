@@ -41,11 +41,14 @@ function CommandPaletteContent({ itemCount }: { itemCount: number }) {
               value={cmd.id}
               textValue={cmd.label}
               action={cmd.action}
+              className="group my-1 transition-none hover:bg-background-700"
             >
-              <div className="flex items-center gap-0.625 flex-1 min-w-0">
+              <div className="flex py-1 items-center gap-0.625 flex-1 min-w-0">
                 {cmd.icon && (
-                  <div className="w-6 h-6 flex items-center justify-center flex-shrink-0 text-foreground-400">
-                    {cmd.icon}
+                  <div className="p-2 group-hover:bg-background-600 bg-background-800 rounded-sm mr-4">
+                    <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 text-foreground-400">
+                      {cmd.icon}
+                    </div>
                   </div>
                 )}
                 <div className="flex-1 min-w-0">

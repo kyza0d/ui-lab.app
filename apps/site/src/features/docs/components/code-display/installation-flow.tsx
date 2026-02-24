@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { CodeBlock } from "./code-block";
-import { CodeBlockWithPackageManager } from "./code-block-with-package-manager";
+import { Code } from "./code";
+import { CodeWithPackageManager } from "./code-with-package-manager";
 import {
   Card,
   Badge,
@@ -177,7 +177,7 @@ export function InstallationFlow() {
             >
               1. Install core package
             </h4>
-            <CodeBlockWithPackageManager
+            <CodeWithPackageManager
               code={installCmd}
               packageManager={manager}
               onPackageManagerChange={setManager}
@@ -192,7 +192,7 @@ export function InstallationFlow() {
             >
               2. Extend Tailwind content paths
             </h4>
-            <CodeBlock language="typescript" heading="tailwind.config.ts">
+            <Code language="typescript" heading="tailwind.config.ts">
               {`export default {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -200,7 +200,7 @@ export function InstallationFlow() {
   ],
   // ...existing config
 }`}
-            </CodeBlock>
+            </Code>
           </div>
 
           <div>
@@ -210,7 +210,7 @@ export function InstallationFlow() {
             >
               3. Add root theme (globals.css or equivalent)
             </h4>
-            <CodeBlock language="css" heading="app/globals.css">
+            <Code language="css" heading="app/globals.css">
               {`@import "ui-lab-components/styles/base.css";
 
 @theme {
@@ -224,7 +224,7 @@ export function InstallationFlow() {
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
 }`}
-            </CodeBlock>
+            </Code>
           </div>
 
           <div>
@@ -234,9 +234,9 @@ export function InstallationFlow() {
             >
               4. Import stylesheet in root layout/entry
             </h4>
-            <CodeBlock language="typescript">
+            <Code language="typescript">
               {`import "./globals.css";`}
-            </CodeBlock>
+            </Code>
           </div>
         </div>
       </section>
@@ -251,13 +251,13 @@ export function InstallationFlow() {
         <p className="text-foreground-300 text-sm">
           Start your dev server and render a test component:
         </p>
-        <CodeBlock language="typescript">
+        <Code language="typescript">
           {`import { Button } from "ui-lab-components";
 
 export default function Home() {
   return <Button>UI Lab ready</Button>;
 }`}
-        </CodeBlock>
+        </Code>
         <p className="text-sm text-foreground-400">
           No runtime errors and correct styling confirms successful
           installation.

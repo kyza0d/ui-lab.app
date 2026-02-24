@@ -1,10 +1,20 @@
-import { CodeBlock, CodeBlockWithPackageManager, InstallationFlow } from '../components/code-display/index'
+import { Code, CodeWithPackageManager, InstallationFlow } from '../components/code-display/index'
 import Image from 'next/image'
 import Timeline from '../components/timeline'
 import MarkdownTable from '../components/markdown-table'
 import ColorPaletteGrid from '@/features/theme/components/color-palette-grid'
 import { Banner, BannerTitle, BannerBody } from '../components/mdx/client-banner'
 import { Anchor, AnchorPreview, AnchorUnderline } from '../components/mdx/client-anchor'
+import { Divider } from '../components/mdx/client-divider'
+import rehypeSlug from 'rehype-slug'
+import remarkGfm from 'remark-gfm'
+
+export const mdxOptions = {
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [rehypeSlug],
+  },
+}
 
 export const mdxComponents = {
   h1: ({ children, id }: any) => (
@@ -45,9 +55,9 @@ export const mdxComponents = {
       const code = children.props?.children as string || ''
       const language = children.props?.className?.replace('language-', '') || 'text'
       return (
-        <CodeBlock language={language}>
+        <Code language={language}>
           {code}
-        </CodeBlock>
+        </Code>
       )
     }
     return <pre className="bg-background-900 rounded">{children}</pre>
@@ -88,21 +98,22 @@ export const mdxComponents = {
     </li>
   ),
   table: ({ children }: any) => (
-    <div className="overflow-x-auto my-4">
-      <table className="border-collapse border border-background-700">
-        {children}
-      </table>
+    <div className="overflow-x-auto my-6 border border-background-800 rounded-md">
+      <table className="w-full text-sm">{children}</table>
     </div>
   ),
+  thead: ({ children }: any) => (
+    <thead className="bg-background-900 border-b border-background-800">{children}</thead>
+  ),
+  tbody: ({ children }: any) => <tbody>{children}</tbody>,
+  tr: ({ children }: any) => (
+    <tr className="border-b border-background-800 last:border-b-0">{children}</tr>
+  ),
   th: ({ children }: any) => (
-    <th className="border border-background-700 bg-background-800 px-4 py-2 text-left font-bold text-foreground-100">
-      {children}
-    </th>
+    <th className="px-4 py-3 text-left font-semibold text-foreground-200">{children}</th>
   ),
   td: ({ children }: any) => (
-    <td className="border border-background-700 px-4 py-2 text-foreground-300">
-      {children}
-    </td>
+    <td className="px-4 py-3 text-foreground-300">{children}</td>
   ),
   blockquote: ({ children }: any) => (
     <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 italic text-foreground-400">
@@ -110,14 +121,15 @@ export const mdxComponents = {
     </blockquote>
   ),
   hr: () => (
-    <hr className="my-8 border-t border-background-700" />
+    <Divider variant="dashed" spacing="lg" />
   ),
-  CodeBlock,
-  CodeBlockWithPackageManager,
+  Code,
+  CodeWithPackageManager,
   InstallationFlow,
   Timeline,
   MarkdownTable,
   ColorPaletteGrid,
   Anchor: Object.assign(Anchor, { Preview: AnchorPreview, Underline: AnchorUnderline }),
   Banner: Object.assign(Banner, { Title: BannerTitle, Body: BannerBody }),
+  Divider,
 }

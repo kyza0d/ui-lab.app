@@ -4,6 +4,7 @@ import { useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
 import { Select, Searchable, Badge } from "ui-lab-components";
 import { SiTypescript, SiJavascript, SiPython, SiRust, SiGo, SiSwift, SiKotlin, SiRuby, SiCplusplus, SiPhp, SiGithub, SiGitlab, SiBitbucket } from "react-icons/si";
+import { Type, Image, Layout, Heading1, Heading2, Pilcrow, Code2, ImageIcon, Film, LayoutTemplate, Columns2, Rows3, PanelLeft } from "lucide-react";
 
 const languages = [
   { value: "typescript", label: "TypeScript", icon: SiTypescript, color: "#3178C6" },
@@ -93,7 +94,7 @@ function SourceControlPreview() {
         </Select>
       </div>
       {selected && (
-        <p className="text-xs text-foreground-500">{selected.description}</p>
+        <p className="text-xs text-foreground-400">{selected.description}</p>
       )}
     </div>
   );
@@ -134,7 +135,7 @@ function CountrySelectPreview() {
                 <Select.Item key={c.value} value={c.value} textValue={c.label} icon={<span className="text-base">{c.flag}</span>}>
                   <div className="flex items-center justify-between w-full">
                     <span>{c.label}</span>
-                    <span className="text-xs text-foreground-500 ml-2">{c.code}</span>
+                    <span className="text-xs text-foreground-400 ml-2">{c.code}</span>
                   </div>
                 </Select.Item>
               ))}
@@ -146,7 +147,7 @@ function CountrySelectPreview() {
         <div className="flex items-center gap-2 text-sm text-foreground-400">
           <span className="text-lg">{selected.flag}</span>
           <span>{selected.label}</span>
-          <span className="text-foreground-500">({selected.code})</span>
+          <span className="text-foreground-400">({selected.code})</span>
         </div>
       )}
     </div>
@@ -173,7 +174,7 @@ function MultiSelectPreview() {
         <Select mode="multiple" selectedKeys={selected} onSelectionChange={(keys) => setSelected(keys as (string | number)[])} className="w-full">
           <Select.Trigger>
             {selectedItems.length === 0 ? (
-              <span className="text-foreground-500">Select technologies...</span>
+              <span className="text-foreground-400">Select technologies...</span>
             ) : (
               <div className="flex flex-wrap gap-1.5">
                 {selectedItems.map((item) => {
@@ -214,6 +215,70 @@ function MultiSelectPreview() {
           </Select.Content>
         </Select>
       </div>
+    </div>
+  );
+}
+
+function SubmenuSelectPreview() {
+  const [selected, setSelected] = useState<string | number | null>(null);
+
+  const labelMap: Record<string, string> = {
+    h1: "Heading 1", h2: "Heading 2", paragraph: "Paragraph", code: "Code Block",
+    image: "Image", video: "Video", columns: "Columns", rows: "Rows", sidebar: "Sidebar",
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-foreground-300">Insert Block</label>
+        <Select selectedKey={selected} onSelectionChange={setSelected} className="w-64">
+          <Select.Trigger>
+            <Select.Value placeholder="Select block type..." />
+          </Select.Trigger>
+          <Select.Content>
+            <Select.List>
+              <Select.Sub>
+                <Select.SubTrigger textValue="Text">
+                  <Type className="w-4 h-4 text-foreground-400" />
+                  Text
+                </Select.SubTrigger>
+                <Select.SubContent>
+                  <Select.Item value="h1" textValue="Heading 1" icon={<Heading1 className="w-4 h-4" />}>Heading 1</Select.Item>
+                  <Select.Item value="h2" textValue="Heading 2" icon={<Heading2 className="w-4 h-4" />}>Heading 2</Select.Item>
+                  <Select.Item value="paragraph" textValue="Paragraph" icon={<Pilcrow className="w-4 h-4" />}>Paragraph</Select.Item>
+                  <Select.Item value="code" textValue="Code Block" icon={<Code2 className="w-4 h-4" />}>Code Block</Select.Item>
+                </Select.SubContent>
+              </Select.Sub>
+              <Select.Sub>
+                <Select.SubTrigger textValue="Media">
+                  <Image className="w-4 h-4 text-foreground-400" />
+                  Media
+                </Select.SubTrigger>
+                <Select.SubContent>
+                  <Select.Item value="image" textValue="Image" icon={<ImageIcon className="w-4 h-4" />}>Image</Select.Item>
+                  <Select.Item value="video" textValue="Video" icon={<Film className="w-4 h-4" />}>Video</Select.Item>
+                </Select.SubContent>
+              </Select.Sub>
+              <Select.Sub>
+                <Select.SubTrigger textValue="Layout">
+                  <Layout className="w-4 h-4 text-foreground-400" />
+                  Layout
+                </Select.SubTrigger>
+                <Select.SubContent>
+                  <Select.Item value="columns" textValue="Columns" icon={<Columns2 className="w-4 h-4" />}>Columns</Select.Item>
+                  <Select.Item value="rows" textValue="Rows" icon={<Rows3 className="w-4 h-4" />}>Rows</Select.Item>
+                  <Select.Item value="sidebar" textValue="Sidebar" icon={<PanelLeft className="w-4 h-4" />}>Sidebar</Select.Item>
+                </Select.SubContent>
+              </Select.Sub>
+            </Select.List>
+          </Select.Content>
+        </Select>
+      </div>
+      {selected && (
+        <p className="text-sm text-foreground-400">
+          Selected: <span className="text-foreground-200">{labelMap[selected as string] ?? selected}</span>
+        </p>
+      )}
     </div>
   );
 }
@@ -328,7 +393,7 @@ export function CountrySelect() {
             <Select.Item key={c.value} value={c.value} icon={<span>{c.flag}</span>}>
               <div className="flex items-center justify-between w-full">
                 <span>{c.label}</span>
-                <span className="text-xs text-foreground-500">{c.code}</span>
+                <span className="text-xs text-foreground-400">{c.code}</span>
               </div>
             </Select.Item>
           ))}
@@ -362,7 +427,7 @@ export function TechStackSelect() {
     <Select mode="multiple" selectedKeys={selected} onSelectionChange={setSelected} className="w-full">
       <Select.Trigger>
         {selectedItems.length === 0 ? (
-          <span className="text-foreground-500">Select technologies...</span>
+          <span className="text-foreground-400">Select technologies...</span>
         ) : (
           <div className="flex flex-wrap gap-1.5">
             {selectedItems.map((item) => {
@@ -405,6 +470,59 @@ export function TechStackSelect() {
   );
 }`,
     preview: <MultiSelectPreview />,
+    previewLayout: "start",
+  },
+  {
+    id: "submenu-select",
+    title: "Submenu Select (Insert Block)",
+    description: "Select with nested submenus grouped by category — Text, Media, Layout. Hover or press ArrowRight to open a submenu.",
+    code: `import { useState } from "react";
+import { Select } from "ui-lab-components";
+import { Type, Image, Layout, Heading1, Pilcrow, Code2, ImageIcon, Film, Columns2 } from "lucide-react";
+
+export function InsertBlockSelect() {
+  const [selected, setSelected] = useState(null);
+
+  return (
+    <Select selectedKey={selected} onSelectionChange={setSelected} className="w-64">
+      <Select.Trigger>
+        <Select.Value placeholder="Select block type..." />
+      </Select.Trigger>
+      <Select.Content>
+        <Select.List>
+          <Select.Sub>
+            <Select.SubTrigger textValue="Text">
+              <Type className="w-4 h-4" /> Text
+            </Select.SubTrigger>
+            <Select.SubContent>
+              <Select.Item value="h1" icon={<Heading1 className="w-4 h-4" />}>Heading 1</Select.Item>
+              <Select.Item value="paragraph" icon={<Pilcrow className="w-4 h-4" />}>Paragraph</Select.Item>
+              <Select.Item value="code" icon={<Code2 className="w-4 h-4" />}>Code Block</Select.Item>
+            </Select.SubContent>
+          </Select.Sub>
+          <Select.Sub>
+            <Select.SubTrigger textValue="Media">
+              <Image className="w-4 h-4" /> Media
+            </Select.SubTrigger>
+            <Select.SubContent>
+              <Select.Item value="image" icon={<ImageIcon className="w-4 h-4" />}>Image</Select.Item>
+              <Select.Item value="video" icon={<Film className="w-4 h-4" />}>Video</Select.Item>
+            </Select.SubContent>
+          </Select.Sub>
+          <Select.Sub>
+            <Select.SubTrigger textValue="Layout">
+              <Layout className="w-4 h-4" /> Layout
+            </Select.SubTrigger>
+            <Select.SubContent>
+              <Select.Item value="columns" icon={<Columns2 className="w-4 h-4" />}>Columns</Select.Item>
+            </Select.SubContent>
+          </Select.Sub>
+        </Select.List>
+      </Select.Content>
+    </Select>
+  );
+}`,
+    preview: <SubmenuSelectPreview />,
     previewLayout: "start",
   },
 ];

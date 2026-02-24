@@ -1,6 +1,6 @@
-import { FaBook, FaShapes, FaRegWindowMaximize, FaBox, FaCube } from 'react-icons/fa6';
+import { FaBook, FaShapes, FaRegWindowMaximize, FaBox, FaCube, FaTableCells } from 'react-icons/fa6';
 
-export type DomainId = 'docs' | 'components' | 'elements' | 'sections';
+export type DomainId = 'docs' | 'components' | 'packages' | 'sections' | 'patterns';
 
 export interface DomainConfig {
   id: DomainId;
@@ -23,9 +23,9 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     icon: FaShapes,
     headerType: 'tabs',
   },
-  elements: {
-    id: 'elements',
-    label: 'Elements',
+  packages: {
+    id: 'packages',
+    label: 'Packages',
     icon: FaBox,
     headerType: 'search',
   },
@@ -33,6 +33,12 @@ export const DOMAINS: Record<DomainId, DomainConfig> = {
     id: 'sections',
     label: 'Sections',
     icon: FaRegWindowMaximize,
+    headerType: 'search',
+  },
+  patterns: {
+    id: 'patterns',
+    label: 'Patterns',
+    icon: FaTableCells,
     headerType: 'search',
   },
 };
@@ -61,7 +67,7 @@ export const TAB_GROUPS: Record<string, TabGroup> = {
     tabs: [
       { id: 'docs', label: 'Documentation', icon: FaBook, path: '/docs' },
       { id: 'components', label: 'Components', icon: FaShapes, path: '/components' },
-      { id: 'elements', label: 'Elements', icon: FaCube, path: '/elements' },
+      { id: 'packages', label: 'Elements', icon: FaCube, path: '/packages' },
     ],
   },
 };
@@ -70,10 +76,11 @@ export const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
   { path: '/docs', tabGroupId: 'documentation' },
   { path: '/components', tabGroupId: 'documentation' },
   { path: '/design-system', tabGroupId: 'documentation' },
-  { path: '/elements', tabGroupId: 'documentation' },
+  { path: '/packages', tabGroupId: 'documentation' },
   { path: '/sections', tabGroupId: 'documentation' },
   { path: '/blocks', tabGroupId: 'documentation' },
   { path: '/starters', tabGroupId: 'documentation' },
+  { path: '/patterns', tabGroupId: 'documentation' },
   { path: '/releases', tabGroupId: 'documentation' },
 ];
 
@@ -95,17 +102,21 @@ export const ROUTES: Record<string, RouteConfig> = {
     path: '/design-system',
     domainId: 'docs',
   },
-  elements: {
-    path: '/elements',
-    domainId: 'elements',
+  packages: {
+    path: '/packages',
+    domainId: 'packages',
   },
   sections: {
     path: '/sections',
     domainId: 'sections',
   },
+  patterns: {
+    path: '/patterns',
+    domainId: 'patterns',
+  },
   blocks: {
     path: '/blocks',
-    domainId: 'elements',
+    domainId: 'packages',
   },
   starters: {
     path: '/starters',
@@ -134,7 +145,7 @@ export const shouldApplyRevealCollapse = (pathname: string): boolean => {
   const domainId = getDomainForPathname(pathname);
   if (!domainId) return false;
   const domain = DOMAINS[domainId];
-  return domain?.headerType === 'tabs' || domainId === 'elements' || domainId === 'sections';
+  return domain?.headerType === 'tabs' || domainId === 'packages' || domainId === 'sections' || domainId === 'patterns';
 };
 
 export const getActiveTabValue = (pathname: string): string | undefined => {
@@ -167,9 +178,10 @@ export const getTabGroupForPathname = (pathname: string): TabGroup | undefined =
 
 const ACTIVE_TAB_OVERRIDES: Record<string, string | undefined> = {
   '/design-system': 'docs',
-  '/sections': 'elements',
-  '/blocks': 'elements',
-  '/starters': 'elements',
+  '/sections': 'packages',
+  '/patterns': 'packages',
+  '/blocks': 'packages',
+  '/starters': 'packages',
   '/releases': 'docs',
 };
 

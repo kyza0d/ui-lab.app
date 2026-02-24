@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { FaExpand } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
-import { CodeBlock } from "@/features/docs/components/code-display/code-block";
+import { Code } from "@/features/docs/components/code-display/code";
 import { PreviewContainer } from "./resizable-preview-container";
 import { useExternalWindow } from "@/features/preview/hooks/use-external-window";
 
@@ -73,7 +73,7 @@ export function PreviewCodeDisplay({
       previewClassName={previewClassName}
     >
       {activeTab === "preview" ? previewContent :
-        <CodeBlock className="border-0" language={language}>{code}</CodeBlock>}
+        <Code className="border-0" language={language}>{code}</Code>}
     </PreviewContainer>
   );
 }

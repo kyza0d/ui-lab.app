@@ -32,7 +32,7 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
       id: item.name,
       label: item.label,
       icon: item.icon,
-      path: item.name === "documentation" ? "/docs" : item.name === "elements" ? "/elements" : "/components",
+      path: item.name === "documentation" ? "/docs" : item.name === "elements" ? "/packages" : "/components",
       isPlaceholder: false,
     }) as TabConfig), []);
 

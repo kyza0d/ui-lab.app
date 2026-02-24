@@ -53,7 +53,7 @@ export const CodeDisplay = ({
               <code className="text-xs text-foreground-400 font-mono">
                 {fileName}
               </code>
-              <span className="text-xs text-foreground-500 bg-background-700 px-2 py-1 rounded">
+              <span className="text-xs text-foreground-400 bg-background-700 px-2 py-1 rounded">
                 {language}
               </span>
             </div>
@@ -101,7 +101,7 @@ export const CodeDisplay = ({
               <div key={index} className="flex">
                 {showLineNumbers && (
                   <span
-                    className="inline-block w-12 pr-4 text-right text-foreground-500 select-none"
+                    className="inline-block w-12 pr-4 text-right text-foreground-400 select-none"
                     style={{ minWidth: `${(lineNumberWidth + 2) * 0.6}rem` }}
                   >
                     {index + 1}
@@ -117,7 +117,7 @@ export const CodeDisplay = ({
 
         {/* Footer Info */}
         <div className="px-4 py-2 bg-background-800 border-t border-background-700">
-          <span className="text-xs text-foreground-500">
+          <span className="text-xs text-foreground-400">
             {lines.length} lines
           </span>
         </div>

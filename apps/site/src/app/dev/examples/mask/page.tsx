@@ -141,7 +141,7 @@ const examples: DevExample[] = [
     title: "Text Hierarchy with Color Gradient",
     description:
       "Create visual emphasis in headlines and feature descriptions using semantic color gradients that guide the viewer's eye.",
-    code: `<Mask.Gradient gradient="linear-gradient(to right, var(--foreground-900), var(--accent-500))">
+    code: `<Mask.Gradient gradient="linear-gradient(to right, var(--foreground-400), var(--accent-500))">
   <h2 className="text-4xl font-bold">
     Elevate Your Design System
   </h2>
@@ -165,7 +165,7 @@ const handleMouseMove = (e) => {
 
 <div onMouseMove={handleMouseMove} className="w-full aspect-video cursor-crosshair">
   <Mask.Gradient
-    gradient={\`radial-gradient(circle at \${pos.x}% \${pos.y}%, var(--accent-400), var(--accent-600) 10%, var(--foreground-900) 35%)\`}
+    gradient={\`radial-gradient(circle at \${pos.x}% \${pos.y}%, var(--accent-400), var(--accent-600) 10%, var(--foreground-400) 35%)\`}
   >
     <pre className="text-[11px] leading-[1.15] select-none whitespace-pre">
       {grid}

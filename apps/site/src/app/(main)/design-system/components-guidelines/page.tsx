@@ -1,7 +1,7 @@
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
-import rehypeSlug from 'rehype-slug'
+
 import { getDesignSystemDocBySlug } from '@/features/docs'
-import { mdxComponents } from '@/features/docs'
+import { mdxComponents, mdxOptions } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
 import { generateMetadata as generateSiteMetadata } from '@/shared'
 
@@ -46,11 +46,11 @@ export default async function ComponentsGuidelinesPage() {
             <MDXRemote
               source={doc.content}
               components={mdxComponents}
-              options={{ mdxOptions: { rehypePlugins: [rehypeSlug] } }}
+              options={mdxOptions}
             />
           </div>
 
-          <div className="mt-20 text-sm text-foreground-500">
+          <div className="mt-20 text-sm text-foreground-400">
             © 2026 UI Lab • Built for humans and machines
           </div>
         </main>

@@ -42,12 +42,12 @@ export default function DateTestPageClient() {
                       })}
                     </span>
                   </p>
-                  <p className="text-sm text-foreground-500">
+                  <p className="text-sm text-foreground-400">
                     ISO: {selectedDate.toISOString().split('T')[0]}
                   </p>
                 </div>
               ) : (
-                <p className="text-foreground-500">No date selected</p>
+                <p className="text-foreground-400">No date selected</p>
               )}
             </div>
 

@@ -129,7 +129,7 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
                   </div>
                   <div className="p-4 border-t border-background-700">
                     <h3 className="font-medium text-foreground-100">{variant.name}</h3>
-                    <p className="text-xs text-foreground-500 mt-1">{variant.description}</p>
+                    <p className="text-xs text-foreground-400 mt-1">{variant.description}</p>
                   </div>
                 </div>
               ))}

@@ -51,11 +51,11 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
       <div className="space-y-2 text-xs">
         <div className="font-semibold text-foreground-200 mb-2">Contents</div>
         <div className="text-foreground-400">• Introduction</div>
-        <div className="ml-3 text-foreground-500 text-xs">◦ Overview</div>
-        <div className="ml-3 text-foreground-500 text-xs">◦ Getting Started</div>
+        <div className="ml-3 text-foreground-400 text-xs">◦ Overview</div>
+        <div className="ml-3 text-foreground-400 text-xs">◦ Getting Started</div>
         <div className="text-foreground-400">• Installation</div>
         <div className="text-foreground-400">• Usage</div>
-        <div className="ml-3 text-foreground-500 text-xs">◦ Basic</div>
+        <div className="ml-3 text-foreground-400 text-xs">◦ Basic</div>
       </div>
     </div>
   ),
@@ -66,7 +66,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
         <div className="text-xs text-foreground-400 mb-1">Next Article</div>
         <div className="text-sm font-medium text-foreground-200">Advanced Setup Guide</div>
       </div>
-      <div className="text-foreground-500">→</div>
+      <div className="text-foreground-400">→</div>
     </div>
   ),
 
@@ -116,7 +116,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
       <input
         type="text"
         placeholder="Ask AI..."
-        className="flex-1 bg-background-800 border border-background-700 rounded px-2 py-1 text-xs text-foreground-400 placeholder-foreground-500"
+        className="flex-1 bg-background-800 border border-background-700 rounded px-2 py-1 text-xs text-foreground-400 placeholder-foreground-400"
         readOnly
       />
       <button className="px-2 py-1 bg-accent-500 text-foreground-50 rounded text-xs font-medium hover:bg-accent-600">
@@ -132,7 +132,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
           <span className="text-accent-500 font-bold">1.</span>
           <div className="text-foreground-400">Analyzing the problem</div>
         </div>
-        <div className="flex items-start gap-2 ml-2 text-foreground-500">
+        <div className="flex items-start gap-2 ml-2 text-foreground-400">
           <span>→</span>
           <div>Breaking down requirements</div>
         </div>
@@ -164,7 +164,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
         </div>
       </div>
       <div className="border-t border-background-700 p-2 bg-background-800">
-        <div className="h-6 bg-background-700 rounded text-xs flex items-center px-2 text-foreground-500">
+        <div className="h-6 bg-background-700 rounded text-xs flex items-center px-2 text-foreground-400">
           Type a message...
         </div>
       </div>

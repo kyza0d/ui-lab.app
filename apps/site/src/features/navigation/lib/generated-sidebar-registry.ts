@@ -55,25 +55,25 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "items": [
                   {
                         "id": "agents-mcps-installation",
-                        "label": "Installation"
+                        "label": "MCP Server Installation"
                   },
                   {
                         "id": "agents-mcps-workflows",
-                        "label": "Workflows"
+                        "label": "MCP Workflows"
                   }
             ]
       }
 ],
     fileMap: {
       "agents-mcps-installation": {
-            "title": "Installation",
-            "description": "Install and set up UI Lab with Agents & MCPs",
+            "title": "MCP Server Installation",
+            "description": "Install and configure the UI Lab MCP server for Claude and other AI agents.",
             "slug": "agents-mcps-installation",
             "category": "Agents & MCPs"
       },
       "agents-mcps-workflows": {
-            "title": "Workflows",
-            "description": "Build AI workflows with UI Lab components",
+            "title": "MCP Workflows",
+            "description": "All 10 MCP tools, resource URIs, design guidelines, and example agent workflows for building UI with AI.",
             "slug": "agents-mcps-workflows",
             "category": "Agents & MCPs"
       },
@@ -142,18 +142,18 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "items": [
                   {
                         "id": "accessibility",
-                        "label": "Accessibility Standards"
+                        "label": "Accessibility"
                   },
                   {
                         "id": "components-guidelines",
-                        "label": "Component Guidelines"
+                        "label": "Components"
                   }
             ]
       }
 ],
     fileMap: {
       "accessibility": {
-            "title": "Accessibility Standards",
+            "title": "Accessibility",
             "description": "WCAG compliance guidelines and inclusive design practices for UI Lab",
             "slug": "accessibility",
             "category": "Guidelines"
@@ -165,7 +165,7 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "category": "Foundation"
       },
       "components-guidelines": {
-            "title": "Component Guidelines",
+            "title": "Components",
             "description": "Patterns, usage rules, and best practices for UI Lab components",
             "slug": "components-guidelines",
             "category": "Guidelines"

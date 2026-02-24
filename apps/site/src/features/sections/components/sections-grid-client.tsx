@@ -1,5 +1,5 @@
 'use client';
-import { GenericContentGrid } from '@/features/elements/components/generic-content-grid';
+import { GenericContentGrid } from '@/features/packages/components/generic-content-grid';
 import { getLayoutConfig } from '../lib/layout-registry';
 import { getPreviewComponent } from '../lib/get-section-preview';
 import type { SectionMetadata } from 'ui-lab-registry';
@@ -13,7 +13,7 @@ export function SectionsGridClient({ sections }: SectionsGridClientProps) {
     <GenericContentGrid
       items={sections}
       basePath="/sections"
-      getLayoutConfig={getLayoutConfig}
+      getLayoutConfig={(item) => ({ ...getLayoutConfig(item), columnSpan: 1 })}
       getPreviewComponent={getPreviewComponent}
       showCTA={true}
       ctaContentType="sections"

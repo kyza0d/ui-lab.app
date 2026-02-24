@@ -72,7 +72,7 @@ function getDefaultSourceConfig(mode?: "light" | "dark"): ThemeSourceConfig {
       bodyFontWeightScale: 1,
       bodyLetterSpacingScale: 1,
     },
-    layout: { radius: 0.5, borderWidth: 2, spacingScale: 0.9 },
+    layout: { radius: 0.9, borderWidth: 2, spacingScale: 0.9 },
     fonts: { sansFont: "Karla", monoFont: "Ioskeley Mono" },
     mode: resolvedMode,
   };

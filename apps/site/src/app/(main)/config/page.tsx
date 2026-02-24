@@ -13,7 +13,7 @@ import {
   generateMaxWidthScaleCSS,
 } from "@/features/theme/config";
 import { generateFontWeightCSS } from "@/features/theme/config/font-weight/generator";
-import { CodeBlock } from "@/features/docs/components/code-display/code-block";
+import { Code } from "@/features/docs/components/code-display/code";
 import {
   Button,
   Badge,
@@ -156,7 +156,7 @@ function ThemeSummary() {
           {swatches.map((s) => (
             <div key={s.label} className="flex flex-col items-center gap-1">
               <div className="w-8 h-8 rounded-sm border border-background-700" style={{ backgroundColor: s.color }} />
-              <span className="text-[10px] text-foreground-500">{s.label}</span>
+              <span className="text-[10px] text-foreground-400">{s.label}</span>
             </div>
           ))}
         </div>
@@ -214,7 +214,7 @@ function ComponentShowcase() {
 
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
-          <Switch defaultSelected size="sm" />
+          <Switch defaultSelected size="md" />
           <span className="text-sm text-foreground-300">Notifications</span>
         </div>
         <div className="flex items-center gap-2">
@@ -264,24 +264,24 @@ function ExportSection({
         </TabsList>
 
         <TabsContent value="full">
-          <CodeBlock language="css" filename="global.css">
+          <Code language="css" filename="global.css">
             {fullConfig}
-          </CodeBlock>
+          </Code>
         </TabsContent>
         <TabsContent value="colors">
-          <CodeBlock language="css" filename="colors.css">
+          <Code language="css" filename="colors.css">
             {colorsConfig}
-          </CodeBlock>
+          </Code>
         </TabsContent>
         <TabsContent value="typography">
-          <CodeBlock language="css" filename="typography.css">
+          <Code language="css" filename="typography.css">
             {typographyConfig}
-          </CodeBlock>
+          </Code>
         </TabsContent>
         <TabsContent value="layout">
-          <CodeBlock language="css" filename="layout.css">
+          <Code language="css" filename="layout.css">
             {layoutConfig}
-          </CodeBlock>
+          </Code>
         </TabsContent>
       </Tabs>
 
@@ -289,25 +289,25 @@ function ExportSection({
         <div className="space-y-4 p-4">
           <div className="space-y-1">
             <span className="text-sm font-medium text-foreground-300">1. Install the package</span>
-            <CodeBlock language="bash" filename="terminal">
+            <Code language="bash" filename="terminal">
               {SETUP_INSTALL}
-            </CodeBlock>
+            </Code>
           </div>
           <div className="space-y-1">
             <span className="text-sm font-medium text-foreground-300">2. Add the exported CSS to your global.css</span>
-            <p className="text-sm text-foreground-500">Paste the Full Config output into your project&apos;s global stylesheet.</p>
+            <p className="text-sm text-foreground-400">Paste the Full Config output into your project&apos;s global stylesheet.</p>
           </div>
           <div className="space-y-1">
             <span className="text-sm font-medium text-foreground-300">3. Import styles in your layout</span>
-            <CodeBlock language="typescript" filename="layout.tsx">
+            <Code language="typescript" filename="layout.tsx">
               {SETUP_IMPORT}
-            </CodeBlock>
+            </Code>
           </div>
           <div className="space-y-1">
             <span className="text-sm font-medium text-foreground-300">4. Use components</span>
-            <CodeBlock language="tsx" filename="App.tsx">
+            <Code language="tsx" filename="App.tsx">
               {SETUP_USAGE}
-            </CodeBlock>
+            </Code>
           </div>
         </div>
       </Fold>

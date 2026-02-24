@@ -1,7 +1,6 @@
 "use client";
 
 import { cache } from "react";
-import { Button, Banner, Date, Color, Mask } from "ui-lab-components";
 import { buttonDetail } from "ui-lab-registry/components/Button";
 import { dateDetail } from "ui-lab-registry/components/Date";
 import { anchorDetail } from "ui-lab-registry/components/Anchor";
@@ -34,6 +33,7 @@ import { selectDetail } from "ui-lab-registry/components/Select";
 import { sliderDetail } from "ui-lab-registry/components/Slider";
 import { switchDetail } from "ui-lab-registry/components/Switch";
 import { tableDetail } from "ui-lab-registry/components/Table";
+import { codeDetail } from "ui-lab-registry/components/Code";
 import { tabsDetail } from "ui-lab-registry/components/Tabs";
 import { textareaDetail } from "ui-lab-registry/components/Textarea";
 import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
@@ -48,7 +48,6 @@ import {
   type ComponentCategory,
   type ComponentMetadata as RegistryMetadata,
   getComponentsInOrder,
-  getCategoryIcon,
 } from "ui-lab-registry";
 import {
   experimentalRegistry,
@@ -77,7 +76,7 @@ export const componentRegistry: ComponentMetadata[] = [
         id: "table",
         name: tableDetail.name,
         description: tableDetail.description,
-        category: "data" as const,
+        category: "display" as const,
         source: {
           packageName: "ui-lab-components" as const,
           exportName: "Table",
@@ -173,6 +172,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   scroll: scrollDetail,
   list: listDetail,
   panel: panelDetail,
+  code: codeDetail,
 };
 export const getComponentById = cache(
   (id: string): ComponentDetail | undefined => {

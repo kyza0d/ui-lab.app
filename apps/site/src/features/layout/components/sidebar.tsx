@@ -11,9 +11,9 @@ import {
   getActiveNavItemForDomain,
   getMainNavItemsForDomain,
 } from '@/app/lib/sidebar-config';
-import { getSectionsForNav, getHrefForNavItem, isNavItemActive, getTotalComponentCount } from '@/features/navigation/lib/sidebar-sections';
-import { getElementsListForSidebar, getActiveElementsNavFromPathname } from '@/features/elements/lib/sidebar-sections';
-import { ElementsList } from '@/features/elements/components/elements-sidebar-content';
+import { getSectionsForNav, getHrefForNavItem, isNavItemActive } from '@/features/navigation/lib/sidebar-sections';
+import { getElementsListForSidebar, getActiveElementsNavFromPathname } from '@/features/packages/lib/sidebar-sections';
+import { ElementsList } from '@/features/packages/components/elements-sidebar-content';
 
 const SidebarItemLink = memo(function SidebarItemLink({
   href,
@@ -61,16 +61,16 @@ export function Sidebar() {
   const activeNavItem = getActiveNavItemForDomain(activeDomain);
   const mainNavItems = useMemo(() => getMainNavItemsForDomain(activeDomain), [activeDomain]);
   const sections = useMemo(() => {
-    if (activeDomain === 'elements' || activeDomain === 'sections' || activeDomain === 'starters') {
+    if (activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns') {
       return [];
     }
     return getSectionsForNav(activeNavItem);
   }, [activeDomain, activeNavItem]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const isElementsOrSectionsOrStarters = activeDomain === 'elements' || activeDomain === 'sections' || activeDomain === 'starters';
+  const isElementsOrSectionsOrStarters = activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns';
   const elementsList = useMemo(() => (isElementsOrSectionsOrStarters ? getElementsListForSidebar() : []), [isElementsOrSectionsOrStarters]);
-  const activeElementsNav = useMemo(() => (isElementsOrSectionsOrStarters ? getActiveElementsNavFromPathname(pathname) : 'elements'), [isElementsOrSectionsOrStarters, pathname]);
+  const activeElementsNav = useMemo(() => (isElementsOrSectionsOrStarters ? getActiveElementsNavFromPathname(pathname) : 'packages'), [isElementsOrSectionsOrStarters, pathname]);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -132,18 +132,6 @@ export function Sidebar() {
                         <Icon className="w-5 h-5" />
                       </div>
                       <span className='font-semibold'>{navItem.label}</span>
-                      {navItem.id === 'components-core' && (
-                        <span
-                          className={cn(
-                            'ml-auto px-1 py-0.5 rounded-sm text-xs font-bold',
-                            isActive
-                              ? 'bg-accent-500/15 text-accent-400 border border-accent-500/20'
-                              : 'border border-background-700 bg-background-800 text-foreground-300'
-                          )}
-                        >
-                          {getTotalComponentCount()}
-                        </span>
-                      )}
                     </Link>
                   );
                 })}

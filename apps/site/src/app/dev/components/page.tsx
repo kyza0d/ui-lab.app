@@ -20,17 +20,17 @@ function ComponentRow({ id, name, description, exampleCount }: { id: string; nam
       <div className="flex-1 min-w-0">
         <Flex align="center" gap="sm">
           <h3 className="font-medium text-foreground-100 group-hover:text-accent-400 transition-colors">{name}</h3>
-          <span className="text-xs text-foreground-500 bg-background-800 px-2 py-0.5 rounded">
+          <span className="text-xs text-foreground-400 bg-background-800 px-2 py-0.5 rounded">
             {exampleCount} {exampleCount === 1 ? "example" : "examples"}
           </span>
         </Flex>
-        <p className="text-xs text-foreground-500 truncate mt-1">{description}</p>
+        <p className="text-xs text-foreground-400 truncate mt-1">{description}</p>
       </div>
       <Link
         href={`/components/${id}`}
         target="_blank"
         onClick={(e) => e.stopPropagation()}
-        className="text-foreground-500 hover:text-accent-400 transition-colors"
+        className="text-foreground-400 hover:text-accent-400 transition-colors"
       >
         <FaUpRightFromSquare className="w-3.5 h-3.5" />
       </Link>
@@ -75,7 +75,7 @@ export default function DevComponentsIndexPage() {
 
         {filteredComponents ? (
           <div className="space-y-4">
-            <p className="text-sm text-foreground-500">{filteredComponents.length} results for "{search}"</p>
+            <p className="text-sm text-foreground-400">{filteredComponents.length} results for "{search}"</p>
             <div className="space-y-2">
               {filteredComponents.map((component) => (
                 <ComponentRow
@@ -99,7 +99,7 @@ export default function DevComponentsIndexPage() {
                   <Flex align="center" gap="sm" className="mb-4 pb-2 border-b border-background-700">
                     {Icon}
                     <h2 className="text-lg font-semibold text-foreground-200 capitalize">{categoryId}</h2>
-                    <span className="text-xs text-foreground-500">{components.length}</span>
+                    <span className="text-xs text-foreground-400">{components.length}</span>
                   </Flex>
                   <div className="space-y-2">
                     {components.map((component) => (

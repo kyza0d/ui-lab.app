@@ -18,7 +18,7 @@ import {
 } from "ui-lab-components";
 import { useApp } from "../../lib/app-context";
 
-const MICRO_LABEL = "text-sm font-semibold text-foreground-500";
+const MICRO_LABEL = "text-sm font-semibold text-foreground-400";
 const VALUE_LABEL = "text-xs text-foreground-300";
 
 export interface SliderControlProps {
@@ -122,7 +122,7 @@ export const GlobalSlider = memo(
             {label}
           </label>
           <span
-            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-500" : "text-accent-400 bg-accent-600/30"}`}
+            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-400" : "text-accent-400 bg-accent-600/30"}`}
           >
             {formatValue(value)}
           </span>
@@ -213,7 +213,7 @@ export const ColorRow = memo(
             </div>
 
             <div
-              className={`mr-3 text-foreground-500 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+              className={`mr-3 text-foreground-400 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
             >
               <FaChevronDown size={13} />
             </div>
@@ -256,7 +256,7 @@ export const TypeScaleSlider = memo(
             <span className="text-sm font-semibold text-foreground-100">
               {scaleName}
             </span>
-            <span className={`${VALUE_LABEL} text-foreground-500`}>
+            <span className={`${VALUE_LABEL} text-foreground-400`}>
               {ratio.toFixed(3)}
             </span>
           </div>

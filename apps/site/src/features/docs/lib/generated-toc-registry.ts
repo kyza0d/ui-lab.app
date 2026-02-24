@@ -12,15 +12,230 @@ export type TocRegistry = Record<string, TocItem[]>;
 export const tocRegistry: TocRegistry = {
   "agents-mcps-installation": [
     {
-      "id": "coming-soon",
-      "title": "Coming Soon",
+      "id": "how-it-works",
+      "title": "How it works",
+      "level": 2
+    },
+    {
+      "id": "prerequisites",
+      "title": "Prerequisites",
+      "level": 2
+    },
+    {
+      "id": "quick-start-claude-desktop",
+      "title": "Quick start: Claude Desktop",
+      "level": 2
+    },
+    {
+      "id": "quick-start-cursor",
+      "title": "Quick start: Cursor",
+      "level": 2
+    },
+    {
+      "id": "quick-start-local-install",
+      "title": "Quick start: Local install",
+      "level": 2
+    },
+    {
+      "id": "verifying-the-connection",
+      "title": "Verifying the connection",
+      "level": 2
+    },
+    {
+      "id": "what-the-server-exposes",
+      "title": "What the server exposes",
+      "level": 2
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting",
+      "level": 2
+    },
+    {
+      "id": "server-doesnt-start",
+      "title": "Server doesn't start",
+      "level": 3
+    },
+    {
+      "id": "module-not-found-errors",
+      "title": "\"Module not found\" errors",
+      "level": 3
+    },
+    {
+      "id": "claude-doesnt-call-any-tools",
+      "title": "Claude doesn't call any tools",
+      "level": 3
+    },
+    {
+      "id": "npx-downloads-every-time",
+      "title": "npx downloads every time",
+      "level": 3
+    },
+    {
+      "id": "running-from-source",
+      "title": "Running from source",
+      "level": 2
+    },
+    {
+      "id": "next-steps",
+      "title": "Next steps",
       "level": 2
     }
   ],
   "agents-mcps-workflows": [
     {
-      "id": "coming-soon",
-      "title": "Coming Soon",
+      "id": "tools-overview",
+      "title": "Tools overview",
+      "level": 2
+    },
+    {
+      "id": "components",
+      "title": "Components",
+      "level": 2
+    },
+    {
+      "id": "search_components",
+      "title": "`search_components`",
+      "level": 3
+    },
+    {
+      "id": "get_component",
+      "title": "`get_component`",
+      "level": 3
+    },
+    {
+      "id": "design-tokens",
+      "title": "Design tokens",
+      "level": 2
+    },
+    {
+      "id": "get_semantic_color",
+      "title": "`get_semantic_color`",
+      "level": 3
+    },
+    {
+      "id": "theme",
+      "title": "Theme",
+      "level": 2
+    },
+    {
+      "id": "get_theme_setup",
+      "title": "`get_theme_setup`",
+      "level": 3
+    },
+    {
+      "id": "patterns",
+      "title": "Patterns",
+      "level": 2
+    },
+    {
+      "id": "search_patterns",
+      "title": "`search_patterns`",
+      "level": 3
+    },
+    {
+      "id": "get_pattern",
+      "title": "`get_pattern`",
+      "level": 3
+    },
+    {
+      "id": "elements",
+      "title": "Elements",
+      "level": 2
+    },
+    {
+      "id": "search_elements",
+      "title": "`search_elements`",
+      "level": 3
+    },
+    {
+      "id": "get_element",
+      "title": "`get_element`",
+      "level": 3
+    },
+    {
+      "id": "sections",
+      "title": "Sections",
+      "level": 2
+    },
+    {
+      "id": "search_sections",
+      "title": "`search_sections`",
+      "level": 3
+    },
+    {
+      "id": "get_section",
+      "title": "`get_section`",
+      "level": 3
+    },
+    {
+      "id": "resources",
+      "title": "Resources",
+      "level": 2
+    },
+    {
+      "id": "design-guidelines-always-injected",
+      "title": "Design guidelines (always injected)",
+      "level": 2
+    },
+    {
+      "id": "color-families",
+      "title": "Color families",
+      "level": 3
+    },
+    {
+      "id": "shade-ranges",
+      "title": "Shade ranges",
+      "level": 3
+    },
+    {
+      "id": "class-format",
+      "title": "Class format",
+      "level": 3
+    },
+    {
+      "id": "common-mistakes-and-corrections",
+      "title": "Common mistakes and corrections",
+      "level": 3
+    },
+    {
+      "id": "correct-examples",
+      "title": "Correct examples",
+      "level": 3
+    },
+    {
+      "id": "typical-agent-workflows",
+      "title": "Typical agent workflows",
+      "level": 2
+    },
+    {
+      "id": "workflow-1-build-a-component-from-scratch",
+      "title": "Workflow 1: Build a component from scratch",
+      "level": 3
+    },
+    {
+      "id": "workflow-2-find-and-use-a-pattern",
+      "title": "Workflow 2: Find and use a pattern",
+      "level": 3
+    },
+    {
+      "id": "workflow-3-set-up-theming",
+      "title": "Workflow 3: Set up theming",
+      "level": 3
+    },
+    {
+      "id": "workflow-4-build-a-landing-page",
+      "title": "Workflow 4: Build a landing page",
+      "level": 3
+    },
+    {
+      "id": "workflow-5-find-a-pre-built-ui-block",
+      "title": "Workflow 5: Find a pre-built UI block",
+      "level": 3
+    },
+    {
+      "id": "next-steps",
+      "title": "Next steps",
       "level": 2
     }
   ],
@@ -33,66 +248,131 @@ export const tocRegistry: TocRegistry = {
   ],
   "index": [
     {
-      "id": "core-principles",
-      "title": "Core Principles",
-      "level": 2
-    },
-    {
-      "id": "beautiful-by-default",
-      "title": "Beautiful by Default",
-      "level": 3
-    },
-    {
-      "id": "type-safe-composable",
-      "title": "Type-Safe & Composable",
-      "level": 3
-    },
-    {
-      "id": "registry-driven",
-      "title": "Registry-Driven",
-      "level": 3
-    },
-    {
-      "id": "whats-included",
-      "title": "What's Included",
+      "id": "design-system-overview",
+      "title": "Design System Overview",
       "level": 2
     },
     {
       "id": "quick-start",
       "title": "Quick Start",
+      "level": 3
+    },
+    {
+      "id": "core-pillars",
+      "title": "Core Pillars",
+      "level": 2
+    },
+    {
+      "id": "foundation",
+      "title": "Foundation",
+      "level": 3
+    },
+    {
+      "id": "tokens",
+      "title": "Tokens",
+      "level": 3
+    },
+    {
+      "id": "components",
+      "title": "Components",
+      "level": 3
+    },
+    {
+      "id": "guidelines",
+      "title": "Guidelines",
+      "level": 3
+    },
+    {
+      "id": "design-philosophy",
+      "title": "Design Philosophy",
+      "level": 2
+    },
+    {
+      "id": "perceptual-uniformity",
+      "title": "Perceptual Uniformity",
+      "level": 3
+    },
+    {
+      "id": "semantic-over-visual",
+      "title": "Semantic Over Visual",
+      "level": 3
+    },
+    {
+      "id": "accessibility-first",
+      "title": "Accessibility First",
+      "level": 3
+    },
+    {
+      "id": "rhythm-and-consistency",
+      "title": "Rhythm and Consistency",
+      "level": 3
+    },
+    {
+      "id": "key-features",
+      "title": "Key Features",
+      "level": 2
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "level": 2
+    },
+    {
+      "id": "related-documentation",
+      "title": "Related Documentation",
       "level": 2
     }
   ],
   "docs-index": [
     {
-      "id": "overview",
-      "title": "Overview",
+      "id": "what-is-ui-lab",
+      "title": "What is UI Lab",
+      "level": 2
+    },
+    {
+      "id": "the-problem-it-solves",
+      "title": "The problem it solves",
+      "level": 2
+    },
+    {
+      "id": "four-levels-of-abstraction",
+      "title": "Four levels of abstraction",
+      "level": 2
+    },
+    {
+      "id": "quick-start",
+      "title": "Quick start",
+      "level": 2
+    },
+    {
+      "id": "the-design-system",
+      "title": "The design system",
+      "level": 2
+    },
+    {
+      "id": "ai-native-tooling",
+      "title": "AI-native tooling",
+      "level": 2
+    },
+    {
+      "id": "mcp-server-ui-lab-mcp",
+      "title": "MCP server (`ui-lab-mcp`)",
       "level": 3
     },
     {
-      "id": "core-values",
-      "title": "Core values",
-      "level": 3
-    },
-    {
-      "id": "who-this-is-for",
-      "title": "Who this is for",
-      "level": 3
-    },
-    {
-      "id": "installation",
-      "title": "Installation",
+      "id": "design-claude-code-skill",
+      "title": "`/design` Claude Code skill",
       "level": 3
     },
     {
       "id": "composing-components",
       "title": "Composing components",
-      "level": 3
+      "level": 2
     },
     {
       "id": "next-steps",
       "title": "Next steps",
-      "level": 3
+      "level": 2
     }
   ],
   "installation": [
@@ -1715,152 +1995,6 @@ export const tocRegistry: TocRegistry = {
     {
       "id": "further-resources",
       "title": "Further Resources",
-      "level": 2
-    }
-  ],
-  "api-reference": [
-    {
-      "id": "component-registry",
-      "title": "Component Registry",
-      "level": 2
-    },
-    {
-      "id": "registry-structure",
-      "title": "Registry Structure",
-      "level": 3
-    },
-    {
-      "id": "core-components",
-      "title": "Core Components",
-      "level": 2
-    },
-    {
-      "id": "button",
-      "title": "Button",
-      "level": 3
-    },
-    {
-      "id": "input",
-      "title": "Input",
-      "level": 3
-    },
-    {
-      "id": "select",
-      "title": "Select",
-      "level": 3
-    },
-    {
-      "id": "hooks-utilities",
-      "title": "Hooks & Utilities",
-      "level": 2
-    },
-    {
-      "id": "usetheme",
-      "title": "useTheme",
-      "level": 3
-    },
-    {
-      "id": "usecomponents",
-      "title": "useComponents",
-      "level": 3
-    },
-    {
-      "id": "design-tokens",
-      "title": "Design Tokens",
-      "level": 2
-    },
-    {
-      "id": "mcp-server-api",
-      "title": "MCP Server API",
-      "level": 2
-    },
-    {
-      "id": "available-methods",
-      "title": "Available Methods",
-      "level": 3
-    },
-    {
-      "id": "typescript-support",
-      "title": "TypeScript Support",
-      "level": 2
-    }
-  ],
-  "getting-started": [
-    {
-      "id": "installation",
-      "title": "Installation",
-      "level": 2
-    },
-    {
-      "id": "basic-usage",
-      "title": "Basic Usage",
-      "level": 2
-    },
-    {
-      "id": "using-with-claude",
-      "title": "Using with Claude",
-      "level": 2
-    },
-    {
-      "id": "enable-the-mcp-server",
-      "title": "Enable the MCP Server",
-      "level": 3
-    },
-    {
-      "id": "asking-claude-to-generate-components",
-      "title": "Asking Claude to Generate Components",
-      "level": 3
-    },
-    {
-      "id": "component-variants",
-      "title": "Component Variants",
-      "level": 2
-    },
-    {
-      "id": "theming",
-      "title": "Theming",
-      "level": 2
-    },
-    {
-      "id": "accessibility",
-      "title": "Accessibility",
-      "level": 2
-    },
-    {
-      "id": "next-steps",
-      "title": "Next Steps",
-      "level": 2
-    }
-  ],
-  "agents-mcps-index": [
-    {
-      "id": "core-principles",
-      "title": "Core Principles",
-      "level": 2
-    },
-    {
-      "id": "beautiful-by-default",
-      "title": "Beautiful by Default",
-      "level": 3
-    },
-    {
-      "id": "type-safe-composable",
-      "title": "Type-Safe & Composable",
-      "level": 3
-    },
-    {
-      "id": "registry-driven",
-      "title": "Registry-Driven",
-      "level": 3
-    },
-    {
-      "id": "whats-included",
-      "title": "What's Included",
-      "level": 2
-    },
-    {
-      "id": "quick-start",
-      "title": "Quick Start",
       "level": 2
     }
   ]

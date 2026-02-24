@@ -35,19 +35,19 @@ function ColumnsPreview() {
   return (
     <div className="space-y-6 w-full">
       <div>
-        <p className="text-xs text-foreground-500 mb-2">columns="2"</p>
+        <p className="text-xs text-foreground-400 mb-2">columns="2"</p>
         <Grid columns="2" gap="sm">
           <Cell>1</Cell><Cell>2</Cell><Cell>3</Cell><Cell>4</Cell>
         </Grid>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">columns="3"</p>
+        <p className="text-xs text-foreground-400 mb-2">columns="3"</p>
         <Grid columns="3" gap="sm">
           <Cell>1</Cell><Cell>2</Cell><Cell>3</Cell><Cell>4</Cell><Cell>5</Cell><Cell>6</Cell>
         </Grid>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">columns="4"</p>
+        <p className="text-xs text-foreground-400 mb-2">columns="4"</p>
         <Grid columns="4" gap="sm">
           <Cell>1</Cell><Cell>2</Cell><Cell>3</Cell><Cell>4</Cell>
         </Grid>
@@ -75,19 +75,19 @@ function GapPreview() {
   return (
     <div className="space-y-6 w-full">
       <div>
-        <p className="text-xs text-foreground-500 mb-2">gap="xs"</p>
+        <p className="text-xs text-foreground-400 mb-2">gap="xs"</p>
         <Grid columns="4" gap="xs">
           <Cell>1</Cell><Cell>2</Cell><Cell>3</Cell><Cell>4</Cell>
         </Grid>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">gap="md"</p>
+        <p className="text-xs text-foreground-400 mb-2">gap="md"</p>
         <Grid columns="4" gap="md">
           <Cell>1</Cell><Cell>2</Cell><Cell>3</Cell><Cell>4</Cell>
         </Grid>
       </div>
       <div>
-        <p className="text-xs text-foreground-500 mb-2">gap="xl"</p>
+        <p className="text-xs text-foreground-400 mb-2">gap="xl"</p>
         <Grid columns="4" gap="xl">
           <Cell>1</Cell><Cell>2</Cell><Cell>3</Cell><Cell>4</Cell>
         </Grid>
@@ -99,7 +99,7 @@ function GapPreview() {
 function AutoFitPreview() {
   return (
     <div className="w-full">
-      <p className="text-xs text-foreground-500 mb-2">columns="auto-fit" (resize to see effect)</p>
+      <p className="text-xs text-foreground-400 mb-2">columns="auto-fit" (resize to see effect)</p>
       <Grid columns="auto-fit" gap="md">
         {Array.from({ length: 6 }).map((_, i) => (
           <Cell key={i} className="min-w-28">{i + 1}</Cell>

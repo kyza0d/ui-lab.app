@@ -10,9 +10,7 @@ export default function AIIntegrationPage() {
       <div className="flex flex-col lg:flex-row justify-between gap-0">
         <main className="w-full mx-auto max-w-3xl px-6 py-16 lg:w-48rem">
           <DocumentationHeader
-
             title="AI integration"
-
             description="Specifications and patterns for integrating AI capabilities with UI Lab components."
 
           />

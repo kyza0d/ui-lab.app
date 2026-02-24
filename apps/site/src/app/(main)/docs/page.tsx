@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
-import rehypeSlug from 'rehype-slug'
+
 import { getDocBySlug } from "@/features/docs";
-import { mdxComponents } from '@/features/docs'
+import { mdxComponents, mdxOptions } from '@/features/docs'
 import { Logo } from "@/shared";
 import { RequirementsSection } from "./requirements-section";
 import { DocumentationHeader } from "@/features/docs/components/documentation-header";
@@ -43,7 +43,7 @@ export default async function DocsPage() {
   return (
     <div className="w-full text-foreground-100">
       <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main>
+        <main className="w-full mx-auto max-w-3xl px-6 py-16 lg:w-48rem">
           <DocumentationHeader
             title={doc.metadata.title}
             description={doc.metadata.description}
@@ -59,7 +59,7 @@ export default async function DocsPage() {
             <MDXRemote
               source={doc.content}
               components={mdxComponents}
-              options={{ mdxOptions: { rehypePlugins: [rehypeSlug] } }}
+              options={mdxOptions}
             />
           </div>
 
@@ -78,7 +78,7 @@ export default async function DocsPage() {
                   href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex  justify-end flex-col gap-4 px-3 py-2 h-28 rounded-sm border border-background-700 bg-background-800/50 transition-all hover:border-foreground-600 hover:bg-background-800 cursor-pointer"
+                  className="relative flex  justify-end flex-col gap-4 px-3 py-2 h-28 rounded-sm border border-background-700 bg-background-800/50 transition-all hover:border-foreground-400 hover:bg-background-800 cursor-pointer"
                 >
                   <div className="absolute top-4 left-3">
                     <Icon className="w-6 h-6 text-foreground-400" />
