@@ -1,6 +1,6 @@
 'use client';
 
-import { Fold } from 'ui-lab-components';
+import { Expand } from 'ui-lab-components';
 
 interface ElementFilterProps {
   categories: string[];
@@ -31,7 +31,7 @@ export function ElementFilter({
 
   return (
     <div className="space-y-6">
-      <Fold title="Category" defaultExpanded={true}>
+      <Expand title="Category" defaultExpanded={true}>
         <div className="space-y-2 pt-3">
           <button
             onClick={() => onCategoryChange(null)}
@@ -55,9 +55,9 @@ export function ElementFilter({
             </button>
           ))}
         </div>
-      </Fold>
+      </Expand>
 
-      <Fold title="Tags" defaultExpanded={false}>
+      <Expand title="Tags" defaultExpanded={false}>
         <div className="space-y-2 pt-3">
           {tags.map((tag) => (
             <label
@@ -76,7 +76,7 @@ export function ElementFilter({
             </label>
           ))}
         </div>
-      </Fold>
+      </Expand>
 
       {(selectedCategory !== null || selectedTags.length > 0) && (
         <button
