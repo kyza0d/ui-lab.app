@@ -45,7 +45,16 @@ All colors use OKLCH color space (perceptually uniform). Pattern: `{family}-{sha
 
 ### Shade Selection Guide
 
-<MarkdownTable markdown="| Shade Range | Use Case | Examples |\n|-------------|----------|----------|\n| **50-100** | Light backgrounds, hover states | Card backgrounds, tooltips |\n| **200-300** | Light accents, borders | Input borders, dividers |\n| **400-500** | Medium, interactive states | Button backgrounds, links |\n| **600-700** | Bold accents, dark mode backgrounds | Primary buttons, section backgrounds |\n| **800-900** | Dark text, dark backgrounds | Text color, dark mode text |\n| **950** | Darkest, text on light | Headlines, strong emphasis |" />
+
+| Shade Range | Use Case | Examples |
+|-------------|----------|----------|
+| **50-100** | Light backgrounds, hover states | Card backgrounds, tooltips |
+| **200-300** | Light accents, borders | Input borders, dividers |
+| **400-500** | Medium, interactive states | Button backgrounds, links |
+| **600-700** | Bold accents, dark mode backgrounds | Primary buttons, section backgrounds |
+| **800-900** | Dark text, dark backgrounds | Text color, dark mode text |
+| **950** | Darkest, text on light | Headlines, strong emphasis |
+
 
 ---
 
@@ -57,21 +66,56 @@ All colors use OKLCH color space (perceptually uniform). Pattern: `{family}-{sha
 
 ### Font Size Tokens
 
-<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--font-size-xs\` | 0.75rem (12px) | Captions, metadata |\n| \`--font-size-sm\` | 0.875rem (14px) | Small text, help |\n| \`--font-size-md\` | 1rem (16px) | Body text, default |\n| \`--font-size-lg\` | 1.25rem (20px) | Large labels |\n| \`--font-size-xl\` | 1.5rem (24px) | Subheadings |\n| \`--font-size-2xl\` | 1.875rem (30px) | Page titles |\n| \`--font-size-3xl\` | 2.25rem (36px) | Display headings |" />
+
+| Token | Value | Use Case |
+|-------|-------|----------|
+| `--font-size-xs` | 0.75rem (12px) | Captions, metadata |
+| `--font-size-sm` | 0.875rem (14px) | Small text, help |
+| `--font-size-md` | 1rem (16px) | Body text, default |
+| `--font-size-lg` | 1.25rem (20px) | Large labels |
+| `--font-size-xl` | 1.5rem (24px) | Subheadings |
+| `--font-size-2xl` | 1.875rem (30px) | Page titles |
+| `--font-size-3xl` | 2.25rem (36px) | Display headings |
+
 
 ### Font Weight Tokens
 
-<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--font-weight-regular\` | 400 | Body text |\n| \`--font-weight-medium\` | 500 | Labels, emphasis |\n| \`--font-weight-bold\` | 700 | Headings, strong |" />
+
+| Token | Value | Use Case |
+|-------|-------|----------|
+| `--font-weight-regular` | 400 | Body text |
+| `--font-weight-medium` | 500 | Labels, emphasis |
+| `--font-weight-bold` | 700 | Headings, strong |
+
 
 ### Line Height Tokens
 
-<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--line-height-tight\` | 1.25 | Headings, compact |\n| \`--line-height-normal\` | 1.5 | Body text, standard |\n| \`--line-height-relaxed\` | 1.75 | Long-form, accessibility |" />
+
+| Token | Value | Use Case |
+|-------|-------|----------|
+| `--line-height-tight` | 1.25 | Headings, compact |
+| `--line-height-normal` | 1.5 | Body text, standard |
+| `--line-height-relaxed` | 1.75 | Long-form, accessibility |
+
 
 ### Complete Text Style Tokens
 
 Pre-combined typography tokens:
 
-<MarkdownTable markdown="| Token | Includes | Use Case |\n|-------|----------|----------|\n| \`--text-h1\` | 2.25rem, 700, 1.25 | Page titles |\n| \`--text-h2\` | 1.875rem, 700, 1.25 | Section titles |\n| \`--text-h3\` | 1.5rem, 700, 1.5 | Subsections |\n| \`--text-h4\` | 1.25rem, 700, 1.5 | Minor headings |\n| \`--text-body-lg\` | 1rem, 400, 1.5 | Lead paragraphs |\n| \`--text-body\` | 1rem, 400, 1.5 | Standard body |\n| \`--text-body-sm\` | 0.875rem, 400, 1.5 | Secondary text |\n| \`--text-label\` | 0.875rem, 500, 1.25 | Form labels |\n| \`--text-caption\` | 0.75rem, 400, 1.25 | Metadata |\n| \`--text-code\` | 0.875rem mono, 400, 1.5 | Code blocks |" />
+
+| Token | Includes | Use Case |
+|-------|----------|----------|
+| `--text-h1` | 2.25rem, 700, 1.25 | Page titles |
+| `--text-h2` | 1.875rem, 700, 1.25 | Section titles |
+| `--text-h3` | 1.5rem, 700, 1.5 | Subsections |
+| `--text-h4` | 1.25rem, 700, 1.5 | Minor headings |
+| `--text-body-lg` | 1rem, 400, 1.5 | Lead paragraphs |
+| `--text-body` | 1rem, 400, 1.5 | Standard body |
+| `--text-body-sm` | 0.875rem, 400, 1.5 | Secondary text |
+| `--text-label` | 0.875rem, 500, 1.25 | Form labels |
+| `--text-caption` | 0.75rem, 400, 1.25 | Metadata |
+| `--text-code` | 0.875rem mono, 400, 1.5 | Code blocks |
+
 
 ---
 
@@ -79,7 +123,21 @@ Pre-combined typography tokens:
 
 All spacing tokens use 4px as the base unit with a 1.5x ratio between steps.
 
-<MarkdownTable markdown="| Token | Pixels | REM | Use Case |\n|-------|--------|-----|----------|\n| \`--space-0.5\` | 2px | 0.125rem | Minimal gaps |\n| \`--space-1\` | 4px | 0.25rem | Tight spacing |\n| \`--space-2\` | 8px | 0.5rem | Button padding |\n| \`--space-3\` | 12px | 0.75rem | Component padding |\n| \`--space-4\` | 16px | 1rem | Standard spacing |\n| \`--space-6\` | 24px | 1.5rem | Section spacing |\n| \`--space-8\` | 32px | 2rem | Major sections |\n| \`--space-12\` | 48px | 3rem | Large sections |\n| \`--space-16\` | 64px | 4rem | Hero sections |\n| \`--space-20\` | 80px | 5rem | Page spacing |\n| \`--space-24\` | 96px | 6rem | Full-width sections |" />
+
+| Token | Pixels | REM | Use Case |
+|-------|--------|-----|----------|
+| `--space-0.5` | 2px | 0.125rem | Minimal gaps |
+| `--space-1` | 4px | 0.25rem | Tight spacing |
+| `--space-2` | 8px | 0.5rem | Button padding |
+| `--space-3` | 12px | 0.75rem | Component padding |
+| `--space-4` | 16px | 1rem | Standard spacing |
+| `--space-6` | 24px | 1.5rem | Section spacing |
+| `--space-8` | 32px | 2rem | Major sections |
+| `--space-12` | 48px | 3rem | Large sections |
+| `--space-16` | 64px | 4rem | Hero sections |
+| `--space-20` | 80px | 5rem | Page spacing |
+| `--space-24` | 96px | 6rem | Full-width sections |
+
 
 ---
 
@@ -87,7 +145,16 @@ All spacing tokens use 4px as the base unit with a 1.5x ratio between steps.
 
 Consistent corner rounding throughout the interface:
 
-<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--radius-sm\` | 2px | Subtle rounding |\n| \`--radius-md\` | 4px | Small components |\n| \`--radius-lg\` | 8px | Cards, buttons |\n| \`--radius-xl\` | 12px | Large cards, modals |\n| \`--radius-2xl\` | 16px | Extra large elements |\n| \`--radius-full\` | 9999px | Fully rounded (pills, circles) |" />
+
+| Token | Value | Use Case |
+|-------|-------|----------|
+| `--radius-sm` | 2px | Subtle rounding |
+| `--radius-md` | 4px | Small components |
+| `--radius-lg` | 8px | Cards, buttons |
+| `--radius-xl` | 12px | Large cards, modals |
+| `--radius-2xl` | 16px | Extra large elements |
+| `--radius-full` | 9999px | Fully rounded (pills, circles) |
+
 
 ---
 
@@ -95,7 +162,14 @@ Consistent corner rounding throughout the interface:
 
 Depth system using box shadows:
 
-<MarkdownTable markdown="| Token | Usage | Use Case |\n|-------|-------|----------|\n| \`--shadow-sm\` | Small shadow | Subtle elevation |\n| \`--shadow-md\` | Medium shadow | Standard elevation |\n| \`--shadow-lg\` | Large shadow | Prominent elevation |\n| \`--shadow-xl\` | Extra large shadow | High elevation |" />
+
+| Token | Usage | Use Case |
+|-------|-------|----------|
+| `--shadow-sm` | Small shadow | Subtle elevation |
+| `--shadow-md` | Medium shadow | Standard elevation |
+| `--shadow-lg` | Large shadow | Prominent elevation |
+| `--shadow-xl` | Extra large shadow | High elevation |
+
 
 ---
 
@@ -103,11 +177,23 @@ Depth system using box shadows:
 
 ### Duration Tokens
 
-<MarkdownTable markdown="| Token | Value | Use Case |\n|-------|-------|----------|\n| \`--duration-fast\` | 100ms | Quick interactions |\n| \`--duration-base\` | 200ms | Standard animations |\n| \`--duration-slow\` | 300ms | Complex animations |" />
+
+| Token | Value | Use Case |
+|-------|-------|----------|
+| `--duration-fast` | 100ms | Quick interactions |
+| `--duration-base` | 200ms | Standard animations |
+| `--duration-slow` | 300ms | Complex animations |
+
 
 ### Easing Tokens
 
-<MarkdownTable markdown="| Token | Timing Function | Use Case |\n|-------|-----------------|----------|\n| \`--ease-in\` | cubic-bezier(0.4, 0, 1, 1) | Exiting animations |\n| \`--ease-out\` | cubic-bezier(0, 0, 0.2, 1) | Entering animations |\n| \`--ease-in-out\` | cubic-bezier(0.4, 0, 0.2, 1) | Continuous animations |" />
+
+| Token | Timing Function | Use Case |
+|-------|-----------------|----------|
+| `--ease-in` | cubic-bezier(0.4, 0, 1, 1) | Exiting animations |
+| `--ease-out` | cubic-bezier(0, 0, 0.2, 1) | Entering animations |
+| `--ease-in-out` | cubic-bezier(0.4, 0, 0.2, 1) | Continuous animations |
+
 
 ---
 
