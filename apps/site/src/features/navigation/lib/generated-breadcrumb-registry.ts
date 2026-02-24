@@ -18,7 +18,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Agents & MCPs"
         },
         {
-          "label": "MCP Server Installation"
+          "label": "Overview"
         }
       ]
     },
@@ -35,7 +35,7 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
           "label": "Agents & MCPs"
         },
         {
-          "label": "MCP Workflows"
+          "label": "Workflows"
         }
       ]
     },

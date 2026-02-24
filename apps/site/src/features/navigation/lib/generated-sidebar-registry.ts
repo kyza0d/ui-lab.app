@@ -55,24 +55,24 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "items": [
                   {
                         "id": "agents-mcps-installation",
-                        "label": "MCP Server Installation"
+                        "label": "Overview"
                   },
                   {
                         "id": "agents-mcps-workflows",
-                        "label": "MCP Workflows"
+                        "label": "Workflows"
                   }
             ]
       }
 ],
     fileMap: {
       "agents-mcps-installation": {
-            "title": "MCP Server Installation",
+            "title": "Overview",
             "description": "Install and configure the UI Lab MCP server for Claude and other AI agents.",
             "slug": "agents-mcps-installation",
             "category": "Agents & MCPs"
       },
       "agents-mcps-workflows": {
-            "title": "MCP Workflows",
+            "title": "Workflows",
             "description": "All 10 MCP tools, resource URIs, design guidelines, and example agent workflows for building UI with AI.",
             "slug": "agents-mcps-workflows",
             "category": "Agents & MCPs"
