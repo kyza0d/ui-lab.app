@@ -178,8 +178,8 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
             <span className="text-md font-semibold text-foreground-50">
               On this page
             </span>
-            <div className="mt-2">
-              <Scroll fadeY ref={scrollRef} maxHeight="65vh">
+            <div className="mt-2 h-140">
+              <Scroll fadeY ref={scrollRef} maxHeight="100%">
                 <div className="flex flex-col space-y-0">
                   {visibleItems.map((item) => (
                     <button

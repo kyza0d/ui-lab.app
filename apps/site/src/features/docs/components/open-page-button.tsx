@@ -36,7 +36,7 @@ export function OpenPage() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Expand isExpanded={isOpen} onExpandedChange={setIsOpen}>
+    <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className='w-65'>
       <Expand.Trigger>
         <Group>
           <div className="w-10 bg-background-800 flex items-center px-3 text-foreground-400 text-sm font-medium">
@@ -54,7 +54,7 @@ export function OpenPage() {
           </Group.Button>
         </Group>
       </Expand.Trigger>
-      <Expand.Content from="above" className='w-58 ml-4 -mb-(--border-width-base)'>
+      <Expand.Content from="above" className='w-[calc(100%-var(--radius-md))] mx-auto -mb-(--border-width-base)'>
         <div className="flex flex-col border border-t-0 border-background-700 overflow-hidden rounded-t-sm">
           {options.map(({ label, Icon, getHref }) => (
             <a

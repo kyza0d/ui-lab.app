@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { Button, Divider, Group } from 'ui-lab-components';
 import TurndownService from 'turndown';
-import { FaCheck, FaClipboard, FaClipboardCheck, FaCopy, FaFileLines, FaPercent } from 'react-icons/fa6';
+import { FaCheck, FaFileLines } from 'react-icons/fa6';
 
 export function CopyPage() {
-  const [isCopied, setIsCopied] = useState(false);
+  const [copiedLines, setCopiedLines] = useState<number | null>(null);
 
   const handleCopy = async () => {
     try {
@@ -25,15 +25,15 @@ export function CopyPage() {
 
       const markdown = turndownService.turndown(html);
       await navigator.clipboard.writeText(markdown);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      setCopiedLines(markdown.split('\n').length);
+      setTimeout(() => setCopiedLines(null), 2000);
     } catch (error) {
       console.error('Failed to copy:', error);
     }
   };
 
   return (
-    <Group>
+    <Group className='w-65 h-12'>
       <div className="bg-background-800 w-10 flex items-center px-3 text-foreground-400 text-sm font-medium">
         <FaFileLines />
       </div>
@@ -45,7 +45,7 @@ export function CopyPage() {
         className="text-xs justify-start w-55"
       >
 
-        {isCopied ? <>Copied! <FaCheck className='ml-auto' /></> : <>Copy Markdown</>}
+        {copiedLines !== null ? <>Copied {copiedLines} lines! <FaCheck size={14} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
       </Group.Button>
     </Group>
   );

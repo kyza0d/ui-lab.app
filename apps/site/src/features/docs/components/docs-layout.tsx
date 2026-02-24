@@ -38,11 +38,13 @@ export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
           <Footer />
         </div>
         {!isChatOpen && (
-          <div className="sticky top-(--header-height) flex items-start flex-col gap-4 h-fit">
-            <div className="pt-24 space-y-3">
+          <div className="sticky top-(--header-height) flex items-between flex-col gap-4 h-fit">
+            <div className="flex h-[90vh] flex-col justify-between">
               <TableOfContents items={tocItems} />
-              <OpenPage />
-              <CopyPage />
+              <div className="space-y-3">
+                <OpenPage />
+                <CopyPage />
+              </div>
             </div>
           </div>
         )}

@@ -37,9 +37,9 @@ export default function ComponentsPage() {
                       </p>
                     </div>
                   </div>
-                  <Divider variant="dashed" size="sm" className="-mx-3 w-[calc(100%+1.6rem)]! mb-8 mt-10" />
+                  <Divider variant="dashed" size="sm" className="mx-auto mb-8 mt-10" />
                   {/* Components Grid */}
-                  <Gallery columns={{ sm: "1", md: "2" }} gap="xl" containerQueryResponsive>
+                  <Gallery className="w-full" columns={{ sm: "1", md: "2", lg: '3' }} gap="sm">
                     {componentsInCategory.map((component) => {
                       const href = `/components/${component.id}`;
                       const { onMouseEnter, onMouseLeave } = usePrefetchOnHover(href);
@@ -54,14 +54,14 @@ export default function ComponentsPage() {
                           />
                           <Gallery.Item
                             href={href}
-                            className='group rounded-sm h-90 bg-background-950 hover:bg-background-900/50 flex-col'
+                            className='group rounded-sm bg-background-950 hover:bg-background-900/50 flex-col'
                             orientation='horizontal'
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
                             onClick={() => router.push(href)}
                           >
                             <Gallery.View
-                              className="w-full h-60 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
+                              className="w-full h-50 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
                             >
                               <div className='w-80 px-4 gap-2 flex items-center justify-center'>
                                 {component.preview}
@@ -84,7 +84,7 @@ export default function ComponentsPage() {
                                   </div>
                                 )}
                               </div>
-                              <p className="text-foreground-400 text-sm">
+                              <p className="text-foreground-400 text-xs">
                                 {component.description}
                               </p>
                             </Gallery.Body>
