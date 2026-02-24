@@ -117,7 +117,7 @@ export function Sidebar() {
                       key={navItem.id}
                       href={navItem.href}
                       className={cn(
-                        'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm rounded-md',
+                        'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs rounded-sm',
                         isActive
                           ? 'border-background-700 text-foreground-50 bg-background-800'
                           : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
@@ -125,7 +125,7 @@ export function Sidebar() {
                     >
                       <div
                         className={cn(
-                          'w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center',
+                          'w-10 h-10 bg-background-800 border border-background-700 rounded-sm flex items-center justify-center',
                           isActive ? 'bg-transparent text-foreground-50' : 'text-foreground-300'
                         )}
                       >
@@ -146,7 +146,7 @@ export function Sidebar() {
             fadeY
           >
             {isElementsOrSectionsOrStarters ? (
-              <div className="px-5">
+              <div className="px-4">
                 <ElementsList
                   activeNav={activeElementsNav}
                   elements={elementsList}
@@ -158,7 +158,7 @@ export function Sidebar() {
               <div className="py-4 px-5 space-y-8">
                 {sections.map((section) => (
                   <div key={section.label}>
-                    <h5 className="text-sm font-medium text-foreground-400">{section.label}</h5>
+                    <h5 className="text-xs font-semibold text-foreground-300">{section.label}</h5>
                     <div className="relative mt-2.5">
                       <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                       <div className="pl-3">
@@ -170,7 +170,7 @@ export function Sidebar() {
                               key={item.id}
                               href={href}
                               className={cn(
-                                'block px-3 py-2 text-sm rounded-md cursor-pointer',
+                                'block px-3 py-2 text-xs rounded-sm cursor-pointer',
                                 'transition-colors duration-300 ease-out',
                                 'hover:duration-0',
                                 active

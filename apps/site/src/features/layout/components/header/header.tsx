@@ -29,7 +29,7 @@ const TabItem = memo(({ tab }: { tab: TabConfig }) => {
       <TabsTrigger
         value={tab.id}
         disabled={tab.isPlaceholder}
-        className="pb-[13px] pt-[17px]"
+        className="text-xs pb-[13px] pt-[17px]"
       >
         {tab.label}
       </TabsTrigger>
@@ -101,7 +101,7 @@ export default function Header({
               <Tabs className="hidden ml-8 lg:block" value={activeHomeTab || ""} variant="underline">
                 <TabsList>
                   {homeNavTabs.map((tab) => (
-                    <TabItem key={tab.id} tab={tab} />
+                    <TabItem cla key={tab.id} tab={tab} />
                   ))}
                 </TabsList>
               </Tabs>

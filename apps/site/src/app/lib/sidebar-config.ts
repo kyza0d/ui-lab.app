@@ -6,6 +6,12 @@ import {
   FaBook,
   FaRocket,
   FaTableCells,
+  FaBox,
+  FaBoxOpen,
+  FaToolbox,
+  FaGift,
+  FaFile,
+  FaSeedling,
 } from 'react-icons/fa6';
 
 export type SidebarDomain =
@@ -61,14 +67,14 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
     id: 'components-core',
     label: 'Library',
     href: '/components',
-    icon: FaShapes,
+    icon: FaCube,
     domain: 'components',
   },
   {
     id: 'packages',
     label: 'Packages',
     href: '/packages',
-    icon: FaCube,
+    icon: FaGift,
     domain: 'packages',
   },
   {
@@ -79,18 +85,18 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
     domain: 'sections',
   },
   {
-    id: 'starters',
-    label: 'Starters',
-    href: '/starters',
-    icon: FaRocket,
-    domain: 'starters',
-  },
-  {
     id: 'patterns',
     label: 'Patterns',
     href: '/patterns',
     icon: FaTableCells,
     domain: 'patterns',
+  },
+  {
+    id: 'starters',
+    label: 'Starters',
+    href: '/starters',
+    icon: FaSeedling,
+    domain: 'starters',
   },
 ];
 

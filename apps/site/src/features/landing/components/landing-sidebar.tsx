@@ -54,9 +54,9 @@ const SidebarItemLink = memo(function SidebarItemLink({
 });
 
 const LANDING_NAV_ITEMS = [
+  { id: 'release-notes', label: 'Release Notes', href: '/releases', icon: FaTags },
   { id: 'docs', label: 'Getting Started', href: '/docs', icon: FaBook },
   { id: 'design-system', label: 'Design System', href: '/design-system', icon: FaSwatchbook },
-  { id: 'release-notes', label: 'Release Notes', href: '/releases', icon: FaTags },
   { id: 'community', label: 'Community', href: '/community', icon: FaUsers },
 ];
 
@@ -101,9 +101,9 @@ export function LandingSidebar() {
                     <Tooltip position='right' key={navItem.id} content="Coming soon" showArrow={true}>
                       <div className='relative'>
                         <button
-                          className="opacity-60 flex items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-semibold rounded-md text-foreground-400 border border-transparent"
+                          className="opacity-60 flex items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs font-semibold rounded-full text-foreground-400 border border-transparent"
                         >
-                          <div className="w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center text-foreground-300">
+                          <div className="w-10 h-10 bg-background-800 border border-background-700 rounded-sm flex items-center justify-center text-foreground-300">
                             <Icon className="w-5 h-5" />
                           </div>
                           <span className="font-semibold">Community</span>
@@ -119,7 +119,7 @@ export function LandingSidebar() {
                     key={navItem.id}
                     href={navItem.href}
                     className={cn(
-                      "flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm font-semibold rounded-md",
+                      "flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs font-semibold rounded-sm",
                       isActive
                         ? "border-background-700 text-foreground-50 bg-background-800"
                         : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
@@ -127,13 +127,13 @@ export function LandingSidebar() {
                   >
                     <div
                       className={cn(
-                        "w-10 h-10 bg-background-800 border border-background-700 rounded-md flex items-center justify-center",
+                        "w-10 h-10 bg-background-800 border border-background-700 rounded-sm flex items-center justify-center",
                         isActive ? "bg-transparent text-foreground-50" : "text-foreground-300"
                       )}
                     >
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-sm font-semibold">{navItem.label}</span>
+                    <span className="text-xs font-semibold">{navItem.label}</span>
                   </Link>
                 );
               })}
@@ -143,7 +143,7 @@ export function LandingSidebar() {
           <Scroll className="h-[calc(100vh-var(--header-height))]" maxHeight="100%" fadeY>
             <div className="py-7 px-5 space-y-8">
               <div>
-                <span className="text-sm font-semibold text-foreground-400">Quick Links</span>
+                <span className="text-xs font-semibold text-foreground-400">Quick Links</span>
                 <div className="relative mt-2.5">
                   <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                   <div className="space-y-1 pl-3">
@@ -152,13 +152,13 @@ export function LandingSidebar() {
                         key={link.href}
                         href={link.href}
                         className={cn(
-                          'block px-3 py-1.5  rounded-md cursor-pointer',
+                          'block px-3 py-1.5  rounded-sm cursor-pointer',
                           'transition-colors duration-300 ease-out',
                           'hover:duration-0',
                           'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
                         )}
                       >
-                        <span className='text-sm font-medium'>{link.label}</span>
+                        <span className='text-xs font-medium'>{link.label}</span>
                       </SidebarItemLink>
                     ))}
                   </div>
@@ -166,14 +166,14 @@ export function LandingSidebar() {
               </div>
 
               <div>
-                <span className="text-sm font-semibold text-foreground-400">Resources</span>
+                <span className="text-xs font-semibold text-foreground-400">Resources</span>
                 <div className="relative mt-2.5">
                   <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                   <div className="space-y-1 pl-3">
                     <SidebarItemLink
                       href="/docs/troubleshooting"
                       className={cn(
-                        'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
+                        'block px-3 py-1.5 text-xs rounded-sm cursor-pointer',
                         'transition-colors duration-300 ease-out',
                         'hover:duration-0',
                         'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
@@ -184,7 +184,7 @@ export function LandingSidebar() {
                     <SidebarItemLink
                       href="/docs"
                       className={cn(
-                        'block px-3 py-1.5 text-sm rounded-md cursor-pointer',
+                        'block px-3 py-1.5 text-xs rounded-sm cursor-pointer',
                         'transition-colors duration-300 ease-out',
                         'hover:duration-0',
                         'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
@@ -197,7 +197,7 @@ export function LandingSidebar() {
               </div>
 
               <div>
-                <span className="text-sm font-semibold text-foreground-400">AI & Agents</span>
+                <span className="text-xs font-semibold text-foreground-400">AI & Agents</span>
                 <div className="relative mt-2.5">
                   <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                   <div className="space-y-1 pl-3">
@@ -206,7 +206,7 @@ export function LandingSidebar() {
                         key={link.href}
                         href={link.href}
                         className={cn(
-                          'block px-3 py-1.5  font-medium text-sm rounded-md cursor-pointer',
+                          'block px-3 py-1.5  font-medium text-xs rounded-sm cursor-pointer',
                           'transition-colors duration-300 ease-out',
                           'hover:duration-0',
                           'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
