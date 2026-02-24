@@ -1,7 +1,7 @@
 {
   "id": "theme",
   "name": "ThemeProvider",
-  "description": "Production-ready theme provider for light/dark mode with automatic color inversion, localStorage persistence, and device preference detection. Integrates with UI Lab's semantic color system for automatic theme-aware styling.",
+  "description": "Theme provider for light/dark mode with automatic color inversion, localStorage persistence, and device preference detection. Integrates with UI Lab's semantic color system for automatic theme-aware styling.",
   "category": "theme",
   "packageName": "@ui/providers",
   "exportName": "ThemeProvider",
