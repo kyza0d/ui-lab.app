@@ -39,7 +39,7 @@ export default function ComponentsPage() {
                   </div>
                   <Divider variant="dashed" size="sm" className="-mx-3 w-[calc(100%+1.6rem)]! mb-8 mt-10" />
                   {/* Components Grid */}
-                  <Gallery columns={{ sm: "1", md: "2", lg: "2", xl: "3" }} gap="xl" containerQueryResponsive>
+                  <Gallery columns={{ sm: "1", md: "2" }} gap="xl" containerQueryResponsive>
                     {componentsInCategory.map((component) => {
                       const href = `/components/${component.id}`;
                       const { onMouseEnter, onMouseLeave } = usePrefetchOnHover(href);
@@ -54,7 +54,7 @@ export default function ComponentsPage() {
                           />
                           <Gallery.Item
                             href={href}
-                            className='group rounded-md h-90 bg-background-950 hover:bg-background-900/50 flex-col'
+                            className='group rounded-sm h-90 bg-background-950 hover:bg-background-900/50 flex-col'
                             orientation='horizontal'
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
