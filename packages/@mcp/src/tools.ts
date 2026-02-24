@@ -1,30 +1,12 @@
-/**
- * MCP Tools - Simplified (5 Core Tools)
- *
- * The refactored MCP provides exactly 5 core tools:
- * 1. get_component(id) - Get component metadata + design guidance
- * 2. get_semantic_color(component, intent) - Get ONE recommended color
- * 3. generate_component(spec) - Generate TSX from spec
- * 4. transform_ui(filePath) - Transform entire UI file
- * 5. get_theme_setup(include_fouc_script) - Get theme system setup instructions
- */
-
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { registryAdapter } from './adapters/registry-adapter.js';
 import { designTokensAdapter } from './adapters/design-tokens-adapter.js';
-import { generateComponentCode } from './generation/component-generator.js';
+import { patternsAdapter } from './adapters/patterns-adapter.js';
+import { packagesAdapter } from './adapters/packages-adapter.js';
+import { sectionsAdapter } from './adapters/sections-adapter.js';
+import { searchInspirations, getVariationCode } from './adapters/inspiration-adapter.js';
 import { formatDesignGuidelines } from './context/design-guidelines.js';
-import { transformUIFile } from './orchestrators/ui-transformer.js';
 
-import type {
-  ComponentGenerationSpec,
-} from './types/index.js';
-
-/**
- * Tool 1: search_components
- * Search for components by natural language query
- * Optimized for agent queries like "input form field" or "button primary action"
- */
 export const searchComponentsTool: Tool = {
   name: 'search_components',
   description:
@@ -42,11 +24,6 @@ export const searchComponentsTool: Tool = {
   },
 };
 
-/**
- * Tool 1b: get_component
- * Get full component metadata + design guidance
- * Merged from: get_component_details, get_component_examples
- */
 export const getComponentTool: Tool = {
   name: 'get_component',
   description:
@@ -58,14 +35,19 @@ export const getComponentTool: Tool = {
         type: 'string',
         description: 'Component ID (e.g., "button", "input", "card")',
       },
+      detail: {
+        type: 'string',
+        enum: ['api', 'examples', 'full'],
+        description:
+          '"api" = props+subComponents only (no examples, no design guidelines — use when writing code). "examples" = description+examples only. "full" = complete response with design guidelines (default).',
+        default: 'full',
+      },
     },
     required: ['id'],
   },
 };
 
-export async function handleSearchComponents(input: {
-  query: string;
-}): Promise<any> {
+export async function handleSearchComponents(input: { query: string }): Promise<any> {
   const results = registryAdapter.search(input.query, undefined, 10);
   return {
     success: true,
@@ -78,13 +60,39 @@ export async function handleSearchComponents(input: {
   };
 }
 
-export async function handleGetComponent(input: {
-  id: string;
-}): Promise<any> {
+export async function handleGetComponent(input: { id: string; detail?: 'api' | 'examples' | 'full' }): Promise<any> {
   const component = registryAdapter.getComponentById(input.id);
   if (!component) {
     throw new Error(`Component not found: ${input.id}`);
   }
+
+  const detail = input.detail ?? 'full';
+
+  if (detail === 'api') {
+    return {
+      success: true,
+      component: {
+        id: component.id,
+        name: component.name,
+        api: component.api
+          ? { props: component.api.props, subComponents: component.api.subComponents }
+          : undefined,
+      },
+    };
+  }
+
+  if (detail === 'examples') {
+    return {
+      success: true,
+      component: {
+        id: component.id,
+        name: component.name,
+        description: component.description,
+        api: component.api ? { examples: component.api.examples } : undefined,
+      },
+    };
+  }
+
   return {
     success: true,
     component,
@@ -92,12 +100,6 @@ export async function handleGetComponent(input: {
   };
 }
 
-/**
- * Tool 2: get_semantic_color
- * Get ONE recommended color for a component:intent combination
- * No options, no alternatives - just the right choice
- * Merged from: get_color_guidance, validate_color_usage
- */
 export const getSemanticColorTool: Tool = {
   name: 'get_semantic_color',
   description:
@@ -130,79 +132,6 @@ export async function handleGetSemanticColor(input: {
   };
 }
 
-/**
- * Tool 3: generate_component
- * Generate TSX code from a ComponentGenerationSpec
- * Accepts a specification, returns ready-to-use code
- */
-export const generateComponentTool: Tool = {
-  name: 'generate_component',
-  description:
-    'Generate production-ready TSX code from a component specification. Accepts a ComponentGenerationSpec with component ID, variant, props, children, and design tokens. Returns validated code, imports, and detailed validation results. Specification-driven approach ensures modular, isolated, reliable code generation.',
-  inputSchema: {
-    type: 'object' as const,
-    properties: {
-      spec: {
-        type: 'object',
-        description:
-          'Component generation spec with component, props, children, and design',
-      },
-    },
-    required: ['spec'],
-  },
-};
-
-export async function handleGenerateComponent(input: {
-  spec: ComponentGenerationSpec;
-}): Promise<any> {
-  const result = generateComponentCode(input.spec);
-  return {
-    ...result,
-    designGuidelines: formatDesignGuidelines(),
-  };
-}
-
-/**
- * Tool 4: transform_ui
- * Transform an entire UI file using single-pass orchestration
- * Simplified from: iterate_ui_to_lab_components
- */
-export const transformUITool: Tool = {
-  name: 'transform_ui',
-  description:
-    'Transform an entire UI file to use UI Lab components. Single-pass orchestration: analyzes file, maps patterns to components, generates code, validates all in one call. Returns analysis, code, and validation report.',
-  inputSchema: {
-    type: 'object' as const,
-    properties: {
-      file_path: {
-        type: 'string',
-        description: 'Path to the UI file to transform',
-      },
-      context: {
-        type: 'string',
-        description: 'Optional context about the file purpose',
-      },
-    },
-    required: ['file_path'],
-  },
-};
-
-export async function handleTransformUI(input: {
-  file_path: string;
-  context?: string;
-}): Promise<any> {
-  const result = await transformUIFile(input.file_path, input.context);
-  return {
-    ...result,
-    designGuidelines: formatDesignGuidelines(),
-  };
-}
-
-/**
- * Tool 5: get_theme_setup
- * Get complete setup instructions and code for light/dark mode theme system
- * Returns provider setup, toggle component code, and integration guide
- */
 export const getThemeSetupTool: Tool = {
   name: 'get_theme_setup',
   description:
@@ -219,16 +148,12 @@ export const getThemeSetupTool: Tool = {
   },
 };
 
-export async function handleGetThemeSetup(input: {
-  include_fouc_script?: boolean;
-}): Promise<any> {
-  // Query registry for theme provider metadata
+export async function handleGetThemeSetup(input: { include_fouc_script?: boolean }): Promise<any> {
   const themeProvider = registryAdapter.getProviderById('theme');
   if (!themeProvider) {
     throw new Error('Theme provider not found in registry');
   }
 
-  // Build hooks object from registry data
   const hooks: Record<string, any> = {};
   for (const hook of themeProvider.hooks) {
     hooks[hook.name] = {
@@ -239,7 +164,6 @@ export async function handleGetThemeSetup(input: {
     };
   }
 
-  // Build features object from registry data
   const features = themeProvider.features.map((feature: any) => ({
     name: feature.name,
     description: feature.description,
@@ -327,7 +251,7 @@ export function ThemeToggle() {
         example: {
           code: '<div className="bg-background-900 text-foreground-300">Content</div>',
           darkMode: 'bg-background-900 (very dark), text-foreground-300 (light)',
-          lightMode: 'bg-background-100 (very light), text-foreground-700 (dark)',
+          lightMode: 'bg-background-100 (very light), text-foreground-400 (medium)',
           result: 'Single code works perfectly in both themes',
         },
       },
@@ -338,21 +262,301 @@ export function ThemeToggle() {
   };
 }
 
-/**
- * Export all tools
- */
+export const searchPatternsTool: Tool = {
+  name: 'search_patterns',
+  description:
+    'Search for UI Lab design patterns by use case or intent. Returns patterns with working code examples that use correct design tokens and compound components. Use this before building from scratch to find an existing pattern foundation.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      query: {
+        type: 'string',
+        description:
+          'Search query describing what you want to build (e.g., "delete confirmation", "settings form", "empty state", "pricing cards", "auth login")',
+      },
+    },
+    required: ['query'],
+  },
+};
+
+export const getPatternTool: Tool = {
+  name: 'get_pattern',
+  description:
+    'Get a specific design pattern by ID, including its working TSX code and design notes explaining why each token and component choice was made. Use after search_patterns to get the full pattern implementation.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      id: {
+        type: 'string',
+        description:
+          'Pattern ID (e.g., "auth-form", "destructive-confirm", "empty-state", "status-list-item", "settings-form-layout")',
+      },
+    },
+    required: ['id'],
+  },
+};
+
+export async function handleSearchPatterns(input: { query: string }): Promise<any> {
+  const results = patternsAdapter.search(input.query);
+  return {
+    success: true,
+    patterns: results.map(p => ({
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      category: p.category,
+      complexity: p.complexity,
+      tags: p.tags,
+      hasCode: !!p.code,
+    })),
+    count: results.length,
+    message:
+      results.length === 0
+        ? `No patterns found for "${input.query}". Try: "form", "modal", "empty state", "auth", "list", "grid", "header", "pricing".`
+        : `Found ${results.length} pattern(s). Use get_pattern(id) to get the full code for a match.`,
+  };
+}
+
+export async function handleGetPattern(input: { id: string }): Promise<any> {
+  const pattern = patternsAdapter.getById(input.id);
+  if (!pattern) {
+    throw new Error(`Pattern not found: "${input.id}". Use search_patterns to find valid IDs.`);
+  }
+  return {
+    success: true,
+    pattern,
+    designGuidelines: formatDesignGuidelines(),
+  };
+}
+
+export const searchElementsTool: Tool = {
+  name: 'search_elements',
+  description:
+    'Search for UI Lab elements by use case or intent. Elements are pre-built, multi-component UI blocks (e.g., Chat interface, AIChatInput, TOC, Sidebar). Use before building complex UI to find a ready-made element foundation.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      query: {
+        type: 'string',
+        description:
+          'Search query describing the UI block you want (e.g., "chat interface", "sidebar navigation", "table of contents", "AI input")',
+      },
+    },
+    required: ['query'],
+  },
+};
+
+export const getElementTool: Tool = {
+  name: 'get_element',
+  description:
+    'Get a specific UI Lab element by ID, including its variations, files, and design notes. Use after search_elements to get the full element structure.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      id: {
+        type: 'string',
+        description: 'Element ID (e.g., "chat", "sidebar", "toc", "aichatinput")',
+      },
+    },
+    required: ['id'],
+  },
+};
+
+export async function handleSearchElements(input: { query: string }): Promise<any> {
+  const results = packagesAdapter.search(input.query, 10);
+  return {
+    success: true,
+    elements: results.map((e: any) => ({
+      id: e.id,
+      name: e.name,
+      description: e.description,
+      category: e.category,
+      tags: e.tags,
+      packageId: e.packageId,
+    })),
+    count: results.length,
+    message:
+      results.length === 0
+        ? `No elements found for "${input.query}". Try: "chat", "sidebar", "toc", "AI input", "header", "page".`
+        : `Found ${results.length} element(s). Use get_element(id) to get the full structure and variations.`,
+  };
+}
+
+export async function handleGetElement(input: { id: string }): Promise<any> {
+  const element = packagesAdapter.getById(input.id);
+  if (!element) {
+    throw new Error(`Element not found: "${input.id}". Use search_elements to find valid IDs.`);
+  }
+  return {
+    success: true,
+    element,
+  };
+}
+
+export const searchSectionsTool: Tool = {
+  name: 'search_sections',
+  description:
+    'Search for UI Lab page sections by intent. Sections are full-width landing page blocks (Hero, Features, CTA, Pricing, Testimonials). Use when building marketing pages or landing pages.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      query: {
+        type: 'string',
+        description:
+          'Search query describing the page section (e.g., "hero", "pricing cards", "feature grid", "testimonials", "call to action")',
+      },
+    },
+    required: ['query'],
+  },
+};
+
+export const getSectionTool: Tool = {
+  name: 'get_section',
+  description:
+    'Get a specific UI Lab section by ID, including its variations and design notes.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      id: {
+        type: 'string',
+        description: 'Section ID (e.g., "hero", "features", "cta", "pricing", "testimonials")',
+      },
+    },
+    required: ['id'],
+  },
+};
+
+export async function handleSearchSections(input: { query: string }): Promise<any> {
+  const results = sectionsAdapter.search(input.query, 10);
+  return {
+    success: true,
+    sections: results.map((s: any) => ({
+      id: s.id,
+      name: s.name,
+      description: s.description,
+      category: s.category,
+      tags: s.tags,
+    })),
+    count: results.length,
+    message:
+      results.length === 0
+        ? `No sections found for "${input.query}". Try: "hero", "features", "pricing", "cta", "testimonials".`
+        : `Found ${results.length} section(s). Use get_section(id) to get the full variations.`,
+  };
+}
+
+export async function handleGetSection(input: { id: string }): Promise<any> {
+  const section = sectionsAdapter.getById(input.id);
+  if (!section) {
+    throw new Error(`Section not found: "${input.id}". Use search_sections to find valid IDs.`);
+  }
+  return {
+    success: true,
+    section,
+  };
+}
+
+export const getInspirationTool: Tool = {
+  name: 'get_inspiration',
+  description:
+    'Discover relevant Elements, Sections, and Patterns from the UI Lab registry. Returns lightweight metadata (purpose, tags, structure hints) for design reasoning—no full source code. Use during ideation to find existing patterns that match your design needs.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      query: {
+        type: 'string',
+        description:
+          'Search query describing what you want to build or discover (e.g., "file list", "auth form", "empty state", "hero landing", "sidebar navigation"). Supports fuzzy matching across IDs, descriptions, and tags.',
+      },
+      category: {
+        type: 'string',
+        enum: ['elements', 'sections', 'patterns', 'all'],
+        description:
+          '"elements" = multi-component UI blocks (Chat, Sidebar, TOC), "sections" = full-width landing blocks (Hero, Pricing, Features), "patterns" = reusable atomic patterns (media-object, empty-state), "all" = search everything (default)',
+        default: 'all',
+      },
+      limit: {
+        type: 'number',
+        description: 'Maximum results to return (default: 10)',
+        default: 10,
+      },
+    },
+    required: ['query'],
+  },
+};
+
+export async function handleGetInspiration(input: {
+  query: string;
+  category?: 'elements' | 'sections' | 'patterns' | 'all';
+  limit?: number;
+}): Promise<any> {
+  const result = searchInspirations(input.query, input.category, input.limit ?? 10);
+  return {
+    success: true,
+    ...result,
+    message:
+      result.totalMatches === 0
+        ? `No inspiration found for "${input.query}". Try: "list", "form", "hero", "empty state", "sidebar", "chat", "pricing".`
+        : `Found ${result.totalMatches} result(s) for "${input.query}". Each includes purpose, codeStructureHint, and tags for design reasoning.`,
+  };
+}
+
+export const getVariationCodeTool: Tool = {
+  name: 'get_variation_code',
+  description:
+    'Fetch the source code for a specific variation of an Element, Section, or Pattern discovered via get_inspiration. Returns only the requested variation—no other variations, no full metadata. Use this to drill into a specific implementation without polluting context.',
+  inputSchema: {
+    type: 'object' as const,
+    properties: {
+      type: {
+        type: 'string',
+        enum: ['element', 'section', 'pattern'],
+        description: 'The type of item to fetch code for',
+      },
+      id: {
+        type: 'string',
+        description: 'The item ID from get_inspiration results (e.g., "chat", "hero", "media-object")',
+      },
+      variation: {
+        type: 'string',
+        description:
+          'Which variation to fetch. Accepts: 1-based index ("1", "2", "3"), variation name substring ("filter toolbar", "with actions"), demoPath ("chat-basic"), or pattern variation ID ("media-object-sm"). Omit to get the first/main variation.',
+      },
+    },
+    required: ['type', 'id'],
+  },
+};
+
+export async function handleGetVariationCode(input: {
+  type: 'element' | 'section' | 'pattern';
+  id: string;
+  variation?: string;
+}): Promise<any> {
+  const result = getVariationCode(input.type, input.id, input.variation);
+  if (!result) {
+    const hint = input.variation
+      ? `Variation "${input.variation}" not found in ${input.type} "${input.id}". Use get_inspiration to see variationsSummary for valid identifiers.`
+      : `${input.type} "${input.id}" not found. Use get_inspiration to discover valid IDs.`;
+    return { success: false, message: hint };
+  }
+  return { success: true, ...result };
+}
+
 export const tools: Tool[] = [
   searchComponentsTool,
   getComponentTool,
   getSemanticColorTool,
-  generateComponentTool,
-  transformUITool,
   getThemeSetupTool,
+  searchPatternsTool,
+  getPatternTool,
+  searchElementsTool,
+  getElementTool,
+  searchSectionsTool,
+  getSectionTool,
+  getInspirationTool,
+  getVariationCodeTool,
 ];
 
-/**
- * Tool handler dispatch
- */
 export async function handleTool(
   toolName: string,
   toolInput: Record<string, unknown>
@@ -364,12 +568,24 @@ export async function handleTool(
       return handleGetComponent(toolInput as any);
     case 'get_semantic_color':
       return handleGetSemanticColor(toolInput as any);
-    case 'generate_component':
-      return handleGenerateComponent(toolInput as any);
-    case 'transform_ui':
-      return handleTransformUI(toolInput as any);
     case 'get_theme_setup':
       return handleGetThemeSetup(toolInput as any);
+    case 'search_patterns':
+      return handleSearchPatterns(toolInput as any);
+    case 'get_pattern':
+      return handleGetPattern(toolInput as any);
+    case 'search_elements':
+      return handleSearchElements(toolInput as any);
+    case 'get_element':
+      return handleGetElement(toolInput as any);
+    case 'search_sections':
+      return handleSearchSections(toolInput as any);
+    case 'get_section':
+      return handleGetSection(toolInput as any);
+    case 'get_inspiration':
+      return handleGetInspiration(toolInput as any);
+    case 'get_variation_code':
+      return handleGetVariationCode(toolInput as any);
     default:
       throw new Error(`Unknown tool: ${toolName}`);
   }
