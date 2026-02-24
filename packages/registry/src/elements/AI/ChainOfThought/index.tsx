@@ -34,7 +34,7 @@ export function getPreview(): React.ReactNode {
           <span className="text-accent-500 font-bold">1.</span>
           <div className="text-foreground-400">Analyzing the problem</div>
         </div>
-        <div className="flex items-start gap-2 ml-2 text-foreground-500">
+        <div className="flex items-start gap-2 ml-2 text-foreground-400">
           <span>→</span>
           <div>Breaking down requirements</div>
         </div>

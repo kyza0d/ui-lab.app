@@ -47,10 +47,10 @@ export function PricingComparison() {
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
             Compare all plans
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-foreground-600">
+          <p className="mx-auto max-w-2xl text-lg text-foreground-400">
             Find the perfect plan with detailed feature comparison
           </p>
         </div>
@@ -60,22 +60,22 @@ export function PricingComparison() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-background-700">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground-900">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground-400">
                   Features
                 </th>
                 {comparisonData.plans.map((plan) => (
                   <th
                     key={plan.id}
-                    className="px-6 py-4 text-center text-sm font-semibold text-foreground-900"
+                    className="px-6 py-4 text-center text-sm font-semibold text-foreground-400"
                   >
                     <div className="mb-2">{plan.name}</div>
                     {plan.price ? (
                       <div className="text-lg font-bold text-accent-500">
                         ${plan.price}
-                        <span className="text-xs text-foreground-600">/mo</span>
+                        <span className="text-xs text-foreground-400">/mo</span>
                       </div>
                     ) : (
-                      <div className="text-sm text-foreground-600">Custom</div>
+                      <div className="text-sm text-foreground-400">Custom</div>
                     )}
                   </th>
                 ))}
@@ -87,14 +87,14 @@ export function PricingComparison() {
                   <tr className="border-t border-background-700 bg-background-900/30">
                     <td
                       colSpan={4}
-                      className="px-6 py-4 text-sm font-semibold text-foreground-700"
+                      className="px-6 py-4 text-sm font-semibold text-foreground-400"
                     >
                       {category.category}
                     </td>
                   </tr>
                   {category.items.map((item, itemIndex) => (
                     <tr key={itemIndex} className="border-t border-background-700/50">
-                      <td className="px-6 py-4 text-sm text-foreground-700">
+                      <td className="px-6 py-4 text-sm text-foreground-400">
                         {item.name}
                       </td>
                       {comparisonData.plans.map((plan) => {
@@ -106,10 +106,10 @@ export function PricingComparison() {
                               value ? (
                                 <Check className="mx-auto h-5 w-5 text-accent-500" />
                               ) : (
-                                <X className="mx-auto h-5 w-5 text-foreground-600" />
+                                <X className="mx-auto h-5 w-5 text-foreground-400" />
                               )
                             ) : (
-                              <span className="text-sm text-foreground-700">
+                              <span className="text-sm text-foreground-400">
                                 {value}
                               </span>
                             )}
@@ -126,10 +126,10 @@ export function PricingComparison() {
 
         {/* CTA Section */}
         <div className="mt-12 rounded-2xl border border-background-700 bg-background-900/50 p-8 text-center">
-          <h3 className="mb-4 text-2xl font-bold text-foreground-900">
+          <h3 className="mb-4 text-2xl font-bold text-foreground-400">
             Ready to get started?
           </h3>
-          <p className="mb-6 text-foreground-600">
+          <p className="mb-6 text-foreground-400">
             Choose your plan and start building today. All plans include a 14-day free trial.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">

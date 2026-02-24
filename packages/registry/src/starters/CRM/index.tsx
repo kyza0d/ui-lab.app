@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'crm-starter',
-  name: 'CRM System Starter',
+  name: 'CRM System',
   description: 'Customer Relationship Management template with contact management and interaction tracking',
   category: 'crm' as const,
   tags: ['crm', 'customers', 'sales', 'nextjs'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

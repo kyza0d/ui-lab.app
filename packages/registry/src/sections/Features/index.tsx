@@ -11,7 +11,7 @@ const baseMetadata = {
   tags: ['features', 'capabilities', 'benefits', 'showcase'],
   layout: {
     layoutClass: 'features',
-    columnSpan: 4,
+    columnSpan: 1,
     rowSpan: 4,
   },
   componentDependencies: [],

@@ -1,0 +1,32 @@
+{
+  "id": "media-object",
+  "name": "Media Object",
+  "description": "Icon or image anchored left with stacked title and description on the right. The universal building block for list items, feature descriptions, notifications, and sidebars.",
+  "category": "layout",
+  "tags": [
+    "icon",
+    "image",
+    "list",
+    "feature",
+    "notification",
+    "sidebar",
+    "row"
+  ],
+  "complexity": "simple",
+  "notes": "bg-background-800 for the icon container \u2014 never bg-gray-100. Icon size drives visual weight: use w-10 h-10 for standard density, w-8 for compact, w-14 for feature cards.",
+  "code": "function MediaObject({ icon, title, description }) {\n  return (\n    <div className=\"flex items-start gap-3\">\n      <div className=\"w-10 h-10 flex items-center justify-center rounded-lg bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200\">{title}</p>\n        <p className=\"text-sm text-foreground-400\">{description}</p>\n      </div>\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "media-object-sm",
+      "name": "Small",
+      "description": "Reduced icon size (w-8 h-8) and tighter gap for dense lists.",
+      "code": "function MediaObjectSm({ icon, title, description }) {\n  return (\n    <div className=\"flex items-center gap-2\">\n      <div className=\"w-8 h-8 flex items-center justify-center rounded-md bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0\">\n        <p className=\"text-xs font-medium text-foreground-200 truncate\">{title}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{description}</p>\n      </div>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "media-object-lg",
+      "name": "Large",
+      "description": "Larger icon area (w-14 h-14) for feature cards and marketing contexts.",
+      "code": "function MediaObjectLg({ icon, title, description }) {\n  return (\n    <div className=\"flex items-start gap-4\">\n      <div className=\"w-14 h-14 flex items-center justify-center rounded-xl bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0 pt-1\">\n        <p className=\"text-base font-semibold text-foreground-100\">{title}</p>\n        <p className=\"text-sm text-foreground-400 mt-1\">{description}</p>\n      </div>\n    </div>\n  )\n}"
+    }
+  ]
+}

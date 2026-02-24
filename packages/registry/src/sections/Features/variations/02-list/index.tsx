@@ -48,10 +48,10 @@ export function FeatureList() {
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
             Designed for your success
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-foreground-600">
+          <p className="mx-auto max-w-2xl text-lg text-foreground-400">
             Comprehensive features to help you achieve your goals faster
           </p>
         </div>
@@ -65,10 +65,10 @@ export function FeatureList() {
             >
               {/* Content - alternate sides */}
               <div className={index % 2 === 1 ? 'md:order-2' : ''}>
-                <h3 className="mb-4 text-2xl font-bold text-foreground-900 md:text-3xl">
+                <h3 className="mb-4 text-2xl font-bold text-foreground-400 md:text-3xl">
                   {block.title}
                 </h3>
-                <p className="mb-6 text-lg text-foreground-600">
+                <p className="mb-6 text-lg text-foreground-400">
                   {block.description}
                 </p>
 
@@ -76,7 +76,7 @@ export function FeatureList() {
                   {block.benefits.map((benefit, i) => (
                     <li key={i} className="flex items-center gap-3">
                       <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-accent-500" />
-                      <span className="text-foreground-700">{benefit}</span>
+                      <span className="text-foreground-400">{benefit}</span>
                     </li>
                   ))}
                 </ul>

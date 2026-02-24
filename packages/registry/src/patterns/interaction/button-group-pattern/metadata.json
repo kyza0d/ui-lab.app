@@ -1,0 +1,31 @@
+{
+  "id": "button-group-pattern",
+  "name": "Button Group",
+  "description": "Buttons composed in a UI Lab Group component. Covers toolbar formatting controls, segmented option selectors, and split-button arrangements.",
+  "category": "interaction",
+  "tags": [
+    "button",
+    "group",
+    "toolbar",
+    "segmented",
+    "formatting",
+    "actions"
+  ],
+  "complexity": "simple",
+  "notes": "Group with spacing='none' and no variant gives a flat connected group. Divider component between groups creates visual separation without full gaps.",
+  "code": "import { Button, Group } from 'ui-lab-components'\n\nfunction ButtonGroupPattern() {\n  return (\n    <Group spacing=\"none\">\n      <Button variant=\"secondary\" size=\"sm\">Bold</Button>\n      <Button variant=\"secondary\" size=\"sm\">Italic</Button>\n      <Button variant=\"secondary\" size=\"sm\">Underline</Button>\n    </Group>\n  )\n}",
+  "variations": [
+    {
+      "id": "button-group-horizontal",
+      "name": "Horizontal with Divider",
+      "description": "Two groups separated by a Divider \u2014 primary actions and a secondary destructive action.",
+      "code": "import { Button, Group, Divider } from 'ui-lab-components'\n\nfunction ButtonGroupHorizontal() {\n  return (\n    <Group spacing=\"xs\">\n      <Button variant=\"secondary\" size=\"sm\">Save</Button>\n      <Button variant=\"secondary\" size=\"sm\">Duplicate</Button>\n      <Divider orientation=\"vertical\" />\n      <Button variant=\"secondary\" size=\"sm\">Delete</Button>\n    </Group>\n  )\n}"
+    },
+    {
+      "id": "button-group-icon",
+      "name": "Icon Only",
+      "description": "Icon-only buttons in a compact Group. Each button should have an aria-label.",
+      "code": "import { Button, Group } from 'ui-lab-components'\n\nfunction ButtonGroupIcon() {\n  return (\n    <Group spacing=\"none\">\n      <Button variant=\"ghost\" size=\"sm\" aria-label=\"Align left\">\n        <svg width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n          <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M4 6h16M4 12h10M4 18h16\" />\n        </svg>\n      </Button>\n      <Button variant=\"ghost\" size=\"sm\" aria-label=\"Align center\">\n        <svg width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n          <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M4 6h16M7 12h10M4 18h16\" />\n        </svg>\n      </Button>\n      <Button variant=\"ghost\" size=\"sm\" aria-label=\"Align right\">\n        <svg width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n          <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M4 6h16M10 12h10M4 18h16\" />\n        </svg>\n      </Button>\n    </Group>\n  )\n}"
+    }
+  ]
+}

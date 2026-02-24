@@ -11,7 +11,7 @@ const baseMetadata = {
   tags: ['hero', 'landing', 'cta', 'visual'],
   layout: {
     layoutClass: 'hero',
-    columnSpan: 4,
+    columnSpan: 1,
     rowSpan: 4,
   },
   componentDependencies: ['Button'],

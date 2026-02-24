@@ -39,7 +39,7 @@
  *     <div className="flex items-center gap-2 text-foreground-400 text-sm">
  *       <span>{themeMode === 'dark' ? '🌙' : '☀️'}</span>
  *       <span className="capitalize">{themeMode} mode</span>
- *       {themeSource === 'device' && <span className="text-foreground-500">(device)</span>}
+ *       {themeSource === 'device' && <span className="text-foreground-400">(device)</span>}
  *     </div>
  *   )
  * }

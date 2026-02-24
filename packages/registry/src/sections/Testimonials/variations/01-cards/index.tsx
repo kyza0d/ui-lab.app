@@ -39,10 +39,10 @@ export function CardTestimonials() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">
-          <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
             Loved by teams worldwide
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-foreground-600">
+          <p className="mx-auto max-w-2xl text-lg text-foreground-400">
             See what our customers have to say about their experience
           </p>
         </div>
@@ -65,16 +65,16 @@ export function CardTestimonials() {
               </div>
 
               {/* Quote */}
-              <blockquote className="mb-6 text-foreground-700">
+              <blockquote className="mb-6 text-foreground-400">
                 "{testimonial.quote}"
               </blockquote>
 
               {/* Author */}
               <div className="border-t border-background-700 pt-4">
-                <p className="font-semibold text-foreground-900">
+                <p className="font-semibold text-foreground-400">
                   {testimonial.author}
                 </p>
-                <p className="text-sm text-foreground-600">
+                <p className="text-sm text-foreground-400">
                   {testimonial.role} at {testimonial.company}
                 </p>
               </div>

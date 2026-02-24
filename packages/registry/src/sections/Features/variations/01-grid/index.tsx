@@ -49,10 +49,10 @@ export function GridFeatures() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">
-          <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
             Powerful features for modern teams
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-foreground-600">
+          <p className="mx-auto max-w-2xl text-lg text-foreground-400">
             Everything you need to build, deploy, and scale your applications with confidence
           </p>
         </div>
@@ -69,10 +69,10 @@ export function GridFeatures() {
                 <div className="mb-4 inline-flex rounded-md bg-accent-500/10 p-3">
                   <Icon className="h-6 w-6 text-accent-500" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground-900">
+                <h3 className="mb-2 text-lg font-semibold text-foreground-400">
                   {feature.name}
                 </h3>
-                <p className="text-foreground-600">
+                <p className="text-foreground-400">
                   {feature.description}
                 </p>
               </div>

@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'productivity-app',
-  name: 'Productivity App Starter',
+  name: 'Productivity App',
   description: 'Task and note management application template with local storage persistence',
   category: 'productivity' as const,
   tags: ['productivity', 'nextjs', 'tasks', 'notes'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

@@ -21,7 +21,7 @@ export function Page({ children }: PageProps) {
 
       <footer className="bg-background-800 border-t border-background-700">
         <div className="mx-auto max-w-6xl px-4 py-4">
-          <p className="text-foreground-500 text-sm">&copy; 2024</p>
+          <p className="text-foreground-400 text-sm">&copy; 2024</p>
         </div>
       </footer>
     </div>

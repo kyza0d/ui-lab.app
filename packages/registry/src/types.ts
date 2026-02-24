@@ -7,7 +7,7 @@ export type ComponentCategory =
   | 'action'
   | 'composition'
   | 'layout'
-  | 'data';
+  | 'display';
 
 export interface ComponentSource {
   packageName: 'ui-lab-components';
@@ -344,13 +344,20 @@ export interface ProviderCategoryDefinition {
 }
 
 export type PatternCategory =
-  | 'hero-landing'
-  | 'navigation'
-  | 'forms'
-  | 'content'
-  | 'sections';
+  | 'layout'
+  | 'form'
+  | 'data'
+  | 'interaction'
+  | 'feedback';
 
 export type PatternComplexity = 'simple' | 'moderate' | 'complex';
+
+export interface PatternVariation {
+  id: string;
+  name: string;
+  description: string;
+  code: string;
+}
 
 export interface PatternMetadata {
   id: string;
@@ -358,11 +365,10 @@ export interface PatternMetadata {
   description: string;
   category: PatternCategory;
   tags: string[];
-  useCases: string[];
-  components: string[];
   complexity: PatternComplexity;
-  relatedPatterns: string[];
   notes: string;
+  code?: string;
+  variations?: PatternVariation[];
 }
 
 export interface PatternRegistry {

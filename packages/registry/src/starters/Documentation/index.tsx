@@ -4,13 +4,13 @@ import type { StarterMetadata } from '../../types';
 
 const baseMetadata = {
   id: 'docs-site',
-  name: 'Documentation Site Starter',
+  name: 'Documentation',
   description: 'Professional documentation site template with sidebar navigation and code highlighting',
   category: 'documentation' as const,
   tags: ['documentation', 'astro', 'markdown', 'api-docs'],
   layout: {
     layoutClass: 'starter',
-    columnSpan: 8,
+    columnSpan: 1,
     rowSpan: 8,
   },
   componentDependencies: [],

@@ -23,5 +23,5 @@ export const categoryIconConfig = {
   feedback: { name: 'FaBell', component: FaBell },
   navigation: { name: 'FaCompass', component: FaCompass },
   container: { name: 'FaLayerGroup', component: FaLayerGroup },
-  data: { name: 'FaChartBar', component: FaChartBar },
+  display: { name: 'FaChartBar', component: FaChartBar },
 } as const;

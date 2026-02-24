@@ -28,7 +28,7 @@ export function ExpandableThoughtStep({
           <h3 className="font-semibold text-foreground-50 mb-1">{title}</h3>
           <p className="text-sm text-foreground-400">{description}</p>
         </div>
-        <span className="text-foreground-500 flex-shrink-0 mt-1">{isExpanded ? '▼' : '▶'}</span>
+        <span className="text-foreground-400 flex-shrink-0 mt-1">{isExpanded ? '▼' : '▶'}</span>
       </button>
 
       {isExpanded && (

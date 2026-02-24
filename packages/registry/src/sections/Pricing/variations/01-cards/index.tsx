@@ -62,10 +62,10 @@ export function PricingCards() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">
-          <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
             Simple, transparent pricing
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-foreground-600">
+          <p className="mx-auto max-w-2xl text-lg text-foreground-400">
             Choose the perfect plan for your needs. Always flexible to scale.
           </p>
         </div>
@@ -89,24 +89,24 @@ export function PricingCards() {
                 </div>
               )}
 
-              <h3 className="mb-2 text-2xl font-bold text-foreground-900">
+              <h3 className="mb-2 text-2xl font-bold text-foreground-400">
                 {plan.name}
               </h3>
-              <p className="mb-6 text-foreground-600">{plan.description}</p>
+              <p className="mb-6 text-foreground-400">{plan.description}</p>
 
               {/* Pricing */}
               <div className="mb-8">
                 {plan.price ? (
                   <>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold text-foreground-900">
+                      <span className="text-4xl font-bold text-foreground-400">
                         ${plan.price}
                       </span>
-                      <span className="text-foreground-600">/{plan.period}</span>
+                      <span className="text-foreground-400">/{plan.period}</span>
                     </div>
                   </>
                 ) : (
-                  <div className="text-lg font-semibold text-foreground-900">
+                  <div className="text-lg font-semibold text-foreground-400">
                     Custom pricing
                   </div>
                 )}
@@ -126,7 +126,7 @@ export function PricingCards() {
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <Check className="h-5 w-5 flex-shrink-0 text-accent-500 mt-0.5" />
-                      <span className="text-foreground-700">{feature}</span>
+                      <span className="text-foreground-400">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -137,7 +137,7 @@ export function PricingCards() {
 
         {/* Footer note */}
         <div className="mt-12 text-center">
-          <p className="text-foreground-600">
+          <p className="text-foreground-400">
             All plans include a 14-day free trial. No credit card required.
           </p>
         </div>

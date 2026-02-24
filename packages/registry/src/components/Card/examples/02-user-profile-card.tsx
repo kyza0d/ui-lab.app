@@ -26,11 +26,11 @@ export default function Example() {
         <Card.Body className="space-y-4">
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-sm text-foreground-300">
-              <Mail className="w-4 h-4 text-foreground-500" />
+              <Mail className="w-4 h-4 text-foreground-400" />
               <span>alex.johnson@company.com</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-foreground-300">
-              <MapPin className="w-4 h-4 text-foreground-500" />
+              <MapPin className="w-4 h-4 text-foreground-400" />
               <span>San Francisco, CA</span>
             </div>
           </div>

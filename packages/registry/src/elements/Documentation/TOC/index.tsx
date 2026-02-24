@@ -32,11 +32,11 @@ export function getPreview(): React.ReactNode {
       <div className="space-y-2 text-xs">
         <div className="font-semibold text-foreground-200 mb-2">Contents</div>
         <div className="text-foreground-400">• Introduction</div>
-        <div className="ml-3 text-foreground-500 text-xs">◦ Overview</div>
-        <div className="ml-3 text-foreground-500 text-xs">◦ Getting Started</div>
+        <div className="ml-3 text-foreground-400 text-xs">◦ Overview</div>
+        <div className="ml-3 text-foreground-400 text-xs">◦ Getting Started</div>
         <div className="text-foreground-400">• Installation</div>
         <div className="text-foreground-400">• Usage</div>
-        <div className="ml-3 text-foreground-500 text-xs">◦ Basic</div>
+        <div className="ml-3 text-foreground-400 text-xs">◦ Basic</div>
       </div>
     </div>
   );

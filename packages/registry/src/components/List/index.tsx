@@ -13,7 +13,7 @@ const basicListCode = `import { List, Button } from "ui-lab-components";
 
 export function Example() {
   return (
-    <List ariaLabel="Items">
+    <List aria-label="Items">
       <List.Header>
         <h2>Items</h2>
       </List.Header>
@@ -50,7 +50,7 @@ export const listDetail: ComponentDetail = {
       description: 'Basic list usage with interactive items',
       code: basicListCode,
       preview: (
-        <List ariaLabel="Preview List">
+        <List aria-label="Preview List">
           <List.Header>
             <h3>Items</h3>
           </List.Header>
@@ -72,7 +72,7 @@ export const listDetail: ComponentDetail = {
       description: 'Standard list with interactive items.',
       code: basicListCode,
       preview: (
-        <List ariaLabel="Basic List">
+        <List aria-label="Basic List">
           <List.Header>
             <h3>Items</h3>
           </List.Header>
@@ -94,7 +94,7 @@ import { useState } from "react";
 export function Example() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   return (
-    <List ariaLabel="Items">
+    <List aria-label="Items">
       <List.Header>
         <h2>Items</h2>
       </List.Header>
@@ -116,7 +116,7 @@ export function Example() {
   );
 }`,
       preview: (
-        <List ariaLabel="Selection List">
+        <List aria-label="Selection List">
           <List.Header>
             <h3>Items</h3>
           </List.Header>
@@ -135,7 +135,7 @@ export function Example() {
 
 export function Example() {
   return (
-    <List ariaLabel="Items">
+    <List aria-label="Items">
       <List.Header>
         <h2>Feed</h2>
       </List.Header>
@@ -150,7 +150,7 @@ export function Example() {
   );
 }`,
       preview: (
-        <List ariaLabel="Actions List">
+        <List aria-label="Actions List">
           <List.Header>
             <h3>Feed</h3>
           </List.Header>
@@ -173,7 +173,7 @@ export function Example() {
 export function Example() {
   return (
     <div className="h-64 overflow-y-auto">
-      <List ariaLabel="Items">
+      <List aria-label="Items">
         <List.Header sticky>
           <h2>Items</h2>
         </List.Header>
@@ -187,7 +187,7 @@ export function Example() {
 }`,
       preview: (
         <div className="h-40 overflow-y-auto border border-background-700 rounded">
-          <List ariaLabel="Sticky List">
+          <List aria-label="Sticky List">
             <List.Header sticky>
               <h3>Items</h3>
             </List.Header>

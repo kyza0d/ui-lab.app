@@ -1,0 +1,32 @@
+{
+  "id": "badge-row",
+  "name": "Badge Row",
+  "description": "A flex-wrapped row of Badge components for tags, categories, skills, and status collections. Controls overflow gracefully and prevents arbitrary color usage for status mapping.",
+  "category": "data",
+  "tags": [
+    "badge",
+    "tags",
+    "categories",
+    "skills",
+    "status",
+    "chips",
+    "labels"
+  ],
+  "complexity": "simple",
+  "notes": "flex-wrap with gap-1.5 is the canonical badge row layout. Cap visible badges with slice() and add a +N remainder badge when overflow matters.",
+  "code": "import { Badge } from 'ui-lab-components'\n\nfunction BadgeRow({ tags }) {\n  return (\n    <div className=\"flex flex-wrap gap-1.5\">\n      {tags.map((tag) => (\n        <Badge key={tag} size=\"sm\">{tag}</Badge>\n      ))}\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "badge-row-outline",
+      "name": "Outline",
+      "description": "All badges use the secondary/outline style \u2014 for neutral tag collections without semantic meaning.",
+      "code": "import { Badge } from 'ui-lab-components'\n\nfunction BadgeRowOutline({ tags }) {\n  return (\n    <div className=\"flex flex-wrap gap-1.5\">\n      {tags.map((tag) => (\n        <Badge key={tag} size=\"sm\" variant=\"secondary\">{tag}</Badge>\n      ))}\n    </div>\n  )\n}"
+    },
+    {
+      "id": "badge-row-mixed",
+      "name": "Mixed Variants",
+      "description": "Each badge carries its own semantic variant \u2014 for status collections where each item has a different state.",
+      "code": "import { Badge } from 'ui-lab-components'\n\nconst statusVariant = {\n  active: 'success',\n  beta: 'warning',\n  deprecated: 'danger',\n  draft: 'default',\n} as const\n\nfunction BadgeRowMixed({ items }) {\n  return (\n    <div className=\"flex flex-wrap gap-1.5\">\n      {items.map((item) => (\n        <Badge\n          key={item.label}\n          size=\"sm\"\n          variant={statusVariant[item.status] ?? 'default'}\n        >\n          {item.label}\n        </Badge>\n      ))}\n    </div>\n  )\n}"
+    }
+  ]
+}

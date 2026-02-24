@@ -49,7 +49,7 @@
  *   return (
  *     <div className="p-4 border border-background-700 rounded-lg">
  *       {themeMode === 'light' ? (
- *         <div className="bg-background-100 text-foreground-950">
+ *         <div className="bg-background-100 text-foreground-400">
  *           <h2>Light Mode Content</h2>
  *           <p>This content is optimized for light mode viewing.</p>
  *         </div>

@@ -1,0 +1,32 @@
+{
+  "id": "search-input",
+  "name": "Search Input",
+  "description": "Input with a leading search icon and optional trailing clear button or keyboard shortcut badge. Used in toolbars, filter bars, and command palette triggers.",
+  "category": "form",
+  "tags": [
+    "search",
+    "filter",
+    "input",
+    "icon",
+    "toolbar",
+    "command",
+    "kbd"
+  ],
+  "complexity": "simple",
+  "notes": "pl-9 on Input to accommodate the leading icon. Icon is positioned absolute at left-3, vertically centered with top-1/2 -translate-y-1/2.",
+  "code": "import { Input } from 'ui-lab-components'\n\nfunction SearchInput({ placeholder = 'Search...' }) {\n  return (\n    <div className=\"relative\">\n      <svg\n        className=\"absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground-500 pointer-events-none\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        viewBox=\"0 0 24 24\"\n      >\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" />\n      </svg>\n      <Input placeholder={placeholder} className=\"pl-9\" />\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "search-input-bare",
+      "name": "Bare",
+      "description": "No border on the input itself \u2014 for use inside panels or cards that provide their own border context.",
+      "code": "import { Input } from 'ui-lab-components'\n\nfunction SearchInputBare({ placeholder = 'Search...' }) {\n  return (\n    <div className=\"relative\">\n      <svg\n        className=\"absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground-500 pointer-events-none\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        viewBox=\"0 0 24 24\"\n      >\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" />\n      </svg>\n      <Input placeholder={placeholder} className=\"pl-9 border-transparent bg-transparent focus:border-background-700\" />\n    </div>\n  )\n}"
+    },
+    {
+      "id": "search-input-with-kbd",
+      "name": "With Keyboard Shortcut",
+      "description": "Trailing keyboard shortcut badge (\u2318K) \u2014 signals that this input is also triggerable by a hotkey.",
+      "code": "import { Input } from 'ui-lab-components'\n\nfunction SearchInputWithKbd({ placeholder = 'Search...' }) {\n  return (\n    <div className=\"relative\">\n      <svg\n        className=\"absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground-500 pointer-events-none\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        viewBox=\"0 0 24 24\"\n      >\n        <path strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth={2} d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" />\n      </svg>\n      <Input placeholder={placeholder} className=\"pl-9 pr-16\" />\n      <kbd className=\"absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] text-foreground-500 bg-background-800 border border-background-700 rounded font-mono pointer-events-none\">\n        \u2318K\n      </kbd>\n    </div>\n  )\n}"
+    }
+  ]
+}

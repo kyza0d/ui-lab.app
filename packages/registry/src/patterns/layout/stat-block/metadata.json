@@ -1,0 +1,32 @@
+{
+  "id": "stat-block",
+  "name": "Stat Block",
+  "description": "A large metric value with label and optional trend indicator. The repeating unit inside dashboard summary cards and analytics panels.",
+  "category": "layout",
+  "tags": [
+    "metric",
+    "stat",
+    "number",
+    "dashboard",
+    "kpi",
+    "analytics",
+    "trend"
+  ],
+  "complexity": "simple",
+  "notes": "text-foreground-100 for the value \u2014 maximum contrast since the number is the focal point. text-foreground-400 for the label. Trend uses text-accent-400 for positive indicators.",
+  "code": "function StatBlock({ value, label, trend }) {\n  return (\n    <div className=\"flex flex-col gap-1\">\n      <p className=\"text-3xl font-bold text-foreground-100 tabular-nums\">{value}</p>\n      <p className=\"text-sm text-foreground-400\">{label}</p>\n      {trend && (\n        <p className=\"text-xs text-accent-400\">{trend}</p>\n      )}\n    </div>\n  )\n}",
+  "variations": [
+    {
+      "id": "stat-block-compact",
+      "name": "Compact",
+      "description": "Horizontal inline layout \u2014 value and label on one line. For use in dense sidebars and toolbars.",
+      "code": "function StatBlockCompact({ value, label }) {\n  return (\n    <div className=\"flex items-baseline gap-2\">\n      <span className=\"text-xl font-bold text-foreground-100 tabular-nums\">{value}</span>\n      <span className=\"text-xs text-foreground-400\">{label}</span>\n    </div>\n  )\n}"
+    },
+    {
+      "id": "stat-block-with-icon",
+      "name": "With Icon",
+      "description": "Icon in a pill container above the number. Reinforces metric meaning visually.",
+      "code": "function StatBlockWithIcon({ icon, value, label, trend }) {\n  return (\n    <div className=\"flex flex-col gap-2\">\n      <div className=\"w-9 h-9 flex items-center justify-center rounded-lg bg-background-800 text-foreground-300\">\n        {icon}\n      </div>\n      <div className=\"flex flex-col gap-0.5\">\n        <p className=\"text-2xl font-bold text-foreground-100 tabular-nums\">{value}</p>\n        <p className=\"text-sm text-foreground-400\">{label}</p>\n        {trend && <p className=\"text-xs text-accent-400\">{trend}</p>}\n      </div>\n    </div>\n  )\n}"
+    }
+  ]
+}

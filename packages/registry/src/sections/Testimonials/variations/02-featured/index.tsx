@@ -58,7 +58,7 @@ export function FeaturedTestimonial() {
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-foreground-400 md:text-4xl">
             What our customers say
           </h2>
         </div>
@@ -81,7 +81,7 @@ export function FeaturedTestimonial() {
             </div>
 
             {/* Quote */}
-            <blockquote className="mb-8 text-2xl font-semibold text-foreground-900 leading-relaxed md:text-3xl">
+            <blockquote className="mb-8 text-2xl font-semibold text-foreground-400 leading-relaxed md:text-3xl">
               "{current.quote}"
             </blockquote>
 
@@ -93,10 +93,10 @@ export function FeaturedTestimonial() {
                 </span>
               </div>
               <div>
-                <p className="font-semibold text-foreground-900">
+                <p className="font-semibold text-foreground-400">
                   {current.author}
                 </p>
-                <p className="text-sm text-foreground-600">
+                <p className="text-sm text-foreground-400">
                   {current.role} at {current.company}
                 </p>
               </div>
