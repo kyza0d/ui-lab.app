@@ -198,6 +198,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     required: boolean;
     defaultValue?: string;
     enumValues?: string[];
+    description?: string;
   };
 
   const propsColumns: Column<PropData>[] = [
@@ -235,6 +236,7 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     type: string;
     required: boolean;
     enumValues?: string[];
+    description?: string;
   };
 
   const subPropsColumns: Column<SubPropData>[] = [
