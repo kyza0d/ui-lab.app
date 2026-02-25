@@ -17,7 +17,6 @@ const TARGET_FILES = [
   path.join(rootDir, 'package.json'),
   path.join(rootDir, 'apps/site/package.json'),
   path.join(rootDir, 'packages/registry/package.json'),
-  path.join(rootDir, 'packages/@cli/package.json'),
   path.join(rootDir, 'packages/@mcp/package.json'),
 ];
 
