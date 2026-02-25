@@ -110,10 +110,13 @@ export function extractComponentAPI(componentDirName: string): ComponentAPI | nu
   const mainDoc = allDocs.find(d => d.displayName === componentDirName) || allDocs[0];
   const mainProps = extractPropsFromDoc(mainDoc);
 
-  const subComponents: Record<string, PropDefinition[]> = {};
+  const subComponents: Record<string, { description?: string; props: PropDefinition[] }> = {};
   for (const doc of allDocs) {
     if (doc.displayName && doc.displayName !== mainDoc.displayName) {
-      subComponents[doc.displayName] = extractPropsFromDoc(doc);
+      subComponents[doc.displayName] = {
+        description: doc.description || undefined,
+        props: extractPropsFromDoc(doc),
+      };
     }
   }
 

@@ -24,9 +24,14 @@ export interface PropDefinition {
   enumValues?: string[];
 }
 
+export interface SubComponentAPI {
+  description?: string;
+  props: PropDefinition[];
+}
+
 export interface ComponentAPI {
   props: PropDefinition[];
-  subComponents?: Record<string, PropDefinition[]>;
+  subComponents?: Record<string, SubComponentAPI>;
   examples?: ComponentExample[];
 }
 
