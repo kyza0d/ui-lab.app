@@ -5,7 +5,7 @@
     --background: var(--background-900);
     --foreground: var(--foreground-200);
     --border: var(--background-600);
-    @apply py-2 px-4;
+    @apply py-2.5 px-4;
 
     width: 100%;
     max-width: 28rem;
@@ -18,8 +18,10 @@
     border-radius: var(--radius-sm);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     font-family: inherit;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     line-height: var(--leading-normal);
+    touch-action: pan-y;
+    user-select: none;
   }
 
   .icon {
@@ -37,15 +39,15 @@
 
   .title {
     font-weight: var(--font-weight-semibold);
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     line-height: var(--leading-tight);
     margin: 0;
   }
 
   .description {
-    @apply mt-1;
-    font-weight: var(--font-weight-normal);
-    font-size: var(--text-sm);
+    @apply mt-1 mb-0;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-xs);
     line-height: var(--leading-normal);
   }
 

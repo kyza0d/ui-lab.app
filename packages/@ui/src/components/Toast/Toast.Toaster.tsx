@@ -41,6 +41,9 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
   const isTop = position.includes("top");
   const [isHovering, setIsHovering] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isDraggingRef = useRef(false);
+  const isDismissingCountRef = useRef(0);
+  const isMouseInContainerRef = useRef(false);
 
   const visibleToasts = useMemo(
     () => toasts.slice(0, MAX_VISIBLE + 1),
@@ -48,11 +51,14 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
   );
 
   const handleMouseEnter = () => {
+    isMouseInContainerRef.current = true;
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     setIsHovering(true);
   };
 
   const handleMouseLeave = () => {
+    isMouseInContainerRef.current = false;
+    if (isDraggingRef.current || isDismissingCountRef.current > 0) return;
     hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
   };
 
@@ -196,7 +202,32 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
               zIndex: visibleToasts.length - index,
             }}
           >
-            <Toast toast={toast} pauseOnHover={isHovering} />
+            <Toast
+                toast={toast}
+                pauseOnHover={isHovering}
+                onDragStart={() => {
+                  isDraggingRef.current = true;
+                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                  setIsHovering(true);
+                }}
+                onDragEnd={() => {
+                  isDraggingRef.current = false;
+                  if (isDismissingCountRef.current === 0 && !isMouseInContainerRef.current) {
+                    hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
+                  }
+                }}
+                onDismissStart={() => {
+                  isDismissingCountRef.current++;
+                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                  setIsHovering(true);
+                }}
+                onDismissEnd={() => {
+                  isDismissingCountRef.current--;
+                  if (isDismissingCountRef.current === 0 && !isDraggingRef.current && !isMouseInContainerRef.current) {
+                    hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
+                  }
+                }}
+              />
           </div>
         ))}
       </div>
