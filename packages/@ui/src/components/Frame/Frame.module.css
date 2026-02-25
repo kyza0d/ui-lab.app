@@ -1,4 +1,18 @@
 @layer components {
+  .root {
+    --frame-radius: var(--radius-2xl, 24px);
+    --frame-stroke-width: var(--border-width-base, 1px);
+  }
+
+  .shape {
+    rx: var(--frame-radius);
+  }
+
+  .stroke {
+    stroke-width: var(--frame-stroke-width);
+    vector-effect: non-scaling-stroke;
+  }
+
   .frame {
     position: relative;
     display: inline-block;

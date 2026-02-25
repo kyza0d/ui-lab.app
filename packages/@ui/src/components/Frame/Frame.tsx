@@ -3,6 +3,7 @@
 import React, { useId } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import styles from "./Frame.module.css";
 
 const frameVariants = cva("relative w-full group isolate", {
   variants: {
@@ -49,7 +50,7 @@ export interface FrameProps
 }
 
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
-  ({ children, variant, padding, className, style, path, pathWidth = 0, side = "top", cornerRadius = 24, fill, shapeMode = "indent", borderWidth, borderColor = "var(--background-700)", ...props }, ref) => {
+  ({ children, variant, padding, className, style, path, pathWidth = 0, side = "top", cornerRadius, fill, shapeMode = "indent", borderWidth, borderColor = "var(--background-700)", ...props }, ref) => {
     const maskId = useId();
     const borderMaskId = `border-${maskId}`;
     const bgMaskId = `bg-${maskId}`;
@@ -69,12 +70,14 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
     return (
       <div
         ref={ref}
-        className={cn(frameVariants({ variant, padding }), className)}
+        className={cn(frameVariants({ variant, padding }), styles.root, className)}
         style={{
+          ...(cornerRadius !== undefined && { "--frame-radius": `${cornerRadius}px` }),
+          ...(borderWidth !== undefined && { "--frame-stroke-width": `${borderWidth}px` }),
           maskImage: path && shapeMode === "indent" ? `url(#${maskId})` : undefined,
           WebkitMaskImage: path && shapeMode === "indent" ? `url(#${maskId})` : undefined,
           ...style,
-        }}
+        } as React.CSSProperties}
         {...props}
       >
         <svg
@@ -84,14 +87,14 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           <defs>
             {/* Mask for the Content/Background: Cuts the path shape (curvature) */}
             <mask id={maskId}>
-              <rect width="100%" height="100%" fill="white" rx={cornerRadius} />
+              <rect width="100%" height="100%" fill="white" className={styles.shape} />
               {path && (
                 <svg x={x} y={y} overflow="visible">
-                  <g transform={`rotate(${rotate})`}>
+                  <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
                     <path
                       d={path}
                       fill="black"
-                      transform={`translate(-${pathWidth / 2}, 0)`}
+                      transform={`translate(-${pathWidth / 2}, ${borderStroke / 2})`}
                     />
                   </g>
                 </svg>
@@ -100,7 +103,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
 
             {/* Mask for the Border: Cuts a clean gap for the stroke connection */}
             <mask id={borderMaskId}>
-              <rect width="100%" height="100%" fill="white" rx={cornerRadius} />
+              <rect x="-10%" y="-10%" width="120%" height="120%" fill="white" />
               {path && (
                 <svg x={x} y={y} overflow="visible">
                   <g transform={`rotate(${rotate})`}>
@@ -118,14 +121,14 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
 
             {/* Mask for the Background Fill (Union or Difference) */}
             <mask id={bgMaskId}>
-              <rect width="100%" height="100%" fill="white" rx={cornerRadius} />
+              <rect width="100%" height="100%" fill="white" className={styles.shape} />
               {path && (
                 <svg x={x} y={y} overflow="visible">
-                  <g transform={`rotate(${rotate})`}>
+                  <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
                     <path
                       d={path}
                       fill={shapeMode === "extend" ? "white" : "black"}
-                      transform={`translate(-${pathWidth / 2}, 0.010)`}
+                      transform={`translate(-${pathWidth / 2}, ${borderStroke / 2})`}
                     />
                   </g>
                 </svg>
@@ -151,11 +154,11 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
             y="0"
             width="100%"
             height="100%"
-            rx={cornerRadius}
             fill="none"
             stroke={borderColor}
             strokeWidth={borderStroke}
             mask={`url(#${borderMaskId})`}
+            className={cn(styles.shape, styles.stroke)}
           />
 
           {/* Layer 2: The Notch/Tab Path Stroke */}
@@ -168,6 +171,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
                   stroke={borderColor}
                   strokeWidth={borderStroke}
                   transform={`translate(-${pathWidth / 2}, ${borderStroke / 2})`}
+                  className={styles.stroke}
                 />
               </g>
             </svg>
