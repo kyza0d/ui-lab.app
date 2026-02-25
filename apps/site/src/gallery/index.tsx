@@ -6,6 +6,8 @@ import {
   Frame,
   Mask,
 } from "ui-lab-components";
+import { DividerAnimation } from "./timelines/divider.animation";
+import { ExpandAnimation } from "./timelines/expand.animation";
 import { GridAnimation } from "./timelines/grid.animation";
 import { FlexAnimation } from "./timelines/flex.animation";
 import {
@@ -19,6 +21,7 @@ import {
   FaEnvelope,
   FaQuestion,
 } from "react-icons/fa6";
+import { GalleryAnimation } from "./timelines/gallery.animation";
 
 const TAIL_PATH = "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
 const TAIL_WIDTH = 18;
@@ -195,51 +198,17 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  divider: (
-    <div className="w-full">
-      <div className="w-[30%] h-2 opacity-20 rounded-md mb-2 bg-background-500"></div>
-      <div className="w-[50%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-      <div className="w-[40%] h-1 opacity-20 rounded-md bg-background-500"></div>
-      <Divider variant="solid" size="sm" className="mb-4" />
-      <div className="w-[30%] h-2 opacity-20 rounded-md mb-2 bg-background-500"></div>
-      <div className="w-[50%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-    </div>
-  ),
+  divider: <DividerAnimation />,
 
   flex: <FlexAnimation />,
 
-  expand: (
-    <div className="w-full flex flex-col gap-2 max-w-sm">
-      <div className="h-8 flex border-b border-background-700">
-        <div className="w-[80%] h-2 opacity-10 rounded-md mt-2 bg-background-500"></div>
-        <FaChevronDown
-          size={10}
-          className="text-foreground-400 ml-auto mt-1"
-        />
-      </div>
-      <div className="h-8 flex border-b border-background-700">
-        <div className="w-[80%] h-2 opacity-10 rounded-md mt-2 bg-background-500"></div>
-        <FaChevronDown
-          size={10}
-          className="text-foreground-400 ml-auto mt-1"
-        />
-      </div>
-    </div>
-  ),
+  expand: <ExpandAnimation />,
 
   frame: (
     <div className="w-[120px] h-[40px] flex bg-background-900 items-center justify-center border border-background-700 rounded-md"></div>
   ),
 
-  gallery: (
-    <div className="w-[50%]">
-      <div className="w-full h-28 border border-background-700 rounded bg-background-950">
-        <div className="w-full h-14 border-b border-background-700" />
-        <div className="w-[30%] h-2 opacity-10 rounded-md ml-2 mt-2 bg-background-500"></div>
-        <div className="w-[70%] h-2 opacity-10 rounded-md ml-2 mt-2 bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  gallery: <GalleryAnimation />,
   grid: <GridAnimation />,
   group: (
     <div className="flex border overflow-hidden rounded-md h-8 pl-2 items-center border-background-700 w-full">
