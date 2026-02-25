@@ -79,21 +79,21 @@ export default function Header({
   return (
     <>
       <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700 bg-background-950 h-[58px]">
-        <div className="h-full max-w-(--page-width) mx-auto border-x border-background-700 flex items-center justify-between px-3 w-full overflow-hidden">
+        <div className={cn("relative h-full max-w-(--page-width) border-x border-background-700 flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
           <div className=" flex items-center flex-1 min-w-0">
-
-            <button
-              onClick={handleToggleSidebar}
-              className="lg:hidden flex items-center justify-center rounded-md p-0.5 text-foreground-300 hover:bg-background-800 min-w-[44px] min-h-[44px]"
-              aria-label="Toggle sidebar"
-            >
-              <PanelRight strokeWidth={2.4} size={20} />
-            </button>
 
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
               <div className="scale-100">
                 <Logo />
               </div>
+
+              <button
+                onClick={handleToggleSidebar}
+                className="lg:hidden flex items-center justify-center rounded-md p-0.5 text-foreground-300 hover:bg-background-800 min-w-[44px] min-h-[44px]"
+                aria-label="Toggle sidebar"
+              >
+                <PanelRight strokeWidth={2.4} size={20} />
+              </button>
             </Link>
 
 
@@ -123,7 +123,7 @@ export default function Header({
               <Input
                 placeholder="Search..."
                 prefixIcon={<FaMagnifyingGlass size={13} />}
-                className="text-xs w-50 md:w-90 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                className="text-xs w-50 md:w-60 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                 onClick={() => setIsCommandPaletteOpen(true)}
                 readOnly
               />

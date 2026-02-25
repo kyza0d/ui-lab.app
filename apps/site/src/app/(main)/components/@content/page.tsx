@@ -25,7 +25,7 @@ export default function ComponentsPage() {
                 <div key={category} className="space-y-4">
                   <div className="flex gap-4">
                     {/* Category Header */}
-                    <div className="bg-background-800 border border-background-700 w-12 h-12 flex items-center justify-center rounded-sm text-foreground-200 mr-3">
+                    <div className="bg-background-800 border border-background-700 w-22 h-22 flex items-center justify-center rounded-sm text-foreground-200 mr-3">
                       {getCategoryIcon(category as any)}
                     </div>
                     <div>
@@ -54,7 +54,7 @@ export default function ComponentsPage() {
                           />
                           <Gallery.Item
                             href={href}
-                            className='group rounded-sm bg-background-950 hover:bg-background-900/50 flex-col'
+                            className='group h-90 rounded-sm bg-background-950 hover:bg-background-900/50 flex-col'
                             orientation='horizontal'
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}

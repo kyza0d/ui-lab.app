@@ -12,7 +12,7 @@ import {
   getMainNavItemsForDomain,
 } from '@/app/lib/sidebar-config';
 import { getSectionsForNav, getHrefForNavItem, isNavItemActive } from '@/features/navigation/lib/sidebar-sections';
-import { getElementsListForSidebar, getActiveElementsNavFromPathname } from '@/features/packages/lib/sidebar-sections';
+import { getActiveElementsNavFromPathname } from '@/features/packages/lib/sidebar-sections';
 import { ElementsList } from '@/features/packages/components/elements-sidebar-content';
 
 const SidebarItemLink = memo(function SidebarItemLink({

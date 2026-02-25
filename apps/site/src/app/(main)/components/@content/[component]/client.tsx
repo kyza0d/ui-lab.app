@@ -3,6 +3,8 @@
 import { ComponentConfigurator } from "@/features/component-docs";
 import { getComponentById, getComponentMetadata } from "@/features/component-docs";
 import { TableOfContents, Table, type Column } from "@/features/docs";
+import { CopyComponentPage } from "@/features/docs";
+import { OpenPage } from "@/features/docs";
 import { cn } from "@/shared";
 import { Code, InlineCodeHighlight } from "@/features/docs";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
@@ -101,7 +103,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
             <div className="space-y-2 min-h-32">
               <div className="flex flex-col mb-12 relative">
                 {metadata?.experimental && (
-                  <Tooltip content="Experimental: Not fully implemented and requires testing" position="left" showArrow>
+                  <Tooltip content="Experimental" position="left" showArrow>
                     <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
                       <FaFlask size={14} />
                     </span>
@@ -136,9 +138,9 @@ export function ComponentClient({ componentId }: { componentId: string }) {
             <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
                 <TabsList className="grid w-fit grid-cols-3">
-                  <TabsTrigger className="text-sm pb-3" value="examples">Examples</TabsTrigger>
-                  <TabsTrigger className="text-sm pb-3" value="api">API</TabsTrigger>
-                  <TabsTrigger className="text-sm pb-3" value="styles">Styles</TabsTrigger>
+                  <TabsTrigger className="pb-3" value="examples">Examples</TabsTrigger>
+                  <TabsTrigger className="pb-3" value="api">API</TabsTrigger>
+                  <TabsTrigger className="pb-3" value="styles">Styles</TabsTrigger>
                 </TabsList>
               </Flex>
               <TabsContent value="examples" className="mt-6">
@@ -168,7 +170,15 @@ export function ComponentClient({ componentId }: { componentId: string }) {
         </div>
         <Footer />
       </div>
-      {!isChatOpen && tocItems.length > 0 && <TableOfContents items={tocItems} />}
+      {!isChatOpen && (
+        <div className="sticky top-(--header-height) flex  flex-col justify-between h-[calc(100vh-var(--header-height))]">
+          <TableOfContents items={tocItems} />
+          <div className="space-y-3 px-4 pb-4">
+            <OpenPage componentId={componentId} />
+            <CopyComponentPage componentId={componentId} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

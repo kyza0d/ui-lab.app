@@ -36,8 +36,8 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
       </div>
 
       <div className="max-w-4xl mx-auto px-8 py-12">
-        <div className="space-y-2 mb-8">
-          <h1 className="text-3xl font-bold text-foreground-50">{title}</h1>
+        <div className="space-y-2 mb-24">
+          <h1 className="text-xl font-bold text-foreground-50">{title}</h1>
           <p className="text-foreground-400">{description}</p>
         </div>
 
@@ -48,7 +48,7 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
                 <h2 className="text-base font-semibold text-foreground-100">{example.title}</h2>
                 <p className="text-sm text-foreground-400">{example.description}</p>
               </div>
-              <div className={`flex rounded-lg p-6 ${example.previewLayout === "center" ? "justify-center items-center" : example.previewLayout === "start" ? "justify-start items-start" : ""}`}>
+              <div className={`border border-background-700 relative p-24 flex rounded-lg ${example.previewLayout === "center" ? "justify-center items-center" : example.previewLayout === "start" ? "justify-start items-start" : ""}`}>
                 {example.preview}
               </div>
             </div>
