@@ -44,7 +44,7 @@ export default function Home() {
       <LandingSidebar />
       <main className="flex-1 h-full w-full flex flex-col items-center md:overflow-x-hidden">
 
-        <section className="w-full px-4 sm:px-6 md:px-12 lg:px-24 border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
+        <section className="w-full border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
           <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[474px]">
             <HeroSection />
           </div>

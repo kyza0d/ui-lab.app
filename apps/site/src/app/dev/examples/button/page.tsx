@@ -27,11 +27,11 @@ function DeployPipelineButton() {
   }, [stage]);
 
   const stageConfig: Record<DeployStage, { label: string; icon: React.ReactNode; variant: "primary" | "default" | "outline" | "ghost" | "danger"; disabled: boolean }> = {
-    idle: { label: "Deploy to Production", icon: <FaRocket />, variant: "default", disabled: false },
-    queued: { label: "Queued…", icon: <FaSpinner className="animate-spin" />, variant: "default", disabled: true },
-    deploying: { label: "Deploying…", icon: <FaSpinner className="animate-spin" />, variant: "default", disabled: true },
-    succeeded: { label: "Deployed", icon: <FaCheck />, variant: "default", disabled: false },
-    failed: { label: "Failed — Retry", icon: <FaRotateRight />, variant: "default", disabled: false },
+    idle: { label: "Deploy to Production", icon: <FaRocket />, variant: "outline", disabled: false },
+    queued: { label: "Queued…", icon: <FaSpinner className="animate-spin" />, variant: "outline", disabled: true },
+    deploying: { label: "Deploying…", icon: <FaSpinner className="animate-spin" />, variant: "outline", disabled: true },
+    succeeded: { label: "Deployed", icon: <FaCheck />, variant: "outline", disabled: false },
+    failed: { label: "Failed — Retry", icon: <FaRotateRight />, variant: "danger", disabled: false },
   };
 
   const cfg = stageConfig[stage];
@@ -240,7 +240,7 @@ function ToolbarPreview() {
           </Select.Content>
         </Group.Select>
 
-        <Tooltip content="Bold">
+        <Tooltip showArrow content="Bold">
           <Group.Button>
             <FaBold size={14} />
           </Group.Button>
@@ -248,7 +248,7 @@ function ToolbarPreview() {
 
         <Divider orientation='vertical' />
 
-        <Tooltip content="Italic">
+        <Tooltip showArrow content="Italic">
           <Group.Button>
             <FaItalic size={14} />
           </Group.Button>
@@ -256,66 +256,66 @@ function ToolbarPreview() {
 
         <Divider orientation='vertical' />
 
-        <Tooltip content="More Options">
+        <Tooltip showArrow content="More Options">
           <Group.Button>
             <FaEllipsis size={14} />
           </Group.Button>
         </Tooltip>
 
 
-        <Tooltip content="Underline">
+        <Tooltip showArrow content="Underline">
           <Group.Button>
             <FaUnderline size={14} />
           </Group.Button>
         </Tooltip>
-        <Tooltip content="Strikethrough">
+        <Tooltip showArrow content="Strikethrough">
           <Group.Button>
             <FaStrikethrough size={14} />
           </Group.Button>
         </Tooltip>
 
-        <Tooltip content="Bullet List">
+        <Tooltip showArrow content="Bullet List">
           <Group.Button>
             <FaList size={14} />
           </Group.Button>
         </Tooltip>
-        <Tooltip content="Numbered List">
+        <Tooltip showArrow content="Numbered List">
           <Group.Button>
             <FaListUl size={14} />
           </Group.Button>
         </Tooltip>
 
 
-        <Tooltip content="Insert Link">
+        <Tooltip showArrow content="Insert Link">
           <Group.Button>
             <FaLink size={14} />
           </Group.Button>
         </Tooltip>
-        <Tooltip content="Insert Image">
+        <Tooltip showArrow content="Insert Image">
           <Group.Button>
             <FaImage size={14} />
           </Group.Button>
         </Tooltip>
 
 
-        <Tooltip content="Block Quote">
+        <Tooltip showArrow content="Block Quote">
           <Group.Button>
             <FaQuoteLeft size={14} />
           </Group.Button>
         </Tooltip>
       </Group>
       <Group orientation="horizontal" spacing="none">
-        <Tooltip content="Bold">
+        <Tooltip showArrow content="Bold">
           <Group.Button><FaBold size={14} /></Group.Button>
         </Tooltip>
-        <Tooltip content="Italic">
+        <Tooltip showArrow content="Italic">
           <Group.Button><FaItalic size={14} /></Group.Button>
         </Tooltip>
-        <Tooltip content="Underline">
+        <Tooltip showArrow content="Underline">
           <Group.Button><FaUnderline size={14} /></Group.Button>
         </Tooltip>
         <Divider orientation="vertical" />
-        <Tooltip content="More options">
+        <Tooltip showArrow content="More options">
           <Group.Button><FaEllipsis size={14} /></Group.Button>
         </Tooltip>
       </Group>
@@ -343,10 +343,11 @@ function PaginationPreview() {
   }
 
   return (
-    <Group variant="ghost" spacing="sm">
+    <Group spacing="none">
       <Group.Button onPress={() => setCurrentPage(p => Math.max(1, p - 1))} isDisabled={currentPage === 1}>
         <FaChevronLeft size={12} />
       </Group.Button>
+      <Divider orientation="vertical" />
       {getPages().map((page, i) =>
         page === "..." ? (
           <Group.Button key={`ellipsis-${i}`} isDisabled className="cursor-default">
@@ -358,6 +359,7 @@ function PaginationPreview() {
           </Group.Button>
         )
       )}
+      <Divider orientation="vertical" />
       <Group.Button onPress={() => setCurrentPage(p => Math.min(totalPages, p + 1))} isDisabled={currentPage === totalPages}>
         <FaChevronRight size={12} />
       </Group.Button>
