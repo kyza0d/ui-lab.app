@@ -71,7 +71,7 @@
     gap: 0.5rem;
     background-color: transparent;
     border: none;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
     color: var(--foreground-400);
     cursor: pointer;
