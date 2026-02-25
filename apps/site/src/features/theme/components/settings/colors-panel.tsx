@@ -20,7 +20,7 @@ import { Divider } from "ui-lab-components";
 import { useApp } from "../../lib/app-context";
 import { ThemeColors } from "../../constants/themes";
 
-const MICRO_LABEL = "text-sm font-semibold text-foreground-400";
+const MICRO_LABEL = "text-xs font-semibold text-foreground-400";
 
 interface ColorsPanelProps {
   localColors: ThemeColors;

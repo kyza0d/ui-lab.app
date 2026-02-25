@@ -75,7 +75,7 @@ export function InlineCodeHighlight({
 
   return (
     <code
-      className={`font-mono text-sm ${className}`}
+      className={`font-mono text-xs ${className}`}
       dangerouslySetInnerHTML={{ __html: highlightedCode }}
     />
   );

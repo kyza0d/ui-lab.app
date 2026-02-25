@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { cn } from "@/shared";
 import { InlineCodeHighlight } from "@/features/docs";
+import { Expand } from "ui-lab-components";
 
 export interface Column<T> {
   key: keyof T;
@@ -21,6 +22,7 @@ export interface TableProps<T> {
   showFilters?: boolean;
   onRowClick?: (row: T) => void;
   onFilterChange?: (filters: Record<string, string>) => void;
+  expandRender?: (row: T) => React.ReactNode;
 }
 
 export function Table<T extends Record<string, any>>({
@@ -29,8 +31,19 @@ export function Table<T extends Record<string, any>>({
   showFilters = false,
   onRowClick,
   onFilterChange,
+  expandRender,
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, string>>({});
+  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+
+  const toggleRow = (idx: number) => {
+    setExpandedRows((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
 
   const filterableColumns = columns.filter((col) => col.filterable);
 
@@ -86,46 +99,75 @@ export function Table<T extends Record<string, any>>({
                   {col.label}
                 </th>
               ))}
+              {expandRender && <th className="w-10" />}
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-              filteredData.map((row, idx) => (
-                <tr
-                  key={idx}
-                  onClick={() => onRowClick?.(row)}
-                  className={cn(
-                    "border-b border-background-800 last:border-b-0",
-                    onRowClick
-                      ? "cursor-pointer hover:bg-background-900 transition-colors"
-                      : ""
-                  )}
-                >
-                  {columns.map((col, idx) => (
-                    <td
-                      key={idx}
-                      className="px-4 py-3 text-foreground-300"
-                      style={{ width: col.width }}
-                    >
-                      {col.render ? (
-                        col.render(row[col.key], row)
-                      ) : col.isCode ? (
-                        <InlineCodeHighlight
-                          code={String(row[col.key])}
-                          language={col.codeLanguage || "typescript"}
-                          className="bg-background-900 px-2 py-1 rounded"
-                        />
-                      ) : (
-                        String(row[col.key])
+              filteredData.map((row, idx) => {
+                const isExpanded = expandedRows.has(idx);
+                return (
+                  <Fragment key={idx}>
+                    <tr
+                      onClick={() =>
+                        expandRender ? toggleRow(idx) : onRowClick?.(row)
+                      }
+                      className={cn(
+                        "border-b border-background-800",
+                        expandRender || onRowClick
+                          ? "cursor-pointer hover:bg-background-900 transition-colors"
+                          : ""
                       )}
-                    </td>
-                  ))}
-                </tr>
-              ))
+                    >
+                      {columns.map((col, colIdx) => (
+                        <td
+                          key={colIdx}
+                          className="px-4 py-3 text-foreground-300"
+                          style={{ width: col.width }}
+                        >
+                          {col.render ? (
+                            col.render(row[col.key], row)
+                          ) : col.isCode ? (
+                            <InlineCodeHighlight
+                              code={String(row[col.key])}
+                              language={col.codeLanguage || "typescript"}
+                              className="bg-background-900 px-2 py-1 rounded"
+                            />
+                          ) : (
+                            String(row[col.key])
+                          )}
+                        </td>
+                      ))}
+                      {expandRender && (
+                        <td className="px-4 py-3 text-right">
+                          <Expand.Icon
+                            style={{
+                              transform: isExpanded
+                                ? "rotate(180deg)"
+                                : "rotate(0deg)",
+                              transition: "transform 250ms ease",
+                            }}
+                          />
+                        </td>
+                      )}
+                    </tr>
+                    {expandRender && isExpanded && (
+                      <tr className="border-b border-background-800 last:border-b-0">
+                        <td
+                          colSpan={columns.length + 1}
+                          className="px-4 py-3"
+                        >
+                          {expandRender(row)}
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                );
+              })
             ) : (
               <tr>
                 <td
-                  colSpan={columns.length}
+                  colSpan={columns.length + (expandRender ? 1 : 0)}
                   className="px-4 py-8 text-center text-foreground-400"
                 >
                   No data available
