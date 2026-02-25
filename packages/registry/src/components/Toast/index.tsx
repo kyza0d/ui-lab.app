@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { toast, Toaster } from 'ui-lab-components';
+import { Button, toast, Toaster } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaBell, FaX } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-toast.js';
@@ -58,14 +58,14 @@ const toastControls: ControlDef[] = [
   },
 ];
 
-const toastBasicCode = `import { toast, Toaster } from "ui-lab-components";
+const toastBasicCode = `import { toast, Toaster, Button } from "ui-lab-components";
 
 export function Example() {
   return (
     <>
-      <button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
+      <Button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
         Show Toast
-      </button>
+      </Button>
       <Toaster />
     </>
   );
@@ -93,19 +93,17 @@ export const toastDetail: ComponentDetail = {
       code: toastBasicCode,
       preview: (
         <>
-          <button
-            onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}
-            className="px-4 py-2 bg-accent-500 text-white rounded"
-          >
+          <Button size="sm" onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
             Show Toast
-          </button>
+          </Button>
           <Toaster />
         </>
       ),
       controls: toastControls,
       renderPreview: (props: any) => (
         <>
-          <button
+          <Button
+            size="sm"
             onClick={() =>
               toast({
                 title: 'Notification',
@@ -115,10 +113,9 @@ export const toastDetail: ComponentDetail = {
                 duration: parseInt(props.duration) || 5000,
               })
             }
-            className="px-4 py-2 bg-accent-500 text-white rounded"
           >
             Show Toast
-          </button>
+          </Button>
           <Toaster />
         </>
       ),

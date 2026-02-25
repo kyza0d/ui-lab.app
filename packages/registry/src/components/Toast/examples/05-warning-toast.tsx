@@ -10,6 +10,7 @@ export default function Example() {
   return (
     <>
       <Button
+        size="sm"
         onClick={() =>
           toast({
             title: 'Warning',

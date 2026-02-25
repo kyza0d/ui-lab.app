@@ -9,7 +9,9 @@ export const metadata = {
 export default function Example() {
   return (
     <>
-      <Button onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
+      <Button
+        size="sm"
+        onClick={() => toast({ title: 'Notification', description: 'This is a toast message' })}>
         Show Toast
       </Button>
       <Toaster />
