@@ -56,7 +56,7 @@ export function AIComposer() {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Ask, search, or make anything..."
-        className="w-full bg-transparent px-4 py-3 text-sm resize-none outline-none text-foreground-100 placeholder:text-foreground-500"
+        className="w-full bg-transparent px-4 py-3 text-xs resize-none outline-none text-foreground-100 placeholder:text-foreground-500"
       />
 
       {/* ── Bottom toolbar ── */}
@@ -70,7 +70,7 @@ export function AIComposer() {
         >
           <Select.Trigger
             icon={{ prefix: <ProviderIcon className="w-4.5 h-4.5 shrink-0" style={{ color: providerColor }} /> }}
-            className="text-sm h-10"
+            className="text-xs h-10"
           >
             <span className="text-foreground-200">{selectedModel.label}</span>
           </Select.Trigger>

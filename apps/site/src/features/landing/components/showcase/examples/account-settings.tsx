@@ -10,7 +10,7 @@ export function FormInputs() {
     <div>
       <div>
         <div className="px-4 py-3 border-b border-background-700">
-          <div className="text-sm font-semibold text-foreground-100">Account Settings</div>
+          <div className="text-xs font-semibold text-foreground-100">Account Settings</div>
           <div className="text-xs text-foreground-500 mt-0.5">Manage your preferences.</div>
         </div>
 

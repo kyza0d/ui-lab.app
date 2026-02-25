@@ -39,8 +39,8 @@ function HeroSection() {
               </Button>
             </div>
           </div>
-          <div className="hidden flex flex-col-reverse sm:flex-row gap-4 sm:gap-6 w-full px-4 pb-4 md:pb-0 md:absolute md:bottom-0 md:left-0">
-            <div className="p-3 md:p-[12px] text-foreground-400 flex gap-4 sm:gap-0 sm:space-x-[28px] w-full">
+          <div className="flex flex-col-reverse sm:flex-row gap-4 sm:gap-6 w-full md:absolute md:bottom-0 md:left-0">
+            <div className="hidden p-3  text-foreground-400 flex gap-4 sm:gap-0 sm:space-x-[28px] w-full">
               <span className="flex items-center gap-3 text-sm">
                 <FaPaintbrush className="w-3.5 h-3.5" /> Customization
               </span>
@@ -51,7 +51,7 @@ function HeroSection() {
                 <FaBrain className="w-3.5 h-3.5" /> LLM Enabled
               </span>
             </div>
-            <p className="hidden text-sm max-w-[41ch] text-foreground-400 px-4 md:mx-[4px] md:mb-[14px]">
+            <p className="ml-auto text-sm max-w-[41ch] text-foreground-400 md:mb-[14px]">
               User Interface (UI) is the space where interactions between humans and machines occur.
             </p>
           </div>

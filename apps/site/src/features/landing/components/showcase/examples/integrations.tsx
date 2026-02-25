@@ -80,7 +80,7 @@ export function IntegrationsPanel() {
 
       <List items={visible} spacing="default" className="max-w-none">
         {visible.length === 0 ? (
-          <div className="px-4 py-8 text-center text-sm text-foreground-500">
+          <div className="px-4 py-8 text-center text-xs text-foreground-500">
             No integrations match your search.
           </div>
         ) : (
@@ -90,12 +90,12 @@ export function IntegrationsPanel() {
               <div key={item.id}>
                 <List.Item value={item.id} className="px-4 py-3">
                   <List.Media>
-                    <div className="w-20 h-20 rounded-md flex items-center justify-center text-sm bg-background-300 text-foreground-300">
+                    <div className="w-20 h-20 rounded-md flex items-center justify-center text-xs bg-background-300 text-foreground-300">
                       {item.icon}
                     </div>
                   </List.Media>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-foreground-100">{item.name}</div>
+                    <div className="text-xs font-medium text-foreground-100">{item.name}</div>
                     <List.Desc>{item.desc}</List.Desc>
                   </div>
                   <button

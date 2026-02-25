@@ -36,7 +36,7 @@ function Stepper({
           const n = Number(e.target.value);
           if (!isNaN(n)) onChange(Math.min(max, Math.max(min, n)));
         }}
-        className="w-12 text-center text-sm text-foreground-100 bg-background-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none"
+        className="w-12 text-center text-xs text-foreground-100 bg-background-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none"
       />
       <Divider />
       <Group.Button
@@ -96,7 +96,7 @@ export function SessionConfigPanel() {
       <div className="flex items-center gap-5 px-4 pt-3.5 pb-3 border-b border-background-700">
         <SiGnubash size={26} />
         <div>
-          <div className="text-sm font-semibold text-foreground-100">New Session</div>
+          <div className="text-xs font-semibold text-foreground-100">New Session</div>
           <div className="text-xs text-foreground-500 mt-0.5">Configure your environment.</div>
         </div>
       </div>
@@ -109,7 +109,7 @@ export function SessionConfigPanel() {
                 {row.icon}
               </div>
               <div>
-                <div className="text-sm text-foreground-100">{row.label}</div>
+                <div className="text-xs text-foreground-100">{row.label}</div>
                 <div className="text-xs text-foreground-500">{row.desc}</div>
               </div>
             </div>
