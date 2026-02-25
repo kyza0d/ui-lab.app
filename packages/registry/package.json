@@ -1,6 +1,6 @@
 {
   "name": "ui-lab-registry",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Component registry and metadata management for ui-lab-components",
   "type": "module",
   "license": "MIT",
@@ -111,7 +111,7 @@
   "dependencies": {
     "lucide-react": "^0.562.0",
     "react-icons": "^5.5.0",
-    "ui-lab-components": "workspace:*"
+    "ui-lab-components": "0.1.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
