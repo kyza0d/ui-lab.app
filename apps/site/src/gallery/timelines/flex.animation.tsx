@@ -35,13 +35,13 @@ export function FlexAnimation() {
     },
     {
       row: { x: 220, y: 60, w: 50, h: 180 },
-      col: { x: 60, y: 155, w: 130, h: 80 },
+      col: { x: 60, y: 155, w: 140, h: 80 },
       delay: "50ms",
       id: "B"
     },
     {
       row: { x: 290, y: 60, w: 50, h: 180 },
-      col: { x: 210, y: 155, w: 130, h: 80 },
+      col: { x: 220, y: 155, w: 120, h: 80 },
       delay: "100ms",
       id: "C"
     }
@@ -110,8 +110,8 @@ export function FlexAnimation() {
               transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
             }}
           >
-            <line x1={190} y1={0} x2={190} y2={300} />
-            <line x1={210} y1={0} x2={210} y2={300} />
+            <line x1={200} y1={0} x2={200} y2={300} />
+            <line x1={220} y1={0} x2={220} y2={300} />
           </g>
 
           {/* Flex Items */}

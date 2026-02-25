@@ -45,7 +45,7 @@ export function CopyPage() {
         className="text-xs justify-start w-55"
       >
 
-        {copiedLines !== null ? <>Copied {copiedLines} lines! <FaCheck size={14} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
+        {copiedLines !== null ? <>Copied {copiedLines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
       </Group.Button>
     </Group>
   );

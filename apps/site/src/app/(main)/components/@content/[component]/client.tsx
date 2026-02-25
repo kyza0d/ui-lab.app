@@ -194,7 +194,11 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "name",
       label: "Name",
-      render: (value: any) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
+      render: (value: any, row: any) => (
+        <span className="font-mono text-xs text-foreground-50">
+          {value}{row.required && <span className="ml-1 text-background-500">*</span>}
+        </span>
+      ),
     },
     {
       key: "type",
@@ -206,15 +210,6 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
         }
         return <InlineCodeHighlight code={value} language="typescript" />;
       },
-    },
-    {
-      key: "required",
-      label: "Required",
-      render: (value: any) => (
-        <span className={value ? "text-danger-400" : "text-foreground-400"}>
-          {value ? "Yes" : "No"}
-        </span>
-      ),
     },
     {
       key: "defaultValue",
@@ -236,7 +231,11 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
     {
       key: "name",
       label: "Name",
-      render: (value: any) => <span className="font-mono text-sm text-foreground-50">{value}</span>,
+      render: (value: any, row: any) => (
+        <span className="font-mono text-xs text-foreground-50">
+          {value}{row.required && <span className="ml-1 text-foreground-400">*</span>}
+        </span>
+      ),
     },
     {
       key: "type",
@@ -249,15 +248,6 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
         return <InlineCodeHighlight code={value} language="typescript" />;
       },
     },
-    {
-      key: "required",
-      label: "Required",
-      render: (value: any) => (
-        <span className={value ? "text-danger-400" : "text-foreground-400"}>
-          {value ? "Yes" : "No"}
-        </span>
-      ),
-    },
   ];
 
   return (
@@ -267,6 +257,9 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
           <Table<PropData>
             data={api.props}
             columns={propsColumns}
+            expandRender={(row) => row.description ? (
+              <p className="text-foreground-400 text-xs">{row.description}</p>
+            ) : null}
           />
         </div>
       )}
@@ -277,13 +270,21 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
           <div className="space-y-6">
             {Object.entries(api.subComponents).map(([subComponentName, subProps]: [string, any]) => (
               <div key={subComponentName} id={`api-${subComponentName}`} className="space-y-3 mt-20 first:mt-8 scroll-mt-20">
-                <h4 className="pl-2 pb-4 font-semibold text-foreground-100">
-                  <InlineCodeHighlight code={subComponentName} language="typescript" />
-                </h4>
-                {subProps && subProps.length > 0 ? (
+                <div className="pl-2 pb-4 space-y-2">
+                  <h4 className="font-semibold text-foreground-100">
+                    <InlineCodeHighlight code={subComponentName} language="typescript" />
+                  </h4>
+                  {subProps.description && (
+                    <p className="text-foreground-400 text-sm">{subProps.description}</p>
+                  )}
+                </div>
+                {subProps.props && subProps.props.length > 0 ? (
                   <Table<SubPropData>
-                    data={subProps}
+                    data={subProps.props}
                     columns={subPropsColumns}
+                    expandRender={(row) => row.description ? (
+                      <p className="text-foreground-400 text-xs">{row.description}</p>
+                    ) : null}
                   />
                 ) : (
                   <p className="text-foreground-400 text-sm">No props</p>
