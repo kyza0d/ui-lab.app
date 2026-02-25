@@ -17,5 +17,5 @@ export function getCategoryIcon(categoryId: ComponentCategory): React.ReactNode 
   const IconComponent = iconMap[category.iconName];
   if (!IconComponent) return null;
 
-  return <IconComponent className="inline-block w-5 h-5" />;
+  return <IconComponent className="inline-block" />;
 }
