@@ -1,4 +1,3 @@
-export { default as MarkdownTable } from "./components/markdown-table";
 export { TableOfContents } from "./components/table-of-contents";
 export { default as Timeline } from "./components/timeline";
 export { Table, type Column } from "./components/table";
@@ -7,7 +6,8 @@ export { DocsLayout } from "./components/docs-layout";
 export { type DocMetadata, type DocContent, getAllDocs, getDocBySlug, getAllDesignSystemDocs, getDesignSystemDocBySlug, getDocsByCategory, type TocItem } from "./lib/docs";
 export { extractHeadings } from "./lib/extract-headings";
 export * from "./lib/mdx-components";
-export * from "./lib/table-parser";
 export * from "./lib/generated-docs";
 export { type TocRegistry, tocRegistry } from "./lib/generated-toc-registry";
 export { Code, CodeWithPackageManager, InlineCodeHighlight, InstallationFlow, PackageManagerTabs } from "./components/code-display/index";
+export { CopyComponentPage } from "./components/copy-component-page";
+export { OpenPage } from "./components/open-page-button";

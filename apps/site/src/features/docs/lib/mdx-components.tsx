@@ -1,7 +1,6 @@
 import { Code, CodeWithPackageManager, InstallationFlow } from '../components/code-display/index'
 import Image from 'next/image'
 import Timeline from '../components/timeline'
-import MarkdownTable from '../components/markdown-table'
 import ColorPaletteGrid from '@/features/theme/components/color-palette-grid'
 import { Banner, BannerTitle, BannerBody } from '../components/mdx/client-banner'
 import { Anchor, AnchorPreview, AnchorUnderline } from '../components/mdx/client-anchor'
@@ -107,7 +106,7 @@ export const mdxComponents = {
   ),
   tbody: ({ children }: any) => <tbody>{children}</tbody>,
   tr: ({ children }: any) => (
-    <tr className="border-b border-background-800 last:border-b-0">{children}</tr>
+    <tr className="border-background-800 not-last:border-b">{children}</tr>
   ),
   th: ({ children }: any) => (
     <th className="px-4 py-3 text-left font-semibold text-foreground-200">{children}</th>
@@ -127,7 +126,6 @@ export const mdxComponents = {
   CodeWithPackageManager,
   InstallationFlow,
   Timeline,
-  MarkdownTable,
   ColorPaletteGrid,
   Anchor: Object.assign(Anchor, { Preview: AnchorPreview, Underline: AnchorUnderline }),
   Banner: Object.assign(Banner, { Title: BannerTitle, Body: BannerBody }),
