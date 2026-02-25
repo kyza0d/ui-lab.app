@@ -40,6 +40,7 @@ export interface RadioGroupProps {
   /** Size of all radio buttons in the group */
   size?: Size;
   children: React.ReactNode;
+  /** Additional CSS class names */
   className?: string;
   /** Accessible label for the radio group */
   label?: string;

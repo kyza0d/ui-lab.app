@@ -5,13 +5,19 @@ import { useFocusRing } from "react-aria";
 import styles from "./Color.module.css";
 
 export interface ColorOpacitySliderProps {
+  /** Current opacity value (0–1) */
   value: number;
+  /** Base RGB color string used to render the transparency gradient on the slider track */
   color: string;
+  /** Called when the user drags the opacity slider with the new opacity value (0–1) */
   onChange?: (opacity: number) => void;
+  /** Disables pointer interaction on the slider */
   disabled?: boolean;
+  /** Size of the opacity slider */
   size?: "sm" | "md" | "lg";
 }
 
+/** Slider for adjusting the alpha/opacity of the selected color */
 export const ColorOpacitySlider = React.forwardRef<
   HTMLDivElement,
   ColorOpacitySliderProps

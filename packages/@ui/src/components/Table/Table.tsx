@@ -4,10 +4,15 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface Column<T> {
+  /** Key of the data row object to display in this column */
   key: keyof T;
+  /** Column header label displayed in the table head */
   label: string;
+  /** Whether the column supports sorting (reserved for future use) */
   sortable?: boolean;
+  /** Whether a filter input is shown for this column when showFilters is enabled */
   filterable?: boolean;
+  /** Custom render function for the cell; receives the cell value and full row */
   render?: (value: any, row: T) => React.ReactNode;
 }
 

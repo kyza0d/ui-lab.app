@@ -42,23 +42,33 @@ export function useSelectSubmenuContext() {
 }
 
 interface SelectSubProps extends React.PropsWithChildren {
+  /** Controlled open state of the submenu */
   open?: boolean
+  /** Initial open state for uncontrolled usage */
   defaultOpen?: boolean
+  /** Called when the submenu open state changes */
   onOpenChange?: (open: boolean) => void
 }
 
 export interface SelectSubTriggerProps extends React.PropsWithChildren {
+  /** Prevents the trigger from opening the submenu */
   disabled?: boolean
+  /** Additional CSS class names */
   className?: string
+  /** Accessible text value used for keyboard navigation registration; defaults to children string */
   textValue?: string
 }
 
 export interface SelectSubContentProps extends React.PropsWithChildren {
+  /** Additional CSS class names */
   className?: string
+  /** Distance in pixels between the submenu panel and its trigger along the main axis */
   sideOffset?: number
+  /** Offset in pixels along the cross axis for submenu panel alignment */
   alignOffset?: number
 }
 
+/** Context provider that scopes a nested flyout submenu within the dropdown */
 const SelectSub = ({ children, open: controlledOpen, defaultOpen = false, onOpenChange }: SelectSubProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const [triggerKey, setTriggerKey] = React.useState<Key | null>(null)
@@ -147,6 +157,7 @@ const SelectSub = ({ children, open: controlledOpen, defaultOpen = false, onOpen
 }
 SelectSub.displayName = "SelectSub"
 
+/** Item that opens a nested submenu on hover or keyboard right-arrow */
 const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>(
   ({ children, disabled = false, textValue, className }, ref) => {
     const rootContext = useSelectContext()
@@ -184,9 +195,7 @@ const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>
         setFocusedKey(finalKey)
         mouseMoveDetectedRef.current = true
         if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
-        hoverTimeoutRef.current = setTimeout(() => {
-          setSubmenuOpen?.(true)
-        }, 200)
+        setSubmenuOpen?.(true)
       },
       onHoverEnd: () => {
         if (hoverTimeoutRef.current) {
@@ -237,6 +246,7 @@ const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>
 )
 SelectSubTrigger.displayName = "SelectSubTrigger"
 
+/** Floating panel containing the items of a nested submenu */
 const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>(
   ({ children, className, sideOffset = 8, alignOffset = 0 }, ref) => {
     const rootContext = useSelectContext()

@@ -6,6 +6,7 @@ import { Checkbox as UICheckbox } from '../Checkbox';
 import { ListCheckboxProps } from './list.types';
 import styles from './List.module.css';
 
+/** Checkbox indicator inside a list item for multi-select */
 const Checkbox = React.forwardRef<HTMLDivElement, ListCheckboxProps>(
   ({ checked, className, ...props }, ref) => (
     <div

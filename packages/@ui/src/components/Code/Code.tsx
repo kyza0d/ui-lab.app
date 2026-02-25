@@ -67,13 +67,21 @@ function CopyButton({ code }: { code: string }) {
 
 export interface CodeProps {
   children: string;
+  /** Programming language for syntax highlighting */
   language?: string;
+  /** Additional CSS class names */
   className?: string;
+  /** Filename displayed in the header bar */
   filename?: string;
+  /** Custom heading text displayed in the header bar instead of filename */
   heading?: string;
+  /** Shiki theme name or separate light/dark theme names */
   theme?: string | { light: string; dark: string };
+  /** Color scheme used for theme selection; 'system' follows the page data-theme attribute */
   colorScheme?: 'light' | 'dark' | 'system';
+  /** Pre-highlighted HTML string for light mode to skip client-side Shiki processing */
   preHighlightedLight?: string;
+  /** Pre-highlighted HTML string for dark mode to skip client-side Shiki processing */
   preHighlightedDark?: string;
 }
 

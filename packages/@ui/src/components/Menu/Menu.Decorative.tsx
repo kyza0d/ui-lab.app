@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 // Group Component
 // ============================================================================
 
+/** Logical grouping container for related menu items */
 const MenuGroup = React.forwardRef<
   HTMLDivElement,
   MenuGroupProps
@@ -23,6 +24,7 @@ MenuGroup.displayName = "MenuGroup"
 // Radio Group Component
 // ============================================================================
 
+/** Group of mutually exclusive radio items sharing a single selected value */
 const MenuRadioGroup = React.forwardRef<HTMLDivElement, MenuRadioGroupProps>(
   ({ children, value, onValueChange }, ref) => {
     const groupName = React.useId()
@@ -50,6 +52,7 @@ MenuRadioGroup.displayName = "MenuRadioGroup"
 // Label Component
 // ============================================================================
 
+/** Non-interactive label for a section of menu items */
 const MenuLabel = React.forwardRef<HTMLDivElement, MenuLabelProps>(
   ({ children, inset, className }, ref) => (
     <div
@@ -67,6 +70,7 @@ MenuLabel.displayName = "MenuLabel"
 // Separator Component
 // ============================================================================
 
+/** Horizontal rule that visually divides sections of the menu */
 const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
   ({ className }, ref) => (
     <div
@@ -82,6 +86,7 @@ MenuSeparator.displayName = "MenuSeparator"
 // Shortcut Component
 // ============================================================================
 
+/** Keyboard shortcut hint aligned to the right side of a menu item */
 const MenuShortcut = ({ className, ...props }: MenuShortcutProps) => {
   return (
     <span className={cn(styles.shortcut, className)} {...props} />

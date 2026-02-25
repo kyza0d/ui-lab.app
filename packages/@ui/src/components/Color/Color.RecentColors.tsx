@@ -5,11 +5,15 @@ import { getRecentColors } from "./color-utils";
 import styles from "./Color.module.css";
 
 export interface ColorRecentColorsProps {
+  /** Called when the user clicks a recent color swatch */
   onSelect?: (color: string) => void;
+  /** Disables all swatch buttons */
   disabled?: boolean;
+  /** Size of the recent color swatches */
   size?: "sm" | "md" | "lg";
 }
 
+/** Palette of recently used colors for quick re-selection */
 export const ColorRecentColors = React.forwardRef<
   HTMLDivElement,
   ColorRecentColorsProps

@@ -13,6 +13,7 @@ export interface BreadcrumbItemProps {
   isCurrent?: boolean;
   /** Whether the item is non-interactive */
   isDisabled?: boolean;
+  /** Additional CSS class names */
   className?: string;
 }
 

@@ -16,6 +16,7 @@ import type { MenuItemExtras } from "./menu.types"
 import { Scroll } from "../Scroll"
 import { List } from "../List"
 
+/** Context provider that scopes a nested flyout submenu within the menu */
 const MenuSub = ({ children, open: controlledOpen, defaultOpen = false, onOpenChange }: MenuSubProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const [triggerKey, setTriggerKey] = React.useState<Key | null>(null)
@@ -101,6 +102,7 @@ const MenuSub = ({ children, open: controlledOpen, defaultOpen = false, onOpenCh
 }
 MenuSub.displayName = "MenuSub"
 
+/** Menu item that opens a nested submenu on hover or keyboard right-arrow */
 const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
   ({ children, disabled = false, inset, textValue, className }, ref) => {
     const rootContext = useMenuContext()
@@ -139,9 +141,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         if (hoverTimeoutRef.current) {
           clearTimeout(hoverTimeoutRef.current)
         }
-        hoverTimeoutRef.current = setTimeout(() => {
-          setSubmenuOpen?.(true)
-        }, 200)
+        setSubmenuOpen?.(true)
       },
       onHoverEnd: () => {
         if (hoverTimeoutRef.current) {
@@ -195,6 +195,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
 )
 MenuSubTrigger.displayName = "MenuSubTrigger"
 
+/** Floating panel containing the items of a nested submenu */
 const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
   ({ children, className, sideOffset = 8, alignOffset = 0 }, ref) => {
     const submenuContext = useMenuSubmenuContext()

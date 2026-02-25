@@ -10,9 +10,13 @@ type BannerVariant = "note" | "info" | "success" | "warning" | "danger";
 type BannerSize = "sm" | "md" | "lg";
 
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Visual style of the banner conveying its intent */
   variant?: BannerVariant;
+  /** Controls the padding and font size of the banner */
   size?: BannerSize;
+  /** When true, renders a dismiss button that hides the banner on click */
   isDismissible?: boolean;
+  /** Called when the dismiss button is clicked */
   onDismiss?: () => void;
 }
 
@@ -46,6 +50,7 @@ const sizeMap = {
   lg: styles["lg"],
 } as const;
 
+/** Heading text for the banner message */
 const BannerTitle = React.forwardRef<HTMLHeadingElement, BannerTitleProps>(
   ({ className, ...props }, ref) => (
     <h3
@@ -58,6 +63,7 @@ const BannerTitle = React.forwardRef<HTMLHeadingElement, BannerTitleProps>(
 
 BannerTitle.displayName = "Banner.Title";
 
+/** Body text content of the banner */
 const BannerBody = React.forwardRef<HTMLParagraphElement, BannerBodyProps>(
   ({ className, ...props }, ref) => (
     <p
@@ -70,6 +76,7 @@ const BannerBody = React.forwardRef<HTMLParagraphElement, BannerBodyProps>(
 
 BannerBody.displayName = "Banner.Body";
 
+/** Full-width notification strip for system messages and alerts */
 const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
   (
     {
@@ -149,4 +156,4 @@ const Banner = Object.assign(BannerRoot, {
   Body: BannerBody,
 }) as BannerComponent;
 
-export { Banner };
+export { Banner, BannerRoot, BannerTitle, BannerBody };

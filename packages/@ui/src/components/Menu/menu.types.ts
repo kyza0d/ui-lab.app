@@ -81,6 +81,7 @@ export interface MenuTriggerProps extends React.PropsWithChildren {
   disabled?: boolean
   /** Whether to render the trigger as its child element */
   asChild?: boolean
+  /** Additional CSS class names */
   className?: string
 }
 
@@ -90,6 +91,7 @@ export interface MenuPortalProps extends React.PropsWithChildren {
 }
 
 export interface MenuContentProps extends React.PropsWithChildren {
+  /** Additional CSS class names */
   className?: string
   /** Called when focus returns to the trigger after close */
   onCloseAutoFocus?: (event: Event) => void
@@ -114,6 +116,7 @@ export interface MenuItemProps extends React.PropsWithChildren {
   textValue?: string
   /** Whether to add leading inset padding */
   inset?: boolean
+  /** Additional CSS class names */
   className?: string
 }
 
@@ -128,6 +131,7 @@ export interface MenuCheckboxItemProps extends React.PropsWithChildren {
   onSelect?: () => void
   /** Accessible text used for typeahead matching */
   textValue?: string
+  /** Additional CSS class names */
   className?: string
 }
 
@@ -147,20 +151,24 @@ export interface MenuRadioItemProps extends React.PropsWithChildren {
   onSelect?: () => void
   /** Accessible text used for typeahead matching */
   textValue?: string
+  /** Additional CSS class names */
   className?: string
 }
 
 export interface MenuLabelProps extends React.PropsWithChildren {
   /** Whether to add leading inset padding */
   inset?: boolean
+  /** Additional CSS class names */
   className?: string
 }
 
 export interface MenuSeparatorProps {
+  /** Additional CSS class names */
   className?: string
 }
 
 export interface MenuShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {
+  /** Additional CSS class names */
   className?: string
 }
 
@@ -180,10 +188,12 @@ export interface MenuSubTriggerProps extends React.PropsWithChildren {
   inset?: boolean
   /** Accessible text used for typeahead matching */
   textValue?: string
+  /** Additional CSS class names */
   className?: string
 }
 
 export interface MenuSubContentProps extends React.PropsWithChildren {
+  /** Additional CSS class names */
   className?: string
   /** Vertical offset from the trigger element */
   sideOffset?: number

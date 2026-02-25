@@ -127,6 +127,7 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
 );
 Container.displayName = 'List';
 
+/** Sticky heading row above a section of list items */
 const Header = React.forwardRef<HTMLElement, ListHeaderProps>(
   ({ sticky, children, className, ...props }, ref) => (
     <header
@@ -140,6 +141,7 @@ const Header = React.forwardRef<HTMLElement, ListHeaderProps>(
 );
 Header.displayName = 'List.Header';
 
+/** Row of action buttons aligned to the right of a list item */
 const ActionGroup = React.forwardRef<HTMLDivElement, ActionGroupComponentProps>(
   ({ justify = 'flex-start', children, className, ...props }, ref) => (
     <div
@@ -154,6 +156,7 @@ const ActionGroup = React.forwardRef<HTMLDivElement, ActionGroupComponentProps>(
 );
 ActionGroup.displayName = 'List.ActionGroup';
 
+/** Horizontal separator between list sections */
 const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   ({ className, ...props }, ref) => (
     <FoldDivider
@@ -165,6 +168,7 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
 );
 Divider.displayName = 'List.Divider';
 
+/** Fixed bottom row beneath the list body */
 const Footer = React.forwardRef<HTMLElement, FooterComponentProps>(
   ({ align = 'center', children, className, ...props }, ref) => (
     <footer

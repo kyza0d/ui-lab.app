@@ -65,9 +65,7 @@ const severityConfig = {
   },
 } as const
 
-/**
- * Confirmation component for destructive or important actions
- */
+/** Modal dialog for confirming destructive actions with context and choices */
 const Confirmation = React.forwardRef<HTMLDivElement, ConfirmationProps>(
   (
     {

@@ -176,6 +176,7 @@ function SliderThumbInternal({
   );
 }
 
+/** Horizontal slider for selecting a value within a range */
 const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
   (
     {

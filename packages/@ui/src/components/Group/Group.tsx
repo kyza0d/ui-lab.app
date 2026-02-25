@@ -68,6 +68,7 @@ function isDivider(child: React.ReactNode): boolean {
 }
 
 // Root component
+/** Button group that groups related buttons together */
 const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
   (
     {
@@ -146,6 +147,7 @@ interface GroupButtonProps extends ButtonProps {
   active?: boolean
 }
 
+/** Button styled to merge seamlessly with adjacent group items */
 const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
   ({ active, variant, className, ...restProps }, ref) => {
     const context = useGroupContext()
@@ -192,6 +194,7 @@ GroupButton.displayName = "Group.Button"
 // Group.Input component
 interface GroupInputProps extends InputProps { }
 
+/** Input field integrated into the button group */
 const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
   (props, ref) => {
     const context = useGroupContext()
@@ -216,6 +219,7 @@ GroupInput.displayName = "Group.Input"
 // Group.InputWrapper component - preserves Input styling (for use with ghost variant)
 interface GroupInputWrapperProps extends InputProps { }
 
+/** Input variant that preserves Input styling within the group */
 const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperProps>(
   (props, ref) => {
     const context = useGroupContext()
@@ -240,6 +244,7 @@ GroupInputWrapper.displayName = "Group.InputWrapper"
 // Group.Select component
 interface GroupSelectProps extends SelectProps<any> { }
 
+/** Select dropdown integrated into the button group */
 const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
   ({ className, isDisabled, ...props }, ref) => {
     const context = useGroupContext()
@@ -267,5 +272,5 @@ const Group = Object.assign(GroupRoot, {
   Select: GroupSelect,
 })
 
-export { Group, GroupContext }
+export { Group, GroupContext, GroupRoot, GroupButton, GroupInput, GroupInputWrapper, GroupSelect }
 export type { GroupProps, GroupContextValue, GroupButtonProps }
