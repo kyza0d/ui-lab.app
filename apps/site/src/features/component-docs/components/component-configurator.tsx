@@ -181,7 +181,7 @@ export function ComponentConfigurator({
 
                 return (
                   <div key={control.name} className="space-y-2">
-                    <label className="text-sm text-foreground-400">
+                    <label className="text-xs font-medium text-foreground-400">
                       {control.label}
                     </label>
                     {control.type === "select" && (
@@ -215,7 +215,7 @@ export function ComponentConfigurator({
                           )
                         }
                         className={cn(
-                          "w-full px-3 py-1.5 text-sm font-medium rounded-sm",
+                          "w-full px-3 py-1.5 text-xs font-medium rounded-sm",
                           controlValues[control.name]
                             ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
                             : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
@@ -233,7 +233,7 @@ export function ComponentConfigurator({
                         onChange={(e) =>
                           handleControlChange(control.name, e.target.value)
                         }
-                        className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        className="w-full px-3 py-2 text-xs bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
                       />
                     )}
                   </div>

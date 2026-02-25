@@ -34,7 +34,7 @@ export function ColorScale({ family }: ColorScaleProps) {
         </p>
       </div>
 
-      <div className="overflow-x-auto my-6 border border-background-800 rounded-md">
+      <div className="overflow-x-auto my-6 border border-background-800 rounded-sm">
         <table className="w-full text-xs">
           <thead className="bg-background-900 border-b border-background-800">
             <tr className="border-b border-background-800 last:border-b-0">

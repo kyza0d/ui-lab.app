@@ -6,12 +6,6 @@ import { useApp } from "../../lib/app-context";
 import {
   isValidTypographyConfig,
 } from "../../lib/typography-constraints";
-import {
-  FaFont,
-  FaRulerCombined,
-  FaGear,
-  FaBrush,
-} from "react-icons/fa6";
 import { themes } from "../../constants/themes";
 import {
   type OklchColor,
