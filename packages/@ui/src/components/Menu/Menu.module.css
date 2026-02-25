@@ -36,7 +36,8 @@
     padding: var(--padding);
     @apply gap-2;
     border-radius: var(--inner-radius);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
     cursor: default;
     user-select: none;
     outline: none;
@@ -63,7 +64,8 @@
     padding: var(--padding);
     @apply gap-2;
     border-radius: var(--inner-radius);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
     cursor: default;
     user-select: none;
     outline: none;
@@ -86,7 +88,8 @@
     padding: var(--padding);
     @apply gap-2;
     border-radius: var(--inner-radius);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
     cursor: default;
     user-select: none;
     outline: none;
@@ -120,7 +123,8 @@
     padding: var(--padding);
     @apply gap-2;
     border-radius: var(--inner-radius);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
     color: var(--foreground-300);
     cursor: default;
     user-select: none;

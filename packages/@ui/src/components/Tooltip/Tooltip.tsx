@@ -9,7 +9,7 @@ import { useTooltipTriggerState } from "react-stately";
 import { Frame } from "../Frame";
 import styles from "./Tooltip.module.css";
 
-const ARROW_PATH = "M 0 0 L 6 -12 L 12 0";
+const ARROW_PATH = "M 0 0 C 3 0 4 -9 6 -9 C 8 -9 9 0 12 0";
 const ARROW_WIDTH = 12;
 const TOOLTIP_GAP = 8;
 const ARROW_POSITIONING_SIZE = 6;
@@ -257,6 +257,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
                   cornerRadius={8}
                   padding="none"
+                  fill="var(--background-900)"
+                  borderColor="var(--background-700)"
                 >
                   <div className={styles["content-frame"]}>
                     {content}

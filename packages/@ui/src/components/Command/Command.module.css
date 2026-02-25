@@ -34,7 +34,7 @@
   .content {
     position: relative;
     @apply m-2;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
     background: var(--background-default);
     width: 100%;
     margin-inline: 1rem;
@@ -81,7 +81,7 @@
     border: none;
     color: var(--fg-default);
     padding-block: 0.5rem;
-    font-size: 0.875rem;
+    font-size: var(--text-xs);
     font-family: inherit;
   }
 
