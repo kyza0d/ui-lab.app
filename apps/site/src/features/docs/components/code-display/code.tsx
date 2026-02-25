@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { codeToHtml } from "shiki";
 import { transformerRenderIndentGuides } from "@shikijs/transformers";
 import { generateThemePalettes, type OklchColor } from "@/features/theme/lib/color-utils";
@@ -54,23 +54,42 @@ export function Code({
     return generateFallbackHtml(children);
   });
 
-  const [shikiTheme, setShikiTheme] = useState<ShikiTheme | null>(null);
+  const shikiTheme = useMemo<ShikiTheme | null>(() => {
+    if (!currentThemeColors) return null;
+    const palettes = generateThemePalettes(
+      currentThemeColors.background,
+      currentThemeColors.foreground,
+      currentThemeColors.accent,
+      currentThemeMode,
+      0,
+      currentThemeColors.semantic,
+      currentThemeColors.accentChromaLimit ?? 0.30,
+      currentThemeColors.accentEasing,
+      currentThemeColors.accentChromaScaling
+    );
+    const syntaxPalettes = generateSyntaxPalettes(
+      currentThemeColors.background,
+      currentThemeColors.accent,
+      currentThemeMode,
+      currentThemeColors.syntaxVariation ?? 0
+    );
+    return generateShikiTheme(
+      { ...palettes, ...syntaxPalettes },
+      currentThemeMode,
+      `custom-${currentThemeMode}`
+    );
+  }, [currentThemeColors, currentThemeMode]);
   const [contentScrollWidth, setContentScrollWidth] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [totalCodeLines, setTotalCodeLines] = useState(0);
 
-  // -- Scroll Sync Logic --
-
-  // 1. Track -> Viewport
   const handleScrollTrack = useCallback(() => {
     if (viewportRef.current && scrollTrackRef.current) {
       viewportRef.current.scrollLeft = scrollTrackRef.current.scrollLeft;
     }
   }, []);
 
-  // 2. Viewport -> Track (e.g. during selection drag)
-  // Even though overflow-x is hidden, scrollLeft can change via selection or JS
   const handleScrollViewport = useCallback(() => {
     if (viewportRef.current && scrollTrackRef.current) {
       const diff = Math.abs(scrollTrackRef.current.scrollLeft - viewportRef.current.scrollLeft);
@@ -80,47 +99,16 @@ export function Code({
     }
   }, []);
 
-  // 3. Wheel Event (Restores Trackpad Horizontal Swipe)
   const handleWheel = useCallback((e: React.WheelEvent) => {
-    // If there is significant horizontal delta, we manually scroll
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
       if (viewportRef.current) {
         viewportRef.current.scrollLeft += e.deltaX;
-        // Prevent browser back/forward navigation gestures
         e.preventDefault();
       }
     }
   }, []);
 
-  useEffect(() => {
-    if (currentThemeColors) {
-      const palettes = generateThemePalettes(
-        currentThemeColors.background,
-        currentThemeColors.foreground,
-        currentThemeColors.accent,
-        currentThemeMode,
-        0,
-        currentThemeColors.semantic,
-        currentThemeColors.accentChromaLimit ?? 0.30,
-        currentThemeColors.accentEasing,
-        currentThemeColors.accentChromaScaling
-      );
-      const syntaxPalettes = generateSyntaxPalettes(
-        currentThemeColors.background,
-        currentThemeColors.accent,
-        currentThemeMode,
-        currentThemeColors.syntaxVariation ?? 0
-      );
-      const customTheme = generateShikiTheme(
-        { ...palettes, ...syntaxPalettes },
-        currentThemeMode,
-        `custom-${currentThemeMode}`
-      );
-      setShikiTheme(customTheme);
-    }
-  }, [currentThemeColors, currentThemeMode]);
-
-  useEffect(() => {
+useEffect(() => {
     if (preHighlightedLight || preHighlightedDark) {
       const preHighlighted = currentThemeMode === "light" ? preHighlightedLight : preHighlightedDark;
       if (preHighlighted) {
