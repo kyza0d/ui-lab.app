@@ -10,6 +10,7 @@ import { Scroll } from "../Scroll"
 import { List } from "../List"
 import { useScrollLock } from "../../hooks/useScrollLock"
 
+/** Wrapper element that opens the context menu on right-click */
 const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
   ({ children, disabled = false, className }, ref) => {
     const { setIsOpen, clickPositionRef, triggerRef: contextTriggerRef } = useMenuContext()
@@ -36,6 +37,7 @@ const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
 )
 MenuTrigger.displayName = "MenuTrigger"
 
+/** Floating panel that contains the menu items, positioned relative to the click location */
 const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
   ({ children, className, onEscapeKeyDown, sideOffset = 0 }, ref) => {
     const {

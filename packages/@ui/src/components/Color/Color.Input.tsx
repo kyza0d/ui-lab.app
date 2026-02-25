@@ -7,16 +7,25 @@ import styles from "./Color.module.css";
 import { formatColorHex, formatColorRgb, isValidColor } from "./color-utils";
 
 export interface ColorInputProps {
+  /** Current color value string displayed in the text input */
   value: string;
+  /** Active color format controlling the input placeholder and value representation */
   format: "hex" | "rgb";
+  /** Called when the user selects a different color format from the dropdown */
   onFormatChange?: (format: "hex" | "rgb") => void;
+  /** Called when the user types a valid color string into the input */
   onValueChange?: (value: string) => void;
+  /** Disables the text input and format selector */
   disabled?: boolean;
+  /** Size of the input group */
   size?: "sm" | "md" | "lg";
+  /** Whether to show a color preview swatch beside the input */
   showPreview?: boolean;
+  /** RGB color string used to fill the preview swatch */
   previewColor?: string;
 }
 
+/** Text input for entering a color value directly */
 export const ColorInput = React.forwardRef<
   HTMLDivElement,
   ColorInputProps

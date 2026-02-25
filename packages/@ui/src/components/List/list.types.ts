@@ -3,20 +3,31 @@ import { DividerProps } from '@/components/Divider';
 
 // Ref API for List
 export interface ListRef {
+  /** Moves keyboard highlight to the next item */
   focusNext: () => void;
+  /** Moves keyboard highlight to the previous item */
   focusPrev: () => void;
+  /** Moves keyboard highlight to the first item */
   focusFirst: () => void;
+  /** Moves keyboard highlight to the last item */
   focusLast: () => void;
+  /** Triggers selection of the currently highlighted item */
   selectHighlighted: () => void;
+  /** Removes keyboard highlight from all items */
   clearHighlight: () => void;
+  /** Returns the index of the currently highlighted item, or null if none */
   getHighlightedIndex: () => number | null;
 }
 
 // Keyboard navigation callbacks
 export interface ListNavigateCallbacks {
+  /** Called when the up arrow key is pressed */
   up?: () => void;
+  /** Called when the down arrow key is pressed */
   down?: () => void;
+  /** Called when the enter key is pressed */
   enter?: () => void;
+  /** Called when the escape key is pressed */
   escape?: () => void;
 }
 
@@ -57,10 +68,12 @@ export interface ListCheckboxProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 export interface ListMediaProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Child content for the media slot */
   children: React.ReactNode;
 }
 
 export interface ListDescProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Secondary description text content */
   children: React.ReactNode;
 }
 

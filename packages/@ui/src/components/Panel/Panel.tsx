@@ -15,6 +15,7 @@ import {
 import { PanelContext, PanelGroupContext } from './panel.context'
 import styles from './Panel.module.css'
 
+/** Flexible multi-panel layout with header, content, footer, and sidebar */
 const PanelRoot = React.forwardRef<HTMLDivElement, PanelProps>(
   ({ spacing = 'md', variant = 'default', className, children, ...props }, ref) => {
     const [isStacked, setIsStacked] = useState(false)
@@ -89,6 +90,7 @@ const PanelRoot = React.forwardRef<HTMLDivElement, PanelProps>(
 
 PanelRoot.displayName = 'Panel'
 
+/** Top bar of the panel, typically for a title and actions */
 const PanelHeader = React.forwardRef<HTMLElement, PanelHeaderProps>(
   ({ sticky = true, className, ...props }, ref) => {
     const stickyClass = sticky ? styles.sticky : ''
@@ -101,6 +103,7 @@ const PanelHeader = React.forwardRef<HTMLElement, PanelHeaderProps>(
 
 PanelHeader.displayName = 'Panel.Header'
 
+/** Main scrollable body area of the panel */
 const PanelContent = React.forwardRef<HTMLDivElement, PanelContentProps>(
   ({ className, ...props }, ref) => {
     return <div ref={ref} role="main" className={`${styles.content} ${className || ''}`} {...props} />
@@ -109,6 +112,7 @@ const PanelContent = React.forwardRef<HTMLDivElement, PanelContentProps>(
 
 PanelContent.displayName = 'Panel.Content'
 
+/** Bottom bar of the panel, typically for controls or status */
 const PanelFooter = React.forwardRef<HTMLElement, PanelFooterProps>(
   ({ fixed = false, className, ...props }, ref) => {
     const fixedClass = fixed ? styles.fixed : ''
@@ -121,6 +125,7 @@ const PanelFooter = React.forwardRef<HTMLElement, PanelFooterProps>(
 
 PanelFooter.displayName = 'Panel.Footer'
 
+/** Collapsible side panel that slides in from left or right */
 const PanelSidebar = React.forwardRef<HTMLElement, PanelSidebarProps>(
   ({ side = 'left', defaultOpen = true, width = '240px', collapsedWidth = '0', className, ...props }, ref) => {
     const { sidebarOpen } = usePanelContext()
@@ -149,6 +154,7 @@ const PanelSidebar = React.forwardRef<HTMLElement, PanelSidebarProps>(
 
 PanelSidebar.displayName = 'Panel.Sidebar'
 
+/** Button that shows/hides the Panel.Sidebar */
 const PanelToggle = React.forwardRef<HTMLDivElement, PanelToggleProps>(
   ({ children, ...props }, ref) => {
     const { toggleSidebar } = usePanelContext()
@@ -174,6 +180,7 @@ const PanelToggle = React.forwardRef<HTMLDivElement, PanelToggleProps>(
 
 PanelToggle.displayName = 'Panel.Toggle'
 
+/** Container that manages side-by-side resizable panel columns */
 const PanelGroup = React.forwardRef<HTMLDivElement, PanelGroupProps>(
   ({ direction = 'horizontal', className, children, ...props }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -291,6 +298,7 @@ const PanelGroup = React.forwardRef<HTMLDivElement, PanelGroupProps>(
 
 PanelGroup.displayName = 'Panel.Group'
 
+/** Drag handle between Panel.Group columns for resizing */
 const PanelResize = React.forwardRef<HTMLDivElement, PanelResizeProps & { 'data-resize-index'?: number }>(
   ({ className, 'data-resize-index': resizeIndexProp, ...props }, ref) => {
     const { direction, setSize } = usePanelGroupContext()
@@ -367,5 +375,16 @@ export const Panel = Object.assign(PanelRoot, {
   Resize: PanelResize,
 })
 
-export { PanelContext, PanelGroupContext }
+export {
+  PanelRoot,
+  PanelHeader,
+  PanelContent,
+  PanelFooter,
+  PanelSidebar,
+  PanelToggle,
+  PanelGroup,
+  PanelResize,
+  PanelContext,
+  PanelGroupContext,
+}
 export type { PanelContextValue } from './panel.types'

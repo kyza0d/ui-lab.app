@@ -7,10 +7,13 @@ import { List } from "../List"
 
 interface SelectGroupProps extends React.PropsWithChildren {
   key?: string
+  /** Label displayed above the group of items */
   title?: string
+  /** Additional CSS class names */
   className?: string
 }
 
+/** Named grouping of related items with an optional visible title label */
 const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
   ({ children, title, className }, ref) => (
     <div ref={ref} className={className}>
@@ -22,12 +25,17 @@ const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
 SelectGroup.displayName = "SelectGroup"
 
 interface SelectValueProps {
+  /** Text shown in the trigger when no item is selected */
   placeholder?: string
+  /** Additional CSS class names */
   className?: string
+  /** Icon displayed to the left of the selected value text */
   icon?: React.ReactNode
+  /** Custom render function receiving the selected item, or static content to display */
   children?: ((selectedItem: SelectItemData | null) => React.ReactNode) | React.ReactNode
 }
 
+/** Renders the selected item's label inside the trigger */
 const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
   ({ placeholder = "Select an option", className, icon, children }, ref) => {
     const {
@@ -62,14 +70,21 @@ const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
 SelectValue.displayName = "SelectValue"
 
 interface SelectItemProps extends React.PropsWithChildren {
+  /** Unique key used to identify this item in the selection state */
   value: Key
+  /** Accessible text value used for search filtering and selection display; defaults to children string */
   textValue?: string
+  /** Prevents the item from being selected or keyboard-focused */
   isDisabled?: boolean
+  /** Additional CSS class names */
   className?: string
+  /** Icon displayed to the left of the item label */
   icon?: React.ReactNode
+  /** Secondary descriptive text displayed below the item label */
   description?: React.ReactNode
 }
 
+/** A single selectable option in the dropdown list */
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   ({ children, value, textValue, isDisabled = false, className, icon, description }, ref) => {
     const { mode, onSelect, onToggle, selectedKeys, registerItem, unregisterItem, focusedKey, setFocusedKey, mouseMoveDetectedRef, visibleKeys, searchValue } = useSelectContext()
@@ -129,10 +144,13 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
 SelectItem.displayName = "SelectItem"
 
 interface SelectListProps extends React.PropsWithChildren {
+  /** Additional CSS class names */
   className?: string
+  /** Custom filter predicate applied to the items array */
   filter?: (item: any) => boolean
 }
 
+/** Wrapper for a collection of SelectItem components */
 const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
   ({ children, className, filter }, ref) => {
     return (

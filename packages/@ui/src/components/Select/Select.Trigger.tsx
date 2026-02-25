@@ -10,12 +10,17 @@ import { useMergedRef, handleListKeyDown } from "./Select.shared"
 export const SelectTriggerContext = React.createContext<boolean>(false)
 
 interface SelectTriggerProps extends React.PropsWithChildren {
+  /** Additional CSS class names */
   className?: string
+  /** Custom chevron icon displayed on the right side of the trigger; defaults to FaChevronDown */
   chevron?: React.ReactNode
+  /** Icon slot object for prefix and chevron overrides */
   icon?: { prefix?: React.ReactNode; chevron?: React.ReactNode }
+  /** Visual style variant; "ghost" removes the default button background */
   variant?: 'ghost'
 }
 
+/** Button that opens and closes the Select dropdown */
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ children, className, chevron, icon, variant }, ref) => {
     const groupContext = React.useContext(GroupContext)
@@ -65,10 +70,13 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
 SelectTrigger.displayName = "SelectTrigger"
 
 interface SearchableTriggerProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
+  /** Additional CSS class names */
   className?: string
+  /** Placeholder text shown when the input is empty */
   placeholder?: string
 }
 
+/** Combobox-style input that opens the dropdown on focus and filters items as you type */
 const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerProps>(
   ({ className, placeholder = "Search...", ...props }, ref) => {
     const {

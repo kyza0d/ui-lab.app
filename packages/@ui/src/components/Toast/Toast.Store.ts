@@ -6,16 +6,27 @@ export type ToastPosition = 'top-left' | 'top' | 'top-right' | 'bottom-left' | '
 export type ToastSpawnDirection = 'top' | 'bottom';
 
 export interface ToastProps {
+  /** Unique identifier for this toast instance */
   id: string;
+  /** Heading text or element displayed at the top of the toast */
   title?: React.ReactNode;
+  /** Body text or element displayed below the title */
   description?: React.ReactNode;
+  /** Custom content replacing the default title/description layout */
   jsx?: React.ReactNode;
+  /** Visual style variant controlling color and icon */
   variant?: ToastVariant;
+  /** Auto-dismiss delay in milliseconds, or Infinity to disable */
   duration?: number; // ms or Infinity
+  /** Whether the toast is currently visible */
   open?: boolean;
+  /** Called when the toast is dismissed */
   onDismiss?: () => void;
+  /** Screen position where the toast appears */
   position?: ToastPosition;
+  /** Action element displayed at the bottom of the toast content */
   action?: React.ReactNode;
+  /** Direction from which the toast enters during its entrance animation */
   spawnDirection?: ToastSpawnDirection;
 
   // Internal — set on ADD_TOAST, never changes

@@ -364,7 +364,7 @@ interface CommandSearchInputProps {
   onChange?: (value: string) => void;
   /** Placeholder text for the search input */
   placeholder?: string;
-  /** Additional CSS class for the search container */
+  /** Additional CSS class for the search input */
   className?: string;
 }
 
@@ -421,10 +421,11 @@ interface CommandListProps {
   children?: ReactNode;
   /** Message shown when no items match the search */
   emptyMessage?: string;
-  /** Additional CSS class for the list wrapper */
+  /** Additional CSS class for the list container */
   className?: string;
 }
 
+/** Scrollable container that renders the filtered command items */
 const CommandListComponent = React.forwardRef<
   HTMLDivElement,
   CommandListProps
@@ -519,10 +520,11 @@ CommandItem.displayName = "Command.Item";
 interface CommandCategoryProps {
   /** Child elements rendered inside the category header */
   children?: ReactNode;
-  /** Additional CSS class for the category header */
+  /** Additional CSS class for the category */
   className?: string;
 }
 
+/** Labeled section grouping related commands */
 const CommandCategory = React.forwardRef<
   HTMLDivElement,
   CommandCategoryProps
@@ -546,10 +548,11 @@ CommandCategory.displayName = "Command.Category";
 interface CommandFooterProps {
   /** Child elements rendered inside the footer */
   children?: ReactNode;
-  /** Additional CSS class for the footer */
+  /** Additional CSS class applied to the footer */
   className?: string;
 }
 
+/** Fixed bottom bar in the command palette for hints or actions */
 const CommandFooter = React.forwardRef<HTMLDivElement, CommandFooterProps>(
   ({ children, className }, ref) => {
     return (
@@ -575,6 +578,7 @@ export interface CommandGroupsProps {
   className?: string;
 }
 
+/** Wrapper that renders multiple Command.Category sections */
 const CommandGroups = React.forwardRef<HTMLDivElement, CommandGroupsProps>(
   ({ renderCategory, renderItem, className }, ref) => {
     const { groupedItems } = useCommandContext();

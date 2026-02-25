@@ -33,6 +33,7 @@ export interface ExpandIconProps
   children?: React.ReactNode;
 }
 
+/** Animated chevron icon that rotates when the section is open */
 const ExpandIcon = React.forwardRef<HTMLSpanElement, ExpandIconProps>(
   ({ children, className, ...props }, ref) => {
     return (
@@ -54,6 +55,7 @@ export interface ExpandTriggerProps
   title?: React.ReactNode;
 }
 
+/** Clickable button that toggles the expand/collapse state */
 const ExpandTrigger = React.forwardRef<HTMLButtonElement, ExpandTriggerProps>(
   ({ children, className, title, ...props }, ref) => {
     const { state, isDisabled } = useExpandContext();
@@ -131,6 +133,7 @@ export interface ExpandContentProps extends React.HTMLAttributes<HTMLDivElement>
   from?: "below" | "above" | "left" | "right";
 }
 
+/** Collapsible content area revealed when expanded */
 const ExpandContent = React.forwardRef<HTMLDivElement, ExpandContentProps>(
   ({ children, className, from, ...props }, ref) => {
     const { state } = useExpandContext();
@@ -151,7 +154,7 @@ const ExpandContent = React.forwardRef<HTMLDivElement, ExpandContentProps>(
 );
 ExpandContent.displayName = "Expand.Content";
 
-// Updated ExpandDivider to allow customization
+/** Separator line between expand sections */
 const ExpandDivider = React.forwardRef<HTMLDivElement, DividerProps>(
   ({ className, spacing = "none", ...props }, ref) => {
     return (
@@ -285,4 +288,4 @@ Expand.Content = ExpandContent;
 Expand.Divider = ExpandDivider;
 Expand.Icon = ExpandIcon;
 
-export { Expand };
+export { Expand, ExpandRoot, ExpandIcon, ExpandTrigger, ExpandContent, ExpandDivider };

@@ -6,14 +6,21 @@ import { hsvToRgb } from "./color-utils";
 import styles from "./Color.module.css";
 
 export interface ColorCanvasProps {
+  /** Current hue value (0–360) used to tint the canvas gradient */
   hue: number;
+  /** Current saturation value (0–100) determining the horizontal position of the pointer */
   saturation: number;
+  /** Current brightness value (0–100) determining the vertical position of the pointer */
   brightness: number;
+  /** Called when the user drags the canvas pointer with updated saturation and brightness values */
   onChange?: (saturation: number, brightness: number) => void;
+  /** Disables pointer interaction on the canvas */
   disabled?: boolean;
+  /** Size of the canvas */
   size?: "sm" | "md" | "lg";
 }
 
+/** 2D saturation/lightness gradient canvas for picking color values */
 export const ColorCanvas = React.forwardRef<
   HTMLDivElement,
   ColorCanvasProps

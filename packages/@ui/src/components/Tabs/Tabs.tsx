@@ -143,12 +143,14 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
 Tabs.displayName = "Tabs"
 
 interface TabsListProps {
+  /** Additional CSS class names */
   className?: string
   children?: React.ReactNode
   /** Accessible label for the tab list */
   "aria-label"?: string
 }
 
+/** Container for the row of tab trigger buttons */
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
   ({ className, children, "aria-label": ariaLabel }, ref) => {
     const { selectedValue, hoveredValue, variant, orientation, setIndicatorReady } = useTabsContext()
@@ -343,12 +345,14 @@ interface TabsTriggerProps {
   disabled?: boolean
   /** Icon element displayed before the tab label */
   icon?: React.ReactNode
+  /** Additional CSS class names */
   className?: string
   children?: React.ReactNode
   _registerDisabled?: (value: string) => void
   _unregisterDisabled?: (value: string) => void
 }
 
+/** A tab button that activates its associated content panel */
 const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
   (
     {
@@ -470,10 +474,12 @@ TabsTrigger.displayName = "Tab"
 interface TabsContentProps {
   /** Unique identifier matching the associated TabsTrigger value */
   value: string
+  /** Additional CSS class names */
   className?: string
   children?: React.ReactNode
 }
 
+/** Content panel shown when its corresponding tab is active */
 const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
   ({ value, className, children }, ref) => {
     const { selectedValue, variant, orientation } = useTabsContext()

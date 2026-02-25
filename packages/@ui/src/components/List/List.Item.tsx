@@ -6,6 +6,7 @@ import { useListContext } from './list.context';
 import { ListItemProps } from './list.types';
 import styles from './List.module.css';
 
+/** A single interactive row in the list */
 const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
   ({ value, children, className, interactive, selected, ...props }, ref) => {
     const { highlightedIndex, focusItem, registerItem } = useListContext();

@@ -23,6 +23,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
 );
 CardRoot.displayName = "Card";
 
+/** Top section of the card, typically containing a title or toolbar */
 const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, ...props }, ref) => (
     <div
@@ -34,6 +35,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
 );
 CardHeader.displayName = "Card.Header";
 
+/** Main content area of the card */
 const CardBody = React.forwardRef<HTMLDivElement, CardBodyProps>(
   ({ className, ...props }, ref) => (
     <div
@@ -45,6 +47,7 @@ const CardBody = React.forwardRef<HTMLDivElement, CardBodyProps>(
 );
 CardBody.displayName = "Card.Body";
 
+/** Bottom section of the card, typically containing actions */
 const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, ...props }, ref) => (
     <div

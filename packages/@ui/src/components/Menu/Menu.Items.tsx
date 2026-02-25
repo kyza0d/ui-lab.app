@@ -6,6 +6,7 @@ import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
 import { List } from "../List"
 
+/** A clickable action item that closes the menu on selection */
 const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
   ({ children, disabled = false, onSelect, textValue, inset, className }, ref) => {
     const parentContext = useMenuContext()
@@ -58,6 +59,7 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
 )
 MenuItem.displayName = "MenuItem"
 
+/** A menu item with a checkmark indicator for toggling a boolean state */
 const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
   ({ children, checked = false, onCheckedChange, disabled = false, onSelect, textValue, className }, ref) => {
     const parentContext = useMenuContext()
@@ -115,6 +117,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
 )
 MenuCheckboxItem.displayName = "MenuCheckboxItem"
 
+/** A mutually exclusive option within a MenuRadioGroup */
 const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
   ({ children, value, disabled = false, onSelect, textValue, className }, ref) => {
     const parentContext = useMenuContext()

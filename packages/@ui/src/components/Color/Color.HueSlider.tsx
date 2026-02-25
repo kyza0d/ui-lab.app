@@ -5,12 +5,17 @@ import { useFocusRing } from "react-aria";
 import styles from "./Color.module.css";
 
 export interface ColorHueSliderProps {
+  /** Current hue value (0–360) */
   value: number;
+  /** Called when the user drags the hue slider with the new hue value */
   onChange?: (hue: number) => void;
+  /** Disables pointer interaction on the slider */
   disabled?: boolean;
+  /** Size of the hue slider */
   size?: "sm" | "md" | "lg";
 }
 
+/** Horizontal slider for selecting the hue component (0–360°) */
 export const ColorHueSlider = React.forwardRef<
   HTMLDivElement,
   ColorHueSliderProps

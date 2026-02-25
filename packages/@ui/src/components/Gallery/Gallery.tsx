@@ -99,6 +99,7 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
 GalleryRoot.displayName = "Gallery"
 
 // Gallery Item Component
+/** A single media or content tile in the gallery grid */
 const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
   ({ href, onPress, columnSpan, rowSpan, orientation = "vertical", className, style, children, ...props }, ref) => {
     const elementRef = React.useRef<HTMLElement>(null)
@@ -160,6 +161,7 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
 GalleryItem.displayName = "Gallery.Item"
 
 // Gallery View Component
+/** Expanded full-screen view overlay for a selected gallery item */
 const GalleryView = React.forwardRef<HTMLDivElement, GalleryViewProps>(
   ({ aspectRatio = "16/9", className, style, children, ...props }, ref) => {
     return (
@@ -180,6 +182,7 @@ const GalleryView = React.forwardRef<HTMLDivElement, GalleryViewProps>(
 GalleryView.displayName = "Gallery.View"
 
 // Gallery Body Component
+/** Container for the gallery item's visible content */
 const GalleryBody = React.forwardRef<HTMLDivElement, GalleryBodyProps>(
   ({ className, children, ...props }, ref) => {
     return (

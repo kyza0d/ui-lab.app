@@ -11,12 +11,17 @@ import { List } from "../List"
 import { useMergedRef, scrollItemIntoView } from "./Select.shared"
 
 export interface SelectContentProps extends React.PropsWithChildren {
+  /** Additional CSS class names */
   className?: string
+  /** Renders a search input inside the dropdown for filtering items */
   searchable?: boolean
+  /** Placeholder text for the search input when searchable is true */
   searchPlaceholder?: string
+  /** Called when the search input value changes */
   onSearch?: (value: string) => void
 }
 
+/** Floating panel that renders the list of selectable options */
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
   ({ children, className, searchable = false, searchPlaceholder = "Search items...", onSearch }, ref) => {
     const {
@@ -302,6 +307,7 @@ SelectContent.displayName = "SelectContent"
 
 export type SearchableContentProps = Omit<SelectContentProps, 'searchable'>
 
+/** Dropdown panel with a built-in search input for filtering the option list */
 const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProps>(
   (props, ref) => <SelectContent {...props} searchable ref={ref} />
 )

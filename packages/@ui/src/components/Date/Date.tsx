@@ -291,8 +291,12 @@ Date.displayName = "Date"
 /**
  * Calendar Header component
  */
-interface DateHeaderProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface DateHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Additional CSS class for the header */
+  className?: string;
+}
 
+/** Navigation header with month/year display and prev/next controls */
 const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
   ({ className, ...props }, ref) => {
     const { currentMonth, navigateMonth } = useDateContext()
@@ -337,8 +341,12 @@ DateHeader.displayName = "Date.Header"
 /**
  * Calendar Day Headers component
  */
-interface DateDayHeadersProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface DateDayHeadersProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Additional CSS class for the day headers row */
+  className?: string;
+}
 
+/** Row of weekday abbreviation labels above the calendar grid */
 const DateDayHeaders = React.forwardRef<HTMLDivElement, DateDayHeadersProps>(
   ({ className, ...props }, ref) => {
     return (
@@ -370,6 +378,7 @@ interface DateGridProps extends React.HTMLAttributes<HTMLDivElement> {
   grid: Date[][]
 }
 
+/** The 7-column calendar grid containing date cells */
 const DateGrid = React.forwardRef<HTMLDivElement, DateGridProps>(
   ({ grid, className, ...props }, ref) => {
     return (
@@ -415,6 +424,7 @@ interface DateDayProps extends React.HTMLAttributes<HTMLButtonElement> {
   date: Date
 }
 
+/** Individual date cell in the calendar grid */
 const DateDay = React.forwardRef<HTMLButtonElement, DateDayProps>(
   ({ date, className, onClick, ...props }, ref) => {
     const {
