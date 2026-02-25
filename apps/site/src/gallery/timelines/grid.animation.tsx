@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import config from "./config.json";
 
 export function GridAnimation() {
   const [isHovered, setIsHovered] = useState(false);
@@ -21,8 +22,6 @@ export function GridAnimation() {
     };
   }, []);
 
-  const springBase = "all 0.4s cubic-bezier(0.25, 0, 0.25, 1)";
-
   const vLines = [140, 160, 240, 260];
   const hLines = [140, 160];
 
@@ -35,9 +34,7 @@ export function GridAnimation() {
 
   return (
     <div ref={containerRef} className="bg-background-950 flex items-center justify-center relative overflow-hidden font-sans">
-      <div
-        className="relative w-full"
-      >
+      <div className="relative w-full">
         <svg viewBox="0 0 400 300" className="w-full h-full relative z-10 overflow-visible" aria-hidden="true">
           <defs>
             <radialGradient id="grid-fade" cx="50%" cy="50%" r="50%">
@@ -86,22 +83,22 @@ export function GridAnimation() {
             ))}
           </g>
 
-          {/* Block A */}
+          {/* Block A — featured idle, dims on hover */}
           <rect
             x={60}
             y={60}
             width={isHovered ? 80 : 180}
             height={isHovered ? 180 : 80}
-            rx="16"
-            className={!isHovered ? "text-accent-500" : "text-foreground-400"}
+            rx={config.blockRx}
+            className={!isHovered ? config.highlight.idleClass : config.dim.class}
             fill="currentColor"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth={config.strokeWidth}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "0ms",
-              fillOpacity: !isHovered ? 0.15 : 0.05,
-              strokeOpacity: !isHovered ? 0.6 : 0.2,
+              fillOpacity: !isHovered ? config.highlight.idleFillOpacity : config.dim.fillOpacity,
+              strokeOpacity: !isHovered ? config.highlight.idleStrokeOpacity : config.dim.strokeOpacity,
             }}
           />
           <rect
@@ -109,13 +106,13 @@ export function GridAnimation() {
             y={80}
             width={isHovered ? 40 : 140}
             height={8}
-            rx="4"
+            rx={config.barRx}
             fill="currentColor"
-            className="text-accent-500"
+            className={config.highlight.idleClass}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "0ms",
-              opacity: !isHovered ? 0.5 : 0,
+              opacity: !isHovered ? config.bar.primaryOpacity : 0,
             }}
           />
           <rect
@@ -123,32 +120,32 @@ export function GridAnimation() {
             y={100}
             width={isHovered ? 20 : 80}
             height={8}
-            rx="4"
+            rx={config.barRx}
             fill="currentColor"
-            className="text-accent-500"
+            className={config.highlight.idleClass}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "0ms",
-              opacity: !isHovered ? 0.3 : 0,
+              opacity: !isHovered ? config.bar.secondaryOpacity : 0,
             }}
           />
 
-          {/* Block B */}
+          {/* Block B — dim idle, reveals accent on hover */}
           <rect
             x={isHovered ? 160 : 260}
             y={60}
             width={isHovered ? 180 : 80}
             height={isHovered ? 80 : 180}
-            rx="16"
-            className={isHovered ? "text-accent-500" : "text-foreground-400"}
+            rx={config.blockRx}
+            className={isHovered ? config.highlight.hoverClass : config.dim.class}
             fill="currentColor"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth={config.strokeWidth}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "50ms",
-              fillOpacity: isHovered ? 0.15 : 0.05,
-              strokeOpacity: isHovered ? 0.6 : 0.2,
+              fillOpacity: isHovered ? config.highlight.hoverFillOpacity : config.dim.fillOpacity,
+              strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.dim.strokeOpacity,
             }}
           />
           <rect
@@ -156,13 +153,13 @@ export function GridAnimation() {
             y={80}
             width={isHovered ? 140 : 40}
             height={8}
-            rx="4"
+            rx={config.barRx}
             fill="currentColor"
-            className="text-accent-500"
+            className={config.highlight.hoverClass}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "50ms",
-              opacity: isHovered ? 0.5 : 0,
+              opacity: isHovered ? config.bar.primaryOpacity : 0,
             }}
           />
           <rect
@@ -170,13 +167,13 @@ export function GridAnimation() {
             y={100}
             width={isHovered ? 80 : 20}
             height={8}
-            rx="4"
+            rx={config.barRx}
             fill="currentColor"
-            className="text-accent-500"
+            className={config.highlight.hoverClass}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "50ms",
-              opacity: isHovered ? 0.3 : 0,
+              opacity: isHovered ? config.bar.secondaryOpacity : 0,
             }}
           />
 
@@ -186,16 +183,16 @@ export function GridAnimation() {
             y={160}
             width={80}
             height={80}
-            rx="16"
-            className="text-foreground-400"
+            rx={config.blockRx}
+            className={config.dim.class}
             fill="currentColor"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth={config.strokeWidth}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "100ms",
-              fillOpacity: 0.05,
-              strokeOpacity: 0.2,
+              fillOpacity: config.dim.fillOpacity,
+              strokeOpacity: config.dim.strokeOpacity,
             }}
           />
 
@@ -205,16 +202,16 @@ export function GridAnimation() {
             y={160}
             width={80}
             height={80}
-            rx="16"
-            className="text-foreground-400"
+            rx={config.blockRx}
+            className={config.dim.class}
             fill="currentColor"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth={config.strokeWidth}
             style={{
-              transition: springBase,
+              transition: config.transition,
               transitionDelay: "150ms",
-              fillOpacity: 0.05,
-              strokeOpacity: 0.2,
+              fillOpacity: config.dim.fillOpacity,
+              strokeOpacity: config.dim.strokeOpacity,
             }}
           />
         </svg>

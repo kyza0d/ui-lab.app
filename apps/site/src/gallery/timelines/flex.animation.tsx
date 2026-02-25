@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import config from "./config.json";
 
 export function FlexAnimation() {
   const [isHovered, setIsHovered] = useState(false);
@@ -20,8 +21,6 @@ export function FlexAnimation() {
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
-
-  const springBase = "all 0.4s cubic-bezier(0.25, 0, 0.25, 1)";
 
   const xLines = [60, 200, 220, 270, 290, 340];
   const yLines = [60, 140, 155, 290];
@@ -126,16 +125,24 @@ export function FlexAnimation() {
                   y={current.y}
                   width={current.w}
                   height={current.h}
-                  rx="16"
-                  className={isHighlighted ? "text-accent-500" : "text-foreground-400"}
+                  rx={config.blockRx}
+                  className={
+                    isHighlighted
+                      ? isHovered ? config.highlight.hoverClass : config.highlight.idleClass
+                      : config.dim.class
+                  }
                   fill="currentColor"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth={config.strokeWidth}
                   style={{
-                    transition: springBase,
+                    transition: config.transition,
                     transitionDelay: b.delay,
-                    fillOpacity: isHighlighted ? 0.15 : 0.05,
-                    strokeOpacity: isHighlighted ? 0.6 : 0.2,
+                    fillOpacity: isHighlighted
+                      ? isHovered ? config.highlight.hoverFillOpacity : config.highlight.idleFillOpacity
+                      : config.dim.fillOpacity,
+                    strokeOpacity: isHighlighted
+                      ? isHovered ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity
+                      : config.dim.strokeOpacity,
                   }}
                 />
 
@@ -144,13 +151,13 @@ export function FlexAnimation() {
                   y={current.y + 20}
                   width={isHovered ? (i === 1 ? 40 : 120) : (i === 0 ? 80 : 24)}
                   height={8}
-                  rx="4"
+                  rx={config.barRx}
                   fill="currentColor"
-                  className="text-accent-500"
+                  className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
                   style={{
-                    transition: springBase,
+                    transition: config.transition,
                     transitionDelay: b.delay,
-                    opacity: isHighlighted ? 0.5 : 0,
+                    opacity: isHighlighted ? config.bar.primaryOpacity : 0,
                   }}
                 />
                 <rect
@@ -158,13 +165,13 @@ export function FlexAnimation() {
                   y={current.y + 36}
                   width={isHovered ? (i === 1 ? 20 : 80) : (i === 0 ? 40 : 14)}
                   height={8}
-                  rx="4"
+                  rx={config.barRx}
                   fill="currentColor"
-                  className="text-accent-500"
+                  className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
                   style={{
-                    transition: springBase,
+                    transition: config.transition,
                     transitionDelay: b.delay,
-                    opacity: isHighlighted ? 0.3 : 0,
+                    opacity: isHighlighted ? config.bar.secondaryOpacity : 0,
                   }}
                 />
               </g>

@@ -1,0 +1,23 @@
+{
+  "blockRx": 10,
+  "barRx": 4,
+  "strokeWidth": 2,
+  "transition": "all 0.4s cubic-bezier(0.25, 0, 0.25, 1)",
+  "highlight": {
+    "idleClass": "text-background-500",
+    "hoverClass": "text-accent-500",
+    "idleFillOpacity": 0.2,
+    "hoverFillOpacity": 0.40,
+    "idleStrokeOpacity": 0.40,
+    "hoverStrokeOpacity": 0.6
+  },
+  "dim": {
+    "class": "bg-background-400",
+    "fillOpacity": 0.05,
+    "strokeOpacity": 0.2
+  },
+  "bar": {
+    "primaryOpacity": 0.90,
+    "secondaryOpacity": 0.3
+  }
+}
