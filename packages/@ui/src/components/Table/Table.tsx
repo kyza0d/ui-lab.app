@@ -57,7 +57,7 @@ export function Table<T extends Record<string, any>>({
   return (
     <div className="w-full">
       {showFilters && filterableColumns.length > 0 && (
-        <div className="mb-4 p-4 bg-background-900 rounded-md border border-background-800">
+        <div className="mb-4 p-4 bg-background-900 rounded-sm border border-background-800">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filterableColumns.map((col) => (
               <div key={String(col.key)}>
