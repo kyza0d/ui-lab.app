@@ -52,7 +52,7 @@ export function MemberRolePanel() {
       <div className="px-4 pt-3.5 pb-3 border-b border-background-700 flex justify-between">
         <div className="flex items-center gap-2">
           <FaUsers size={20} className="mr-2" />
-          <span className="text-sm font-semibold text-foreground-100">Team Members</span>
+          <span className="text-xs font-semibold text-foreground-100">Team Members</span>
           <span className="text-xs text-foreground-500">{members.length} members</span>
         </div>
       </div>
@@ -108,7 +108,7 @@ export function MemberRolePanel() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-medium text-foreground-100 truncate">{member.name}</span>
+                    <span className="text-xs font-medium text-foreground-100 truncate">{member.name}</span>
                   </div>
                   <List.Desc>{member.email}</List.Desc>
                 </div>
@@ -144,7 +144,7 @@ export function MemberRolePanel() {
             </div>
           </List.Media>
           <div className="flex-1 min-w-0">
-            <span className="text-sm text-foreground-400 truncate block">{PENDING_INVITE.email}</span>
+            <span className="text-xs text-foreground-400 truncate block">{PENDING_INVITE.email}</span>
             <List.Desc>Invite sent {PENDING_INVITE.sentAt}</List.Desc>
           </div>
           <Badge size="sm" variant="default">Pending</Badge>

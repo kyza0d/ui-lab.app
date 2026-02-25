@@ -47,7 +47,7 @@ export function TextEditor() {
       <textarea
         rows={5}
         placeholder="Start writing..."
-        className="w-full bg-transparent px-4 py-3 text-sm text-foreground-100 placeholder:text-foreground-500 resize-none outline-none"
+        className="w-full bg-transparent px-4 py-3 text-xs text-foreground-100 placeholder:text-foreground-500 resize-none outline-none"
         style={{
           fontStyle: italic ? "italic" : "normal",
           fontWeight: bold ? "bold" : "normal",
