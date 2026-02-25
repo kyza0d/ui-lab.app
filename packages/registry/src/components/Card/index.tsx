@@ -2,19 +2,11 @@ import React from 'react';
 import { Card } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-card.js';
-import Example2, { metadata as metadata2 } from './examples/02-user-profile-card.js';
-import Example3, { metadata as metadata3 } from './examples/03-settings-panel-card.js';
-import Example4, { metadata as metadata4 } from './examples/04-task-progress-card.js';
-import Example5, { metadata as metadata5 } from './examples/05-data-summary-card.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
   { id: '01-basic-card', Component: Example1, metadata: metadata1 },
-  { id: '02-user-profile-card', Component: Example2, metadata: metadata2 },
-  { id: '03-settings-panel-card', Component: Example3, metadata: metadata3 },
-  { id: '04-task-progress-card', Component: Example4, metadata: metadata4 },
-  { id: '05-data-summary-card', Component: Example5, metadata: metadata5 }
 ];
 
 const cardControls: ControlDef[] = [];
