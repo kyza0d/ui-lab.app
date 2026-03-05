@@ -57,6 +57,7 @@ export default function Example() {
                 value={cmd.id}
                 textValue={cmd.label}
                 action={cmd.action}
+                hint={cmd.shortcut}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
@@ -67,9 +68,6 @@ export default function Example() {
                       </div>
                     )}
                   </div>
-                  {cmd.shortcut && (
-                    <Badge>{cmd.shortcut}</Badge>
-                  )}
                 </div>
               </Command.Item>
             )}

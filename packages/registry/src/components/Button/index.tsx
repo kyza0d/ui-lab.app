@@ -29,6 +29,7 @@ const buttonControls: ControlDef[] = [
       { label: 'Secondary', value: 'secondary' },
       { label: 'Outline', value: 'outline' },
       { label: 'Ghost', value: 'ghost' },
+      { label: 'Danger', value: 'danger' },
     ],
     defaultValue: 'default',
   },

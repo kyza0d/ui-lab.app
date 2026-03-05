@@ -6,7 +6,7 @@ import { ControlDef, ComponentDetail } from '@/types';
 import { FaBell, FaX } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-toast.js';
 import Example2, { metadata as metadata2 } from './examples/02-success-toast.js';
-import Example3, { metadata as metadata3 } from './examples/03-destructive-toast.js';
+import Example3, { metadata as metadata3 } from './examples/03-danger-toast.js';
 import Example4, { metadata as metadata4 } from './examples/04-info-toast.js';
 import Example5, { metadata as metadata5 } from './examples/05-warning-toast.js';
 import examplesJson from './examples.json' with { type: 'json' };
@@ -17,7 +17,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 const examplesData = [
   { id: '01-basic-toast', Component: Example1, metadata: metadata1 },
   { id: '02-success-toast', Component: Example2, metadata: metadata2 },
-  { id: '03-destructive-toast', Component: Example3, metadata: metadata3 },
+  { id: '03-danger-toast', Component: Example3, metadata: metadata3 },
   { id: '04-info-toast', Component: Example4, metadata: metadata4 },
   { id: '05-warning-toast', Component: Example5, metadata: metadata5 },
 ];
@@ -30,7 +30,7 @@ const toastControls: ControlDef[] = [
     options: [
       { label: 'Default', value: 'default' },
       { label: 'Success', value: 'success' },
-      { label: 'Destructive', value: 'destructive' },
+      { label: 'danger', value: 'danger' },
       { label: 'Info', value: 'info' },
       { label: 'Warning', value: 'warning' },
     ],
@@ -78,7 +78,7 @@ export const toastDetail: ComponentDetail = {
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
-        The Toast component displays temporary notifications to users. It supports multiple variants (default, success, destructive, info, warning) for different message types and can be positioned in any corner or center of the viewport.
+        The Toast component displays temporary notifications to users. It supports multiple variants (default, success, danger, info, warning) for different message types and can be positioned in any corner or center of the viewport.
       </p>
       <p>
         Toasts automatically dismiss after a configurable duration, support manual dismissal via close button, and can be paused on hover or focus. They're perfect for providing feedback after user actions, displaying system messages, or showing alerts.

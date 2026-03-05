@@ -3,6 +3,7 @@
   "name": "Page",
   "description": "A lightweight page container that provides page-level context, constraints, and semantic structure.",
   "category": "container",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Page",

@@ -1,4 +1,4 @@
-import { Confirmation } from 'ui-lab-components';
+import { Confirm } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Confirm',
@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function Example() {
   return (
-    <Confirmation
+    <Confirm
       triggerLabel="Delete Account"
       title="Are you sure?"
       description="This action cannot be undone. All your data will be permanently deleted."

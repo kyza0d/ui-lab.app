@@ -6,7 +6,7 @@ import type { ComponentDeps } from './types.js'
  */
 export const componentDependencies: Record<string, ComponentDeps> = {
   'badge': { npm: [], internal: [] },
-  'breadcrumbs': { npm: [], internal: [] },
+  'path': { npm: [], internal: [] },
   'button': { npm: [], internal: [] },
   'card': { npm: [], internal: [] },
   'checkbox': { npm: [], internal: ['label'] },

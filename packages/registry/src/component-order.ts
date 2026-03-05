@@ -12,7 +12,7 @@ export const componentOrder: Record<ComponentCategory, string[]> = {
   input: ['date', 'checkbox', 'color', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
   information: ['banner', 'badge', 'label', 'tooltip'],
   feedback: ['popover', 'progress', 'toast'],
-  navigation: ['breadcrumbs', 'menu', 'tabs', 'anchor'],
+  navigation: ['path', 'menu', 'tabs', 'anchor'],
   container: ['page', 'modal', 'scroll', 'mask', 'frame'],
   display: ['table', 'code'],
 };
