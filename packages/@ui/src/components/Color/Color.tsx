@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import styles from "./Color.module.css";
 import {
   rgbToHsl,
@@ -19,6 +20,15 @@ import { ColorHueSlider } from "./Color.HueSlider";
 import { ColorOpacitySlider } from "./Color.OpacitySlider";
 import { ColorRecentColors } from "./Color.RecentColors";
 import { ColorInput } from "./Color.Input";
+
+export interface ColorStyleSlots {
+  root?: StyleValue;
+  controls?: StyleValue;
+}
+
+export type ColorStylesProp = StylesProp<ColorStyleSlots>;
+
+const resolveColorBaseStyles = createStylesResolver(['root', 'controls'] as const);
 
 export interface ColorProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -42,6 +52,8 @@ export interface ColorProps
   size?: "sm" | "md" | "lg";
   /** Additional CSS class for the root element */
   className?: string;
+  /** Classes applied to the root or named slots */
+  styles?: ColorStylesProp;
 }
 
 export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
@@ -57,6 +69,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       disabled = false,
       size = "md",
       className,
+      styles: stylesProp,
       ...props
     },
     ref
@@ -115,6 +128,8 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       format === "hex"
         ? formatColorHex(displayR, displayG, displayB, opacity < 1 ? opacity : undefined)
         : formatColorRgb(displayR, displayG, displayB, opacity < 1 ? opacity : undefined);
+        
+    const resolved = resolveColorBaseStyles(stylesProp);
 
     const handleColorChange = useCallback(
       (newColor: string) => {
@@ -264,7 +279,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.color, className)}
+        className={cn(styles.color, className, resolved.root)}
         data-size={size}
         data-disabled={disabled || undefined}
         {...props}
@@ -286,7 +301,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
           size={size}
         />
 
-        <div className={styles.colorControls}>
+        <div className={cn(styles.colorControls, resolved.controls)}>
           {/* Hue Slider */}
           <ColorHueSlider
             value={hue}

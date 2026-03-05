@@ -33,11 +33,17 @@
   }
 
   .content-frame {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
     padding: 0.25rem 0.5rem;
     color: var(--foreground-200);
     font-weight: var(--font-weight-medium);
     font-size: var(--text-xs);
     white-space: nowrap;
+  }
+
+  .content-frame[data-hint] {
+    @apply pr-1;
   }
 }

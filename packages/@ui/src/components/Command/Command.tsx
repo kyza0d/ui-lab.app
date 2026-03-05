@@ -1,26 +1,23 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import * as React from "react"
+
 import { createPortal } from "react-dom";
-import { useOverlayTriggerState } from "@react-stately/overlays";
+
 import { useDialog } from "@react-aria/dialog";
 import { FocusScope } from "@react-aria/focus";
+
+import { useOverlayTriggerState } from "@react-stately/overlays";
+
 import { filterDOMProps } from "@react-aria/utils";
 import { cn } from "@/lib/utils";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { Search } from "lucide-react";
 import { useScrollLock } from "../../hooks/useScrollLock";
+
 import { Card } from "../Card";
-import { Badge } from "../Badge";
 import { Scroll } from "../Scroll";
-import { List } from "../List";
+import { Badge } from "../Badge";
+
 import type { Key } from "react-aria";
 import styles from "./Command.module.css";
 
@@ -33,6 +30,7 @@ export interface CommandItem {
   icon?: React.ReactNode;
   keywords?: string[];
   action: () => void | Promise<void>;
+  hint?: string;
 }
 
 export interface CommandGroupedItems {
@@ -44,14 +42,14 @@ interface CommandContextValue {
   isOpen: boolean;
   close: () => void;
   focusedKey: Key | null;
-  setFocusedKey: Dispatch<SetStateAction<Key | null>>;
+  setFocusedKey: React.Dispatch<React.SetStateAction<Key | null>>;
   registerItem: (key: Key, textValue: string) => void;
   unregisterItem: (key: Key) => void;
   actionRef: React.MutableRefObject<Map<Key, () => void | Promise<void>>>;
   searchInputRef: React.MutableRefObject<HTMLInputElement | null>;
   scrollableRef: React.MutableRefObject<HTMLDivElement | null>;
   searchValue: string;
-  setSearchValue: Dispatch<SetStateAction<string>>;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   filteredItems: CommandItem[];
   groupedItems: CommandGroupedItems[];
 }
@@ -85,10 +83,6 @@ function scoreCommandRelevance(
   return 0;
 }
 
-// ============================================================================
-// Command (root component)
-// ============================================================================
-
 export interface CommandProps {
   /** Whether the command palette is open */
   open?: boolean;
@@ -103,7 +97,7 @@ export interface CommandProps {
   /** Custom filter function for commands against the query */
   filter?: (command: CommandItem, query: string) => boolean;
   /** Child elements rendered inside the palette */
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 const Command = React.forwardRef<HTMLDivElement, CommandProps>(
@@ -111,27 +105,27 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
     { open = false, onOpenChange, className, overlayClassName, items = [], filter, children },
     ref,
   ) => {
-    const [mounted, setMounted] = useState(false);
+    const [mounted, setMounted] = React.useState(false);
     const overlayState = useOverlayTriggerState({
       isOpen: open,
       onOpenChange,
     });
 
-    const modalRef = useRef<HTMLDivElement>(null);
-    const paletteRef = useRef<HTMLDivElement>(null);
-    const searchInputRef = useRef<HTMLInputElement>(null);
-    const scrollableRef = useRef<HTMLDivElement>(null);
+    const modalRef = React.useRef<HTMLDivElement>(null);
+    const paletteRef = React.useRef<HTMLDivElement>(null);
+    const searchInputRef = React.useRef<HTMLInputElement>(null);
+    const scrollableRef = React.useRef<HTMLDivElement>(null);
 
     useScrollLock(overlayState.isOpen, scrollableRef.current);
-    const itemsRef = useRef<Map<Key, string>>(new Map());
-    const actionRef = useRef<Map<Key, () => void | Promise<void>>>(
+    const itemsRef = React.useRef<Map<Key, string>>(new Map());
+    const actionRef = React.useRef<Map<Key, () => void | Promise<void>>>(
       new Map(),
     );
-    const focusedKeyRef = useRef<Key | null>(null);
+    const focusedKeyRef = React.useRef<Key | null>(null);
 
-    const [focusedKey, setFocusedKey] = useState<Key | null>(null);
-    const [itemCount, setItemCount] = useState(0);
-    const [searchValue, setSearchValue] = useState("");
+    const [focusedKey, setFocusedKey] = React.useState<Key | null>(null);
+    const [itemCount, setItemCount] = React.useState(0);
+    const [searchValue, setSearchValue] = React.useState("");
 
     const filteredItems = items.filter((cmd) => !filter || filter(cmd, searchValue));
 
@@ -164,24 +158,24 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
 
     React.useImperativeHandle(ref, () => paletteRef.current as HTMLDivElement);
 
-    useEffect(() => {
+    React.useEffect(() => {
       setMounted(true);
     }, []);
 
     // Sync focusedKeyRef with focusedKey
-    useEffect(() => {
+    React.useEffect(() => {
       focusedKeyRef.current = focusedKey;
     }, [focusedKey]);
 
     // Auto-focus search input when opening
-    useEffect(() => {
+    React.useEffect(() => {
       if (overlayState.isOpen && searchInputRef.current) {
         setTimeout(() => searchInputRef.current?.focus(), 0);
       }
     }, [overlayState.isOpen]);
 
     // Cleanup state when overlay closes
-    useEffect(() => {
+    React.useEffect(() => {
       if (!overlayState.isOpen) {
         scrollableRef.current = null;
         setSearchValue("");
@@ -189,7 +183,7 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
     }, [overlayState.isOpen]);
 
     // Cmd+K global listener
-    useEffect(() => {
+    React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         const isMac =
           navigator.platform.toUpperCase().indexOf("MAC") >= 0 ||
@@ -209,7 +203,7 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
     }, [overlayState]);
 
     // Auto-focus first item when items change (filtering, opening)
-    useEffect(() => {
+    React.useEffect(() => {
       if (!overlayState.isOpen) return;
 
       if (!searchValue) {
@@ -226,7 +220,7 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
     }, [itemCount, overlayState.isOpen, searchValue]);
 
     // Keyboard navigation
-    useEffect(() => {
+    React.useEffect(() => {
       if (!overlayState.isOpen) return;
 
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -278,18 +272,18 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [overlayState.isOpen, focusedKey]);
 
-    const registerItem = useCallback((key: Key, textValue: string) => {
+    const registerItem = React.useCallback((key: Key, textValue: string) => {
       itemsRef.current.set(key, textValue);
       setItemCount((c) => c + 1);
     }, []);
 
-    const unregisterItem = useCallback((key: Key) => {
+    const unregisterItem = React.useCallback((key: Key) => {
       itemsRef.current.delete(key);
       setItemCount((c) => c + 1);
     }, []);
 
     // Click outside to close
-    const handleOverlayClick = useCallback(
+    const handleOverlayClick = React.useCallback(
       (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
           overlayState.close();
@@ -353,10 +347,6 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
 
 Command.displayName = "Command";
 
-// ============================================================================
-// Command.SearchInput
-// ============================================================================
-
 interface CommandSearchInputProps {
   /** Controlled search text value */
   value?: string;
@@ -385,7 +375,7 @@ const CommandSearchInput = React.forwardRef<
     <Card.Header className={styles["search"]}>
       <div className={styles["search-container"]}>
         <div className={styles["search-icon"]}>
-          <FaMagnifyingGlass className="w-4 h-4" />
+          <Search className="w-4 h-4" />
         </div>
         <input
           ref={inputRef}
@@ -412,13 +402,9 @@ const CommandSearchInput = React.forwardRef<
 
 CommandSearchInput.displayName = "Command.SearchInput";
 
-// ============================================================================
-// Command.List
-// ============================================================================
-
 interface CommandListProps {
   /** Child elements rendered inside the list */
-  children?: ReactNode;
+  children?: React.ReactNode;
   /** Message shown when no items match the search */
   emptyMessage?: string;
   /** Additional CSS class for the list container */
@@ -463,10 +449,6 @@ const CommandListComponent = React.forwardRef<
 
 CommandListComponent.displayName = "Command.List";
 
-// ============================================================================
-// Command.Item
-// ============================================================================
-
 interface CommandItemProps {
   /** Unique key identifying this command item */
   value: Key;
@@ -475,17 +457,19 @@ interface CommandItemProps {
   /** Called when the item is selected */
   action: () => void | Promise<void>;
   /** Child elements rendered inside the item */
-  children?: ReactNode;
+  children?: React.ReactNode;
   /** Additional CSS class for the item */
   className?: string;
+  /** Keyboard shortcut or hint text rendered as a Badge at the end of the command item */
+  hint?: string;
 }
 
 const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
-  ({ value, textValue, action, children, className }, ref) => {
+  ({ value, textValue, action, children, className, hint }, ref) => {
     const { focusedKey, registerItem, unregisterItem, actionRef } =
       useCommandContext();
 
-    useEffect(() => {
+    React.useEffect(() => {
       registerItem(value, textValue);
       actionRef.current.set(value, action);
       return () => {
@@ -505,7 +489,12 @@ const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
         onClick={() => action()}
         className={cn("item", styles["item"], className)}
       >
-        {children}
+        <div className={styles["item-content"]}>{children}</div>
+        {hint && (
+          <Badge variant="secondary" size="sm" className={styles["hint-wrapper"]}>
+            {hint}
+          </Badge>
+        )}
       </div>
     );
   },
@@ -513,13 +502,9 @@ const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
 
 CommandItem.displayName = "Command.Item";
 
-// ============================================================================
-// Command.Category
-// ============================================================================
-
 interface CommandCategoryProps {
   /** Child elements rendered inside the category header */
-  children?: ReactNode;
+  children?: React.ReactNode;
   /** Additional CSS class for the category */
   className?: string;
 }
@@ -541,13 +526,9 @@ const CommandCategory = React.forwardRef<
 
 CommandCategory.displayName = "Command.Category";
 
-// ============================================================================
-// Command.Footer
-// ============================================================================
-
 interface CommandFooterProps {
   /** Child elements rendered inside the footer */
-  children?: ReactNode;
+  children?: React.ReactNode;
   /** Additional CSS class applied to the footer */
   className?: string;
 }
@@ -565,15 +546,11 @@ const CommandFooter = React.forwardRef<HTMLDivElement, CommandFooterProps>(
 
 CommandFooter.displayName = "Command.Footer";
 
-// ============================================================================
-// Command.Groups
-// ============================================================================
-
 export interface CommandGroupsProps {
   /** Renders a category header for the given category name */
-  renderCategory?: (category: string | undefined) => ReactNode;
+  renderCategory?: (category: string | undefined) => React.ReactNode;
   /** Renders a single command item row */
-  renderItem: (command: CommandItem) => ReactNode;
+  renderItem: (command: CommandItem, hint?: string) => React.ReactNode;
   /** Additional CSS class for the groups container */
   className?: string;
 }
@@ -589,7 +566,7 @@ const CommandGroups = React.forwardRef<HTMLDivElement, CommandGroupsProps>(
           <div key={category || "uncategorized"}>
             {renderCategory && renderCategory(category)}
             {items.map((cmd) => (
-              <React.Fragment key={cmd.id}>{renderItem(cmd)}</React.Fragment>
+              <React.Fragment key={cmd.id}>{renderItem(cmd, cmd.hint)}</React.Fragment>
             ))}
           </div>
         ))}
@@ -599,10 +576,6 @@ const CommandGroups = React.forwardRef<HTMLDivElement, CommandGroupsProps>(
 );
 
 CommandGroups.displayName = "Command.Groups";
-
-// ============================================================================
-// Compound Component Type
-// ============================================================================
 
 interface CommandComponent
   extends React.ForwardRefExoticComponent<
@@ -615,10 +588,6 @@ interface CommandComponent
   Footer: typeof CommandFooter;
   Groups: typeof CommandGroups;
 }
-
-// ============================================================================
-// Exports
-// ============================================================================
 
 const CommandWithSubcomponents = Object.assign(Command, {
   SearchInput: CommandSearchInput,

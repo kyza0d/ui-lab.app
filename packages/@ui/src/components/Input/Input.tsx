@@ -1,12 +1,24 @@
 "use client";
 
 import React, { forwardRef, type ComponentPropsWithoutRef } from "react";
-import { useFocusRing, mergeProps } from "react-aria";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
-import { cn } from "@/lib/utils";
-import styles from "./Input.module.css";
+
+import { useFocusRing } from "@react-aria/focus"
+import { mergeProps, } from "@react-aria/utils";
+
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Input.module.css";
 
 type Variant = "default" | "ghost";
+
+export interface InputStyleSlots {
+  root?: StyleValue;
+}
+
+export type InputStylesProp = StylesProp<InputStyleSlots>;
+
+const resolveInputStyles = createStylesResolver(['root'] as const);
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "size"> {
   /** Controls the visual style of the input */
@@ -17,6 +29,8 @@ export interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "siz
   prefixIcon?: React.ReactNode;
   /** Icon displayed after the input value */
   suffixIcon?: React.ReactNode;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: InputStylesProp;
 }
 
 function useMergedRef<T>(...refs: (React.Ref<T> | undefined)[]): React.RefCallback<T> {
@@ -40,6 +54,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       type = "text",
       onFocus,
       onBlur,
+      styles: stylesProp,
       ...props
     },
     ref
@@ -80,10 +95,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       input.dispatchEvent(event);
     };
 
+    const resolved = resolveInputStyles(stylesProp);
+
     return (
-      <div className={styles.container}>
+      <div className={css.container}>
         {hasPrefix && (
-          <div className={cn(styles['icon-wrapper'], styles['prefix-icon'])}>
+          <div className={cn(css['icon-wrapper'], css['prefix-icon'])}>
             {prefixIcon}
           </div>
         )}
@@ -97,10 +114,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-error={error ? "true" : undefined}
           data-variant={variant}
           className={cn(
-            styles.input,
+            css.input,
             hasPrefix && "pl-10",
             (hasSuffix || isNumberType) && "pr-10",
-            className
+            className,
+            resolved.root
           )}
           {...mergeProps(focusProps, {
             onFocus: handleFocus,
@@ -110,33 +128,33 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {isNumberType && (
           <div
-            className={cn(styles['number-controls'], disabled && styles.disabled)}
+            className={cn(css['number-controls'], disabled && css.disabled)}
             data-disabled={disabled || undefined}
           >
             <button
               type="button"
-              className={styles['spin-button']}
+              className={css['spin-button']}
               onClick={() => handleSpinClick("up")}
               disabled={disabled}
               tabIndex={-1}
               aria-label="Increment"
             >
-              <FaChevronUp size={10} />
+              <ChevronUp size={10} />
             </button>
             <button
               type="button"
-              className={styles['spin-button']}
+              className={css['spin-button']}
               onClick={() => handleSpinClick("down")}
               disabled={disabled}
               tabIndex={-1}
               aria-label="Decrement"
             >
-              <FaChevronDown size={10} />
+              <ChevronDown size={10} />
             </button>
           </div>
         )}
         {hasSuffix && (
-          <div className={cn(styles['icon-wrapper'], styles['suffix-icon'])}>
+          <div className={cn(css['icon-wrapper'], css['suffix-icon'])}>
             {suffixIcon}
           </div>
         )}

@@ -2,17 +2,19 @@
 
 @layer components {
   .switch {
-    --track-background-unchecked: var(--background-700);
-    --track-background-checked: var(--accent-500);
+    --track-background-unchecked: var(--background-800);
+    --track-background-checked: color-mix(in srgb, var(--accent-600) 60%, var(--background-500));
     --track-background-hover: var(--accent-600);
     --track-background-active: var(--accent-600);
     --track-background-disabled: var(--background-800);
     --thumb-background-unchecked: var(--background-500);
     --thumb-background-checked: var(--accent-50);
-    --border: var(--background-700);
-    --border-hover: var(--accent-500);
-    --border-active: var(--accent-600);
-    --radius: 0.375rem;
+
+    --border: transparent;
+    --border-hover: transparent;
+    --border-active: transparent;
+
+    --radius: var(--radius-sm);
     --inner-radius: calc(var(--radius) - var(--border-width-base));
 
     position: relative;
@@ -52,7 +54,7 @@
 
   .switch[data-selected] .switch-track {
     background-color: var(--track-background-checked);
-    border-color: var(--accent-500);
+    border-color: transparent;
   }
 
   .switch[data-selected] .switch-thumb {
@@ -76,8 +78,8 @@
 }
 
 .md {
-  width: 1.75rem;
-  height: 1rem;
+  width: 1.50rem;
+  height: 0.80rem;
 }
 
 .md .switch-thumb {

@@ -2,12 +2,22 @@
 
 import * as React from "react";
 import { useHover, mergeProps } from "react-aria";
-import { cn } from "@/lib/utils";
-import styles from "./Banner.module.css";
-import { FaCircleInfo, FaCircleCheck, FaTriangleExclamation, FaCircleExclamation } from "react-icons/fa6";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Banner.module.css";
+import { Info, CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
 
 type BannerVariant = "note" | "info" | "success" | "warning" | "danger";
 type BannerSize = "sm" | "md" | "lg";
+
+export interface BannerStyleSlots {
+  root?: StyleValue;
+  iconContainer?: StyleValue;
+  content?: StyleValue;
+  dismiss?: StyleValue;
+}
+
+export type BannerStylesProp = StylesProp<BannerStyleSlots>;
 
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Visual style of the banner conveying its intent */
@@ -18,44 +28,54 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   isDismissible?: boolean;
   /** Called when the dismiss button is clicked */
   onDismiss?: () => void;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: BannerStylesProp;
 }
 
-export interface BannerTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+export interface BannerTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: StyleValue;
+}
 
-export interface BannerBodyProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+export interface BannerBodyProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: StyleValue;
+}
 
 const variantMap = {
-  note: styles["note"],
-  info: styles["info"],
-  success: styles["success"],
-  warning: styles["warning"],
-  danger: styles["danger"],
+  note: css["note"],
+  info: css["info"],
+  success: css["success"],
+  warning: css["warning"],
+  danger: css["danger"],
 } as const;
 
 const getBannerIcon = (variant: BannerVariant) => {
-  const iconProps = { className: styles.icon };
+  const iconProps = { className: css.icon };
   const icons = {
-    note: <FaCircleInfo {...iconProps} />,
-    info: <FaCircleInfo {...iconProps} />,
-    success: <FaCircleCheck {...iconProps} />,
-    warning: <FaTriangleExclamation {...iconProps} />,
-    danger: <FaCircleExclamation {...iconProps} />,
+    note: <Info {...iconProps} />,
+    info: <Info {...iconProps} />,
+    success: <CircleCheck {...iconProps} />,
+    warning: <TriangleAlert {...iconProps} />,
+    danger: <CircleAlert {...iconProps} />,
   };
   return icons[variant];
 };
 
 const sizeMap = {
-  sm: styles["sm"],
-  md: styles["md"],
-  lg: styles["lg"],
+  sm: css["sm"],
+  md: css["md"],
+  lg: css["lg"],
 } as const;
+
+const resolveBannerBaseStyles = createStylesResolver(['root', 'iconContainer', 'content', 'dismiss'] as const);
 
 /** Heading text for the banner message */
 const BannerTitle = React.forwardRef<HTMLHeadingElement, BannerTitleProps>(
-  ({ className, ...props }, ref) => (
+  ({ className, styles, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn("banner-title", styles.title, className)}
+      className={cn("title", css.title, className, styles)}
       {...props}
     />
   )
@@ -65,10 +85,10 @@ BannerTitle.displayName = "Banner.Title";
 
 /** Body text content of the banner */
 const BannerBody = React.forwardRef<HTMLParagraphElement, BannerBodyProps>(
-  ({ className, ...props }, ref) => (
+  ({ className, styles, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn("banner-body", styles.body, className)}
+      className={cn("body", css.body, className, styles)}
       {...props}
     />
   )
@@ -81,6 +101,7 @@ const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
   (
     {
       className,
+      styles,
       variant = "note",
       size = "md",
       isDismissible = false,
@@ -103,24 +124,25 @@ const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
     }
 
     const icon = getBannerIcon(variant);
+    const resolved = resolveBannerBaseStyles(styles);
 
     return (
       <div
         {...mergeProps(hoverProps, props)}
         ref={ref}
-        className={cn("banner", styles.banner, variantMap[variant], sizeMap[size], className)}
+        className={cn("banner", css.banner, variantMap[variant], sizeMap[size], className, resolved.root)}
         data-variant={variant}
         data-size={size}
         data-hovered={isHovered ? "true" : "false"}
       >
-        {icon && <div className={cn("banner-icon", styles.iconContainer)}>{icon}</div>}
-        <div className={cn("banner-content", styles.content)}>
+        {icon && <div className={cn("icon", css.iconContainer, resolved.iconContainer)}>{icon}</div>}
+        <div className={cn("content", css.content, resolved.content)}>
           {children}
         </div>
         {isDismissible && (
           <button
             onClick={handleDismiss}
-            className={cn("banner-dismiss", styles.dismiss)}
+            className={cn("dismiss", css.dismiss, resolved.dismiss)}
             aria-label="Dismiss banner"
             type="button"
           >

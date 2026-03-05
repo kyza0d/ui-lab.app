@@ -1,9 +1,15 @@
 "use client";
 
 import React from "react";
-import { useSwitch, useFocusRing, useHover, mergeProps } from "react-aria";
+
+import { mergeProps, } from "@react-aria/utils";
+import { useHover } from "@react-aria/interactions";
+import { useFocusRing } from "@react-aria/focus"
+import { useSwitch } from "@react-aria/switch";
+
 import { useToggleState } from "react-stately";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 
 import styles from "./Switch.module.css";
 
@@ -22,6 +28,17 @@ const thumbPositions = {
   lg: { unchecked: 0.25, checked: 1.5 },
 };
 
+
+export interface SwitchStyleSlots {
+  root?: StyleValue;
+  track?: StyleValue;
+  thumb?: StyleValue;
+}
+
+export type SwitchStylesProp = StylesProp<SwitchStyleSlots>;
+
+const resolveSwitchBaseStyles = createStylesResolver(['root', 'track', 'thumb'] as const);
+
 export interface SwitchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size" | "onChange" | "checked" | "defaultChecked"> {
   /** Controlled selected (on) state */
@@ -36,12 +53,16 @@ export interface SwitchProps
   pill?: boolean;
   /** Whether the switch is disabled */
   isDisabled?: boolean;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SwitchStylesProp;
 }
+
 
 const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   (
     {
       className,
+      styles: stylesProp,
       size = "lg",
       isDisabled = false,
       isSelected: controlledSelected,
@@ -82,6 +103,8 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
 
     React.useImperativeHandle(ref, () => inputRef.current!);
 
+    const resolved = resolveSwitchBaseStyles(stylesProp);
+
     return (
       <div
         className={cn(
@@ -89,7 +112,8 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           styles.switch,
           sizeMap[size],
           shapeClass,
-          className
+          className,
+          resolved.root
         )}
         data-selected={isSelected || undefined}
         data-disabled={isDisabled || undefined}
@@ -100,7 +124,8 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           className={cn(
             'switch-track',
             styles["switch-track"],
-            shapeClass
+            shapeClass,
+            resolved.track
           )}
         />
         <div
@@ -108,7 +133,8 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
             'switch-thumb',
             styles["switch-thumb"],
             sizeMap[size],
-            shapeClass
+            shapeClass,
+            resolved.thumb
           )}
           style={{
             left: `${thumbLeft}rem`,

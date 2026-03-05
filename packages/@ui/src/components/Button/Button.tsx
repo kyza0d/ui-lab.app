@@ -1,12 +1,52 @@
 "use client";
 
 import * as React from "react";
-import { useButton, useFocusRing, useHover, mergeProps } from "react-aria";
-import { cn } from "@/lib/utils";
-import styles from "./Button.module.css";
+
+import { mergeProps, } from "@react-aria/utils";
+import { useHover } from "@react-aria/interactions";
+import { useFocusRing } from "@react-aria/focus"
+import { useButton } from "@react-aria/button";
+
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Button.module.css";
 
 type ButtonVariant = "primary" | "default" | "secondary" | "outline" | "ghost" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
+
+interface ButtonIconStyles {
+  left?: StyleValue;
+  right?: StyleValue;
+}
+
+export interface ButtonStyleSlots {
+  root?: StyleValue;
+  icon?: StyleValue | ButtonIconStyles;
+}
+
+export type ButtonStylesProp = StylesProp<ButtonStyleSlots>;
+
+const resolveButtonBaseStyles = createStylesResolver(['root', 'iconLeft', 'iconRight'] as const);
+
+function resolveButtonStyles(styles: ButtonStylesProp | undefined) {
+  if (!styles || typeof styles === 'string' || Array.isArray(styles)) return resolveButtonBaseStyles(styles)
+  const { root, icon } = styles;
+
+  let iconLeft: StyleValue | undefined;
+  let iconRight: StyleValue | undefined;
+
+  if (icon) {
+    if (typeof icon === 'string' || Array.isArray(icon)) {
+      iconLeft = icon;
+      iconRight = icon;
+    } else {
+      iconLeft = icon.left;
+      iconRight = icon.right;
+    }
+  }
+
+  return resolveButtonBaseStyles({ root, iconLeft, iconRight });
+}
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href"> {
   /** Visual style of the button */
@@ -24,25 +64,27 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   };
   /** Renders the button as an anchor element when provided */
   href?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: ButtonStylesProp;
 }
 
 const variantMap = {
-  primary: styles["primary"],
-  default: styles["default"],
-  secondary: styles["secondary"],
-  outline: styles["outline"],
-  ghost: styles["ghost"],
-  danger: styles["danger"],
+  primary: css["primary"],
+  default: css["default"],
+  secondary: css["secondary"],
+  outline: css["outline"],
+  ghost: css["ghost"],
+  danger: css["danger"],
 } as const;
 
 const sizeMap = {
-  sm: styles["sm"],
-  md: styles["md"],
-  lg: styles["lg"],
+  sm: css["sm"],
+  md: css["md"],
+  lg: css["lg"],
 } as const;
 
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({ className, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, href, ...props }, ref) => {
+  ({ className, styles, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, href, ...props }, ref) => {
     const buttonRef = React.useRef<HTMLButtonElement | HTMLAnchorElement>(null);
     const mergedRef = useMergedRef(ref, buttonRef);
     const isButtonDisabled = isDisabled ?? disabled ?? false;
@@ -79,7 +121,8 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     const { focusProps, isFocused, isFocusVisible } = useFocusRing({ autoFocus: props.autoFocus });
     const { hoverProps, isHovered } = useHover({ isDisabled: isButtonDisabled });
 
-    const buttonClassName = cn("button", variant, size, styles.button, variantMap[variant], sizeMap[size], className);
+    const resolved = resolveButtonStyles(styles);
+    const buttonClassName = cn("button", variant, size, css.button, variantMap[variant], sizeMap[size], className, resolved.root);
 
     if (isAnchor) {
       return (
@@ -97,9 +140,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           data-focused={isFocused ? "true" : "false"}
           data-focus-visible={isFocusVisible ? "true" : "false"}
         >
-          {icon?.left && <span className={cn((styles as any)[`icon-${size}`])}>{icon.left}</span>}
+          {icon?.left && <span className={cn((css as any)[`icon-${size}`], resolved.iconLeft)}>{icon.left}</span>}
           {children}
-          {icon?.right && <span className={cn((styles as any)[`icon-${size}`])}>{icon.right}</span>}
+          {icon?.right && <span className={cn((css as any)[`icon-${size}`], resolved.iconRight)}>{icon.right}</span>}
         </a>
       );
     }
@@ -118,9 +161,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         data-focused={isFocused ? "true" : "false"}
         data-focus-visible={isFocusVisible ? "true" : "false"}
       >
-        {icon?.left && <span className={cn((styles as any)[`icon-${size}`])}>{icon.left}</span>}
+        {icon?.left && <span className={cn((css as any)[`icon-${size}`], resolved.iconLeft)}>{icon.left}</span>}
         {children}
-        {icon?.right && <span className={cn((styles as any)[`icon-${size}`])}>{icon.right}</span>}
+        {icon?.right && <span className={cn((css as any)[`icon-${size}`], resolved.iconRight)}>{icon.right}</span>}
       </button>
     );
   }

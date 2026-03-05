@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import styles from "./Flex.module.css";
 
 type FlexDirection = "row" | "column";
@@ -21,6 +22,14 @@ type FlexAlign =
   | "baseline";
 type FlexGap = "xs" | "sm" | "md" | "lg" | "xl";
 
+export interface FlexStyleSlots {
+  root?: StyleValue;
+}
+
+export type FlexStylesProp = StylesProp<FlexStyleSlots>;
+
+const resolveFlexBaseStyles = createStylesResolver(['root'] as const);
+
 export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Direction of the flex container */
   direction?: FlexDirection;
@@ -34,6 +43,8 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: FlexAlign;
   /** Wraps the flex container in a container query parent for breakpoint-aware responsiveness */
   containerQueryResponsive?: boolean;
+  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: FlexStylesProp;
 }
 
 const directionMap = {
@@ -75,6 +86,7 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
   (
     {
       className,
+      styles: stylesProp,
       direction = "row",
       wrap = "nowrap",
       gap = "md",
@@ -86,11 +98,12 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
     },
     ref
   ) => {
+    const resolved = resolveFlexBaseStyles(stylesProp);
     if (containerQueryResponsive) {
       return (
         <div
           ref={ref}
-          className={cn(styles["container-query-parent"], className)}
+          className={cn(styles["container-query-parent"], className, resolved.root)}
           data-container-responsive="true"
           {...props}
         >
@@ -126,7 +139,8 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
           gapMap[gap],
           justifyMap[justify],
           alignMap[align],
-          className
+          className,
+          resolved.root
         )}
         data-direction={direction}
         data-wrap={wrap}

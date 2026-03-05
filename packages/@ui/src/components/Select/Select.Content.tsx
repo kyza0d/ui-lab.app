@@ -1,7 +1,8 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { useFloating, flip, offset, autoUpdate } from '@floating-ui/react-dom'
-import { cn } from "@/lib/utils"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import styles from "./Select.module.css"
 import { useSelectContext } from "./Select"
 import { GroupContext } from "../Group/Group"
@@ -9,6 +10,15 @@ import { Scroll } from "../Scroll"
 import { Input } from "../Input"
 import { List } from "../List"
 import { useMergedRef, scrollItemIntoView } from "./Select.shared"
+
+export interface SelectContentStyleSlots {
+  root?: StyleValue;
+  overlay?: StyleValue;
+  searchWrapper?: StyleValue;
+  listPaddingWrapper?: StyleValue;
+}
+
+export type SelectContentStylesProp = StylesProp<SelectContentStyleSlots>;
 
 export interface SelectContentProps extends React.PropsWithChildren {
   /** Additional CSS class names */
@@ -19,11 +29,20 @@ export interface SelectContentProps extends React.PropsWithChildren {
   searchPlaceholder?: string
   /** Called when the search input value changes */
   onSearch?: (value: string) => void
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SelectContentStylesProp;
 }
+
+const resolveSelectContentBaseStyles = createStylesResolver([
+  'root',
+  'overlay',
+  'searchWrapper',
+  'listPaddingWrapper',
+] as const);
 
 /** Floating panel that renders the list of selectable options */
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
-  ({ children, className, searchable = false, searchPlaceholder = "Search items...", onSearch }, ref) => {
+  ({ children, className, searchable = false, searchPlaceholder = "Search items...", onSearch, styles: stylesProp }, ref) => {
     const {
       isOpen,
       setIsOpen,
@@ -238,18 +257,21 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     if (!mounted) return null
 
+    const resolved = resolveSelectContentBaseStyles(stylesProp);
+
     return createPortal(
       <>
         {showContent && triggerMode !== "hover" && (
           <div
             style={{ position: "fixed", inset: 0, zIndex: 49999 }}
             onClick={() => setIsOpen(false)}
+            className={cn(resolved.overlay)}
           />
         )}
         {isOpen && (
           <div
             ref={mergedRef}
-            className={cn(styles.content, className)}
+            className={cn(styles.content, className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split('-')[0]}
             tabIndex={-1}
@@ -263,7 +285,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             {...hoverHandlers}
           >
             {searchable && (
-              <div className="px-2 py-2">
+              <div className={cn("px-2 py-2", resolved.searchWrapper)}>
                 <Input
                   ref={inputRef}
                   type="text"
@@ -290,7 +312,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
               enabled={needsScroll}
               hide={false}
             >
-              <div style={{ padding: "0.25rem" }}>
+              <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
                 <List items={filteredItems}>
                   {children}
                 </List>

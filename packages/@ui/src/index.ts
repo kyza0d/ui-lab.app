@@ -1,5 +1,5 @@
 export { Button } from "./components/Button";
-export type { ButtonProps } from "./components/Button";
+export type { ButtonProps, ButtonStyleSlots, ButtonStylesProp } from "./components/Button";
 
 export { EasingPreview } from "./components/EasingPreview";
 export type { EasingPreviewProps } from "./components/EasingPreview";
@@ -124,11 +124,11 @@ export { Command, Command as CommandPalette, useCommandContext } from "./compone
 export type { CommandItem, CommandGroupedItems, CommandProps, CommandGroupsProps } from "./components/Command";
 export { scoreCommandRelevance } from "./components/Command";
 
-export { Confirmation } from "./components/Confirmation";
-export type { ConfirmationProps } from "./components/Confirmation";
+export { Confirm } from "./components/Confirm";
+export type { ConfirmProps } from "./components/Confirm";
 
-export { Breadcrumbs, Breadcrumb } from "./components/Breadcrumbs";
-export type { BreadcrumbsProps, BreadcrumbItemProps } from "./components/Breadcrumbs";
+export { Path, PathItem } from "./components/Path";
+export type { PathProps, PathItemProps } from "./components/Path";
 
 export { Anchor } from "./components/Anchor";
 export type { AnchorProps, AnchorPreviewProps } from "./components/Anchor";
@@ -180,3 +180,5 @@ export { generateThemeScript } from "./providers/themeScript";
 
 export { useFilter } from "./hooks/useFilter";
 export { useAnimatedWidth } from "./hooks/useAnimatedWidth";
+
+export type { StyleValue } from "./lib/utils";

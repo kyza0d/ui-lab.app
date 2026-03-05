@@ -2,14 +2,25 @@
 
 import React, { useId, createContext, useContext } from "react";
 import { useRadioGroupState } from "react-stately";
-import {
-  useRadioGroup,
-  useRadio,
-  useFocusRing,
-  mergeProps,
-} from "react-aria";
-import { cn } from "@/lib/utils";
+
+import { mergeProps, } from "@react-aria/utils";
+import { useFocusRing } from "@react-aria/focus"
+import { useRadioGroup, useRadio } from "@react-aria/radio";
+
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import styles from "./Radio.module.css";
+
+export interface RadioStyleSlots {
+  root?: StyleValue;
+  label?: StyleValue;
+  description?: StyleValue;
+  helperText?: StyleValue;
+}
+
+export type RadioStylesProp = StylesProp<RadioStyleSlots>;
+
+const resolveRadioBaseStyles = createStylesResolver(['root', 'label', 'description', 'helperText'] as const);
 
 type Size = "sm" | "md" | "lg";
 
@@ -128,6 +139,8 @@ export interface RadioItemProps
   error?: boolean;
   /** Value submitted when this radio is selected */
   value: string;
+  /** Classes applied to named slots */
+  styles?: RadioStylesProp;
 }
 
 const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
@@ -142,6 +155,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
     helperTextError = false,
     value,
     id,
+    styles: stylesProp,
     ...props
   }, ref) => {
     const radioGroupContext = useRadioGroupContext();
@@ -176,6 +190,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
     );
 
     const { focusProps, isFocusVisible } = useFocusRing();
+    const resolved = resolveRadioBaseStyles(stylesProp);
 
     return (
       <div className="w-full">
@@ -188,7 +203,8 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
               className={cn(
                 styles.radio,
                 styles[size],
-                className
+                className,
+                resolved.root
               )}
               data-checked={isSelected || undefined}
               data-disabled={disabled || undefined}
@@ -217,7 +233,8 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
                   htmlFor={radioId}
                   className={cn(
                     styles["radio-label"],
-                    disabled && styles["radio-label-disabled"]
+                    disabled && styles["radio-label-disabled"],
+                    resolved.label
                   )}
                   suppressHydrationWarning
                 >
@@ -228,7 +245,8 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
                 <p
                   className={cn(
                     styles["radio-description"],
-                    error && styles["radio-description-error"]
+                    error && styles["radio-description-error"],
+                    resolved.description
                   )}
                 >
                   {description}
@@ -241,7 +259,8 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
           <p
             className={cn(
               "text-xs mt-2 ml-8 transition-colors",
-              helperTextError ? "text-danger-600" : "text-foreground-400"
+              helperTextError ? "text-danger-600" : "text-foreground-400",
+              resolved.helperText
             )}
           >
             {helperText}
@@ -269,6 +288,8 @@ export interface RadioProps
   helperTextError?: boolean;
   /** Whether to apply error styling */
   error?: boolean;
+  /** Classes applied to named slots */
+  styles?: RadioStylesProp;
 }
 
 const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
@@ -285,6 +306,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
     defaultChecked,
     onChange,
     id,
+    styles: stylesProp,
     ...props
   }, ref) => {
     const [internalChecked, setInternalChecked] = React.useState(checkedProp ?? defaultChecked ?? false);
@@ -304,6 +326,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
 
     const radioId = id || `radio-${generatedId}`;
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const resolved = resolveRadioBaseStyles(stylesProp);
 
     return (
       <div className="w-full">
@@ -316,7 +339,8 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
               className={cn(
                 styles.radio,
                 styles[size],
-                className
+                className,
+                resolved.root
               )}
               data-checked={checked || undefined}
               data-disabled={disabled || undefined}
@@ -349,7 +373,8 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
                   htmlFor={radioId}
                   className={cn(
                     styles["radio-label"],
-                    disabled && styles["radio-label-disabled"]
+                    disabled && styles["radio-label-disabled"],
+                    resolved.label
                   )}
                   suppressHydrationWarning
                 >
@@ -360,7 +385,8 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
                 <p
                   className={cn(
                     styles["radio-description"],
-                    error && styles["radio-description-error"]
+                    error && styles["radio-description-error"],
+                    resolved.description
                   )}
                 >
                   {description}
@@ -373,7 +399,8 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
           <p
             className={cn(
               "text-xs mt-2 ml-8 transition-colors",
-              helperTextError ? "text-danger-600" : "text-foreground-400"
+              helperTextError ? "text-danger-600" : "text-foreground-400",
+              resolved.helperText
             )}
           >
             {helperText}

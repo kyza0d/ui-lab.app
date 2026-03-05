@@ -1,12 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { Popover } from "@/components/Popover";
-import styles from "./Anchor.module.css";
+import css from "./Anchor.module.css";
 
 type Orientation = "horizontal" | "vertical";
 type Size = "sm" | "md" | "lg";
+
+export interface AnchorStyleSlots {
+  root?: StyleValue;
+  underline?: StyleValue;
+  preview?: StyleValue;
+}
+
+export type AnchorStylesProp = StylesProp<AnchorStyleSlots>;
+
+const resolveAnchorBaseStyles = createStylesResolver(['root', 'underline', 'preview'] as const);
 
 const DASHED_DIMENSIONS = {
   sm: { thickness: 1, dashLength: 8, gapLength: 4 },
@@ -20,7 +31,7 @@ const DOTTED_DIMENSIONS = {
   lg: { thickness: 4, radius: 2, spacing: 12 },
 } as const;
 
-function getDashedMaskSvg(orientation: Orientation, size: Size): string {
+function getPath(orientation: Orientation, size: Size): string {
   const { thickness, dashLength, gapLength } = DASHED_DIMENSIONS[size];
   const totalLength = dashLength + gapLength;
 
@@ -61,18 +72,12 @@ export interface AnchorUnderlineProps extends React.HTMLAttributes<HTMLDivElemen
 const AnchorUnderline = React.forwardRef<HTMLDivElement, AnchorUnderlineProps>(
   ({ className, variant = "solid", style, ...props }, ref) => {
     const getMaskStyles = (): React.CSSProperties => {
-      if (variant === "solid") {
-        return {};
-      }
+      if (variant === "solid") return {}
 
       const orientation = "horizontal";
       const size = "sm";
 
-      const svgDataUri =
-        variant === "dashed"
-          ? getDashedMaskSvg(orientation, size)
-          : getDottedMaskSvg(orientation, size);
-
+      const svgDataUri = variant === "dashed" ? getPath(orientation, size) : getDottedMaskSvg(orientation, size);
       const maskRepeat = "repeat-x";
       const encodedSvg = `url("data:image/svg+xml,${svgDataUri}")`;
 
@@ -87,7 +92,7 @@ const AnchorUnderline = React.forwardRef<HTMLDivElement, AnchorUnderlineProps>(
     return (
       <span
         ref={ref}
-        className={cn(styles.underline, className)}
+        className={cn(css.underline, className)}
         style={{ ...getMaskStyles(), ...style }}
         {...props}
       />
@@ -107,33 +112,45 @@ export interface AnchorProps
   href?: string;
   /** Browsing context for the link (e.g. "_blank") */
   target?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: AnchorStylesProp;
 }
 
 const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorProps>(
-  ({ className, children, href, target = "_blank", ...props }, ref) => {
+  ({ className, children, href, target = "_blank", styles, ...props }, ref) => {
     const [isOpen, setIsOpen] = React.useState(false);
     let previewContent: React.ReactNode = null;
     let hasUnderline = false;
 
     const childrenArray = React.Children.toArray(children);
+    const resolved = resolveAnchorBaseStyles(styles);
+
+    let filteredChildren: React.ReactNode[] = [];
 
     // Extract preview content and filter it out from rendered children
-    const filteredChildren = childrenArray.filter((child) => {
+    React.Children.forEach(childrenArray, (child) => {
       if (React.isValidElement(child)) {
         if (child.type === AnchorPreview) {
           previewContent = (child.props as any).children;
-          return false;
-        }
-        if (child.type === AnchorUnderline) {
+          // Don't add to filteredChildren
+        } else if (child.type === AnchorUnderline) {
           hasUnderline = true;
+          // Clone AnchorUnderline to inject resolved.underline
+          const underlineChild = child as React.ReactElement<AnchorUnderlineProps>;
+          filteredChildren.push(React.cloneElement(underlineChild, {
+            className: cn(underlineChild.props.className, resolved.underline),
+          }));
+        } else {
+          filteredChildren.push(child);
         }
+      } else {
+        filteredChildren.push(child);
       }
-      return true;
     });
 
     // Inject default underline if none provided
     if (!hasUnderline) {
-      filteredChildren.push(<AnchorUnderline key="__default_underline" />);
+      filteredChildren.push(<AnchorUnderline key="__default_underline" className={resolved.underline} />);
     }
 
     const triggerElement = href ? (
@@ -142,12 +159,12 @@ const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorP
         href={href}
         target={target}
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
-        className={cn('trigger', styles.trigger)}
+        className={cn('trigger', css.trigger, resolved.root)}
       >
         {filteredChildren}
       </a>
     ) : (
-      <span ref={ref as React.Ref<HTMLSpanElement>} className={cn('trigger', styles.trigger)}>{filteredChildren}</span>
+      <span ref={ref as React.Ref<HTMLSpanElement>} className={cn('trigger', css.trigger, resolved.root)}>{filteredChildren}</span>
     );
 
     // If no preview content, render trigger directly without popover
@@ -161,7 +178,7 @@ const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorP
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         position="bottom"
-        className={cn('preview', styles.preview, className)}
+        className={cn('preview', css.preview, className, resolved.preview)}
         {...props}
       >
         {triggerElement}

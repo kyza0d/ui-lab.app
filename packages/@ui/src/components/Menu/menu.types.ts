@@ -1,6 +1,8 @@
 import * as React from "react"
 import type { Key } from "react-aria"
 import type { ItemData } from "../../utils/list-navigation"
+import type { StylesProp } from "@/lib/styles"
+import type { StyleValue } from "@/lib/utils"
 
 export type SelectionMode = "none" | "single" | "multiple"
 
@@ -90,6 +92,12 @@ export interface MenuPortalProps extends React.PropsWithChildren {
   container?: HTMLElement
 }
 
+export interface MenuContentStyleSlots {
+  root?: StyleValue;
+}
+
+export type MenuContentStylesProp = StylesProp<MenuContentStyleSlots>;
+
 export interface MenuContentProps extends React.PropsWithChildren {
   /** Additional CSS class names */
   className?: string
@@ -103,9 +111,16 @@ export interface MenuContentProps extends React.PropsWithChildren {
   alignOffset?: number
   /** Vertical offset from the trigger element */
   sideOffset?: number
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuContentStylesProp;
 }
 
 export interface MenuGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export interface MenuItemStyleSlots {
+  root?: StyleValue;
+}
+export type MenuItemStylesProp = StylesProp<MenuItemStyleSlots>;
 
 export interface MenuItemProps extends React.PropsWithChildren {
   /** Whether the item is non-interactive */
@@ -118,7 +133,15 @@ export interface MenuItemProps extends React.PropsWithChildren {
   inset?: boolean
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuItemStylesProp;
 }
+
+export interface MenuCheckboxItemStyleSlots {
+  root?: StyleValue;
+  indicator?: StyleValue;
+}
+export type MenuCheckboxItemStylesProp = StylesProp<MenuCheckboxItemStyleSlots>;
 
 export interface MenuCheckboxItemProps extends React.PropsWithChildren {
   /** Whether the checkbox item is checked */
@@ -133,6 +156,8 @@ export interface MenuCheckboxItemProps extends React.PropsWithChildren {
   textValue?: string
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuCheckboxItemStylesProp;
 }
 
 export interface MenuRadioGroupProps extends React.PropsWithChildren {
@@ -141,6 +166,12 @@ export interface MenuRadioGroupProps extends React.PropsWithChildren {
   /** Called when the selected radio value changes */
   onValueChange?: (value: string) => void
 }
+
+export interface MenuRadioItemStyleSlots {
+  root?: StyleValue;
+  indicator?: StyleValue;
+}
+export type MenuRadioItemStylesProp = StylesProp<MenuRadioItemStyleSlots>;
 
 export interface MenuRadioItemProps extends React.PropsWithChildren {
   /** Value this radio item represents */
@@ -153,6 +184,8 @@ export interface MenuRadioItemProps extends React.PropsWithChildren {
   textValue?: string
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuRadioItemStylesProp;
 }
 
 export interface MenuLabelProps extends React.PropsWithChildren {
@@ -181,6 +214,12 @@ export interface MenuSubProps extends React.PropsWithChildren {
   onOpenChange?: (open: boolean) => void
 }
 
+export interface MenuSubTriggerStyleSlots {
+  root?: StyleValue;
+  chevron?: StyleValue;
+}
+export type MenuSubTriggerStylesProp = StylesProp<MenuSubTriggerStyleSlots>;
+
 export interface MenuSubTriggerProps extends React.PropsWithChildren {
   /** Whether the trigger is non-interactive */
   disabled?: boolean
@@ -190,7 +229,14 @@ export interface MenuSubTriggerProps extends React.PropsWithChildren {
   textValue?: string
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuSubTriggerStylesProp;
 }
+
+export interface MenuSubContentStyleSlots {
+  root?: StyleValue;
+}
+export type MenuSubContentStylesProp = StylesProp<MenuSubContentStyleSlots>;
 
 export interface MenuSubContentProps extends React.PropsWithChildren {
   /** Additional CSS class names */
@@ -199,4 +245,6 @@ export interface MenuSubContentProps extends React.PropsWithChildren {
   sideOffset?: number
   /** Horizontal offset from the trigger alignment */
   alignOffset?: number
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuSubContentStylesProp;
 }

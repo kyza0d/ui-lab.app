@@ -1,11 +1,26 @@
 "use client"
 
 import * as React from 'react';
-import { useFocusRing } from 'react-aria';
-import { cn } from '@/lib/utils';
-import styles from "./Slider.module.css";
+
+import { useFocusRing } from '@react-aria/focus';
+
+import { cn, type StyleValue } from '@/lib/utils';
+import { type StylesProp, createStylesResolver } from '@/lib/styles';
+
+import css from "./Slider.module.css";
 
 type SliderSize = 'sm' | 'md' | 'lg';
+
+export interface SliderStyleSlots {
+  root?: StyleValue;
+  track?: StyleValue;
+  range?: StyleValue;
+  thumb?: StyleValue;
+}
+
+export type SliderStylesProp = StylesProp<SliderStyleSlots>;
+
+const resolveSliderBaseStyles = createStylesResolver(['root', 'track', 'range', 'thumb'] as const);
 
 interface SliderRootProps {
   /** Size of the slider track and thumb */
@@ -34,6 +49,8 @@ interface SliderRootProps {
   'aria-label'?: string;
   /** ID of an element that labels the slider */
   'aria-labelledby'?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SliderStylesProp;
 }
 
 const SliderContext = React.createContext<{
@@ -61,6 +78,7 @@ interface ThumbProps {
   onValueChange: (index: number, value: number) => void;
   'aria-label'?: string;
   'aria-labelledby'?: string;
+  className?: string;
 }
 
 function SliderThumbInternal({
@@ -74,6 +92,7 @@ function SliderThumbInternal({
   onValueChange,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
+  className,
 }: ThumbProps) {
   const thumbRef = React.useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -162,7 +181,7 @@ function SliderThumbInternal({
       aria-disabled={disabled || undefined}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
-      className={cn('slider thumb', styles.thumb)}
+      className={cn('slider thumb', css.thumb, className)}
       style={{ left: `${percent}%` }}
       data-dragging={isDragging || undefined}
       data-focus-visible={isFocusVisible || undefined}
@@ -181,6 +200,7 @@ const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
   (
     {
       className,
+      styles,
       size = 'md',
       disabled,
       style,
@@ -211,6 +231,8 @@ const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
 
     const isControlled = controlledValue !== undefined;
     const values = isControlled ? normalizeValue(controlledValue)! : internalValues;
+
+    const resolved = resolveSliderBaseStyles(styles);
 
     const handleValueChange = React.useCallback((index: number, newValue: number) => {
       const newValues = [...values];
@@ -257,16 +279,16 @@ const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
           data-disabled={disabled || undefined}
           data-orientation={orientation}
           style={style}
-          className={cn('slider', styles.slider, className)}
+          className={cn('slider', css.slider, className, resolved.root)}
           {...props}
         >
           <div
             ref={trackRef}
-            className={cn('slider track', styles.track)}
+            className={cn('slider track', css.track, resolved.track)}
             onPointerDown={handleTrackClick}
           >
             <div
-              className={cn('slider range', styles.range)}
+              className={cn('slider range', css.range, resolved.range)}
               style={{
                 left: `${values.length === 1 ? 0 : ((values[0] - min) / (max - min)) * 100}%`,
                 right: `${values.length === 1 ? 100 - ((values[0] - min) / (max - min)) * 100 : 100 - ((values[values.length - 1] - min) / (max - min)) * 100}%`,
@@ -285,6 +307,7 @@ const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
                 onValueChange={handleValueChange}
                 aria-label={ariaLabel}
                 aria-labelledby={ariaLabelledBy}
+                className={resolved.thumb}
               />
             ))}
           </div>

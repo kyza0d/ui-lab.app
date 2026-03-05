@@ -6,7 +6,7 @@ declare const styles: {
   description: string;
   closeButton: string;
   default: string;
-  destructive: string;
+  danger: string;
   success: string;
   info: string;
   warning: string;

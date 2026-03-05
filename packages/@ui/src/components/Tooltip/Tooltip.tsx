@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useRef, useLayoutEffect, useState, useEffect, useCallback } from "react";
+
 import { createPortal } from "react-dom";
 import { useTooltipTrigger, useTooltip, mergeProps } from "react-aria";
 import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 import { cn } from "@/lib/utils";
 import { useTooltipTriggerState } from "react-stately";
 import { Frame } from "../Frame";
-import styles from "./Tooltip.module.css";
+import { Badge } from "../Badge";
+import css from "./Tooltip.module.css";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import { type StyleValue } from "@/lib/utils";
 
 const ARROW_PATH = "M 0 0 C 3 0 4 -9 6 -9 C 8 -9 9 0 12 0";
 const ARROW_WIDTH = 12;
@@ -78,6 +82,16 @@ const getInitialTransform = (placement: string): string => {
   }
 };
 
+export interface TooltipStyleSlots {
+  root?: StyleValue;
+  trigger?: StyleValue;
+  content?: StyleValue;
+  contentFrame?: StyleValue;
+  hintBadge?: StyleValue;
+}
+
+export type TooltipStylesProp = StylesProp<TooltipStyleSlots>;
+
 export interface TooltipProps {
   children: React.ReactNode;
   /** Content to display inside the tooltip */
@@ -96,6 +110,10 @@ export interface TooltipProps {
   onOpenChange?: (isOpen: boolean) => void;
   /** Whether to render a directional arrow pointing at the trigger */
   showArrow?: boolean;
+  /** Keyboard shortcut or hint text rendered as a Badge at the end of the tooltip */
+  hint?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: TooltipStylesProp;
 }
 
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
@@ -110,6 +128,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       isOpen: controlledIsOpen,
       onOpenChange,
       showArrow = false,
+      hint,
+      styles,
     },
     _ref
   ) => {
@@ -121,6 +141,16 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     const wasOpenRef = useRef(false);
     const [startSwapTimer, clearSwapTimer] = useTimeout();
     const [startUnmountTimer, clearUnmountTimer] = useTimeout();
+
+    const resolveTooltipBaseStyles = createStylesResolver([
+      'root',
+      'trigger',
+      'content',
+      'contentFrame',
+      'hintBadge',
+    ] as const);
+
+    const resolved = resolveTooltipBaseStyles(styles);
 
     const onOpenChangeRef = useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
@@ -223,7 +253,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         <div
           ref={triggerRef}
           {...mergeProps(triggerProps)}
-          className={cn(styles.trigger, className)}
+          className={cn(css.trigger, className, resolved.trigger)}
         >
           {children}
         </div>
@@ -236,13 +266,13 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                 refs.setFloating(el);
               }}
               {...mergeProps(tooltipProps, ariaTooltipProps)}
-              className={styles.root}
+              className={cn(css.root, resolved.root)}
               style={{
                 ...floatingStyles,
               }}
             >
               <div
-                className={styles.content}
+                className={cn(css.content, resolved.content)}
                 data-visible={isVisible ? "true" : "false"}
                 data-instant={isInstant || undefined}
                 style={{
@@ -260,8 +290,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                   fill="var(--background-900)"
                   borderColor="var(--background-700)"
                 >
-                  <div className={styles["content-frame"]}>
+                  <div className={cn(css["content-frame"], resolved.contentFrame)} data-hint={hint ? "" : undefined}>
                     {content}
+                    {hint && <Badge variant="secondary" size="sm" className={cn(resolved.hintBadge)}>{hint}</Badge>}
                   </div>
                 </Frame>
               </div>

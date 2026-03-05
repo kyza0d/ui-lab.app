@@ -1,9 +1,17 @@
 import * as React from "react"
-import { type Key } from "react-aria"
-import { cn } from "@/lib/utils"
+import { type Key } from "@react-types/shared"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import styles from "./Select.module.css"
 import { useSelectContext, type SelectItemData } from "./Select"
 import { List } from "../List"
+
+export interface SelectGroupStyleSlots {
+  root?: StyleValue;
+  title?: StyleValue;
+}
+
+export type SelectGroupStylesProp = StylesProp<SelectGroupStyleSlots>;
 
 interface SelectGroupProps extends React.PropsWithChildren {
   key?: string
@@ -11,18 +19,33 @@ interface SelectGroupProps extends React.PropsWithChildren {
   title?: string
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SelectGroupStylesProp;
 }
+
+const resolveSelectGroupBaseStyles = createStylesResolver(['root', 'title'] as const);
 
 /** Named grouping of related items with an optional visible title label */
 const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
-  ({ children, title, className }, ref) => (
-    <div ref={ref} className={className}>
-      {title && <div className="px-2 py-1 text-xs font-medium text-foreground-400">{title}</div>}
-      {children}
-    </div>
-  )
+  ({ children, title, className, styles: stylesProp }, ref) => {
+    const resolved = resolveSelectGroupBaseStyles(stylesProp);
+    return (
+      <div ref={ref} className={cn(className, resolved.root)}>
+        {title && <div className={cn("px-2 py-1 text-xs font-medium text-foreground-400", resolved.title)}>{title}</div>}
+        {children}
+      </div>
+    );
+  }
 )
 SelectGroup.displayName = "SelectGroup"
+
+export interface SelectValueStyleSlots {
+  root?: StyleValue;
+  icon?: StyleValue;
+  text?: StyleValue;
+}
+
+export type SelectValueStylesProp = StylesProp<SelectValueStyleSlots>;
 
 interface SelectValueProps {
   /** Text shown in the trigger when no item is selected */
@@ -33,11 +56,15 @@ interface SelectValueProps {
   icon?: React.ReactNode
   /** Custom render function receiving the selected item, or static content to display */
   children?: ((selectedItem: SelectItemData | null) => React.ReactNode) | React.ReactNode
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SelectValueStylesProp;
 }
+
+const resolveSelectValueBaseStyles = createStylesResolver(['root', 'icon', 'text'] as const);
 
 /** Renders the selected item's label inside the trigger */
 const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
-  ({ placeholder = "Select an option", className, icon, children }, ref) => {
+  ({ placeholder = "Select an option", className, icon, children, styles: stylesProp }, ref) => {
     const {
       selectedTextValue,
       selectedKey,
@@ -45,14 +72,16 @@ const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
     } = useSelectContext()
 
     const selectedItem = items.find(item => item.key === selectedKey)
+    const resolved = resolveSelectValueBaseStyles(stylesProp);
+
     const renderContent = () => {
       if (typeof children === 'function') {
         return (children as (item: SelectItemData | null) => React.ReactNode)(selectedItem || null)
       }
       return (
         <>
-          {icon && <span className={styles['value-icon']}>{icon}</span>}
-          <span className={styles['value-text']}>{selectedItem?.textValue || selectedTextValue || placeholder}</span>
+          {icon && <span className={cn(styles['value-icon'], resolved.icon)}>{icon}</span>}
+          <span className={cn(styles['value-text'], resolved.text)}>{selectedItem?.textValue || selectedTextValue || placeholder}</span>
         </>
       )
     }
@@ -60,7 +89,7 @@ const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.value, className)}
+        className={cn(styles.value, className, resolved.root)}
       >
         {renderContent()}
       </div>
@@ -68,6 +97,16 @@ const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
   }
 )
 SelectValue.displayName = "SelectValue"
+
+export interface SelectItemStyleSlots {
+  root?: StyleValue;
+  iconWrapper?: StyleValue;
+  contentWrapper?: StyleValue; // When there's a description
+  text?: StyleValue;
+  description?: StyleValue; // When there's a description
+}
+
+export type SelectItemStylesProp = StylesProp<SelectItemStyleSlots>;
 
 interface SelectItemProps extends React.PropsWithChildren {
   /** Unique key used to identify this item in the selection state */
@@ -82,11 +121,21 @@ interface SelectItemProps extends React.PropsWithChildren {
   icon?: React.ReactNode
   /** Secondary descriptive text displayed below the item label */
   description?: React.ReactNode
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SelectItemStylesProp;
 }
+
+const resolveSelectItemBaseStyles = createStylesResolver([
+  'root',
+  'iconWrapper',
+  'contentWrapper',
+  'text',
+  'description',
+] as const);
 
 /** A single selectable option in the dropdown list */
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ children, value, textValue, isDisabled = false, className, icon, description }, ref) => {
+  ({ children, value, textValue, isDisabled = false, className, icon, description, styles: stylesProp }, ref) => {
     const { mode, onSelect, onToggle, selectedKeys, registerItem, unregisterItem, focusedKey, setFocusedKey, mouseMoveDetectedRef, visibleKeys, searchValue } = useSelectContext()
     const finalTextValue = textValue || String(children)
     const hasDescription = !!description
@@ -111,11 +160,13 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       }
     }
 
+    const resolved = resolveSelectItemBaseStyles(stylesProp);
+
     return (
       <List.Item
         ref={ref}
         value={String(value)}
-        className={cn(styles.item, hasDescription && styles['item-with-description'], className)}
+        className={cn(styles.item, hasDescription && styles['item-with-description'], className, resolved.root)}
         onClick={handleClick}
         onMouseEnter={() => !isDisabled && mouseMoveDetectedRef.current && setFocusedKey(value)}
         data-disabled={isDisabled || undefined}
@@ -125,17 +176,17 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       >
         {mode === "multiple" && <List.Checkbox checked={isSelected} />}
         {icon && (
-          <span className={cn(styles['item-icon'], hasDescription && styles['item-icon-with-description'])}>
+          <span className={cn(styles['item-icon'], hasDescription && styles['item-icon-with-description'], resolved.iconWrapper)}>
             {icon}
           </span>
         )}
         {hasDescription ? (
-          <div className={styles['item-content']}>
-            <span className={styles['item-text']}>{children}</span>
-            <span className={styles['item-description']}>{description}</span>
+          <div className={cn(styles['item-content'], resolved.contentWrapper)}>
+            <span className={cn(styles['item-text'], resolved.text)}>{children}</span>
+            <span className={cn(styles['item-description'], resolved.description)}>{description}</span>
           </div>
         ) : (
-          <span className={styles['item-text']}>{children}</span>
+          <span className={cn(styles['item-text'], resolved.text)}>{children}</span>
         )}
       </List.Item>
     )
@@ -143,21 +194,32 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
 )
 SelectItem.displayName = "SelectItem"
 
+export interface SelectListStyleSlots {
+  root?: StyleValue;
+}
+
+export type SelectListStylesProp = StylesProp<SelectListStyleSlots>;
+
 interface SelectListProps extends React.PropsWithChildren {
   /** Additional CSS class names */
   className?: string
   /** Custom filter predicate applied to the items array */
   filter?: (item: any) => boolean
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SelectListStylesProp;
 }
+
+const resolveSelectListBaseStyles = createStylesResolver(['root'] as const);
 
 /** Wrapper for a collection of SelectItem components */
 const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
-  ({ children, className, filter }, ref) => {
+  ({ children, className, filter, styles: stylesProp }, ref) => {
+    const resolved = resolveSelectListBaseStyles(stylesProp);
     return (
-      <div ref={ref} className={className}>
+      <div ref={ref} className={cn(className, resolved.root)}>
         {children}
       </div>
-    )
+    );
   }
 )
 SelectList.displayName = "SelectList"

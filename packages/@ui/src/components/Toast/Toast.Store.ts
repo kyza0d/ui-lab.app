@@ -1,9 +1,22 @@
 // toast/store.ts
 import React from 'react';
+import { type StyleValue } from '@/lib/utils';
+import { type StylesProp } from '@/lib/styles';
 
-export type ToastVariant = 'default' | 'destructive' | 'success' | 'info' | 'warning';
+export type ToastVariant = 'default' | 'danger' | 'success' | 'info' | 'warning';
 export type ToastPosition = 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right';
 export type ToastSpawnDirection = 'top' | 'bottom';
+
+export interface ToastStyleSlots {
+  root?: StyleValue;
+  content?: StyleValue;
+  title?: StyleValue;
+  description?: StyleValue;
+  closeButton?: StyleValue;
+  icon?: StyleValue;
+}
+
+export type ToastStylesProp = StylesProp<ToastStyleSlots>;
 
 export interface ToastProps {
   /** Unique identifier for this toast instance */
@@ -28,6 +41,8 @@ export interface ToastProps {
   action?: React.ReactNode;
   /** Direction from which the toast enters during its entrance animation */
   spawnDirection?: ToastSpawnDirection;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: ToastStylesProp;
 
   // Internal — set on ADD_TOAST, never changes
   createdAt?: number;
@@ -59,7 +74,7 @@ const reducer = (state: State, action: ToastAction): State => {
     case 'ADD_TOAST':
       return {
         ...state,
-        toasts: [{ ...action.toast, createdAt: action.toast.createdAt || Date.now() }, ...state.toasts].slice(0, 50),
+        toasts: [{ ...action.toast, createdAt: action.toast.createdAt || Date.now(), open: true }, ...state.toasts].slice(0, 50),
       };
 
     case 'UPDATE_TOAST':

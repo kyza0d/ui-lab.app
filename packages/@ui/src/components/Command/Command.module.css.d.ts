@@ -19,6 +19,7 @@ export interface Styles {
   "category-header": string;
   empty: string;
   footer: string;
+  "hint-wrapper": string;
 }
 
 declare const styles: Styles;

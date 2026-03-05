@@ -1,20 +1,36 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
-import { useFloating } from "../../hooks/useFloat/react/useFloating"
-import { flip } from "../../hooks/useFloat/core/middleware/flip"
-import { offset } from "../../hooks/useFloat/core/middleware/offset"
-import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate"
-import { useHover } from "react-aria"
+
+import { useFloating } from "@/hooks/useFloat/react/useFloating"
+import { flip } from "@/hooks/useFloat/core/middleware/flip"
+import { offset } from "@/hooks/useFloat/core/middleware/offset"
+import { autoUpdate } from "@/hooks/useFloat/dom/autoUpdate"
+import { useHover } from "@react-aria/interactions"
 import { ChevronRight } from "lucide-react"
+
 import { useMenuContext, useMenuSubmenuContext, MenuSubmenuContext } from "./Menu"
-import type { MenuSubProps, MenuSubTriggerProps, MenuSubContentProps } from "./menu.types"
+import type {
+  MenuSubProps,
+  MenuSubTriggerProps,
+  MenuSubContentProps,
+  MenuSubTriggerStyleSlots,
+  MenuSubContentStyleSlots,
+} from "./menu.types"
+
 import type { Key } from "react-aria"
-import styles from "./Menu.module.css"
-import { cn } from "@/lib/utils"
+
+import css from "./Menu.module.css"
+
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import { useListNavigation, useMergedRef, handleListKeyDown, scrollItemIntoView } from "../../utils/list-navigation"
+
 import type { MenuItemExtras } from "./menu.types"
 import { Scroll } from "../Scroll"
 import { List } from "../List"
+
+const resolveMenuSubTriggerBaseStyles = createStylesResolver(['root', 'chevron'] as const);
+const resolveMenuSubContentBaseStyles = createStylesResolver(['root'] as const);
 
 /** Context provider that scopes a nested flyout submenu within the menu */
 const MenuSub = ({ children, open: controlledOpen, defaultOpen = false, onOpenChange }: MenuSubProps) => {
@@ -104,7 +120,7 @@ MenuSub.displayName = "MenuSub"
 
 /** Menu item that opens a nested submenu on hover or keyboard right-arrow */
 const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
-  ({ children, disabled = false, inset, textValue, className }, ref) => {
+  ({ children, disabled = false, inset, textValue, className, styles: stylesProp }, ref) => {
     const rootContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
     // Register with parent submenu if nested, root menu if top-level
@@ -171,6 +187,8 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
       [ref, submenuContext]
     )
 
+    const resolved = resolveMenuSubTriggerBaseStyles(stylesProp);
+
     return (
       <div
         ref={mergedRef}
@@ -179,7 +197,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         aria-expanded={submenuContext?.isOpen}
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
-        className={cn(styles.subTrigger, className)}
+        className={cn(css.subTrigger, className, resolved.root)}
         data-highlighted={isHighlighted || isHovered || undefined}
         data-disabled={disabled || undefined}
         data-inset={inset || undefined}
@@ -188,7 +206,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         {...hoverProps}
       >
         {children}
-        <ChevronRight className={styles.subTriggerChevron} />
+        <ChevronRight className={cn(css.subTriggerChevron, resolved.chevron)} />
       </div>
     )
   }
@@ -197,7 +215,7 @@ MenuSubTrigger.displayName = "MenuSubTrigger"
 
 /** Floating panel containing the items of a nested submenu */
 const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
-  ({ children, className, sideOffset = 8, alignOffset = 0 }, ref) => {
+  ({ children, className, sideOffset = 8, alignOffset = 0, styles: stylesProp }, ref) => {
     const submenuContext = useMenuSubmenuContext()
     const parentContext = useMenuContext()
     const contentRef = React.useRef<HTMLDivElement>(null)
@@ -356,6 +374,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
     if (!mounted || !submenuContext) return null
 
     const showContent = submenuContext.isOpen && isPositioned
+    const resolved = resolveMenuSubContentBaseStyles(stylesProp);
 
     return createPortal(
       <>
@@ -364,7 +383,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
             ref={mergedRef}
             role="menu"
             tabIndex={-1}
-            className={cn(styles.subContent, className)}
+            className={cn(css.subContent, className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
             onKeyDown={handleKeyDown}
@@ -377,7 +396,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
             {...hoverProps}
           >
             <Scroll
-              className={styles.list}
+              className={css.list}
               direction="vertical"
               fadeY
               enabled={needsScroll}

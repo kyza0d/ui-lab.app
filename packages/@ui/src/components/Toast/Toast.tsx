@@ -4,28 +4,39 @@ import React, { forwardRef, useImperativeHandle, useRef, useEffect, useCallback 
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
 import { cn } from '@/lib/utils';
-import styles from './Toast.module.css';
-import { ToastProps as ToastData } from "./Toast.Store";
-import { dispatch } from "./Toast.Store";
-import { FaCircleExclamation, FaCircleCheck, FaCircleInfo, FaTriangleExclamation } from 'react-icons/fa6';
-import { HiX } from 'react-icons/hi';
+import { createStylesResolver } from '@/lib/styles';
+import css from './Toast.module.css';
+import { ToastProps as ToastData, dispatch } from "./Toast.Store";
+
+import { Info, CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
+
+import { X } from 'lucide-react';
 
 const DRAG_DISMISS_THRESHOLD = 100;
-const DRAG_LEFT_RESISTANCE = 80;
+const DRAG_LEFT_RESISTANCE = 20;
+
+const resolveToastBaseStyles = createStylesResolver([
+  'root',
+  'content',
+  'title',
+  'description',
+  'closeButton',
+  'icon'
+] as const);
 
 const variantMap = {
-  default: styles.default,
-  destructive: styles.destructive,
-  success: styles.success,
-  info: styles.info,
-  warning: styles.warning,
+  default: css['default'],
+  danger: css['danger'],
+  success: css['success'],
+  info: css['info'],
+  warning: css['warning'],
 } as const;
 
 const toastIcons = {
-  destructive: <FaCircleExclamation className={styles.icon} />,
-  success: <FaCircleCheck className={styles.icon} />,
-  info: <FaCircleInfo className={styles.icon} />,
-  warning: <FaTriangleExclamation className={styles.icon} />,
+  danger: <Info className={css.icon} />,
+  success: <CircleCheck className={css.icon} />,
+  info: <TriangleAlert className={css.icon} />,
+  warning: <CircleAlert className={css.icon} />,
   default: null,
 };
 
@@ -56,8 +67,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
     duration = 5000,
     onDismiss,
     position = 'bottom-right',
+    styles,
   } = toast;
 
+  const resolved = resolveToastBaseStyles(styles);
   const isTop = position.startsWith('top');
 
   // Time tracking refs
@@ -77,15 +90,17 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
   const dragPausedRef = useRef(false);
 
   const handleDismiss = useCallback(() => {
-    const yOffset = isTop ? -20 : 20;
+    // Change absolute numbers to relative strings
+    const yOffset = isTop ? "-=20" : "+=20";
 
     if (innerRef.current) {
       innerRef.current.dataset.dismissing = "true";
       onDismissStart?.();
+      dispatch({ type: 'CLOSE_TOAST', toastId: id });
       gsap.killTweensOf(innerRef.current);
       gsap.to(innerRef.current, {
         opacity: 0,
-        y: yOffset,
+        y: yOffset, // Animates relative to its current layout position
         scale: 0.9,
         duration: 0.3,
         onComplete: () => {
@@ -100,16 +115,11 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
     }
   }, [id, isTop, onDismiss]);
 
-  // Entrance animation
   useGSAP(() => {
     if (!innerRef.current) return;
 
     const spawnDir = toast.spawnDirection || 'bottom';
-    // 'bottom' (user-triggered): enter from below for bottom positions, above for top positions
-    // 'top' (dismiss-revealed): enter from above for bottom positions, below for top positions
-    const fromY = spawnDir === 'top'
-      ? (isTop ? 20 : -20)
-      : (isTop ? -20 : 20);
+    const fromY = spawnDir === 'top' ? (isTop ? 20 : -20) : (isTop ? -20 : 20);
 
     gsap.from(innerRef.current, {
       opacity: 0,
@@ -154,6 +164,9 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
       if (delta >= DRAG_DISMISS_THRESHOLD) {
         if (innerRef.current) {
           innerRef.current.dataset.dismissing = "true";
+          onDismissStart?.();
+          // Dispatch CLOSE_TOAST immediately to signal stack adjustment
+          dispatch({ type: 'CLOSE_TOAST', toastId: id });
           gsap.killTweensOf(innerRef.current);
           gsap.to(innerRef.current, {
             x: "+=200",
@@ -161,11 +174,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
             duration: 0.25,
             ease: "power2.in",
             onComplete: () => {
+              onDismissEnd?.();
               onDismiss?.();
+              // Dispatch DISMISS_TOAST after animation completes
               dispatch({ type: 'DISMISS_TOAST', toastId: id });
             },
           });
         } else {
+          // If innerRef.current is null, just dismiss immediately
           onDismiss?.();
           dispatch({ type: 'DISMISS_TOAST', toastId: id });
         }
@@ -220,26 +236,26 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
   return (
     <div
       ref={innerRef}
-      className={cn('toast', styles.toast, variantMap[variant])}
+      className={cn('toast', css.toast, variantMap[variant], resolved.root)}
       role="alert"
       onPointerDown={handlePointerDown}
     >
-      {icon && <div className="toast-icon">{icon}</div>}
-      <div className={cn('toast-content', styles.content)}>
+      {icon && <div className={cn("toast-icon", resolved.icon)}>{icon}</div>}
+      <div className={cn('toast-content', css.content, resolved.content)}>
         {jsx || (
           <>
-            {title && <h4 className={cn('toast-title', styles.title)}>{title}</h4>}
-            {description && <p className={cn('toast-description', styles.description)}>{description}</p>}
+            {title && <h4 className={cn('toast-title', css.title, resolved.title)}>{title}</h4>}
+            {description && <p className={cn('toast-description', css.description, resolved.description)}>{description}</p>}
           </>
         )}
         {toast.action}
       </div>
       <button
         onClick={handleDismiss}
-        className={cn('toast-close', styles.closeButton)}
+        className={cn('toast-close', css.closeButton, resolved.closeButton)}
         aria-label="Close"
       >
-        <HiX className="w-4 h-4" />
+        <X className="w-4 h-4" />
       </button>
     </div>
   );

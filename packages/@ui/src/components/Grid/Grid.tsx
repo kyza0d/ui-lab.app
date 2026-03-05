@@ -1,8 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
-import styles from "./Grid.module.css";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Grid.module.css";
+
+export interface GridStyleSlots {
+  root?: StyleValue;
+}
+
+export type GridStylesProp = StylesProp<GridStyleSlots>;
+
+const resolveGridBaseStyles = createStylesResolver(['root'] as const);
 
 type GridColumns = "1" | "2" | "3" | "4" | "5" | "6" | "auto-fit" | "auto-fill";
 type GridRows = "1" | "2" | "3" | "4" | "5" | "6" | "auto" | "masonry";
@@ -38,6 +47,8 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   autoFlow?: GridAutoFlow;
   /** Wraps the grid in a container query parent for breakpoint-aware responsiveness */
   containerQueryResponsive?: boolean;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: GridStylesProp;
 }
 
 const isResponsive = <T,>(v: unknown): v is ResponsiveValue<T> =>
@@ -85,11 +96,13 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
       alignContent = "start",
       autoFlow = "row",
       containerQueryResponsive = false,
+      styles,
       children,
       ...props
     },
     ref
   ) => {
+    const resolved = resolveGridBaseStyles(styles);
     const responsiveCols = isResponsive<GridColumns>(columns);
     const responsiveRows = isResponsive<GridRows>(rows);
     const responsiveGap = isResponsive<GridGap>(gap);
@@ -137,19 +150,19 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     vars["--grid-flow"] = flowVal[autoFlow];
 
     const gridClasses = cn(
-      styles.grid,
-      responsiveCols && styles["responsive-cols"],
-      responsiveGap && styles["responsive-gap"],
-      responsiveRows && styles["responsive-rows"],
-      rowGap && styles["has-row-gap"],
-      columnGap && styles["has-col-gap"],
+      css.grid,
+      responsiveCols && css["responsive-cols"],
+      responsiveGap && css["responsive-gap"],
+      responsiveRows && css["responsive-rows"],
+      rowGap && css["has-row-gap"],
+      columnGap && css["has-col-gap"],
     );
 
     if (needsContainer) {
       return (
         <div
           ref={ref}
-          className={cn(styles.container, className)}
+          className={cn(css.container, className, resolved.root)}
           style={style}
           {...props}
         >
@@ -163,7 +176,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     return (
       <div
         ref={ref}
-        className={cn(gridClasses, className)}
+        className={cn(gridClasses, className, resolved.root)}
         style={{ ...vars, ...style } as React.CSSProperties}
         {...props}
       >

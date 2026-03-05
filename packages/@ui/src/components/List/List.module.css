@@ -46,8 +46,8 @@
   }
 
   .item {
-    --background-hover: var(--background-800);
-    --background-highlighted: var(--background-800);
+    --background-hover: color-mix(in srgb, var(--background-500) 6%, transparent);
+    --background-highlighted: color-mix(in srgb, var(--background-500) 6%, transparent);
 
     display: flex;
     flex-direction: row;

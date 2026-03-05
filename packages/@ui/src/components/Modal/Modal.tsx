@@ -4,9 +4,10 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { useDialog, useModalOverlay, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
-import { cn } from "@/lib/utils";
-import { HiX } from "react-icons/hi";
-import styles from "./Modal.module.css";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import { X } from "lucide-react";
+import css from "./Modal.module.css";
 
 const useModalKeyboard = (
   ref: React.RefObject<HTMLDivElement | null>,
@@ -31,6 +32,25 @@ const useModalKeyboard = (
     return () => ref.current?.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, isDismissable, isKeyboardDismissDisabled, onClose]);
 };
+
+export interface ModalStyleSlots {
+  root?: StyleValue;
+  overlay?: StyleValue;
+  backdrop?: StyleValue;
+  header?: StyleValue;
+  title?: StyleValue;
+  spacer?: StyleValue;
+  closeButton?: StyleValue;
+  closeIcon?: StyleValue;
+  content?: StyleValue;
+  footer?: StyleValue;
+}
+
+export type ModalStylesProp = StylesProp<ModalStyleSlots>;
+
+const resolveModalBaseStyles = createStylesResolver([
+  'root', 'overlay', 'backdrop', 'header', 'title', 'spacer', 'closeButton', 'closeIcon', 'content', 'footer'
+] as const);
 
 export interface ModalProps {
   /** Whether the modal is open */
@@ -57,11 +77,13 @@ export interface ModalProps {
   contentClassName?: string;
   /** Additional class for the backdrop overlay */
   overlayClassName?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: ModalStylesProp;
 }
 
 const sizeClasses: Record<string, string> = {
-  fit: (styles as any)["size-fit"],
-  auto: (styles as any)["size-auto"],
+  fit: (css as any)["size-fit"],
+  auto: (css as any)["size-auto"],
 };
 
 /**
@@ -84,11 +106,14 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       className,
       contentClassName,
       overlayClassName,
+      styles,
     },
     ref
   ) => {
     const modalRef = React.useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = React.useState(false);
+
+    const resolved = resolveModalBaseStyles(styles);
 
     // Use uncontrolled state management via useOverlayTriggerState
     const state = useOverlayTriggerState({
@@ -118,44 +143,36 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
 
     // useModalOverlay handles focus management, scroll prevention, and backdrop interaction
     const { modalProps, underlayProps } = useModalOverlay(
-      {
-        isDismissable: isDismissable,
-        isKeyboardDismissDisabled: isKeyboardDismissDisabled,
-      },
+      { isDismissable: isDismissable, isKeyboardDismissDisabled: isKeyboardDismissDisabled },
       state,
       modalRef
     );
 
-    if (!mounted || !state.isOpen) {
-      return null;
-    }
+    if (!mounted || !state.isOpen) return null;
 
-    const handleClose = () => {
-      state.close();
-    };
+    const handleClose = () => state.close();
 
     return createPortal(
       <div
         className={cn(
           "fixed inset-0 z-9999 flex items-center justify-center",
-          styles.overlay,
-          overlayClassName
+          css.overlay,
+          overlayClassName,
+          resolved.overlay
         )}
       >
         {/* Backdrop overlay - underlayProps handles click outside and escape key */}
-        <div
-          {...underlayProps}
-          className={cn(styles.backdrop)}
-        />
+        <div {...underlayProps} className={cn(css.backdrop, resolved.backdrop)} />
 
         {/* Modal content */}
         <div
           {...mergeProps(dialogProps, modalProps)}
           ref={modalRef}
           className={cn(
-            styles.modal,
+            css.modal,
             sizeClasses[size],
-            className
+            className,
+            resolved.root
           )}
           onClick={(e) => e.stopPropagation()}
           tabIndex={-1}
@@ -163,33 +180,33 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
         >
           {/* Header */}
           {(title || closeButton) && (
-            <div className={styles.header}>
+            <div className={cn(css.header, resolved.header)}>
               {title && (
-                <h4 {...titleProps} className={styles.title}>
+                <h4 {...titleProps} className={cn(css.title, resolved.title)}>
                   {title}
                 </h4>
               )}
-              {!title && closeButton && <div className={styles.spacer} />}
+              {!title && closeButton && <div className={cn(css.spacer, resolved.spacer)} />}
               {closeButton && (
                 <button
                   onClick={handleClose}
-                  className={styles.closeButton}
+                  className={cn(css.closeButton, resolved.closeButton)}
                   aria-label="Close modal"
                 >
-                  <HiX className={styles.closeIcon} />
+                  <X className={cn(css.closeIcon, resolved.closeIcon)} />
                 </button>
               )}
             </div>
           )}
 
           {/* Body */}
-          <div className={cn(styles.content, contentClassName)}>
+          <div className={cn(css.content, contentClassName, resolved.content)}>
             {children}
           </div>
 
           {/* Footer */}
           {footer && (
-            <div className={styles.footer}>
+            <div className={cn(css.footer, resolved.footer)}>
               {footer}
             </div>
           )}
@@ -209,7 +226,7 @@ const ModalHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, ...props }, ref) => (
-  <div ref={ref} className={styles.header} {...props}>
+  <div ref={ref} className={css.header} {...props}>
     {children}
   </div>
 ));
@@ -223,7 +240,7 @@ const ModalBody = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, ...props }, ref) => (
-  <div ref={ref} className={styles.content} {...props}>
+  <div ref={ref} className={css.content} {...props}>
     {children}
   </div>
 ));
@@ -237,7 +254,7 @@ const ModalFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, ...props }, ref) => (
-  <div ref={ref} className={cn('footer', styles.footer)} {...props}>
+  <div ref={ref} className={cn('footer', css.footer)} {...props}>
     {children}
   </div>
 ));

@@ -112,7 +112,7 @@ This approach lets PostCSS resolve the full path to `ui-lab-components/styles.cs
 - **Modal** - Centered dialog with overlay
 - **Popover** - Anchored floating panel
 - **Menu** - Contextual dropdown with submenus
-- **Confirmation** - Alert dialog for destructive actions
+- **Confirm** - Alert dialog for destructive actions
 
 ### Complex Components
 - **Tabs** - Tabbed interface navigation
@@ -185,7 +185,10 @@ CSS modules use semantic variables and data attributes for state:
 Components use React Aria hooks for accessibility:
 
 ```tsx
-import { useButton, useFocusRing, useHover, mergeProps } from 'react-aria';
+import { mergeProps, } from "@react-aria/utils";
+import { useHover } from "@react-aria/interactions";
+import { useFocusRing } from "@react-aria/focus"
+import { useButton } from "@react-aria/button";
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ isDisabled, ...props }, ref) => {

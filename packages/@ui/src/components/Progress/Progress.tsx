@@ -1,11 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
-import styles from "./Progress.module.css";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Progress.module.css";
 
 type ProgressVariant = "default" | "success" | "warning" | "error";
 type ProgressSize = "sm" | "md" | "lg";
+
+export interface ProgressStyleSlots {
+  root?: StyleValue;
+  labelRow?: StyleValue;
+  label?: StyleValue;
+  value?: StyleValue;
+  progress?: StyleValue;
+  fill?: StyleValue;
+}
+
+export type ProgressStylesProp = StylesProp<ProgressStyleSlots>;
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Current progress value */
@@ -24,20 +36,31 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   showValue?: boolean;
   /** Whether to show a shimmer animation on the progress fill */
   animated?: boolean;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: ProgressStylesProp;
 }
 
 const sizeMap = {
-  sm: styles.sm,
-  md: styles.md,
-  lg: styles.lg,
+  sm: css.sm,
+  md: css.md,
+  lg: css.lg,
 } as const;
 
 const variantMap = {
-  default: styles.default,
-  success: styles.success,
-  warning: styles.warning,
-  error: styles.error,
+  default: css.default,
+  success: css.success,
+  warning: css.warning,
+  error: css.error,
 } as const;
+
+const resolveProgressBaseStyles = createStylesResolver([
+  'root',
+  'labelRow',
+  'label',
+  'value',
+  'progress',
+  'fill',
+] as const);
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
   (
@@ -51,6 +74,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       label,
       showValue = false,
       animated = false,
+      styles: stylesProp,
       ...props
     },
     ref
@@ -59,19 +83,21 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     const percentage = (clampedValue / max) * 100;
     const hasLabelContent = label || showValue;
 
+    const resolved = resolveProgressBaseStyles(stylesProp);
+
     return (
       <div
-        className={cn(styles.wrapper, hasLabelContent && styles.hasLabel)}
+        className={cn(css.wrapper, hasLabelContent && css.hasLabel, resolved.root)}
       >
         {hasLabelContent && (
-          <div className={styles.labelRow}>
+          <div className={cn(css.labelRow, resolved.labelRow)}>
             {label && (
-              <span className={styles.label}>
+              <span className={cn(css.label, resolved.label)}>
                 {label}
               </span>
             )}
             {showValue && !indeterminate && (
-              <span className={styles.value}>{Math.round(percentage)}%</span>
+              <span className={cn(css.value, resolved.value)}>{Math.round(percentage)}%</span>
             )}
           </div>
         )}
@@ -82,7 +108,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuemin={0}
           aria-valuemax={max}
           aria-label={label}
-          className={cn(styles.progress, sizeMap[size], className)}
+          className={cn(css.progress, sizeMap[size], className, resolved.progress)}
           data-variant={variant}
           data-size={size}
           data-indeterminate={indeterminate || undefined}
@@ -90,10 +116,11 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         >
           <div
             className={cn(
-              styles.fill,
+              css.fill,
               variantMap[variant],
-              (animated || indeterminate) && styles.animated,
-              indeterminate && styles.indeterminate
+              (animated || indeterminate) && css.animated,
+              indeterminate && css.indeterminate,
+              resolved.fill
             )}
             style={indeterminate ? undefined : { width: `${percentage}%` }}
           />

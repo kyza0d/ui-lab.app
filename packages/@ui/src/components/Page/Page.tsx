@@ -1,20 +1,34 @@
 "use client"
 
 import * as React from 'react';
-import { cn } from '@/lib/utils';
+import { cn, type StyleValue } from '@/lib/utils';
+import { type StylesProp, createStylesResolver } from '@/lib/styles';
 import { PageContext } from './page.context';
 import { PageProps, PageContextValue, PagePadding } from './page.types';
-import styles from './Page.module.css';
+import css from './Page.module.css';
+
+export interface PageStyleSlots {
+  root?: StyleValue;
+}
+
+export type PageStylesProp = StylesProp<PageStyleSlots>;
+
+const resolvePageBaseStyles = createStylesResolver(['root'] as const);
+
+interface PageRootProps extends PageProps {
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: PageStylesProp;
+}
 
 const paddingMap: Record<PagePadding, string> = {
-  none: styles.paddingNone,
-  sm: styles.paddingSm,
-  md: styles.paddingMd,
-  lg: styles.paddingLg,
-  xl: styles.paddingXl,
+  none: css.paddingNone,
+  sm: css.paddingSm,
+  md: css.paddingMd,
+  lg: css.paddingLg,
+  xl: css.paddingXl,
 };
 
-const PageRoot = React.forwardRef<HTMLDivElement, PageProps>(
+const PageRoot = React.forwardRef<HTMLDivElement, PageRootProps>(
   (
     {
       maxWidth = '1400px',
@@ -23,6 +37,7 @@ const PageRoot = React.forwardRef<HTMLDivElement, PageProps>(
       fullscreen = false,
       className,
       children,
+      styles: stylesProp, // Renamed to avoid conflict with the module import
       ...props
     },
     ref
@@ -49,13 +64,14 @@ const PageRoot = React.forwardRef<HTMLDivElement, PageProps>(
     };
 
     const paddingClass = paddingMap[padding];
+    const { root: resolvedRoot } = resolvePageBaseStyles(stylesProp);
 
     return (
       <PageContext.Provider value={contextValue}>
         <div
           ref={ref}
           role="main"
-          className={cn(styles.page, paddingClass, className)}
+          className={cn(css.page, paddingClass, className, resolvedRoot)}
           data-centered={centered}
           data-fullscreen={fullscreen}
           style={

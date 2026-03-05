@@ -2,8 +2,17 @@
 
 import React, { useId } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import styles from "./Frame.module.css";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Frame.module.css";
+
+export interface FrameStyleSlots {
+  root?: StyleValue;
+}
+
+export type FrameStylesProp = StylesProp<FrameStyleSlots>;
+
+const resolveFrameBaseStyles = createStylesResolver(['root'] as const);
 
 const frameVariants = cva("relative w-full group isolate", {
   variants: {
@@ -47,10 +56,12 @@ export interface FrameProps
   variant?: "default" | "accent" | null;
   /** Internal padding preset */
   padding?: "none" | "small" | "medium" | "large" | null;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: FrameStylesProp;
 }
 
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
-  ({ children, variant, padding, className, style, path, pathWidth = 0, side = "top", cornerRadius, fill, shapeMode = "indent", borderWidth, borderColor = "var(--background-700)", ...props }, ref) => {
+  ({ children, variant, padding, className, styles, style, path, pathWidth = 0, side = "top", cornerRadius, fill, shapeMode = "indent", borderWidth, borderColor = "var(--background-700)", ...props }, ref) => {
     const maskId = useId();
     const borderMaskId = `border-${maskId}`;
     const bgMaskId = `bg-${maskId}`;
@@ -67,10 +78,12 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
 
     const { x, y, rotate } = positionMap[side];
 
+    const resolved = resolveFrameBaseStyles(styles);
+
     return (
       <div
         ref={ref}
-        className={cn(frameVariants({ variant, padding }), styles.root, className)}
+        className={cn(frameVariants({ variant, padding }), css.root, className, resolved.root)}
         style={{
           ...(cornerRadius !== undefined && { "--frame-radius": `${cornerRadius}px` }),
           ...(borderWidth !== undefined && { "--frame-stroke-width": `${borderWidth}px` }),
@@ -87,7 +100,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           <defs>
             {/* Mask for the Content/Background: Cuts the path shape (curvature) */}
             <mask id={maskId}>
-              <rect width="100%" height="100%" fill="white" className={styles.shape} />
+              <rect width="100%" height="100%" fill="white" className={css.shape} />
               {path && (
                 <svg x={x} y={y} overflow="visible">
                   <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
@@ -121,7 +134,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
 
             {/* Mask for the Background Fill (Union or Difference) */}
             <mask id={bgMaskId}>
-              <rect width="100%" height="100%" fill="white" className={styles.shape} />
+              <rect width="100%" height="100%" fill="white" className={css.shape} />
               {path && (
                 <svg x={x} y={y} overflow="visible">
                   <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
@@ -158,7 +171,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
             stroke={borderColor}
             strokeWidth={borderStroke}
             mask={`url(#${borderMaskId})`}
-            className={cn(styles.shape, styles.stroke)}
+            className={cn(css.shape, css.stroke)}
           />
 
           {/* Layer 2: The Notch/Tab Path Stroke */}
@@ -171,7 +184,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
                   stroke={borderColor}
                   strokeWidth={borderStroke}
                   transform={`translate(-${pathWidth / 2}, ${borderStroke / 2})`}
-                  className={styles.stroke}
+                  className={css.stroke}
                 />
               </g>
             </svg>

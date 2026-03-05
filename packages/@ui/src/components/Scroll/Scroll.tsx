@@ -1,8 +1,20 @@
 "use client";
 
 import React, { useRef, useLayoutEffect, useState, useCallback, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import styles from "./Scroll.module.css";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Scroll.module.css";
+
+export interface ScrollStyleSlots {
+  root?: StyleValue;
+  content?: StyleValue;
+  track?: StyleValue;
+  thumb?: StyleValue;
+  horizontal?: StyleValue;
+  vertical?: StyleValue;
+}
+
+export type ScrollStylesProp = StylesProp<ScrollStyleSlots>;
 
 export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Content to render inside the scroll container */
@@ -25,7 +37,18 @@ export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   enabled?: boolean;
   /** Whether to hide the scrollbar when not actively scrolling */
   hide?: boolean;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: ScrollStylesProp;
 }
+
+const resolveScrollBaseStyles = createStylesResolver([
+  'root',
+  'content',
+  'track',
+  'thumb',
+  'horizontal',
+  'vertical'
+] as const);
 
 const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
   (
@@ -41,6 +64,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       fadeSize = 4,
       enabled = true,
       hide = true,
+      styles, // Destructure the new styles prop
       ...props
     },
     ref
@@ -51,6 +75,8 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
     const thumbRef = useRef<HTMLDivElement>(null);
     const childrenRef = useRef(children);
     const mergedRef = useMergedRef(ref, containerRef);
+
+    const resolved = resolveScrollBaseStyles(styles); // Resolve the styles
 
     const [needsScrollbar, setNeedsScrollbar] = useState(false);
     const [isHoveredRight, setIsHoveredRight] = useState(false);
@@ -399,7 +425,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       return (
         <div
           ref={ref}
-          className={cn(styles.root, className)}
+          className={cn(css.root, resolved.root, className)}
           style={{
             ...(direction === "horizontal"
               ? { width: "100%", maxWidth }
@@ -420,7 +446,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       return (
         <div
           ref={mergedRef}
-          className={cn(styles.root, styles.horizontal, className)}
+          className={cn(css.root, css.horizontal, className, resolved.root, resolved.horizontal)}
           style={{
             width: "100%",
             maxWidth,
@@ -433,7 +459,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         >
           <div
             ref={contentRef}
-            className={styles.content}
+            className={cn(css.content, resolved.content)}
             onScroll={handleScroll}
             onWheel={handleWheel}
             style={{ maxWidth: "inherit" }}
@@ -442,7 +468,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           </div>
 
           <div
-            className={styles.track}
+            className={cn(css.track, resolved.track)}
             data-hide={hide ? "true" : "false"}
             style={{
               opacity: showOpacity,
@@ -453,7 +479,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
             {(needsScrollbar || !hide) && (
               <div
                 ref={thumbRef}
-                className={styles.thumb}
+                className={cn(css.thumb, resolved.thumb)}
                 style={{
                   width: `${thumbSize}px`,
                   left: `${thumbPosition}px`,
@@ -471,7 +497,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
     return (
       <div
         ref={mergedRef}
-        className={cn(styles.root, styles.vertical, className)}
+        className={cn(css.root, css.vertical, className, resolved.root, resolved.vertical)}
         style={{
           height: "100%",
           maxHeight,
@@ -485,7 +511,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       >
         <div
           ref={contentRef}
-          className={styles.content}
+          className={cn(css.content, resolved.content)}
           onScroll={handleScroll}
           style={{ maxHeight: "inherit" }}
         >
@@ -493,7 +519,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         </div>
 
         <div
-          className={styles.track}
+          className={cn(css.track, resolved.track)}
           data-hide={hide ? "true" : "false"}
           style={{
             opacity: showOpacity,
@@ -504,7 +530,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           {(needsScrollbar || !hide) && (
             <div
               ref={thumbRef}
-              className={styles.thumb}
+              className={cn(css.thumb, resolved.thumb)}
               style={{
                 height: `${thumbSize}px`,
                 top: `${thumbPosition}px`,

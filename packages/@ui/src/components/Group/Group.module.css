@@ -53,6 +53,11 @@
   .item {
     display: flex;
     align-items: stretch;
+    min-width: 0;
+  }
+
+  .item.grow {
+    flex: 1;
   }
 
   .group:not(.ghost) .item .group-item,

@@ -12,30 +12,29 @@
     width: 100%;
     display: block;
     font-family: inherit;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     line-height: var(--leading-snug);
     color: var(--foreground);
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-sm);
     resize: vertical;
+    outline: none;
     @apply px-3 py-2;
 
     &::placeholder {
       color: var(--placeholder);
     }
 
-    @media (hover: hover) {
-      &:hover:not([data-disabled]) {
-        border-color: var(--border-hover);
-      }
+    &[data-active] {
+      border-color: var(--ring-color);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring-color) 20%, transparent);
     }
 
     &[data-focus-visible] {
       outline: none;
       border-color: var(--ring-color);
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring-color) 15%, transparent);
-      transform: scale(1.01);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring-color) 20%, transparent);
     }
 
     &[data-disabled] {
@@ -50,9 +49,9 @@
       --ring-color: var(--danger-600);
       border-color: var(--danger-600);
 
-      &[data-focus-visible] {
+      &[data-active] {
         border-color: var(--danger-600);
-        box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger-600) 25%, transparent);
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);
       }
     }
 
@@ -69,7 +68,7 @@
 
   .textarea[data-size="md"] {
     min-height: 6rem;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     @apply px-3 py-2;
   }
 

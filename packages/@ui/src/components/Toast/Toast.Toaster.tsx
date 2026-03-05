@@ -26,7 +26,6 @@ const positionConfig: Record<
   "bottom-right": { bottom: "1.5rem", right: "1.5rem" },
 };
 
-// Global registry to prevent duplicate Toasters in the same position
 const activePositions = new Set<string>();
 
 interface ToastContainerProps {
@@ -39,113 +38,103 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
   const toastRefsMap = useRef<Map<string, HTMLDivElement>>(new Map());
   const containerRef = useRef<HTMLDivElement>(null);
   const isTop = position.includes("top");
+
   const [isHovering, setIsHovering] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isDraggingRef = useRef(false);
   const isDismissingCountRef = useRef(0);
   const isMouseInContainerRef = useRef(false);
+  const prevVisibleIdsRef = useRef<Set<string>>(new Set());
 
-  const visibleToasts = useMemo(
-    () => toasts.slice(0, MAX_VISIBLE + 1),
-    [toasts]
-  );
-
-  const handleMouseEnter = () => {
+  const handleMouseEnter: React.MouseEventHandler<HTMLDivElement> = () => {
     isMouseInContainerRef.current = true;
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
     setIsHovering(true);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave: React.MouseEventHandler<HTMLDivElement> = () => {
     isMouseInContainerRef.current = false;
     if (isDraggingRef.current || isDismissingCountRef.current > 0) return;
     hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
   };
 
-  // Track which toast IDs were previously in the visible set
-  const prevVisibleIdsRef = useRef<Set<string>>(new Set());
-
-  // Use useEffect instead of useGSAP to avoid automatic revert-on-dependency-change,
-  // which causes wrapper transforms to snap to their pre-animation state before re-animating.
-  // With useEffect + overwrite:"auto", wrappers animate smoothly from their current position.
   useEffect(() => {
-    const currentIds = new Set(visibleToasts.map(t => t.id));
+    const currentActiveIds = new Set(toasts.map(t => t.id));
+    const openToasts = toasts.filter(t => t.open);
 
-    visibleToasts.forEach((toast, index) => {
+    let cumulativeY = 0;
+    let activeIndex = 0; // Track visual index separately from array index
+
+    toasts.forEach((toast) => {
       const el = toastRefsMap.current.get(toast.id);
       if (!el) return;
 
+      // If the toast is closing, ignore it in the layout calculations.
+      // This lets the Toast component's internal GSAP handle the exit undisturbed.
+      if (!toast.open) {
+        el.style.pointerEvents = "none";
+        return;
+      }
+
       const isNewlyVisible = !prevVisibleIdsRef.current.has(toast.id);
       const isFromTop = toast.spawnDirection === 'top';
+      const height = el.offsetHeight || 60;
 
       let y = 0;
       let scale = 1;
       let opacity = 1;
+      let pointerEvents = "auto";
 
       if (isHovering) {
-        // When hovering, expand all toasts to full visibility
-        let cumulativeY = 0;
-        for (let i = 0; i < index; i++) {
-          const prevEl = toastRefsMap.current.get(visibleToasts[i].id);
-          if (prevEl) {
-            cumulativeY += (prevEl.getBoundingClientRect().height || 60) + GAP;
-          }
-        }
-        y = cumulativeY * (isTop ? 1 : -1);
-        scale = 1;
-        opacity = 1;
-      } else {
-        // When not hovering, use stacked preview logic
-        if (index === 0) {
-          y = 0;
+        if (activeIndex <= MAX_VISIBLE) {
+          y = cumulativeY * (isTop ? 1 : -1);
           scale = 1;
           opacity = 1;
-        } else if (index === 1) {
-          y = GAP * (isTop ? 1 : -1);
-          scale = 0.96;
-          opacity = 1;
-        } else if (index === 2) {
-          y = GAP * 2 * (isTop ? 1 : -1);
-          scale = 0.92;
-          opacity = 1;
+          cumulativeY += height + GAP;
         } else {
-          y = GAP * 2 * (isTop ? 1 : -1);
-          scale = 0.92;
+          y = cumulativeY * (isTop ? 1 : -1);
+          scale = 0.9;
           opacity = 0;
+          pointerEvents = "none";
+        }
+      } else {
+        if (activeIndex === 0) {
+          y = 0; scale = 1; opacity = 1;
+        } else if (activeIndex === 1) {
+          y = GAP * (isTop ? 1 : -1); scale = 0.96; opacity = 1;
+        } else if (activeIndex === 2) {
+          y = GAP * 2 * (isTop ? 1 : -1); scale = 0.92; opacity = 1;
+        } else {
+          y = GAP * 2 * (isTop ? 1 : -1); scale = 0.92; opacity = 0;
+          pointerEvents = "none";
         }
       }
 
-      // For toasts entering the visible set from the queue after a dismiss,
-      // set their initial wrapper position above the stack so they animate down into place
       if (isNewlyVisible && isFromTop) {
         const startY = isTop ? (y + 30) : (y - 30);
         gsap.set(el, { y: startY, opacity: 0, scale: scale * 0.9 });
       }
 
-      gsap.to(el, {
-        y,
-        scale,
-        opacity,
-        duration: 0.35,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
+      gsap.to(el, { y, scale, opacity, duration: 0.35, ease: "power3.out", overwrite: "auto" });
+      el.style.pointerEvents = pointerEvents;
+
+      activeIndex++; // Only increment for active toasts
     });
 
-    // Animate container height
     if (containerRef.current) {
       let totalHeight = 0;
       if (isHovering) {
-        visibleToasts.forEach((toast) => {
+        // Only calculate container height based on open toasts
+        openToasts.slice(0, MAX_VISIBLE + 1).forEach((toast) => {
           const el = toastRefsMap.current.get(toast.id);
-          if (el) {
-            totalHeight += (el.getBoundingClientRect().height || 60) + GAP;
-          }
+          if (el) totalHeight += (el.offsetHeight || 60) + GAP;
         });
       } else {
-        const firstEl = visibleToasts[0] ? toastRefsMap.current.get(visibleToasts[0].id) : null;
-        const firstHeight = firstEl?.getBoundingClientRect().height || 60;
-        totalHeight = firstHeight + (GAP * 2);
+        const firstEl = openToasts[0] ? toastRefsMap.current.get(openToasts[0].id) : null;
+        totalHeight = (firstEl?.offsetHeight || 60) + (GAP * 2);
       }
 
       gsap.to(containerRef.current, {
@@ -156,8 +145,12 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
       });
     }
 
-    prevVisibleIdsRef.current = currentIds;
-  }, [visibleToasts, isTop, isHovering]);
+    toastRefsMap.current.forEach((_el, id) => {
+      if (!currentActiveIds.has(id)) toastRefsMap.current.delete(id);
+    });
+
+    prevVisibleIdsRef.current = new Set(openToasts.map(t => t.id));
+  }, [isTop, isHovering, toasts]);
 
   const fixedStyle: React.CSSProperties = {
     position: "fixed",
@@ -183,14 +176,13 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
         onMouseLeave={handleMouseLeave}
         className={isHovering ? "pointer-events-auto" : "pointer-events-none"}
       >
-        {visibleToasts.map((toast, index) => (
+        {toasts.map((toast, index) => (
           <div
             key={toast.id}
             ref={(el) => {
               if (el) toastRefsMap.current.set(toast.id, el);
               else toastRefsMap.current.delete(toast.id);
             }}
-            className="pointer-events-auto"
             style={{
               willChange: "transform, opacity",
               transformOrigin: isTop ? "top center" : "bottom center",
@@ -199,41 +191,43 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
               position: "absolute",
               left: 0,
               right: 0,
-              zIndex: visibleToasts.length - index,
+              zIndex: toasts.length - index,
             }}
           >
             <Toast
-                toast={toast}
-                pauseOnHover={isHovering}
-                onDragStart={() => {
-                  isDraggingRef.current = true;
-                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-                  setIsHovering(true);
-                }}
-                onDragEnd={() => {
-                  isDraggingRef.current = false;
-                  if (isDismissingCountRef.current === 0 && !isMouseInContainerRef.current) {
-                    hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
-                  }
-                }}
-                onDismissStart={() => {
-                  isDismissingCountRef.current++;
-                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-                  setIsHovering(true);
-                }}
-                onDismissEnd={() => {
-                  isDismissingCountRef.current--;
-                  if (isDismissingCountRef.current === 0 && !isDraggingRef.current && !isMouseInContainerRef.current) {
-                    hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
-                  }
-                }}
-              />
+              toast={toast}
+              pauseOnHover={isHovering}
+              onDragStart={() => {
+                isDraggingRef.current = true;
+                if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                setIsHovering(true);
+              }}
+              onDragEnd={() => {
+                isDraggingRef.current = false;
+                if (isDismissingCountRef.current === 0 && !isMouseInContainerRef.current) {
+                  hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
+                }
+              }}
+              onDismissStart={() => {
+                isDismissingCountRef.current++;
+                // FIX: Removed `setIsHovering(true)` from here.
+                // Auto-dismissing should NOT force the stack open.
+              }}
+              onDismissEnd={() => {
+                isDismissingCountRef.current--;
+                if (isDismissingCountRef.current === 0 && !isDraggingRef.current && !isMouseInContainerRef.current) {
+                  hoverTimeoutRef.current = setTimeout(() => setIsHovering(false), 200);
+                }
+              }}
+            />
           </div>
         ))}
       </div>
     </div>
   );
 };
+
+// ... Toaster and SingletonToastContainer remain unchanged
 
 export const Toaster = () => {
   const { toasts } = useToastStore();
@@ -243,14 +237,7 @@ export const Toaster = () => {
     setMounted(true);
   }, []);
 
-  const positions: ToastPosition[] = [
-    "top-left",
-    "top",
-    "top-right",
-    "bottom-left",
-    "bottom",
-    "bottom-right",
-  ];
+  const positions: ToastPosition[] = ["top-left", "top", "top-right", "bottom-left", "bottom", "bottom-right"];
 
   const toastsByPosition = useMemo(() => {
     const grouped: Partial<Record<ToastPosition, ToastProps[]>> = {};

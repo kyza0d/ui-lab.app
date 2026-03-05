@@ -3,7 +3,9 @@
 import * as React from "react"
 import { useFocusRing, useHover, mergeProps } from "react-aria"
 import { cn } from "@/lib/utils"
-import styles from "./Tabs.module.css"
+import { StyleValue } from "@/lib/utils"
+import { StylesProp, createStylesResolver } from "@/lib/styles"
+import css from "./Tabs.module.css"
 
 type TabsVariant = "default" | "underline"
 type TabsOrientation = "horizontal" | "vertical"
@@ -42,6 +44,10 @@ function useTabsContext() {
   return context
 }
 
+interface TabsStyleSlots {
+  root?: StyleValue
+}
+
 interface TabsProps {
   /** Visual style of the tab list indicator */
   variant?: TabsVariant
@@ -55,8 +61,12 @@ interface TabsProps {
   onValueChange?: (value: string) => void
   /** Additional CSS class for the tabs root */
   className?: string
+  /** Custom styles for the component slots */
+  styles?: StylesProp<TabsStyleSlots>
   children?: React.ReactNode
 }
+
+const resolveTabsBaseStyles = createStylesResolver(['root'] as const)
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
   (
@@ -67,10 +77,13 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       value: controlledValue,
       onValueChange,
       className,
+      styles: stylesProp,
       children,
     },
     ref
   ) => {
+    const { root } = resolveTabsBaseStyles(stylesProp)
+
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue || "")
     const [hoveredValue, setHoveredValue] = React.useState<string | null>(null)
     const [disabledTabs, setDisabledTabs] = React.useState<Set<string>>(new Set())
@@ -123,7 +136,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       >
         <div
           ref={ref}
-          className={cn("tabs", styles.tabs, className)}
+          className={cn("tabs", css.tabs, root, className)}
           data-variant={variant}
           data-orientation={orientation}
         >
@@ -142,20 +155,30 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
 )
 Tabs.displayName = "Tabs"
 
+interface TabsListStyleSlots {
+  root?: StyleValue
+  indicator?: StyleValue
+}
+
 interface TabsListProps {
   /** Additional CSS class names */
   className?: string
   children?: React.ReactNode
   /** Accessible label for the tab list */
   "aria-label"?: string
+  /** Custom styles for the component slots */
+  styles?: StylesProp<TabsListStyleSlots>
 }
+
+const resolveTabsListBaseStyles = createStylesResolver(['root', 'indicator'] as const);
 
 /** Container for the row of tab trigger buttons */
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
-  ({ className, children, "aria-label": ariaLabel }, ref) => {
+  ({ className, children, "aria-label": ariaLabel, styles: stylesProp }, ref) => {
     const { selectedValue, hoveredValue, variant, orientation, setIndicatorReady } = useTabsContext()
+    const { root, indicator } = resolveTabsListBaseStyles(stylesProp);
     const listRef = React.useRef<HTMLDivElement>(null)
-    const [indicator, setIndicator] = React.useState<IndicatorPosition>({
+    const [indicatorPosition, setIndicatorPosition] = React.useState<IndicatorPosition>({
       left: 0,
       top: 0,
       width: 0,
@@ -206,7 +229,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         if (trigger) {
           const position = measureTrigger(trigger)
           if (position) {
-            setIndicator(position)
+            setIndicatorPosition(position)
           }
         }
       },
@@ -251,10 +274,10 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
         willChange: "transform",
         pointerEvents: "none",
-        opacity: indicator.width === 0 && indicator.height === 0 ? 0 : 1,
+        opacity: indicatorPosition.width === 0 && indicatorPosition.height === 0 ? 0 : 1,
       }
 
-      if (indicator.width === 0 && indicator.height === 0) {
+      if (indicatorPosition.width === 0 && indicatorPosition.height === 0) {
         return baseStyle
       }
 
@@ -263,9 +286,9 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
           return {
             ...baseStyle,
             left: 0,
-            top: indicator.top,
+            top: indicatorPosition.top,
             width: 2,
-            height: indicator.height,
+            height: indicatorPosition.height,
           }
         }
         // Apply horizontal padding to indicator for vertical orientation
@@ -274,18 +297,18 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         return {
           ...baseStyle,
           left: horizontalPadding,
-          top: indicator.top,
+          top: indicatorPosition.top,
           width: adjustedWidth,
-          height: indicator.height,
+          height: indicatorPosition.height,
         }
       }
 
       if (variant === "underline") {
         return {
           ...baseStyle,
-          left: indicator.left,
-          top: indicator.top + indicator.height - 2,
-          width: indicator.width,
+          left: indicatorPosition.left,
+          top: indicatorPosition.top + indicatorPosition.height - 2,
+          width: indicatorPosition.width,
           height: 2,
         }
       }
@@ -295,12 +318,12 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       const adjustedHeight = Math.max(0, listDimensions.height - verticalPadding * 2)
       return {
         ...baseStyle,
-        left: indicator.left,
+        left: indicatorPosition.left,
         top: verticalPadding,
-        width: indicator.width,
+        width: indicatorPosition.width,
         height: adjustedHeight,
       }
-    }, [indicator, listDimensions, variant, orientation])
+    }, [indicatorPosition, listDimensions, variant, orientation])
 
     const mergedRef = React.useCallback(
       (el: HTMLDivElement | null) => {
@@ -317,17 +340,17 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         role="tablist"
         aria-label={ariaLabel}
         aria-orientation={orientation}
-        className={cn("tabsList", styles.tabsList, className)}
+        className={cn("tabsList", css.tabsList, root, className)}
         data-variant={variant}
         data-orientation={orientation}
         style={{ position: "relative" }}
       >
-        {indicator.width > 0 && (
+        {indicatorPosition.width > 0 && (
           <div
-            className={cn("indicator", styles.indicator, {
-              [styles.indicatorDefault]: variant === "default",
-              [styles.indicatorUnderline]: variant === "underline",
-            })}
+            className={cn("indicator", css.indicator, {
+              [css.indicatorDefault]: variant === "default",
+              [css.indicatorUnderline]: variant === "underline",
+            }, indicator)}
             style={getIndicatorStyle}
           />
         )}
@@ -338,6 +361,11 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
 )
 TabsList.displayName = "TabsList"
 
+interface TabsTriggerStyleSlots {
+  root?: StyleValue
+  icon?: StyleValue
+}
+
 interface TabsTriggerProps {
   /** Unique identifier matching the associated TabsContent value */
   value: string
@@ -347,10 +375,14 @@ interface TabsTriggerProps {
   icon?: React.ReactNode
   /** Additional CSS class names */
   className?: string
+  /** Custom styles for the component slots */
+  styles?: StylesProp<TabsTriggerStyleSlots>
   children?: React.ReactNode
   _registerDisabled?: (value: string) => void
   _unregisterDisabled?: (value: string) => void
 }
+
+const resolveTabsTriggerBaseStyles = createStylesResolver(['root', 'icon'] as const);
 
 /** A tab button that activates its associated content panel */
 const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
@@ -360,6 +392,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
       disabled = false,
       icon,
       className,
+      styles: stylesProp,
       children,
       _registerDisabled,
       _unregisterDisabled,
@@ -368,6 +401,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ) => {
     const { selectedValue, setSelectedValue, hoveredValue, setHoveredValue, indicatorReady } =
       useTabsContext()
+    const { root, icon: iconStyles } = resolveTabsTriggerBaseStyles(stylesProp);
     const buttonRef = React.useRef<HTMLButtonElement>(null)
     const isSelected = value === selectedValue
     const isHovered = value === hoveredValue
@@ -452,7 +486,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         tabIndex={isSelected ? 0 : -1}
         disabled={disabled}
         data-tabs-value={value}
-        className={cn("tabsTrigger", styles.tabsTrigger, className)}
+        className={cn("tabsTrigger", css.tabsTrigger, root, className)}
         data-selected={isSelected ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
         data-focus-visible={isFocusVisible ? "true" : undefined}
@@ -463,7 +497,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         onMouseEnter={() => !disabled && setHoveredValue(value)}
         onMouseLeave={() => setHoveredValue(null)}
       >
-        {icon && <span className={styles.triggerIcon}>{icon}</span>}
+        {icon && <span className={cn(css.triggerIcon, iconStyles)}>{icon}</span>}
         {children}
       </button>
     )
@@ -471,18 +505,27 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
 )
 TabsTrigger.displayName = "Tab"
 
+interface TabsContentStyleSlots {
+  root?: StyleValue
+}
+
 interface TabsContentProps {
   /** Unique identifier matching the associated TabsTrigger value */
   value: string
   /** Additional CSS class names */
   className?: string
+  /** Custom styles for the component slots */
+  styles?: StylesProp<TabsContentStyleSlots>
   children?: React.ReactNode
 }
 
+const resolveTabsContentBaseStyles = createStylesResolver(['root'] as const);
+
 /** Content panel shown when its corresponding tab is active */
 const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
-  ({ value, className, children }, ref) => {
+  ({ value, className, children, styles: stylesProp }, ref) => {
     const { selectedValue, variant, orientation } = useTabsContext()
+    const { root } = resolveTabsContentBaseStyles(stylesProp);
     const isVisible = value === selectedValue
 
     return (
@@ -491,7 +534,7 @@ const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
         role="tabpanel"
         aria-labelledby={`${value}-trigger`}
         id={`${value}-content`}
-        className={cn("tabsContent", styles.tabsContent, className)}
+        className={cn("tabsContent", css.tabsContent, root, className)}
         data-variant={variant}
         data-orientation={orientation}
         hidden={!isVisible}

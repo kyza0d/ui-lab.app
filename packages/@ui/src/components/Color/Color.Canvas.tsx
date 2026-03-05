@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { useFocusRing } from "react-aria";
+import { useFocusRing } from "@react-aria/focus";
 import { hsvToRgb } from "./color-utils";
 import styles from "./Color.module.css";
 

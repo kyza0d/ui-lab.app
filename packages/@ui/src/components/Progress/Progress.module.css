@@ -3,7 +3,7 @@
 @layer components {
   .progress {
     --track-background: var(--background-700);
-    --fill-background: var(--accent-500);
+    --fill-background: color-mix(in srgb, var(--accent-600) 60%, var(--background-500));
 
     position: relative;
     width: 100%;

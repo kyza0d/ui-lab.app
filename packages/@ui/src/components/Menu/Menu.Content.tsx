@@ -1,14 +1,17 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { useFloating, flip, offset, autoUpdate } from "@floating-ui/react-dom"
-import { cn } from "@/lib/utils"
-import styles from "./Menu.module.css"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import css from "./Menu.module.css"
 import { useMenuContext } from "./Menu"
-import type { MenuTriggerProps, MenuContentProps } from "./menu.types"
+import type { MenuTriggerProps, MenuContentProps, MenuContentStyleSlots } from "./menu.types"
 import { useMergedRef, handleListKeyDown, scrollItemIntoView } from "../../utils/list-navigation"
 import { Scroll } from "../Scroll"
 import { List } from "../List"
 import { useScrollLock } from "../../hooks/useScrollLock"
+
+const resolveMenuContentBaseStyles = createStylesResolver(['root'] as const);
 
 /** Wrapper element that opens the context menu on right-click */
 const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
@@ -39,7 +42,7 @@ MenuTrigger.displayName = "MenuTrigger"
 
 /** Floating panel that contains the menu items, positioned relative to the click location */
 const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
-  ({ children, className, onEscapeKeyDown, sideOffset = 0 }, ref) => {
+  ({ children, className, onEscapeKeyDown, sideOffset = 0, styles }, ref) => {
     const {
       isOpen,
       close,
@@ -179,6 +182,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
     }, [navigateToNextItem, navigateToPrevItem, selectFocusedItem, close, items, setFocusedKey, isFocusedItemSubmenu, onEscapeKeyDown])
 
     const showContent = isOpen && isPositioned
+    const resolved = resolveMenuContentBaseStyles(styles);
 
     if (!mounted) return null
 
@@ -195,7 +199,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
             ref={mergedRef}
             role="menu"
             tabIndex={-1}
-            className={cn(styles.content, className)}
+            className={cn(css.content, className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
             onKeyDown={handleKeyDown}
@@ -207,7 +211,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
             }}
           >
             <Scroll
-              className={styles.list}
+              className={css.list}
               direction="vertical"
               fadeY
               enabled={needsScroll}

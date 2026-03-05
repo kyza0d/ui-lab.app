@@ -1,6 +1,7 @@
 export interface Styles {
   badge: string;
   "default": string;
+  "secondary": string;
   "success": string;
   "warning": string;
   "danger": string;

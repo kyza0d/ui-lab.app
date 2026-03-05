@@ -12,7 +12,7 @@
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-3);
-    background-color: var(--background);
+    background: var(--background);
     color: var(--foreground);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-sm);
@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
+    background: transparent;
     border: none;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -91,28 +91,29 @@
   color: var(--foreground-300);
 }
 
-.toast.destructive {
+.toast.danger {
   --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
   --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--danger-600) 40%, var(--background-900));
+  --border: color-mix(in srgb, var(--danger-600) 20%, var(--background-900));
 }
 
-.toast.destructive .title {
+.toast.danger .title {
   color: var(--foreground-100);
 }
 
-.toast.destructive .description {
+.toast.danger .description {
   color: var(--foreground-300);
 }
 
-.toast.destructive .icon {
+.toast.danger .icon {
   color: var(--danger-600);
 }
 
-.toast.destructive .closeButton {
+.toast.danger .closeButton {
+  color: color-mix(in srgb, var(--danger-600) 60%, var(--foreground-50));
   @media (hover: hover) {
     &:hover {
-      background-color: color-mix(in srgb, var(--danger-500) 20%, var(--background-900));
+      background: color-mix(in srgb, var(--danger-500) 20%, var(--background-900));
     }
   }
 }
@@ -120,7 +121,7 @@
 .toast.success {
   --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
   --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--success-600) 40%, var(--background-900));
+  --border: color-mix(in srgb, var(--success-600) 20%, var(--background-900));
 }
 
 .toast.success .title {
@@ -136,9 +137,10 @@
 }
 
 .toast.success .closeButton {
+  color: color-mix(in srgb, var(--success-600) 60%, var(--foreground-50));
   @media (hover: hover) {
     &:hover {
-      background-color: color-mix(in srgb, var(--success-500) 20%, var(--background-900));
+      background: color-mix(in srgb, var(--success-500) 20%, var(--background-900));
     }
   }
 }
@@ -146,7 +148,7 @@
 .toast.info {
   --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
   --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--info-600) 40%, var(--background-900));
+  --border: color-mix(in srgb, var(--info-600) 20%, var(--background-900));
 }
 
 .toast.info .title {
@@ -162,9 +164,10 @@
 }
 
 .toast.info .closeButton {
+  color: color-mix(in srgb, var(--info-600) 60%, var(--foreground-50));
   @media (hover: hover) {
     &:hover {
-      background-color: color-mix(in srgb, var(--info-500) 20%, var(--background-900));
+      background: color-mix(in srgb, var(--info-500) 20%, var(--background-900));
     }
   }
 }
@@ -172,7 +175,7 @@
 .toast.warning {
   --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
   --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--warning-600) 40%, var(--background-900));
+  --border: color-mix(in srgb, var(--warning-600) 20%, var(--background-900));
 }
 
 .toast.warning .title {
@@ -188,9 +191,10 @@
 }
 
 .toast.warning .closeButton {
+  color: color-mix(in srgb, var(--warning-600) 60%, var(--foreground-50));
   @media (hover: hover) {
     &:hover {
-      background-color: color-mix(in srgb, var(--warning-500) 20%, var(--background-900));
+      background: color-mix(in srgb, var(--warning-500) 20%, var(--background-900));
     }
   }
 }

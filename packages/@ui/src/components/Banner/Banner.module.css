@@ -9,10 +9,10 @@
     width: 100%;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
     gap: var(--spacing-4);
     font-family: inherit;
-    font-size: var(--text-md);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
     line-height: var(--leading-normal);
     background-color: var(--background);
     color: var(--foreground);
@@ -22,7 +22,6 @@
   }
 
   .content {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-2);
@@ -68,15 +67,14 @@
     font-weight: var(--font-weight-semibold);
     font-size: inherit;
     line-height: var(--leading-tight);
-    margin: 0;
+    @apply my-0;
   }
 
   .body {
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-medium);
     font-size: inherit;
     line-height: var(--leading-normal);
-    margin: 0;
-    opacity: 0.9;
+    @apply my-0;
   }
 }
 
@@ -132,15 +130,15 @@
 
 .banner.sm {
   @apply px-3 py-2;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .banner.md {
   @apply px-4 py-3;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .banner.lg {
   @apply px-6 py-4;
-  font-size: var(--text-lg);
+  font-size: var(--text-xs);
 }

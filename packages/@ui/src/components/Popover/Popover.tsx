@@ -6,7 +6,10 @@ import { useOverlayTrigger, useDialog, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
 import { cn } from "@/lib/utils";
+import { type StyleValue } from "@/lib/utils";
 import { Frame } from "../Frame";
+import css from "./Popover.module.css";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 
 const ARROW_PATH = "M 0 0 L 6 -12 L 12 0";
 const ARROW_WIDTH = 12;
@@ -48,15 +51,25 @@ const getInitialTransform = (placement: string): string => {
   }
 };
 
+export interface PopoverStyleSlots {
+  root?: StyleValue;
+  content?: StyleValue;
+  trigger?: StyleValue;
+}
+
+export type PopoverStylesProp = StylesProp<PopoverStyleSlots>;
+
 export interface PopoverProps {
   children: React.ReactNode;
   /** Content to display inside the popover panel */
   content: React.ReactNode;
   /** Preferred side of the trigger where the popover appears */
   position?: PopoverPosition;
-  /** Additional CSS class for the trigger element */
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: PopoverStylesProp;
+  /** Additional CSS class for the trigger element. Merged with `styles.root`. */
   className?: string;
-  /** Additional CSS class for the popover content panel */
+  /** Additional CSS class for the popover content panel. Merged with `styles.content`. */
   contentClassName?: string;
   /** Controlled open state */
   isOpen?: boolean;
@@ -67,7 +80,16 @@ export interface PopoverProps {
 }
 
 const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
-  ({ children, content, position = "bottom", className, contentClassName, isOpen: controlledIsOpen, onOpenChange, showArrow = false }, ref) => {
+  ({ children, content, position = "bottom", styles, className: externalClassName, contentClassName: externalContentClassName, isOpen: controlledIsOpen, onOpenChange, showArrow = false }, ref) => {
+
+    const resolvePopoverBaseStyles = createStylesResolver([
+      'root',
+      'content',
+      'trigger',
+    ] as const);
+
+    const resolved = resolvePopoverBaseStyles(styles);
+
     const triggerRef = React.useRef<HTMLDivElement>(null);
     const popoverContentRef = React.useRef<HTMLDivElement>(null);
     const [isAnimating, setIsAnimating] = React.useState(false);
@@ -150,9 +172,9 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
       return () => document.removeEventListener("keydown", handleKeyDown);
     }, [state.isOpen, state]);
 
-    const mergedTriggerRef = React.useCallback(
+    const mergedRef = React.useCallback(
       (el: HTMLDivElement | null) => {
-        (triggerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        (triggerRef as React.RefObject<HTMLDivElement | null>).current = el;
         refs.setReference(el);
         if (typeof ref === "function") ref(el);
         else if (ref) ref.current = el;
@@ -162,7 +184,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
 
     const mergedContentRef = React.useCallback(
       (el: HTMLDivElement | null) => {
-        (popoverContentRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        (popoverContentRef as React.RefObject<HTMLDivElement | null>).current = el;
         refs.setFloating(el);
       },
       [refs]
@@ -184,11 +206,11 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
     const triggerElement = React.isValidElement(children)
       ? React.cloneElement(children as React.ReactElement<{ className?: string; ref?: React.Ref<HTMLButtonElement | HTMLDivElement> }>, {
         ...nativeProps,
-        className: cn((children as React.ReactElement<{ className?: string }>).props.className, className),
-        ref: mergedTriggerRef,
+        className: cn((children as React.ReactElement<{ className?: string }>).props.className, externalClassName, css.trigger, resolved.trigger),
+        ref: mergedRef,
       })
       : (
-        <span ref={mergedTriggerRef} {...nativeProps} className={cn("inline-block", className)}>
+        <span ref={mergedRef} {...nativeProps} className={cn(css.trigger, externalClassName, resolved.trigger)}>
           {children}
         </span>
       );
@@ -200,38 +222,31 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
           createPortal(
             <div
               ref={mergedContentRef}
+              {...mergeProps(overlayProps, dialogProps)}
+              className={cn(css.root)}
               style={{
                 ...floatingStyles,
-                pointerEvents: "none",
-                transition: 'none',
-                zIndex: 500,
               }}
             >
               <div
+                className={cn(css.content)}
                 style={{
                   opacity: isAnimating ? 1 : 0,
                   transform: isAnimating ? "scale(1)" : getInitialTransform(placement),
-                  transition: 'opacity 0.2s ease-out',
                   pointerEvents: isAnimating ? 'auto' : 'none',
                 }}
               >
                 <Frame
-                  {...mergeProps(overlayProps, dialogProps)}
                   role="dialog"
                   side={showArrow ? getFrameSide(position) : position}
                   shapeMode={showArrow ? "extend" : undefined}
                   path={showArrow ? ARROW_PATH : undefined}
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
-                  fill="var(--color-background-900)"
-                  borderColor="var(--color-background-700)"
+                  fill="var(--background-900)"
+                  borderColor="var(--background-700)"
                   cornerRadius={8}
                   padding="none"
-                  className={cn("w-max pointer-events-auto text-foreground-50 text-sm shadow-lg", contentClassName)}
-                  style={{
-                    minWidth: '200px',
-                    maxWidth: '400px',
-                    padding: '0.75rem',
-                  }}
+                  className={cn(css["content-frame"], externalContentClassName, resolved.content)}
                 >
                   {content}
                 </Frame>

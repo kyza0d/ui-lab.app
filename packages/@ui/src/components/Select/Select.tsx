@@ -1,6 +1,13 @@
 import * as React from "react"
-import { useButton, useFocusRing, useHover, mergeProps, type Key } from "react-aria"
-import { cn } from "@/lib/utils"
+import { Key } from "@react-types/shared";
+
+import { mergeProps, } from "@react-aria/utils";
+import { useHover } from "@react-aria/interactions";
+import { useFocusRing } from "@react-aria/focus"
+import { useButton } from "@react-aria/button";
+
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import styles from "./Select.module.css"
 import { useListNavigation, useMergedRef, type ItemData } from "./Select.shared"
 import { useFilter } from "../../hooks/useFilter"
@@ -9,6 +16,12 @@ export type SelectItemData = ItemData
 
 export type SelectTriggerMode = "click" | "hover"
 export type SelectMode = "single" | "multiple"
+
+export interface SelectStyleSlots {
+  root?: StyleValue;
+}
+
+export type SelectStylesProp = StylesProp<SelectStyleSlots>;
 
 export interface SelectContextValue {
   isOpen: boolean
@@ -85,7 +98,11 @@ export interface SelectProps<T = any> extends React.PropsWithChildren {
   trigger?: SelectTriggerMode
   /** Custom filter predicate applied to the items array */
   filter?: (item: T) => boolean
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: SelectStylesProp;
 }
+
+const resolveSelectBaseStyles = createStylesResolver(['root'] as const);
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
   (
@@ -105,6 +122,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       className,
       trigger: triggerMode = "click",
       filter,
+      styles: stylesProp,
     },
     ref
   ) => {
@@ -282,6 +300,8 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const contentItems = childrenArray.filter(child => React.isValidElement(child) && ((child.type as any)?.displayName === 'SelectContent' || (child.type as any)?.displayName === 'SearchableContent'))
     const otherContent = childrenArray.filter(child => !React.isValidElement(child) || ((child.type as any)?.displayName !== 'SelectTrigger' && (child.type as any)?.displayName !== 'SelectContent' && (child.type as any)?.displayName !== 'SearchableContent'))
 
+    const resolvedStyles = resolveSelectBaseStyles(stylesProp);
+
     return (
       <SelectContext.Provider
         value={{
@@ -320,7 +340,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           filter,
         }}
       >
-        <div ref={rootRef} className={cn('select', styles.select, className)} data-mode={mode}>
+        <div ref={rootRef} className={cn('select', styles.select, className, resolvedStyles.root)} data-mode={mode}>
           {otherContent}
           {trigger}
           {contentItems}
@@ -332,3 +352,5 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
 Select.displayName = "Select"
 
 export { Select, SelectContext }
+
+

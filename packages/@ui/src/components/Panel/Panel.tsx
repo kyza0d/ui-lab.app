@@ -11,13 +11,18 @@ import {
   PanelGroupProps,
   PanelResizeProps,
   PanelGroupContextValue,
+  PanelStylesProp, // Added
 } from './panel.types'
 import { PanelContext, PanelGroupContext } from './panel.context'
+import { StyleValue, cn } from '../../lib/utils' // Added/Modified
+import { createStylesResolver } from '../../lib/styles' // Added
 import styles from './Panel.module.css'
+
+const resolvePanelBaseStyles = createStylesResolver(['root'] as const) // Added
 
 /** Flexible multi-panel layout with header, content, footer, and sidebar */
 const PanelRoot = React.forwardRef<HTMLDivElement, PanelProps>(
-  ({ spacing = 'md', variant = 'default', className, children, ...props }, ref) => {
+  ({ spacing = 'md', variant = 'default', className, children, styles: stylesProp, ...props }, ref) => { // Modified: added `styles: stylesProp`
     const [isStacked, setIsStacked] = useState(false)
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const containerRef = useRef<HTMLDivElement>(null)
@@ -73,10 +78,13 @@ const PanelRoot = React.forwardRef<HTMLDivElement, PanelProps>(
 
     const panelRef = ref && 'current' in ref ? ref : containerRef
 
+    // Modified: use the new style resolver
+    const resolvedStyles = resolvePanelBaseStyles(stylesProp)
+
     return (
       <div
         ref={panelRef}
-        className={`${styles.panel} ${spacingClass} ${variantClass} ${stackedClass} ${className || ''}`}
+        className={cn(styles.panel, spacingClass, variantClass, stackedClass, className, resolvedStyles.root)} // Modified
         data-spacing={spacing}
         data-variant={variant}
         data-stacked={isStacked}

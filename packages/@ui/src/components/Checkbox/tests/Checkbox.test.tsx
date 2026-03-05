@@ -2,11 +2,13 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Checkbox } from '../Checkbox';
-import { 
-  testAccessibility, 
-  testRefForwarding, 
-  testStyling 
+
+import {
+  testAccessibility,
+  testRefForwarding,
+  testStyling
 } from '@/tests/behaviors';
+
 import React from 'react';
 
 describe('Checkbox Component Behaviors', () => {
@@ -45,7 +47,7 @@ describe('Checkbox - Component Specific', () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<Checkbox onChange={onChange} aria-label="Toggle" />);
-    
+
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).not.toBeChecked();
 
@@ -63,7 +65,7 @@ describe('Checkbox - Component Specific', () => {
     const { rerender } = render(
       <Checkbox checked={false} onChange={onChange} aria-label="Controlled" />
     );
-    
+
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).not.toBeChecked();
 
@@ -83,10 +85,10 @@ describe('Checkbox - Component Specific', () => {
 
   it('renders error helper text', () => {
     render(
-      <Checkbox 
-        label="Label" 
-        helperText="Error text" 
-        helperTextError 
+      <Checkbox
+        label="Label"
+        helperText="Error text"
+        helperTextError
       />
     );
     const helper = screen.getByText('Error text');
@@ -122,7 +124,7 @@ describe('Checkbox - Component Specific', () => {
     const checkbox = screen.getByRole('checkbox');
 
     expect(checkbox).not.toHaveAttribute('data-selected');
-    
+
     await user.click(checkbox);
     expect(checkbox).toHaveAttribute('data-selected', 'true');
   });
@@ -134,12 +136,12 @@ describe('Checkbox - Component Specific', () => {
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
     expect(ref.current?.querySelector('input[type="checkbox"]')).toBeInTheDocument();
   });
-  
+
   it('respects disabled state', async () => {
     const onChange = vi.fn();
     const user = userEvent.setup();
     render(<Checkbox disabled onChange={onChange} aria-label="Disabled" />);
-    
+
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toBeDisabled();
     expect(checkbox).toHaveAttribute('data-disabled', 'true');

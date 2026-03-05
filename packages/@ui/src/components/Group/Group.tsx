@@ -117,6 +117,11 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
             const isFirst = index === 0
             const isLast = index === childrenArray.length - 1
             const isDividerChild = isDivider(child)
+            
+            // Extract layout-related classes from child to apply to the item wrapper
+            const childProps = React.isValidElement(child) ? (child.props as any) : {}
+            const childClassName = childProps.className || ""
+            const shouldGrow = childClassName.includes('w-full') || childClassName.includes('flex-1')
 
             return (
               <div
@@ -127,7 +132,8 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
                   isVertical ? styles.vertical : styles.horizontal,
                   isFirst && styles.first,
                   isLast && styles.last,
-                  isDividerChild && styles.divider
+                  isDividerChild && styles.divider,
+                  shouldGrow && styles.grow
                 )}
               >
                 {child}
@@ -196,19 +202,19 @@ interface GroupInputProps extends InputProps { }
 
 /** Input field integrated into the button group */
 const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
-  (props, ref) => {
+  ({ className, disabled, ...props }, ref) => {
     const context = useGroupContext()
 
     // Merge disabled state from group context
-    const disabled = props.disabled ?? context.groupIsDisabled
+    const inputDisabled = disabled ?? context.groupIsDisabled
 
     return (
-      <div className={styles['group-input-wrapper']}>
+      <div className={cn(styles['group-input-wrapper'], className)}>
         <Input
           ref={ref}
           {...props}
-          disabled={disabled}
-          className={props.className}
+          disabled={inputDisabled}
+          className="w-full"
         />
       </div>
     )
@@ -221,19 +227,19 @@ interface GroupInputWrapperProps extends InputProps { }
 
 /** Input variant that preserves Input styling within the group */
 const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperProps>(
-  (props, ref) => {
+  ({ className, disabled, ...props }, ref) => {
     const context = useGroupContext()
 
     // Merge disabled state from group context
-    const disabled = props.disabled ?? context.groupIsDisabled
+    const inputDisabled = disabled ?? context.groupIsDisabled
 
     return (
-      <div className={styles['group-input-wrapper']}>
+      <div className={cn(styles['group-input-wrapper'], className)}>
         <Input
           ref={ref}
           {...props}
-          disabled={disabled}
-          className={props.className}
+          disabled={inputDisabled}
+          className="w-full"
         />
       </div>
     )

@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 
 const labelVariants = cva(
   "block text-foreground-300 transition-colors",
@@ -27,9 +28,21 @@ const labelVariants = cva(
   }
 );
 
+export interface LabelStyleSlots {
+  root?: StyleValue;
+  requiredIndicator?: StyleValue;
+  helperText?: StyleValue;
+}
+
+export type LabelStylesProp = StylesProp<LabelStyleSlots>;
+
+const resolveLabelBaseStyles = createStylesResolver(['root', 'requiredIndicator', 'helperText'] as const);
+
 export interface LabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement>,
   VariantProps<typeof labelVariants> {
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: LabelStylesProp;
   /** Whether to show a required asterisk indicator */
   required?: boolean;
   /** Helper text shown below the label */
@@ -46,6 +59,7 @@ export interface LabelProps
 
 const Label = ({
   className,
+  styles,
   size,
   disabled,
   error,
@@ -55,17 +69,19 @@ const Label = ({
   children,
   ...props
 }: LabelProps) => {
+  const resolved = resolveLabelBaseStyles(styles);
   return (
     <div className="w-full">
       <label
         className={cn(
-          labelVariants({ size, disabled, error, className })
+          labelVariants({ size, disabled, error, className }),
+          resolved.root
         )}
         {...props}
       >
         {children}
         {required && (
-          <span className="text-danger-600 ml-1" aria-label="required">
+          <span className={cn("text-danger-600 ml-1", resolved.requiredIndicator)} aria-label="required">
             *
           </span>
         )}
@@ -73,7 +89,8 @@ const Label = ({
       {helperText && (
         <p className={cn(
           "text-xs mt-1 transition-colors",
-          helperTextError ? "text-danger-600" : "text-foreground-400"
+          helperTextError ? "text-danger-600" : "text-foreground-400",
+          resolved.helperText
         )}>
           {helperText}
         </p>

@@ -1,6 +1,8 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
 import React from "react";
+
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { GroupContext } from "../Group/Group";
 
 type Orientation = "horizontal" | "vertical";
@@ -41,26 +43,10 @@ function getDottedMaskSvg(orientation: Orientation, size: Size): string {
 
 const dividerVariants = cva("shrink-0", {
   variants: {
-    variant: {
-      solid: "",
-      dashed: "",
-      dotted: "",
-    },
-    orientation: {
-      horizontal: "w-full",
-      vertical: "self-stretch",
-    },
-    size: {
-      sm: "",
-      md: "",
-      lg: "",
-    },
-    spacing: {
-      none: "",
-      sm: "",
-      md: "",
-      lg: "",
-    },
+    variant: { solid: "", dashed: "", dotted: "" },
+    orientation: { horizontal: "w-full", vertical: "self-stretch" },
+    size: { sm: "", md: "", lg: "" },
+    spacing: { none: "", sm: "", md: "", lg: "" },
   },
   compoundVariants: [
     // Size + Orientation → dimensions
@@ -70,7 +56,6 @@ const dividerVariants = cva("shrink-0", {
     { orientation: "vertical", size: "md", class: "w-0.5" },
     { orientation: "horizontal", size: "lg", class: "h-1" },
     { orientation: "vertical", size: "lg", class: "w-1" },
-    // Spacing + Orientation → margins
     { orientation: "horizontal", spacing: "none", class: "my-0" },
     { orientation: "vertical", spacing: "none", class: "mx-0" },
     { orientation: "horizontal", spacing: "sm", class: "my-1" },
@@ -88,6 +73,14 @@ const dividerVariants = cva("shrink-0", {
   },
 });
 
+export interface DividerStyleSlots {
+  root?: StyleValue;
+}
+
+export type DividerStylesProp = StylesProp<DividerStyleSlots>;
+
+const resolveDividerStyles = createStylesResolver(['root'] as const);
+
 export interface DividerProps
   extends React.HTMLAttributes<HTMLDivElement>,
   VariantProps<typeof dividerVariants> {
@@ -99,21 +92,12 @@ export interface DividerProps
   size?: "sm" | "md" | "lg";
   /** Controls the margin around the divider */
   spacing?: "none" | "sm" | "md" | "lg";
+  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: DividerStylesProp;
 }
 
 const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
-  (
-    {
-      className,
-      variant = "solid",
-      orientation,
-      size = "md",
-      spacing,
-      style,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ className, styles, variant = "solid", orientation, size = "md", spacing, style, ...props }, ref) => {
     const groupContext = React.useContext(GroupContext);
 
     const resolvedOrientation = (() => {
@@ -128,13 +112,8 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       return "none";
     })();
     const getMaskStyles = (): React.CSSProperties => {
-      const baseStyles: React.CSSProperties = {
-        backgroundColor: "var(--color-background-700)",
-      };
-
-      if (variant === "solid") {
-        return baseStyles;
-      }
+      const baseStyles: React.CSSProperties = { backgroundColor: "var(--color-background-700)" };
+      if (variant === "solid") return baseStyles
 
       const svgDataUri =
         variant === "dashed"
@@ -153,12 +132,14 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       } as React.CSSProperties;
     };
 
+    const resolved = resolveDividerStyles(styles);
+
     return (
       <div
         ref={ref}
         className={cn(
           dividerVariants({ variant, orientation: resolvedOrientation, size, spacing: resolvedSpacing }),
-          'divider', className,
+          'divider', className, resolved.root,
         )}
         style={{ ...getMaskStyles(), ...style }}
         role="separator"

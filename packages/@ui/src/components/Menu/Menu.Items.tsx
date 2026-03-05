@@ -1,14 +1,26 @@
 import * as React from "react"
 import { Check, Circle } from "lucide-react"
 import { useMenuContext, useMenuSubmenuContext, useRadioGroupContext } from "./Menu"
-import type { MenuItemProps, MenuCheckboxItemProps, MenuRadioItemProps } from "./menu.types"
+import type {
+  MenuItemProps,
+  MenuCheckboxItemProps,
+  MenuRadioItemProps,
+  MenuItemStyleSlots,
+  MenuCheckboxItemStyleSlots,
+  MenuRadioItemStyleSlots,
+} from "./menu.types"
 import styles from "./Menu.module.css"
-import { cn } from "@/lib/utils"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import { List } from "../List"
+
+const resolveMenuItemBaseStyles = createStylesResolver(['root'] as const);
+const resolveMenuCheckboxItemBaseStyles = createStylesResolver(['root', 'indicator'] as const);
+const resolveMenuRadioItemBaseStyles = createStylesResolver(['root', 'indicator'] as const);
 
 /** A clickable action item that closes the menu on selection */
 const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
-  ({ children, disabled = false, onSelect, textValue, inset, className }, ref) => {
+  ({ children, disabled = false, onSelect, textValue, inset, className, styles: stylesProp }, ref) => {
     const parentContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
     const isInSubmenu = submenuContext?.isOpen ?? false
@@ -33,6 +45,8 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
       return () => unregisterItem(key)
     }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
+    const resolved = resolveMenuItemBaseStyles(stylesProp);
+
     return (
       <List.Item
         ref={ref}
@@ -40,7 +54,7 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
         role="menuitem"
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
-        className={cn(styles.item, className)}
+        className={cn(styles.item, className, resolved.root)}
         data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-inset={inset || undefined}
@@ -61,7 +75,7 @@ MenuItem.displayName = "MenuItem"
 
 /** A menu item with a checkmark indicator for toggling a boolean state */
 const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>(
-  ({ children, checked = false, onCheckedChange, disabled = false, onSelect, textValue, className }, ref) => {
+  ({ children, checked = false, onCheckedChange, disabled = false, onSelect, textValue, className, styles: stylesProp }, ref) => {
     const parentContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
     const isInSubmenu = submenuContext?.isOpen ?? false
@@ -87,6 +101,8 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
       return () => unregisterItem(key)
     }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
+    const resolved = resolveMenuCheckboxItemBaseStyles(stylesProp);
+
     return (
       <List.Item
         ref={ref}
@@ -95,7 +111,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
         tabIndex={disabled ? -1 : 0}
         aria-checked={checked}
         aria-disabled={disabled || undefined}
-        className={cn(styles.checkboxItem, className)}
+        className={cn(styles.checkboxItem, className, resolved.root)}
         data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-state={checked ? "checked" : "unchecked"}
@@ -107,7 +123,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
         }}
         onClick={() => handleSelectRef.current?.()}
       >
-        <span className={styles.itemIndicator}>
+        <span className={cn(styles.itemIndicator, resolved.indicator)}>
           {checked && <Check className="h-3 w-3" />}
         </span>
         {children}
@@ -119,7 +135,7 @@ MenuCheckboxItem.displayName = "MenuCheckboxItem"
 
 /** A mutually exclusive option within a MenuRadioGroup */
 const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
-  ({ children, value, disabled = false, onSelect, textValue, className }, ref) => {
+  ({ children, value, disabled = false, onSelect, textValue, className, styles: stylesProp }, ref) => {
     const parentContext = useMenuContext()
     const submenuContext = useMenuSubmenuContext()
     const isInSubmenu = submenuContext?.isOpen ?? false
@@ -147,6 +163,8 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
       return () => unregisterItem(key)
     }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
+    const resolved = resolveMenuRadioItemBaseStyles(stylesProp);
+
     return (
       <List.Item
         ref={ref}
@@ -155,7 +173,7 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
         tabIndex={disabled ? -1 : 0}
         aria-checked={isSelected}
         aria-disabled={disabled || undefined}
-        className={cn(styles.radioItem, className)}
+        className={cn(styles.radioItem, className, resolved.root)}
         data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-state={isSelected ? "checked" : "unchecked"}
@@ -167,7 +185,7 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
         }}
         onClick={() => handleSelectRef.current?.()}
       >
-        <span className={styles.itemIndicator}>
+        <span className={cn(styles.itemIndicator, resolved.indicator)}>
           {isSelected && <Circle className="h-2 w-2 fill-current" />}
         </span>
         {children}

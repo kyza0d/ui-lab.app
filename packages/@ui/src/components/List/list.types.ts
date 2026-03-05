@@ -1,5 +1,13 @@
 import React from 'react';
 import { DividerProps } from '@/components/Divider';
+import { type StyleValue } from '@/lib/utils';
+import { type StylesProp } from '@/lib/styles';
+
+export interface ListStyleSlots {
+  root?: StyleValue;
+}
+
+export type ListStylesProp = StylesProp<ListStyleSlots>;
 
 // Ref API for List
 export interface ListRef {
@@ -58,6 +66,8 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   interactive?: boolean;
   /** Whether the item is in a selected state */
   selected?: boolean;
+  /** Classes applied to the root or named slots. */
+  styles?: ListStylesProp;
   children: React.ReactNode;
 }
 

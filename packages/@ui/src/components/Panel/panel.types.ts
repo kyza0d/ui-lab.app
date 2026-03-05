@@ -1,8 +1,16 @@
 import React from 'react'
+import { StyleValue } from '../../lib/utils'
+import { StylesProp } from '../../lib/styles'
 
 export type PanelSpacing = 'none' | 'sm' | 'md' | 'lg'
 export type PanelVariant = 'default' | 'compact'
 export type PanelSide = 'left' | 'right'
+
+export interface PanelStyleSlots {
+  root?: StyleValue
+}
+
+export type PanelStylesProp = StylesProp<PanelStyleSlots>
 
 export interface PanelContextValue {
   spacing: PanelSpacing
@@ -25,6 +33,8 @@ export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Controls the visual density of the panel */
   variant?: PanelVariant
   children: React.ReactNode
+  /** Slot styles. */
+  styles?: PanelStylesProp
 }
 
 export interface PanelHeaderProps extends React.HTMLAttributes<HTMLElement> {

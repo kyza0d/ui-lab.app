@@ -1,10 +1,21 @@
 "use client";
 
 import React, { forwardRef, useState } from "react";
-import { cn } from "@/lib/utils";
-import styles from "./Checkbox.module.css";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Checkbox.module.css";
 
 type Size = "sm" | "md" | "lg";
+
+export interface CheckboxStyleSlots {
+  root?: StyleValue;
+  label?: StyleValue;
+  helperText?: StyleValue;
+}
+
+export type CheckboxStylesProp = StylesProp<CheckboxStyleSlots>;
+
+const resolveCheckboxBaseStyles = createStylesResolver(['root', 'label', 'helperText'] as const);
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -18,18 +29,20 @@ export interface CheckboxProps
   helperTextError?: boolean;
   /** Whether to show an indeterminate (partial selection) state */
   isIndeterminate?: boolean;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: CheckboxStylesProp;
 }
 
 const sizeMap: Record<Size, string> = {
-  sm: styles["size-sm"],
-  md: styles["size-md"],
-  lg: styles["size-lg"],
+  sm: css["size-sm"],
+  md: css["size-md"],
+  lg: css["size-lg"],
 };
 
 const labelSizeMap: Record<Size, string> = {
-  sm: styles["label-sm"],
-  md: styles["label-md"],
-  lg: styles["label-lg"],
+  sm: css["label-sm"],
+  md: css["label-md"],
+  lg: css["label-lg"],
 };
 
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
@@ -46,6 +59,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       defaultChecked,
       onChange,
       isIndeterminate = false,
+      styles,
       ...props
     },
     ref
@@ -116,9 +130,11 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     const isControlled = checked !== undefined;
     const displayChecked = isControlled ? checked : internalChecked;
 
+    const resolved = resolveCheckboxBaseStyles(styles);
+
     return (
-      <div ref={ref} className={cn("checkbox-root", styles['checkbox-root'])}>
-        <div className={cn((styles as any)['checkbox-container'], sizeMap[size])}>
+      <div ref={ref} className={cn("checkbox-root", css['checkbox-root'], resolved.root)}>
+        <div className={cn((css as any)['checkbox-container'], sizeMap[size])}>
           <input
             ref={inputRef}
             type="checkbox"
@@ -135,8 +151,8 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             onKeyUp={handleKeyUp}
             className={cn(
               'checkbox',
-              styles.checkbox,
-              isIndeterminate && styles.indeterminate,
+              css.checkbox,
+              isIndeterminate && css.indeterminate,
               className
             )}
             data-size={size}
@@ -149,7 +165,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           />
           {displayChecked && !isIndeterminate && (
             <svg
-              className={(styles as any)['checkbox-checkmark']}
+              className={(css as any)['checkbox-checkmark']}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -162,7 +178,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           )}
           {isIndeterminate && (
             <svg
-              className={styles['checkbox-indeterminate']}
+              className={css['checkbox-indeterminate']}
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -174,9 +190,10 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           <label
             htmlFor={id}
             className={cn(
-              styles.label,
+              css.label,
               labelSizeMap[size],
-              disabled && styles["label-disabled"]
+              disabled && css["label-disabled"],
+              resolved.label
             )}
           >
             {label}
@@ -185,10 +202,11 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         {helperText && (
           <p
             className={cn(
-              styles["helper-text"],
+              css["helper-text"],
               helperTextError
-                ? styles["helper-text-error"]
-                : styles["helper-text-normal"]
+                ? css["helper-text-error"]
+                : css["helper-text-normal"],
+              resolved.helperText
             )}
           >
             {helperText}

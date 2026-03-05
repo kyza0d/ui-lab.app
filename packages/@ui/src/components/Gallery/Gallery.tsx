@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import { useFocusRing, useHover, usePress, mergeProps } from "react-aria"
-import { cn } from "@/lib/utils"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import { Grid } from "../Grid"
 import styles from "./Gallery.module.css"
 
@@ -25,6 +26,8 @@ interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   rows?: "1" | "2" | "3" | "4" | "5" | "6" | "auto"
   /** Whether to enable container-query-based responsive columns */
   containerQueryResponsive?: boolean
+  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: GalleryStylesProp
 }
 
 interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
@@ -38,6 +41,8 @@ interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
   rowSpan?: number
   /** Controls the item's layout orientation */
   orientation?: "vertical" | "horizontal"
+  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: GalleryStylesProp
 }
 
 interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -46,6 +51,14 @@ interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
+
+export interface GalleryStyleSlots {
+  root?: StyleValue;
+}
+
+export type GalleryStylesProp = StylesProp<GalleryStyleSlots>;
+
+const resolveGalleryBaseStyles = createStylesResolver(['root'] as const);
 
 // Helper to map numeric columns to Grid's column values
 const mapColumnsToGrid = (columns?: GridColumns | number | ResponsiveColumns): GridColumns | ResponsiveColumns => {
@@ -77,9 +90,10 @@ const mapGapToGrid = (gap?: GridGap | number | string): GridGap => {
 
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, gap = "md", rows, containerQueryResponsive, className, children, ...props }, ref) => {
+  ({ columns = 3, gap = "md", rows, containerQueryResponsive, className, styles: stylesProp, children, ...props }, ref) => {
     const gridColumns = mapColumnsToGrid(columns)
     const gridGap = mapGapToGrid(gap)
+    const resolved = resolveGalleryBaseStyles(stylesProp);
 
     return (
       <Grid
@@ -88,7 +102,7 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
         gap={gridGap}
         rows={rows}
         containerQueryResponsive={containerQueryResponsive}
-        className={className}
+        className={cn(className, resolved.root)}
         {...props}
       >
         {children}
@@ -101,7 +115,8 @@ GalleryRoot.displayName = "Gallery"
 // Gallery Item Component
 /** A single media or content tile in the gallery grid */
 const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
-  ({ href, onPress, columnSpan, rowSpan, orientation = "vertical", className, style, children, ...props }, ref) => {
+  ({ href, onPress, columnSpan, rowSpan, orientation = "vertical", className, style, styles: stylesProp, children, ...props }, ref) => {
+    const resolved = resolveGalleryBaseStyles(stylesProp);
     const elementRef = React.useRef<HTMLElement>(null)
     const combinedRef = (node: HTMLElement | null) => {
       (elementRef as React.MutableRefObject<HTMLElement | null>).current = node
@@ -135,7 +150,7 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
       hoverProps,
       pressProps,
       {
-        className: cn(styles.item, className),
+        className: cn(styles.item, className, resolved.root),
         style: spanStyles,
         "data-focus-visible": isFocusVisible || undefined,
         "data-hovered": isHovered || undefined,

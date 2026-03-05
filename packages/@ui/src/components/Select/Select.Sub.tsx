@@ -1,10 +1,10 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { useFloating, flip, offset, autoUpdate } from "@floating-ui/react-dom"
-import { useHover } from "react-aria"
+import { useHover } from "@react-aria/interactions"
 import { ChevronRight } from "lucide-react"
 import { useSelectContext, SelectContext, type SelectContextValue } from "./Select"
-import type { Key } from "react-aria"
+import type { Key } from "@react-types/shared"
 import styles from "./Select.module.css"
 import { cn } from "@/lib/utils"
 import { useListNavigation, handleListKeyDown } from "./Select.shared"
@@ -426,10 +426,10 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
       registerItem: stableRegisterItem,
       unregisterItem: stableUnregisterItem,
       focusedKey: submenuContext?.focusedKey ?? null,
-      setFocusedKey: submenuContext?.setFocusedKey ?? (() => {}),
-      navigateToNextItem: submenuContext?.navigateToNextItem ?? (() => {}),
-      navigateToPrevItem: submenuContext?.navigateToPrevItem ?? (() => {}),
-      selectFocusedItem: submenuContext?.selectFocusedItem ?? (() => {}),
+      setFocusedKey: submenuContext?.setFocusedKey ?? (() => { }),
+      navigateToNextItem: submenuContext?.navigateToNextItem ?? (() => { }),
+      navigateToPrevItem: submenuContext?.navigateToPrevItem ?? (() => { }),
+      selectFocusedItem: submenuContext?.selectFocusedItem ?? (() => { }),
       isFocusedItemSubmenu: submenuContext?.isFocusedItemSubmenu ?? (() => false),
       mouseMoveDetectedRef: submenuContext?.mouseMoveDetectedRef ?? rootContext.mouseMoveDetectedRef,
       searchValue: "",

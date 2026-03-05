@@ -3,10 +3,21 @@
 import * as React from "react";
 import { useToggleState, ToggleState } from "react-stately";
 import { useButton, useFocusRing, mergeProps } from "react-aria";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { Divider, DividerProps } from "@/components/Divider";
 import styles from "./Expand.module.css";
-import { FaChevronDown } from "react-icons/fa6";
+import { ChevronDown } from "lucide-react";
+
+export interface ExpandStyleSlots {
+  root?: StyleValue;
+  trigger?: StyleValue;
+  content?: StyleValue;
+}
+
+export type ExpandStylesProp = StylesProp<ExpandStyleSlots>;
+
+const resolveExpandBaseStyles = createStylesResolver(['root', 'trigger', 'content'] as const);
 
 interface ExpandContextValue {
   state: ToggleState;
@@ -38,9 +49,7 @@ const ExpandIcon = React.forwardRef<HTMLSpanElement, ExpandIconProps>(
   ({ children, className, ...props }, ref) => {
     return (
       <span ref={ref} className={cn(styles.icon, className)} {...props}>
-        {children ?? (
-          <FaChevronDown size={11} className="text-foreground-400" />
-        )}
+        {children ?? <ChevronDown size={16} className="text-foreground-400" />}
       </span>
     );
   },
@@ -191,6 +200,8 @@ export interface ExpandProps
   triggerClassName?: string;
   /** Additional CSS class for the content area */
   contentClassName?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: ExpandStylesProp;
 }
 
 const ExpandRoot = React.forwardRef<HTMLDivElement, ExpandProps>(
@@ -213,13 +224,14 @@ const ExpandRoot = React.forwardRef<HTMLDivElement, ExpandProps>(
       onChange: onExpandedChange || onChange,
     });
 
-    const { title, triggerClassName, contentClassName, ...divProps } = props;
+    const { title, triggerClassName, contentClassName, styles: expandStyles, ...divProps } = props;
+    const resolved = resolveExpandBaseStyles(expandStyles);
 
     return (
       <ExpandContext.Provider value={{ state, isDisabled }}>
         <div
           ref={ref}
-          className={cn("expand", styles.expand, className)}
+          className={cn("expand", styles.expand, className, resolved.root)}
           data-disabled={isDisabled || undefined}
           {...divProps}
         >
@@ -243,6 +255,7 @@ const Expand = React.forwardRef<
 >((props, ref) => {
   const { title, children, triggerClassName, contentClassName, ...rootProps } =
     props;
+  const resolved = resolveExpandBaseStyles(props.styles);
 
   // If title is provided, use the "Preset" structure (Backward Compatibility)
   if (title !== undefined) {
@@ -256,9 +269,9 @@ const Expand = React.forwardRef<
 
     return (
       <ExpandRoot ref={ref} {...rootProps}>
-        <ExpandTrigger className={triggerClassName}>{title}</ExpandTrigger>
+        <ExpandTrigger className={cn(triggerClassName, resolved.trigger)}>{title}</ExpandTrigger>
         {customDivider || <ExpandDivider />}
-        <ExpandContent className={contentClassName}>
+        <ExpandContent className={cn(contentClassName, resolved.content)}>
           {filteredChildren}
         </ExpandContent>
       </ExpandRoot>
