@@ -3,6 +3,7 @@
   "name": "Code",
   "description": "Syntax-highlighted code display with horizontal scroll, line expand, and copy button.",
   "category": "display",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Code",

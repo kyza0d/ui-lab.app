@@ -3,6 +3,7 @@
   "name": "Command",
   "description": "Searchable command palette for quick action access.",
   "category": "action",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "CommandPalette",

@@ -72,28 +72,6 @@ export const componentRegistry: ComponentRegistry = {
 ],
   },
 
-  breadcrumbs: {
-    id: "breadcrumbs",
-    name: "Breadcrumbs",
-    description: "Navigation component showing page hierarchy with links to parent pages.",
-    category: "navigation",
-    source: {
-  "packageName": "ui-lab-components",
-  "exportName": "Breadcrumbs",
-  "packagePath": "dist/index.d.ts"
-},
-    relatedComponents: [],
-    tags: ["navigation","breadcrumb","hierarchy","parent-pages"],
-    accessibility: {"hasAriaSupport":true,"notes":["Uses nav element with landmark role","Semantic ordered list structure","Current page marked with aria-current","Full keyboard navigation support","Screen reader friendly labels"]},
-    examples: [
-    {
-        "title": "Basic Breadcrumbs",
-        "description": "A simple breadcrumb navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
-        "code": "import { Breadcrumbs, Breadcrumb } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Breadcrumbs>\n      <Breadcrumb href=\"/\">Home</Breadcrumb>\n      <Breadcrumb href=\"/products\">Products</Breadcrumb>\n      <Breadcrumb href=\"/products/electronics\">Electronics</Breadcrumb>\n      <Breadcrumb>Laptop</Breadcrumb>\n    </Breadcrumbs>\n  );\n}"
-    }
-],
-  },
-
   button: {
     id: "button",
     name: "Button",
@@ -164,6 +142,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Code",
     description: "Syntax-highlighted code display with horizontal scroll, line expand, and copy button.",
     category: "display",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Code",
@@ -180,6 +159,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Color",
     description: "Custom color picker with 2D canvas, hue slider, and format selection.",
     category: "input",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Color",
@@ -212,6 +192,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Command",
     description: "Searchable command palette for quick action access.",
     category: "action",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "CommandPalette",
@@ -224,7 +205,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Command Palette",
         "description": "A searchable command palette with keyboard shortcuts. Use Cmd+K (or Ctrl+K) to open.",
-        "code": "'use client';\n\nimport React from 'react';\nimport { Command, Button, Badge } from 'ui-lab-components';\n\nexport default function Example() {\n  const [open, setOpen] = React.useState(false);\n\n  const commands = [\n    {\n      id: 'search',\n      label: 'Search',\n      description: 'Search documents',\n      shortcut: '⌘F',\n      action: () => console.log('Search'),\n    },\n    {\n      id: 'create',\n      label: 'Create new',\n      description: 'Create a new document',\n      shortcut: '⌘N',\n      action: () => console.log('Create'),\n    },\n    {\n      id: 'settings',\n      label: 'Settings',\n      description: 'Open application settings',\n      shortcut: '⌘,',\n      action: () => console.log('Settings'),\n    },\n  ];\n\n  return (\n    <>\n      <Button onClick={() => setOpen(true)}>\n        Open Palette (⌘K)\n      </Button>\n      <Command\n        open={open}\n        onOpenChange={setOpen}\n        items={commands}\n      >\n        <Command.SearchInput placeholder=\"Search commands...\" />\n        <Command.List>\n          <Command.Groups\n            renderCategory={(category) =>\n              category ? <Command.Category>{category}</Command.Category> : null\n            }\n            renderItem={(cmd) => (\n              <Command.Item\n                key={cmd.id}\n                value={cmd.id}\n                textValue={cmd.label}\n                action={cmd.action}\n              >\n                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n                  <div>\n                    <div style={{ fontWeight: 500 }}>{cmd.label}</div>\n                    {cmd.description && (\n                      <div style={{ fontSize: '0.875em', opacity: 0.7 }}>\n                        {cmd.description}\n                      </div>\n                    )}\n                  </div>\n                  {cmd.shortcut && (\n                    <Badge>{cmd.shortcut}</Badge>\n                  )}\n                </div>\n              </Command.Item>\n            )}\n          />\n        </Command.List>\n      </Command>\n    </>\n  );\n}"
+        "code": "'use client';\n\nimport React from 'react';\nimport { Command, Button, Badge } from 'ui-lab-components';\n\nexport default function Example() {\n  const [open, setOpen] = React.useState(false);\n\n  const commands = [\n    {\n      id: 'search',\n      label: 'Search',\n      description: 'Search documents',\n      shortcut: '⌘F',\n      action: () => console.log('Search'),\n    },\n    {\n      id: 'create',\n      label: 'Create new',\n      description: 'Create a new document',\n      shortcut: '⌘N',\n      action: () => console.log('Create'),\n    },\n    {\n      id: 'settings',\n      label: 'Settings',\n      description: 'Open application settings',\n      shortcut: '⌘,',\n      action: () => console.log('Settings'),\n    },\n  ];\n\n  return (\n    <>\n      <Button onClick={() => setOpen(true)}>\n        Open Palette (⌘K)\n      </Button>\n      <Command\n        open={open}\n        onOpenChange={setOpen}\n        items={commands}\n      >\n        <Command.SearchInput placeholder=\"Search commands...\" />\n        <Command.List>\n          <Command.Groups\n            renderCategory={(category) =>\n              category ? <Command.Category>{category}</Command.Category> : null\n            }\n            renderItem={(cmd) => (\n              <Command.Item\n                key={cmd.id}\n                value={cmd.id}\n                textValue={cmd.label}\n                action={cmd.action}\n                hint={cmd.shortcut}\n              >\n                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n                  <div>\n                    <div style={{ fontWeight: 500 }}>{cmd.label}</div>\n                    {cmd.description && (\n                      <div style={{ fontSize: '0.875em', opacity: 0.7 }}>\n                        {cmd.description}\n                      </div>\n                    )}\n                  </div>\n                </div>\n              </Command.Item>\n            )}\n          />\n        </Command.List>\n      </Command>\n    </>\n  );\n}"
     }
 ],
   },
@@ -246,7 +227,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Basic Confirm",
         "description": "A confirmation dialog for critical actions. Use this to prevent accidental deletions or destructive operations.",
-        "code": "import { Confirmation } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Confirmation\n      triggerLabel=\"Delete Account\"\n      title=\"Are you sure?\"\n      description=\"This action cannot be undone. All your data will be permanently deleted.\"\n      confirmLabel=\"Delete\"\n      cancelLabel=\"Cancel\"\n      onConfirm={() => console.log('Account deleted')}\n      onCancel={() => console.log('Cancelled')}\n    />\n  );\n}"
+        "code": "import { Confirm } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Confirm\n      triggerLabel=\"Delete Account\"\n      title=\"Are you sure?\"\n      description=\"This action cannot be undone. All your data will be permanently deleted.\"\n      confirmLabel=\"Delete\"\n      cancelLabel=\"Cancel\"\n      onConfirm={() => console.log('Account deleted')}\n      onCancel={() => console.log('Cancelled')}\n    />\n  );\n}"
     }
 ],
   },
@@ -552,6 +533,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Menu",
     description: "Context menu for right-click actions.",
     category: "navigation",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Menu",
@@ -606,6 +588,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Page",
     description: "A lightweight page container that provides page-level context, constraints, and semantic structure.",
     category: "container",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Page",
@@ -622,6 +605,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Panel",
     description: "A flexible region coordinator that manages header, footer, and content areas with responsive stacking behavior.",
     category: "composition",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Panel",
@@ -631,6 +615,33 @@ export const componentRegistry: ComponentRegistry = {
     tags: ["composition","panel","regions","responsive","sticky"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses semantic HTML elements (header, main, footer)","Provides context to child components","Supports responsive viewport detection","Sticky header respects user preferences"]},
     examples: [],
+  },
+
+  path: {
+    id: "path",
+    name: "Path",
+    description: "Navigation component showing page hierarchy with links to parent pages.",
+    category: "navigation",
+    source: {
+  "packageName": "ui-lab-components",
+  "exportName": "Path",
+  "packagePath": "dist/index.d.ts"
+},
+    relatedComponents: [],
+    tags: ["navigation","path","hierarchy","parent-pages"],
+    accessibility: {"hasAriaSupport":true,"notes":["Uses nav element with landmark role","Semantic ordered list structure","Current page marked with aria-current","Full keyboard navigation support","Screen reader friendly labels"]},
+    examples: [
+    {
+        "title": "Basic Path",
+        "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
+        "code": "import { PathItem, Path } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <PathItem href=\"/\">Home</PathItem>\n      <PathItem href=\"/products\">Products</PathItem>\n      <PathItem href=\"/products/electronics\">Electronics</PathItem>\n      <PathItem>Laptop</PathItem>\n    </Path>\n  );\n}"
+    },
+    {
+        "title": "Basic Path",
+        "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
+        "code": "import { Path, PathItem } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <PathItem href=\"/\">Home</PathItem>\n      <PathItem href=\"/products\">Products</PathItem>\n      <PathItem href=\"/products/electronics\">Electronics</PathItem>\n      <PathItem>Laptop</PathItem>\n    </Path>\n  );\n}"
+    }
+],
   },
 
   popover: {
@@ -731,6 +742,7 @@ export const componentRegistry: ComponentRegistry = {
     name: "Select",
     description: "Dropdown select component for choosing from multiple options.",
     category: "input",
+    experimental: true,
     source: {
   "packageName": "ui-lab-components",
   "exportName": "Select",
@@ -894,9 +906,9 @@ export const componentRegistry: ComponentRegistry = {
         "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        size=\"sm\"\n        onClick={() =>\n          toast({\n            title: 'Success',\n            description: 'Operation completed successfully',\n            variant: 'success',\n          })\n        }\n      >\n        Show Success\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
     },
     {
-        "title": "Destructive Toast",
+        "title": "Danger Toast",
         "description": "Toast notification for errors or destructive operations.",
-        "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        size=\"sm\"\n        onClick={() =>\n          toast({\n            title: 'Error',\n            description: 'Something went wrong',\n            variant: 'destructive',\n          })\n        }\n      >\n        Show Error\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
+        "code": "import React from 'react';\nimport { Button, toast, Toaster } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <>\n      <Button\n        size=\"sm\"\n        onClick={() =>\n          toast({\n            title: 'Error',\n            description: 'Something went wrong',\n            variant: 'danger',\n          })\n        }\n      >\n        Show Error\n      </Button>\n      <Toaster />\n    </>\n  );\n}"
     },
     {
         "title": "Info Toast",

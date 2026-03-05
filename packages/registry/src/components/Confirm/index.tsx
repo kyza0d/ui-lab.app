@@ -1,5 +1,5 @@
 import React from 'react';
-import { Confirmation } from 'ui-lab-components';
+import { Confirm } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-confirm.js';
 import examplesJson from './examples.json' with { type: 'json' };
@@ -68,7 +68,7 @@ export const confirmDetail: ComponentDetail = {
       description: 'Adjust props to customize the component',
       code: confirmBasicCode,
       preview: (
-        <Confirmation
+        <Confirm
           triggerLabel="Delete"
           title="Are you sure?"
           description="This action cannot be undone."
@@ -80,7 +80,7 @@ export const confirmDetail: ComponentDetail = {
       ),
       controls: confirmControls,
       renderPreview: (props: any) => (
-        <Confirmation
+        <Confirm
           triggerLabel={props.triggerLabel}
           title={props.title}
           description={props.description}
@@ -100,7 +100,7 @@ export const confirmDetail: ComponentDetail = {
       description: 'Basic confirm dialog for destructive actions.',
       code: confirmBasicCode,
       preview: (
-        <Confirmation
+        <Confirm
           triggerLabel="Delete Account"
           title="Are you sure?"
           description="This action cannot be undone."

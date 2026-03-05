@@ -19,8 +19,9 @@ export type {
   ColorRecommendationRegistry,
 } from './design-tokens/index.js';
 
-// Generated data (auto-populated by scripts/generate-registry-data.ts)
-export { generatedAPI, generatedStyles, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies, packageMetadata } from './generated-data.js';
+// Generated data (auto-populated by scripts)
+export { generatedAPI, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies, packageMetadata } from './generated-data.js';
+export { generatedStyles } from './generated-styles.js';
 
 const BASE = "https://github.com/kyza0d/ui-lab.app/tree/master/packages/%40ui/src/components";
 
@@ -28,7 +29,7 @@ export const sourceUrls: Record<string, string> = {
   "anchor":       `${BASE}/Anchor`,
   "badge":        `${BASE}/Badge`,
   "banner":       `${BASE}/Banner`,
-  "breadcrumbs":  `${BASE}/Breadcrumbs`,
+  "path":        `${BASE}/Path`,
   "button":       `${BASE}/Button`,
   "card":         `${BASE}/Card`,
   "checkbox":     `${BASE}/Checkbox`,

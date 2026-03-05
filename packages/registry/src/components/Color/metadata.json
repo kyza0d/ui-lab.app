@@ -3,6 +3,7 @@
   "name": "Color",
   "description": "Custom color picker with 2D canvas, hue slider, and format selection.",
   "category": "input",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Color",

@@ -3,6 +3,7 @@
   "name": "Menu",
   "description": "Context menu for right-click actions.",
   "category": "navigation",
+  "experimental": true,
   "source": {
     "packageName": "ui-lab-components",
     "exportName": "Menu",
