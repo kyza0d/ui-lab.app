@@ -1,0 +1,28 @@
+{
+  "id": "path",
+  "name": "Path",
+  "description": "Navigation component showing page hierarchy with links to parent pages.",
+  "category": "navigation",
+  "source": {
+    "packageName": "ui-lab-components",
+    "exportName": "Path",
+    "packagePath": "dist/index.d.ts"
+  },
+  "relatedComponents": [],
+  "tags": [
+    "navigation",
+    "path",
+    "hierarchy",
+    "parent-pages"
+  ],
+  "accessibility": {
+    "hasAriaSupport": true,
+    "notes": [
+      "Uses nav element with landmark role",
+      "Semantic ordered list structure",
+      "Current page marked with aria-current",
+      "Full keyboard navigation support",
+      "Screen reader friendly labels"
+    ]
+  }
+}

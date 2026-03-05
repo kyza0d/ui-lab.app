@@ -7,17 +7,48 @@
     "idleClass": "text-background-500",
     "hoverClass": "text-accent-500",
     "idleFillOpacity": 0.2,
-    "hoverFillOpacity": 0.40,
-    "idleStrokeOpacity": 0.40,
+    "hoverFillOpacity": 0.4,
+    "idleStrokeOpacity": 0.4,
     "hoverStrokeOpacity": 0.6
   },
   "dim": {
-    "class": "bg-background-400",
+    "class": "text-background-400",
+    "strokeClass": "text-background-500",
     "fillOpacity": 0.05,
     "strokeOpacity": 0.2
   },
   "bar": {
-    "primaryOpacity": 0.90,
+    "primaryOpacity": 0.9,
     "secondaryOpacity": 0.3
+  },
+  "skeleton": {
+    "mediaIdleOpacity": 0.2,
+    "mediaDimOpacity": 0.5,
+    "textLine1IdleOpacity": 0.5,
+    "textLine1DimOpacity": 0.5,
+    "textLine2IdleOpacity": 0.3,
+    "textLine2DimOpacity": 0.3
+  },
+  "activeContent": {
+    "mediaIdleOpacity": 0.2,
+    "mediaActiveOpacity": 0.25,
+    "labelIdleOpacity": 0.5,
+    "labelActiveOpacity": 0.9,
+    "subtextIdleOpacity": 0.3,
+    "subtextActiveOpacity": 0.15,
+    "subtextClass": "text-foreground-500",
+    "interactiveIdleOpacity": 0.5,
+    "interactiveActiveOpacity": 1,
+    "interactiveRectOpacity": 0.2
+  },
+  "guidelines": {
+    "colorClass": "text-foreground-300",
+    "idleOpacity": 0.15,
+    "hoverOpacity": 0.30
+  },
+  "accentOutline": {
+    "colorClass": "text-accent-500",
+    "idleOpacity": 0,
+    "hoverOpacity": 0.4
   }
 }
