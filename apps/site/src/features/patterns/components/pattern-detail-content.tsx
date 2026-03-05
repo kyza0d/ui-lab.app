@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { BreadcrumbsNav } from '@/features/navigation';
+import { PathNav } from '@/features/navigation';
 import { getPatternById } from 'ui-lab-registry';
 import { getPatternDemo } from 'ui-lab-registry/demo-registry';
 import { PreviewCodeDisplay, DEVICE_PRESETS } from '@/features/preview';
@@ -43,7 +43,7 @@ export function PatternDetailContent({ patternId }: PatternDetailContentProps) {
 
   return (
     <div className="pt-(header-height)">
-      <BreadcrumbsNav />
+      <PathNav />
       <div className="w-full bg-background-950 mx-auto min-h-screen flex flex-col pt-60 pb-12">
         <div className="w-full mx-auto px-4 flex flex-col flex-1 max-w-4xl">
 

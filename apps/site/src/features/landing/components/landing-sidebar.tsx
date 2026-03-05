@@ -54,7 +54,7 @@ const SidebarItemLink = memo(function SidebarItemLink({
 });
 
 const LANDING_NAV_ITEMS = [
-  { id: 'release-notes', label: 'Release Notes', href: '/releases', icon: FaTags },
+  { id: 'release-notes', label: 'Changelog', href: '/changelog', icon: FaTags },
   { id: 'docs', label: 'Getting Started', href: '/docs', icon: FaBook },
   { id: 'design-system', label: 'Design System', href: '/design-system', icon: FaSwatchbook },
   { id: 'community', label: 'Community', href: '/community', icon: FaUsers },
@@ -83,7 +83,7 @@ export function LandingSidebar() {
 
       <aside className={cn(
         'w-64 flex flex-col lg:-mt-4',
-        'fixed lg:static left-0 top-0 h-screen lg:h-auto border-r border-background-700',
+        'fixed lg:static left-0 top-0 h-screen lg:h-auto border-r border-background-700/40',
         'z-[55] lg:z-20',
         'transition-transform duration-300 ease-out',
         'lg:transition-none lg:transform-none',
@@ -119,7 +119,7 @@ export function LandingSidebar() {
                     key={navItem.id}
                     href={navItem.href}
                     className={cn(
-                      "flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs font-semibold rounded-sm",
+                      "flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs font-medium rounded-sm",
                       isActive
                         ? "border-background-700 text-foreground-50 bg-background-800"
                         : "border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60"
@@ -133,7 +133,7 @@ export function LandingSidebar() {
                     >
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-xs font-semibold">{navItem.label}</span>
+                    <span className="text-xs font-medium">{navItem.label}</span>
                   </Link>
                 );
               })}
@@ -173,7 +173,7 @@ export function LandingSidebar() {
                     <SidebarItemLink
                       href="/docs/troubleshooting"
                       className={cn(
-                        'block px-3 py-1.5 text-xs rounded-sm cursor-pointer',
+                        'block px-3 py-1.5 font-medium text-xs rounded-sm cursor-pointer',
                         'transition-colors duration-300 ease-out',
                         'hover:duration-0',
                         'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
@@ -184,7 +184,7 @@ export function LandingSidebar() {
                     <SidebarItemLink
                       href="/docs"
                       className={cn(
-                        'block px-3 py-1.5 text-xs rounded-sm cursor-pointer',
+                        'block px-3 py-1.5 font-medium text-xs rounded-sm cursor-pointer',
                         'transition-colors duration-300 ease-out',
                         'hover:duration-0',
                         'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
@@ -206,7 +206,7 @@ export function LandingSidebar() {
                         key={link.href}
                         href={link.href}
                         className={cn(
-                          'block px-3 py-1.5  font-medium text-xs rounded-sm cursor-pointer',
+                          'block px-3 py-1.5 font-medium text-xs rounded-sm cursor-pointer',
                           'transition-colors duration-300 ease-out',
                           'hover:duration-0',
                           'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'

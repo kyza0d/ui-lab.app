@@ -9,6 +9,7 @@ import {
   FaSun,
 } from "react-icons/fa6";
 import { componentRegistry, getCategoryIcon } from "@/features/component-docs";
+import { SIDEBAR_REGISTRY } from "@/features/navigation/lib/generated-sidebar-registry";
 import { toolsItems } from "@/features/layout/components/header/data";
 import type { CommandItem } from "ui-lab-components";
 
@@ -26,34 +27,39 @@ export function useCommands({
   return useMemo(() => {
     const cmds: CommandItem[] = [];
 
-    cmds.push({
-      id: "docs-overview",
-      label: "Documentation Overview",
-      description: "View the documentation home page",
-      category: "Documentation",
-      icon: <FaBook className="w-4 h-4" />,
-      keywords: ["docs", "overview", "documentation"],
-      action: () => router.push("/docs"),
-    });
 
-    cmds.push({
-      id: "docs-installation",
-      label: "Installation Guide",
-      description: "How to install and set up UI Lab",
-      category: "Documentation",
-      icon: <FaBook className="w-4 h-4" />,
-      keywords: ["install", "setup", "guide"],
-      action: () => router.push("/docs/installation"),
-    });
 
-    cmds.push({
-      id: "docs-usage",
-      label: "Usage Guide",
-      description: "Learn how to use UI Lab components",
-      category: "Documentation",
-      icon: <FaBook className="w-4 h-4" />,
-      keywords: ["usage", "how-to", "guide"],
-      action: () => router.push("/docs/usage"),
+
+
+
+
+
+
+    Object.entries(SIDEBAR_REGISTRY).forEach(([domain, domainRegistry]) => {
+      Object.values(domainRegistry.fileMap).forEach((file) => {
+        const categoryPrefix =
+          domain === "docs"
+            ? "Docs"
+            : domain === "design-system"
+              ? "Design System"
+              : "";
+        const category = categoryPrefix ? `${categoryPrefix} - ${file.category}` : file.category;
+
+        cmds.push({
+          id: `${domain}-${file.slug}`,
+          label: file.title,
+          description: file.description,
+          category: category || categoryPrefix,
+          icon: <FaBook className="w-4 h-4" />,
+          keywords: [
+            domain,
+            file.slug,
+            file.title.toLowerCase(),
+            ...(file.category ? [file.category.toLowerCase()] : []),
+          ],
+          action: () => router.push(`/${domain}/${file.slug}`),
+        });
+      });
     });
 
     componentRegistry.forEach((component) => {
@@ -78,16 +84,6 @@ export function useCommands({
         keywords: [tool.title.toLowerCase()],
         action: () => router.push(tool.href),
       });
-    });
-
-    cmds.push({
-      id: "agents-mcps",
-      label: "Agents & MCPs",
-      description: "View agents and MCP documentation",
-      category: "Navigation",
-      icon: <FaPlug className="w-4 h-4" />,
-      keywords: ["agents", "mcps", "plugins"],
-      action: () => router.push("/agents-mcps"),
     });
 
     cmds.push({

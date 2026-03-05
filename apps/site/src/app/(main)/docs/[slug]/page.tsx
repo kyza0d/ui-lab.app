@@ -60,10 +60,6 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
             options={mdxOptions}
           />
         </div>
-
-        <div className="mt-20 text-sm text-foreground-400">
-          © 2026 UI Lab • Built for humans and machines
-        </div>
       </main>
     </div>
   )

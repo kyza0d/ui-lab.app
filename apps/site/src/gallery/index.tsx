@@ -6,15 +6,16 @@ import {
   Frame,
   Mask,
 } from "ui-lab-components";
+import { CardAnimation } from "./timelines/card.animation";
 import { DividerAnimation } from "./timelines/divider.animation";
 import { ExpandAnimation } from "./timelines/expand.animation";
 import { GridAnimation } from "./timelines/grid.animation";
 import { FlexAnimation } from "./timelines/flex.animation";
+import { GroupAnimation } from "./timelines/group.animation";
 import {
   FaInfo,
   FaCircleInfo,
   FaChevronRight,
-  FaCheck,
   FaX,
   FaChevronDown,
   FaMagnifyingGlass,
@@ -22,8 +23,16 @@ import {
   FaQuestion,
 } from "react-icons/fa6";
 import { GalleryAnimation } from "./timelines/gallery.animation";
+import { ListAnimation } from "./timelines/list.animation";
+import { PanelAnimation } from "./timelines/panel.animation";
+import { ButtonAnimation } from "./timelines/button.animation";
+import { CheckboxAnimation } from "./timelines/checkbox.animation";
+import { ConfirmAnimation } from "./timelines/confirm.animation";
+import { CommandAnimation } from "./timelines/command.animation";
+import { DateAnimation } from "./timelines/date.animation";
 
-const TAIL_PATH = "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
+const TAIL_PATH =
+  "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
 const TAIL_WIDTH = 18;
 
 export const previews: Record<string, React.ReactNode> = {
@@ -59,7 +68,7 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  breadcrumbs: (
+  path: (
     <div className="w-[70%] flex items-center gap-3 max-w-sm">
       <div className="w-[60%] h-4 opacity-10 rounded-md bg-background-500"></div>
       <FaChevronRight
@@ -70,42 +79,10 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  button: (
-    <div className="w-[80px] h-[30px] flex bg-background-900 items-center justify-center border border-background-700 rounded-md">
-      <div className="w-[70%] h-2 opacity-10 rounded-md bg-background-500"></div>
-    </div>
-  ),
+  button: <ButtonAnimation />,
+  card: <CardAnimation />,
 
-  card: (
-    <div className="w-[50%]">
-      <div className="w-full border border-background-700 rounded bg-background-950">
-        <div className="p-1 mb-2">
-          <div className="w-full h-[42px] rounded-[3px] bg-background-900" />
-        </div>
-        <div className="w-[70%] h-1 opacity-10 rounded-md ml-2 bg-background-500"></div>
-        <div className="w-[60%] h-1 opacity-10 rounded-md ml-2 mt-2 bg-background-500"></div>
-
-        <div className="mt-4 py-1 border-t border-background-700 flex items-center gap-1">
-          <div className="w-[35%] h-3 ml-auto flex justify-center items-center rounded-xs gap-2 pl-1 bg-background-800">
-            <div className="w-[70%] h-1 opacity-20 rounded-md pr-1 mr-1 bg-background-500"></div>
-          </div>
-          <div className="w-[35%] h-3 flex justify-center items-center rounded-xs gap-2 pl-1 mr-0.5 bg-background-800">
-            <div className="w-[70%] h-1 opacity-20 rounded-md bg-background-500"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  ),
-
-  checkbox: (
-    <div className="flex items-center gap-3">
-      <div className="w-5 h-5 flex items-center justify-center rounded-[3px] border border-background-600 bg-background-700">
-        <FaCheck className="w-[10px] h-[10px] text-background-500 -mx-px mb-[1px]" />
-      </div>
-      <div className="w-[80px] h-2 opacity-10 rounded-md bg-background-500"></div>
-    </div>
-  ),
-
+  checkbox: <CheckboxAnimation />,
   color: (
     <div className="w-[80%] max-w-[120px] rounded-[8px] border-[2px] border-background-700 flex flex-col gap-2 p-0.5 bg-background-800/20">
       <div className="flex  flex-col p-[3px] gap-2 rounded-[3px]">
@@ -124,79 +101,11 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  command: (
-    <div className="w-[60%] rounded-[3px] overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
-      <div className="h-8 gap-2 flex border-b border-background-700">
-        <FaMagnifyingGlass
-          size={10}
-          className="text-foreground-400 opacity-50 ml-2 mt-[10px]"
-        />
-      </div>
-      <div className="h-8 pl-2 gap-2 flex border-b border-background-700">
-        <div className="w-[30px] h-5 opacity-10 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-full flex flex-col">
-          <div className="w-[20%] h-2 opacity-10 rounded-md mb-1 bg-background-500"></div>
-          <div className="w-[50%] h-2 opacity-10 rounded-md bg-background-500"></div>
-        </div>
-      </div>
+  command: <CommandAnimation />,
 
-      <div className="h-6 pl-2 gap-2 flex">
-        <div className="w-[30px] h-5 opacity-10 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-full flex flex-col">
-          <div className="w-[20%] h-2 opacity-10 rounded-md mb-1 bg-background-500"></div>
-          <div className="w-[50%] h-2 opacity-10 rounded-md bg-background-500"></div>
-        </div>
-      </div>
+  confirm: <ConfirmAnimation />,
 
-      <div className="border-t border-background-700 items-center h-5 px-2 gap-1 flex bg-background-800">
-        <div className="w-[30%] h-2 opacity-20 rounded-md bg-background-500"></div>
-        <div className="w-[30%] h-2 opacity-20 rounded-md bg-background-500"></div>
-        <div className="w-[20%] h-2 opacity-20 rounded-md ml-auto bg-background-500"></div>
-      </div>
-    </div>
-  ),
-
-  confirm: (
-    <div className="w-[70%] rounded-[3px] overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
-      <div className="pl-2 pt-3">
-        <div className="w-[60%] h-3 opacity-20 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-[70%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-[40%] h-1 opacity-20 rounded-md bg-background-500"></div>
-      </div>
-
-      <div className="mt-4 border-t border-background-700 flex items-center py-1 gap-1">
-        <div className="w-[35%] h-4 ml-auto flex items-center rounded-xs gap-2 pl-1 bg-background-800">
-          <FaX size={8} className="text-foreground-400" />
-          <div className="w-[70%] h-1 opacity-20 rounded-md pr-1 mr-1 bg-background-500"></div>
-        </div>
-        <div className="w-[35%] h-4 flex items-center rounded-xs gap-2 pl-1 mr-0.5 bg-background-800">
-          <FaCheck size={10} className="text-foreground-400" />
-          <div className="w-[70%] h-1 opacity-20 rounded-md bg-background-500"></div>
-        </div>
-      </div>
-    </div>
-  ),
-
-  date: (
-    <div className="w-[80%] max-w-[120px] rounded-[4px] border border-background-700 flex flex-col gap-2 p-2 bg-background-800/20">
-      {/* Header: Month/Year + Chevrons */}
-      <div className="flex items-center justify-between px-0.5">
-        <div className="w-1.5 h-1.5 opacity-20 rounded-[1px] bg-background-500"></div>
-        <div className="w-8 h-1.5 opacity-20 rounded-[1px] bg-background-500"></div>
-        <div className="w-1.5 h-1.5 opacity-20 rounded-[1px] bg-background-500"></div>
-      </div>
-
-      {/* Calendar Grid: 7 Columns for Days of Week */}
-      <div className="grid grid-cols-7 gap-1">
-        {[...Array(24)].map((_, i) => (
-          <div
-            key={`day-${i}`}
-            className="aspect-square opacity-10 rounded-[1px] bg-background-500 w-full"
-          ></div>
-        ))}
-      </div>
-    </div>
-  ),
+  date: <DateAnimation />,
 
   divider: <DividerAnimation />,
 
@@ -210,16 +119,7 @@ export const previews: Record<string, React.ReactNode> = {
 
   gallery: <GalleryAnimation />,
   grid: <GridAnimation />,
-  group: (
-    <div className="flex border overflow-hidden rounded-md h-8 pl-2 items-center border-background-700 w-full">
-      <div className="w-[36%] h-2 opacity-10 rounded-[3px] bg-background-500"></div>
-      <Divider size="sm" orientation="vertical" />
-      <div className="w-[36%] h-2 mr-2 opacity-10 rounded-[3px] bg-background-500"></div>
-      <div className="w-[24%] border-l border-background-700 flex items-center px-2 h-full bg-background-900">
-        <div className="w-full h-2 opacity-10 rounded-[3px] bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  group: <GroupAnimation />,
 
   input: (
     <div className="flex flex-col">
@@ -243,18 +143,7 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  list: (
-    <div className="w-full flex flex-col gap-4 max-w-sm">
-      <div className="h-8 flex flex-col border-b border-background-700">
-        <div className="w-[20%] h-6 opacity-10 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-[50%] h-6 opacity-10 rounded-md mb-2 bg-background-500"></div>
-      </div>
-      <div className="h-8 flex flex-col border-b border-background-700">
-        <div className="w-[20%] h-6 opacity-10 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-[50%] h-6 opacity-10 rounded-md mb-2 bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  list: <ListAnimation />,
 
   mask: (
     <div className="w-[80%] aspect-square max-w-[120px] flex items-center justify-center relative overflow-hidden">
@@ -550,17 +439,5 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  panel: (
-    <div className="w-full h-40 flex flex-col border border-background-700 rounded overflow-hidden">
-      <div className="h-8 bg-background-900 border-b border-background-700 flex items-center px-2">
-        <div className="w-[40%] h-2 opacity-10 rounded-md bg-background-500"></div>
-      </div>
-      <div className="flex-1 bg-background-950 flex items-center justify-center">
-        <div className="w-[60%] h-2 opacity-10 rounded-md bg-background-500"></div>
-      </div>
-      <div className="h-6 bg-background-900 border-t border-background-700 flex items-center px-2">
-        <div className="w-[30%] h-2 opacity-10 rounded-md bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  panel: <PanelAnimation />,
 };

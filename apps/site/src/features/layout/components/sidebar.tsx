@@ -103,7 +103,7 @@ export function Sidebar() {
         'lg:transition-none lg:transform-none',
         isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       )}>
-        <div className="flex border-r bg-background-950 border-background-700 flex-col h-screen lg:h-[calc(100vh-var(--header-height))] sticky top-0 lg:top-[var(--header-height)]">
+        <div className="flex border-r bg-background-950 border-background-700/40 flex-col h-screen lg:h-[calc(100vh-var(--header-height))] sticky top-0 lg:top-[var(--header-height)]">
           {mainNavItems.length > 0 && (
             <div className="z-10">
               <nav className="py-3 px-2 space-y-1">
@@ -168,7 +168,7 @@ export function Sidebar() {
                               key={item.id}
                               href={href}
                               className={cn(
-                                'block px-3 py-2 text-xs rounded-sm cursor-pointer',
+                                'block px-3 py-2 font-semibold text-xs rounded-sm cursor-pointer',
                                 'transition-colors duration-300 ease-out',
                                 'hover:duration-0',
                                 active

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { themes, useApp, useThemeStorage } from "@/features/theme";
 import { FaCircleHalfStroke } from "react-icons/fa6";
+import { Button, Tooltip } from "ui-lab-components";
 
 export const LandingThemeToggle = () => {
   const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors, isThemeInitialized } = useApp();
@@ -44,12 +45,15 @@ export const LandingThemeToggle = () => {
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="z-[250] cursor-pointer rounded-xl hover:bg-theme-border/30 p-2"
-      aria-label="Toggle theme"
-    >
-      <FaCircleHalfStroke size={15} />
-    </button>
+    <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
+      <Button
+        variant="ghost"
+        className="p-2"
+        onClick={toggleTheme}
+        aria-label="Toggle theme"
+      >
+        <FaCircleHalfStroke size={15} />
+      </Button>
+    </Tooltip>
   );
 };

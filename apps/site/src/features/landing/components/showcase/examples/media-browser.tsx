@@ -13,10 +13,7 @@ const FILES = [
   { name: "docs-cover.jpg", type: "JPG", size: "1.8 MB", modified: "1mo ago" },
 ];
 
-const TYPE_COLORS: Record<string, string> = {
-  PNG: "text-blue-400", JPG: "text-purple-400", SVG: "text-green-400",
-  MP4: "text-red-400", ZIP: "text-yellow-400", FIG: "text-pink-400",
-};
+
 
 export function FileBrowser() {
   const [view, setView] = useState<"list" | "grid">("list");
@@ -60,22 +57,24 @@ export function FileBrowser() {
   };
 
   return (
-    <div className="w-full bg-background-200 border border-background-700 rounded-md overflow-hidden flex flex-col">
+    <div className="w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden flex flex-col">
       <div className="px-4 pt-3.5 pb-3 border-b border-background-700 flex items-center justify-between">
         <span className="text-xs font-semibold text-foreground-100">Media</span>
         <span className="text-xs text-foreground-500">{filteredFiles.length} files</span>
       </div>
 
       <div className="border-b border-background-700 flex items-center gap-2">
-        <Group spacing="none" variant="ghost" className="flex-shrink-0">
+        <Group spacing="none" variant="ghost" className="justify-between w-full">
           <Group.Input
             placeholder="Search files..."
             value={search}
+            className="w-full! flex-1"
             onChange={(e) => setSearch(e.target.value)}
             prefixIcon={<FaMagnifyingGlass size={12} className="text-foreground-500" />}
           />
           <Divider orientation="vertical" />
-          <Group.Select selectedKey={sort} onSelectionChange={setSort} className="w-28">
+          <Group.Select
+            selectedKey={sort} onSelectionChange={setSort} className="w-28">
             <Select.Trigger>
               <Select.Value placeholder="Sort" />
             </Select.Trigger>
@@ -144,9 +143,6 @@ export function FileBrowser() {
                     checked={selected.has(file.name)}
                     onChange={() => toggleSelect(file.name)}
                   />
-                  <span className={`text-xs font-mono font-bold w-8 text-center shrink-0 ${TYPE_COLORS[file.type] ?? "text-foreground-400"}`}>
-                    {file.type}
-                  </span>
                   <span className="text-xs text-foreground-100 flex-1 truncate">{file.name}</span>
                   <span className="text-xs text-foreground-500 shrink-0">{file.size}</span>
                   <span className="text-xs text-foreground-500 shrink-0 w-16 text-right">{file.modified}</span>
@@ -163,7 +159,7 @@ export function FileBrowser() {
             {filteredFiles.map((file) => (
               <div
                 key={file.name}
-                className="group relative bg-background-300 rounded-md p-3 flex flex-col items-center gap-1.5 cursor-pointer hover:bg-background-400 transition-colors"
+                className="group relative bg-background-300 rounded-sm p-3 flex flex-col items-center gap-1.5 cursor-pointer hover:bg-background-400 transition-colors"
               >
                 <div className="absolute top-1.5 left-1.5">
                   <Checkbox
@@ -172,9 +168,6 @@ export function FileBrowser() {
                     onChange={() => toggleSelect(file.name)}
                   />
                 </div>
-                <span className={`text-base font-bold font-mono ${TYPE_COLORS[file.type] ?? "text-foreground-400"}`}>
-                  {file.type}
-                </span>
                 <span className="text-xs text-foreground-300 truncate w-full text-center">{file.name.split(".")[0]}</span>
                 <span className="text-xs text-foreground-500">{file.size}</span>
                 <button className="absolute bottom-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity p-1 text-foreground-500 hover:text-foreground-100">

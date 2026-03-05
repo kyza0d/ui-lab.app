@@ -4,7 +4,6 @@ import Link from "next/link";
 const devRoutes = [
   { slug: "examples", title: "Examples" },
   { slug: "color", title: "Color" },
-  { slug: "date", title: "Date" },
   { slug: "pattern", title: "Pattern" },
   { slug: "sidebar", title: "Sidebar" },
   { slug: "typography", title: "Typography" },

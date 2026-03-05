@@ -7,7 +7,7 @@ export const Banner = BannerComponent;
 export const BannerTitle = BannerComponent.Title;
 
 export const BannerBody = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-sm font-normal text-opacity-90">
+  <div className="font-medium">
     {children}
   </div>
 );

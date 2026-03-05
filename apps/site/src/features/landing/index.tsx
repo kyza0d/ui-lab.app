@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/shared";
 import {
   FaBrain,
   FaPaintbrush,
@@ -17,21 +18,26 @@ function HeroSection() {
             <div className="flex gap-2 mb-4">
               <span className="flex h-[32px] font-medium items-center overflow-hidden gap-[9px] bg-background-950 border border-background-700 rounded-[8px] text-foreground-300 text-sm pl-[3px]">
                 <div className="flex items-center text-accent-500 bg-accent-500/30 border-l-[1px] rounded-[5px] h-[20px] border-background-700 mr-[4px] px-[4px]"><FaTags /></div>
-                <span className="text-xs font-smeibold">Release Notes</span>
+                <span className="text-xs font-smeibold">Change Log</span>
                 <span className="bg-background-800/50 border-l border-background-700 h-full text-xs font-smeibold pt-1 px-3">
                   v0.1.5
                 </span>
               </span>
             </div>
-            <h1 className="mb-2 max-w-[25ch] sm:max-w-[38ch] text-foreground-200">
-              Component library built for modern workflows.
+            <h1 className="mb-2 text-xl max-w-[25ch] sm:max-w-[38ch] text-foreground-200">
+              Beautiful Software Built for Everyone.
             </h1>
             <p className="text-foreground-400 w-full sm:w-[59ch] max-w-[59ch] px-4">
               Accessible, production-ready React components with intelligent
               metadata that enable AI to generate perfectly consistent interfaces.
             </p>
             <div className="flex gap-3 mt-8 mb-6 md:mt-10 md:mb-0">
-              <Button variant="default" size="sm" className="font-semibold flex justify-evenly" href="/docs">
+              <Button
+                size="sm"
+              // icon={{ left: <FaBrain />, right: <FaPaintbrush /> }}
+              // className={cn("flex gap-4", 'mb-40')}
+              // styles={{ root: ["border-2 border-gray-500", 'my-2 mx-18'], icon: { left: "bg-red-500", right: "bg-blue-500" } }}
+              >
                 Get Started
               </Button>
               <Button variant="outline" size="sm" className="font-semibold" href="/components">
@@ -52,7 +58,7 @@ function HeroSection() {
               </span>
             </div>
             <p className="ml-auto text-sm max-w-[41ch] text-foreground-400 md:mb-[14px]">
-              User Interface (UI) is the space where interactions between humans and machines occur.
+              "User Interface" (UI) is the space where interactions between humans and machines occur.
             </p>
           </div>
         </div>

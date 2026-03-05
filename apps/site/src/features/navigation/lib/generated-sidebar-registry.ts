@@ -27,6 +27,7 @@ interface DomainRegistry {
 export interface SidebarRegistry {
   docs: DomainRegistry;
   'design-system': DomainRegistry;
+  [key: string]: DomainRegistry;
 }
 
 export const SIDEBAR_REGISTRY: SidebarRegistry = {
@@ -79,7 +80,7 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
       },
       "customization-theming": {
             "title": "Theming",
-            "description": "Customize UI Lab components with custom themes",
+            "description": "How UI Lab's token system works — color families, shade ranges, dark mode inversion, and dynamic accent customization.",
             "slug": "customization-theming",
             "category": "Customization"
       },

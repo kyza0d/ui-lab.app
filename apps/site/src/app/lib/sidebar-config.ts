@@ -7,6 +7,8 @@ import {
   FaGift,
   FaSeedling,
   FaPuzzlePiece,
+  FaSquare,
+  FaLayerGroup,
 } from 'react-icons/fa6';
 
 export type SidebarDomain =
@@ -67,9 +69,9 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
   },
   {
     id: 'packages',
-    label: 'Packages',
+    label: 'Elements',
     href: '/packages',
-    icon: FaGift,
+    icon: FaLayerGroup,
     domain: 'packages',
   },
   {

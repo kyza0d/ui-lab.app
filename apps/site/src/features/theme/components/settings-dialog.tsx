@@ -32,6 +32,10 @@ export const SettingsDialog = ({
   // Refs for drag math
   const dragStartRef = useRef<{ startX: number; startY: number; initialOffsetX: number; initialOffsetY: number } | null>(null);
 
+  // Persists the last effective position across open/close cycles
+  const lastPositionRef = useRef<{ top: number; left: number } | null>(null);
+  const currentPositionRef = useRef<{ top: number; left: number } | null>(null);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -39,9 +43,22 @@ export const SettingsDialog = ({
   // ---------------------------------------------------------------------------
   // Positioning Logic (Viewport Relative)
   // ---------------------------------------------------------------------------
+  // Keep currentPositionRef in sync with the effective rendered position
+  useEffect(() => {
+    if (basePosition !== null) {
+      currentPositionRef.current = {
+        top: basePosition.top + dragOffset.y,
+        left: basePosition.left + dragOffset.x,
+      };
+    }
+  }, [basePosition, dragOffset]);
+
   useLayoutEffect(() => {
     if (!isOpen || !triggerRef?.current || !mounted) {
       if (!isOpen) {
+        if (currentPositionRef.current) {
+          lastPositionRef.current = currentPositionRef.current;
+        }
         setBasePosition(null);
         setDragOffset({ x: 0, y: 0 });
       }
@@ -49,6 +66,11 @@ export const SettingsDialog = ({
     }
 
     const calculatePosition = () => {
+      if (lastPositionRef.current) {
+        setBasePosition(lastPositionRef.current);
+        return;
+      }
+
       const triggerRect = triggerRef.current!.getBoundingClientRect();
       const viewportW = window.innerWidth;
       const viewportH = window.innerHeight;

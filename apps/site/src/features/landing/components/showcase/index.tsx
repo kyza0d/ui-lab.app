@@ -20,9 +20,9 @@ export function Showcase() {
         <div>
           <BuildStatus />
           <div className="px-4 py-3">
-            <div className="text-xs text-foreground-400 mb-2">Notifications</div>
+            <div className="text-xs font-medium text-foreground-400 mb-2">Notifications</div>
             <Divider size="sm" spacing="none" className="mt-2 mb-6" />
-            <div className="flex items-start flex-col gap-1.5">
+            <div className="flex items-start flex-col gap-4">
               <Checkbox id="fi-notif-3" label="Weekly digest" defaultChecked />
               <Checkbox id="fi-notif-2" label="Marketing emails" />
             </div>

@@ -21,7 +21,7 @@ function Stepper({
   return (
     <Group spacing="none" className="h-9">
       <Group.Button
-        variant="ghost"
+        variant="secondary"
         size="sm"
         isDisabled={value <= min}
         onClick={() => onChange(Math.max(min, value - step))}
@@ -29,18 +29,19 @@ function Stepper({
         <FaMinus size={10} />
       </Group.Button>
       <Divider />
-      <input
-        type="number"
+      <Group.Input
+        // type="number"
         value={value}
+        variant="default"
         onChange={(e) => {
           const n = Number(e.target.value);
           if (!isNaN(n)) onChange(Math.min(max, Math.max(min, n)));
         }}
-        className="w-12 text-center text-xs text-foreground-100 bg-background-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none"
+        className="w-12"
       />
       <Divider />
       <Group.Button
-        variant="ghost"
+        variant="secondary"
         size="sm"
         isDisabled={value >= max}
         onClick={() => onChange(Math.min(max, value + step))}
@@ -92,7 +93,7 @@ export function SessionConfigPanel() {
   ];
 
   return (
-    <div className="h-fit w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
+    <div className="h-fit w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden">
       <div className="flex items-center gap-5 px-4 pt-3.5 pb-3 border-b border-background-700">
         <SiGnubash size={26} />
         <div>
@@ -105,7 +106,7 @@ export function SessionConfigPanel() {
         <div key={row.label}>
           <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-7 h-7 rounded-md bg-background-300 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-sm bg-background-300 flex items-center justify-center shrink-0">
                 {row.icon}
               </div>
               <div>

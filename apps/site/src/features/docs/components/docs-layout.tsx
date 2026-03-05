@@ -1,7 +1,6 @@
 "use client";
-
 import { Sidebar } from "@/shared";
-import { BreadcrumbsNav } from "@/features/navigation";
+import { PathNav } from "@/features/navigation";
 import { TableOfContents, type TableOfContentsItem } from "./table-of-contents";
 import { CopyPage } from "./copy-page-button";
 import { OpenPage } from "./open-page-button";
@@ -13,40 +12,60 @@ import { useChat } from "@/features/chat";
 interface DocsLayoutProps {
   children: React.ReactNode;
   tocItems?: TableOfContentsItem[];
+  banner?: React.ReactNode;
 }
 
-export function DocsLayout({ children, tocItems = [] }: DocsLayoutProps) {
+export function DocsLayout({ children, tocItems = [], banner }: DocsLayoutProps) {
   const { isOpen: isChatOpen } = useChat();
-
   return (
     <>
-      <div className={cn("grid grid-cols-1 w-full max-w-(--page-width) mx-auto min-h-[calc(100vh-var(--header-height))]", isChatOpen ? "lg:grid-cols-[auto_1fr]" : "lg:grid-cols-[auto_4fr_1fr]")}>
+      <div className={cn(
+        "grid grid-cols-1 w-full max-w-(--page-width) mx-auto min-h-[calc(100vh-var(--header-height))]",
+        isChatOpen ? "lg:grid-cols-[auto_1fr]" : "lg:grid-cols-[auto_1fr]"
+      )}>
         <Sidebar />
-        <div id="docs" className={cn(
-          "flex flex-col justify-center mt-(--header-height) min-w-0",
-          // "bg-background-900/30 rounded-2xl border border-background-700"
+
+        {/* Right side: banner + content + TOC */}
+        <div className={cn(
+          "grid grid-cols-1 min-w-0",
+          !isChatOpen && "lg:grid-cols-[4fr_1fr]"
         )}>
-          <BreadcrumbsNav />
-          <div className="flex items-center w-full min-w-0">
-            {/* overflow-x-clip: enforces the 48rem boundary structurally.
-                Unlike overflow-x-hidden, clip does not create a scroll container,
-                so sticky children and fixed elements are unaffected. */}
-            <div className="pt-12 px-4 md:px-6 mx-auto max-w-3xl pb-12 w-full min-w-0">
-              {children}
+          {/* Banner spans full width of content + TOC */}
+          {banner && (
+            <div className="col-span-full mt-(--header-height)">
+              {banner}
+            </div>
+          )}
+
+          {/* Main content */}
+          <div
+            id="docs"
+            className={cn(
+              "flex flex-col justify-center min-w-0",
+              banner ? "" : "mt-(--header-height)"
+            )}
+          >
+            <PathNav />
+            <div className="flex items-center w-full min-w-0">
+              <div className="py-12 px-4 md:px-6 mx-auto max-w-3xl w-full min-w-0">
+                {children}
+              </div>
             </div>
           </div>
-          <Footer />
+
+          {/* TOC */}
+          {!isChatOpen && (
+            <div className="sticky top-(--header-height) flex flex-col justify-between h-[calc(100vh-var(--header-height))]">
+              <TableOfContents items={tocItems} />
+              <div className="space-y-3 px-4 pb-4">
+                <OpenPage />
+                <CopyPage />
+              </div>
+            </div>
+          )}
         </div>
-        {!isChatOpen && (
-          <div className="sticky top-(--header-height) flex  flex-col justify-between h-[calc(100vh-var(--header-height))]">
-            <TableOfContents items={tocItems} />
-            <div className="space-y-3 px-4 pb-4">
-              <OpenPage />
-              <CopyPage />
-            </div>
-          </div>
-        )}
       </div>
+      <Footer />
     </>
   );
 }

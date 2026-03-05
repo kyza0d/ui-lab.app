@@ -1,12 +1,11 @@
 "use client";
 
-import { cache } from "react";
 import { buttonDetail } from "ui-lab-registry/components/Button";
 import { dateDetail } from "ui-lab-registry/components/Date";
 import { anchorDetail } from "ui-lab-registry/components/Anchor";
 import { bannerDetail } from "ui-lab-registry/components/Banner";
 import { badgeDetail } from "ui-lab-registry/components/Badge";
-import { breadcrumbsDetail } from "ui-lab-registry/components/Breadcrumbs";
+import { pathDetail } from "ui-lab-registry/components/Path";
 import { cardDetail } from "ui-lab-registry/components/Card";
 import { checkboxDetail } from "ui-lab-registry/components/Checkbox";
 import { colorDetail } from "ui-lab-registry/components/Color";
@@ -40,6 +39,7 @@ import { tooltipDetail } from "ui-lab-registry/components/Tooltip";
 import { listDetail } from "ui-lab-registry/components/List";
 import { panelDetail } from "ui-lab-registry/components/Panel";
 import { frameDetail } from "ui-lab-registry/components/Frame";
+
 import { ComponentDetail } from "@/types/component";
 import { previews } from "@/gallery";
 import {
@@ -53,6 +53,7 @@ import {
   experimentalRegistry,
   type ExperimentalComponentMetadata,
 } from "@/features/experimental/lib/experimental-registry";
+import { serverComponentRegistry } from "./server-component-metadata"; // Import server-side registry
 import React from "react";
 export type { ComponentCategory } from "ui-lab-registry";
 export { categories, categoryMap, getCategoriesInOrder, getCategoryIcon } from "ui-lab-registry";
@@ -63,46 +64,19 @@ export interface ComponentMetadata extends RegistryMetadata {
 
 const experimentalIds = new Set(experimentalRegistry.map((c) => c.id));
 
-export const componentRegistry: ComponentMetadata[] = [
-  ...Object.entries(registryData)
-    .filter(([id]) => !experimentalIds.has(id))
-    .map(([id, metadata]) => ({
-      ...metadata,
-      preview: previews[id] || <div />,
-    })),
-  ...(!registryData.table
-    ? [
-      {
-        id: "table",
-        name: tableDetail.name,
-        description: tableDetail.description,
-        category: "display" as const,
-        source: {
-          packageName: "ui-lab-components" as const,
-          exportName: "Table",
-          packagePath: "src/components/table.tsx",
-        },
-        relatedComponents: ["card"],
-        preview: previews.table || <div />,
-      },
-    ]
-    : []),
-  ...experimentalRegistry.map((metadata: ExperimentalComponentMetadata) => ({
-    ...metadata,
-    source: {
-      packageName: "ui-lab-components" as const,
-      exportName: metadata.id.charAt(0).toUpperCase() + metadata.id.slice(1),
-      packagePath: `src/components/experimental/${metadata.id}`,
-    },
-    preview: previews[metadata.id] || <div />,
-  })),
-];
-export const getComponentsByCategory = cache(
+export const componentRegistry: ComponentMetadata[] = serverComponentRegistry.map(
+  (serverMetadata) => ({
+    ...serverMetadata,
+    preview: previews[serverMetadata.id] || <div />,
+  }),
+);
+
+export const getComponentsByCategory = 
   (category: ComponentCategory): ComponentMetadata[] => {
     return componentRegistry.filter((c) => c.category === category);
-  },
-);
-export const getComponentsGroupedByCategory = cache(
+  };
+
+export const getComponentsGroupedByCategory = 
   (): Record<ComponentCategory, ComponentMetadata[]> => {
     const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<
       ComponentCategory,
@@ -112,16 +86,17 @@ export const getComponentsGroupedByCategory = cache(
       result[catId] = getComponentsByCategory(catId);
     });
     return result;
-  },
-);
-export const getRelatedComponents = cache((id: string): ComponentMetadata[] => {
+  };
+
+export const getRelatedComponents = (id: string): ComponentMetadata[] => {
   const component = componentRegistry.find((c) => c.id === id);
   if (!component) return [];
   return component.relatedComponents
     .map((id) => componentRegistry.find((c) => c.id === id))
     .filter(Boolean) as ComponentMetadata[];
-});
-export const getComponentsInCategoryOrder = cache(
+};
+
+export const getComponentsInCategoryOrder = 
   (category: ComponentCategory): ComponentMetadata[] => {
     const componentIds = getComponentsInOrder(category);
 
@@ -130,8 +105,7 @@ export const getComponentsInCategoryOrder = cache(
         componentRegistry.find((c): c is ComponentMetadata => c.id === id),
       )
       .filter((c): c is ComponentMetadata => c !== undefined);
-  },
-);
+  };
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
@@ -150,7 +124,7 @@ const componentDetails: Record<string, ComponentDetail> = {
   radio: radioDetail,
   banner: bannerDetail,
   badge: badgeDetail,
-  breadcrumbs: breadcrumbsDetail,
+  path: pathDetail,
   tooltip: tooltipDetail,
   popover: popoverDetail,
   toast: toastDetail,
@@ -174,14 +148,10 @@ const componentDetails: Record<string, ComponentDetail> = {
   panel: panelDetail,
   code: codeDetail,
 };
-export const getComponentById = cache(
-  (id: string): ComponentDetail | undefined => {
-    return componentDetails[id];
-  },
-);
+export const getComponentById = (id: string): ComponentDetail | undefined => {
+  return componentDetails[id];
+};
 
-export const getComponentMetadata = cache(
-  (id: string): ComponentMetadata | undefined => {
-    return componentRegistry.find((component) => component.id === id);
-  },
-);
+export const getComponentMetadata = (id: string): ComponentMetadata | undefined => {
+  return componentRegistry.find((component) => component.id === id);
+};

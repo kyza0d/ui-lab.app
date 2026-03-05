@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   /* Border Radius Scale */
   --radius-xs: 0.05rem;
@@ -9,8 +11,6 @@
   --radius-2xl: 1rem;
   --radius-full: 9999px;
 }
-
-@import "tailwindcss";
 
 @font-face {
   font-family: "Ioskeley Mono";
@@ -176,6 +176,7 @@
   --header-height: 3.50rem;
   --page-width: 1350px;
   --logo-width: 250px;
+  --banner-height: 52px;      /* adjust to match your banner content */
   /* --indent-offset: 3px; */
 }
 
@@ -185,6 +186,7 @@
   width: 23px;
   height: 23px;
 }
+
 @layer base {
   h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.6rem 0 ;
@@ -454,40 +456,40 @@ pre.shiki .indent::before {
 }
 
 @layer utilities {
-  .text-xs { font-size: var(--text-xs) !important; }
-  .text-sm { font-size: var(--text-sm) !important; }
-  .text-md { font-size: var(--text-md) !important; }
-  .text-base { font-size: var(--text-md) !important; }
-  .text-lg { font-size: var(--text-lg) !important; }
-  .text-xl { font-size: var(--text-xl) !important; }
-  .text-2xl { font-size: var(--text-2xl) !important; }
-  .text-3xl { font-size: var(--text-3xl) !important; }
-  .text-4xl { font-size: var(--text-4xl) !important; }
-  .text-5xl { font-size: var(--text-5xl) !important; }
-  .text-6xl { font-size: var(--text-5xl) !important; }
-  .text-7xl { font-size: var(--text-5xl) !important; }
-  .text-8xl { font-size: var(--text-5xl) !important; }
-  .text-9xl { font-size: var(--text-5xl) !important; }
+  .text-xs { font-size: var(--text-xs) }
+  .text-sm { font-size: var(--text-sm) }
+  .text-md { font-size: var(--text-md) }
+  .text-base { font-size: var(--text-md) }
+  .text-lg { font-size: var(--text-lg) }
+  .text-xl { font-size: var(--text-xl) }
+  .text-2xl { font-size: var(--text-2xl) }
+  .text-3xl { font-size: var(--text-3xl) }
+  .text-4xl { font-size: var(--text-4xl) }
+  .text-5xl { font-size: var(--text-5xl) }
+  .text-6xl { font-size: var(--text-5xl) }
+  .text-7xl { font-size: var(--text-5xl) }
+  .text-8xl { font-size: var(--text-5xl) }
+  .text-9xl { font-size: var(--text-5xl) }
 
-  .text-header-xs { font-size: var(--header-text-xs) !important; }
-  .text-header-sm { font-size: var(--header-text-sm) !important; }
-  .text-header-md { font-size: var(--header-text-md) !important; }
-  .text-header-lg { font-size: var(--header-text-lg) !important; }
-  .text-header-xl { font-size: var(--header-text-xl) !important; }
-  .text-header-2xl { font-size: var(--header-text-2xl) !important; }
-  .text-header-3xl { font-size: var(--header-text-3xl) !important; }
-  .text-header-4xl { font-size: var(--header-text-4xl) !important; }
-  .text-header-5xl { font-size: var(--header-text-5xl) !important; }
+  .text-header-xs { font-size: var(--header-text-xs) }
+  .text-header-sm { font-size: var(--header-text-sm) }
+  .text-header-md { font-size: var(--header-text-md) }
+  .text-header-lg { font-size: var(--header-text-lg) }
+  .text-header-xl { font-size: var(--header-text-xl) }
+  .text-header-2xl { font-size: var(--header-text-2xl) }
+  .text-header-3xl { font-size: var(--header-text-3xl) }
+  .text-header-4xl { font-size: var(--header-text-4xl) }
+  .text-header-5xl { font-size: var(--header-text-5xl) }
 
-  .text-body-xs { font-size: var(--text-xs) !important; }
-  .text-body-sm { font-size: var(--text-sm) !important; }
-  .text-body-md { font-size: var(--text-md) !important; }
-  .text-body-lg { font-size: var(--text-lg) !important; }
-  .text-body-xl { font-size: var(--text-xl) !important; }
-  .text-body-2xl { font-size: var(--text-2xl) !important; }
-  .text-body-3xl { font-size: var(--text-3xl) !important; }
-  .text-body-4xl { font-size: var(--text-4xl) !important; }
-  .text-body-5xl { font-size: var(--text-5xl) !important; }
+  .text-body-xs { font-size: var(--text-xs) }
+  .text-body-sm { font-size: var(--text-sm) }
+  .text-body-md { font-size: var(--text-md) }
+  .text-body-lg { font-size: var(--text-lg) }
+  .text-body-xl { font-size: var(--text-xl) }
+  .text-body-2xl { font-size: var(--text-2xl) }
+  .text-body-3xl { font-size: var(--text-3xl) }
+  .text-body-4xl { font-size: var(--text-4xl) }
+  .text-body-5xl { font-size: var(--text-5xl) }
 }
 
 @layer components {
@@ -535,8 +537,8 @@ pre.shiki .indent::before {
 }
 
 body {
-  border-left: var(--border-width-base) solid var(--background-700);
-  border-right: var(--border-width-base) solid var(--background-700);
+  border-left: var(--border-width-base) solid color-mix(in srgb, var(--background-700) 40%, transparent);
+  border-right: var(--border-width-base) solid color-mix(in srgb, var(--background-700) 40%, transparent);
   max-width: var(--page-width);
   margin: 0 auto;
 }
@@ -544,9 +546,4 @@ body {
 ::selection {
   background: color-mix(in srgb, var(--accent-600) 10%, transparent);
   color: var(--accent-600)
-}
-
-::-moz-selection {
-  background: color-mix(in srgb, var(--accent-600) 10%, transparent);
-  color: color-mix(in srgb, var(--accent-600) 90%, var(--foreground-50));
 }

@@ -1,4 +1,4 @@
-import { BreadcrumbsNav } from '@/features/navigation';
+import { PathNav } from '@/features/navigation';
 import { getAllPatterns } from 'ui-lab-registry';
 import { PatternsGridClient } from '@/features/patterns';
 
@@ -7,7 +7,7 @@ export default function PatternsPage() {
 
   return (
     <div className='mt-38 pt-(header-height)'>
-      <BreadcrumbsNav />
+      <PathNav />
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
           <h2 className="font-bold text-foreground-50">Patterns</h2>

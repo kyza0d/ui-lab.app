@@ -2,20 +2,22 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder, getCategoryIcon } from "@/features/component-docs";
-import { BreadcrumbsNav } from "@/features/navigation";
-import { Divider, Gallery, Tooltip } from "ui-lab-components";
+import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/features/component-docs";
+import Icon from "@/shared/components/Icon";
+import { Icons, CategoryIcons } from "@/shared/components/icon-registry";
+import { PathNav } from "@/features/navigation";
+import { Divider, Flex, Gallery, Tooltip } from "ui-lab-components";
 import { usePrefetchOnHover } from "@/shared";
-import { FaFlask } from "react-icons/fa6";
+
 
 export default function ComponentsPage() {
   const router = useRouter();
   return (
     <div>
       {/* Breadcrumbs */}
-      <BreadcrumbsNav />
+      <PathNav />
       <div className="px-4 pt-(--header-height) pb-12">
-        <main className="w-full pt-24">
+        <main className="w-full pt-12">
           {/* Organized Components by Category */}
           <div className="space-y-32">
             {getCategoriesInOrder().map((category) => {
@@ -23,23 +25,23 @@ export default function ComponentsPage() {
               if (componentsInCategory.length === 0) return null;
               return (
                 <div key={category} className="space-y-4">
-                  <div className="flex gap-4">
+                  <Flex styles="gap-2">
                     {/* Category Header */}
-                    <div className="bg-background-800 border border-background-700 w-22 h-22 flex items-center justify-center rounded-sm text-foreground-200 mr-3">
-                      {getCategoryIcon(category as any)}
-                    </div>
+                    <Flex justify="center" align="center" className="bg-background-800 border border-background-700 w-10 h-10 rounded-sm text-foreground-200 mr-3">
+                      <Icon strokeWidth={2.4} color="var(--foreground-400)" IconComponent={CategoryIcons[category as keyof typeof CategoryIcons] || CategoryIcons.default} size={18} />
+                    </Flex>
                     <div>
-                      <h3 className="mb-0 font-semibold text-foreground-50 flex items-center">
+                      <h3 className="mb-1.5 font-semibold text-foreground-50 flex items-center">
                         {categoryMap[category].label}
                       </h3>
-                      <p className="text-md w-full md:w-[47ch] text-foreground-400 flex items-start">
+                      <p className="text-sm w-full md:w-[47ch] text-foreground-400 flex items-start">
                         {categoryMap[category].description}
                       </p>
                     </div>
-                  </div>
+                  </Flex>
                   <Divider variant="dashed" size="sm" className="mx-auto mb-8 mt-10" />
                   {/* Components Grid */}
-                  <Gallery className="w-full" columns={{ sm: "1", md: "2", lg: '3' }} gap="sm">
+                  <Gallery styles="w-full" columns={{ sm: "1", md: "2", lg: '3' }} gap="md">
                     {componentsInCategory.map((component) => {
                       const href = `/components/${component.id}`;
                       const { onMouseEnter, onMouseLeave } = usePrefetchOnHover(href);
@@ -54,7 +56,7 @@ export default function ComponentsPage() {
                           />
                           <Gallery.Item
                             href={href}
-                            className='group h-90 rounded-sm bg-background-950 hover:bg-background-900/50 flex-col'
+                            className='group h-80 rounded-sm bg-background-950 hover:bg-background-900/50 flex-col'
                             orientation='horizontal'
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
@@ -67,7 +69,7 @@ export default function ComponentsPage() {
                                 {component.preview}
                               </div>
                               <div className='absolute top-0 left-0 w-full h-full'>
-                                <div className='hidden grid-paper' />
+                                {/* <div className='hidden grid-paper' /> */}
                               </div>
                             </Gallery.View>
 
@@ -76,11 +78,10 @@ export default function ComponentsPage() {
                                 <h4>{component.name}</h4>
                                 {component.experimental && (
                                   <div className='ml-auto'>
-                                    <Tooltip content="Experimental: Not fully implemented and requires testing" position="top" showArrow>
+                                    <Tooltip content="🚧 Experimental" position="top" showArrow>
                                       <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
-                                        <FaFlask size={14} />
-                                      </span>
-                                    </Tooltip>
+                                        <Icon IconComponent={Icons.Flask} size={14} />
+                                      </span>                                    </Tooltip>
                                   </div>
                                 )}
                               </div>
