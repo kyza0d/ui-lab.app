@@ -36,8 +36,8 @@
     },
     "./styles.css": "./dist/styles.css",
     "./postcss": {
-      "import": "./dist/postcss-ui-lab.mjs",
-      "types": "./dist/postcss-ui-lab.d.mts"
+      "import": "./dist/postcss-ui-lab.ts",
+      "types": "./dist/postcss-ui-lab.d.ts"
     }
   },
   "files": [
@@ -49,7 +49,7 @@
   "scripts": {
     "build": "vite build && pnpm run build:css && pnpm run build:postcss",
     "build:css": "postcss src/styles.css -o dist/styles.css && (cat dist/style.css >> dist/styles.css 2>/dev/null || true)",
-    "build:postcss": "cp src/postcss-ui-lab.mjs dist/postcss-ui-lab.mjs",
+    "build:postcss": "cp src/postcss-ui-lab.ts dist/postcss-ui-lab.mjs",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
     "test": "vitest",
@@ -58,10 +58,13 @@
     "test:coverage": "vitest --coverage"
   },
   "peerDependencies": {
+    "@shikijs/transformers": "^3.20.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "shiki": "^3.17.1"
   },
   "devDependencies": {
+    "@shikijs/transformers": "^3.20.0",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
@@ -72,10 +75,12 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/ui": "^1.6.0",
+    "esbuild": "^0.21.5",
     "jest-axe": "^8.0.0",
     "jsdom": "^27.3.0",
     "postcss-cli": "^11.0.0",
     "postcss-load-config": "^6.0.1",
+    "shiki": "^3.17.1",
     "tailwindcss": "^4.1.11",
     "typescript": "^5",
     "vite": "^5.3.4",
@@ -84,28 +89,29 @@
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.6",
-    "@shikijs/transformers": "^3.20.0",
-    "shiki": "^3.17.1",
     "@gsap/react": "^2.1.2",
+    "@react-aria/button": "^3.14.4",
     "@react-aria/dialog": "^3.5.14",
     "@react-aria/focus": "^3.17.1",
     "@react-aria/interactions": "^3.21.3",
     "@react-aria/listbox": "^3.13.5",
     "@react-aria/overlays": "^3.22.0",
+    "@react-aria/radio": "^3.12.4",
     "@react-aria/searchfield": "^3.7.9",
+    "@react-aria/switch": "^3.7.10",
     "@react-aria/utils": "^3.24.2",
     "@react-stately/list": "^3.10.6",
     "@react-stately/overlays": "^3.6.7",
     "@react-stately/searchfield": "^3.5.5",
     "@react-stately/slider": "^3.7.2",
     "@react-stately/toggle": "^3.9.2",
+    "@react-types/shared": "^3.33.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "gsap": "^3.12.2",
     "lucide-react": "^0.525.0",
     "postcss": "^8.5.6",
     "react-aria": "^3.44.0",
-    "react-icons": "^5.5.0",
     "react-stately": "^3.42.0"
   }
 }

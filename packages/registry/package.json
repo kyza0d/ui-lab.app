@@ -102,7 +102,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm generate && tsc && node scripts/fix-esm-imports.js",
+    "build": "pnpm generate && tsc && tsx scripts/fix-esm-imports.ts",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",
     "validate": "tsx scripts/validate-registry.ts",
@@ -111,7 +111,7 @@
   "dependencies": {
     "lucide-react": "^0.562.0",
     "react-icons": "^5.5.0",
-    "ui-lab-components": "0.1.7"
+    "ui-lab-components": "workspace:*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
