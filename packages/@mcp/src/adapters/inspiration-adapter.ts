@@ -55,8 +55,8 @@ const SYNONYMS: Record<string, string[]> = {
   checkbox: ['checkbox', 'list', 'selection'],
   table: ['list', 'table', 'data-table', 'row'],
   filter: ['filter', 'select', 'search'],
-  modal: ['modal', 'confirmation', 'dialog'],
-  dialog: ['modal', 'confirmation'],
+  modal: ['modal', 'confirm', 'dialog'],
+  dialog: ['modal', 'confirm'],
   auth: ['auth', 'login', 'form'],
   form: ['form', 'input', 'field', 'labeled'],
   navigation: ['sidebar', 'header', 'navigation', 'menu'],
@@ -166,7 +166,7 @@ function buildCache(): Inspiration[] {
         variationsSummary: elementVariationsSummary(el),
       });
     }
-  } catch {}
+  } catch { }
 
   try {
     for (const s of getAllSections()) {
@@ -182,7 +182,7 @@ function buildCache(): Inspiration[] {
         variationsSummary: elementVariationsSummary(s),
       });
     }
-  } catch {}
+  } catch { }
 
   try {
     for (const p of getAllPatterns()) {
@@ -198,7 +198,7 @@ function buildCache(): Inspiration[] {
         variationsSummary: patternVariationsSummary(p),
       });
     }
-  } catch {}
+  } catch { }
 
   return result;
 }
@@ -255,11 +255,11 @@ export function searchInspirations(
     cat === 'all'
       ? items
       : items.filter(item => {
-          if (cat === 'elements') return item.type === 'element';
-          if (cat === 'sections') return item.type === 'section';
-          if (cat === 'patterns') return item.type === 'pattern';
-          return true;
-        });
+        if (cat === 'elements') return item.type === 'element';
+        if (cat === 'sections') return item.type === 'section';
+        if (cat === 'patterns') return item.type === 'pattern';
+        return true;
+      });
 
   const scored = filtered
     .map(item => ({ ...item, relevanceScore: scoreItem(item, queries) }))
