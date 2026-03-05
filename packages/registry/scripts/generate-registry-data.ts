@@ -33,7 +33,7 @@ const REACT_ARIA_PLACEHOLDERS: Record<string, string> = {
   textarea: 'https://react-spectrum.adobe.com/react-aria/useTextField.html',
   label: 'https://react-spectrum.adobe.com/react-aria/useLabel.html',
   progress: 'https://react-spectrum.adobe.com/react-aria/useProgressBar.html',
-  breadcrumbs: 'https://react-spectrum.adobe.com/react-aria/useBreadcrumbs.html',
+  path: 'https://react-spectrum.adobe.com/react-aria/useBreadcrumbs.html',
   table: 'https://react-spectrum.adobe.com/react-aria/useTable.html',
   toast: '',
   badge: '',

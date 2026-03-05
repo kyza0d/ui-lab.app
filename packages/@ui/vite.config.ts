@@ -2,22 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import path from 'path';
-import { Plugin } from 'vite';
-
-// Plugin to exclude test files from the build
-const excludeTestsPlugin = (): Plugin => ({
-  name: 'exclude-tests',
-  resolveId(id) {
-    if (id.match(/\.(test|spec)\.(ts|tsx)$/)) {
-      return { id: '', external: true };
-    }
-  },
-  transform(_code, id) {
-    if (id.includes('tests/') || id.match(/\.(test|spec)\.(ts|tsx)$/)) {
-      return { code: 'export {};' };
-    }
-  },
-});
 
 export default defineConfig({
   resolve: {
@@ -26,7 +10,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    excludeTestsPlugin(),
     react(),
     dts({
       insertTypesEntry: true,
@@ -34,6 +17,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    sourcemap: false,
     lib: {
       entry: {
         'ui-lab-ui': path.resolve(__dirname, 'src/index.ts'),
@@ -42,7 +26,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'shiki', /^shiki\/.*/],
       output: {
         entryFileNames: '[name].es.js',
       },

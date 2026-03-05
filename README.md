@@ -31,7 +31,7 @@ npm install ui-lab-components
 | Form Inputs | Input, Textarea, Checkbox, Radio, Switch, Select, Slider, Date |
 | Overlay & Popups | Modal, Popover, Tooltip, Menu |
 | Data Display | Table, List, Code, Breadcrumbs, Color |
-| Feedback | Toast, Confirmation, Progress, Badge |
+| Feedback | Toast, Confirm, Progress, Badge |
 | Navigation | Tabs, Anchor, Command |
 | Visual | Mask, EasingPreview |
 | Utility | Label, Divider, Banner, Button, Card, Scroll |

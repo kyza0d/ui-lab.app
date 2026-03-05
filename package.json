@@ -16,15 +16,24 @@
     "type-check": "pnpm -r run type-check",
     "lint": "pnpm -r run lint",
     "clean": "pnpm -r run clean",
-    "publish": "pnpm publish -r",
-    "versions:status": "node scripts/toggle-versions.js status",
-    "versions:to-workspace": "node scripts/toggle-versions.js to-workspace",
-    "versions:to-release": "node scripts/toggle-versions.js to-version"
+    "changeset": "changeset",
+    "release": "tsx scripts/release.ts",
+    "release:ci": "pnpm run build:packages && tsx scripts/toggle-versions.ts to-version && pnpm changeset publish",
+    "versions:status": "tsx scripts/toggle-versions.ts status",
+    "versions:to-workspace": "tsx scripts/toggle-versions.ts to-workspace",
+    "versions:to-release": "tsx scripts/toggle-versions.ts to-version",
+    "docs:styles": "node scripts/generate-styles-docs.mjs"
   },
   "dependencies": {
     "next": "^16.0.10"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
+    "fs-extra": "^11.3.3",
+    "glob": "^13.0.6",
+    "postcss": "^8.5.6",
+    "postcss-selector-parser": "^7.1.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }
