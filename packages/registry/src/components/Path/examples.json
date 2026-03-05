@@ -1,0 +1,12 @@
+{
+  "01-basic-breadcrumbs": {
+    "title": "Basic Path",
+    "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
+    "code": "import { PathItem, Path } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <PathItem href=\"/\">Home</PathItem>\n      <PathItem href=\"/products\">Products</PathItem>\n      <PathItem href=\"/products/electronics\">Electronics</PathItem>\n      <PathItem>Laptop</PathItem>\n    </Path>\n  );\n}"
+  },
+  "01-basic-path": {
+    "title": "Basic Path",
+    "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
+    "code": "import { Path, PathItem } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <PathItem href=\"/\">Home</PathItem>\n      <PathItem href=\"/products\">Products</PathItem>\n      <PathItem href=\"/products/electronics\">Electronics</PathItem>\n      <PathItem>Laptop</PathItem>\n    </Path>\n  );\n}"
+  }
+}

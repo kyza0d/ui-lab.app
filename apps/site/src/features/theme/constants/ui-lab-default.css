@@ -1,0 +1,12 @@
+.button.primary {
+  --background: blue; /* Simplistic color for validation */
+}
+.button.default {
+  --background: green; /* Simplistic color for validation */
+}
+.button.secondary {
+  --background: red; /* Simplistic color for validation */
+}
+.button {
+    --ring-color: unset;
+}

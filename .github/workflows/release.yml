@@ -1,0 +1,58 @@
+name: Release
+
+# This workflow automates releases using the Changesets action.
+#
+# How it works:
+#   1. On every push to master, it checks for pending changeset files.
+#   2. If changesets exist, it opens (or updates) a "Version Packages" PR
+#      containing the version bumps and CHANGELOG updates.
+#   3. When you merge that PR, this workflow runs `pnpm run release:ci`
+#      which builds and publishes the packages to npm.
+#
+# To activate:
+#   - Add NPM_TOKEN to your GitHub repository secrets
+#     (Settings → Secrets → Actions → New repository secret)
+#   - The GITHUB_TOKEN is provided automatically by GitHub Actions
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Create Version PR or Publish
+        uses: changesets/action@v1
+        with:
+          publish: pnpm run release:ci
+          title: "chore: version packages"
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
