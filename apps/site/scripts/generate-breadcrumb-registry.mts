@@ -51,26 +51,26 @@ const COMPONENT_CATEGORIES = {
   'experimental': 'Experimental',
 };
 
-function getDomainLabel(filePath) {
+function getDomainLabel(filePath: string) {
   const parts = filePath.split('/');
   const idx = parts.indexOf('content');
   if (idx === -1) return null;
   return parts[idx + 1];
 }
 
-function findSectionForFile(domainKey, fileId) {
-  const config = DOMAIN_CONFIG[domainKey];
+function findSectionForFile(domainKey: string, fileId: string) {
+  const config = DOMAIN_CONFIG[domainKey as keyof typeof DOMAIN_CONFIG];
   if (!config) return null;
 
   for (const [sectionLabel, fileIds] of Object.entries(config.sections)) {
-    if (fileIds.includes(fileId)) {
+    if ((fileIds as string[]).includes(fileId)) {
       return sectionLabel;
     }
   }
   return null;
 }
 
-function readTitleFromMdx(filePath) {
+function readTitleFromMdx(filePath: string) {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
     const match = content.match(/^---\n([\s\S]*?)\n---/);
@@ -87,22 +87,22 @@ function readTitleFromMdx(filePath) {
   return null;
 }
 
-function generateFileLabel(fileId) {
+function generateFileLabel(fileId: string) {
   return fileId
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
 
-function discoverPages(domainKey, domainConfig) {
-  const pages = [];
+function discoverPages(domainKey: string, domainConfig: any) {
+  const pages: any[] = [];
   const contentDir = domainConfig.contentDir;
 
   if (!fs.existsSync(contentDir)) {
     return pages;
   }
 
-  function scanDir(dir, relativePath = '') {
+  function scanDir(dir: string, relativePath = '') {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
@@ -121,7 +121,7 @@ function discoverPages(domainKey, domainConfig) {
           label = generateFileLabel(fileId);
         }
 
-        const breadcrumbs = [{ label: domainConfig.label, href: domainConfig.path }];
+        const breadcrumbs: any[] = [{ label: domainConfig.label, href: domainConfig.path }];
 
         if (section) {
           breadcrumbs.push({ label: section });

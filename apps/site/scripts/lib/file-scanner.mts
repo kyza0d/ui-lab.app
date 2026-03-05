@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-function walkDir(dir, fileList = []) {
+function walkDir(dir: string, fileList: string[] = []) {
   const files = fs.readdirSync(dir);
 
   files.forEach(file => {
@@ -18,7 +18,7 @@ function walkDir(dir, fileList = []) {
   return fileList;
 }
 
-export async function scanContentDirectory(contentDir, domain) {
+export async function scanContentDirectory(contentDir: string) {
   try {
     if (!fs.existsSync(contentDir)) {
       console.warn(`Content directory not found: ${contentDir}`);
@@ -35,13 +35,12 @@ export async function scanContentDirectory(contentDir, domain) {
         fullPath: filePath,
       };
     });
-  } catch (error) {
-    console.error(`Error scanning ${contentDir}:`, error.message);
+  } catch (error: unknown) {
+    let errorMessage = 'An unknown error occurred';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.error(`Error scanning ${contentDir}:`, errorMessage);
     return [];
   }
-}
-
-export function getAllFilesForDomain(contentDir, domain) {
-  const files = scanContentDirectory(contentDir, domain);
-  return files;
 }

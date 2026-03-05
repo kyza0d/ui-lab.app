@@ -3,6 +3,14 @@ import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
 
+export interface TocItem {
+  id: string;
+  title: string;
+  level: number;
+}
+
+export type TocRegistry = Record<string, TocItem[]>;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -12,7 +20,7 @@ const CLI_DIR = path.join(__dirname, '../content/cli');
 const AGENTS_MCPS_DIR = path.join(__dirname, '../content/agents-mcps');
 const OUTPUT_FILE = path.join(__dirname, '../src/features/docs/lib/generated-toc-registry.ts');
 
-function extractHeadings(markdown) {
+function extractHeadings(markdown: string) {
   const headingRegex = /^(#{2,6})\s+(.+)$/gm;
   const headings = [];
   const idCounts = new Map();
@@ -20,7 +28,11 @@ function extractHeadings(markdown) {
   let match;
   while ((match = headingRegex.exec(markdown)) !== null) {
     const level = match[1].length;
-    const title = match[2];
+    const rawTitle = match[2];
+    
+    // Strip MDX components/tags for ID and display title
+    const title = rawTitle.replace(/<[^>]*>?/gm, '').trim();
+    
     let id = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, '')
@@ -38,7 +50,7 @@ function extractHeadings(markdown) {
   return headings;
 }
 
-function processDirectory(dir, tocRegistry, section) {
+function processDirectory(dir: string, tocRegistry: TocRegistry, section?: string) {
   if (!fs.existsSync(dir)) {
     return 0;
   }
@@ -70,8 +82,8 @@ function processDirectory(dir, tocRegistry, section) {
 
         totalHeadings += headings.length;
       }
-    } catch (error) {
-      console.error(`Error processing ${file}:`, error.message);
+    } catch (error: unknown) {
+      console.error(`Error processing ${file}:`, (error as Error).message);
     }
   }
 

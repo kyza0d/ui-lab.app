@@ -14,14 +14,14 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import postcss from 'postcss';
+import postcssLib, { type Root, type AtRule } from 'postcss';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
   postcssPlugin: 'postcss-ui-lab',
-  Once(root) {
-    root.walkAtRules('import', (atRule) => {
+  Once(root: Root) {
+    root.walkAtRules('import', (atRule: AtRule) => {
       // Match @import "ui-lab" or @import 'ui-lab'
       const match = atRule.params.match(/^["']ui-lab["']$/);
 
@@ -32,14 +32,14 @@ export default {
           const cssContent = fs.readFileSync(stylesPath, 'utf-8');
 
           // Parse the CSS content into an AST
-          const parsedCSS = postcss.parse(cssContent);
+          const parsedCSS = postcssLib.parse(cssContent);
 
           // Replace the @import rule with the actual CSS content
           // This injects the CSS directly rather than leaving an import statement
           atRule.replaceWith(parsedCSS.nodes);
         } catch (err) {
           throw atRule.error(
-            `Failed to load ui-lab styles: ${err.message}`,
+            `Failed to load ui-lab styles: ${err instanceof Error ? err.message : String(err)}`,
             { word: 'ui-lab' }
           );
         }

@@ -1,5 +1,25 @@
-export function organizeFilesIntoSections(metadata, domain) {
-  const sectionMap = new Map();
+interface MetadataItem {
+  category?: string;
+  order: number;
+  slug: string;
+  title: string;
+  description?: string;
+}
+
+interface SectionItem {
+  id: string;
+  label: string;
+}
+
+interface Section {
+  label: string;
+  items: SectionItem[];
+}
+
+type Domain = 'docs' | 'agents-mcps' | 'cli' | 'design-system';
+
+export function organizeFilesIntoSections(metadata: MetadataItem[], domain: Domain): Section[] {
+  const sectionMap = new Map<string, MetadataItem[]>();
 
   for (const item of metadata) {
     if (!item.category) continue;
@@ -7,20 +27,20 @@ export function organizeFilesIntoSections(metadata, domain) {
     if (!sectionMap.has(item.category)) {
       sectionMap.set(item.category, []);
     }
-    sectionMap.get(item.category).push(item);
+    sectionMap.get(item.category)?.push(item);
   }
 
   const sections = Array.from(sectionMap.entries())
     .map(([label, items]) => ({
       label,
       items: items
-        .sort((a, b) => a.order - b.order)
-        .map(item => ({
+        .sort((a: MetadataItem, b: MetadataItem) => a.order - b.order)
+        .map((item: MetadataItem) => ({
           id: item.slug,
           label: item.title,
         })),
     }))
-    .sort((a, b) => {
+    .sort((a: Section, b: Section) => {
       const order = getDynamicSectionOrder(Array.from(sectionMap.keys()), domain);
       return (order.indexOf(a.label) ?? 999) - (order.indexOf(b.label) ?? 999);
     });
@@ -28,8 +48,8 @@ export function organizeFilesIntoSections(metadata, domain) {
   return sections;
 }
 
-export function buildFileMap(metadata) {
-  const fileMap = {};
+export function buildFileMap(metadata: MetadataItem[]): Record<string, Omit<MetadataItem, 'order'>> {
+  const fileMap: Record<string, Omit<MetadataItem, 'order'>> = {};
   for (const item of metadata) {
     fileMap[item.slug] = {
       title: item.title,
@@ -41,8 +61,8 @@ export function buildFileMap(metadata) {
   return fileMap;
 }
 
-function getDynamicSectionOrder(foundSections, domain) {
-  const preferredOrder = {
+function getDynamicSectionOrder(foundSections: string[], domain: Domain): string[] {
+  const preferredOrder: Record<Domain, string[]> = {
     docs: ['Getting Started', 'Customization', 'Agents & MCPs', 'Development', 'Architecture & Advanced'],
     'agents-mcps': ['Getting Started', 'Concepts', 'Building Workflows', 'Reference', 'Technical Reference', 'AI Integration', 'Development'],
     cli: ['Getting Started', 'Advanced'],
@@ -52,8 +72,8 @@ function getDynamicSectionOrder(foundSections, domain) {
   const order = preferredOrder[domain] || [];
   const foundSectionSet = new Set(foundSections);
 
-  const inOrder = order.filter(s => foundSectionSet.has(s));
-  const notInOrder = foundSections.filter(s => !order.includes(s));
+  const inOrder = order.filter((s: string) => foundSectionSet.has(s));
+  const notInOrder = foundSections.filter((s: string) => !order.includes(s));
 
   return [...inOrder, ...notInOrder.sort()];
 }
