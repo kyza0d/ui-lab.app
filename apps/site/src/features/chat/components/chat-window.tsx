@@ -38,7 +38,7 @@ export function ChatWindow() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-0 right-0 h-screen w-[85%] sm:w-[60%] md:w-[50%] lg:w-[25%] bg-background-950 border-background-700 border-l flex flex-col z-40">
+    <div className="fixed top-0 right-0 h-screen w-[85%] sm:w-[60%] md:w-[50%] lg:w-[25%] bg-background-950 flex flex-col z-40">
       <div className="flex items-center justify-between px-4 py-3 border-b border-background-700 h-16">
         <h2 className="text-sm font-semibold text-foreground-50">AI Assistant</h2>
         <Button

@@ -6,7 +6,11 @@ export function extractHeadings(markdown: string) {
   let match
   while ((match = headingRegex.exec(markdown)) !== null) {
     const level = match[1].length
-    const title = match[2]
+    const rawTitle = match[2]
+    
+    // Strip MDX components/tags for ID and display title
+    const title = rawTitle.replace(/<[^>]*>?/gm, '').trim();
+
     let id = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, '')

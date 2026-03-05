@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useCallback, useMemo } from 'react';
-import { BreadcrumbsNav } from '@/features/navigation';
+import { PathNav } from '@/features/navigation';
 import { getAllSections, searchSections } from 'ui-lab-registry';
 import type { SectionMetadata } from 'ui-lab-registry';
 import { SectionsGridClient } from '@/features/sections';
@@ -125,7 +125,7 @@ export default function SectionsPage() {
 
   return (
     <div className='mt-38 pt-(header-height)'>
-      <BreadcrumbsNav />
+      <PathNav />
       <div className="w-full bg-background-950  px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
           <h2 className="font-bold text-foreground-50">Sections</h2>

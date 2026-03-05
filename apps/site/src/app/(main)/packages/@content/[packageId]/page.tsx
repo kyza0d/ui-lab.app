@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { cacheLife } from 'next/cache';
 import { getPackageById, getElementsInPackage, getAllPackages } from 'ui-lab-registry';
-import { BreadcrumbsNav } from '@/features/navigation';
+import { PathNav } from '@/features/navigation';
 import { ContentHeader } from '@/features/navigation/components/content-header';
 import PackageElementsClientWrapper from './wrapper';
 
@@ -50,7 +50,7 @@ export default async function PackageElementsPage({
 
   return (
     <div className='mt-38 pt-(header-height)'>
-      <BreadcrumbsNav />
+      <PathNav />
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
         <Suspense fallback={<div className="py-12">Loading...</div>}>
           <PackageContent packageId={packageId} />

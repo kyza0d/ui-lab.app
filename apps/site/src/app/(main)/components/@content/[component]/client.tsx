@@ -11,7 +11,7 @@ import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Toolti
 import { useState, useMemo } from "react";
 import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 import { FaFlask, FaGithub } from "react-icons/fa6";
-import { BreadcrumbsNav } from "@/features/navigation";
+import { PathNav } from "@/features/navigation";
 import { Footer } from "@/features/layout";
 import { useChat } from "@/features/chat";
 
@@ -38,7 +38,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
     return (
       <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
         <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
-          <BreadcrumbsNav />
+          <PathNav />
           <div className="flex items-center">
             <div className="pt-12 mx-auto max-w-3xl pb-12">
               <h2 className="text-4xl font-bold text-foreground-50">Component Not Found</h2>
@@ -82,8 +82,11 @@ export function ComponentClient({ componentId }: { componentId: string }) {
     if (activeTab === "styles") {
       const items: any[] = [];
       const styles = generatedStyles[componentId];
-      if (styles) {
-        items.push({ id: "styles-css-module", title: "CSS Module", level: 2 });
+      if (styles && styles.cssVariables && styles.cssVariables.length > 0) {
+        items.push({ id: "css-variables", title: "CSS Variables", level: 2 });
+      }
+      if (styles && styles.rawCss) {
+        items.push({ id: "styles-css-module", title: "Full Stylesheet", level: 2 });
       }
       return items;
     }
@@ -94,9 +97,9 @@ export function ComponentClient({ componentId }: { componentId: string }) {
   const tocItems = getTocItems();
 
   return (
-    <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
+    <div className={cn("px-4 grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
       <div className={cn("flex flex-col max-w-3xl mx-auto w-full justify-center mt-(--header-height)")}>
-        <BreadcrumbsNav />
+        <PathNav />
         <Toaster />
         <div className="flex items-center">
           <div className="w-full pt-12 pb-12">
@@ -160,7 +163,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 </section>
               </TabsContent>
               <TabsContent value="api" className="mt-6">
-                <APIDocumentation componentId={componentId} api={generatedAPI[componentId]} />
+                <APIDocumentation componentId={componentId} api={generatedAPI[componentId]} styleableParts={generatedStyles[componentId]?.styleableParts || []} />
               </TabsContent>
               <TabsContent value="styles" className="mt-6">
                 <StylesDocumentation componentId={componentId} styles={generatedStyles[componentId]} />
@@ -183,7 +186,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
   );
 }
 
-function APIDocumentation({ componentId, api }: { componentId: string; api: any }) {
+function APIDocumentation({ api, styleableParts }: { componentId: string; api: any; styleableParts: Array<{ name: string }> }) {
   if (!api) {
     return (
       <div className="text-foreground-400 py-8">
@@ -269,9 +272,27 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
           <Table<PropData>
             data={api.props}
             columns={propsColumns}
-            expandRender={(row) => row.description ? (
-              <p className="text-foreground-400 text-xs">{row.description}</p>
-            ) : null}
+            expandRender={(row) => {
+              if (row.name === "styles" && styleableParts && styleableParts.length > 0) {
+                return (
+                  <div className="flex flex-col gap-2 p-2">
+                    <p className="text-foreground-400 text-xs">{row.description}</p>
+                    <div className="mt-2">
+                      <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-foreground-400 text-sm mt-1">
+                        {styleableParts.map((part) => (
+                          <li key={part.name}>
+                            <InlineCodeHighlight code={`'${part.name}'`} language="typescript" />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              }
+              return row.description ? (
+                <p className="text-foreground-400 text-xs">{row.description}</p>
+              ) : null;
+            }}
           />
         </div>
       )}
@@ -310,20 +331,114 @@ function APIDocumentation({ componentId, api }: { componentId: string; api: any 
   );
 }
 
-function StylesDocumentation({ componentId, styles }: { componentId: string; styles: string }) {
-  if (!styles) {
+type CssVariable = {
+  name: string;
+  value: string;
+  variant?: string | null;
+};
+
+type StyleInfo = {
+  rawCss: string;
+  cssVariables: CssVariable[];
+};
+
+const colorRegex = /(oklch|rgb|rgba|hsl|hsla|#|var|color-mix|transparent)\b/i;
+
+const ColorSwatch = ({ color }: { color: string }) => {
+  const isColor = colorRegex.test(color);
+
+  if (!isColor) {
+    return null;
+  }
+
+  return (
+    <div
+      className="w-6 h-6 rounded-xs border border-background-700"
+      style={{ backgroundColor: color }}
+    />
+  );
+};
+
+function StylesDocumentation({ componentId, styles }: { componentId: string; styles: StyleInfo }) {
+  const groupedVariables = useMemo(() => {
+    if (!styles?.cssVariables) return {};
+    const groups: Record<string, CssVariable[]> = {};
+    styles.cssVariables.forEach(variable => {
+      const variant = variable.variant || 'Base';
+      if (!groups[variant]) groups[variant] = [];
+      groups[variant].push(variable);
+    });
+    return groups;
+  }, [styles?.cssVariables]);
+
+  if (!styles || (!styles.cssVariables?.length && !styles.rawCss)) {
     return (
       <div className="text-foreground-400 py-8">
-        <p>No styles documentation available for this component.</p>
+        <p>No structured styles documentation available for this component.</p>
+        {styles?.rawCss && (
+          <div className="mt-8">
+            <Code language="css" heading="styles.module.css">{styles.rawCss}</Code>
+          </div>
+        )}
       </div>
     );
   }
 
+  const cssVariablesColumns: Column<CssVariable>[] = [
+    {
+      key: 'name',
+      label: 'Variable',
+      render: (value: string) => <InlineCodeHighlight code={value} language="css" />,
+    },
+    {
+      key: 'value',
+      label: 'Value',
+      render: (value: string) => (
+        <span className="flex items-center gap-2">
+          <ColorSwatch color={value} />
+          <InlineCodeHighlight code={value} language="css" />
+        </span>
+      ),
+    },
+  ];
+
   return (
-    <div className="space-y-8">
-      <div id="styles-css-module" className="scroll-mt-20">
-        <Code language="css" heading="styles.module.css">{styles}</Code>
-      </div>
+    <div className="space-y-12">
+      {Object.keys(groupedVariables).length > 0 && (
+        <div>
+          <h3 id="css-variables" className="text-lg font-semibold text-foreground-50 mb-4 scroll-mt-20">
+            CSS Variables
+          </h3>
+          <p className="text-foreground-400 mb-6">
+            These CSS custom properties can be overridden to customize the component's appearance.
+            Colors displayed inline are automatically detected and rendered.
+          </p>
+          <div className="space-y-10">
+            {Object.entries(groupedVariables).map(([variant, variables]) => (
+              <div key={variant}>
+                <h4 className="text-xs font-semibold text-foreground-400 ml-2 mb-4">
+                  <span className="h-px w-4 bg-background-700" />
+                  {variant}
+                </h4>
+                <Table data={variables} columns={cssVariablesColumns} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+
+
+      {styles.rawCss && (
+        <div>
+          <h3 id="styles-css-module" className="text-lg font-semibold text-foreground-50 mb-4 scroll-mt-20">
+            Full Stylesheet
+          </h3>
+          <Code language="css" heading={`${componentId}.module.css`}>
+            {styles.rawCss}
+          </Code>
+        </div>
+      )}
     </div>
   );
 }

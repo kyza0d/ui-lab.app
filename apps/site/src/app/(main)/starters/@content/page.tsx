@@ -1,5 +1,5 @@
 'use client';
-import { BreadcrumbsNav } from '@/features/navigation';
+import { PathNav } from '@/features/navigation';
 import { getAllStarters } from 'ui-lab-registry';
 import { StartersGridClient } from '@/features/starters';
 import { GridCTA } from '@/features/landing/components/grid-cta';
@@ -36,7 +36,7 @@ export default function StartersPage() {
 
   return (
     <div className='mt-38 pt-(header-height)'>
-      <BreadcrumbsNav />
+      <PathNav />
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
         <div className="space-y-4 mb-12">
           <h2 className="font-bold text-foreground-50">Starters</h2>

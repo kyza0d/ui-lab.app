@@ -103,7 +103,7 @@ export function BuildStatus() {
   const latest = deployments[0];
 
   return (
-    <div className="w-full bg-background-200 border border-background-700 rounded-md overflow-hidden">
+    <div className="w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden">
 
       <div className="px-5 pt-4 pb-3">
         <div className="flex items-center justify-between gap-2">
@@ -228,16 +228,16 @@ export function BuildStatus() {
                 <AuthorAvatar author={d.author} />
               </Tooltip>
               <Tooltip content={`${d.branch}@${d.commit}`} position="top">
-                <code className="text-xs font-mono text-foreground-500 bg-background-400 px-1 py-0.5 rounded leading-none cursor-default">
+                <pre className="text-xs! font-mono text-foreground-500 bg-background-400 px-1 py-0.5 rounded leading-none cursor-default">
                   {d.commit}
-                </code>
+                </pre>
               </Tooltip>
               {d.status === "building" && d.startedAt ? (
                 <span className="text-xs font-mono text-foreground-300 flex-shrink-0">
                   <ElapsedTimer startedAt={d.startedAt} />
                 </span>
               ) : (
-                <span className="text-xs text-foreground-500 flex-shrink-0">{d.time}</span>
+                <span className="text-xs font-medium text-foreground-500 flex-shrink-0">{d.time}</span>
               )}
             </div>
             {i < deployments.length - 1 && <Divider spacing="none" size="sm" />}

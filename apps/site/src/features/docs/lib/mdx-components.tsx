@@ -5,6 +5,9 @@ import ColorPaletteGrid from '@/features/theme/components/color-palette-grid'
 import { Banner, BannerTitle, BannerBody } from '../components/mdx/client-banner'
 import { Anchor, AnchorPreview, AnchorUnderline } from '../components/mdx/client-anchor'
 import { Divider } from '../components/mdx/client-divider'
+import { MermaidDiagram } from '../components/mdx/mermaid-diagram'
+import Icon from '@/shared/components/Icon'
+import * as LucideIcons from 'lucide-react'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
@@ -37,7 +40,7 @@ export const mdxComponents = {
     </h4>
   ),
   p: ({ children }: any) => (
-    <p className="text-md my-4">
+    <p className="my-4">
       {children}
     </p>
   ),
@@ -130,4 +133,11 @@ export const mdxComponents = {
   Anchor: Object.assign(Anchor, { Preview: AnchorPreview, Underline: AnchorUnderline }),
   Banner: Object.assign(Banner, { Title: BannerTitle, Body: BannerBody }),
   Divider,
+  MermaidDiagram,
+  Icon: ({ name, ...props }: any) => {
+    const IconComponent = (LucideIcons as any)[name]
+    if (!IconComponent) return null
+    return <Icon IconComponent={IconComponent} {...props} />
+  },
 }
+

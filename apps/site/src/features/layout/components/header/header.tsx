@@ -5,7 +5,7 @@ import { useState, useMemo, memo } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
 import { CommandPalette } from "@/features/command-palette";
 import { Logo } from "@/shared";
-import { Input, Badge, Divider, Tabs, TabsList, TabsTrigger, Button } from "ui-lab-components";
+import { Input, Badge, Divider, Tabs, TabsList, TabsTrigger, Button, Tooltip } from "ui-lab-components";
 import { useApp } from "@/features/theme";
 import { useChat } from "@/features/chat";
 import { cn } from "@/shared";
@@ -78,8 +78,8 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700 bg-background-950 h-[58px]">
-        <div className={cn("relative h-full max-w-(--page-width) border-x border-background-700 flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
+      <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700/40 bg-background-950 h-[58px]">
+        <div className={cn("relative h-full max-w-(--page-width) border-x border-background-700/40 flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
           <div className=" flex items-center flex-1 min-w-0">
 
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
@@ -118,36 +118,40 @@ export default function Header({
             )}
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 flex gap-3">
+          <div className="flex gap-2 absolute left-1/2 -translate-x-1/2">
             <div className="relative flex items-center">
-              <Input
-                placeholder="Search..."
-                prefixIcon={<FaMagnifyingGlass size={13} />}
-                className="text-xs w-50 md:w-60 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
-                onClick={() => setIsCommandPaletteOpen(true)}
-                readOnly
-              />
-              <Badge className="text-foreground-300 font-semibold text-xs absolute px-2 top-1/2 -translate-y-1/2 right-1.5 rounded-xs gap-1 border border-background-700" size="sm">
-                Ctrl {" "} K
-              </Badge>
+              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
+                <Input
+                  placeholder="Search..."
+                  prefixIcon={<FaMagnifyingGlass size={13} />}
+                  styles="text-xs w-60 md:w-70 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                  onClick={() => setIsCommandPaletteOpen(true)}
+                  readOnly
+                />
+              </Tooltip>
             </div>
+
             {/* This comes later */}
-            <Button
-              variant="ghost"
-              className="px-2 flex items-center justify-center min-w-[30px] min-h-[30px]"
-              onClick={toggleChat}
-              aria-label="Toggle AI chat"
-            >
-              <HiMiniSparkles
-                size={15}
-                className={cn(
-                  "transition-colors",
-                  isChatOpen
-                    ? "text-accent-500"
-                    : "text-foreground-300"
-                )}
-              />
-            </Button>
+            <div className="hidden">
+              <Tooltip showArrow content="Open Chat Panel" position="bottom" hint="ctrl-i">
+                <Button
+                  variant="ghost"
+                  className="px-2 flex items-center justify-center min-w-[30px] min-h-[30px]"
+                  onClick={toggleChat}
+                  aria-label="Toggle AI chat"
+                >
+                  <HiMiniSparkles
+                    size={15}
+                    className={cn(
+                      "transition-colors",
+                      isChatOpen
+                        ? "text-accent-500"
+                        : "text-foreground-300"
+                    )}
+                  />
+                </Button>
+              </Tooltip>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
@@ -172,18 +176,17 @@ export default function Header({
               <Divider size='sm' className="-my-3" orientation="vertical" />
             </div>
             <SettingsPanel />
-
-
-
             <ThemeToggle />
 
-            <button
-              onClick={() => setIsMobileMenuOpen((v) => !v)}
-              className="lg:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMobileMenuOpen ? <HiX size={20} /> : <FaBars size={20} />}
-            </button>
+            <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
+              <button
+                onClick={() => setIsMobileMenuOpen((v) => !v)}
+                className="lg:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {isMobileMenuOpen ? <HiX size={20} /> : <FaBars size={20} />}
+              </button>
+            </Tooltip>
           </div>
         </div>
       </header>

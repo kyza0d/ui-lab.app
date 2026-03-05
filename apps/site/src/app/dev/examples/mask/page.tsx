@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
 import { Mask, Scroll, Button } from "ui-lab-components";
 
@@ -58,7 +58,9 @@ function generateGrid() {
 function AsciiRevealPreview() {
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const [grid, setGrid] = useState(generateGrid);
+  const [grid, setGrid] = useState(""); // Initialize with an empty string
+
+  useEffect(() => setGrid(generateGrid()), []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;

@@ -21,6 +21,7 @@ import {
   TabsTrigger,
   TabsContent,
   Button,
+  Scroll,
 } from "ui-lab-components";
 import { ColorsPanel } from "./colors-panel";
 import { TypographyPanel } from "./typography-panel";
@@ -256,7 +257,8 @@ export const SettingsContent = () => {
         </Tabs>
       </div>
 
-      <div className="border-b border-background-700 flex-1 overflow-y-auto custom-scrollbar">
+      <div className="border-b border-background-700 flex-1 overflow-hidden">
+        <Scroll>
         <Tabs
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
@@ -415,6 +417,7 @@ export const SettingsContent = () => {
             />
           </TabsContent>
         </Tabs>
+        </Scroll>
       </div>
 
       <Link href="/config" className="ml-auto m-2" >

@@ -4,7 +4,7 @@ export { usePrefetchOnHover } from "./hooks/use-prefetch-on-hover";
 // Utilities
 export * from "./lib/layout-utils";
 export { cn } from "./lib/utils";
-export { generateMetadata, type SiteMetadataConfig } from "./lib/metadata";
+export { generateMetadata } from "./lib/metadata";
 export { extractDocMetadata, extractComponentMetadata, extractElementMetadata, type ExtractedMetadata, type DocMetadata, type ComponentMetadata, type ElementMetadata } from "./lib/metadata-extractors";
 export { Dashboard } from "./lib/demos/dashboard";
 

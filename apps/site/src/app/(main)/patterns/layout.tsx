@@ -15,7 +15,7 @@ export default function PatternsLayout({
 }: Omit<PatternsLayoutProps, "children">) {
   return (
     <div className="max-w-(--page-width) mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto]">
-      <Suspense fallback={<div className="hidden md:flex w-68" />}>
+      <Suspense fallback={null}>
         {sidebar}
       </Suspense>
       {content}

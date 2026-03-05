@@ -55,7 +55,7 @@ export const TypographyPanel = memo(
       <div className="m-0 space-y-2">
         <div className="mx-[6px] mb-4 p-3 bg-background-800/40 rounded-[12px] border border-background-700 space-y-3">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground-400 block">
+            <label className="text-xs font-medium text-foreground-400 block">
               Sans Font
             </label>
             <Select
@@ -77,7 +77,7 @@ export const TypographyPanel = memo(
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground-400 block">
+            <label className="text-xs font-medium text-foreground-400 block">
               Mono Font
             </label>
             <Select

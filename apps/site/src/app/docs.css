@@ -40,15 +40,18 @@
 }
 
 #docs .banner {
-  @apply mt-12 mb-4
+  @apply mt-12 mb-4;
 }
 
-#docs .banner-content p, #docs .trigger p {
-  @apply m-0
+#docs .banner p {
+  font-size: var(--text-xs);
 }
 
-#docs .banner-title {
+#docs .content p, #docs .trigger p {
+  @apply m-0;
+}
+
+#docs .title {
   @apply m-0 mb-2;
-  font-size: var(--text-md)
 } 
 

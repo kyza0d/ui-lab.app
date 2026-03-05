@@ -241,8 +241,48 @@ export const tocRegistry: TocRegistry = {
   ],
   "customization-theming": [
     {
-      "id": "coming-soon",
-      "title": "Coming Soon",
+      "id": "how-the-token-pipeline-works",
+      "title": "How the token pipeline works",
+      "level": 2
+    },
+    {
+      "id": "color-families",
+      "title": "Color families",
+      "level": 2
+    },
+    {
+      "id": "dark-mode-inversion",
+      "title": "Dark mode inversion",
+      "level": 2
+    },
+    {
+      "id": "applying-tokens",
+      "title": "Applying tokens",
+      "level": 2
+    },
+    {
+      "id": "tailwind-classes",
+      "title": "Tailwind classes",
+      "level": 3
+    },
+    {
+      "id": "css-variables",
+      "title": "CSS variables",
+      "level": 3
+    },
+    {
+      "id": "customizing-the-accent-color",
+      "title": "Customizing the accent color",
+      "level": 2
+    },
+    {
+      "id": "common-mistakes",
+      "title": "Common mistakes",
+      "level": 2
+    },
+    {
+      "id": "further-reading",
+      "title": "Further reading",
       "level": 2
     }
   ],
@@ -1377,8 +1417,8 @@ export const tocRegistry: TocRegistry = {
       "level": 3
     },
     {
-      "id": "mobile-768px",
-      "title": "Mobile (< 768px)",
+      "id": "mobile-",
+      "title": "Mobile (",
       "level": 3
     },
     {

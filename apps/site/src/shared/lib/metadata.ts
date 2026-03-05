@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { getTitleForPath, generateTitleFromPathname } from "./metadata-config";
-import type { ExtractedMetadata } from "./metadata-extractors";
 
 export interface SiteMetadataConfig {
   title?: string;

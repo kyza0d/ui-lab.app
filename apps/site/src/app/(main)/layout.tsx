@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { HeaderClient } from "@/features/layout";
+import { Footer, HeaderClient } from "@/features/layout";
 import { SidebarProvider } from "@/features/layout/hooks/sidebar-context";
 import { LandingSidebarProvider } from "@/features/layout/hooks/landing-sidebar-context";
 import { ChatWindow } from "@/features/chat";
@@ -12,11 +12,7 @@ const ElementsHeaderSetup = dynamic(
   { ssr: false }
 );
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <LandingSidebarProvider>

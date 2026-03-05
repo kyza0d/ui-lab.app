@@ -1,13 +1,174 @@
 ---
 title: Theming
-description: Customize UI Lab components with custom themes
+description: How UI Lab's token system works — color families, shade ranges, dark mode inversion, and dynamic accent customization.
 category: Customization
+publishedOn: "2026-02-25"
+tags: ["theming", "tokens", "colors", "dark-mode", "css-variables"]
 ---
 
 # Theming
 
-Customize the appearance of UI Lab components using design tokens and theme configuration.
+UI Lab is built on a semantic token system backed by OKLCH — a perceptually-uniform color space. Every color decision routes through CSS custom properties, so swapping themes or customizing the accent is a one-line change.
 
-## Coming Soon
+---
 
-This section is coming soon. Learn how to create custom themes, override design tokens, and adapt UI Lab components to your brand.
+## How the token pipeline works
+
+<MermaidDiagram chart={`graph TB
+    OKLCH["OKLCH Color Space"]
+
+    subgraph Families["Color Families"]
+        BG["Background 500-950"]
+        FG["Foreground 50-400"]
+        ACC["Accent 50-600"]
+        SEM["Semantic: Success, Danger, Warning, Info"]
+    end
+
+    subgraph Tokens["CSS Custom Properties"]
+        BGVAR["--background-N"]
+        FGVAR["--foreground-N"]
+        ACCVAR["--accent-N"]
+        SEMVAR["--success-N, --danger-N, --warning-N"]
+    end
+
+    subgraph Usage["Authoring Layer"]
+        TW["Tailwind: bg-accent-600, text-foreground-300"]
+        CSSV["CSS: var(--accent-600)"]
+        DM["Dark Mode: shades auto-invert"]
+    end
+
+    OKLCH --> BG & FG & ACC & SEM
+    BG --> BGVAR
+    FG --> FGVAR
+    ACC --> ACCVAR
+    SEM --> SEMVAR
+    BGVAR & FGVAR & ACCVAR & SEMVAR --> TW & CSSV
+    TW & CSSV --> DM
+`} />
+
+---
+
+## Color families
+
+Each family has a bounded shade range:
+
+| Family | Shade range | Direction | Use for |
+|---|---|---|---|
+| `background` | 500–950 | 500 = lightest surface | Page, card, container backgrounds |
+| `foreground` | 50–400 | 50 = lightest text | Text, borders, icons, labels |
+| `accent` | 50–600 | 600 = strongest | Primary actions, CTAs, links |
+| `success` | 50–600 | 600 = strongest | Confirmations, positive states |
+| `danger` | 50–600 | 600 = strongest | Errors, destructive actions |
+| `warning` | 50–600 | 600 = strongest | Cautions, pending states |
+| `info` | 50–600 | 600 = strongest | Neutral information |
+
+---
+
+## Dark mode inversion
+
+There is no `dark:` prefix in UI Lab. Shades invert automatically when the theme switches:
+
+```css
+/* Same class works in both modes */
+.card {
+  background-color: var(--background-700);
+  color: var(--foreground-300);
+}
+/* Dark:  background-700 → deep dark surface,  foreground-300 → light text  */
+/* Light: background-700 → mid-light surface,  foreground-300 → medium text */
+```
+
+```tsx
+{/* No dark: variant needed — shade inversion handles it */}
+<div className="bg-background-700 text-foreground-300 border border-foreground-100">
+  Works in both light and dark mode
+</div>
+```
+
+---
+
+## Applying tokens
+
+### Tailwind classes
+
+```tsx
+{/* Surfaces */}
+<div className="bg-background-600">Page background</div>
+<div className="bg-background-700">Card surface</div>
+<div className="bg-background-800">Elevated / hover state</div>
+
+{/* Text */}
+<p className="text-foreground-300">Body text</p>
+<p className="text-foreground-200">Secondary text</p>
+<p className="text-foreground-100">Muted / caption</p>
+
+{/* Primary actions */}
+<button className="bg-accent-600 text-foreground-50 hover:bg-accent-500">
+  Primary button
+</button>
+
+{/* Semantic states */}
+<div className="bg-success-50 border border-success-200 text-success-600">
+  Success message
+</div>
+<div className="bg-danger-50 border border-danger-200 text-danger-600">
+  Error message
+</div>
+```
+
+### CSS variables
+
+```css
+.my-component {
+  background: var(--background-700);
+  color: var(--foreground-300);
+  border: 1px solid var(--foreground-100);
+}
+
+.my-component:hover {
+  background: var(--background-800);
+}
+```
+
+---
+
+## Customizing the accent color
+
+The accent family is designed for dynamic customization. Override it in your CSS:
+
+```css
+/* globals.css */
+:root {
+  --accent-50:  oklch(97% 0.012 262);
+  --accent-100: oklch(93% 0.030 262);
+  --accent-200: oklch(86% 0.065 262);
+  --accent-300: oklch(74% 0.110 262);
+  --accent-400: oklch(62% 0.145 262);
+  --accent-500: oklch(52% 0.170 262);
+  --accent-600: oklch(44% 0.190 262);
+}
+```
+
+All components that use `accent-*` tokens pick up the change automatically — no component code changes needed.
+
+---
+
+## Common mistakes
+
+| Wrong | Correct |
+|---|---|
+| `bg-white` | `bg-background-500` |
+| `text-gray-900` | `text-foreground-400` |
+| `bg-zinc-100` | `bg-background-600` |
+| `bg-background-50` | `bg-background-500` — min shade is 500 |
+| `text-foreground-500` | `text-foreground-400` — max shade is 400 |
+| `bg-accent-700` | `bg-accent-600` — max shade is 600 |
+| `border-red-500` | `border-danger-500` |
+
+---
+
+## Further reading
+
+- <Anchor href="/design-system/colors">Colors</Anchor> — full OKLCH palette reference with all shade values
+- <Anchor href="/design-system/tokens">Design Tokens</Anchor> — complete token reference for spacing, typography, and motion
+- <Anchor href="/design-system/variables">Variables</Anchor> — all CSS custom properties and their defaults
