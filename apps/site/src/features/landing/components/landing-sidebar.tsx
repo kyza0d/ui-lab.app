@@ -68,7 +68,7 @@ const QUICK_LINKS = [
 ];
 
 const AGENT_LINKS = [
-  { label: 'Skill', href: '/docs/agent/skills' },
+  { label: 'Skills', href: '/docs/agent/skills' },
   { label: 'LLMS.txt', href: '/llms.txt' },
   { label: 'MCP', href: '/docs/agents-mcps-installation' },
 ];

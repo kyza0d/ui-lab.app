@@ -1,85 +1,145 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Button } from '../Button';
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Button } from '../Button'
 import {
-  testAccessibility,
-  testInteraction,
   testRefForwarding,
-  testStyling
-} from '@/tests/behaviors';
+  testStyling,
+  testButtonA11y,
+  clickElement,
+  pressEnter,
+  auditA11y,
+} from '@/tests/utils'
+import { renderButton, getButton } from './Button.test-utils'
 
-describe('Button Component Behaviors', () => {
-  const defaultProps = { children: 'Button' };
+describe('Button - Accessibility', () => {
+  it('has no accessibility violations', async () => {
+    const { container } = render(<Button>Click me</Button>)
+    await auditA11y(container)
+  })
 
-  testAccessibility({
-    component: Button,
-    defaultProps,
-    variants: {
-      variant: ['primary', 'secondary', 'outline', 'ghost'],
-      size: ['sm', 'md', 'lg']
+  it('renders with correct role', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByRole('button')).toBeInTheDocument()
+  })
+
+  it('accepts aria-label', async () => {
+    const { container } = render(<Button aria-label="Custom Label" />)
+    expect(screen.getByRole('button', { name: /custom label/i })).toBeInTheDocument()
+    await auditA11y(container)
+  })
+
+  it('is accessible with all variants', async () => {
+    const variants = ['primary', 'secondary', 'outline', 'ghost']
+    for (const variant of variants) {
+      const { container, unmount } = render(
+        <Button variant={variant as any}>Button</Button>
+      )
+      await auditA11y(container)
+      unmount()
     }
-  });
+  })
 
-  testInteraction({
-    component: Button,
-    defaultProps
-  });
+  it('is accessible with all sizes', async () => {
+    const sizes = ['sm', 'md', 'lg']
+    for (const size of sizes) {
+      const { container, unmount } = render(
+        <Button size={size as any}>Button</Button>
+      )
+      await auditA11y(container)
+      unmount()
+    }
+  })
+})
 
+describe('Button - Interactions', () => {
+  it('calls onClick when clicked', async () => {
+    const onClick = vi.fn()
+    const user = userEvent.setup()
+    render(<Button onClick={onClick}>Click me</Button>)
+
+    await user.click(screen.getByRole('button'))
+    expect(onClick).toHaveBeenCalledOnce()
+  })
+
+  it('responds to Enter key', async () => {
+    const onClick = vi.fn()
+    render(<Button onClick={onClick}>Click me</Button>)
+
+    const button = screen.getByRole('button')
+    await pressEnter(button)
+    expect(onClick).toHaveBeenCalledOnce()
+  })
+
+  it('does not call onClick when disabled', async () => {
+    const onClick = vi.fn()
+    const user = userEvent.setup()
+    render(
+      <Button isDisabled onClick={onClick}>
+        Click me
+      </Button>
+    )
+
+    const button = screen.getByRole('button')
+    await user.click(button)
+    expect(onClick).not.toHaveBeenCalled()
+  })
+})
+
+describe('Button - Ref Forwarding', () => {
   testRefForwarding({
     component: Button,
-    defaultProps,
-    expectedElement: HTMLButtonElement
-  });
+    defaultProps: { children: 'Button' },
+    expectedElement: HTMLButtonElement,
+  })
+})
 
+describe('Button - Styling', () => {
   testStyling({
     component: Button,
-    defaultProps,
+    defaultProps: { children: 'Button' },
     role: 'button',
-    baseClassName: 'button'
-  });
-});
+  })
+})
 
 describe('Button - Component Specific', () => {
   it('tracks press state via data-pressed', async () => {
-    const user = userEvent.setup();
-    render(<Button>Press Me</Button>);
-    const button = screen.getByRole('button');
+    const user = userEvent.setup()
+    render(<Button>Press Me</Button>)
+    const button = screen.getByRole('button')
 
-    // Start press
-    await user.pointer({ keys: '[MouseLeft>]', target: button });
-    expect(button).toHaveAttribute('data-pressed', 'true');
+    await user.pointer({ keys: '[MouseLeft>]', target: button })
+    expect(button).toHaveAttribute('data-pressed', 'true')
 
-    // End press
-    await user.pointer({ keys: '[MouseLeft]', target: button });
-    expect(button).toHaveAttribute('data-pressed', 'false');
-  });
+    await user.pointer({ keys: '[MouseLeft]', target: button })
+    expect(button).toHaveAttribute('data-pressed', 'false')
+  })
 
   it('tracks hover state via data-hovered', async () => {
-    const user = userEvent.setup();
-    render(<Button>Hover Me</Button>);
-    const button = screen.getByRole('button');
+    const user = userEvent.setup()
+    render(<Button>Hover Me</Button>)
+    const button = screen.getByRole('button')
 
-    await user.hover(button);
-    expect(button).toHaveAttribute('data-hovered', 'true');
+    await user.hover(button)
+    expect(button).toHaveAttribute('data-hovered', 'true')
 
-    await user.unhover(button);
-    expect(button).toHaveAttribute('data-hovered', 'false');
-  });
+    await user.unhover(button)
+    expect(button).toHaveAttribute('data-hovered', 'false')
+  })
 
   it('tracks focus-visible state', async () => {
-    const user = userEvent.setup();
-    render(<Button>Focus Me</Button>);
-    const button = screen.getByRole('button');
+    const user = userEvent.setup()
+    render(<Button>Focus Me</Button>)
+    const button = screen.getByRole('button')
 
-    await user.tab();
-    expect(button).toHaveAttribute('data-focus-visible', 'true');
-  });
+    await user.tab()
+    expect(button).toHaveAttribute('data-focus-visible', 'true')
+  })
 
-  it('respects isDisabled prop from React Aria', () => {
-    render(<Button isDisabled>Disabled</Button>);
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
-    expect(button).toHaveAttribute('data-disabled', 'true');
-  });
-});
+  it('respects isDisabled prop', () => {
+    render(<Button isDisabled>Disabled</Button>)
+    const button = screen.getByRole('button')
+    expect(button).toBeDisabled()
+    expect(button).toHaveAttribute('data-disabled', 'true')
+  })
+})

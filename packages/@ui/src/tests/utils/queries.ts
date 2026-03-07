@@ -24,11 +24,17 @@ export function getDisabledElements(
  * Get all elements with a specific role
  */
 export function getElementByRole(
-  role: string,
-  options?: { name?: string; hidden?: boolean }
+  containerOrRole: HTMLElement | string,
+  roleOrOptions?: string | { name?: string; hidden?: boolean },
+  maybeOptions?: { name?: string; hidden?: boolean }
 ) {
   try {
-    return screen.getByRole(role, options)
+    if (typeof containerOrRole === 'string') {
+      return screen.getByRole(containerOrRole, roleOrOptions as { name?: string; hidden?: boolean })
+    }
+    const role = roleOrOptions as string
+    const options = maybeOptions as { name?: string; hidden?: boolean }
+    return within(containerOrRole).getByRole(role, options)
   } catch {
     return null
   }
@@ -38,11 +44,17 @@ export function getElementByRole(
  * Get all elements with a specific role
  */
 export function getAllElementsByRole(
-  role: string,
-  options?: { hidden?: boolean }
+  containerOrRole: HTMLElement | string,
+  roleOrOptions?: string | { hidden?: boolean },
+  maybeOptions?: { hidden?: boolean }
 ) {
   try {
-    return screen.getAllByRole(role, options)
+    if (typeof containerOrRole === 'string') {
+      return screen.getAllByRole(containerOrRole, roleOrOptions as { hidden?: boolean })
+    }
+    const role = roleOrOptions as string
+    const options = maybeOptions as { hidden?: boolean }
+    return within(containerOrRole).getAllByRole(role, options)
   } catch {
     return []
   }

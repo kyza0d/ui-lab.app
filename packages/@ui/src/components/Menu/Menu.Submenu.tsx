@@ -3,7 +3,7 @@ import { createPortal } from "react-dom"
 
 import { useFloating } from "@/hooks/useFloat/react/useFloating"
 import { flip } from "@/hooks/useFloat/core/middleware/flip"
-import { offset } from "@/hooks/useFloat/core/middleware/offset"
+import { offset as offsetMiddleware } from "@/hooks/useFloat/core/middleware/offset"
 import { autoUpdate } from "@/hooks/useFloat/dom/autoUpdate"
 import { useHover } from "@react-aria/interactions"
 import { ChevronRight } from "lucide-react"
@@ -215,7 +215,7 @@ MenuSubTrigger.displayName = "MenuSubTrigger"
 
 /** Floating panel containing the items of a nested submenu */
 const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
-  ({ children, className, sideOffset = 8, alignOffset = 0, styles: stylesProp }, ref) => {
+  ({ children, className, offset = 8, styles: stylesProp }, ref) => {
     const submenuContext = useMenuSubmenuContext()
     const parentContext = useMenuContext()
     const contentRef = React.useRef<HTMLDivElement>(null)
@@ -228,7 +228,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
       placement: "right-start",
       whileElementsMounted: autoUpdate,
       middleware: [
-        offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
+        offsetMiddleware({ mainAxis: offset, crossAxis: offset }),
         flip({ fallbackPlacements: ["left-start"] }),
       ],
     })

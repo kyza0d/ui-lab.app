@@ -47,6 +47,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       isOpen,
       setIsOpen,
       wrapperRef,
+      contentRef,
+      triggerRef,
       maxItems,
       triggerMode,
       handleHoverIntent,
@@ -61,6 +63,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       setFocusedKey,
       focusedKey,
       mouseMoveDetectedRef,
+      contentId,
     } = useSelectContext()
     const groupContext = React.useContext(GroupContext)
     const [mounted, setMounted] = React.useState(false)
@@ -69,6 +72,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     const inputRef = React.useRef<HTMLInputElement>(null)
     const isKeyboardNavRef = React.useRef(false)
     const wasJustOpenedRef = React.useRef(false)
+    const focusFrameRef = React.useRef<number | null>(null)
 
     const offsetValue = groupContext?.isInGroup ? 4 : 2
 
@@ -116,17 +120,29 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     React.useEffect(() => {
       if (isOpen && searchable && inputRef.current) {
-        requestAnimationFrame(() => {
+        focusFrameRef.current = requestAnimationFrame(() => {
           inputRef.current?.focus({ preventScroll: true })
         })
+      }
+      return () => {
+        if (focusFrameRef.current !== null) {
+          cancelAnimationFrame(focusFrameRef.current)
+          focusFrameRef.current = null
+        }
       }
     }, [isOpen, searchable])
 
     React.useEffect(() => {
       if (isOpen && !searchable && floatingElement) {
-        requestAnimationFrame(() => {
+        focusFrameRef.current = requestAnimationFrame(() => {
           floatingElement?.focus({ preventScroll: true })
         })
+      }
+      return () => {
+        if (focusFrameRef.current !== null) {
+          cancelAnimationFrame(focusFrameRef.current)
+          focusFrameRef.current = null
+        }
       }
     }, [isOpen, searchable, floatingElement])
 
@@ -186,7 +202,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       return () => observer.disconnect()
     }, [isOpen, floatingElement, maxItems])
 
-    const mergedRef = useMergedRef<HTMLDivElement>(refs.setFloating, setFloatingElement, ref)
+    const mergedRef = useMergedRef<HTMLDivElement>(refs.setFloating, setFloatingElement, contentRef, ref)
 
     const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
       switch (e.key) {
@@ -232,9 +248,10 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
           e.preventDefault()
           setIsOpen(false)
           setSearchValue("")
+          triggerRef.current?.focus()
           break
       }
-    }, [navigateToNextItem, navigateToPrevItem, selectFocusedItem, filteredItems, setFocusedKey, setIsOpen, setSearchValue])
+    }, [navigateToNextItem, navigateToPrevItem, selectFocusedItem, filteredItems, setFocusedKey, setIsOpen, setSearchValue, triggerRef])
 
     const handleInputKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End' || e.key === 'Enter') {
@@ -243,17 +260,28 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
         e.preventDefault()
         setIsOpen(false)
         setSearchValue("")
+        triggerRef.current?.focus()
       }
-    }, [handleKeyDown, setIsOpen, setSearchValue])
+    }, [handleKeyDown, setIsOpen, setSearchValue, triggerRef])
+
+    React.useEffect(() => {
+      if (!isOpen || triggerMode === 'hover') return
+
+      const handlePointerDown = (e: MouseEvent) => {
+        const target = e.target as HTMLElement
+        const isClickInside = wrapperRef.current?.contains(target) ||
+                             floatingElement?.contains(target)
+
+        if (!isClickInside) {
+          setIsOpen(false)
+        }
+      }
+
+      document.addEventListener('mousedown', handlePointerDown)
+      return () => document.removeEventListener('mousedown', handlePointerDown)
+    }, [isOpen, triggerMode, floatingElement, wrapperRef, setIsOpen])
 
     const showContent = isOpen && isPositioned
-
-    const hoverHandlers = triggerMode === "hover"
-      ? {
-        onMouseEnter: () => handleHoverIntent(true),
-        onMouseLeave: () => handleHoverIntent(false),
-      }
-      : {}
 
     if (!mounted) return null
 
@@ -261,65 +289,58 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     return createPortal(
       <>
-        {showContent && triggerMode !== "hover" && (
-          <div
-            style={{ position: "fixed", inset: 0, zIndex: 49999 }}
-            onClick={() => setIsOpen(false)}
-            className={cn(resolved.overlay)}
-          />
-        )}
-        {isOpen && (
-          <div
-            ref={mergedRef}
-            className={cn(styles.content, className, resolved.root)}
-            data-state={showContent ? "open" : "closed"}
-            data-placement={placement.split('-')[0]}
-            tabIndex={-1}
-            onKeyDown={handleKeyDown}
-            style={{
-              ...floatingStyles,
-              zIndex: 50000,
-              visibility: isPositioned ? 'visible' : 'hidden',
-              outline: 'none',
-            }}
-            {...hoverHandlers}
+        <div
+          ref={mergedRef}
+          id={contentId}
+          role="listbox"
+          className={cn(styles.content, className, resolved.root)}
+          data-state={showContent ? "open" : "closed"}
+          data-placement={placement.split('-')[0]}
+          tabIndex={-1}
+          onKeyDown={handleKeyDown}
+          style={{
+            ...floatingStyles,
+            zIndex: 50000,
+            visibility: showContent ? 'visible' : 'hidden',
+            display: isOpen ? 'block' : 'none',
+            outline: 'none',
+          }}
+        >
+          {searchable && (
+            <div className={cn("px-2 py-2", resolved.searchWrapper)}>
+              <Input
+                ref={inputRef}
+                type="text"
+                role="combobox"
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
+                aria-autocomplete="list"
+                value={searchValue}
+                onChange={(e) => {
+                  setSearchValue(e.target.value)
+                  onSearch?.(e.target.value)
+                }}
+                onKeyDown={handleInputKeyDown}
+                placeholder={searchPlaceholder}
+                variant="ghost"
+              />
+            </div>
+          )}
+          <Scroll
+            className="viewport"
+            maxHeight={`calc(${maxItems} * 36px + 8px)`}
+            direction="vertical"
+            fadeY={!searchable}
+            enabled={needsScroll}
+            hide={false}
           >
-            {searchable && (
-              <div className={cn("px-2 py-2", resolved.searchWrapper)}>
-                <Input
-                  ref={inputRef}
-                  type="text"
-                  role="combobox"
-                  aria-haspopup="listbox"
-                  aria-expanded={isOpen}
-                  aria-autocomplete="list"
-                  value={searchValue}
-                  onChange={(e) => {
-                    setSearchValue(e.target.value)
-                    onSearch?.(e.target.value)
-                  }}
-                  onKeyDown={handleInputKeyDown}
-                  placeholder={searchPlaceholder}
-                  variant="ghost"
-                />
-              </div>
-            )}
-            <Scroll
-              className="viewport"
-              maxHeight={`calc(${maxItems} * 36px + 8px)`}
-              direction="vertical"
-              fadeY={!searchable}
-              enabled={needsScroll}
-              hide={false}
-            >
-              <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
-                <List items={filteredItems}>
-                  {children}
-                </List>
-              </div>
-            </Scroll>
-          </div>
-        )}
+            <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
+              <List items={filteredItems}>
+                {children}
+              </List>
+            </div>
+          </Scroll>
+        </div>
       </>,
       document.body
     )

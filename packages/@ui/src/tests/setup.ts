@@ -39,9 +39,9 @@ if (!Element.prototype.scrollIntoView) {
  */
 if (!window.ResizeObserver) {
   class MockResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    observe() { }
+    unobserve() { }
+    disconnect() { }
   }
 
   window.ResizeObserver = MockResizeObserver as any
@@ -52,10 +52,10 @@ if (!window.ResizeObserver) {
  */
 if (!window.IntersectionObserver) {
   class MockIntersectionObserver {
-    constructor(public callback: IntersectionObserverCallback) {}
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    constructor(public callback: IntersectionObserverCallback) { }
+    observe() { }
+    unobserve() { }
+    disconnect() { }
     takeRecords() {
       return []
     }

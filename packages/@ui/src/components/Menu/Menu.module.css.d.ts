@@ -1,4 +1,5 @@
 declare const styles: {
+  trigger: string
   content: string
   list: string
   item: string

@@ -36,9 +36,9 @@ const MenuPortal = ({ children }: MenuPortalProps) => {
   return <>{children}</>
 }
 MenuPortal.displayName = "MenuPortal"
-
 const Menu = ({
   children,
+  type = "context-menu",
   selectionMode = "none",
   selectedKeys: controlledSelectedKeys,
   defaultSelectedKeys,
@@ -123,14 +123,15 @@ const Menu = ({
   }, [radioGroups])
 
   React.useEffect(() => {
-    if (isOpen && nav.enabledFilteredItems.length > 0) {
+    if (isOpen && nav.focusedKey === null && nav.enabledFilteredItems.length > 0) {
       nav.setFocusedKey(nav.enabledFilteredItems[0].key)
     }
-  }, [isOpen])
+  }, [isOpen, nav.enabledFilteredItems, nav.focusedKey, nav.setFocusedKey])
 
   const contextValue = React.useMemo(() => ({
     isOpen,
     setIsOpen,
+    type,
     close,
     selectionMode,
     selectedKeys,
@@ -155,6 +156,8 @@ const Menu = ({
     setActiveSubmenuKey,
   } satisfies MenuContextValue), [
     isOpen,
+    setIsOpen,
+    type,
     close,
     selectionMode,
     selectedKeys,

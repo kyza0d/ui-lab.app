@@ -4,4 +4,40 @@
   --ease-smooth-settle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-snappy-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-gentle-ease: cubic-bezier(0.43, 0.13, 0.23, 0.96);
+
+  --border-width-base: 1px;
+
+  /* Bridge: --color-* (Tailwind namespace) → short-form vars used by components */
+  --background-500: var(--color-background-500, oklch(50% 0 0));
+  --background-600: var(--color-background-600, oklch(32% 0 0));
+  --background-700: var(--color-background-700, oklch(26% 0 0));
+  --background-800: var(--color-background-800, oklch(23% 0 0));
+  --background-900: var(--color-background-900, oklch(21% 0 0));
+  --background-950: var(--color-background-950, oklch(18% 0 0));
+
+  --foreground-50:  var(--color-foreground-50,  oklch(98% 0 0));
+  --foreground-100: var(--color-foreground-100, oklch(95% 0 0));
+  --foreground-200: var(--color-foreground-200, oklch(90% 0 0));
+  --foreground-300: var(--color-foreground-300, oklch(84% 0 0));
+  --foreground-400: var(--color-foreground-400, oklch(65% 0 0));
+
+  --accent-50:  var(--color-accent-50,  oklch(12% 0 0));
+  --accent-300: var(--color-accent-300, oklch(44% 0 0));
+  --accent-400: var(--color-accent-400, oklch(58% 0 0));
+  --accent-500: var(--color-accent-500, oklch(72% 0 0));
+  --accent-600: var(--color-accent-600, oklch(91% 0 0));
+
+  --danger-400: var(--color-danger-400, oklch(55% 0.075 25));
+  --danger-500: var(--color-danger-500, oklch(60% 0.105 25));
+  --danger-600: var(--color-danger-600, oklch(80% 0.135 25));
+
+  --success-500: var(--color-success-500, oklch(60% 0.112 142));
+  --success-600: var(--color-success-600, oklch(80% 0.144 142));
+
+  --warning-500: var(--color-warning-500, oklch(60% 0.105 65));
+  --warning-600: var(--color-warning-600, oklch(81% 0.237 65));
+
+  --info-50:  var(--color-info-50,  oklch(16% 0 255));
+  --info-500: var(--color-info-500, oklch(60% 0.105 255));
+  --info-600: var(--color-info-600, oklch(81% 0.19  255));
 }

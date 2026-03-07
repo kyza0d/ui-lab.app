@@ -96,9 +96,10 @@ export function handleListKeyDown(e: React.KeyboardEvent, a: ListKeyboardActions
 export interface UseListNavigationOptions {
   isOpen: boolean
   externalItems?: ItemData[]
+  filter?: (item: ItemData) => boolean
 }
 
-export function useListNavigation({ isOpen, externalItems }: UseListNavigationOptions) {
+export function useListNavigation({ isOpen, externalItems, filter }: UseListNavigationOptions) {
   const registeredItemsRef = React.useRef<Map<Key, ItemData>>(new Map())
   const [registeredItems, setRegisteredItems] = React.useState<ItemData[]>([])
   const [searchValue, setSearchValue] = React.useState("")
@@ -117,10 +118,14 @@ export function useListNavigation({ isOpen, externalItems }: UseListNavigationOp
   const items = externalItems && externalItems.length > 0 ? externalItems : registeredItems
 
   const filteredItems = React.useMemo(() => {
-    if (!searchValue.trim()) return items
+    let result = items
+    if (filter) {
+      result = result.filter(filter)
+    }
+    if (!searchValue.trim()) return result
     const query = searchValue.toLowerCase()
-    return items.filter(item => item.textValue.toLowerCase().includes(query))
-  }, [items, searchValue])
+    return result.filter(item => item.textValue.toLowerCase().includes(query))
+  }, [items, searchValue, filter])
 
   const visibleKeys = React.useMemo(() => new Set(filteredItems.map(item => item.key)), [filteredItems])
   const enabledFilteredItems = React.useMemo(() => filteredItems.filter(item => !item.isDisabled), [filteredItems])
