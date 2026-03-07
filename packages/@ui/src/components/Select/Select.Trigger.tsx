@@ -85,6 +85,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
       <SelectTriggerContext.Provider value={true}>
         <button
           ref={mergedRef}
+          role="button"
           className={cn(
             'trigger',
             styles.trigger,

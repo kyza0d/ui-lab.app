@@ -231,9 +231,10 @@ export async function focusWithPointer(element: HTMLElement) {
 }
 
 /**
- * Focus element with keyboard (Tab)
+ * Focus element with keyboard
  */
 export async function focusWithKeyboard(element: HTMLElement) {
   element.focus()
-  await pressTab()
+  // Some libraries track keyboard modality via keydown events
+  element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }))
 }

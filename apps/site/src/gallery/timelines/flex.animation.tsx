@@ -3,9 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import config from "./config.json";
 
-/**
- * Helper to generate a path for a rectangle with specific corner radii
- */
 function getRoundedRectPath(x: number, y: number, w: number, h: number, r: { tl: number, tr: number, bl: number, br: number }) {
   return `
     M ${x + r.tl} ${y}
@@ -40,30 +37,32 @@ export function FlexAnimation() {
     };
   }, []);
 
-  const xLines = [60, 200, 220, 270, 290, 340];
-  const yLines = [60, 140, 160, 240];
+  // Simplified guidelines to strictly bound the 1D accordion expansion
+  const xLines = [60, 160, 260, 340];
+  const yLines = [60, 240];
 
-  // Modified to include dynamic hover/idle delays for elegant choreography
+  // Accordion Layout: Elements stay on the same Y-axis. 
+  // Delays create a staggered "wave" pushing from right to left, then left to right.
   const blocks = [
     {
-      row: { x: 60, y: 60, w: 140, h: 180 },
-      col: { x: 60, y: 60, w: 280, h: 80 },
-      delayHover: "150ms", // Waits for B & C to clear out before expanding
-      delayIdle: "0ms",    // Contracts immediately on mouse leave
+      row: { x: 60, y: 60, w: 80, h: 180 },   // Idle: Equal 1/3 width
+      col: { x: 60, y: 60, w: 160, h: 180 },  // Hover: Expands
+      delayHover: "100ms", // Waits for B & C to shrink right before expanding
+      delayIdle: "0ms",    // Shrinks left immediately on leave
       id: "A"
     },
     {
-      row: { x: 220, y: 60, w: 50, h: 180 },
-      col: { x: 60, y: 160, w: 140, h: 80 },
-      delayHover: "0ms",   // Moves out of the way immediately on hover
-      delayIdle: "100ms",  // Waits for A to contract before moving back up
+      row: { x: 160, y: 60, w: 80, h: 180 },
+      col: { x: 240, y: 60, w: 40, h: 180 },  // Hover: Compresses into a tab
+      delayHover: "50ms",  // Staggers after C
+      delayIdle: "50ms",   // Staggers after A
       id: "B"
     },
     {
-      row: { x: 290, y: 60, w: 50, h: 180 },
-      col: { x: 220, y: 160, w: 120, h: 80 },
-      delayHover: "50ms",  // Slightly staggered after B on hover
-      delayIdle: "150ms",  // Staggered return after B on mouse leave
+      row: { x: 260, y: 60, w: 80, h: 180 },
+      col: { x: 300, y: 60, w: 40, h: 180 },  // Hover: Compresses into a tab
+      delayHover: "0ms",   // Shrinks and moves right immediately on hover
+      delayIdle: "100ms",  // Waits for A & B to settle before returning
       id: "C"
     }
   ];
@@ -82,7 +81,7 @@ export function FlexAnimation() {
             </mask>
           </defs>
 
-          {/* Vertical guidelines */}
+          {/* Vertical guidelines mapping to the equal-width columns */}
           <g
             mask="url(#flex-grid-mask)"
             className={config.guidelines.colorClass}
@@ -100,7 +99,7 @@ export function FlexAnimation() {
             ))}
           </g>
 
-          {/* Horizontal guidelines */}
+          {/* Horizontal guidelines bounding the container height */}
           <g
             mask="url(#flex-grid-mask)"
             className={config.guidelines.colorClass}
@@ -118,7 +117,7 @@ export function FlexAnimation() {
             ))}
           </g>
 
-          {/* Vertical dividers */}
+          {/* Vertical dividers showing the new gaps in hover state */}
           <g
             mask="url(#flex-grid-mask)"
             className={config.guidelines.colorClass}
@@ -131,8 +130,8 @@ export function FlexAnimation() {
               transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
             }}
           >
-            <line x1={200} y1={0} x2={200} y2={300} />
-            <line x1={220} y1={0} x2={220} y2={300} />
+            <line x1={230} y1={60} x2={230} y2={240} />
+            <line x1={290} y1={60} x2={290} y2={240} />
           </g>
 
           {/* Flex Items */}
@@ -182,10 +181,11 @@ export function FlexAnimation() {
                   }}
                 />
 
+                {/* Inner Decorative Lines - Adjusted sizes to fit compressed tabs cleanly */}
                 <rect
-                  x={current.x + 20}
+                  x={current.x + 12}
                   y={current.y + 20}
-                  width={isHovered ? (i === 1 ? 40 : 120) : (i === 0 ? 80 : 24)}
+                  width={!isHovered ? 36 : (i === 0 ? 100 : 16)}
                   height={8}
                   rx={config.barRx}
                   fill="currentColor"
@@ -197,9 +197,9 @@ export function FlexAnimation() {
                   }}
                 />
                 <rect
-                  x={current.x + 20}
+                  x={current.x + 12}
                   y={current.y + 36}
-                  width={isHovered ? (i === 1 ? 20 : 80) : (i === 0 ? 40 : 14)}
+                  width={!isHovered ? 20 : (i === 0 ? 60 : 8)}
                   height={8}
                   rx={config.barRx}
                   fill="currentColor"
@@ -236,7 +236,7 @@ export function FlexAnimation() {
             style={{
               opacity: isHovered ? 0.4 : 0,
               transition: config.transition,
-              transitionDelay: isHovered ? blocks[0].delayHover : blocks[0].delayIdle, // Syncing ring with Block A
+              transitionDelay: isHovered ? blocks[0].delayHover : blocks[0].delayIdle,
             }}
           />
         </svg>

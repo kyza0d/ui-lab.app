@@ -136,17 +136,19 @@ const resolveSelectItemBaseStyles = createStylesResolver([
 /** A single selectable option in the dropdown list */
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   ({ children, value, textValue, isDisabled = false, className, icon, description, styles: stylesProp }, ref) => {
-    const { mode, onSelect, onToggle, selectedKeys, registerItem, unregisterItem, focusedKey, setFocusedKey, mouseMoveDetectedRef, visibleKeys, searchValue } = useSelectContext()
+    const { mode, onSelect, onToggle, selectedKey, selectedKeys, registerItem, unregisterItem, focusedKey, setFocusedKey, mouseMoveDetectedRef, visibleKeys, searchValue } = useSelectContext()
     const finalTextValue = textValue || String(children)
     const hasDescription = !!description
     const isHighlighted = focusedKey === value
-    const isSelected = mode === "multiple" ? selectedKeys?.has(value) : false
+    const isSelected = mode === "multiple" ? selectedKeys?.has(value) : selectedKey === value
+    const [isRegistered, setIsRegistered] = React.useState(false)
     // Items hide themselves instead of unmounting so they stay registered in useListNavigation.
     // Unmounting via .filter() caused unregisterItem → items lost → backspace couldn't restore them.
-    const isVisible = !searchValue.trim() || visibleKeys.has(value)
+    const isVisible = !isRegistered || visibleKeys.has(value)
 
     React.useEffect(() => {
       registerItem(value, finalTextValue, isDisabled)
+      setIsRegistered(true)
       return () => unregisterItem(value)
     }, [value, finalTextValue, isDisabled, registerItem, unregisterItem])
 
@@ -166,11 +168,15 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       <List.Item
         ref={ref}
         value={String(value)}
+        role="option"
+        aria-selected={isSelected}
         className={cn(styles.item, hasDescription && styles['item-with-description'], className, resolved.root)}
         onClick={handleClick}
         onMouseEnter={() => !isDisabled && mouseMoveDetectedRef.current && setFocusedKey(value)}
         data-disabled={isDisabled || undefined}
+        aria-disabled={isDisabled || undefined}
         data-highlighted={isHighlighted ? 'true' : 'false'}
+        data-focused={isHighlighted ? 'true' : 'false'}
         style={!isVisible ? { display: 'none' } : undefined}
         aria-hidden={!isVisible || undefined}
       >

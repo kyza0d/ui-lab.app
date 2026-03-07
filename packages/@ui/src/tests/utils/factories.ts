@@ -76,7 +76,10 @@ export function createMockMenuItems(
 /**
  * Create a spy callback function that tracks calls
  */
-export function createSelectionCallback(): MockCallbackSpy {
+export function createSelectionCallback(): {
+  callback: MockCallbackSpy
+  calls: any[][]
+} {
   const calls: any[][] = []
 
   const callback = vi.fn((...args) => {
@@ -110,7 +113,7 @@ export function createSelectionCallback(): MockCallbackSpy {
     calls.length = 0
   }
 
-  return callback
+  return { callback, calls }
 }
 
 /**

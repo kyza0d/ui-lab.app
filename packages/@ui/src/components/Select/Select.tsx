@@ -9,8 +9,7 @@ import { useButton } from "@react-aria/button";
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import styles from "./Select.module.css"
-import { useListNavigation, useMergedRef, type ItemData } from "./Select.shared"
-import { useFilter } from "../../hooks/useFilter"
+import { useListNavigation, useMergedRef, handleListKeyDown, type ItemData } from "./Select.shared"
 
 export type SelectItemData = ItemData
 
@@ -34,6 +33,7 @@ export interface SelectContextValue {
   onToggle?: (key: Key) => void
   triggerRef: React.MutableRefObject<HTMLElement | null>
   wrapperRef: React.MutableRefObject<HTMLElement | null>
+  contentRef: React.MutableRefObject<HTMLElement | null>
   triggerProps: any
   isFocusVisible: boolean
   isPressed: boolean
@@ -57,6 +57,7 @@ export interface SelectContextValue {
   handleHoverIntent: (isHovering: boolean) => void
   mouseMoveDetectedRef: React.MutableRefObject<boolean>
   filter?: (item: any) => boolean
+  contentId: string
 }
 
 const SelectContext = React.createContext<SelectContextValue | null>(null)
@@ -128,9 +129,11 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
   ) => {
     const triggerRef = React.useRef<HTMLElement>(null)
     const wrapperRef = React.useRef<HTMLElement>(null)
+    const contentRef = React.useRef<HTMLElement>(null)
     const mouseMoveDetectedRef = React.useRef(true)
     const itemExtrasRef = React.useRef<Map<Key, { onSelect?: () => void; isSubmenuTrigger?: boolean }>>(new Map())
     const [isOpen, setIsOpen] = React.useState(false)
+    const contentId = React.useId()
     const hoverTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
     const handleHoverIntent = React.useCallback((isHovering: boolean) => {
@@ -150,6 +153,25 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     }, [triggerMode, isDisabled])
 
     React.useEffect(() => {
+      if (!isOpen || triggerMode !== "hover" || isDisabled) return
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const target = e.target as HTMLElement
+        const isOver = wrapperRef.current?.contains(target) ||
+                       contentRef.current?.contains(target)
+
+        if (!isOver) {
+          handleHoverIntent(false)
+        } else {
+          handleHoverIntent(true)
+        }
+      }
+
+      window.addEventListener("mousemove", handleMouseMove)
+      return () => window.removeEventListener("mousemove", handleMouseMove)
+    }, [isOpen, triggerMode, isDisabled, handleHoverIntent])
+
+    React.useEffect(() => {
       return () => {
         if (hoverTimeoutRef.current) {
           clearTimeout(hoverTimeoutRef.current)
@@ -167,11 +189,10 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const selectedKey = controlledSelectedKey !== undefined ? controlledSelectedKey : uncontrolledSelectedKey
     const selectedKeys = controlledSelectedKeys !== undefined ? new Set(controlledSelectedKeys) : uncontrolledSelectedKeys
 
-    const filteredPropItems = useFilter(propItems, filter)
-
     const nav = useListNavigation({
       isOpen,
-      externalItems: filteredPropItems.length > 0 ? filteredPropItems : undefined,
+      externalItems: propItems.length > 0 ? propItems : undefined,
+      filter: filter ? (item: any) => filter({ ...item, label: item.textValue } as any) : undefined
     })
 
     const registerItem = React.useCallback((key: Key, textValue: string, isDisabled?: boolean, onSelect?: () => void, isSubmenuTrigger?: boolean) => {
@@ -262,14 +283,48 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
 
     const { buttonProps, isPressed } = useButton({
       isDisabled,
-      onPress: () => !isDisabled && setIsOpen(prev => !prev),
+      onPress: (e) => {
+        if (isDisabled) return
+        // Keyboard interactions are handled by onKeyDown to prevent conflicts
+        if (e.pointerType !== 'keyboard') {
+          setIsOpen(prev => !prev)
+        }
+      },
     }, triggerRef)
     const { focusProps, isFocusVisible } = useFocusRing()
-    const { hoverProps, isHovered } = useHover({ isDisabled })
+    const { hoverProps, isHovered } = useHover({
+      isDisabled,
+      onHoverStart: () => handleHoverIntent(true),
+      onHoverEnd: () => handleHoverIntent(false),
+    })
 
     const triggerProps = mergeProps(buttonProps, focusProps, hoverProps, {
       'aria-haspopup': 'listbox' as const,
       'aria-expanded': isOpen,
+      'aria-controls': isOpen ? contentId : undefined,
+      'aria-disabled': isDisabled || undefined,
+      onKeyDown: (e: React.KeyboardEvent) => {
+        if (!isOpen) {
+          if (e.key === 'ArrowDown' || e.key === 'Enter' || (e.key === ' ' && !isDisabled)) {
+            e.preventDefault()
+            setIsOpen(true)
+          }
+          return
+        }
+
+        handleListKeyDown(e, {
+          navigateNext: nav.navigateToNextItem,
+          navigatePrev: nav.navigateToPrevItem,
+          confirm: selectFocusedItem,
+          close: () => {
+            setIsOpen(false)
+            nav.setSearchValue("")
+            triggerRef.current?.focus()
+          },
+          filteredItems: nav.filteredItems,
+          setFocusedKey: nav.setFocusedKey,
+        })
+      },
     })
 
     React.useEffect(() => {
@@ -315,6 +370,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           onToggle: mode === "multiple" ? onToggle : undefined,
           triggerRef,
           wrapperRef,
+          contentRef,
           triggerProps,
           isFocusVisible,
           isPressed,
@@ -338,9 +394,14 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           handleHoverIntent,
           mouseMoveDetectedRef,
           filter,
+          contentId,
         }}
       >
-        <div ref={rootRef} className={cn('select', styles.select, className, resolvedStyles.root)} data-mode={mode}>
+        <div
+          ref={rootRef}
+          className={cn('select', styles.select, className, resolvedStyles.root)}
+          data-mode={mode}
+        >
           {otherContent}
           {trigger}
           {contentItems}

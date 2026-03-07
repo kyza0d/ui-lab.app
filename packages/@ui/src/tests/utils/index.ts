@@ -100,6 +100,12 @@ export {
 // Custom matchers
 export { setupCustomMatchers } from './matchers'
 
+// Component-level testing utilities
+export {
+  testRefForwarding,
+  testStyling,
+} from './component'
+
 // Context utilities
 export {
   createMockContextValue,

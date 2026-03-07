@@ -6,6 +6,12 @@ import {
   FaPaintbrush,
   FaEye,
   FaTags,
+  FaRocket,
+  FaArrowUp,
+  FaUpRightFromSquare,
+  FaArrowPointer,
+  FaArrowDownLong,
+  FaArrowRightLong,
 } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
 
@@ -17,10 +23,12 @@ function HeroSection() {
           <div className="flex items-center text-center flex-col pt-8 md:pt-0">
             <div className="flex gap-2 mb-4">
               <span className="flex h-[32px] font-medium items-center overflow-hidden gap-[9px] bg-background-950 border border-background-700 rounded-[8px] text-foreground-300 text-sm pl-[3px]">
-                <div className="flex items-center text-accent-500 bg-accent-500/30 border-l-[1px] rounded-[5px] h-[20px] border-background-700 mr-[4px] px-[4px]"><FaTags /></div>
-                <span className="text-xs font-smeibold">Change Log</span>
-                <span className="bg-background-800/50 border-l border-background-700 h-full text-xs font-smeibold pt-1 px-3">
-                  v0.1.5
+                <div className="flex p-1.5 text-foreground-400 rounded-[5px] border-background-700">
+                  <FaRocket size={13} />
+                </div>
+                <span className="text-xs font-semibold">UI Lab Launches!</span>
+                <span className="bg-background-800/50 flex items-center gap-3 border-l border-background-700 h-full text-xs font-smeibold pt-1 px-3">
+                  View Details <FaArrowRightLong className="text-foreground-400" />
                 </span>
               </span>
             </div>
@@ -57,7 +65,7 @@ function HeroSection() {
                 <FaBrain className="w-3.5 h-3.5" /> LLM Enabled
               </span>
             </div>
-            <p className="ml-auto text-sm max-w-[41ch] text-foreground-400 md:mb-[14px]">
+            <p className="ml-auto text-xs max-w-[41ch] text-foreground-400 md:mb-[14px]">
               "User Interface" (UI) is the space where interactions between humans and machines occur.
             </p>
           </div>

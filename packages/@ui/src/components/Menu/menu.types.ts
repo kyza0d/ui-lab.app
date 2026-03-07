@@ -5,6 +5,7 @@ import type { StylesProp } from "@/lib/styles"
 import type { StyleValue } from "@/lib/utils"
 
 export type SelectionMode = "none" | "single" | "multiple"
+export type MenuType = "context-menu" | "pop-over"
 
 export interface MenuItemExtras {
   onSelect?: () => void
@@ -14,6 +15,7 @@ export interface MenuItemExtras {
 export interface MenuContextValue {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  type: MenuType
   close: () => void
   selectionMode: SelectionMode
   selectedKeys: Set<Key>
@@ -68,6 +70,8 @@ export interface RadioGroupContextValue {
 }
 
 export interface MenuProps extends React.PropsWithChildren {
+  /** The behavior type of the menu */
+  type?: MenuType
   /** Controls how many items can be selected at once */
   selectionMode?: SelectionMode
   /** Controlled set of selected item keys */
@@ -101,16 +105,18 @@ export type MenuContentStylesProp = StylesProp<MenuContentStyleSlots>;
 export interface MenuContentProps extends React.PropsWithChildren {
   /** Additional CSS class names */
   className?: string
+  /** The side to position the menu content relative to the trigger (for pop-over type) */
+  side?: "top" | "bottom" | "left" | "right"
+  /** The alignment of the menu content relative to the trigger (for pop-over type) */
+  align?: "start" | "center" | "end"
   /** Called when focus returns to the trigger after close */
   onCloseAutoFocus?: (event: Event) => void
   /** Called when the Escape key is pressed */
   onEscapeKeyDown?: (event: KeyboardEvent) => void
   /** Called when a pointer event occurs outside the menu */
   onPointerDownOutside?: (event: PointerEvent) => void
-  /** Horizontal offset from the trigger alignment */
-  alignOffset?: number
-  /** Vertical offset from the trigger element */
-  sideOffset?: number
+  /** Distance offset from the trigger in all directions (for pop-over type) */
+  offset?: number
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: MenuContentStylesProp;
 }
@@ -241,10 +247,8 @@ export type MenuSubContentStylesProp = StylesProp<MenuSubContentStyleSlots>;
 export interface MenuSubContentProps extends React.PropsWithChildren {
   /** Additional CSS class names */
   className?: string
-  /** Vertical offset from the trigger element */
-  sideOffset?: number
-  /** Horizontal offset from the trigger alignment */
-  alignOffset?: number
+  /** Distance offset from the trigger in all directions */
+  offset?: number
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: MenuSubContentStylesProp;
 }

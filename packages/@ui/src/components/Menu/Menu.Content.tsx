@@ -1,6 +1,6 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
-import { useFloating, flip, offset, autoUpdate } from "@floating-ui/react-dom"
+import { useFloating, flip, offset as offsetMiddleware, autoUpdate } from "@floating-ui/react-dom"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import css from "./Menu.module.css"
@@ -16,22 +16,31 @@ const resolveMenuContentBaseStyles = createStylesResolver(['root'] as const);
 /** Wrapper element that opens the context menu on right-click */
 const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
   ({ children, disabled = false, className }, ref) => {
-    const { setIsOpen, clickPositionRef, triggerRef: contextTriggerRef } = useMenuContext()
+    const { isOpen, setIsOpen, type, clickPositionRef, triggerRef: contextTriggerRef } = useMenuContext()
 
-    const handleMenu = React.useCallback((e: React.MouseEvent) => {
-      if (disabled) return
+    const handleContextMenu = React.useCallback((e: React.MouseEvent) => {
+      if (disabled || type !== "context-menu") return
       e.preventDefault()
       clickPositionRef.current = { x: e.clientX, y: e.clientY }
       setIsOpen(true)
-    }, [disabled, setIsOpen, clickPositionRef])
+    }, [disabled, type, setIsOpen, clickPositionRef])
+
+    const handleClick = React.useCallback((e: React.MouseEvent) => {
+      if (disabled || type !== "pop-over") return
+      clickPositionRef.current = { x: 0, y: 0 }
+      setIsOpen(prev => !prev)
+    }, [disabled, type, setIsOpen, clickPositionRef])
 
     const mergedRef = useMergedRef<HTMLDivElement>(contextTriggerRef, ref)
 
     return (
       <div
         ref={mergedRef}
-        onContextMenu={handleMenu}
-        className={className}
+        onContextMenu={handleContextMenu}
+        onClick={handleClick}
+        className={cn(css.trigger, className)}
+        data-active={isOpen || undefined}
+        data-type={type}
       >
         {children}
       </div>
@@ -42,9 +51,10 @@ MenuTrigger.displayName = "MenuTrigger"
 
 /** Floating panel that contains the menu items, positioned relative to the click location */
 const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
-  ({ children, className, onEscapeKeyDown, sideOffset = 0, styles }, ref) => {
+  ({ children, className, onEscapeKeyDown, side = "bottom", align = "start", offset = 0, styles }, ref) => {
     const {
       isOpen,
+      type,
       close,
       items,
       focusedKey,
@@ -64,11 +74,11 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
     const wasJustOpenedRef = React.useRef(false)
 
     const { refs, floatingStyles, x, y, placement } = useFloating({
-      placement: "bottom-start",
+      placement: type === "context-menu" ? "bottom-start" : `${side}${align === "center" ? "" : `-${align}`}` as any,
       strategy: "absolute",
       whileElementsMounted: autoUpdate,
       middleware: [
-        offset({ mainAxis: sideOffset }),
+        offsetMiddleware({ mainAxis: offset, crossAxis: offset }),
         flip(),
       ],
     })

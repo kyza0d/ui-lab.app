@@ -24,8 +24,12 @@ export async function waitForOpen(
   return waitFor(
     () => {
       const element = getElement()
-      const isVisible = element.offsetParent !== null
-      if (!isVisible) throw new Error('Element is not visible')
+      // In JSDOM offsetParent is always null. We check presence and basic attributes.
+      const isHidden = element.style.visibility === 'hidden' || 
+                       element.getAttribute('data-state') === 'closed' ||
+                       element.getAttribute('aria-hidden') === 'true'
+      
+      if (isHidden) throw new Error('Element is not visible')
       return element
     },
     { timeout }
@@ -45,7 +49,11 @@ export async function waitForClose(
     () => {
       const element = getElement()
       if (element === null) return
-      const isHidden = element.offsetParent === null
+      
+      const isHidden = element.style.visibility === 'hidden' || 
+                       element.getAttribute('data-state') === 'closed' ||
+                       element.parentElement === null
+      
       if (!isHidden) throw new Error('Element is still visible')
     },
     { timeout }

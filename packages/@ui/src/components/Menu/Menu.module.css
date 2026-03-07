@@ -1,10 +1,17 @@
 @reference "tailwindcss";
 
 @layer components {
+  .trigger {
+    &[data-type="pop-over"][data-active] {
+      opacity: 1 !important;
+      background-color: var(--background-700);
+    }
+  }
+
   .content {
     --padding: calc(var(--spacing) * 1.5);
-    --radius: calc(var(--padding) * var(--radius-ratio));
-    --inner-radius: calc(var(--radius) - var(--border-width-base));
+    --radius: var(--radius-sm, 0.375rem);
+    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));
     --menu-animation: none;
     position: absolute;
     z-index: 50000;
@@ -12,7 +19,7 @@
     min-width: 160px;
     max-width: 320px;
     background-color: var(--background-900);
-    border: var(--border-width-base) solid var(--background-700);
+    border: var(--border-width-base, 1px) solid var(--background-700);
     border-radius: var(--radius);
 
     &[data-state="open"] {
@@ -158,8 +165,8 @@
 
   .subContent {
     --padding: calc(var(--spacing) * 1.5);
-    --radius: calc(var(--padding) * var(--radius-ratio));
-    --inner-radius: calc(var(--radius) - var(--border-width-base));
+    --radius: var(--radius-sm, 0.375rem);
+    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));
     --menu-animation: none;
     position: absolute;
     z-index: 50000;
@@ -167,7 +174,7 @@
     min-width: 160px;
     max-width: 320px;
     background-color: var(--background-900);
-    border: var(--border-width-base) solid var(--background-700);
+    border: var(--border-width-base, 1px) solid var(--background-700);
     border-radius: var(--radius);
 
     &[data-state="open"] {
