@@ -15,15 +15,12 @@ import { type StyleValue } from "@/lib/utils";
 
 const ARROW_PATH = "M 0 0 C 3 0 4 -9 6 -9 C 8 -9 9 0 12 0";
 const ARROW_WIDTH = 12;
-const TOOLTIP_GAP = 8;
+const TOOLTIP_GAP = 4;
 const ARROW_POSITIONING_SIZE = 6;
 const DEFAULT_SHOW_DELAY_MS = 600;
 const SWAP_WINDOW_MS = 150;
 const EXIT_ANIMATION_MS = 160;
 
-// Module-level timestamps set synchronously in onOpenChange (before effects).
-// This eliminates DOM-order dependency: both opening and closing effects
-// can reliably read these regardless of which effect runs first.
 let lastCloseTime = 0;
 let lastOpenTime = 0;
 let pendingExit: (() => void) | null = null;
@@ -201,9 +198,6 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       } else if (wasOpenRef.current) {
         wasOpenRef.current = false;
 
-        // Batched swap: onOpenChange timestamps are set synchronously
-        // before effects, so if another tooltip opened in this cycle,
-        // lastOpenTime will be >= lastCloseTime.
         if (lastOpenTime > 0 && lastOpenTime >= lastCloseTime) {
           setIsVisible(false);
           setShouldRender(false);
@@ -233,7 +227,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       if (shouldRender && state.isOpen && isPositioned) {
         if (isInstant) {
           setIsVisible(true);
-          requestAnimationFrame(() => setIsInstant(false));
+          const frame = requestAnimationFrame(() => setIsInstant(false));
+          return () => cancelAnimationFrame(frame);
         } else {
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -242,11 +237,14 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
           });
         }
       }
-    }, [shouldRender, state.isOpen, isPositioned]);
+    }, [shouldRender, state.isOpen, isPositioned, isInstant]);
 
     useLayoutEffect(() => {
       refs.setReference(triggerRef.current);
     }, [refs]);
+
+    const trigger = triggerRef.current;
+    const isTriggerVisible = !!(trigger && (trigger.offsetWidth > 0 || trigger.offsetHeight > 0));
 
     return (
       <>
@@ -273,11 +271,11 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
             >
               <div
                 className={cn(css.content, resolved.content)}
-                data-visible={isVisible ? "true" : "false"}
-                data-instant={isInstant || undefined}
+                data-visible={(isVisible && isTriggerVisible) ? "true" : "false"}
+                data-instant={(isInstant || !isTriggerVisible) ? "true" : undefined}
                 style={{
-                  transform: isVisible ? "scale(1)" : getInitialTransform(placement),
-                  pointerEvents: isVisible ? "auto" : "none",
+                  transform: (isVisible && isTriggerVisible) ? "scale(1)" : getInitialTransform(placement),
+                  pointerEvents: (isVisible && isTriggerVisible) ? "auto" : "none",
                 }}
               >
                 <Frame
