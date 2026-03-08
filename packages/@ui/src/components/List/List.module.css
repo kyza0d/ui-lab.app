@@ -77,6 +77,14 @@
     flex-shrink: 0;
   }
 
+  .control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
   .media {
     display: flex;
     align-items: center;
@@ -111,6 +119,28 @@
 
   .action-group[data-justify="flex-end"] {
     justify-content: flex-end;
+  }
+
+  .actions {
+    align-items: center;
+    gap: 0.25rem;
+    margin-left: auto;
+    flex-shrink: 0;
+    @apply p-1.5 hidden group-hover:flex;
+  }
+
+  .action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    color: var(--foreground-400);
+    @apply p-2;
+  }
+
+  .action:hover {
+    background-color: var(--background-hover);
+    color: var(--foreground-50);
   }
 
   .footer {
