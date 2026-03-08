@@ -69,7 +69,7 @@ function SourceControlPreview() {
     <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground-300">Repository Provider</label>
-        <Select selectedKey={provider} onSelectionChange={setProvider} className="w-80">
+        <Select selectedKey={provider} valueLabel={sourceControlProviders.find(p => p.value === provider)?.label} onSelectionChange={setProvider} className="w-80">
           <Select.Trigger>
             <Select.Value placeholder="Select provider" icon={Icon && <Icon className="w-4 h-4" />} />
           </Select.Trigger>
@@ -125,6 +125,7 @@ function CountrySelectPreview() {
         <label className="text-sm font-medium text-foreground-300">Country</label>
         <Select
           selectedKey={country}
+          valueLabel={countries.find(c => c.value === country)?.label}
           onSelectionChange={setCountry}
           className="w-72"
         >

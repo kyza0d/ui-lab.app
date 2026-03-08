@@ -450,6 +450,7 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
             className={cn(styles.subContent, className)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
+            data-select-submenu-content="true"
             onKeyDown={handleKeyDown}
             style={{
               ...floatingStyles,
