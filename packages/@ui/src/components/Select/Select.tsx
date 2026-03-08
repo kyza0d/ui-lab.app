@@ -85,6 +85,10 @@ export interface SelectProps<T = any> extends React.PropsWithChildren {
   defaultSelectedKeys?: Key[]
   /** Default display text shown in the trigger when nothing is selected */
   defaultValue?: string | null
+  /** Display text for the currently selected value — used for SSR/SSG to avoid
+   * flash of placeholder before items register. Provide alongside selectedKey or
+   * defaultSelectedKey so the correct label renders on the first pass. */
+  valueLabel?: string
   /** Called when selection changes; receives a single key (single) or key array (multiple) */
   onSelectionChange?: (value: any) => void
   /** Disables the entire select and prevents interaction */
@@ -115,6 +119,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       selectedKeys: controlledSelectedKeys,
       defaultSelectedKeys = [],
       defaultValue,
+      valueLabel,
       onSelectionChange,
       isDisabled = false,
       autoFocus = false,
@@ -185,7 +190,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const [uncontrolledSelectedKeys, setUncontrolledSelectedKeys] = React.useState<Set<Key>>(
       new Set(defaultSelectedKeys)
     )
-    const [selectedTextValue, setSelectedTextValue] = React.useState(defaultValue ?? "")
+    const [selectedTextValue, setSelectedTextValue] = React.useState(valueLabel ?? defaultValue ?? "")
     const selectedKey = controlledSelectedKey !== undefined ? controlledSelectedKey : uncontrolledSelectedKey
     const selectedKeys = controlledSelectedKeys !== undefined ? new Set(controlledSelectedKeys) : uncontrolledSelectedKeys
 
@@ -341,12 +346,14 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           const selectedItem = nav.items.find(item => item.key === selectedKey)
           if (selectedItem) {
             setSelectedTextValue(selectedItem.textValue)
+          } else if (valueLabel !== undefined) {
+            setSelectedTextValue(valueLabel)
           } else if (defaultValue !== undefined && defaultValue !== null) {
             setSelectedTextValue(defaultValue)
           }
         }
       }
-    }, [selectedKey, nav.items, mode, defaultValue])
+    }, [selectedKey, nav.items, mode, defaultValue, valueLabel])
 
     const rootRef = useMergedRef<HTMLDivElement>(wrapperRef, ref)
 

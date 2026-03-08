@@ -270,7 +270,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       const handlePointerDown = (e: MouseEvent) => {
         const target = e.target as HTMLElement
         const isClickInside = wrapperRef.current?.contains(target) ||
-                             floatingElement?.contains(target)
+                             floatingElement?.contains(target) ||
+                             Array.from(document.querySelectorAll('[data-select-submenu-content]')).some(el => el.contains(target))
 
         if (!isClickInside) {
           setIsOpen(false)
