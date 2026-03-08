@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import { RenderOptions as BaseRenderOptions } from '@testing-library/react'
 
 /**

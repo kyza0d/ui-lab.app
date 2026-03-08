@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react'
-import { expect } from 'vitest'
 import { RenderResult } from '@testing-library/react'
 import { render } from './render'
 import type { RenderOptions, ContextTestOptions } from './types'
@@ -39,7 +38,7 @@ export function renderWithContext<T>(
 /**
  * Render a component with multiple context providers
  */
-export function renderWithContexts<T extends Record<string, any>>(
+export function renderWithContexts<_T extends Record<string, any>>(
   ui: ReactElement,
   contexts: Array<{
     Context: React.Context<any>
@@ -81,7 +80,7 @@ export async function testContextDependency<T>(
     assertion: (element: HTMLElement) => void
   }>,
   defaultProps?: any,
-  options?: ContextTestOptions
+  _options?: ContextTestOptions
 ) {
   const results = []
 

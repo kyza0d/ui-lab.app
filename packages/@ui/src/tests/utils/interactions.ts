@@ -197,7 +197,6 @@ export async function fillForm(
  * Navigate through list items with arrow keys
  */
 export async function navigateWithArrows(
-  container: HTMLElement,
   direction: 'down' | 'up',
   steps: number = 1
 ) {

@@ -25,29 +25,14 @@ export async function testKeyboardNavigation(
     testEnter = true,
     testEscape = true,
     testTypeAhead = false,
-    requireCtrlForHomeEnd = false,
     items = getListItems(container),
   } = config
 
-  if (testArrows) {
-    await testArrowNavigation(container, items)
-  }
-
-  if (testHomeEnd) {
-    await testHomeEndKeys(container, items, requireCtrlForHomeEnd)
-  }
-
-  if (testEnter) {
-    await testEnterKey(container, items)
-  }
-
-  if (testEscape) {
-    await testEscapeKey(container)
-  }
-
-  if (testTypeAhead) {
-    await testTypeAheadSearch(container, items)
-  }
+  if (testArrows) await testArrowNavigation(container, items);
+  if (testHomeEnd) await testHomeEndKeys(container, items);
+  if (testEnter) await testEnterKey(container, items);
+  if (testEscape) await testEscapeKey(container);
+  if (testTypeAhead) await testTypeAheadSearch(container, items)
 }
 
 /**
@@ -95,7 +80,6 @@ export async function testArrowNavigation(
 export async function testHomeEndKeys(
   container: HTMLElement,
   items: HTMLElement[] = getListItems(container),
-  requireCtrlForHomeEnd = false
 ) {
   if (items.length < 2) {
     console.warn('Need at least 2 items to test home/end navigation')
@@ -147,8 +131,6 @@ export async function testEnterKey(
  */
 export async function testEscapeKey(container: HTMLElement) {
   container.focus()
-
-  const focusBefore = document.activeElement
   await pressEscape(container)
 
   // Focus should still be manageable (not necessarily changed)
@@ -223,7 +205,7 @@ export function createKeyboardNavigationTests(
     // Remove skipped tests
     if (config.skipTests) {
       config.skipTests.forEach((test) => {
-        ;(finalConfig as any)[test] = false
+        ; (finalConfig as any)[test] = false
       })
     }
 
@@ -236,8 +218,7 @@ export function createKeyboardNavigationTests(
       const container = config.getListContainer()
       await testHomeEndKeys(
         container,
-        undefined,
-        finalConfig.requireCtrlForHomeEnd
+        undefined
       )
     })
 

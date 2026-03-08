@@ -1,5 +1,4 @@
 import { screen, within } from '@testing-library/react'
-import type { QueryBuilderOptions } from './types'
 
 /**
  * Get the currently focused element
