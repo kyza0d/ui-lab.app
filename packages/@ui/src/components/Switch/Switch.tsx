@@ -13,20 +13,6 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 
 import styles from "./Switch.module.css";
 
-const sizeMap = {
-  md: styles["md"],
-  lg: styles["lg"],
-};
-
-const shapeMap = {
-  pill: styles["pill"],
-  round: styles["round"],
-};
-
-const thumbPositions = {
-  md: { unchecked: 0.25, checked: 1 },
-  lg: { unchecked: 0.25, checked: 1.5 },
-};
 
 
 export interface SwitchStyleSlots {
@@ -47,10 +33,7 @@ export interface SwitchProps
   onChange?: (isSelected: boolean) => void;
   /** Initial selected state for uncontrolled usage */
   defaultSelected?: boolean;
-  /** Size of the switch */
-  size?: "md" | "lg";
-  /** Whether to render with a fully rounded pill shape */
-  pill?: boolean;
+
   /** Whether the switch is disabled */
   isDisabled?: boolean;
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
@@ -59,16 +42,13 @@ export interface SwitchProps
 
 
 const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
-  (
-    {
+  ({
       className,
       styles: stylesProp,
-      size = "lg",
       isDisabled = false,
       isSelected: controlledSelected,
       onChange,
       defaultSelected,
-      pill,
       ...props
     },
     ref
@@ -96,10 +76,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     const { focusProps, isFocusVisible } = useFocusRing();
     const { hoverProps, isHovered } = useHover({ isDisabled });
 
-    const isPill = pill === true;
-    const shapeClass = isPill ? shapeMap.pill : shapeMap.round;
-    const position = thumbPositions[size];
-    const thumbLeft = isSelected ? position.checked : position.unchecked;
+
 
     React.useImperativeHandle(ref, () => inputRef.current!);
 
@@ -110,8 +87,6 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
         className={cn(
           'switch',
           styles.switch,
-          sizeMap[size],
-          shapeClass,
           className,
           resolved.root
         )}
@@ -124,7 +99,6 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           className={cn(
             'switch-track',
             styles["switch-track"],
-            shapeClass,
             resolved.track
           )}
         />
@@ -132,13 +106,8 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           className={cn(
             'switch-thumb',
             styles["switch-thumb"],
-            sizeMap[size],
-            shapeClass,
             resolved.thumb
           )}
-          style={{
-            left: `${thumbLeft}rem`,
-          }}
         />
         <input
           ref={inputRef}

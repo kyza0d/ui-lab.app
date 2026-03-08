@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { useDialog, useModalOverlay, mergeProps } from "react-aria";
+import { useDialog } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
@@ -141,13 +141,6 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
     // useDialog hook provides accessibility attributes and title handling
     const { dialogProps, titleProps } = useDialog({}, modalRef);
 
-    // useModalOverlay handles focus management, scroll prevention, and backdrop interaction
-    const { modalProps, underlayProps } = useModalOverlay(
-      { isDismissable: isDismissable, isKeyboardDismissDisabled: isKeyboardDismissDisabled },
-      state,
-      modalRef
-    );
-
     if (!mounted || !state.isOpen) return null;
 
     const handleClose = () => state.close();
@@ -161,12 +154,16 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
           resolved.overlay
         )}
       >
-        {/* Backdrop overlay - underlayProps handles click outside and escape key */}
-        <div {...underlayProps} className={cn(css.backdrop, resolved.backdrop)} />
+        {/* Backdrop overlay - click outside to dismiss */}
+        <div
+          className={cn(css.backdrop, resolved.backdrop)}
+          onMouseDown={() => { if (isDismissable) state.close(); }}
+        />
 
         {/* Modal content */}
         <div
-          {...mergeProps(dialogProps, modalProps)}
+          {...dialogProps}
+          aria-modal="true"
           ref={modalRef}
           className={cn(
             css.modal,
