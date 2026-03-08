@@ -58,6 +58,12 @@ export interface ListHeaderProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
 }
 
+export type ListActionDef = {
+  icon: React.ReactNode;
+  title: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+};
+
 // Item sub-component props
 export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Unique value identifier for this item */
@@ -68,13 +74,32 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   selected?: boolean;
   /** Classes applied to the root or named slots. */
   styles?: ListStylesProp;
+  actions?: Array<ListActionDef | React.ReactNode>;
   children: React.ReactNode;
 }
 
-export interface ListCheckboxProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ListCheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /** Whether the checkbox is checked */
   checked?: boolean;
-  children?: React.ReactNode;
+}
+
+export interface ListCheckboxIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Whether the indicator is in a checked state */
+  checked?: boolean;
+}
+
+export interface ListSwitchProps extends React.ComponentProps<any> {
+  /** Whether the switch is selected */
+  isSelected?: boolean;
+  /** Whether the switch is disabled */
+  isDisabled?: boolean;
+}
+
+export interface ListInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+export interface ListSelectProps extends React.ComponentProps<any> {
+  /** Whether the select is disabled */
+  isDisabled?: boolean;
 }
 
 export interface ListMediaProps extends React.HTMLAttributes<HTMLDivElement> {
