@@ -2,7 +2,6 @@ import { glob } from 'glob';
 import fs from 'fs-extra';
 import path from 'path';
 import postcss from 'postcss';
-import selectorParser from 'postcss-selector-parser';
 import ts from 'typescript'; // Import TypeScript
 
 const UI_COMPONENTS_PATH = 'packages/@ui/src/components';
