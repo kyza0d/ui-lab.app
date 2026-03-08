@@ -188,6 +188,10 @@ const List = Object.assign(Container, {
   Header,
   Item: null as any, // Set in index.ts
   Checkbox: null as any,
+  CheckboxIndicator: null as any,
+  Switch: null as any,
+  Input: null as any,
+  Select: null as any,
   Media: null as any,
   Desc: null as any,
   ActionGroup,
