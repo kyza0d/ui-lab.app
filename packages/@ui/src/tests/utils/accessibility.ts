@@ -11,6 +11,24 @@ export function setupAccessibilityMatchers() {
 
 
 /**
+ * Expect an element to have a specific ARIA role
+ */
+export function expectAriaRole(element: HTMLElement, role: string) {
+  expect(element).toHaveAttribute('role', role)
+}
+
+/**
+ * Expect an element to be ARIA-disabled
+ */
+export function expectAriaDisabled(
+  element: HTMLElement,
+  isDisabled: boolean = true
+) {
+  expect(element).toHaveAttribute('aria-disabled', String(isDisabled))
+}
+
+
+/**
  * Expect an element to have specific ARIA attributes
  */
 export function expectAriaAttributes(

@@ -14,7 +14,7 @@ export function testRefForwarding<T extends ElementType, E extends HTMLElement>(
   expectedElement: new () => E
   role?: string
 }) {
-  const { component: Component, defaultProps = {}, requiredProps = {}, expectedElement, role } = options
+  const { component: Component, defaultProps = {}, requiredProps = {}, expectedElement } = options
 
   it('forwards ref via callback', () => {
     const ref = vi.fn()

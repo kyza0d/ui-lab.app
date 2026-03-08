@@ -84,6 +84,8 @@ export type { FocusRingState } from './types'
 
 // Accessibility utilities and assertions
 export {
+  expectAriaRole,
+  expectAriaDisabled,
   expectAriaAttributes,
   testButtonA11y,
   testMenuA11y,
