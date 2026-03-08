@@ -163,7 +163,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       const handleMouseMove = (e: MouseEvent) => {
         const target = e.target as HTMLElement
         const isOver = wrapperRef.current?.contains(target) ||
-                       contentRef.current?.contains(target)
+          contentRef.current?.contains(target)
 
         if (!isOver) {
           handleHoverIntent(false)

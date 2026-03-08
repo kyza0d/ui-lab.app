@@ -164,6 +164,7 @@ export type {
   ListActionGroupProps,
   ListDividerProps,
   ListFooterProps,
+  ListActionDef,
 } from "./components/List";
 
 export { ThemeProvider, useThemeVariables } from "./providers/ThemeProvider";
