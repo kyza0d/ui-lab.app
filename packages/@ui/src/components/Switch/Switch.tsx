@@ -36,6 +36,8 @@ export interface SwitchProps
 
   /** Whether the switch is disabled */
   isDisabled?: boolean;
+  /** Size of the switch */
+  size?: "default" | "sm";
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: SwitchStylesProp;
 }
@@ -43,14 +45,15 @@ export interface SwitchProps
 
 const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   ({
-      className,
-      styles: stylesProp,
-      isDisabled = false,
-      isSelected: controlledSelected,
-      onChange,
-      defaultSelected,
-      ...props
-    },
+    className,
+    styles: stylesProp,
+    isDisabled = false,
+    isSelected: controlledSelected,
+    onChange,
+    defaultSelected,
+    size = "default",
+    ...props
+  },
     ref
   ) => {
     const state = useToggleState({
@@ -87,6 +90,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
         className={cn(
           'switch',
           styles.switch,
+          size === "sm" && styles["switch-sm"],
           className,
           resolved.root
         )}
@@ -113,6 +117,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           ref={inputRef}
           type="checkbox"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          aria-checked={isSelected}
           {...mergeProps(inputProps, focusProps, hoverProps)}
           {...otherProps}
         />

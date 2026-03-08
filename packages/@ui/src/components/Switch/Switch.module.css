@@ -92,4 +92,11 @@
   .switch[data-focus-visible] {
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 40%, transparent);
   }
+
+  .switch-sm {
+    --width: 1.75rem;
+    --height: 1rem;
+    --thumb-size: 0.625rem;
+    --thumb-offset: 0.1875rem;
+  }
 }
