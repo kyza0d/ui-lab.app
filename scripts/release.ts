@@ -9,9 +9,9 @@ import { fileURLToPath } from 'url';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-function run(cmd) {
+function run(cmd, cwd = rootDir) {
   console.log(`\n> ${cmd}`);
-  execSync(cmd, { cwd: rootDir, stdio: 'inherit' });
+  execSync(cmd, { cwd, stdio: 'inherit' });
 }
 
 function checkCleanTree() {
@@ -37,23 +37,33 @@ if (!hasPendingChangesets()) {
 // 1. Bump versions + generate changelogs from pending changesets
 run('pnpm changeset version');
 
-// 2. Build all publishable packages with the new versions
-run('pnpm run build:packages');
+// 2. Build components first (vite + CSS + postcss)
+run('pnpm --filter ui-lab-components run build');
 
-// 3. Sync all consumer references (apps/site, etc.) to the new version numbers
+// 3. Generate styles docs from compiled @ui CSS into registry/src
+//    Must run after components build and before registry build
+run('node scripts/generate-styles-docs.mjs');
+
+// 4. Build registry (codegen scripts + tsc) with fresh generated styles
+run('pnpm --filter ui-lab-registry run build');
+
+// 5. Sync all consumer references (apps/site, etc.) to the new version numbers
 run('tsx scripts/toggle-versions.ts to-version');
 
-// 4. Publish to npm — pnpm replaces workspace:* in published packages automatically
+// 6. Publish to npm — pnpm replaces workspace:* in published packages automatically
 run('pnpm changeset publish');
 
-// 5. Update lockfile so Vercel resolves published npm versions
+// 7. Update root lockfile so Vercel resolves published npm versions
 run('pnpm install');
 
-// 6. Commit: version bumps, CHANGELOG updates, ref sync, lockfile
+// 8. Update site lockfile
+run('pnpm install', path.join(rootDir, 'apps/site'));
+
+// 9. Commit: version bumps, CHANGELOG updates, ref sync, lockfiles
 run('git add -A');
 run('git commit -m "chore: release"');
 
-// 7. Push commits + the version tags created by changeset publish
+// 10. Push commits + the version tags created by changeset publish
 run('git push --follow-tags');
 
 console.log('\n✓ Release complete');

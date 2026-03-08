@@ -18,7 +18,7 @@
     "clean": "pnpm -r run clean",
     "changeset": "changeset",
     "release": "tsx scripts/release.ts",
-    "release:ci": "pnpm run build:packages && tsx scripts/toggle-versions.ts to-version && pnpm changeset publish",
+    "release:ci": "pnpm --filter ui-lab-components run build && node scripts/generate-styles-docs.mjs && pnpm --filter ui-lab-registry run build && tsx scripts/toggle-versions.ts to-version && pnpm changeset publish",
     "versions:status": "tsx scripts/toggle-versions.ts status",
     "versions:to-workspace": "tsx scripts/toggle-versions.ts to-workspace",
     "versions:to-release": "tsx scripts/toggle-versions.ts to-version",
