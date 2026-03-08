@@ -29,7 +29,7 @@ describe('List.core', () => {
             <div className="label">Label Text</div>
             <List.Desc>Description Text</List.Desc>
           </div>
-          <List.Checkbox checked />
+          <List.CheckboxIndicator checked />
           <List.ActionGroup>
             <button>Action</button>
           </List.ActionGroup>
@@ -126,10 +126,10 @@ describe('List.core', () => {
     expect(container.querySelector('.custom-divider')).toBeInTheDocument()
   })
 
-  it('reflects checked state on List.Checkbox', () => {
+  it('reflects checked state on List.CheckboxIndicator', () => {
     const container = renderList(
       <List.Item value="1">
-        <List.Checkbox checked />
+        <List.CheckboxIndicator checked />
       </List.Item>
     )
     const checkbox = container.querySelector(`.${styles.checkbox}`)
@@ -137,7 +137,7 @@ describe('List.core', () => {
     
     const container2 = renderList(
       <List.Item value="1">
-        <List.Checkbox checked={false} />
+        <List.CheckboxIndicator checked={false} />
       </List.Item>
     )
     expect(container2.querySelector(`.${styles.checkbox}`)).toHaveAttribute('data-checked', 'false')
