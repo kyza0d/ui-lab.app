@@ -111,7 +111,7 @@
   "dependencies": {
     "lucide-react": "^0.562.0",
     "react-icons": "^5.5.0",
-    "ui-lab-components": "workspace:*"
+    "ui-lab-components": "0.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",

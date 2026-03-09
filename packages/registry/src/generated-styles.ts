@@ -22,7 +22,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "cssVariables": []
   },
   "toast": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .toast {\n    --background: var(--background-900);\n    --foreground: var(--foreground-200);\n    --border: var(--background-600);\n    @apply py-2.5 px-4;\n\n    width: 100%;\n    max-width: 28rem;\n    display: flex;\n    align-items: flex-start;\n    gap: var(--spacing-3);\n    background-color: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);\n    font-family: inherit;\n    font-size: var(--text-xs);\n    line-height: var(--leading-normal);\n    touch-action: pan-y;\n    user-select: none;\n  }\n\n  .icon {\n    flex-shrink: 0;\n    @apply mr-4 mt-2;\n    width: 1.25rem;\n    height: 1.25rem;\n    color: currentColor;\n  }\n\n  .content {\n    flex: 1;\n    min-width: 0;\n  }\n\n  .title {\n    font-weight: var(--font-weight-semibold);\n    font-size: var(--text-sm);\n    line-height: var(--leading-tight);\n    margin: 0;\n  }\n\n  .description {\n    @apply mt-1 mb-0;\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-xs);\n    line-height: var(--leading-normal);\n  }\n\n  .closeButton {\n    @apply p-2;\n    flex-shrink: 0;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background-color: transparent;\n    border: none;\n    border-radius: var(--radius-sm);\n    cursor: pointer;\n    opacity: 0.6;\n    transition: opacity 0.15s ease-out;\n\n    &:focus-visible {\n      outline: 2px solid currentColor;\n      outline-offset: 2px;\n    }\n\n    @media (hover: hover) {\n      &:hover {\n        opacity: 1;\n      }\n    }\n  }\n}\n\n.toast.default {\n  --background: var(--background-900);\n  --foreground: var(--foreground-200);\n  --border: var(--background-600);\n}\n\n.toast.default .title {\n  color: var(--foreground-100);\n}\n\n.toast.default .description {\n  color: var(--foreground-300);\n}\n\n.toast.danger {\n  --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--danger-600) 20%, var(--background-900));\n}\n\n.toast.danger .title {\n  color: var(--foreground-100);\n}\n\n.toast.danger .description {\n  color: var(--foreground-300);\n}\n\n.toast.danger .icon {\n  color: var(--danger-600);\n}\n\n.toast.danger .closeButton {\n  color: color-mix(in srgb, var(--danger-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background-color: color-mix(in srgb, var(--danger-500) 20%, var(--background-900));\n    }\n  }\n}\n\n.toast.success {\n  --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--success-600) 20%, var(--background-900));\n}\n\n.toast.success .title {\n  color: var(--foreground-100);\n}\n\n.toast.success .description {\n  color: var(--foreground-300);\n}\n\n.toast.success .icon {\n  color: var(--success-600);\n}\n\n.toast.success .closeButton {\n  color: color-mix(in srgb, var(--success-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background-color: color-mix(in srgb, var(--success-500) 20%, var(--background-900));\n    }\n  }\n}\n\n.toast.info {\n  --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--info-600) 20%, var(--background-900));\n}\n\n.toast.info .title {\n  color: var(--foreground-100);\n}\n\n.toast.info .description {\n  color: var(--foreground-300);\n}\n\n.toast.info .icon {\n  color: var(--info-600);\n}\n\n.toast.info .closeButton {\n  color: color-mix(in srgb, var(--info-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background-color: color-mix(in srgb, var(--info-500) 20%, var(--background-900));\n    }\n  }\n}\n\n.toast.warning {\n  --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--warning-600) 20%, var(--background-900));\n}\n\n.toast.warning .title {\n  color: var(--foreground-100);\n}\n\n.toast.warning .description {\n  color: var(--foreground-300);\n}\n\n.toast.warning .icon {\n  color: var(--warning-600);\n}\n\n.toast.warning .closeButton {\n  color: color-mix(in srgb, var(--warning-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background-color: color-mix(in srgb, var(--warning-500) 20%, var(--background-900));\n    }\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .toast {\n    --background: var(--background-900);\n    --foreground: var(--foreground-200);\n    --border: var(--background-600);\n    @apply py-2.5 px-4;\n\n    width: 100%;\n    max-width: 28rem;\n    display: flex;\n    align-items: flex-start;\n    gap: var(--spacing-3);\n    background: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);\n    font-family: inherit;\n    font-size: var(--text-xs);\n    line-height: var(--leading-normal);\n    touch-action: pan-y;\n    user-select: none;\n  }\n\n  .icon {\n    flex-shrink: 0;\n    @apply mr-4 mt-2;\n    width: 1.25rem;\n    height: 1.25rem;\n    color: currentColor;\n  }\n\n  .content {\n    flex: 1;\n    min-width: 0;\n  }\n\n  .title {\n    font-weight: var(--font-weight-semibold);\n    font-size: var(--text-sm);\n    line-height: var(--leading-tight);\n    margin: 0;\n  }\n\n  .description {\n    @apply mt-1 mb-0;\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-xs);\n    line-height: var(--leading-normal);\n  }\n\n  .closeButton {\n    @apply p-2;\n    flex-shrink: 0;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: transparent;\n    border: none;\n    border-radius: var(--radius-sm);\n    cursor: pointer;\n    opacity: 0.6;\n    transition: opacity 0.15s ease-out;\n\n    &:focus-visible {\n      outline: 2px solid currentColor;\n      outline-offset: 2px;\n    }\n\n    @media (hover: hover) {\n      &:hover {\n        opacity: 1;\n      }\n    }\n  }\n}\n\n.toast.default {\n  --background: var(--background-900);\n  --foreground: var(--foreground-200);\n  --border: var(--background-600);\n}\n\n.toast.default .title {\n  color: var(--foreground-100);\n}\n\n.toast.default .description {\n  color: var(--foreground-300);\n}\n\n.toast.danger {\n  --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--danger-600) 20%, var(--background-900));\n}\n\n.toast.danger .title {\n  color: var(--foreground-100);\n}\n\n.toast.danger .description {\n  color: var(--foreground-300);\n}\n\n.toast.danger .icon {\n  color: var(--danger-600);\n}\n\n.toast.danger .closeButton {\n  color: color-mix(in srgb, var(--danger-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background: color-mix(in srgb, var(--danger-500) 20%, var(--background-900));\n    }\n  }\n}\n\n.toast.success {\n  --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--success-600) 20%, var(--background-900));\n}\n\n.toast.success .title {\n  color: var(--foreground-100);\n}\n\n.toast.success .description {\n  color: var(--foreground-300);\n}\n\n.toast.success .icon {\n  color: var(--success-600);\n}\n\n.toast.success .closeButton {\n  color: color-mix(in srgb, var(--success-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background: color-mix(in srgb, var(--success-500) 20%, var(--background-900));\n    }\n  }\n}\n\n.toast.info {\n  --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--info-600) 20%, var(--background-900));\n}\n\n.toast.info .title {\n  color: var(--foreground-100);\n}\n\n.toast.info .description {\n  color: var(--foreground-300);\n}\n\n.toast.info .icon {\n  color: var(--info-600);\n}\n\n.toast.info .closeButton {\n  color: color-mix(in srgb, var(--info-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background: color-mix(in srgb, var(--info-500) 20%, var(--background-900));\n    }\n  }\n}\n\n.toast.warning {\n  --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));\n  --foreground: var(--foreground-200);\n  --border: color-mix(in srgb, var(--warning-600) 20%, var(--background-900));\n}\n\n.toast.warning .title {\n  color: var(--foreground-100);\n}\n\n.toast.warning .description {\n  color: var(--foreground-300);\n}\n\n.toast.warning .icon {\n  color: var(--warning-600);\n}\n\n.toast.warning .closeButton {\n  color: color-mix(in srgb, var(--warning-600) 60%, var(--foreground-50));\n  @media (hover: hover) {\n    &:hover {\n      background: color-mix(in srgb, var(--warning-500) 20%, var(--background-900));\n    }\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -325,7 +325,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     ]
   },
   "switch": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .switch {\n    --track-background-unchecked: var(--background-800);\n    --track-background-checked: color-mix(in srgb, var(--accent-600) 60%, var(--background-500));\n    --track-background-hover: var(--accent-600);\n    --track-background-active: var(--accent-600);\n    --track-background-disabled: var(--background-800);\n    --thumb-background-unchecked: var(--background-500);\n    --thumb-background-checked: var(--accent-50);\n\n    --border: transparent;\n    --border-hover: transparent;\n    --border-active: transparent;\n\n    --radius: var(--radius-sm);\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    cursor: pointer;\n    user-select: none;\n  }\n\n  .switch-track {\n    position: absolute;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    transition: background-color 180ms var(--ease-snappy-pop), border-color 180ms var(--ease-snappy-pop);\n    background-color: var(--track-background-unchecked);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius);\n  }\n\n  .switch:active:not([data-disabled]) .switch-track {\n    transform: scale(0.98);\n  }\n\n  .switch-thumb {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    margin: auto 0;\n    transition: left 180ms var(--ease-snappy-pop), background-color 180ms var(--ease-snappy-pop);\n    background-color: var(--thumb-background-unchecked);\n    border-radius: var(--inner-radius);\n    z-index: 1;\n    pointer-events: none;\n  }\n\n  .switch[data-selected] .switch-track {\n    background-color: var(--track-background-checked);\n    border-color: transparent;\n  }\n\n  .switch[data-selected] .switch-thumb {\n    background-color: var(--thumb-background-checked);\n  }\n\n  @media (hover: hover) {\n    .switch[data-selected]:not([data-disabled]):hover .switch-track {\n      border-color: var(--border-hover);\n    }\n  }\n\n  .switch[data-selected]:not([data-disabled]):active .switch-track {\n    border-color: var(--border-active);\n  }\n\n  .switch[data-disabled] {\n    opacity: 0.6;\n    cursor: not-allowed;\n  }\n}\n\n.md {\n  width: 1.50rem;\n  height: 0.80rem;\n}\n\n.md .switch-thumb {\n  width: 0.5rem;\n  height: 0.5rem;\n}\n\n.lg {\n  width: 2.75rem;\n  height: 1.5rem;\n}\n\n.lg .switch-thumb {\n  width: 1rem;\n  height: 1rem;\n}\n\n.pill {\n  --radius: 9999px;\n}\n\n.round {\n  --radius: 0.375rem;\n}\n\n.switch[data-focus-visible] {\n  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 40%, transparent);\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .switch {\n    --track-background-unchecked: var(--background-700);\n    --track-background-checked: var(--background-600);\n    --track-background-hover: var(--background-800);\n    --track-background-active: var(--background-800);\n    --track-background-disabled: var(--background-950);\n    --thumb-background-unchecked: var(--background-500);\n    --thumb-background-checked: var(--foreground-300);\n\n    --border: var(--background-600);\n    --border-hover: transparent;\n    --border-active: transparent;\n\n    --radius: 9999px;\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n\n    --width: 2.75rem;\n    --height: 1.5rem;\n    --thumb-size: 1rem;\n    --thumb-offset: 0.25rem;\n\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    cursor: pointer;\n    user-select: none;\n    width: var(--width);\n    height: var(--height);\n  }\n\n  .switch-track {\n    position: absolute;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    transition: background-color 180ms var(--ease-snappy-pop), border-color 180ms var(--ease-snappy-pop), transform 180ms var(--ease-snappy-pop);\n    background-color: var(--track-background-unchecked);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius);\n  }\n\n  .switch:active:not([data-disabled]) .switch-track {\n    transform: scale(0.98);\n  }\n\n  .switch-thumb {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: var(--thumb-offset);\n    margin: auto 0;\n    width: var(--thumb-size);\n    height: var(--thumb-size);\n    transition: left 180ms var(--ease-snappy-pop), background-color 180ms var(--ease-snappy-pop);\n    background-color: var(--thumb-background-unchecked);\n    border-radius: var(--inner-radius);\n    z-index: 1;\n    pointer-events: none;\n  }\n\n  .switch[data-selected] .switch-track {\n    background-color: var(--track-background-checked);\n    border-color: transparent;\n  }\n\n  .switch[data-selected] .switch-thumb {\n    background-color: var(--thumb-background-checked);\n    left: calc(var(--width) - var(--thumb-size) - var(--thumb-offset));\n  }\n\n  @media (hover: hover) {\n    .switch[data-selected]:not([data-disabled]):hover .switch-track {\n      border-color: var(--border-hover);\n    }\n  }\n\n  .switch[data-selected]:not([data-disabled]):active .switch-track {\n    border-color: var(--border-active);\n  }\n\n  .switch[data-disabled] {\n    opacity: 0.6;\n    cursor: not-allowed;\n  }\n\n\n\n  .switch[data-focus-visible] {\n    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 40%, transparent);\n  }\n\n  .switch-sm {\n    --width: 1.75rem;\n    --height: 1rem;\n    --thumb-size: 0.625rem;\n    --thumb-offset: 0.1875rem;\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -340,47 +340,46 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "cssVariables": [
       {
         "name": "--track-background-unchecked",
-        "value": "var(--background-800)",
+        "value": "var(--background-700)",
         "defaultValue": null,
         "referencedVars": [
-          "--background-800"
+          "--background-700"
         ],
         "variant": ".switch"
       },
       {
         "name": "--track-background-checked",
-        "value": "color-mix(in srgb, var(--accent-600) 60%, var(--background-500))",
+        "value": "var(--background-600)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-600",
-          "--background-500"
+          "--background-600"
         ],
         "variant": ".switch"
       },
       {
         "name": "--track-background-hover",
-        "value": "var(--accent-600)",
+        "value": "var(--background-800)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-600"
+          "--background-800"
         ],
         "variant": ".switch"
       },
       {
         "name": "--track-background-active",
-        "value": "var(--accent-600)",
+        "value": "var(--background-800)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-600"
+          "--background-800"
         ],
         "variant": ".switch"
       },
       {
         "name": "--track-background-disabled",
-        "value": "var(--background-800)",
+        "value": "var(--background-950)",
         "defaultValue": null,
         "referencedVars": [
-          "--background-800"
+          "--background-950"
         ],
         "variant": ".switch"
       },
@@ -395,18 +394,20 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--thumb-background-checked",
-        "value": "var(--accent-50)",
+        "value": "var(--foreground-300)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-50"
+          "--foreground-300"
         ],
         "variant": ".switch"
       },
       {
         "name": "--border",
-        "value": "transparent",
+        "value": "var(--background-600)",
         "defaultValue": null,
-        "referencedVars": [],
+        "referencedVars": [
+          "--background-600"
+        ],
         "variant": ".switch"
       },
       {
@@ -425,11 +426,9 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--radius",
-        "value": "var(--radius-sm)",
+        "value": "9999px",
         "defaultValue": null,
-        "referencedVars": [
-          "--radius-sm"
-        ],
+        "referencedVars": [],
         "variant": ".switch"
       },
       {
@@ -443,18 +442,60 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
         "variant": ".switch"
       },
       {
-        "name": "--radius",
-        "value": "9999px",
+        "name": "--width",
+        "value": "2.75rem",
         "defaultValue": null,
         "referencedVars": [],
-        "variant": ".pill"
+        "variant": ".switch"
       },
       {
-        "name": "--radius",
-        "value": "0.375rem",
+        "name": "--height",
+        "value": "1.5rem",
         "defaultValue": null,
         "referencedVars": [],
-        "variant": ".round"
+        "variant": ".switch"
+      },
+      {
+        "name": "--thumb-size",
+        "value": "1rem",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".switch"
+      },
+      {
+        "name": "--thumb-offset",
+        "value": "0.25rem",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".switch"
+      },
+      {
+        "name": "--width",
+        "value": "1.75rem",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".switch-sm"
+      },
+      {
+        "name": "--height",
+        "value": "1rem",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".switch-sm"
+      },
+      {
+        "name": "--thumb-size",
+        "value": "0.625rem",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".switch-sm"
+      },
+      {
+        "name": "--thumb-offset",
+        "value": "0.1875rem",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".switch-sm"
       }
     ]
   },
@@ -583,7 +624,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     ]
   },
   "select": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .select {\n    --background: color-mix(in srgb, var(--background-800) 50%, transparent);\n    --foreground: var(--foreground-300);\n    --border-color: var(--background-700);\n    --ring-color: var(--accent-400);\n\n    --hover-background: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --pressed-background: color-mix(in srgb, var(--background-600) 50%, transparent);\n\n    --padding-x: calc(var(--spacing) * 1.5);\n    --padding-y: var(--spacing);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    padding: 0;\n    gap: 0;\n\n    background-color: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base) solid var(--border-color);\n    border-radius: var(--radius);\n\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n\n    user-select: none;\n    cursor: pointer;\n\n    /* Interactive States */\n    &[data-disabled] {\n      opacity: 0.5;\n      cursor: not-allowed;\n    }\n\n    &[data-pressed]:not([data-disabled]) {\n      background-color: var(--pressed-background);\n    }\n\n    &[aria-expanded=\"true\"] {\n      background-color: var(--hover-background);\n    }\n  }\n\n  /* Variants */\n  .select.ghost {\n    --background: transparent;\n    --border-color: transparent;\n    --hover-background: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --pressed-background: color-mix(in srgb, var(--background-700) 50%, transparent);\n\n    &[data-pressed]:not([data-disabled]),\n    &[aria-expanded=\"true\"] {\n      background: var(--hover-background);\n    }\n  }\n\n  .trigger {\n    display: flex;\n    align-items: stretch;\n    background: transparent;\n    border: none;\n    cursor: pointer;\n    user-select: none;\n    flex: 1;\n    gap: 0;\n    height: 100%;\n    min-width: 0;\n    padding: var(--padding-y) var(--padding-x);\n\n    @media (hover: hover) {\n      &:not(:disabled):hover .icon-section {\n        background-color: var(--hover-background);\n      }\n\n      &:not(:disabled):hover .value-section:not(:empty) {\n        background-color: var(--hover-background);\n      }\n    }\n\n    &:focus-visible {\n      box-shadow: 0 0 0 2px var(--background-950), 0 0 0 4px var(--ring-color);\n      outline: none;\n    }\n\n    :global(.group) &:focus-visible {\n      outline: none;\n    }\n  }\n\n  button.trigger {\n    padding: 0;\n  }\n\n  .value-section {\n    padding: var(--padding-y) var(--padding-x);\n    display: flex;\n    align-items: center;\n    flex: 1;\n    min-width: 0;\n    border-radius: var(--inner-radius) 0 0 var(--inner-radius);\n    gap: 0.5rem;\n\n    &:only-child {\n      border-radius: var(--inner-radius);\n      justify-content: center;\n    }\n\n    &:empty {\n      flex: 0;\n      padding: 0;\n      min-width: auto;\n    }\n  }\n\n  .icon-section {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    padding: var(--padding-y) var(--padding-x);\n    border-radius: 0 var(--inner-radius) var(--inner-radius) 0;\n  }\n\n  .icon {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 1rem;\n    height: 1rem;\n    opacity: 0.7;\n  }\n\n  .select[aria-expanded=\"true\"] .icon {\n    transform: rotate(180deg);\n  }\n\n  .value {\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    flex: 1;\n    min-width: 0;\n    background: transparent;\n    border: none;\n    cursor: inherit;\n    padding: 0;\n  }\n\n  .value-icon {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--foreground-300);\n  }\n\n  .value-text {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n\n  .content {\n    --padding-x: calc(var(--spacing) * 1.5);\n    --padding-y: var(--spacing);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n\n    position: absolute;\n    z-index: 50000;\n    overflow: hidden;\n    border-radius: var(--radius);\n    border: var(--border-width-base) solid var(--background-700);\n    background-color: var(--background-900);\n\n    &[data-state=\"open\"][data-placement=\"bottom\"] {\n      animation: slideInFromTop 0.15s var(--ease-snappy-pop);\n    }\n\n    &[data-state=\"open\"][data-placement=\"top\"] {\n      animation: slideInFromBottom 0.15s var(--ease-snappy-pop);\n    }\n\n    &[data-state=\"closed\"][data-placement=\"bottom\"] {\n      animation: slideOutToTop 0.15s var(--ease-snappy-pop);\n    }\n\n    &[data-state=\"closed\"][data-placement=\"top\"] {\n      animation: slideOutToBottom 0.15s var(--ease-snappy-pop);\n    }\n  }\n\n  .list {\n    @apply space-y-1;\n  }\n\n  .item {\n    --item-padding-x: var(--padding-x);\n    --item-padding-y: var(--padding-y);\n    --item-background-hover: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --item-foreground: var(--foreground-300);\n    --item-icon-color: var(--foreground-300);\n    --item-indicator-color: var(--accent-300);\n\n    display: flex;\n    align-items: center;\n    padding: var(--item-padding-y) var(--item-padding-x);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--item-foreground);\n\n    &[data-selected=\"true\"] {\n      color: var(--item-foreground);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      cursor: not-allowed;\n      pointer-events: none;\n    }\n\n    &[data-highlighted=\"true\"] {\n      background-color: var(--item-background-hover);\n    }\n  }\n\n  .item-icon {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--item-icon-color);\n  }\n\n  .item-indicator {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--item-indicator-color);\n    margin-left: auto;\n  }\n\n  .item-content {\n    flex: 1;\n    min-width: 0;\n    display: flex;\n    flex-direction: column;\n  }\n\n  .item-text {\n    flex: 1;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n\n  .item-description {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--foreground-400);\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n\n  .item-with-description {\n    align-items: flex-start;\n    @apply py-2;\n  }\n\n  .item-icon-with-description {\n    margin-top: 0.125rem;\n  }\n\n  .item-indicator-with-description {\n    margin-top: 0.125rem;\n  }\n\n  .separator {\n    margin: 0.25rem -0.25rem;\n    height: 1px;\n    background-color: var(--background-700);\n  }\n\n  @keyframes slideInFromTop {\n    from {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n    to {\n      opacity: 1;\n      translate: 0 0;\n    }\n  }\n\n  @keyframes slideInFromBottom {\n    from {\n      opacity: 0;\n      translate: 0 2px;\n    }\n    to {\n      opacity: 1;\n      translate: 0 0;\n    }\n  }\n\n  @keyframes slideOutToTop {\n    from {\n      opacity: 1;\n      translate: 0 0;\n    }\n    to {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n  }\n\n  @keyframes slideOutToBottom {\n    from {\n      opacity: 1;\n      translate: 0 0;\n    }\n    to {\n      opacity: 0;\n      translate: 0 2px;\n    }\n  }\n\n  .placeholder {\n    color: var(--foreground-400);\n  }\n\n  .icon-prefix {\n    display: inline-flex;\n    align-items: center;\n    flex-shrink: 0;\n  }\n\n  .select[data-mode=\"multiple\"] .item {\n    gap: 0.5rem;\n  }\n\n  .subTrigger {\n    --subtrigger-padding-x: var(--padding-x);\n    --subtrigger-padding-y: var(--padding-y);\n    --subtrigger-background-hover: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --subtrigger-foreground: var(--foreground-300);\n\n    display: flex;\n    align-items: center;\n    padding: var(--subtrigger-padding-y) var(--subtrigger-padding-x);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--subtrigger-foreground);\n    cursor: default;\n    user-select: none;\n    outline: none;\n\n    &[data-highlighted=\"true\"] {\n      background-color: var(--subtrigger-background-hover);\n    }\n\n    &[data-state=\"open\"]:not([data-highlighted=\"true\"]) {\n      background-color: var(--subtrigger-background-hover);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  }\n\n  .subTriggerChevron {\n    flex-shrink: 0;\n    margin-left: auto;\n    width: 1rem;\n    height: 1rem;\n    opacity: 0.6;\n  }\n\n  .subContent {\n    --padding-x: calc(var(--spacing) * 1.5);\n    --padding-y: var(--spacing);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n    position: absolute;\n    z-index: 50001;\n    overflow: hidden;\n    min-width: 160px;\n    max-width: 320px;\n    border-radius: var(--radius);\n    border: var(--border-width-base) solid var(--background-700);\n    background-color: var(--background-900);\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .select {\n    --background: color-mix(in srgb, var(--background-800) 50%, transparent);\n    --foreground: var(--foreground-300);\n\n    --border-color: var(--background-700);\n    --ring-color: var(--accent-400);\n\n    --hover-background: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --pressed-background: color-mix(in srgb, var(--background-600) 50%, transparent);\n\n    --padding-x: calc(var(--spacing) * 1.75);\n    --padding-y: calc(var(--spacing) * 1.50);\n\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));\n\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    padding: 0;\n    gap: 0;\n\n    background-color: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base, 1px) solid var(--border-color);\n    border-radius: var(--radius);\n\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n\n    user-select: none;\n    cursor: pointer;\n\n    /* Interactive States */\n    &[data-disabled] {\n      opacity: 0.5;\n      cursor: not-allowed;\n    }\n\n    &[data-pressed]:not([data-disabled]) {\n      background-color: var(--pressed-background);\n    }\n\n    &[aria-expanded=\"true\"] {\n      background-color: var(--hover-background);\n    }\n  }\n\n  /* Variants */\n  .select.ghost {\n    --background: transparent;\n    --border-color: transparent;\n    --hover-background: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --pressed-background: color-mix(in srgb, var(--background-700) 50%, transparent);\n\n    &[data-pressed]:not([data-disabled]),\n    &[aria-expanded=\"true\"] {\n      background: var(--hover-background);\n    }\n  }\n\n  .trigger {\n    display: flex;\n    align-items: stretch;\n    background: transparent;\n    border: none;\n    cursor: pointer;\n    user-select: none;\n    flex: 1;\n    gap: 0;\n    height: 100%;\n    min-width: 0;\n    padding: var(--padding-y) var(--padding-x);\n\n    @media (hover: hover) {\n      &:not(:disabled):hover .icon-section {\n        background-color: var(--hover-background);\n      }\n\n      &:not(:disabled):hover .value-section:not(:empty) {\n        background-color: var(--hover-background);\n      }\n    }\n\n    &:focus-visible {\n      box-shadow: 0 0 0 2px var(--background-950), 0 0 0 4px var(--ring-color);\n      outline: none;\n    }\n\n    :global(.group) &:focus-visible {\n      outline: none;\n    }\n  }\n\n  button.trigger {\n    padding: 0;\n  }\n\n  .value-section {\n    padding: var(--padding-y) var(--padding-x);\n    display: flex;\n    align-items: center;\n    flex: 1;\n    min-width: 0;\n    border-radius: var(--inner-radius) 0 0 var(--inner-radius);\n    gap: 0.5rem;\n\n    &:only-child {\n      border-radius: var(--inner-radius);\n      justify-content: center;\n    }\n\n    &:empty {\n      flex: 0;\n      padding: 0;\n      min-width: auto;\n    }\n  }\n\n  .icon-section {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    padding: var(--padding-y) var(--padding-x);\n    border-radius: 0 var(--inner-radius) var(--inner-radius) 0;\n  }\n\n  .icon {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 1rem;\n    height: 1rem;\n    opacity: 0.7;\n  }\n\n  .select[aria-expanded=\"true\"] .icon {\n    transform: rotate(180deg);\n  }\n\n  .value {\n    display: flex;\n    align-items: center;\n    gap: 0.5rem;\n    flex: 1;\n    min-width: 0;\n    background: transparent;\n    border: none;\n    cursor: inherit;\n    padding: 0;\n  }\n\n  .value-icon {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--foreground-300);\n  }\n\n  .value-text {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n\n  .content {\n    --padding-x: calc(var(--spacing) * 1.5);\n    --padding-y: var(--spacing);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));\n\n    position: absolute;\n    z-index: 50000;\n    overflow: hidden;\n    border-radius: var(--radius);\n    border: var(--border-width-base, 1px) solid var(--background-700);\n    background-color: var(--background-900);\n\n    &[data-state=\"open\"][data-placement=\"bottom\"] {\n      animation: slideInFromTop 0.15s var(--ease-snappy-pop);\n    }\n\n    &[data-state=\"open\"][data-placement=\"top\"] {\n      animation: slideInFromBottom 0.15s var(--ease-snappy-pop);\n    }\n\n    &[data-state=\"closed\"][data-placement=\"bottom\"] {\n      animation: slideOutToTop 0.15s var(--ease-snappy-pop);\n    }\n\n    &[data-state=\"closed\"][data-placement=\"top\"] {\n      animation: slideOutToBottom 0.15s var(--ease-snappy-pop);\n    }\n  }\n\n  .list {\n    @apply space-y-1;\n  }\n\n  .item {\n    --item-padding-x: var(--padding-x);\n    --item-padding-y: var(--padding-y);\n    --item-background-hover: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --item-foreground: var(--foreground-300);\n    --item-icon-color: var(--foreground-300);\n    --item-indicator-color: var(--accent-300);\n\n    display: flex;\n    align-items: center;\n    padding: var(--item-padding-y) var(--item-padding-x);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--item-foreground);\n\n    &[data-selected=\"true\"] {\n      color: var(--item-foreground);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      cursor: not-allowed;\n      pointer-events: none;\n    }\n\n    &[data-highlighted=\"true\"] {\n      background-color: var(--item-background-hover);\n    }\n  }\n\n  .item-icon {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--item-icon-color);\n  }\n\n  .item-indicator {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--item-indicator-color);\n    margin-left: auto;\n  }\n\n  .item-content {\n    flex: 1;\n    min-width: 0;\n    display: flex;\n    flex-direction: column;\n  }\n\n  .item-text {\n    flex: 1;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n\n  .item-description {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--foreground-400);\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n  }\n\n  .item-with-description {\n    align-items: flex-start;\n    @apply py-2;\n  }\n\n  .item-icon-with-description {\n    margin-top: 0.125rem;\n  }\n\n  .item-indicator-with-description {\n    margin-top: 0.125rem;\n  }\n\n  .separator {\n    margin: 0.25rem -0.25rem;\n    height: 1px;\n    background-color: var(--background-700);\n  }\n\n  @keyframes slideInFromTop {\n    from {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n    to {\n      opacity: 1;\n      translate: 0 0;\n    }\n  }\n\n  @keyframes slideInFromBottom {\n    from {\n      opacity: 0;\n      translate: 0 2px;\n    }\n    to {\n      opacity: 1;\n      translate: 0 0;\n    }\n  }\n\n  @keyframes slideOutToTop {\n    from {\n      opacity: 1;\n      translate: 0 0;\n    }\n    to {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n  }\n\n  @keyframes slideOutToBottom {\n    from {\n      opacity: 1;\n      translate: 0 0;\n    }\n    to {\n      opacity: 0;\n      translate: 0 2px;\n    }\n  }\n\n  .placeholder {\n    color: var(--foreground-400);\n  }\n\n  .icon-prefix {\n    display: inline-flex;\n    align-items: center;\n    flex-shrink: 0;\n  }\n\n  .select[data-mode=\"multiple\"] .item {\n    gap: 0.5rem;\n  }\n\n  .subTrigger {\n    --subtrigger-padding-x: var(--padding-x);\n    --subtrigger-padding-y: var(--padding-y);\n    --subtrigger-background-hover: color-mix(in srgb, var(--background-700) 50%, transparent);\n    --subtrigger-foreground: var(--foreground-300);\n\n    display: flex;\n    align-items: center;\n    padding: var(--subtrigger-padding-y) var(--subtrigger-padding-x);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--subtrigger-foreground);\n    cursor: default;\n    user-select: none;\n    outline: none;\n\n    &[data-highlighted=\"true\"] {\n      background-color: var(--subtrigger-background-hover);\n    }\n\n    &[data-state=\"open\"]:not([data-highlighted=\"true\"]) {\n      background-color: var(--subtrigger-background-hover);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  }\n\n  .subTriggerChevron {\n    flex-shrink: 0;\n    margin-left: auto;\n    width: 1rem;\n    height: 1rem;\n    opacity: 0.6;\n  }\n\n  .subContent {\n    --padding-x: calc(var(--spacing) * 1.5);\n    --padding-y: var(--spacing);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));\n    position: absolute;\n    z-index: 50001;\n    overflow: hidden;\n    min-width: 160px;\n    max-width: 320px;\n    border-radius: var(--radius);\n    border: var(--border-width-base, 1px) solid var(--background-700);\n    background-color: var(--background-900);\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -685,7 +726,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--padding-x",
-        "value": "calc(var(--spacing) * 1.5)",
+        "value": "calc(var(--spacing) * 1.75)",
         "defaultValue": null,
         "referencedVars": [
           "--spacing"
@@ -694,7 +735,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--padding-y",
-        "value": "var(--spacing)",
+        "value": "calc(var(--spacing) * 1.50)",
         "defaultValue": null,
         "referencedVars": [
           "--spacing"
@@ -712,8 +753,8 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--inner-radius",
-        "value": "calc(var(--radius) - var(--border-width-base))",
-        "defaultValue": null,
+        "value": "calc(var(--radius) - var(--border-width-base, 1px))",
+        "defaultValue": "1px",
         "referencedVars": [
           "--radius",
           "--border-width-base"
@@ -781,8 +822,8 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--inner-radius",
-        "value": "calc(var(--radius) - var(--border-width-base))",
-        "defaultValue": null,
+        "value": "calc(var(--radius) - var(--border-width-base, 1px))",
+        "defaultValue": "1px",
         "referencedVars": [
           "--radius",
           "--border-width-base"
@@ -908,8 +949,8 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--inner-radius",
-        "value": "calc(var(--radius) - var(--border-width-base))",
-        "defaultValue": null,
+        "value": "calc(var(--radius) - var(--border-width-base, 1px))",
+        "defaultValue": "1px",
         "referencedVars": [
           "--radius",
           "--border-width-base"
@@ -1370,7 +1411,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "cssVariables": []
   },
   "modal": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .overlay {\n    --modal-bg: var(--background-900);\n    --modal-bg-footer: var(--background-800);\n    --modal-border: var(--background-700);\n    --modal-title-color: var(--foreground-100);\n    --modal-text-color: var(--foreground-300);\n    --modal-close-color: var(--foreground-400);\n    --modal-close-hover: var(--foreground-200);\n  }\n\n  .backdrop {\n    position: absolute;\n    inset: 0;\n    background-color: rgb(0 0 0 / 0.5);\n    backdrop-filter: blur(4px);\n    transition: opacity 200ms var(--ease-gentle-ease);\n    cursor: pointer;\n  }\n\n  .modal {\n    position: relative;\n    z-index: 1;\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n    max-height: 90vh;\n    margin: 1rem;\n    background-color: var(--modal-bg);\n    border: var(--border-width-base) solid var(--modal-border);\n    border-radius: var(--radius-md);\n    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);\n    animation: modalIn 200ms var(--ease-snappy-pop);\n    pointer-events: auto;\n    overflow: hidden;\n  }\n\n  @keyframes modalIn {\n    from {\n      opacity: 0;\n      transform: scale(0.95);\n    }\n    to {\n      opacity: 1;\n      transform: scale(1);\n    }\n  }\n\n  .header {\n    @apply py-4 px-6 gap-2;\n\n    flex-shrink: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    border-bottom: var(--border-width-base) solid var(--modal-border);\n  }\n\n  .title {\n    margin: 0;\n    font-size: 1.125rem;\n    font-weight: var(--font-weight-semibold);\n    color: var(--modal-title-color);\n  }\n\n  .spacer {\n    flex: 1;\n  }\n\n  .close-button {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin-left: auto;\n    background: none;\n    border: none;\n    cursor: pointer;\n    color: var(--modal-close-color);\n    transition: color 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);\n  }\n\n  .closeButton:hover {\n    color: var(--modal-close-hover);\n  }\n\n  .closeButton:active {\n    transform: scale(0.92);\n  }\n\n  .closeButton:focus {\n    outline: 2px solid var(--modal-close-hover);\n    outline-offset: 2px;\n    border-radius: 0.25rem;\n  }\n\n  .closeIcon {\n    width: 1.25rem;\n    height: 1.25rem;\n  }\n\n  .content {\n    flex: 1;\n    min-height: 0;\n    overflow-y: auto;\n    color: var(--modal-text-color);\n  }\n\n  .content::-webkit-scrollbar {\n    width: 6px;\n  }\n\n  .content::-webkit-scrollbar-track {\n    background: transparent;\n  }\n\n  .content::-webkit-scrollbar-thumb {\n    background: var(--modal-border);\n    border-radius: 3px;\n  }\n\n  .content::-webkit-scrollbar-thumb:hover {\n    background: var(--modal-close-color);\n  }\n\n  .footer {\n    @apply py-4 px-6 gap-4;\n\n    flex-shrink: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background-color: var(--background-950);\n    border-top: var(--border-width-base) solid var(--modal-border);\n  }\n\n  /* Size variants */\n  .size-fit {\n    width: fit-content;\n  }\n\n  .size-auto {\n    max-width: min(90vw, 28rem);\n  }\n\n  /* Media queries for smaller screens */\n  @media (max-width: 640px) {\n    .modal {\n      margin: 1rem;\n    }\n\n    .content {\n      max-height: calc(100vh - 10rem);\n    }\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .overlay {\n    --modal-bg: var(--background-900);\n    --modal-bg-footer: var(--background-800);\n    --modal-border: var(--background-700);\n    --modal-title-color: var(--foreground-100);\n    --modal-text-color: var(--foreground-300);\n    --modal-close-color: var(--foreground-400);\n    --modal-close-hover: var(--foreground-200);\n  }\n\n  .backdrop {\n    position: absolute;\n    inset: 0;\n    background-color: rgb(0 0 0 / 0.5);\n    backdrop-filter: blur(4px);\n    cursor: pointer;\n  }\n\n  .modal {\n    position: relative;\n    z-index: 1;\n    display: flex;\n    flex-direction: column;\n    width: 100%;\n    max-height: 90vh;\n    margin: 1rem;\n    background-color: var(--modal-bg);\n    border: var(--border-width-base) solid var(--modal-border);\n    border-radius: var(--radius-sm);\n    pointer-events: auto;\n    overflow: hidden;\n  }\n\n  .header {\n    @apply py-4 px-6 gap-2;\n\n    flex-shrink: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    border-bottom: var(--border-width-base) solid var(--modal-border);\n  }\n\n  .title {\n    margin: 0;\n    font-size: 1.125rem;\n    font-weight: var(--font-weight-semibold);\n    color: var(--modal-title-color);\n  }\n\n  .spacer {\n    flex: 1;\n  }\n\n  .close-button {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin-left: auto;\n    background: none;\n    border: none;\n    cursor: pointer;\n    color: var(--modal-close-color);\n  }\n\n  .closeButton:hover {\n    color: var(--modal-close-hover);\n  }\n\n  .closeButton:active {\n    transform: scale(0.92);\n  }\n\n  .closeButton:focus {\n    outline: 2px solid var(--modal-close-hover);\n    outline-offset: 2px;\n    border-radius: 0.25rem;\n  }\n\n  .closeIcon {\n    width: 1.25rem;\n    height: 1.25rem;\n  }\n\n  .content {\n    flex: 1;\n    min-height: 0;\n    overflow-y: auto;\n    color: var(--modal-text-color);\n  }\n\n  .content::-webkit-scrollbar {\n    width: 6px;\n  }\n\n  .content::-webkit-scrollbar-track {\n    background: transparent;\n  }\n\n  .content::-webkit-scrollbar-thumb {\n    background: var(--modal-border);\n    border-radius: 3px;\n  }\n\n  .content::-webkit-scrollbar-thumb:hover {\n    background: var(--modal-close-color);\n  }\n\n  .footer {\n    @apply py-4 px-6 gap-4;\n\n    flex-shrink: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    background-color: var(--background-950);\n    border-top: var(--border-width-base) solid var(--modal-border);\n  }\n\n  /* Size variants */\n  .size-fit {\n    width: fit-content;\n  }\n\n  .size-auto {\n    max-width: min(90vw, 28rem);\n  }\n\n  /* Media queries for smaller screens */\n  @media (max-width: 640px) {\n    .modal {\n      margin: 1rem;\n    }\n\n    .content {\n      max-height: calc(100vh - 10rem);\n    }\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -1470,7 +1511,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     ]
   },
   "menu": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .content {\n    --padding: calc(var(--spacing) * 1.5);\n    --radius: calc(var(--padding) * var(--radius-ratio));\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n    --menu-animation: none;\n    position: absolute;\n    z-index: 50000;\n    overflow: hidden;\n    min-width: 160px;\n    max-width: 320px;\n    background-color: var(--background-900);\n    border: var(--border-width-base) solid var(--background-700);\n    border-radius: var(--radius);\n\n    &[data-state=\"open\"] {\n      animation: var(--menu-animation, slideInFromTop 0.15s var(--ease-snappy-pop));\n    }\n\n    &[data-state=\"closed\"] {\n      animation: var(--menu-animation, slideOutToTop 0.15s var(--ease-snappy-pop));\n    }\n  }\n\n  .list {\n    @apply space-y-1;\n    max-height: 24rem;\n    overflow-y: auto;\n  }\n\n  .item {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--foreground-300);\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n\n    &[data-inset] {\n      padding-left: calc(var(--padding) * 2.67);\n    }\n  }\n\n  .checkboxItem {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--foreground-300);\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  }\n\n  .radioItem {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--foreground-300);\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  }\n\n  .itemIndicator {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--accent-300);\n    margin-left: auto;\n  }\n\n  .subTrigger {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--foreground-300);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-state=\"open\"]:not([data-highlighted]) {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n\n    &[data-inset] {\n      padding-left: calc(var(--padding) * 2.67);\n    }\n  }\n\n  .subTriggerChevron {\n    flex-shrink: 0;\n    margin-left: auto;\n    width: 1rem;\n    height: 1rem;\n  }\n\n  .subContent {\n    --padding: calc(var(--spacing) * 1.5);\n    --radius: calc(var(--padding) * var(--radius-ratio));\n    --inner-radius: calc(var(--radius) - var(--border-width-base));\n    --menu-animation: none;\n    position: absolute;\n    z-index: 50000;\n    overflow: hidden;\n    min-width: 160px;\n    max-width: 320px;\n    background-color: var(--background-900);\n    border: var(--border-width-base) solid var(--background-700);\n    border-radius: var(--radius);\n\n    &[data-state=\"open\"] {\n      animation: var(--menu-animation, slideInFromTop 0.15s var(--ease-snappy-pop));\n    }\n\n    &[data-state=\"closed\"] {\n      animation: var(--menu-animation, slideOutToTop 0.15s var(--ease-snappy-pop));\n    }\n  }\n\n  .label {\n    padding: var(--padding);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--foreground-400);\n\n    &[data-inset] {\n      padding-left: calc(var(--padding) * 2.67);\n    }\n  }\n\n  .separator {\n    margin: 0.25rem -0.25rem;\n    height: 1px;\n    background-color: var(--background-700);\n  }\n\n  .shortcut {\n    margin-left: auto;\n    font-size: var(--text-xs);\n    letter-spacing: 0.1em;\n    color: var(--foreground-400);\n  }\n\n  @keyframes slideInFromTop {\n    from {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n    to {\n      opacity: 1;\n      translate: 0 0;\n    }\n  }\n\n  @keyframes slideOutToTop {\n    from {\n      opacity: 1;\n      translate: 0 0;\n    }\n    to {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .trigger {\n    &[data-type=\"pop-over\"][data-active] {\n      opacity: 1 !important;\n      background-color: var(--background-700);\n    }\n  }\n\n  .content {\n    --padding: calc(var(--spacing) * 1.5);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));\n    --menu-animation: none;\n    position: absolute;\n    z-index: 50000;\n    overflow: hidden;\n    min-width: 160px;\n    max-width: 320px;\n    background-color: var(--background-900);\n    border: var(--border-width-base, 1px) solid var(--background-700);\n    border-radius: var(--radius);\n\n    &[data-state=\"open\"] {\n      animation: var(--menu-animation, slideInFromTop 0.15s var(--ease-snappy-pop));\n    }\n\n    &[data-state=\"closed\"] {\n      animation: var(--menu-animation, slideOutToTop 0.15s var(--ease-snappy-pop));\n    }\n  }\n\n  .list {\n    @apply space-y-1;\n    max-height: 24rem;\n    overflow-y: auto;\n  }\n\n  .item {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--foreground-300);\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n\n    &[data-inset] {\n      padding-left: calc(var(--padding) * 2.67);\n    }\n  }\n\n  .checkboxItem {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--foreground-300);\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  }\n\n  .radioItem {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    color: var(--foreground-300);\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n  }\n\n  .itemIndicator {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    width: 1rem;\n    height: 1rem;\n    color: var(--accent-300);\n    margin-left: auto;\n  }\n\n  .subTrigger {\n    display: flex;\n    align-items: center;\n    padding: var(--padding);\n    @apply gap-2;\n    border-radius: var(--inner-radius);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--foreground-300);\n    cursor: default;\n    user-select: none;\n    outline: none;\n    min-width: 0;\n\n    &[data-highlighted] {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-state=\"open\"]:not([data-highlighted]) {\n      background-color: color-mix(in srgb, var(--background-700) 50%, transparent);\n    }\n\n    &[data-disabled] {\n      opacity: 0.5;\n      pointer-events: none;\n    }\n\n    &[data-inset] {\n      padding-left: calc(var(--padding) * 2.67);\n    }\n  }\n\n  .subTriggerChevron {\n    flex-shrink: 0;\n    margin-left: auto;\n    width: 1rem;\n    height: 1rem;\n  }\n\n  .subContent {\n    --padding: calc(var(--spacing) * 1.5);\n    --radius: var(--radius-sm, 0.375rem);\n    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));\n    --menu-animation: none;\n    position: absolute;\n    z-index: 50000;\n    overflow: hidden;\n    min-width: 160px;\n    max-width: 320px;\n    background-color: var(--background-900);\n    border: var(--border-width-base, 1px) solid var(--background-700);\n    border-radius: var(--radius);\n\n    &[data-state=\"open\"] {\n      animation: var(--menu-animation, slideInFromTop 0.15s var(--ease-snappy-pop));\n    }\n\n    &[data-state=\"closed\"] {\n      animation: var(--menu-animation, slideOutToTop 0.15s var(--ease-snappy-pop));\n    }\n  }\n\n  .label {\n    padding: var(--padding);\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium);\n    color: var(--foreground-400);\n\n    &[data-inset] {\n      padding-left: calc(var(--padding) * 2.67);\n    }\n  }\n\n  .separator {\n    margin: 0.25rem -0.25rem;\n    height: 1px;\n    background-color: var(--background-700);\n  }\n\n  .shortcut {\n    margin-left: auto;\n    font-size: var(--text-xs);\n    letter-spacing: 0.1em;\n    color: var(--foreground-400);\n  }\n\n  @keyframes slideInFromTop {\n    from {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n    to {\n      opacity: 1;\n      translate: 0 0;\n    }\n  }\n\n  @keyframes slideOutToTop {\n    from {\n      opacity: 1;\n      translate: 0 0;\n    }\n    to {\n      opacity: 0;\n      translate: 0 -2px;\n    }\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -1494,18 +1535,17 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--radius",
-        "value": "calc(var(--padding) * var(--radius-ratio))",
-        "defaultValue": null,
+        "value": "var(--radius-sm, 0.375rem)",
+        "defaultValue": "0.375rem",
         "referencedVars": [
-          "--padding",
-          "--radius-ratio"
+          "--radius-sm"
         ],
         "variant": ".content"
       },
       {
         "name": "--inner-radius",
-        "value": "calc(var(--radius) - var(--border-width-base))",
-        "defaultValue": null,
+        "value": "calc(var(--radius) - var(--border-width-base, 1px))",
+        "defaultValue": "1px",
         "referencedVars": [
           "--radius",
           "--border-width-base"
@@ -1530,18 +1570,17 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--radius",
-        "value": "calc(var(--padding) * var(--radius-ratio))",
-        "defaultValue": null,
+        "value": "var(--radius-sm, 0.375rem)",
+        "defaultValue": "0.375rem",
         "referencedVars": [
-          "--padding",
-          "--radius-ratio"
+          "--radius-sm"
         ],
         "variant": ".subContent"
       },
       {
         "name": "--inner-radius",
-        "value": "calc(var(--radius) - var(--border-width-base))",
-        "defaultValue": null,
+        "value": "calc(var(--radius) - var(--border-width-base, 1px))",
+        "defaultValue": "1px",
         "referencedVars": [
           "--radius",
           "--border-width-base"
@@ -1557,13 +1596,8 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       }
     ]
   },
-  "mask": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .mask {\n    position: relative;\n    width: 100%;\n    height: 100%;\n  }\n}\n\n.mask[style*=\"mask-image\"],\n.mask[style*=\"-webkit-mask-image\"] {\n  -webkit-mask-size: 100% 100%;\n  mask-size: 100% 100%;\n}\n\n.mask[style*=\"--mask-clip-path\"] {\n  clip-path: var(--mask-clip-path);\n}\n\n\n.mask-gradient {\n  background: var(--mask-gradient);\n  -webkit-background-clip: text;\n  background-clip: text;\n  -webkit-text-fill-color: transparent;\n  color: transparent;\n}\n",
-    "styleableParts": [],
-    "cssVariables": []
-  },
   "list": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .container {\n    --foreground: var(--foreground-50);\n\n    max-width: 28rem;\n    margin-left: auto;\n    margin-right: auto;\n    font-family: var(--font-sans, system-ui, -apple-system, sans-serif);\n    color: var(--foreground);\n  }\n\n  .header {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n    padding-top: 1rem;\n    padding-bottom: 1rem;\n    backdrop-filter: blur(12px);\n    z-index: 10;\n  }\n\n  .header.sticky {\n    position: sticky;\n    top: 0;\n  }\n\n  .container[data-spacing=\"sm\"] .header {\n    padding-left: 0.75rem;\n    padding-right: 0.75rem;\n    padding-top: 0.25rem;\n    padding-bottom: 0.25rem;\n  }\n\n  .header > :first-child {\n    font-weight: var(--font-weight-semibold);\n    font-size: 1.125rem;\n    color: var(--foreground-50);\n  }\n\n  .header > :last-child {\n    color: var(--foreground-400);\n  }\n\n  .item {\n    --background-hover: color-mix(in srgb, var(--background-500) 6%, transparent);\n    --background-highlighted: color-mix(in srgb, var(--background-500) 6%, transparent);\n\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    gap: 0.75rem;\n    @apply py-1 px-2;\n    cursor: pointer;\n  }\n\n  .container .item:hover {\n    background-color: var(--background-hover);\n  }\n\n  .container[data-keyboard-mode=\"true\"] .item[data-highlighted=\"true\"] {\n    background-color: var(--background-highlighted);\n  }\n\n  .container[data-spacing=\"sm\"] .item {\n    padding: 0.5rem 0.75rem;\n    gap: 0.375rem;\n  }\n\n  .checkbox {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n  }\n\n  .media {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 2rem;\n    height: 2rem;\n    flex-shrink: 0;\n  }\n\n  .desc {\n    font-size: 0.875rem;\n    color: var(--foreground-400);\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n  }\n\n  .action-group {\n    display: flex;\n    align-items: center;\n    padding-left: 0.25rem;\n    padding-right: 0.25rem;\n  }\n\n  .action-group[data-justify=\"space-between\"] {\n    justify-content: space-between;\n  }\n\n  .action-group[data-justify=\"flex-start\"] {\n    justify-content: flex-start;\n  }\n\n  .action-group[data-justify=\"flex-end\"] {\n    justify-content: flex-end;\n  }\n\n  .footer {\n    padding: 1.5rem;\n    padding-bottom: 3rem;\n    display: flex;\n  }\n\n  .footer[data-align=\"center\"] {\n    justify-content: center;\n  }\n\n  .footer[data-align=\"flex-start\"] {\n    justify-content: flex-start;\n  }\n\n  .footer[data-align=\"flex-end\"] {\n    justify-content: flex-end;\n  }\n\n  .container[data-spacing=\"sm\"] .footer {\n    padding: 0.375rem 0.75rem;\n    padding-bottom: 0.375rem;\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .container {\n    --foreground: var(--foreground-50);\n\n    max-width: 28rem;\n    margin-left: auto;\n    margin-right: auto;\n    font-family: var(--font-sans, system-ui, -apple-system, sans-serif);\n    color: var(--foreground);\n  }\n\n  .header {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n    padding-top: 1rem;\n    padding-bottom: 1rem;\n    backdrop-filter: blur(12px);\n    z-index: 10;\n  }\n\n  .header.sticky {\n    position: sticky;\n    top: 0;\n  }\n\n  .container[data-spacing=\"sm\"] .header {\n    padding-left: 0.75rem;\n    padding-right: 0.75rem;\n    padding-top: 0.25rem;\n    padding-bottom: 0.25rem;\n  }\n\n  .header > :first-child {\n    font-weight: var(--font-weight-semibold);\n    font-size: 1.125rem;\n    color: var(--foreground-50);\n  }\n\n  .header > :last-child {\n    color: var(--foreground-400);\n  }\n\n  .item {\n    --background-hover: color-mix(in srgb, var(--background-500) 6%, transparent);\n    --background-highlighted: color-mix(in srgb, var(--background-500) 6%, transparent);\n\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    gap: 0.75rem;\n    @apply py-1 px-2;\n    cursor: pointer;\n  }\n\n  .container .item:hover {\n    background-color: var(--background-hover);\n  }\n\n  .container[data-keyboard-mode=\"true\"] .item[data-highlighted=\"true\"] {\n    background-color: var(--background-highlighted);\n  }\n\n  .container[data-spacing=\"sm\"] .item {\n    padding: 0.5rem 0.75rem;\n    gap: 0.375rem;\n  }\n\n  .checkbox {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n  }\n\n  .control {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex-shrink: 0;\n    margin-left: auto;\n  }\n\n  .media {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    width: 2rem;\n    height: 2rem;\n    flex-shrink: 0;\n  }\n\n  .desc {\n    font-size: 0.875rem;\n    color: var(--foreground-400);\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n  }\n\n  .action-group {\n    display: flex;\n    align-items: center;\n    padding-left: 0.25rem;\n    padding-right: 0.25rem;\n  }\n\n  .action-group[data-justify=\"space-between\"] {\n    justify-content: space-between;\n  }\n\n  .action-group[data-justify=\"flex-start\"] {\n    justify-content: flex-start;\n  }\n\n  .action-group[data-justify=\"flex-end\"] {\n    justify-content: flex-end;\n  }\n\n  .actions {\n    align-items: center;\n    gap: 0.25rem;\n    margin-left: auto;\n    flex-shrink: 0;\n    @apply p-1.5 hidden group-hover:flex;\n  }\n\n  .action {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    border-radius: 0.25rem;\n    color: var(--foreground-400);\n    @apply p-2;\n  }\n\n  .action:hover {\n    background-color: var(--background-hover);\n    color: var(--foreground-50);\n  }\n\n  .footer {\n    padding: 1.5rem;\n    padding-bottom: 3rem;\n    display: flex;\n  }\n\n  .footer[data-align=\"center\"] {\n    justify-content: center;\n  }\n\n  .footer[data-align=\"flex-start\"] {\n    justify-content: flex-start;\n  }\n\n  .footer[data-align=\"flex-end\"] {\n    justify-content: flex-end;\n  }\n\n  .container[data-spacing=\"sm\"] .footer {\n    padding: 0.375rem 0.75rem;\n    padding-bottom: 0.375rem;\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -1598,6 +1632,11 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
         "variant": ".item"
       }
     ]
+  },
+  "mask": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .mask {\n    position: relative;\n    width: 100%;\n    height: 100%;\n  }\n}\n\n.mask[style*=\"mask-image\"],\n.mask[style*=\"-webkit-mask-image\"] {\n  -webkit-mask-size: 100% 100%;\n  mask-size: 100% 100%;\n}\n\n.mask[style*=\"--mask-clip-path\"] {\n  clip-path: var(--mask-clip-path);\n}\n\n\n.mask-gradient {\n  background: var(--mask-gradient);\n  -webkit-background-clip: text;\n  background-clip: text;\n  -webkit-text-fill-color: transparent;\n  color: transparent;\n}\n",
+    "styleableParts": [],
+    "cssVariables": []
   },
   "input": {
     "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .input {\n    --background: var(--background-950);\n    --foreground: var(--foreground-50);\n    --placeholder: var(--foreground-400);\n    --border: var(--background-700);\n    --background-hover: var(--background-700);\n    --border-hover: var(--background-600);\n    --ring-color: var(--accent-500);\n\n    width: 100%;\n    display: block;\n    font-family: inherit;\n    font-size: var(--text-xs);\n    line-height: var(--leading-snug);\n    color: var(--foreground);\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n    outline: none;\n    box-sizing: border-box;\n    @apply px-3 py-2;\n    transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop), background-color 150ms var(--ease-snappy-pop);\n\n    &::placeholder {\n      color: var(--placeholder);\n    }\n\n    &[data-active] {\n      border-color: var(--ring-color);\n      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring-color) 20%, transparent);\n    }\n\n    &[data-focus-visible] {\n      @apply ring-0;\n      border-color: var(--ring-color);\n      /* box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent); */\n    }\n\n    &[data-disabled] {\n      background-color: var(--background-900);\n      color: var(--foreground-400);\n      cursor: not-allowed;\n      opacity: 0.6;\n    }\n\n    &[data-error] {\n      --border: var(--danger-600);\n      --ring-color: var(--danger-600);\n      border-color: var(--danger-600);\n\n      &[data-active] {\n        border-color: var(--danger-600);\n        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);\n      }\n\n      &[data-focus-visible] {\n        border-color: var(--danger-600);\n        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);\n      }\n    }\n\n    /* Hide default browser spinners for number inputs */\n    &[type=\"number\"] {\n      &::-webkit-outer-spin-button,\n      &::-webkit-inner-spin-button {\n        -webkit-appearance: none;\n        margin: 0;\n        display: none;\n      }\n\n      /* Firefox */\n      &[type=\"number\"] {\n        -moz-appearance: textfield;\n      }\n    }\n  }\n\n  .input[data-variant=\"ghost\"] {\n    --background: transparent;\n    --border: transparent;\n    --background-hover: transparent;\n    --border-hover: transparent;\n\n    &[data-focus-visible] {\n      box-shadow: none;\n    }\n  }\n\n  .icon-wrapper {\n    position: absolute;\n    top: 50%;\n    display: flex;\n    align-items: center;\n    color: var(--foreground-400);\n    pointer-events: none;\n    transform: translateY(-50%);\n    z-index: 10;\n  }\n\n  .prefix-icon {\n    left: 0.60rem;\n  }\n\n  .suffix-icon {\n    right: 1.00rem;\n  }\n\n  .container {\n    position: relative;\n    width: 100%;\n  }\n\n  .number-controls {\n    position: absolute;\n    top: 50%;\n    right: 0.50rem;\n    display: flex;\n    flex-direction: column;\n    gap: 0;\n    height: 1.5rem;\n    transform: translateY(-50%);\n    pointer-events: auto;\n    z-index: 10;\n  }\n\n  .numberControls.disabled {\n    opacity: 0.5;\n    cursor: not-allowed;\n  }\n\n  .spin-button {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    flex: 1;\n    width: 1.25rem;\n    padding: 0;\n    background-color: transparent;\n    border: none;\n    color: var(--foreground-400);\n    cursor: pointer;\n    transition: color 150ms var(--ease-snappy-pop);\n\n    &:hover:not(:disabled) {\n      color: var(--foreground-400);\n    }\n\n    &:active:not(:disabled) {\n      color: var(--accent-500);\n    }\n\n    &:disabled {\n      cursor: not-allowed;\n      opacity: 0.5;\n    }\n  }\n}\n",
@@ -2029,6 +2068,150 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       }
     ]
   },
+  "date": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .calendar {\n    --background: var(--background-950);\n    --foreground: var(--foreground-50);\n    --border: var(--background-700);\n\n    display: inline-flex;\n    flex-direction: column;\n    gap: 0;\n    border-radius: var(--radius-md);\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    overflow: hidden;\n  }\n\n  .dayHeaders {\n    @apply px-4 pt-3 pb-1;\n    display: grid;\n    grid-template-columns: repeat(7, 1fr);\n    gap: 0.5rem;\n    background-color: var(--background);\n    border-top: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-md) var(--radius-md) 0 0;\n    background: var(--background-900);\n  }\n\n  .dayHeader {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    font-weight: 500;\n    font-size: var(--text-xs);\n    color: var(--foreground-400);\n  }\n\n  .header {\n    display: flex;\n    @apply pl-2 pr-1.5 py-1.5;\n    align-items: center;\n    justify-content: space-between;\n    gap: 1rem;\n    color: var(--foreground-300);\n  }\n\n  .monthYear {\n    font-weight: 500;\n    @apply ml-2;\n    font-size: var(--text-sm);\n    text-align: center;\n  }\n\n  .navButton {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    min-width: 2rem;\n    min-height: 2rem;\n    border-radius: var(--radius-sm);\n    background-color: transparent;\n    color: var(--foreground-400);\n    border: 1px solid transparent;\n    cursor: pointer;\n    font-size: var(--text-sm);\n    font-weight: 500;\n  }\n\n  .navButton:hover {\n    background-color: var(--background-800);\n  }\n\n  .navButton:focus-visible {\n    background: var(--background-800);\n    border-radius: 0px;\n    outline: 0px solid var(--accent-500);\n  }\n\n  .grid {\n    display: grid;\n    grid-template-columns: repeat(7, 1fr);  /* 7 days only */\n    @apply gap-1 px-4 pb-4;\n    background-color: var(--background);\n    border-radius: 0 0 var(--radius-sm) var(--radius-sm);\n    background: var(--background-900);\n  }\n\n  .dayCell {\n    --cell-bg: transparent;\n    --cell-text: var(--foreground-300);\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    min-height: 2rem;\n    @apply py-2 px-2.5;\n    border-radius: var(--radius-base);\n    background-color: var(--cell-bg);\n    color: var(--cell-text);\n    border: 2px solid transparent;\n    cursor: pointer;\n    font-size: var(--text-sm);\n    font-weight: 400;\n  }\n\n  .weekHeader {\n    display: none;\n  }\n\n  .weekNumber {\n    display: none;\n  }\n}\n\n/* Variant states - these are outside @layer */\n.dayCell[data-selected=\"true\"] {\n  --cell-bg: var(--background-800);\n  --cell-text: var(--foreground-50);\n  font-weight: 500;\n}\n\n.dayCell[data-today=\"true\"] {\n  --border: transparent;\n  --foreground: var(--foreground-50);\n  --cell-bg: var(--background-800);\n  color: var(--foreground);\n  border-color: var(--border);\n}\n\n.dayCell[data-disabled=\"true\"] {\n  --cell-bg: var(--background-700);\n  --cell-text: var(--foreground-400);\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.dayCell[data-out-of-range=\"true\"] {\n  --cell-text: var(--foreground-400);\n  opacity: 0.5;\n}\n\n.dayCell:hover:not([data-disabled=\"true\"]):not([data-out-of-range=\"true\"]) {\n  --cell-bg: var(--background-800);\n}\n\n.dayCell[data-focus-visible=\"true\"]:not([data-disabled=\"true\"]) {\n  outline: 2px solid var(--foreground-300);\n  outline-offset: 2px;\n}\n",
+    "styleableParts": [
+      {
+        "name": "root"
+      },
+      {
+        "name": "header"
+      },
+      {
+        "name": "dayHeaders"
+      },
+      {
+        "name": "grid"
+      },
+      {
+        "name": "dayCell"
+      }
+    ],
+    "cssVariables": [
+      {
+        "name": "--background",
+        "value": "var(--background-950)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-950"
+        ],
+        "variant": ".calendar"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--foreground-50)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-50"
+        ],
+        "variant": ".calendar"
+      },
+      {
+        "name": "--border",
+        "value": "var(--background-700)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-700"
+        ],
+        "variant": ".calendar"
+      },
+      {
+        "name": "--cell-bg",
+        "value": "transparent",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".dayCell"
+      },
+      {
+        "name": "--cell-text",
+        "value": "var(--foreground-300)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-300"
+        ],
+        "variant": ".dayCell"
+      },
+      {
+        "name": "--cell-bg",
+        "value": "var(--background-800)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-800"
+        ],
+        "variant": ".dayCell[data-selected=\"true\"]"
+      },
+      {
+        "name": "--cell-text",
+        "value": "var(--foreground-50)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-50"
+        ],
+        "variant": ".dayCell[data-selected=\"true\"]"
+      },
+      {
+        "name": "--border",
+        "value": "transparent",
+        "defaultValue": null,
+        "referencedVars": [],
+        "variant": ".dayCell[data-today=\"true\"]"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--foreground-50)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-50"
+        ],
+        "variant": ".dayCell[data-today=\"true\"]"
+      },
+      {
+        "name": "--cell-bg",
+        "value": "var(--background-800)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-800"
+        ],
+        "variant": ".dayCell[data-today=\"true\"]"
+      },
+      {
+        "name": "--cell-bg",
+        "value": "var(--background-700)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-700"
+        ],
+        "variant": ".dayCell[data-disabled=\"true\"]"
+      },
+      {
+        "name": "--cell-text",
+        "value": "var(--foreground-400)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-400"
+        ],
+        "variant": ".dayCell[data-disabled=\"true\"]"
+      },
+      {
+        "name": "--cell-text",
+        "value": "var(--foreground-400)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-400"
+        ],
+        "variant": ".dayCell[data-out-of-range=\"true\"]"
+      },
+      {
+        "name": "--cell-bg",
+        "value": "var(--background-800)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-800"
+        ],
+        "variant": ".dayCell:hover:not([data-disabled=\"true\"]):not([data-out-of-range=\"true\"])"
+      }
+    ]
+  },
   "confirm": {
     "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .container {\n    display: flex;\n    flex-direction: column;\n  }\n\n  .card {\n    max-width: 28rem;\n  }\n\n  .card-compact {\n    max-width: 21rem;\n  }\n\n  .dialog-overlay {\n    position: fixed;\n    inset: 0;\n    z-index: 50;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background-color: color-mix(in srgb, var(--background-950) 50%, transparent);\n  }\n\n  .dialog-card {\n    max-width: 28rem;\n    margin: 0 1rem;\n  }\n\n  .header {\n    display: flex;\n    align-items: flex-start;\n    gap: 0.75rem;\n  }\n\n  .header-content {\n    flex: 1;\n  }\n\n  .header-title {\n    font-weight: 600;\n    color: var(--foreground-100);\n  }\n\n  .body {\n    display: flex;\n    flex-direction: column;\n    gap: 1rem;\n  }\n\n  .body-compact {\n    gap: 0.75rem;\n  }\n\n  .description {\n    font-size: var(--text-sm);\n    color: var(--foreground-300);\n  }\n\n  .error-message {\n    font-size: var(--text-sm);\n    color: var(--foreground-danger);\n  }\n\n  .warning-box {\n    padding: 0.75rem;\n    border-radius: var(--radius-sm);\n    border: var(--border-width-base) solid;\n    font-size: var(--text-sm);\n  }\n\n  .warning-box-low {\n    background-color: color-mix(in srgb, var(--background-info) 20%, transparent);\n    border-color: color-mix(in srgb, var(--background-info) 30%, transparent);\n    color: var(--foreground-200);\n  }\n\n  .warning-box-medium {\n    background-color: color-mix(in srgb, var(--background-warning) 20%, transparent);\n    border-color: color-mix(in srgb, var(--background-warning) 30%, transparent);\n    color: var(--foreground-200);\n  }\n\n  .warning-box-high {\n    background-color: color-mix(in srgb, var(--background-warning-dark) 20%, transparent);\n    border-color: color-mix(in srgb, var(--background-warning-dark) 30%, transparent);\n    color: var(--foreground-200);\n  }\n\n  .warning-box-critical {\n    background-color: color-mix(in srgb, var(--background-danger) 20%, transparent);\n    border-color: color-mix(in srgb, var(--background-danger) 30%, transparent);\n    color: var(--foreground-200);\n  }\n\n  .countdown-text {\n    font-size: var(--text-sm);\n    color: var(--foreground-400);\n  }\n\n  .input-label {\n    font-size: var(--text-sm);\n    margin-left: 0.25rem;\n    color: var(--foreground-300);\n  }\n\n  .input {\n    width: 100%;\n    margin-top: 0.5rem;\n    padding: 0.5rem 0.75rem;\n    border-radius: var(--radius-sm);\n    background-color: var(--background-800);\n    border: var(--border-width-base) solid var(--background-700);\n    color: var(--foreground-100);\n    font-size: var(--text-sm);\n\n    &:focus-visible {\n      outline: 2px solid var(--accent-500);\n      outline-offset: 2px;\n    }\n  }\n\n  .actions {\n    display: flex;\n    gap: 0.5rem;\n  }\n\n  .actions-inline {\n    flex-direction: row;\n  }\n\n  .actions-dialog {\n    flex-direction: row;\n    justify-content: flex-end;\n  }\n}\n",
     "styleableParts": [],
@@ -2183,7 +2366,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "cssVariables": []
   },
   "checkbox": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  /* Hidden input element positioned behind visual checkbox */\n  .checkbox-input {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    opacity: 0;\n    cursor: pointer;\n  }\n\n  .checkbox-root {\n    @apply gap-3;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n  }\n\n  .checkbox-container {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n  }\n\n  /* Visual checkbox */\n  .checkbox {\n    --background: var(--background-800);\n    --foreground: var(--accent-50);\n    --border: transparent;\n    --ring-color: var(--accent-500);\n    --hover-background: color-mix(in srgb, var(--background-800) 90%, var(--accent-500));\n    --hover-border: color-mix(in srgb, var(--background-700) 90%, var(--accent-500));\n\n    @apply cursor-pointer;\n    appearance: none;\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-xs);\n    outline: none;\n    transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);\n    position: relative;\n    width: 1.25rem;\n    height: 1.25rem;\n\n    /* Interactive States */\n    &:hover:not([data-disabled=\"true\"]) {\n      background-color: var(--hover-background);\n      border-color: var(--hover-border);\n    }\n\n    &:focus-visible {\n      outline: 2px solid transparent;\n      box-shadow: 0 0 0 3px var(--ring-color);\n    }\n\n    &[data-pressed=\"true\"] {\n      transform: scale(0.92);\n    }\n\n    &[data-selected=\"true\"] {\n      --background: color-mix(in srgb, var(--accent-600) 60%, var(--background-500));\n      --border: transparent;\n      background-color: var(--background);\n      border-color: var(--border);\n    }\n\n    &[data-indeterminate=\"true\"] {\n      --background: var(--accent-500);\n      --border: var(--accent-500);\n      background-color: var(--background);\n      border-color: var(--border);\n    }\n\n    &[data-disabled=\"true\"] {\n      cursor: not-allowed;\n      opacity: 0.6;\n      pointer-events: none;\n    }\n\n    /* Sizes */\n    &.size-sm {\n      width: 1rem;\n      height: 1rem;\n    }\n\n    &.size-md {\n      width: 1.25rem;\n      height: 1.25rem;\n    }\n\n    &.size-lg {\n      width: 1.5rem;\n      height: 1.5rem;\n    }\n  }\n\n  /* Checkmark and Indeterminate styles - combined */\n  .checkbox-checkmark,\n  .checkbox-indeterminate {\n    position: absolute;\n    inset: 50%;\n    width: 65%;\n    height: 65%;\n    transform: translate(-50%, -50%);\n    color: var(--accent-50); /* Use foreground for consistency */\n    pointer-events: none;\n  }\n\n  .label {\n    @apply cursor-pointer select-none;\n    transition: color 200ms var(--ease-snappy-pop);\n  }\n\n  .label-sm {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium)\n  }\n\n  .label-md {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium)\n  }\n\n  .label-lg {\n    font-size: var(--text-sm);\n    font-weight: var(--font-weight-medium)\n  }\n\n  .label-disabled {\n    @apply opacity-60 cursor-not-allowed;\n  }\n\n  .helper-text {\n    @apply text-sm ml-8;\n    transition: color 200ms var(--ease-snappy-pop);\n  }\n\n  .helper-text-normal {\n    color: inherit;\n  }\n\n  .helper-text-error {\n    color: var(--danger-600);\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  /* Hidden input element positioned behind visual checkbox */\n  .checkbox-input {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    opacity: 0;\n    cursor: pointer;\n  }\n\n  .checkbox-root {\n    @apply gap-3;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n  }\n\n  .checkbox-container {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n  }\n\n  /* Visual checkbox */\n  .checkbox {\n    --background: var(--background-700);\n    --foreground: var(--foreground-300);\n    --border: var(--background-600);\n    --ring-color: var(--accent-500);\n    --hover-background: color-mix(in srgb, var(--background-500) 60%, transparent);\n    --hover-border: transparent;\n\n    @apply cursor-pointer;\n    appearance: none;\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-xs);\n    outline: none;\n    transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);\n    position: relative;\n    width: 1.25rem;\n    height: 1.25rem;\n\n    /* Interactive States */\n    &:hover:not([data-disabled=\"true\"]) {\n      background-color: var(--hover-background);\n      border-color: var(--hover-border);\n    }\n\n    &:focus-visible {\n      outline: 2px solid transparent;\n      box-shadow: 0 0 0 3px var(--ring-color);\n    }\n\n    &[data-pressed=\"true\"] {\n      transform: scale(0.92);\n    }\n\n    &[data-selected=\"true\"] {\n      --background: var(--background-600);\n      --border: transparent;\n      background-color: var(--background);\n      border-color: var(--border);\n    }\n\n    &[data-indeterminate=\"true\"] {\n      --background: var(--background-600);\n      --border: transparent;\n      background-color: var(--background);\n      border-color: var(--border);\n    }\n\n    &[data-disabled=\"true\"] {\n      cursor: not-allowed;\n      opacity: 0.6;\n      pointer-events: none;\n    }\n\n    /* Sizes */\n    &.size-sm {\n      width: 1rem;\n      height: 1rem;\n    }\n\n    &.size-md {\n      width: 1.25rem;\n      height: 1.25rem;\n    }\n\n    &.size-lg {\n      width: 1.5rem;\n      height: 1.5rem;\n    }\n  }\n\n  /* Checkmark and Indeterminate styles - combined */\n  .checkbox-checkmark,\n  .checkbox-indeterminate {\n    position: absolute;\n    inset: 50%;\n    width: 65%;\n    height: 65%;\n    transform: translate(-50%, -50%);\n    color: var(--foreground-300);\n    pointer-events: none;\n  }\n\n  .checkbox-checkmark:hover,\n  .checkbox-indeterminate:hover {\n    color: var(--foreground-100);\n  }\n\n  .label {\n    @apply cursor-pointer select-none;\n    transition: color 200ms var(--ease-snappy-pop);\n  }\n\n  .label-sm {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium)\n  }\n\n  .label-md {\n    font-size: var(--text-xs);\n    font-weight: var(--font-weight-medium)\n  }\n\n  .label-lg {\n    font-size: var(--text-sm);\n    font-weight: var(--font-weight-medium)\n  }\n\n  .label-disabled {\n    @apply opacity-60 cursor-not-allowed;\n  }\n\n  .helper-text {\n    @apply text-sm ml-8;\n    transition: color 200ms var(--ease-snappy-pop);\n  }\n\n  .helper-text-normal {\n    color: inherit;\n  }\n\n  .helper-text-error {\n    color: var(--danger-600);\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -2198,27 +2381,29 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "cssVariables": [
       {
         "name": "--background",
-        "value": "var(--background-800)",
+        "value": "var(--background-700)",
         "defaultValue": null,
         "referencedVars": [
-          "--background-800"
+          "--background-700"
         ],
         "variant": ".checkbox"
       },
       {
         "name": "--foreground",
-        "value": "var(--accent-50)",
+        "value": "var(--foreground-300)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-50"
+          "--foreground-300"
         ],
         "variant": ".checkbox"
       },
       {
         "name": "--border",
-        "value": "transparent",
+        "value": "var(--background-600)",
         "defaultValue": null,
-        "referencedVars": [],
+        "referencedVars": [
+          "--background-600"
+        ],
         "variant": ".checkbox"
       },
       {
@@ -2232,31 +2417,26 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--hover-background",
-        "value": "color-mix(in srgb, var(--background-800) 90%, var(--accent-500))",
+        "value": "color-mix(in srgb, var(--background-500) 60%, transparent)",
         "defaultValue": null,
         "referencedVars": [
-          "--background-800",
-          "--accent-500"
+          "--background-500"
         ],
         "variant": ".checkbox"
       },
       {
         "name": "--hover-border",
-        "value": "color-mix(in srgb, var(--background-700) 90%, var(--accent-500))",
+        "value": "transparent",
         "defaultValue": null,
-        "referencedVars": [
-          "--background-700",
-          "--accent-500"
-        ],
+        "referencedVars": [],
         "variant": ".checkbox"
       },
       {
         "name": "--background",
-        "value": "color-mix(in srgb, var(--accent-600) 60%, var(--background-500))",
+        "value": "var(--background-600)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-600",
-          "--background-500"
+          "--background-600"
         ],
         "variant": ".checkbox[data-selected=\"true\"]"
       },
@@ -2269,165 +2449,19 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--background",
-        "value": "var(--accent-500)",
+        "value": "var(--background-600)",
         "defaultValue": null,
         "referencedVars": [
-          "--accent-500"
+          "--background-600"
         ],
         "variant": ".checkbox[data-indeterminate=\"true\"]"
-      },
-      {
-        "name": "--border",
-        "value": "var(--accent-500)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--accent-500"
-        ],
-        "variant": ".checkbox[data-indeterminate=\"true\"]"
-      }
-    ]
-  },
-  "date": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .calendar {\n    --background: var(--background-950);\n    --foreground: var(--foreground-50);\n    --border: var(--background-700);\n\n    display: inline-flex;\n    flex-direction: column;\n    gap: 0;\n    border-radius: var(--radius-md);\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    overflow: hidden;\n  }\n\n  .dayHeaders {\n    @apply px-4 pt-3 pb-1;\n    display: grid;\n    grid-template-columns: repeat(7, 1fr);\n    gap: 0.5rem;\n    background-color: var(--background);\n    border-top: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-md) var(--radius-md) 0 0;\n    background: var(--background-900);\n  }\n\n  .dayHeader {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    font-weight: 500;\n    font-size: var(--text-xs);\n    color: var(--foreground-400);\n  }\n\n  .header {\n    display: flex;\n    @apply pl-2 pr-1.5 py-1.5;\n    align-items: center;\n    justify-content: space-between;\n    gap: 1rem;\n    color: var(--foreground-300);\n  }\n\n  .monthYear {\n    font-weight: 500;\n    @apply ml-2;\n    font-size: var(--text-sm);\n    text-align: center;\n  }\n\n  .navButton {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    min-width: 2rem;\n    min-height: 2rem;\n    border-radius: var(--radius-sm);\n    background-color: transparent;\n    color: var(--foreground-400);\n    border: 1px solid transparent;\n    cursor: pointer;\n    font-size: var(--text-sm);\n    font-weight: 500;\n  }\n\n  .navButton:hover {\n    background-color: var(--background-800);\n  }\n\n  .navButton:focus-visible {\n    background: var(--background-800);\n    border-radius: 0px;\n    outline: 0px solid var(--accent-500);\n  }\n\n  .grid {\n    display: grid;\n    grid-template-columns: repeat(7, 1fr);  /* 7 days only */\n    @apply gap-1 px-4 pb-4;\n    background-color: var(--background);\n    border-radius: 0 0 var(--radius-sm) var(--radius-sm);\n    background: var(--background-900);\n  }\n\n  .dayCell {\n    --cell-bg: transparent;\n    --cell-text: var(--foreground-300);\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    min-height: 2rem;\n    @apply py-2 px-2.5;\n    border-radius: var(--radius-base);\n    background-color: var(--cell-bg);\n    color: var(--cell-text);\n    border: 2px solid transparent;\n    cursor: pointer;\n    font-size: var(--text-sm);\n    font-weight: 400;\n  }\n\n  .weekHeader {\n    display: none;\n  }\n\n  .weekNumber {\n    display: none;\n  }\n}\n\n/* Variant states - these are outside @layer */\n.dayCell[data-selected=\"true\"] {\n  --cell-bg: var(--background-800);\n  --cell-text: var(--foreground-50);\n  font-weight: 500;\n}\n\n.dayCell[data-today=\"true\"] {\n  --border: transparent;\n  --foreground: var(--foreground-50);\n  --cell-bg: var(--background-800);\n  color: var(--foreground);\n  border-color: var(--border);\n}\n\n.dayCell[data-disabled=\"true\"] {\n  --cell-bg: var(--background-700);\n  --cell-text: var(--foreground-400);\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n\n.dayCell[data-out-of-range=\"true\"] {\n  --cell-text: var(--foreground-400);\n  opacity: 0.5;\n}\n\n.dayCell:hover:not([data-disabled=\"true\"]):not([data-out-of-range=\"true\"]) {\n  --cell-bg: var(--background-800);\n}\n\n.dayCell[data-focus-visible=\"true\"]:not([data-disabled=\"true\"]) {\n  outline: 2px solid var(--foreground-300);\n  outline-offset: 2px;\n}\n",
-    "styleableParts": [
-      {
-        "name": "root"
-      },
-      {
-        "name": "header"
-      },
-      {
-        "name": "dayHeaders"
-      },
-      {
-        "name": "grid"
-      },
-      {
-        "name": "dayCell"
-      }
-    ],
-    "cssVariables": [
-      {
-        "name": "--background",
-        "value": "var(--background-950)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-950"
-        ],
-        "variant": ".calendar"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--foreground-50)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-50"
-        ],
-        "variant": ".calendar"
-      },
-      {
-        "name": "--border",
-        "value": "var(--background-700)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-700"
-        ],
-        "variant": ".calendar"
-      },
-      {
-        "name": "--cell-bg",
-        "value": "transparent",
-        "defaultValue": null,
-        "referencedVars": [],
-        "variant": ".dayCell"
-      },
-      {
-        "name": "--cell-text",
-        "value": "var(--foreground-300)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-300"
-        ],
-        "variant": ".dayCell"
-      },
-      {
-        "name": "--cell-bg",
-        "value": "var(--background-800)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-800"
-        ],
-        "variant": ".dayCell[data-selected=\"true\"]"
-      },
-      {
-        "name": "--cell-text",
-        "value": "var(--foreground-50)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-50"
-        ],
-        "variant": ".dayCell[data-selected=\"true\"]"
       },
       {
         "name": "--border",
         "value": "transparent",
         "defaultValue": null,
         "referencedVars": [],
-        "variant": ".dayCell[data-today=\"true\"]"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--foreground-50)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-50"
-        ],
-        "variant": ".dayCell[data-today=\"true\"]"
-      },
-      {
-        "name": "--cell-bg",
-        "value": "var(--background-800)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-800"
-        ],
-        "variant": ".dayCell[data-today=\"true\"]"
-      },
-      {
-        "name": "--cell-bg",
-        "value": "var(--background-700)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-700"
-        ],
-        "variant": ".dayCell[data-disabled=\"true\"]"
-      },
-      {
-        "name": "--cell-text",
-        "value": "var(--foreground-400)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-400"
-        ],
-        "variant": ".dayCell[data-disabled=\"true\"]"
-      },
-      {
-        "name": "--cell-text",
-        "value": "var(--foreground-400)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-400"
-        ],
-        "variant": ".dayCell[data-out-of-range=\"true\"]"
-      },
-      {
-        "name": "--cell-bg",
-        "value": "var(--background-800)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-800"
-        ],
-        "variant": ".dayCell:hover:not([data-disabled=\"true\"]):not([data-out-of-range=\"true\"])"
+        "variant": ".checkbox[data-indeterminate=\"true\"]"
       }
     ]
   },
@@ -2495,189 +2529,8 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       }
     ]
   },
-  "badge": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .badge {\n    --background: var(--background-800);\n    --foreground: var(--foreground-200);\n    --border: var(--background-600);\n\n    @apply px-3 py-0.5;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.5rem;\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-sm);\n    background-color: var(--background);\n    color: var(--foreground);\n    border-radius: var(--radius-sm);\n  }\n\n  .badge.default {\n    --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));\n    --foreground: var(--foreground-200);\n\n    border: var(--border-width-base) solid var(--background-700)\n  }\n\n  .badge.secondary {\n    --background: color-mix(in srgb, var(--background-600) 40%, transparent);\n    --foreground: var(--foreground-300);\n\n    border: var(--border-width-base) solid var(--background-600);\n  }\n\n  .badge.success {\n    --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));\n    --foreground: var(--success-600);\n  }\n\n  .badge.warning {\n    --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));\n    --foreground: var(--warning-600);\n  }\n\n  .badge.danger {\n    --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));\n    --foreground: var(--danger-600);\n  }\n\n  .badge.info {\n    --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));\n    --foreground: var(--info-600);\n  }\n\n  .badge.sm {\n    @apply px-1.5 py-px;\n    gap: 0.25rem;\n    font-size: var(--text-xs);\n  }\n\n  .badge.dismissible {\n    @apply pr-0.5;\n  }\n\n  .badge.md {\n    @apply px-3.5 py-1;\n    font-size: var(--text-sm);\n  }\n\n  .badge.lg {\n    @apply px-4 py-2.5;\n    font-size: var(--text-sm);\n  }\n\n  .pill {\n    border-radius: 9999px;\n  }\n\n  .iconWrapper {\n    display: flex;\n    align-items: center;\n    flex-shrink: 0;\n  }\n\n  .dismissButton {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin-left: 0.25rem;\n    @apply p-1;\n    border-radius: var(--radius-xs);\n    background: transparent;\n    border: none;\n    color: var(--foreground-400);\n    cursor: pointer;\n    transition: opacity 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);\n    outline: none;\n  }\n\n  .dismissButton[data-hovered=\"true\"] {\n    background: color-mix(in srgb, var(--background-700) 80%, var(--background-900));\n  }\n\n  .dismissButton[data-pressed=\"true\"] {\n    background: var(--background-700);\n    transform: scale(0.95);\n  }\n\n  .dismissButton[data-focus-visible=\"true\"] {\n    outline: 2px solid currentColor;\n    outline-offset: 1px;\n  }\n}\n\n",
-    "styleableParts": [
-      {
-        "name": "root"
-      },
-      {
-        "name": "iconWrapper"
-      },
-      {
-        "name": "dismissButton"
-      }
-    ],
-    "cssVariables": [
-      {
-        "name": "--background",
-        "value": "var(--background-800)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-800"
-        ],
-        "variant": ".badge"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--foreground-200)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-200"
-        ],
-        "variant": ".badge"
-      },
-      {
-        "name": "--border",
-        "value": "var(--background-600)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-600"
-        ],
-        "variant": ".badge"
-      },
-      {
-        "name": "--background",
-        "value": "color-mix(in srgb, var(--background-600) 10%, var(--background-900))",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-600",
-          "--background-900"
-        ],
-        "variant": ".badge.default"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--foreground-200)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-200"
-        ],
-        "variant": ".badge.default"
-      },
-      {
-        "name": "--background",
-        "value": "color-mix(in srgb, var(--background-600) 40%, transparent)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-600"
-        ],
-        "variant": ".badge.secondary"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--foreground-300)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--foreground-300"
-        ],
-        "variant": ".badge.secondary"
-      },
-      {
-        "name": "--background",
-        "value": "color-mix(in srgb, var(--success-600) 10%, var(--background-900))",
-        "defaultValue": null,
-        "referencedVars": [
-          "--success-600",
-          "--background-900"
-        ],
-        "variant": ".badge.success"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--success-600)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--success-600"
-        ],
-        "variant": ".badge.success"
-      },
-      {
-        "name": "--background",
-        "value": "color-mix(in srgb, var(--warning-600) 10%, var(--background-900))",
-        "defaultValue": null,
-        "referencedVars": [
-          "--warning-600",
-          "--background-900"
-        ],
-        "variant": ".badge.warning"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--warning-600)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--warning-600"
-        ],
-        "variant": ".badge.warning"
-      },
-      {
-        "name": "--background",
-        "value": "color-mix(in srgb, var(--danger-600) 10%, var(--background-900))",
-        "defaultValue": null,
-        "referencedVars": [
-          "--danger-600",
-          "--background-900"
-        ],
-        "variant": ".badge.danger"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--danger-600)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--danger-600"
-        ],
-        "variant": ".badge.danger"
-      },
-      {
-        "name": "--background",
-        "value": "color-mix(in srgb, var(--info-600) 10%, var(--background-900))",
-        "defaultValue": null,
-        "referencedVars": [
-          "--info-600",
-          "--background-900"
-        ],
-        "variant": ".badge.info"
-      },
-      {
-        "name": "--foreground",
-        "value": "var(--info-600)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--info-600"
-        ],
-        "variant": ".badge.info"
-      }
-    ]
-  },
-  "anchor": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .anchor {\n    display: inline;\n  }\n\n  .preview {\n    display: inline;\n  }\n\n  .trigger {\n    --underline-background: var(--background-600);\n\n    display: inline-block;\n    position: relative;\n    color: var(--foreground-200);\n    text-decoration: none;\n    cursor: pointer;\n    transition: color 150ms var(--ease-gentle-ease);\n\n    &:focus-visible {\n      outline: 2px solid var(--color-background-600);\n      outline-offset: 2px;\n      border-radius: 2px;\n    }\n  }\n\n  .underline {\n    position: absolute;\n    left: 0;\n    right: 0;\n    bottom: 0px;\n    height: 1px;\n    background: var(--underline-background);\n    transform-origin: right;\n    transform: scaleX(1);\n    transition: transform 150ms var(--ease-gentle-ease);\n    pointer-events: none;\n  }\n}\n",
-    "styleableParts": [
-      {
-        "name": "root"
-      },
-      {
-        "name": "underline"
-      },
-      {
-        "name": "preview"
-      }
-    ],
-    "cssVariables": [
-      {
-        "name": "--underline-background",
-        "value": "var(--background-600)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--background-600"
-        ],
-        "variant": ".trigger"
-      }
-    ]
-  },
   "button": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .button {\n    --background: var(--background-800);\n    --foreground: var(--foreground-200);\n    --background-border: var(--background-600);\n    --focus-visible: var(--accent-400);\n    \n    --hover-background: var(--background-700);\n    --hover-border: var(--background-700);\n\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.5rem;\n    \n    background-color: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base, 1px) solid var(--background-border);\n    border-radius: var(--radius-sm, 0.375rem);\n\n    font-weight: var(--font-weight-medium, 500);\n    font-size: var(--text-sm, 0.875rem);\n    line-height: var(--leading-tight, 1.25);\n    \n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    user-select: none;\n    cursor: pointer;\n    white-space: nowrap;\n\n    &:hover:not(:disabled) {\n      background-color: var(--hover-background);\n      border-color: var(--hover-border);\n    }\n\n    &:active:not(:disabled) {\n      filter: brightness(1.1);\n    }\n\n    &:focus-visible {\n      box-shadow: 0 0 0 2px var(--background-950), 0 0 0 4px var(--focus-visible);\n      outline: none;\n    }\n\n    &:disabled {\n      opacity: 0.5;\n      cursor: not-allowed;\n      filter: grayscale(0.5);\n    }\n  }\n\n  .button.primary {\n    --background: var(--accent-500);\n    --foreground: var(--foreground-50);\n    --background-border: var(--accent-600);\n    --hover-background: var(--accent-400);\n    --hover-border: var(--accent-500);\n  }\n\n  .button.secondary {\n    --background: var(--background-900);\n    --foreground: var(--foreground-300);\n    --background-border: var(--background-700);\n  }\n\n  .button.outline {\n    --background: transparent;\n    --background-hover: var(--background-700);\n    --foreground: var(--foreground-300);\n    --border: var(--border-width-base) solid var(--background-700);\n\n    outline-style: unset !important;\n  }\n\n  .button.danger {\n    --background: color-mix(in srgb, var(--danger-500) 15%, transparent);\n    --foreground: var(--danger-500);\n\n    --background-border: var(--danger-500);\n    --focus-visible: var(--danger-400);\n    --hover-background: color-mix(in srgb, var(--danger-500) 25%, transparent);\n\n  }\n\n  .button.ghost {\n    --background: transparent;\n    --background-border: transparent;\n    --hover-background: var(--background-800);\n  }\n\n  .button.sm {\n    @apply px-3 py-1.5;\n    font-size: var(--text-xs);\n  }\n\n  .button.md {\n    @apply px-5 py-2;\n    font-size: var(--text-sm);\n  }\n\n  .button.lg {\n    @apply px-7 py-1.5;\n    font-size: var(--text-sm);\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .button {\n    --background: var(--background-800);\n    --foreground: var(--foreground-200);\n    --background-border: color-mix(in srgb, var(--background-600) 15%, transparent);\n    --focus-visible: var(--accent-400);\n    \n    --hover-background: var(--background-700);\n    --hover-border: var(--background-700);\n\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.5rem;\n    \n    background-color: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base, 1px) solid var(--background-border);\n    border-radius: var(--radius-sm, 0.375rem);\n\n    font-weight: var(--font-weight-medium, 500);\n    font-size: var(--text-sm, 0.875rem);\n    line-height: var(--leading-tight, 1.25);\n    \n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    user-select: none;\n    cursor: pointer;\n    white-space: nowrap;\n\n    &:hover:not(:disabled) {\n      background-color: var(--hover-background);\n      border-color: var(--hover-border);\n    }\n\n    &:active:not(:disabled) {\n      filter: brightness(1.1);\n    }\n\n    &:focus-visible {\n      box-shadow: 0 0 0 2px var(--background-950), 0 0 0 4px var(--focus-visible);\n      outline: none;\n    }\n\n    &:disabled {\n      opacity: 0.5;\n      cursor: not-allowed;\n      filter: grayscale(0.5);\n    }\n  }\n\n  .button.primary {\n    --background: var(--accent-500);\n    --foreground: var(--foreground-50);\n    --background-border: var(--accent-600);\n    --hover-background: var(--accent-400);\n    --hover-border: var(--accent-500);\n  }\n\n  .button.secondary {\n    --background: var(--background-900);\n    --foreground: var(--foreground-300);\n    --background-border: var(--background-700);\n  }\n\n  .button.outline {\n    --background: transparent;\n    --background-hover: var(--background-700);\n    --foreground: var(--foreground-300);\n    --border: var(--border-width-base) solid var(--background-700);\n\n    outline-style: unset !important;\n  }\n\n  .button.danger {\n    --background: color-mix(in srgb, var(--danger-500) 15%, transparent);\n    --foreground: var(--danger-500);\n\n    --background-border: var(--danger-500);\n    --focus-visible: var(--danger-400);\n    --hover-background: color-mix(in srgb, var(--danger-500) 25%, transparent);\n\n  }\n\n  .button.ghost {\n    --background: transparent;\n    --background-border: transparent;\n    --hover-background: var(--background-800);\n  }\n\n  .button.sm {\n    @apply px-3 py-1.5;\n    font-size: var(--text-xs);\n  }\n\n  .button.md {\n    @apply px-5 py-2;\n    font-size: var(--text-sm);\n  }\n\n  .button.lg {\n    @apply px-7 py-1.5;\n    font-size: var(--text-sm);\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -2710,7 +2563,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "--background-border",
-        "value": "var(--background-600)",
+        "value": "color-mix(in srgb, var(--background-600) 15%, transparent)",
         "defaultValue": null,
         "referencedVars": [
           "--background-600"
@@ -3107,6 +2960,187 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
           "--background-900"
         ],
         "variant": ".banner.danger"
+      }
+    ]
+  },
+  "badge": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .badge {\n    --background: var(--background-800);\n    --foreground: var(--foreground-200);\n    --border: var(--background-600);\n\n    @apply px-3 py-0.5;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: 0.5rem;\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-sm);\n    background-color: var(--background);\n    color: var(--foreground);\n    border-radius: var(--radius-sm);\n  }\n\n  .badge.default {\n    --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));\n    --foreground: var(--foreground-200);\n\n    border: var(--border-width-base) solid var(--background-700)\n  }\n\n  .badge.secondary {\n    --background: color-mix(in srgb, var(--background-600) 40%, transparent);\n    --foreground: var(--foreground-300);\n\n    border: var(--border-width-base) solid var(--background-600);\n  }\n\n  .badge.success {\n    --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));\n    --foreground: var(--success-600);\n  }\n\n  .badge.warning {\n    --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));\n    --foreground: var(--warning-600);\n  }\n\n  .badge.danger {\n    --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));\n    --foreground: var(--danger-600);\n  }\n\n  .badge.info {\n    --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));\n    --foreground: var(--info-600);\n  }\n\n  .badge.sm {\n    @apply px-1.5 py-px;\n    gap: 0.25rem;\n    font-size: var(--text-xs);\n  }\n\n  .badge.dismissible {\n    @apply pr-0.5;\n  }\n\n  .badge.md {\n    @apply px-3.5 py-1;\n    font-size: var(--text-sm);\n  }\n\n  .badge.lg {\n    @apply px-4 py-2.5;\n    font-size: var(--text-sm);\n  }\n\n  .pill {\n    border-radius: 9999px;\n  }\n\n  .iconWrapper {\n    display: flex;\n    align-items: center;\n    flex-shrink: 0;\n  }\n\n  .dismissButton {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin-left: 0.25rem;\n    @apply p-1;\n    border-radius: var(--radius-xs);\n    background: transparent;\n    border: none;\n    color: var(--foreground-400);\n    cursor: pointer;\n    transition: opacity 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);\n    outline: none;\n  }\n\n  .dismissButton[data-hovered=\"true\"] {\n    background: color-mix(in srgb, var(--background-700) 80%, var(--background-900));\n  }\n\n  .dismissButton[data-pressed=\"true\"] {\n    background: var(--background-700);\n    transform: scale(0.95);\n  }\n\n  .dismissButton[data-focus-visible=\"true\"] {\n    outline: 2px solid currentColor;\n    outline-offset: 1px;\n  }\n}\n\n",
+    "styleableParts": [
+      {
+        "name": "root"
+      },
+      {
+        "name": "iconWrapper"
+      },
+      {
+        "name": "dismissButton"
+      }
+    ],
+    "cssVariables": [
+      {
+        "name": "--background",
+        "value": "var(--background-800)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-800"
+        ],
+        "variant": ".badge"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--foreground-200)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-200"
+        ],
+        "variant": ".badge"
+      },
+      {
+        "name": "--border",
+        "value": "var(--background-600)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-600"
+        ],
+        "variant": ".badge"
+      },
+      {
+        "name": "--background",
+        "value": "color-mix(in srgb, var(--background-600) 10%, var(--background-900))",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-600",
+          "--background-900"
+        ],
+        "variant": ".badge.default"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--foreground-200)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-200"
+        ],
+        "variant": ".badge.default"
+      },
+      {
+        "name": "--background",
+        "value": "color-mix(in srgb, var(--background-600) 40%, transparent)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-600"
+        ],
+        "variant": ".badge.secondary"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--foreground-300)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--foreground-300"
+        ],
+        "variant": ".badge.secondary"
+      },
+      {
+        "name": "--background",
+        "value": "color-mix(in srgb, var(--success-600) 10%, var(--background-900))",
+        "defaultValue": null,
+        "referencedVars": [
+          "--success-600",
+          "--background-900"
+        ],
+        "variant": ".badge.success"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--success-600)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--success-600"
+        ],
+        "variant": ".badge.success"
+      },
+      {
+        "name": "--background",
+        "value": "color-mix(in srgb, var(--warning-600) 10%, var(--background-900))",
+        "defaultValue": null,
+        "referencedVars": [
+          "--warning-600",
+          "--background-900"
+        ],
+        "variant": ".badge.warning"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--warning-600)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--warning-600"
+        ],
+        "variant": ".badge.warning"
+      },
+      {
+        "name": "--background",
+        "value": "color-mix(in srgb, var(--danger-600) 10%, var(--background-900))",
+        "defaultValue": null,
+        "referencedVars": [
+          "--danger-600",
+          "--background-900"
+        ],
+        "variant": ".badge.danger"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--danger-600)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--danger-600"
+        ],
+        "variant": ".badge.danger"
+      },
+      {
+        "name": "--background",
+        "value": "color-mix(in srgb, var(--info-600) 10%, var(--background-900))",
+        "defaultValue": null,
+        "referencedVars": [
+          "--info-600",
+          "--background-900"
+        ],
+        "variant": ".badge.info"
+      },
+      {
+        "name": "--foreground",
+        "value": "var(--info-600)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--info-600"
+        ],
+        "variant": ".badge.info"
+      }
+    ]
+  },
+  "anchor": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .anchor {\n    display: inline;\n  }\n\n  .preview {\n    display: inline;\n  }\n\n  .trigger {\n    --underline-background: var(--background-600);\n\n    display: inline-block;\n    position: relative;\n    color: var(--foreground-200);\n    text-decoration: none;\n    cursor: pointer;\n    transition: color 150ms var(--ease-gentle-ease);\n\n    &:focus-visible {\n      outline: 2px solid var(--color-background-600);\n      outline-offset: 2px;\n      border-radius: 2px;\n    }\n  }\n\n  .underline {\n    position: absolute;\n    left: 0;\n    right: 0;\n    bottom: 0px;\n    height: 1px;\n    background: var(--underline-background);\n    transform-origin: right;\n    transform: scaleX(1);\n    transition: transform 150ms var(--ease-gentle-ease);\n    pointer-events: none;\n  }\n}\n",
+    "styleableParts": [
+      {
+        "name": "root"
+      },
+      {
+        "name": "underline"
+      },
+      {
+        "name": "preview"
+      }
+    ],
+    "cssVariables": [
+      {
+        "name": "--underline-background",
+        "value": "var(--background-600)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--background-600"
+        ],
+        "variant": ".trigger"
       }
     ]
   }
