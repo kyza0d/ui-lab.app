@@ -2,6 +2,10 @@ import React from 'react';
 import { DividerProps } from '@/components/Divider';
 import { type StyleValue } from '@/lib/utils';
 import { type StylesProp } from '@/lib/styles';
+import { Checkbox as UICheckbox } from '../Checkbox';
+import { Switch as UISwitch } from '../Switch';
+import { Input as UIInput } from '../Input';
+import { Select as UISelect } from '../Select';
 
 export interface ListStyleSlots {
   root?: StyleValue;
@@ -78,29 +82,18 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export interface ListCheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  /** Whether the checkbox is checked */
-  checked?: boolean;
-}
+export type ListCheckboxProps = React.ComponentPropsWithoutRef<typeof UICheckbox>;
 
 export interface ListCheckboxIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Whether the indicator is in a checked state */
   checked?: boolean;
 }
 
-export interface ListSwitchProps extends React.ComponentProps<any> {
-  /** Whether the switch is selected */
-  isSelected?: boolean;
-  /** Whether the switch is disabled */
-  isDisabled?: boolean;
-}
+export type ListSwitchProps = React.ComponentPropsWithoutRef<typeof UISwitch>;
 
-export interface ListInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type ListInputProps = React.ComponentPropsWithoutRef<typeof UIInput>;
 
-export interface ListSelectProps extends React.ComponentProps<any> {
-  /** Whether the select is disabled */
-  isDisabled?: boolean;
-}
+export type ListSelectProps = React.ComponentPropsWithoutRef<typeof UISelect>;
 
 export interface ListMediaProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Child content for the media slot */
