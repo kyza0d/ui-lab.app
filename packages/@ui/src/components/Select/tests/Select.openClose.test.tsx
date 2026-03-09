@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { renderSelectWithItems, openSelect, closeSelect, getSelectTrigger, getSelectContent } from './Select.test-utils'
 import { createMockSelectItems, clickElement, pressEscape, hoverElement, unhoverElement, waitForOpen, waitForClose, waitForCondition } from '@/tests/utils'
 
@@ -156,6 +156,27 @@ describe('Select.openClose', () => {
 
       expect(trigger.getAttribute('aria-haspopup')).toBe('listbox')
     })
+  })
+
+  it('does not scroll to a bottom selected item when opening', async () => {
+    const items = createMockSelectItems(20)
+    const scrollToMock = vi.fn()
+    const originalScrollTo = HTMLElement.prototype.scrollTo
+    HTMLElement.prototype.scrollTo = scrollToMock
+
+    try {
+      const container = renderSelectWithItems(items, {
+        defaultSelectedKey: items[items.length - 1].key,
+        maxItems: 5,
+      })
+      const trigger = getSelectTrigger(container)
+
+      await openSelect(trigger)
+
+      expect(scrollToMock).not.toHaveBeenCalled()
+    } finally {
+      HTMLElement.prototype.scrollTo = originalScrollTo
+    }
   })
 
 })

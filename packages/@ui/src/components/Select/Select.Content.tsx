@@ -71,7 +71,6 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     const [needsScroll, setNeedsScroll] = React.useState(false)
     const inputRef = React.useRef<HTMLInputElement>(null)
     const isKeyboardNavRef = React.useRef(false)
-    const wasJustOpenedRef = React.useRef(false)
     const focusFrameRef = React.useRef<number | null>(null)
 
     const offsetValue = groupContext?.isInGroup ? 4 : 2
@@ -111,12 +110,6 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     React.useEffect(() => {
       setMounted(true)
     }, [])
-
-    React.useEffect(() => {
-      if (isOpen) {
-        wasJustOpenedRef.current = true
-      }
-    }, [isOpen])
 
     React.useEffect(() => {
       if (isOpen && searchable && inputRef.current) {
@@ -169,10 +162,9 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     React.useEffect(() => {
       if (!isOpen || focusedKey === null || !floatingElement) return
-      const shouldScroll = !mouseMoveDetectedRef.current || wasJustOpenedRef.current
+      const shouldScroll = !mouseMoveDetectedRef.current
       if (!shouldScroll) return
       isKeyboardNavRef.current = false
-      wasJustOpenedRef.current = false
       const el = floatingElement.querySelector('[data-highlighted="true"]') as HTMLElement
       if (el) scrollItemIntoView(el)
     }, [focusedKey, isOpen, floatingElement, mouseMoveDetectedRef])
