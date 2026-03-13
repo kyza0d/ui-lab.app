@@ -6,10 +6,13 @@ export interface FontMetrics {
   fontWeightScale: number;
   typeSizeRatio: number;
   headerLetterSpacingScale?: number;
+  headerLineHeight?: number;
   bodyLetterSpacingScale?: number;
+  bodyTypeSizeRatio?: number;
   headerFontWeightScale?: number;
   bodyFontWeightScale?: number;
   bodyFontSizeScale?: number;
+  bodyLineHeight?: number;
 }
 
 export interface FontConfig {

@@ -1,28 +1,130 @@
 import { generateTypeScaleFromRatio } from "../config";
+import {
+  DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+  TYPOGRAPHY_FONT_SIZE_SCALE_MAX,
+  TYPOGRAPHY_FONT_SIZE_SCALE_MIN,
+  TYPOGRAPHY_TYPE_SIZE_RATIO_MAX,
+  TYPOGRAPHY_TYPE_SIZE_RATIO_MIN,
+  clampGlobalMinFontSizePx,
+} from "./typography-config";
 
-const MIN_FONT_SIZE_REM = 0.850;
+interface TypographyConstraintInput {
+  typeSizeRatio: number;
+  fontSizeScale: number;
+}
 
-export function getSmallestMinSize(typeSizeRatio: number, fontSizeScale: number): number {
-  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale);
-  const minSizes = typeScale.map(item => item.minSize);
+interface TypographyConstraintResult extends TypographyConstraintInput {
+  globalMinFontSizePx: number;
+}
+
+const FONT_SCALE_SEARCH_STEP = 0.001;
+
+export function getSmallestMinSize(
+  typeSizeRatio: number,
+  fontSizeScale: number,
+  globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+): number {
+  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale, 1, {
+    globalMinFontSizePx,
+  });
+  const minSizes = typeScale.map((item) => item.minSize);
   return Math.min(...minSizes);
 }
 
-export function isValidTypographyConfig(typeSizeRatio: number, fontSizeScale: number): boolean {
-  const smallestMin = getSmallestMinSize(typeSizeRatio, fontSizeScale);
-  return smallestMin >= MIN_FONT_SIZE_REM;
+export function isValidTypographyConfig(
+  typeSizeRatio: number,
+  fontSizeScale: number,
+  globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+): boolean {
+  const smallestMin = getSmallestMinSize(
+    typeSizeRatio,
+    fontSizeScale,
+    globalMinFontSizePx,
+  );
+  return smallestMin >= globalMinFontSizePx / 16;
+}
+
+export function findClosestValidFontSizeScale(
+  typeSizeRatio: number,
+  targetFontSizeScale: number,
+  globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+): number {
+  const normalizedGlobalMinFontSizePx = clampGlobalMinFontSizePx(globalMinFontSizePx);
+  const clampedTargetScale = Math.max(
+    TYPOGRAPHY_FONT_SIZE_SCALE_MIN,
+    Math.min(TYPOGRAPHY_FONT_SIZE_SCALE_MAX, targetFontSizeScale),
+  );
+
+  if (
+    isValidTypographyConfig(
+      typeSizeRatio,
+      clampedTargetScale,
+      normalizedGlobalMinFontSizePx,
+    )
+  ) {
+    return clampedTargetScale;
+  }
+
+  let closestScale = clampedTargetScale;
+  let closestDistance = Number.POSITIVE_INFINITY;
+
+  for (
+    let scale = TYPOGRAPHY_FONT_SIZE_SCALE_MIN;
+    scale <= TYPOGRAPHY_FONT_SIZE_SCALE_MAX + FONT_SCALE_SEARCH_STEP;
+    scale += FONT_SCALE_SEARCH_STEP
+  ) {
+    const roundedScale = Number(scale.toFixed(3));
+
+    if (
+      !isValidTypographyConfig(
+        typeSizeRatio,
+        roundedScale,
+        normalizedGlobalMinFontSizePx,
+      )
+    ) {
+      continue;
+    }
+
+    const distance = Math.abs(roundedScale - clampedTargetScale);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestScale = roundedScale;
+    }
+  }
+
+  return closestScale;
 }
 
 export function clampTypographyConfig(
   typeSizeRatio: number,
   fontSizeScale: number,
-): { typeSizeRatio: number; fontSizeScale: number } {
-  const clampedRatio = Math.max(1.067, Math.min(1.2, typeSizeRatio));
-  const clampedScale = Math.max(0.85, Math.min(1.1, fontSizeScale));
+  globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+): TypographyConstraintResult {
+  const clampedRatio = Math.max(
+    TYPOGRAPHY_TYPE_SIZE_RATIO_MIN,
+    Math.min(TYPOGRAPHY_TYPE_SIZE_RATIO_MAX, typeSizeRatio),
+  );
+  const normalizedGlobalMinFontSizePx = clampGlobalMinFontSizePx(globalMinFontSizePx);
+  const clampedScale = findClosestValidFontSizeScale(
+    clampedRatio,
+    fontSizeScale,
+    normalizedGlobalMinFontSizePx,
+  );
 
-  if (isValidTypographyConfig(clampedRatio, clampedScale)) {
-    return { typeSizeRatio: clampedRatio, fontSizeScale: clampedScale };
-  }
+  return {
+    typeSizeRatio: clampedRatio,
+    fontSizeScale: clampedScale,
+    globalMinFontSizePx: normalizedGlobalMinFontSizePx,
+  };
+}
 
-  return { typeSizeRatio: clampedRatio, fontSizeScale: clampedScale };
+export function clampTypographySettings(
+  input: TypographyConstraintInput,
+  globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+): TypographyConstraintResult {
+  return clampTypographyConfig(
+    input.typeSizeRatio,
+    input.fontSizeScale,
+    globalMinFontSizePx,
+  );
 }
