@@ -82,6 +82,63 @@ export default function App() {
 
 This approach lets PostCSS resolve the full path to `ui-lab-components/styles.css` through the package.json exports, keeping all your styles centralized in CSS files rather than scattered across JavaScript imports.
 
+### Option 3: Official Light/Dark Mode Setup
+
+Use `ui-lab-components/theme.css` when you want adaptive light/dark tokens without writing `dark:*` overrides for component surfaces.
+
+```css
+@import "tailwindcss";
+@import "ui-lab-components/theme.css";
+@import "ui-lab-components/styles.css";
+```
+
+`theme.css` defines the `--color-*` tokens that `ui-lab-components/styles.css` already consumes. The active palette is selected by:
+
+- the user’s device preference by default
+- `document.documentElement.dataset.theme = "light" | "dark"` for manual overrides
+- `.light` / `.dark` classes on `<html>` if you prefer class-based control
+
+In a Next.js layout, add the script before hydration to avoid a flash of the wrong mode:
+
+```tsx
+import { generateColorModeScript } from "ui-lab-components/theme-script";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: generateColorModeScript() }}
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+To persist a user-selected mode without a React hook:
+
+```ts
+export function setColorMode(mode: "light" | "dark" | "system") {
+  localStorage.setItem("ui-lab-color-mode", mode);
+
+  const resolved =
+    mode === "system"
+      ? window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+      : mode;
+
+  document.documentElement.dataset.theme = resolved;
+  document.documentElement.style.colorScheme = resolved;
+  document.documentElement.classList.toggle("dark", resolved === "dark");
+  document.documentElement.classList.toggle("light", resolved === "light");
+}
+```
+
+This is the recommended integration path for applications that just need standard light/dark mode. Use `ThemeProvider` only when you need runtime theme generation, palette editing, or custom token persistence.
+
 ## Components
 
 ### Layout Components
