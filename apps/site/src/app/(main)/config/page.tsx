@@ -3,16 +3,8 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import { useApp } from "@/features/theme";
 import {
-  generateFullThemeConfig,
-  generateColorPaletteCSS,
-  generateTypographyCSS,
-  generateFluidSpacingCSS,
-  generateRadiusScaleCSS,
-  generateBorderWidthScaleCSS,
-  generateMaxWidthVariablesCSS,
-  generateMaxWidthScaleCSS,
+  generateThemeSetupFiles,
 } from "@/features/theme/config";
-import { generateFontWeightCSS } from "@/features/theme/config/font-weight/generator";
 import { Code } from "@/features/docs/components/code-display/code";
 import {
   Button,
@@ -44,15 +36,6 @@ const NAV_ITEMS: { id: Section; label: string; icon: typeof FaEye }[] = [
 ];
 
 const SETUP_INSTALL = `pnpm add ui-lab-components`;
-
-const SETUP_IMPORT = `import "./global.css";
-import "ui-lab-components/styles.css";`;
-
-const SETUP_USAGE = `import { Button } from "ui-lab-components";
-
-export default function App() {
-  return <Button>Click me</Button>;
-}`;
 
 function SidebarNav({
   active,
@@ -119,7 +102,7 @@ function SidebarNav({
       <div className="mt-auto p-3">
         <Button onPress={onDownload} variant="secondary" className="w-full">
           <FaDownload className="mr-2" size={12} />
-          Download CSS
+          Download Setup
         </Button>
       </div>
     </div>
@@ -243,44 +226,58 @@ function PreviewSection() {
 }
 
 function ExportSection({
-  fullConfig,
-  colorsConfig,
-  typographyConfig,
-  layoutConfig,
+  themeCss,
+  globalsCss,
+  layoutTsx,
+  themeToggleTsx,
+  themeToggleModuleCss,
 }: {
-  fullConfig: string;
-  colorsConfig: string;
-  typographyConfig: string;
-  layoutConfig: string;
+  themeCss: string;
+  globalsCss: string;
+  layoutTsx: string;
+  themeToggleTsx: string;
+  themeToggleModuleCss: string;
 }) {
   return (
     <div className="space-y-4 p-6 lg:p-8 max-w-4xl">
-      <Tabs defaultValue="full">
+      <p className="text-sm text-foreground-400">
+        This export mirrors <code>factory-gen.site</code>: <code>app/theme.css</code> owns both mode token sets,
+        <code>app/layout.tsx</code> injects the pre-hydration script, and the client toggle swaps its sun and moon icons with
+        a CSS module driven by <code>data-theme</code>.
+      </p>
+
+      <Tabs defaultValue="theme">
         <TabsList>
-          <TabsTrigger value="full">Full Config</TabsTrigger>
-          <TabsTrigger value="colors">Colors</TabsTrigger>
-          <TabsTrigger value="typography">Typography</TabsTrigger>
-          <TabsTrigger value="layout">Layout</TabsTrigger>
+          <TabsTrigger value="theme">theme.css</TabsTrigger>
+          <TabsTrigger value="globals">globals.css</TabsTrigger>
+          <TabsTrigger value="layout">layout.tsx</TabsTrigger>
+          <TabsTrigger value="toggle">theme-toggle.tsx</TabsTrigger>
+          <TabsTrigger value="toggle-css">theme-toggle.module.css</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="full">
-          <Code language="css" filename="global.css">
-            {fullConfig}
+        <TabsContent value="theme">
+          <Code language="css" filename="theme.css">
+            {themeCss}
           </Code>
         </TabsContent>
-        <TabsContent value="colors">
-          <Code language="css" filename="colors.css">
-            {colorsConfig}
-          </Code>
-        </TabsContent>
-        <TabsContent value="typography">
-          <Code language="css" filename="typography.css">
-            {typographyConfig}
+        <TabsContent value="globals">
+          <Code language="css" filename="globals.css">
+            {globalsCss}
           </Code>
         </TabsContent>
         <TabsContent value="layout">
-          <Code language="css" filename="layout.css">
-            {layoutConfig}
+          <Code language="tsx" filename="app/layout.tsx">
+            {layoutTsx}
+          </Code>
+        </TabsContent>
+        <TabsContent value="toggle">
+          <Code language="tsx" filename="components/theme-toggle/index.tsx">
+            {themeToggleTsx}
+          </Code>
+        </TabsContent>
+        <TabsContent value="toggle-css">
+          <Code language="css" filename="components/theme-toggle/theme-toggle.module.css">
+            {themeToggleModuleCss}
           </Code>
         </TabsContent>
       </Tabs>
@@ -294,20 +291,20 @@ function ExportSection({
             </Code>
           </div>
           <div className="space-y-1">
-            <span className="text-sm font-medium text-foreground-300">2. Add the exported CSS to your global.css</span>
-            <p className="text-sm text-foreground-400">Paste the Full Config output into your project&apos;s global stylesheet.</p>
+            <span className="text-sm font-medium text-foreground-300">2. Copy `theme.css` into `app/theme.css`</span>
+            <p className="text-sm text-foreground-400">This file already contains the default mode tokens plus the alternate mode override. Theme switching works by changing <code>data-theme</code>, not by generating colors at runtime.</p>
           </div>
           <div className="space-y-1">
-            <span className="text-sm font-medium text-foreground-300">3. Import styles in your layout</span>
-            <Code language="typescript" filename="layout.tsx">
-              {SETUP_IMPORT}
-            </Code>
+            <span className="text-sm font-medium text-foreground-300">3. Replace or merge into `app/globals.css` with the generated `globals.css`</span>
+            <p className="text-sm text-foreground-400">It imports Tailwind, your `theme.css`, and `ui-lab-components/styles.css`, then adds your typography and layout tokens.</p>
           </div>
           <div className="space-y-1">
-            <span className="text-sm font-medium text-foreground-300">4. Use components</span>
-            <Code language="tsx" filename="App.tsx">
-              {SETUP_USAGE}
-            </Code>
+            <span className="text-sm font-medium text-foreground-300">4. Update `app/layout.tsx` with the generated script snippet</span>
+            <p className="text-sm text-foreground-400">`generateColorModeScript()` runs before hydration, restores the saved mode, and sets <code>data-theme</code> before the first paint.</p>
+          </div>
+          <div className="space-y-1">
+            <span className="text-sm font-medium text-foreground-300">5. Copy the generated `components/theme-toggle/` files and render `ThemeToggle` in any client component tree</span>
+            <p className="text-sm text-foreground-400">The component uses `useColorMode()`, and the CSS module swaps the moon and sun glyphs by targeting <code>:root[data-theme=&quot;dark&quot;]</code>, matching `factory-gen.site`.</p>
           </div>
         </div>
       </Expand>
@@ -326,15 +323,17 @@ export default function ConfigPage() {
     headerTypeSizeRatio,
     headerFontSizeScale,
     headerFontWeightScale,
+    headerLineHeight,
     bodyFontWeightScale,
+    bodyLineHeight,
     radius,
     borderWidth,
     spacingScale,
   } = useApp();
 
-  const fullConfig = useMemo(() => {
-    if (!currentThemeColors) return "";
-    return generateFullThemeConfig(
+  const themeSetup = useMemo(() => {
+    if (!currentThemeColors) return null;
+    return generateThemeSetupFiles(
       currentThemeColors,
       currentThemeMode,
       headerTypeSizeRatio,
@@ -342,41 +341,36 @@ export default function ConfigPage() {
       headerFontWeightScale,
       headerFontWeightScale,
       bodyFontWeightScale,
+      headerLineHeight,
+      bodyLineHeight,
       radius,
       borderWidth,
       spacingScale,
     );
-  }, [currentThemeColors, currentThemeMode, headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, bodyFontWeightScale, radius, borderWidth, spacingScale]);
-
-  const colorsConfig = useMemo(() => {
-    if (!currentThemeColors) return "";
-    return `@theme {\n${generateColorPaletteCSS(currentThemeColors, currentThemeMode)}\n}`;
-  }, [currentThemeColors, currentThemeMode]);
-
-  const typographyConfig = useMemo(() => {
-    const typo = generateTypographyCSS(headerTypeSizeRatio, headerFontSizeScale);
-    const weights = generateFontWeightCSS(headerFontWeightScale, bodyFontWeightScale);
-    return `@theme {\n${typo}\n\n  --line-height-tight: 1.25;\n  --line-height-snug: 1.375;\n  --line-height-normal: 1.5;\n  --line-height-relaxed: 1.65;\n  --line-height-loose: 2;\n\n  --letter-spacing-tight: -0.01em;\n  --letter-spacing-snug: -0.01em;\n  --letter-spacing-normal: 0;\n  --letter-spacing-wide: 0.05em;\n\n${weights}\n}`;
-  }, [headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, bodyFontWeightScale]);
-
-  const layoutConfig = useMemo(() => {
-    const spacing = generateFluidSpacingCSS(spacingScale);
-    const radiusCSS = generateRadiusScaleCSS(radius);
-    const border = generateBorderWidthScaleCSS(borderWidth);
-    const maxWidthVars = generateMaxWidthVariablesCSS(1);
-    const maxWidthUtils = generateMaxWidthScaleCSS(1);
-    return `@theme {\n${spacing}\n\n${maxWidthVars}\n\n${radiusCSS}\n\n${border}\n}\n\n${maxWidthUtils}`;
-  }, [spacingScale, radius, borderWidth]);
+  }, [
+    currentThemeColors,
+    currentThemeMode,
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
+    bodyFontWeightScale,
+    headerLineHeight,
+    bodyLineHeight,
+    radius,
+    borderWidth,
+    spacingScale,
+  ]);
 
   const handleDownload = useCallback(() => {
-    const blob = new Blob([fullConfig], { type: "text/css" });
+    if (!themeSetup) return;
+    const blob = new Blob([themeSetup.fullBundle], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "global.css";
+    a.download = "ui-lab-theme-setup.txt";
     a.click();
     URL.revokeObjectURL(url);
-  }, [fullConfig]);
+  }, [themeSetup]);
 
   const handleNavSelect = useCallback((section: Section) => {
     setActiveSection(section);
@@ -443,10 +437,11 @@ export default function ConfigPage() {
           {activeSection === "preview" && <PreviewSection />}
           {activeSection === "export" && (
             <ExportSection
-              fullConfig={fullConfig}
-              colorsConfig={colorsConfig}
-              typographyConfig={typographyConfig}
-              layoutConfig={layoutConfig}
+              themeCss={themeSetup?.themeCss ?? ""}
+              globalsCss={themeSetup?.globalsCss ?? ""}
+              layoutTsx={themeSetup?.layoutTsx ?? ""}
+              themeToggleTsx={themeSetup?.themeToggleTsx ?? ""}
+              themeToggleModuleCss={themeSetup?.themeToggleModuleCss ?? ""}
             />
           )}
         </Scroll>

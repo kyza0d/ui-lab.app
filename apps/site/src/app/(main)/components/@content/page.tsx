@@ -25,13 +25,13 @@ export default function ComponentsPage() {
               if (componentsInCategory.length === 0) return null;
               return (
                 <div key={category} className="space-y-4">
-                  <Flex styles="gap-2">
+                  <Flex styles="gap-4">
                     {/* Category Header */}
                     <Flex justify="center" align="center" className="bg-background-800 border border-background-700 w-10 h-10 rounded-sm text-foreground-200 mr-3">
-                      <Icon strokeWidth={2.4} color="var(--foreground-400)" IconComponent={CategoryIcons[category as keyof typeof CategoryIcons] || CategoryIcons.default} size={18} />
+                      <Icon color="var(--foreground-400)" IconComponent={CategoryIcons[category as keyof typeof CategoryIcons] || CategoryIcons.default} size={18} />
                     </Flex>
                     <div>
-                      <h3 className="mb-1.5 font-semibold text-foreground-50 flex items-center">
+                      <h3 className="mb-2 font-semibold text-foreground-50 flex items-center">
                         {categoryMap[category].label}
                       </h3>
                       <p className="text-sm w-full md:w-[47ch] text-foreground-400 flex items-start">
@@ -56,14 +56,14 @@ export default function ComponentsPage() {
                           />
                           <Gallery.Item
                             href={href}
-                            className='group h-80 rounded-sm bg-background-950 hover:bg-background-900/50 flex-col'
-                            orientation='horizontal'
+                            className='group h-80 rounded-sm bg-background-950 hover:bg-background-900/50'
+                            orientation='vertical'
                             onMouseEnter={onMouseEnter}
                             onMouseLeave={onMouseLeave}
                             onClick={() => router.push(href)}
                           >
                             <Gallery.View
-                              className="w-full h-50 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
+                              className="w-full h-45 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
                             >
                               <div className='w-80 px-4 gap-2 flex items-center justify-center'>
                                 {component.preview}
