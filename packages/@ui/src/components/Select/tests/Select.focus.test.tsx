@@ -1,11 +1,13 @@
 import { describe, it, expect, vi } from 'vitest'
 import { act } from '@testing-library/react'
-import { renderSelectWithItems, openSelect, getSelectTrigger, getSelectContent } from './Select.test-utils'
+import { Select, Searchable } from '../'
+import { renderSelectWithItems, renderSelectWithChildren, openSelect, getSelectTrigger, getSelectContent } from './Select.test-utils'
 import {
   createMockSelectItems,
   pressArrowDown,
   pressEscape,
   waitForFocus,
+  waitForOpen,
 } from '@/tests/utils'
 import userEvent from '@testing-library/user-event'
 
@@ -99,6 +101,31 @@ describe('Select.focus', () => {
 
       expect(document.activeElement).toBe(trigger)
     })
+
+    it('searchable trigger wrapper focuses input after first click with standard content', async () => {
+      const items = createMockSelectItems(3)
+      const container = renderSelectWithChildren(
+        <>
+          <Searchable.Trigger placeholder="Search items..." />
+          <Select.Content>
+            {items.map((item) => (
+              <Select.Item key={item.key} value={item.key} textValue={item.label}>
+                {item.label}
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </>
+      )
+      const trigger = getSelectTrigger(container) as HTMLInputElement
+      const triggerWrapper = trigger.closest('[data-slot="trigger"]') as HTMLElement
+      const user = userEvent.setup()
+
+      await user.click(triggerWrapper)
+      await waitForOpen(() => getSelectContent(container)!)
+      await waitForFocus(() => trigger)
+
+      expect(document.activeElement).toBe(trigger)
+    })
   })
 
 
@@ -142,4 +169,3 @@ describe('Select.focus', () => {
   })
 
 })
-

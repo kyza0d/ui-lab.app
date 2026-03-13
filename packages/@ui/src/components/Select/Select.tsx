@@ -25,6 +25,9 @@ export type SelectStylesProp = StylesProp<SelectStyleSlots>;
 export interface SelectContextValue {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  contentPlacement: "top" | "bottom"
+  setContentPlacement: React.Dispatch<React.SetStateAction<"top" | "bottom">>
+  triggerType: "button" | "input"
   mode: SelectMode
   selectedKey: Key | null
   selectedKeys?: Set<Key>
@@ -138,6 +141,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const mouseMoveDetectedRef = React.useRef(true)
     const itemExtrasRef = React.useRef<Map<Key, { onSelect?: () => void; isSubmenuTrigger?: boolean }>>(new Map())
     const [isOpen, setIsOpen] = React.useState(false)
+    const [contentPlacement, setContentPlacement] = React.useState<"top" | "bottom">("bottom")
     const contentId = React.useId()
     const hoverTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -358,9 +362,20 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const rootRef = useMergedRef<HTMLDivElement>(wrapperRef, ref)
 
     const childrenArray = React.Children.toArray(children)
-    const trigger = childrenArray.find(child => React.isValidElement(child) && (child.type as any)?.displayName === 'SelectTrigger')
+    const trigger = childrenArray.find(child => React.isValidElement(child) && (
+      (child.type as any)?.displayName === 'SelectTrigger' ||
+      (child.type as any)?.displayName === 'SearchableTrigger'
+    ))
     const contentItems = childrenArray.filter(child => React.isValidElement(child) && ((child.type as any)?.displayName === 'SelectContent' || (child.type as any)?.displayName === 'SearchableContent'))
-    const otherContent = childrenArray.filter(child => !React.isValidElement(child) || ((child.type as any)?.displayName !== 'SelectTrigger' && (child.type as any)?.displayName !== 'SelectContent' && (child.type as any)?.displayName !== 'SearchableContent'))
+    const otherContent = childrenArray.filter(child => !React.isValidElement(child) || (
+      (child.type as any)?.displayName !== 'SelectTrigger' &&
+      (child.type as any)?.displayName !== 'SearchableTrigger' &&
+      (child.type as any)?.displayName !== 'SelectContent' &&
+      (child.type as any)?.displayName !== 'SearchableContent'
+    ))
+    const triggerType = React.isValidElement(trigger) && (trigger.type as any)?.displayName === 'SearchableTrigger'
+      ? 'input'
+      : 'button'
 
     const resolvedStyles = resolveSelectBaseStyles(stylesProp);
 
@@ -369,6 +384,9 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
         value={{
           isOpen,
           setIsOpen,
+          contentPlacement,
+          setContentPlacement,
+          triggerType,
           mode,
           selectedKey,
           selectedKeys: mode === "multiple" ? selectedKeys : undefined,
@@ -420,5 +438,3 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
 Select.displayName = "Select"
 
 export { Select, SelectContext }
-
-

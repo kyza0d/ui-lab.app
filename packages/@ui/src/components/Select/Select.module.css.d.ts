@@ -1,6 +1,12 @@
 declare const styles: {
   select: string;
   trigger: string;
+  "search-trigger": string;
+  "search-value-section": string;
+  "search-trigger-input": string;
+  "search-content-input": string;
+  "search-icon-section": string;
+  "search-wrapper": string;
   "value-section": string;
   "icon-section": string;
   icon: string;
@@ -24,9 +30,9 @@ declare const styles: {
   "scroll-button": string;
   placeholder: string;
   "icon-prefix": string;
-  subTrigger: string;
-  subTriggerChevron: string;
-  subContent: string;
+  "sub-trigger": string;
+  "sub-trigger-chevron": string;
+  "sub-content": string;
 };
 
 export default styles;

@@ -46,6 +46,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     const {
       isOpen,
       setIsOpen,
+      setContentPlacement,
+      triggerType,
       wrapperRef,
       contentRef,
       triggerRef,
@@ -71,6 +73,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     const [needsScroll, setNeedsScroll] = React.useState(false)
     const inputRef = React.useRef<HTMLInputElement>(null)
     const isKeyboardNavRef = React.useRef(false)
+    const justOpenedRef = React.useRef(false)
     const focusFrameRef = React.useRef<number | null>(null)
 
     const offsetValue = groupContext?.isInGroup ? 4 : 2
@@ -112,6 +115,10 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     }, [])
 
     React.useEffect(() => {
+      setContentPlacement(placement.startsWith("top") ? "top" : "bottom")
+    }, [placement, setContentPlacement])
+
+    React.useEffect(() => {
       if (isOpen && searchable && inputRef.current) {
         focusFrameRef.current = requestAnimationFrame(() => {
           inputRef.current?.focus({ preventScroll: true })
@@ -126,7 +133,15 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     }, [isOpen, searchable])
 
     React.useEffect(() => {
-      if (isOpen && !searchable && floatingElement) {
+      const shouldKeepTriggerFocus = triggerType === "input"
+
+      if (isOpen && !searchable && shouldKeepTriggerFocus) {
+        focusFrameRef.current = requestAnimationFrame(() => {
+          triggerRef.current?.focus({ preventScroll: true })
+        })
+      }
+
+      if (isOpen && !searchable && floatingElement && !shouldKeepTriggerFocus) {
         focusFrameRef.current = requestAnimationFrame(() => {
           floatingElement?.focus({ preventScroll: true })
         })
@@ -137,7 +152,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
           focusFrameRef.current = null
         }
       }
-    }, [isOpen, searchable, floatingElement])
+    }, [isOpen, searchable, floatingElement, triggerRef, triggerType])
 
     React.useEffect(() => {
       if (!isOpen) return
@@ -161,7 +176,21 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     }, [isOpen, mouseMoveDetectedRef])
 
     React.useEffect(() => {
+      if (isOpen) {
+        justOpenedRef.current = true
+      }
+    }, [isOpen])
+
+    React.useEffect(() => {
       if (!isOpen || focusedKey === null || !floatingElement) return
+
+      if (justOpenedRef.current) {
+        justOpenedRef.current = false
+        const el = floatingElement.querySelector('[data-highlighted="true"]') as HTMLElement
+        if (el) scrollItemIntoView(el, 'instant')
+        return
+      }
+
       const shouldScroll = !mouseMoveDetectedRef.current
       if (!shouldScroll) return
       isKeyboardNavRef.current = false
@@ -300,7 +329,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
           }}
         >
           {searchable && (
-            <div className={cn("px-2 py-2", resolved.searchWrapper)}>
+            <div className={cn(styles['search-wrapper'], resolved.searchWrapper)}>
               <Input
                 ref={inputRef}
                 type="text"
@@ -316,6 +345,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
                 onKeyDown={handleInputKeyDown}
                 placeholder={searchPlaceholder}
                 variant="ghost"
+                className={styles['search-content-input']}
               />
             </div>
           )}

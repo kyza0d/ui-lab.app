@@ -231,7 +231,7 @@ const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>
         aria-expanded={submenuContext?.isOpen}
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
-        className={cn(styles.subTrigger, className)}
+        className={cn(styles["sub-trigger"], className)}
         data-highlighted={isHighlighted ? "true" : "false"}
         data-disabled={disabled || undefined}
         data-state={submenuContext?.isOpen ? "open" : "closed"}
@@ -239,7 +239,7 @@ const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>
         {...hoverProps}
       >
         {children}
-        <ChevronRight className={styles.subTriggerChevron} />
+        <ChevronRight className={styles["sub-trigger-chevron"]} />
       </div>
     )
   }
@@ -447,7 +447,7 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
             ref={mergedRef}
             role="listbox"
             tabIndex={-1}
-            className={cn(styles.subContent, className)}
+            className={cn(styles["sub-content"], className)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
             data-select-submenu-content="true"
