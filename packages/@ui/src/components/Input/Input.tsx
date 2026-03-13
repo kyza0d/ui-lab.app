@@ -116,7 +116,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             css.input,
             hasPrefix && "pl-10",
-            (hasSuffix || isNumberType) && "pr-10",
+            (hasSuffix || isNumberType) && "pr-6",
             className,
             resolved.root
           )}
@@ -139,7 +139,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               tabIndex={-1}
               aria-label="Increment"
             >
-              <ChevronUp size={10} />
+              <ChevronUp size={12} />
             </button>
             <button
               type="button"
@@ -149,7 +149,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               tabIndex={-1}
               aria-label="Decrement"
             >
-              <ChevronDown size={10} />
+              <ChevronDown size={12} />
             </button>
           </div>
         )}

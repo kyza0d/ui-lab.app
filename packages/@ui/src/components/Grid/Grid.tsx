@@ -21,12 +21,13 @@ type GridAlignItems = "start" | "end" | "center" | "stretch" | "baseline";
 type GridJustifyContent = "start" | "end" | "center" | "stretch" | "space-between" | "space-around" | "space-evenly";
 type GridAlignContent = "start" | "end" | "center" | "stretch" | "space-between" | "space-around" | "space-evenly";
 type GridAutoFlow = "row" | "column" | "row-dense" | "column-dense";
+type GridTemplateColumns = GridColumns | (string & {});
 
 type ResponsiveValue<T> = { sm?: T; md?: T; lg?: T; xl?: T };
 
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Number of grid columns, or responsive object per breakpoint */
-  columns?: GridColumns | ResponsiveValue<GridColumns>;
+  /** Grid template columns value, or responsive object per breakpoint */
+  columns?: GridTemplateColumns | ResponsiveValue<GridTemplateColumns>;
   /** Number of grid rows, or responsive object per breakpoint */
   rows?: GridRows | ResponsiveValue<GridRows>;
   /** Gap between all grid cells, or responsive object per breakpoint */
@@ -54,10 +55,13 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
 const isResponsive = <T,>(v: unknown): v is ResponsiveValue<T> =>
   typeof v === "object" && v !== null && !Array.isArray(v);
 
-const colsToTpl = (c: GridColumns): string => {
+const colsToTpl = (c: GridTemplateColumns): string => {
   if (c === "auto-fit") return "repeat(auto-fit, minmax(200px, 1fr))";
   if (c === "auto-fill") return "repeat(auto-fill, minmax(200px, 1fr))";
-  return `repeat(${c}, 1fr)`;
+  if (c === "1" || c === "2" || c === "3" || c === "4" || c === "5" || c === "6") {
+    return `repeat(${c}, 1fr)`;
+  }
+  return c;
 };
 
 const rowsToTpl = (r: GridRows): string => {
@@ -103,7 +107,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     ref
   ) => {
     const resolved = resolveGridBaseStyles(styles);
-    const responsiveCols = isResponsive<GridColumns>(columns);
+    const responsiveCols = isResponsive<GridTemplateColumns>(columns);
     const responsiveRows = isResponsive<GridRows>(rows);
     const responsiveGap = isResponsive<GridGap>(gap);
     const needsContainer = responsiveCols || responsiveRows || responsiveGap || containerQueryResponsive;
@@ -111,13 +115,13 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     const vars: Record<string, string> = {};
 
     if (responsiveCols) {
-      const rc = columns as ResponsiveValue<GridColumns>;
+      const rc = columns as ResponsiveValue<GridTemplateColumns>;
       if (rc.sm) vars["--grid-tpl-sm"] = colsToTpl(rc.sm);
       if (rc.md) vars["--grid-tpl-md"] = colsToTpl(rc.md);
       if (rc.lg) vars["--grid-tpl-lg"] = colsToTpl(rc.lg);
       if (rc.xl) vars["--grid-tpl-xl"] = colsToTpl(rc.xl);
     } else {
-      vars["--grid-tpl"] = colsToTpl(columns as GridColumns);
+      vars["--grid-tpl"] = colsToTpl(columns as GridTemplateColumns);
     }
 
     if (responsiveRows) {
@@ -189,4 +193,4 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 Grid.displayName = "Grid";
 
 export { Grid };
-export type { GridColumns, GridRows, GridGap, GridAutoFlow, ResponsiveValue };
+export type { GridColumns, GridRows, GridGap, GridAutoFlow, GridTemplateColumns, ResponsiveValue };

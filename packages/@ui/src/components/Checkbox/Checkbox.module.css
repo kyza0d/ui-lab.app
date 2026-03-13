@@ -105,13 +105,13 @@
     width: 65%;
     height: 65%;
     transform: translate(-50%, -50%);
-    color: var(--foreground-300);
+    color: var(--foreground-50);
     pointer-events: none;
   }
 
   .checkbox-checkmark:hover,
   .checkbox-indeterminate:hover {
-    color: var(--foreground-100);
+    color: var(--foreground-50);
   }
 
   .label {

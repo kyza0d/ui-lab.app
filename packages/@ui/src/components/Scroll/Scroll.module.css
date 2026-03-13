@@ -84,7 +84,7 @@
   }
 
   .root[data-dragging="true"] .thumb {
-    background-color: var(--background-500);
+    background-color: color-mix(in srgb, var(--background-500) 60%, var(--background-950));
   }
 
   .vertical .thumb {

@@ -3,7 +3,7 @@
 @layer components {
   .switch {
     --track-background-unchecked: var(--background-700);
-    --track-background-checked: var(--background-600);
+    --track-background-checked: var(--background-500);
     --track-background-hover: var(--background-800);
     --track-background-active: var(--background-800);
     --track-background-disabled: var(--background-950);

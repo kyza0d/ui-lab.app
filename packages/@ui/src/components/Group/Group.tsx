@@ -9,7 +9,7 @@ import { SelectTriggerContext } from "../Select/Select.Trigger"
 import styles from "./Group.module.css"
 
 type Orientation = "horizontal" | "vertical"
-type Spacing = "none" | "sm"
+type Spacing = "none" | "xs" | "sm"
 type Variant = "primary" | "secondary" | "outline" | "ghost"
 
 interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -50,6 +50,7 @@ const orientationMap: Record<Orientation, string> = {
 
 const spacingMap: Record<Spacing, string> = {
   none: styles.none,
+  xs: styles.xs,
   sm: styles.sm,
 }
 

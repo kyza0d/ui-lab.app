@@ -114,14 +114,13 @@
   }
 
   .number-controls {
+    @apply w-6;
     position: absolute;
-    top: 50%;
-    right: 0.50rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
-    gap: 0;
-    height: 1.5rem;
-    transform: translateY(-50%);
     pointer-events: auto;
     z-index: 10;
   }
@@ -136,19 +135,21 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-    width: 1.25rem;
+    width: 100%;
     padding: 0;
     background-color: transparent;
     border: none;
     color: var(--foreground-400);
     cursor: pointer;
-    transition: color 150ms var(--ease-snappy-pop);
+    transition: color 150ms ease-out, background-color 150ms ease-out;
 
-    &:hover:not(:disabled) {
-      color: var(--foreground-400);
+&:hover:not(:disabled) {
+      background-color: var(--background-800);
+      color: var(--foreground-200);
     }
 
     &:active:not(:disabled) {
+      background-color: var(--background-700);
       color: var(--accent-500);
     }
 

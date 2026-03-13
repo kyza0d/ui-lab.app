@@ -103,6 +103,29 @@ describe('Button - Styling', () => {
 })
 
 describe('Button - Component Specific', () => {
+  it('renders an anchor target when href is provided', () => {
+    render(
+      <Button href="https://example.com" target="_blank">
+        Visit
+      </Button>
+    )
+
+    const link = screen.getByRole('link', { name: 'Visit' })
+    expect(link).toHaveAttribute('href', 'https://example.com')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('preserves an explicit rel on the anchor variant', () => {
+    render(
+      <Button href="https://example.com" target="_blank" rel="external">
+        Visit
+      </Button>
+    )
+
+    expect(screen.getByRole('link', { name: 'Visit' })).toHaveAttribute('rel', 'external')
+  })
+
   it('tracks press state via data-pressed', async () => {
     const user = userEvent.setup()
     render(<Button>Press Me</Button>)

@@ -63,7 +63,8 @@
     transition: transform 250ms var(--ease-smooth-settle);
   }
 
-  .expand:has(.trigger[data-expanded="true"]) .icon > * {
+  .expand:has(.trigger[data-expanded="true"]) .icon > *,
+  .icon[data-expanded="true"] > * {
     transform: rotate(180deg);
   }
 

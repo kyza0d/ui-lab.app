@@ -4,11 +4,11 @@
   .button {
     --background: var(--background-800);
     --foreground: var(--foreground-200);
-    --background-border: color-mix(in srgb, var(--background-600) 15%, transparent);
+    --background-border: mix(var(--background-600) 15%, transparent);
     --focus-visible: var(--accent-400);
     
-    --hover-background: var(--background-700);
-    --hover-border: var(--background-700);
+    --hover-background: mix(var(--background-600) 40%, var(--background-950));
+    --hover-border: mix(var(--background-600) 75%, var(--background-950));
 
     display: inline-flex;
     align-items: center;
@@ -39,7 +39,7 @@
     }
 
     &:focus-visible {
-      box-shadow: 0 0 0 2px var(--background-950), 0 0 0 4px var(--focus-visible);
+      box-shadow: 0 0 0 1.5px var(--focus-visible);
       outline: none;
     }
 
@@ -51,11 +51,11 @@
   }
 
   .button.primary {
-    --background: var(--accent-500);
-    --foreground: var(--foreground-50);
-    --background-border: var(--accent-600);
-    --hover-background: var(--accent-400);
-    --hover-border: var(--accent-500);
+    --background: var(--foreground-200);
+    --foreground: var(--background-900);
+    --background-border: var(--foreground-200);
+    --hover-background: var(--foreground-300);
+    --hover-border: var(--foreground-300);
   }
 
   .button.secondary {
@@ -74,12 +74,13 @@
   }
 
   .button.danger {
-    --background: color-mix(in srgb, var(--danger-500) 15%, transparent);
+    --background: mix(var(--danger-500) 15%, transparent);
     --foreground: var(--danger-500);
-
-    --background-border: var(--danger-500);
+    --background-border: transparent;
     --focus-visible: var(--danger-400);
-    --hover-background: color-mix(in srgb, var(--danger-500) 25%, transparent);
+
+    --hover-background: mix(var(--danger-500) 25%, transparent);
+    --hover-border: transparent
 
   }
 

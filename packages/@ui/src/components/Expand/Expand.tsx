@@ -47,8 +47,14 @@ export interface ExpandIconProps
 /** Animated chevron icon that rotates when the section is open */
 const ExpandIcon = React.forwardRef<HTMLSpanElement, ExpandIconProps>(
   ({ children, className, ...props }, ref) => {
+    const context = React.useContext(ExpandContext);
     return (
-      <span ref={ref} className={cn(styles.icon, className)} {...props}>
+      <span
+        ref={ref}
+        className={cn(styles.icon, className)}
+        data-expanded={context?.state.isSelected || undefined}
+        {...props}
+      >
         {children ?? <ChevronDown size={16} className="text-foreground-400" />}
       </span>
     );
@@ -97,22 +103,9 @@ const ExpandTrigger = React.forwardRef<HTMLButtonElement, ExpandTriggerProps>(
 
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
 
-    // If children contains React elements, render as a transparent div wrapper.
-    // The child element (e.g. <Group.Button>) owns its own toggle logic and styling.
     const hasElementChildren = React.Children.toArray(children).some(
       (child) => React.isValidElement(child),
     );
-
-    if (hasElementChildren) {
-      return (
-        <div
-          className={cn(styles.trigger, className)}
-          data-expanded={state.isSelected || undefined}
-        >
-          {children}
-        </div>
-      );
-    }
 
     // Default: styled button with title span + auto-injected chevron
     return (
@@ -127,8 +120,14 @@ const ExpandTrigger = React.forwardRef<HTMLButtonElement, ExpandTriggerProps>(
         data-focus-visible={isFocusVisible || undefined}
         data-pressed={isPressed || undefined}
       >
-        <span className={styles.title}>{title ?? children}</span>
-        <ExpandIcon />
+        {hasElementChildren && title === undefined ? (
+          children
+        ) : (
+          <>
+            <span className={styles.title}>{title ?? children}</span>
+            <ExpandIcon />
+          </>
+        )}
       </button>
     );
   },

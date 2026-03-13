@@ -35,6 +35,12 @@
     @apply gap-0;
   }
 
+  .group.xs {
+    --radius-basis: calc(var(--spacing) * 0.875);
+    --padding: var(--radius-basis);
+    @apply space-x-0.5;
+  }
+
   .group.sm {
     --radius-basis: calc(var(--spacing) * 1.25);
     --padding: var(--radius-basis);
@@ -76,6 +82,17 @@
   .group.none:not(.ghost) .item .group-select-wrapper {
     --radius: 0;
     --inner-radius: 0;
+  }
+
+  .group.xs:not(.ghost) .item .group-item,
+  .group.xs:not(.ghost) .item .trigger,
+  .group.xs:not(.ghost) .group-select-wrapper .group-item,
+  .group.xs:not(.ghost) .group-select-wrapper .trigger {
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
+  }
+
+  .group.xs:not(.ghost) .group-input-wrapper input {
+    border-radius: calc(var(--radius-basis) * var(--radius-ratio));
   }
 
   .group.sm:not(.ghost) .item .group-item,
@@ -254,6 +271,10 @@
 
   .group.vertical .item .group-item {
     width: 100%;
+  }
+
+  .group.xs .item button.group-item {
+    padding: calc(var(--spacing) * 1.00) calc(var(--spacing) * 1.50);
   }
 
   .group.sm .item button.group-item {

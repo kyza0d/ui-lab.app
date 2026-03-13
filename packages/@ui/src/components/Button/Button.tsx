@@ -48,7 +48,7 @@ function resolveButtonStyles(styles: ButtonStylesProp | undefined) {
   return resolveButtonBaseStyles({ root, iconLeft, iconRight });
 }
 
-export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href"> {
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href" | "target"> {
   /** Visual style of the button */
   variant?: ButtonVariant;
   /** Size of the button */
@@ -64,6 +64,8 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   };
   /** Renders the button as an anchor element when provided */
   href?: string;
+  /** Browsing context for the anchor variant (e.g. "_blank") */
+  target?: React.HTMLAttributeAnchorTarget;
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: ButtonStylesProp;
 }
@@ -84,7 +86,7 @@ const sizeMap = {
 } as const;
 
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({ className, styles, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, href, ...props }, ref) => {
+  ({ className, styles, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, href, target, rel, ...props }, ref) => {
     const buttonRef = React.useRef<HTMLButtonElement | HTMLAnchorElement>(null);
     const mergedRef = useMergedRef(ref, buttonRef);
     const isButtonDisabled = isDisabled ?? disabled ?? false;
@@ -130,6 +132,8 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           {...mergeProps(focusProps, hoverProps, props as any)}
           ref={mergedRef as unknown as React.RefObject<HTMLAnchorElement>}
           href={href}
+          target={target}
+          rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
