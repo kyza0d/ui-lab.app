@@ -28,12 +28,6 @@ const MODELS: Record<string, ModelInfo> = {
   "gemini-25-flash-lite": { label: "Gemini 2.5 Flash-Lite", provider: "google", description: "Cost efficient" },
 };
 
-const PROVIDER_COLORS: Record<Provider, string> = {
-  openai: "#10a37f",
-  anthropic: "#d4713a",
-  google: "#4285f4",
-};
-
 const PROVIDER_ICONS: Record<Provider, React.ElementType> = {
   openai: SiOpenai,
   anthropic: SiClaude,
@@ -44,7 +38,6 @@ export function AIComposer() {
   const [text, setText] = useState("");
   const [model, setModel] = useState("claude-sonnet-46");
   const selectedModel = MODELS[model];
-  const providerColor = PROVIDER_COLORS[selectedModel.provider];
   const ProviderIcon = PROVIDER_ICONS[selectedModel.provider] as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
 
   return (
@@ -69,7 +62,7 @@ export function AIComposer() {
           className="w-fit shrink-0"
         >
           <Select.Trigger
-            icon={{ prefix: <ProviderIcon className="w-4.5 h-4.5 shrink-0" style={{ color: providerColor }} /> }}
+            icon={{ prefix: <ProviderIcon className="w-4.5 h-4.5 shrink-0" /> }}
             className="text-xs h-10"
           >
             <span className="text-foreground-200">{selectedModel.label}</span>
@@ -78,7 +71,7 @@ export function AIComposer() {
             <Select.List>
               <Select.Sub>
                 <Select.SubTrigger textValue="OpenAI">
-                  <SiOpenai className="w-4.5 h-4.5" style={{ color: PROVIDER_COLORS.openai }} />
+                  <SiOpenai className="w-4.5 h-4.5" />
                   OpenAI
                 </Select.SubTrigger>
                 <Select.SubContent>
@@ -90,7 +83,7 @@ export function AIComposer() {
               </Select.Sub>
               <Select.Sub>
                 <Select.SubTrigger textValue="Anthropic">
-                  <SiAnthropic className="w-4.5 h-4.5" style={{ color: PROVIDER_COLORS.anthropic }} />
+                  <SiAnthropic className="w-4.5 h-4.5" />
                   Anthropic
                 </Select.SubTrigger>
                 <Select.SubContent>
@@ -101,7 +94,7 @@ export function AIComposer() {
               </Select.Sub>
               <Select.Sub>
                 <Select.SubTrigger textValue="Google">
-                  <SiGooglegemini className="w-4.5 h-4.5" style={{ color: PROVIDER_COLORS.google }} />
+                  <SiGooglegemini className="w-4.5 h-4.5" />
                   Google
                 </Select.SubTrigger>
                 <Select.SubContent>
