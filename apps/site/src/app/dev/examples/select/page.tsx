@@ -28,20 +28,28 @@ function LanguageSelectPreview() {
     <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground-300">Primary Language</label>
-        <Select selectedKey={language} onSelectionChange={setLanguage} className="w-72">
-          <Searchable.Trigger placeholder="Search languages..." />
-          <Select.Content>
-            <Select.List>
-              {languages.map((lang) => {
-                const LangIcon = lang.icon;
-                return (
-                  <Select.Item key={lang.value} value={lang.value} textValue={lang.label} icon={<LangIcon style={{ color: lang.color }} />}>
-                    {lang.label}
-                  </Select.Item>
-                );
-              })}
-            </Select.List>
-          </Select.Content>
+        <Select
+          selectedKey={language}
+          valueLabel={selected?.label}
+          onSelectionChange={setLanguage}
+          className="w-72"
+        >
+          <Select.Trigger>
+            <Select.Value
+              placeholder="Choose a language..."
+              icon={Icon && <Icon style={{ color: selected.color }} className="h-4 w-4" />}
+            />
+          </Select.Trigger>
+          <Searchable.Content searchPlaceholder="Search languages...">
+            {languages.map((lang) => {
+              const LangIcon = lang.icon;
+              return (
+                <Select.Item key={lang.value} value={lang.value} textValue={lang.label} icon={<LangIcon style={{ color: lang.color }} />}>
+                  {lang.label}
+                </Select.Item>
+              );
+            })}
+          </Searchable.Content>
         </Select>
       </div>
       {selected && Icon && (
@@ -125,23 +133,26 @@ function CountrySelectPreview() {
         <label className="text-sm font-medium text-foreground-300">Country</label>
         <Select
           selectedKey={country}
-          valueLabel={countries.find(c => c.value === country)?.label}
+          valueLabel={selected?.label}
           onSelectionChange={setCountry}
           className="w-72"
         >
-          <Searchable.Trigger placeholder="Search countries..." />
-          <Select.Content>
-            <Select.List>
-              {countries.map((c) => (
-                <Select.Item key={c.value} value={c.value} textValue={c.label} icon={<span className="text-base">{c.flag}</span>}>
-                  <div className="flex items-center justify-between w-full">
-                    <span>{c.label}</span>
-                    <span className="text-xs text-foreground-400 ml-2">{c.code}</span>
-                  </div>
-                </Select.Item>
-              ))}
-            </Select.List>
-          </Select.Content>
+          <Select.Trigger>
+            <Select.Value
+              placeholder="Choose a country..."
+              icon={selected && <span className="text-base">{selected.flag}</span>}
+            />
+          </Select.Trigger>
+          <Searchable.Content searchPlaceholder="Search countries...">
+            {countries.map((c) => (
+              <Select.Item key={c.value} value={c.value} textValue={c.label} icon={<span className="text-base">{c.flag}</span>}>
+                <div className="flex items-center justify-between w-full">
+                  <span>{c.label}</span>
+                  <span className="ml-2 text-xs text-foreground-400">{c.code}</span>
+                </div>
+              </Select.Item>
+            ))}
+          </Searchable.Content>
         </Select>
       </div>
       {selected && (
@@ -163,6 +174,64 @@ const techStack = [
   { value: "swift", label: "Swift", icon: SiSwift, color: "#F05138", description: "iOS & macOS development" },
   { value: "kotlin", label: "Kotlin", icon: SiKotlin, color: "#7F52FF", description: "Modern JVM language" },
 ];
+
+const starterTemplates = [
+  { value: "landing-page", label: "Landing Page", icon: LayoutTemplate, description: "Marketing page with hero, features, and CTA" },
+  { value: "docs-sidebar", label: "Docs Sidebar", icon: PanelLeft, description: "Documentation layout with nested navigation" },
+  { value: "media-gallery", label: "Media Gallery", icon: ImageIcon, description: "Grid of assets with previews and filters" },
+  { value: "release-notes", label: "Release Notes", icon: Rows3, description: "Chronological updates with grouped entries" },
+  { value: "code-playground", label: "Code Playground", icon: Code2, description: "Interactive editor with preview and console" },
+  { value: "feature-grid", label: "Feature Grid", icon: Columns2, description: "Structured showcase for product capabilities" },
+];
+
+function SearchTriggerTemplatePreview() {
+  const [template, setTemplate] = useState<string | number | null>(null);
+  const selected = starterTemplates.find((item) => item.value === template);
+  const Icon = selected?.icon;
+
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-foreground-300">Starter Template</label>
+        <Select
+          selectedKey={template}
+          valueLabel={selected?.label}
+          onSelectionChange={setTemplate}
+          className="w-80"
+        >
+          <Searchable.Trigger placeholder="Search templates..." />
+          <Select.Content>
+            <Select.List>
+              {starterTemplates.map((item) => {
+                const ItemIcon = item.icon;
+                return (
+                  <Select.Item
+                    key={item.value}
+                    value={item.value}
+                    textValue={item.label}
+                    icon={<ItemIcon className="h-4 w-4" />}
+                    description={item.description}
+                  >
+                    {item.label}
+                  </Select.Item>
+                );
+              })}
+            </Select.List>
+          </Select.Content>
+        </Select>
+      </div>
+      {selected && Icon && (
+        <div className="rounded-md border border-foreground-200 bg-background-700 p-3">
+          <div className="flex items-center gap-2 text-sm text-foreground-200">
+            <Icon className="h-4 w-4 text-foreground-300" />
+            <span>{selected.label}</span>
+          </div>
+          <p className="mt-1 text-xs text-foreground-400">{selected.description}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function MultiSelectPreview() {
   const [selected, setSelected] = useState<(string | number)[]>(["typescript", "rust"]);
@@ -288,7 +357,7 @@ const examples: DevExample[] = [
   {
     id: "language-select",
     title: "Language Select with Icons",
-    description: "Searchable select with colored programming language icons from Simple Icons.",
+    description: "Standard select trigger that opens a searchable language picker with colored programming language icons.",
     preview: <LanguageSelectPreview />,
     previewLayout: "start",
   },
@@ -302,7 +371,7 @@ const examples: DevExample[] = [
   {
     id: "country-select",
     title: "Country Selector",
-    description: "Searchable country picker with flag emojis and dial codes.",
+    description: "Button trigger reveals a searchable country list with flags and dial codes inside the dropdown content.",
     preview: <CountrySelectPreview />,
     previewLayout: "start",
   },
@@ -320,13 +389,20 @@ const examples: DevExample[] = [
     preview: <SubmenuSelectPreview />,
     previewLayout: "start",
   },
+  {
+    id: "search-trigger-template-picker",
+    title: "Search Trigger Template Picker",
+    description: "Search input acts as the trigger, opening the dropdown and filtering starter templates as you type.",
+    preview: <SearchTriggerTemplatePreview />,
+    previewLayout: "start",
+  },
 ];
 
 export default function SelectExamplesPage() {
   return (
     <DevExampleLayout
       title="Select Examples"
-      description="High-quality select configurations showcasing searchable dropdowns, item descriptions, country pickers, and multi-select with tags."
+      description="High-quality select configurations showcasing standard triggers, in-panel search, item descriptions, country pickers, and multi-select with tags."
       examples={examples}
       backHref="/dev/examples"
       backLabel="Examples"
