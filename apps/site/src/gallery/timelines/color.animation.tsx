@@ -1,0 +1,369 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import config from "./config.json";
+
+function getRoundedRectPath(
+  x: number, y: number, w: number, h: number,
+  r: { tl: number, tr: number, bl: number, br: number }
+) {
+  return `
+    M ${x + r.tl} ${y}
+    H ${x + w - r.tr}
+    A ${r.tr} ${r.tr} 0 0 1 ${x + w} ${y + r.tr}
+    V ${y + h - r.br}
+    A ${r.br} ${r.br} 0 0 1 ${x + w - r.br} ${y + h}
+    H ${x + r.bl}
+    A ${r.bl} ${r.bl} 0 0 1 ${x} ${y + h - r.bl}
+    V ${y + r.tl}
+    A ${r.tl} ${r.tl} 0 0 1 ${x + r.tl} ${y}
+    Z
+  `;
+}
+
+export function ColorAnimation() {
+  const [stage, setStage] = useState<"idle" | "hover" | "hue" | "canvas">("idle");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const galleryItem = el.closest(".group") || el;
+
+    let timers: NodeJS.Timeout[] = [];
+
+    const handleEnter = () => {
+      // Sequence: Hover -> Drag Hue -> Drag Canvas
+      setStage("hover"); 
+      timers.push(setTimeout(() => setStage("hue"), 600));
+      timers.push(setTimeout(() => setStage("canvas"), 1600));
+    };
+
+    const handleLeave = () => {
+      timers.forEach(clearTimeout);
+      setStage("idle");
+    };
+
+    galleryItem.addEventListener("mouseenter", handleEnter);
+    galleryItem.addEventListener("mouseleave", handleLeave);
+    return () => {
+      timers.forEach(clearTimeout);
+      galleryItem.removeEventListener("mouseenter", handleEnter);
+      galleryItem.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
+  // Constants
+  const width = 200;
+  const height = 240;
+  const cx = 200;
+  const cy = 150;
+  const x = cx - width / 2;
+  const y = cy - height / 2;
+  
+  // Dimensions
+  const canvasHeight = 120;
+  const sliderHeight = 12;
+  const inputHeight = 32;
+  const gap = 12;
+  const rx = config.blockRx;
+
+  // Colors
+  // Idle: Blue-ish
+  const colorIdle = "hsl(210, 80%, 50%)";
+  // Hue: Purple-ish (Dragging hue slider to the right)
+  const colorHue = "hsl(270, 80%, 50%)";
+  // Canvas: Lighter/Desaturated (Dragging canvas pointer)
+  const colorCanvas = "hsl(270, 60%, 70%)";
+
+  let currentColor = colorIdle;
+  if (stage === "hue") currentColor = colorHue;
+  if (stage === "canvas") currentColor = colorCanvas;
+
+  // Knob Positions
+  // Hue Slider: 0 to 100%
+  // Canvas: x=sat, y=bright (inverse)
+
+  // Initial Positions (Blue)
+  const huePosIdle = 0.6 * width; // Somewhat blue
+  const canvasXIdle = 0.8 * width;
+  const canvasYIdle = 0.5 * canvasHeight;
+
+  // Hue Stage Positions (Purple)
+  const huePosHue = 0.8 * width; // Moved right
+  const canvasXHue = canvasXIdle; // Same
+  const canvasYHue = canvasYIdle; // Same
+
+  // Canvas Stage Positions (Lighter)
+  const huePosCanvas = huePosHue;
+  const canvasXCanvas = 0.6 * width; // Moved left (desaturate)
+  const canvasYCanvas = 0.3 * canvasHeight; // Moved up (lighter)
+
+  let huePos = huePosIdle;
+  let canvasX = canvasXIdle;
+  let canvasY = canvasYIdle;
+
+  if (stage === "hue") {
+    huePos = huePosHue;
+  } else if (stage === "canvas") {
+    huePos = huePosCanvas;
+    canvasX = canvasXCanvas;
+    canvasY = canvasYCanvas;
+  }
+
+  // Cursor Logic
+  let cursorX = cx + 60; // Resting somewhere
+  let cursorY = cy + 60;
+  let cursorOpacity = 0;
+  let cursorScale = 1;
+
+  if (stage === "hover") {
+    // Moving towards hue slider
+    cursorX = x + huePosIdle;
+    cursorY = y + canvasHeight + gap + sliderHeight/2;
+    cursorOpacity = 1;
+  } else if (stage === "hue") {
+    // Dragging hue slider
+    cursorX = x + huePosHue;
+    cursorY = y + canvasHeight + gap + sliderHeight/2;
+    cursorOpacity = 1;
+    cursorScale = 0.9; // Press
+  } else if (stage === "canvas") {
+    // Dragging canvas
+    cursorX = x + canvasXCanvas;
+    cursorY = y + canvasYCanvas;
+    cursorOpacity = 1;
+    cursorScale = 0.9; // Press
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="bg-background-950 flex items-center justify-center relative overflow-hidden font-sans"
+    >
+      <div className="relative w-full max-w-[400px]">
+        <svg
+          viewBox="0 0 400 300"
+          className="w-full h-auto relative z-10 overflow-visible"
+          aria-hidden="true"
+        >
+          <defs>
+             <radialGradient id="color-grid-fade" cx="50%" cy="50%" r="50%">
+              <stop offset="40%" stopColor="white" stopOpacity="1" />
+              <stop offset="100%" stopColor="white" stopOpacity="0" />
+            </radialGradient>
+            <mask id="color-grid-mask">
+              <rect width="400" height="300" fill="url(#color-grid-fade)" />
+            </mask>
+            <clipPath id="picker-clip">
+                 <path
+                  d={getRoundedRectPath(x, y, width, height, {
+                    tl: rx, tr: rx, bl: rx, br: rx
+                  })}
+                />
+            </clipPath>
+          </defs>
+
+          {/* Guidelines */}
+          <g
+            mask="url(#color-grid-mask)"
+            className={config.guidelines.colorClass}
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeDasharray="4 4"
+            style={{
+              opacity: stage !== "idle" ? config.guidelines.hoverOpacity : config.guidelines.idleOpacity,
+              strokeDashoffset: stage !== "idle" ? 12 : 0,
+              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
+            }}
+          >
+            <line x1={cx} y1="0" x2={cx} y2="300" />
+            <line x1="0" y1={cy} x2="400" y2={cy} />
+          </g>
+
+          {/* Main Container */}
+          <g style={{
+              transform: stage !== "idle" ? "translateY(0)" : "translateY(0)", // Could add float
+              transition: config.transition
+          }}>
+            {/* Background Shell */}
+            <path
+              d={getRoundedRectPath(x, y, width, height, {
+                tl: rx, tr: rx, bl: rx, br: rx
+              })}
+              className="text-background-950"
+              fill="currentColor"
+            />
+            {/* Border */}
+            <path
+              d={getRoundedRectPath(x, y, width, height, {
+                tl: rx, tr: rx, bl: rx, br: rx
+              })}
+              className={stage !== "idle" ? config.highlight.hoverClass : config.highlight.idleClass}
+              fill="currentColor"
+              stroke="currentColor"
+              strokeWidth={config.strokeWidth}
+              style={{
+                transition: config.transition,
+                fillOpacity: 0.05,
+                strokeOpacity: stage !== "idle" ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
+              }}
+            />
+
+            {/* Inner Content Wrapper */}
+            <g transform={`translate(${x}, ${y})`}>
+                
+                {/* 1. Color Canvas (Top) */}
+                <g>
+                    {/* The Canvas Background */}
+                    <path
+                        d={getRoundedRectPath(4, 4, width - 8, canvasHeight, {
+                            tl: rx - 4, tr: rx - 4, bl: 4, br: 4
+                        })}
+                        fill={currentColor}
+                        style={{ transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)" }}
+                    />
+                    
+                    {/* Canvas Highlight / Selection Ring */}
+                    <circle
+                        cx={canvasX} // Relative to container x, so we need to adjust or keep it absolute?
+                                     // My canvasX variable above is relative to container X.
+                        cy={canvasY}
+                        r={6}
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        style={{ 
+                            transition: "all 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                            opacity: 0.8,
+                            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                        }}
+                    />
+                </g>
+
+                {/* 2. Sliders (Middle) */}
+                <g transform={`translate(12, ${canvasHeight + gap + 4})`}>
+                    
+                    {/* Hue Slider Track */}
+                    <rect 
+                        width={width - 24} 
+                        height={sliderHeight} 
+                        rx={sliderHeight/2} 
+                        fill="url(#hue-gradient)"
+                        className="text-background-800"
+                        style={{opacity: 0.5}} // Placeholder for actual gradient
+                    />
+                     {/* Faked Hue Gradient */}
+                    <defs>
+                        <linearGradient id="hue-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#f00" />
+                            <stop offset="17%" stopColor="#ff0" />
+                            <stop offset="33%" stopColor="#0f0" />
+                            <stop offset="50%" stopColor="#0ff" />
+                            <stop offset="67%" stopColor="#00f" />
+                            <stop offset="83%" stopColor="#f0f" />
+                            <stop offset="100%" stopColor="#f00" />
+                        </linearGradient>
+                    </defs>
+                    <rect 
+                        width={width - 24} 
+                        height={sliderHeight} 
+                        rx={sliderHeight/2} 
+                        fill="url(#hue-gradient)"
+                    />
+
+                    {/* Hue Knob */}
+                    <circle
+                        cx={huePos} 
+                        cy={sliderHeight/2}
+                        r={sliderHeight/2 + 2}
+                        fill="white"
+                        stroke="rgba(0,0,0,0.1)"
+                        strokeWidth="1"
+                        style={{ 
+                            transition: "cx 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                        }}
+                    />
+
+                    {/* Opacity Slider Track (Below Hue) */}
+                    <g transform={`translate(0, ${sliderHeight + gap})`}>
+                        {/* Checkerboard pattern for transparency is too complex for this minimal view, just use solid */}
+                        <rect 
+                            width={width - 24} 
+                            height={sliderHeight} 
+                            rx={sliderHeight/2} 
+                            className="text-background-700"
+                            fill="currentColor"
+                        />
+                        <rect 
+                            width={width - 24} 
+                            height={sliderHeight} 
+                            rx={sliderHeight/2} 
+                            fill={currentColor}
+                            style={{ 
+                                transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                                opacity: 0.5 // Simulate some transparency
+                            }}
+                        />
+                         <circle
+                            cx={(width - 24) * 0.8} // Fixed pos for now
+                            cy={sliderHeight/2}
+                            r={sliderHeight/2 + 2}
+                            fill="white"
+                            stroke="rgba(0,0,0,0.1)"
+                            strokeWidth="1"
+                            style={{ 
+                                filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                            }}
+                        />
+                    </g>
+                </g>
+
+                {/* 3. Inputs (Bottom) */}
+                <g transform={`translate(12, ${canvasHeight + gap * 2 + sliderHeight * 2 + 8})`}>
+                    {/* Hex Input */}
+                    <rect
+                        width={(width - 24) * 0.4}
+                        height={inputHeight}
+                        rx={4}
+                        className="text-background-800"
+                        fill="currentColor"
+                    />
+                    {/* Skeleton Text */}
+                    <rect x={8} y={12} width={40} height={8} rx={2} className="text-background-600" fill="currentColor" />
+
+                    {/* RGB Inputs (3 small boxes) */}
+                    <g transform={`translate(${(width - 24) * 0.4 + 8}, 0)`}>
+                        <rect width={28} height={inputHeight} rx={4} className="text-background-800" fill="currentColor" />
+                        <rect x={36} width={28} height={inputHeight} rx={4} className="text-background-800" fill="currentColor" />
+                        <rect x={72} width={28} height={inputHeight} rx={4} className="text-background-800" fill="currentColor" />
+                    </g>
+                </g>
+            </g>
+          </g>
+
+          {/* Cursor */}
+          <g
+            style={{
+              transform: `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`,
+              transition: `transform 1s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.5s ease`, // Matching the movement transition
+              opacity: cursorOpacity,
+              pointerEvents: "none",
+              zIndex: 50
+            }}
+          >
+             <path
+              d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
+              className={config.highlight.hoverClass}
+              fill="currentColor"
+              stroke="white"
+              strokeWidth="1"
+            />
+          </g>
+
+        </svg>
+      </div>
+    </div>
+  );
+}
