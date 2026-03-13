@@ -2,11 +2,17 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import path from 'path';
+import { createPostcssPlugins } from './postcss.config.mts';
 
 export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+    },
+  },
+  css: {
+    postcss: {
+      plugins: createPostcssPlugins(),
     },
   },
   plugins: [

@@ -168,16 +168,23 @@ export type {
 } from "./components/List";
 
 export { ThemeProvider, useThemeVariables } from "./providers/ThemeProvider";
-export type { ThemeContextType } from "./providers/ThemeProvider";
+export type { ThemeContextType, ThemeProviderProps } from "./providers/ThemeProvider";
 
 export { ThemeScriptInjector } from "./providers/ThemeScriptInjector";
 
 export { useTheme, useThemeMode } from "./providers/useTheme";
 
-export { extractThemeVariables, applyThemeCSSVariables } from "./providers/extractThemeVars";
+export { useColorMode } from "./providers/useColorMode";
+export type { UseColorModeOptions, UseColorModeReturn } from "./providers/useColorMode";
+
+export { normalizeThemeTokens, applyThemeTokens, createThemeStylesheet } from "./providers/theme-contract";
+export type { ThemeMode, ThemeTokenBatch, ThemeStylesheetOptions } from "./providers/theme-contract";
+
+export { extractThemeVariables, applyThemeCSSVariables, generateThemePalettes, palettesToCssVariables, hexToOklch } from "./providers/extractThemeVars";
 export type { ThemeConfig, OklchColor, ColorPalette, ColorShade, ThemePalettes } from "./providers/extractThemeVars";
 
 export { generateThemeScript } from "./providers/themeScript";
+export { generateColorModeScript } from "./providers/themeScript";
 
 export { useFilter } from "./hooks/useFilter";
 export { useAnimatedWidth } from "./hooks/useAnimatedWidth";

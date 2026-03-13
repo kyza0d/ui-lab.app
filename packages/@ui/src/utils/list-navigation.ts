@@ -18,7 +18,7 @@ export function useMergedRef<T>(...refs: any[]) {
   }, refs)
 }
 
-export function scrollItemIntoView(el: HTMLElement) {
+export function scrollItemIntoView(el: HTMLElement, behavior: ScrollBehavior = 'smooth') {
   let scroller: HTMLElement | null = el.parentElement
   while (scroller && scroller !== document.body && scroller.scrollHeight <= scroller.clientHeight) {
     scroller = scroller.parentElement
@@ -33,9 +33,9 @@ export function scrollItemIntoView(el: HTMLElement) {
   const itemBottom = itemRect.bottom - scrollerRect.top
 
   if (itemTop < buffer) {
-    scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + itemTop - buffer), behavior: 'smooth' })
+    scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + itemTop - buffer), behavior })
   } else if (itemBottom > scroller.clientHeight - buffer) {
-    scroller.scrollTo({ top: scroller.scrollTop + itemBottom - scroller.clientHeight + buffer, behavior: 'smooth' })
+    scroller.scrollTo({ top: scroller.scrollTop + itemBottom - scroller.clientHeight + buffer, behavior })
   }
 }
 
