@@ -1,18 +1,11 @@
 import { type SimpleThemeColors } from "../constants/themes";
 import { type FontKey, SANS_FONTS, MONO_FONTS } from "../constants/font-config";
+import { type TypographyConfig } from "./typography-config";
+import { getDefaultThemeSourceConfig } from "./default-theme-config";
 
 export interface ThemeSourceConfig {
   colors: SimpleThemeColors;
-  typography: {
-    headerTypeSizeRatio: number;
-    headerFontSizeScale: number;
-    headerFontWeightScale: number;
-    headerLetterSpacingScale: number;
-    bodyTypeSizeRatio: number;
-    bodyFontSizeScale: number;
-    bodyFontWeightScale: number;
-    bodyLetterSpacingScale: number;
-  };
+  typography: TypographyConfig;
   layout: { radius: number; borderWidth: number; spacingScale: number };
   fonts?: { sansFont: FontKey; monoFont: FontKey };
   mode: "light" | "dark";
@@ -43,12 +36,32 @@ export function validateThemeCache(data: unknown): CompleteThemeCache | null {
   for (const v of REQUIRED_VARS) {
     if (!(v in vars) || typeof vars[v] !== "string") return null;
   }
-  const sourceConfig = d.sourceConfig as ThemeSourceConfig | undefined;
   const themeMode = d.themeMode as "light" | "dark";
+  const defaultSourceConfig = getDefaultSourceConfig(themeMode);
+  const sourceConfig = d.sourceConfig as ThemeSourceConfig | undefined;
   return {
     cssVariables: vars as Record<string, string>,
     themeMode,
-    sourceConfig: sourceConfig || getDefaultSourceConfig(themeMode),
+    sourceConfig: sourceConfig
+      ? {
+          ...defaultSourceConfig,
+          ...sourceConfig,
+          typography: {
+            ...defaultSourceConfig.typography,
+            ...(sourceConfig.typography || {}),
+          },
+          layout: {
+            ...defaultSourceConfig.layout,
+            ...(sourceConfig.layout || {}),
+          },
+          fonts: sourceConfig.fonts
+            ? {
+                ...defaultSourceConfig.fonts!,
+                ...sourceConfig.fonts,
+              }
+            : defaultSourceConfig.fonts,
+        }
+      : defaultSourceConfig,
     timestamp: typeof d.timestamp === "number" ? d.timestamp : Date.now(),
     version: 1,
   };
@@ -56,26 +69,7 @@ export function validateThemeCache(data: unknown): CompleteThemeCache | null {
 
 function getDefaultSourceConfig(mode?: "light" | "dark"): ThemeSourceConfig {
   const resolvedMode = mode ?? getDevicePreferredTheme();
-  return {
-    colors: {
-      background: { h: 0, c: 0, l: 0.15 },
-      foreground: { h: 0, c: 0, l: 0.98 },
-      accent: { h: 210, c: 0.15, l: 0.5 },
-    },
-    typography: {
-      headerTypeSizeRatio: 1.125,
-      headerFontSizeScale: 1,
-      headerFontWeightScale: 1,
-      headerLetterSpacingScale: 1,
-      bodyTypeSizeRatio: 1.2,
-      bodyFontSizeScale: 1,
-      bodyFontWeightScale: 1,
-      bodyLetterSpacingScale: 1,
-    },
-    layout: { radius: 0.9, borderWidth: 2, spacingScale: 0.9 },
-    fonts: { sansFont: "Karla", monoFont: "Ioskeley Mono" },
-    mode: resolvedMode,
-  };
+  return getDefaultThemeSourceConfig(resolvedMode);
 }
 
 export function getCompleteThemeCache(): CompleteThemeCache | null {
@@ -120,6 +114,7 @@ export function cacheCompleteTheme(
  * Includes:
  * - --text-* (xs through 5xl)
  * - --header-text-* (xs through 5xl)
+ * - --leading-* (header/body line heights)
  * - --letter-spacing-* (xs through 5xl)
  * - --font-weight-* (header and body variants)
  * - Scale/ratio variables (--header-type-size-ratio, etc.)
@@ -131,6 +126,7 @@ export function extractTypographyVariablesFromCache(
     Object.entries(cssVariables).filter(([key]) =>
       key.startsWith("--text-") ||
       key.startsWith("--header-text-") ||
+      key.startsWith("--leading-") ||
       key.startsWith("--letter-spacing-") ||
       key.startsWith("--font-weight-") ||
       key.startsWith("--header-type-size-ratio") ||

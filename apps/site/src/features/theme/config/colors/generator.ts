@@ -1,8 +1,12 @@
-export function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
-  const {
-    generateThemePalettes,
-  } = require("../../lib/color-utils");
+import { generateThemePalettes, paletteToCssVars } from "../../lib/color-utils";
 
+function renderCssVariables(variables: Record<string, string>): string {
+  return Object.entries(variables)
+    .map(([name, value]) => `  ${name}: ${value};`)
+    .join("\n");
+}
+
+export function generateColorPaletteVariables(colors: any, mode: "light" | "dark"): Record<string, string> {
   const palettes = generateThemePalettes(
     colors.background,
     colors.foreground,
@@ -13,45 +17,28 @@ export function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): st
     colors.accentChromaLimit ?? 0.3,
     colors.accentEasing,
     colors.accentChromaScaling,
+    colors.globalAdjustments,
   );
 
-  const lines: string[] = [];
-  const paletteNames = ["background", "foreground", "accent"] as const;
-  const semanticNames = ["success", "danger", "warning", "info"] as const;
-  const shades = [
-    50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950,
-  ] as const;
-
-  paletteNames.forEach((paletteName) => {
-    const palette = palettes[paletteName];
-
-    shades.forEach((shade) => {
-      const color = palette[shade];
-      if (color) {
-        const oklchString = `oklch(${(color.l * 100).toFixed(1)}% ${color.c.toFixed(3)} ${color.h.toFixed(1)})`;
-        lines.push(
-          `  --color-${paletteName}-${shade}: ${oklchString};`,
-        );
-      }
-    });
-  });
+  const variables = {
+    ...paletteToCssVars("background", palettes.background),
+    ...paletteToCssVars("foreground", palettes.foreground),
+    ...paletteToCssVars("accent", palettes.accent),
+  };
 
   if (palettes.semantic) {
-    semanticNames.forEach((semanticName) => {
-      const palette = palettes.semantic[semanticName];
-      if (palette) {
-        shades.forEach((shade) => {
-          const color = palette[shade];
-          if (color) {
-            const oklchString = `oklch(${(color.l * 100).toFixed(1)}% ${color.c.toFixed(3)} ${color.h.toFixed(1)})`;
-            lines.push(
-              `  --color-${semanticName}-${shade}: ${oklchString};`,
-            );
-          }
-        });
-      }
-    });
+    Object.assign(
+      variables,
+      paletteToCssVars("success", palettes.semantic.success),
+      paletteToCssVars("danger", palettes.semantic.danger),
+      paletteToCssVars("warning", palettes.semantic.warning),
+      paletteToCssVars("info", palettes.semantic.info),
+    );
   }
 
-  return lines.join("\n");
+  return variables;
+}
+
+export function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
+  return renderCssVariables(generateColorPaletteVariables(colors, mode));
 }

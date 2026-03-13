@@ -1,21 +1,18 @@
 import { type SimpleThemeColors, DEFAULT_GLOBAL_ADJUSTMENTS } from "../constants/themes";
 import { generateThemePalettes, paletteToCssVars } from "../lib/color-utils";
 import { type FontKey } from "../constants/font-config";
-import { generateTypeScaleFromRatio, generateLetterSpacingCSS } from "../config/typography/generator";
+import { getBorderWidthCssVariables, getRadiusCssVariables, getSpacingCssVariables } from "../config/shared/layout-variables";
+import {
+  generateTypeScaleFromRatio,
+  generateLetterSpacingCSS,
+  generateLineHeightCSS,
+} from "../config/typography/generator";
 import { generateFontWeightCSS } from "../config/font-weight/generator";
+import { type TypographyConfig } from "./typography-config";
 
 export interface ThemeConfig {
   colors: SimpleThemeColors;
-  typography: {
-    headerTypeSizeRatio: number;
-    headerFontSizeScale: number;
-    headerFontWeightScale: number;
-    headerLetterSpacingScale: number;
-    bodyTypeSizeRatio: number;
-    bodyFontSizeScale: number;
-    bodyFontWeightScale: number;
-    bodyLetterSpacingScale: number;
-  };
+  typography: TypographyConfig;
   layout: { radius: number; borderWidth: number; spacingScale: number };
   fonts?: { sansFont: FontKey; monoFont: FontKey };
   mode: "light" | "dark";
@@ -24,25 +21,16 @@ export interface ThemeConfig {
 const TEXT_NAMES = ['xs', 'sm', 'md', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl'] as const;
 const TEXT_BASE_INDEX = 3;
 
-const WEIGHT_DEFS = [
-  { name: 'thin', value: 100 }, { name: 'extralight', value: 200 }, { name: 'light', value: 300 },
-  { name: 'normal', value: 400 }, { name: 'medium', value: 500 }, { name: 'semibold', value: 600 },
-  { name: 'bold', value: 700 }, { name: 'extrabold', value: 800 }, { name: 'black', value: 900 },
-];
-
-const RADIUS_DEFS = [
-  { name: 'xs', value: 0.05 }, { name: 'sm', value: 0.1 }, { name: 'base', value: 0.2 },
-  { name: 'md', value: 0.3 }, { name: 'lg', value: 0.5 }, { name: 'xl', value: 0.75 }, { name: '2xl', value: 1 },
-];
-
-const BORDER_DEFS = [
-  { name: 'none', value: 0 }, { name: 'thin', value: 1 }, { name: 'base', value: 1 },
-  { name: '2', value: 2 }, { name: '4', value: 4 }, { name: '8', value: 8 },
-];
-
-function generateTextSizeVars(prefix: string, typeSizeRatio: number, fontSizeScale: number): Record<string, string> {
+function generateTextSizeVars(
+  prefix: string,
+  typeSizeRatio: number,
+  fontSizeScale: number,
+  globalMinFontSizePx: number,
+): Record<string, string> {
   // Use new centralized typography generator to ensure consistency with React application layer
-  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale);
+  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale, 1, {
+    globalMinFontSizePx,
+  });
   const vars: Record<string, string> = {};
 
   typeScale.forEach(({ name, cssValue }) => {
@@ -57,11 +45,14 @@ function computeTypographyVars(typography: ThemeConfig['typography']): Record<st
     headerTypeSizeRatio,
     headerFontSizeScale,
     headerFontWeightScale,
+    headerLineHeight,
     bodyTypeSizeRatio,
     bodyFontSizeScale,
     bodyFontWeightScale,
     bodyLetterSpacingScale,
+    bodyLineHeight,
     headerLetterSpacingScale,
+    globalMinFontSizePx,
   } = typography;
 
   const vars: Record<string, string> = {};
@@ -69,10 +60,27 @@ function computeTypographyVars(typography: ThemeConfig['typography']): Record<st
   vars['--header-font-size-scale'] = String(headerFontSizeScale);
   vars['--body-type-size-ratio'] = String(bodyTypeSizeRatio);
   vars['--body-font-size-scale'] = String(bodyFontSizeScale);
+  Object.assign(vars, generateLineHeightCSS(headerLineHeight, bodyLineHeight));
 
   // Use centralized typography generators to ensure consistency across all paths
-  Object.assign(vars, generateTextSizeVars('text', bodyTypeSizeRatio, bodyFontSizeScale));
-  Object.assign(vars, generateTextSizeVars('header-text', headerTypeSizeRatio, headerFontSizeScale));
+  Object.assign(
+    vars,
+    generateTextSizeVars(
+      'text',
+      bodyTypeSizeRatio,
+      bodyFontSizeScale,
+      globalMinFontSizePx,
+    ),
+  );
+  Object.assign(
+    vars,
+    generateTextSizeVars(
+      'header-text',
+      headerTypeSizeRatio,
+      headerFontSizeScale,
+      globalMinFontSizePx,
+    ),
+  );
 
   // Parse font weight CSS string into individual variables
   const fontWeightCSS = generateFontWeightCSS(headerFontWeightScale, bodyFontWeightScale);
@@ -90,39 +98,31 @@ function computeTypographyVars(typography: ThemeConfig['typography']): Record<st
 }
 
 function computeSpacingVars(layout: ThemeConfig['layout']): Record<string, string> {
-  const vars: Record<string, string> = {};
-  vars['--spacing-scale'] = String(layout.spacingScale);
-
-  const scaledMin = (0.2 * layout.spacingScale).toFixed(3);
-  const scaledFluid = (2.5 * layout.spacingScale).toFixed(2);
-  const scaledMax = (0.25 * layout.spacingScale).toFixed(3);
-  vars['--spacing'] = `clamp(${scaledMin}rem, ${scaledFluid}vw, ${scaledMax}rem)`;
-
-  return vars;
+  return getSpacingCssVariables(layout.spacingScale);
 }
 
 function computeRadiusVars(layout: ThemeConfig['layout']): Record<string, string> {
-  const vars: Record<string, string> = {};
-  const radiusScaleFactor = layout.radius / 0.2;
-
-  RADIUS_DEFS.forEach(({ name, value }) => {
-    const scaledValue = value * radiusScaleFactor;
-    vars[`--radius-${name}`] = scaledValue > 100 ? '9999px' : `${scaledValue.toFixed(3)}rem`;
-  });
-  vars['--radius-full'] = '9999px';
-  vars['--radius-ratio'] = String((layout.radius / 0.2) * 0.5);
-
-  return vars;
+  return getRadiusCssVariables(layout.radius);
 }
 
 function computeBorderVars(layout: ThemeConfig['layout']): Record<string, string> {
-  const vars: Record<string, string> = {};
-  const baseBorderRef = 1;
-  const borderScaleFactor = layout.borderWidth / baseBorderRef;
+  return getBorderWidthCssVariables(layout.borderWidth);
+}
 
-  BORDER_DEFS.forEach(({ name, value }) => {
-    const scaledValue = value * borderScaleFactor;
-    vars[`--border-width-${name}`] = `${scaledValue.toFixed(1)}px`;
+function computeColorMetadataVars(colors: SimpleThemeColors): Record<string, string> {
+  const globalAdjustments = colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS;
+  const vars: Record<string, string> = {
+    '--ui-lab-meta-accent-chroma-limit': String(colors.accentChromaLimit ?? 0.30),
+    '--ui-lab-meta-global-lightness-shift': String(globalAdjustments.lightnessShift),
+    '--ui-lab-meta-global-chroma-boost': String(globalAdjustments.chromaBoost),
+  };
+
+  ; (['success', 'danger', 'warning', 'info'] as const).forEach((role) => {
+    const semanticConfig = colors.semantic?.[role];
+    if (!semanticConfig) return;
+
+    vars[`--ui-lab-meta-${role}-light-chroma-limit`] = String(semanticConfig.light.chromaLimit ?? 0.25);
+    vars[`--ui-lab-meta-${role}-dark-chroma-limit`] = String(semanticConfig.dark.chromaLimit ?? 0.25);
   });
 
   return vars;
@@ -137,6 +137,7 @@ function computeColorVars(colors: SimpleThemeColors, mode: "light" | "dark"): Re
   );
 
   let allVars = {
+    ...computeColorMetadataVars(colors),
     ...paletteToCssVars('background', palettes.background),
     ...paletteToCssVars('foreground', palettes.foreground),
     ...paletteToCssVars('accent', palettes.accent),
