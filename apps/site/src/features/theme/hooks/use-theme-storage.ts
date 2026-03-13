@@ -5,17 +5,8 @@ import { type SimpleThemeColors } from "../constants/themes";
 import { computeAllCssVariables, type ThemeConfig } from "../lib/css-variable-generator";
 import { cacheCompleteTheme, applyThemeCacheToDOM, getSourceConfig, type ThemeSourceConfig } from "../lib/theme-cache";
 import { type FontKey, getFontConfig } from "../constants/font-config";
-
-export interface TypographyConfig {
-  headerTypeSizeRatio: number;
-  headerFontSizeScale: number;
-  headerFontWeightScale: number;
-  headerLetterSpacingScale: number;
-  bodyTypeSizeRatio: number;
-  bodyFontSizeScale: number;
-  bodyFontWeightScale: number;
-  bodyLetterSpacingScale: number;
-}
+import { type TypographyConfig } from "../lib/typography-config";
+import { getDefaultThemeSourceConfig } from "../lib/default-theme-config";
 export interface LayoutConfig { radius: number; borderWidth: number; spacingScale: number }
 export interface FontsConfig { sansFont: FontKey; monoFont: FontKey }
 
@@ -28,30 +19,13 @@ export interface ThemeStorageOptions {
   currentThemeMode: "light" | "dark";
 }
 
-const DEFAULT_COLORS: SimpleThemeColors = {
-  background: { h: 0, c: 0, l: 0.15 },
-  foreground: { h: 0, c: 0, l: 0.98 },
-  accent: { h: 210, c: 0.15, l: 0.5 },
-};
-const DEFAULT_TYPOGRAPHY: TypographyConfig = {
-  headerTypeSizeRatio: 1.125,
-  headerFontSizeScale: 1,
-  headerFontWeightScale: 1,
-  headerLetterSpacingScale: 1,
-  bodyTypeSizeRatio: 1.2,
-  bodyFontSizeScale: 1,
-  bodyFontWeightScale: 1,
-  bodyLetterSpacingScale: 1,
-};
-const DEFAULT_LAYOUT: LayoutConfig = { radius: 0.9, borderWidth: 2, spacingScale: 0.9 };
-const DEFAULT_FONTS: FontsConfig = { sansFont: "Karla", monoFont: "Ioskeley Mono" };
-
 function buildConfig(source: ThemeSourceConfig | null, mode: "light" | "dark"): ThemeConfig {
+  const defaults = getDefaultThemeSourceConfig(mode);
   return {
-    colors: source?.colors || DEFAULT_COLORS,
-    typography: source?.typography || DEFAULT_TYPOGRAPHY,
-    layout: source?.layout || DEFAULT_LAYOUT,
-    fonts: source?.fonts || DEFAULT_FONTS,
+    colors: source?.colors || defaults.colors,
+    typography: { ...defaults.typography, ...(source?.typography || {}) },
+    layout: { ...defaults.layout, ...(source?.layout || {}) },
+    fonts: { ...defaults.fonts, ...(source?.fonts || {}) },
     mode,
   };
 }
@@ -81,6 +55,7 @@ function computeAndCache(config: ThemeConfig): void {
     Object.entries(cssVariables).filter(([key]) =>
       !key.startsWith('--text-') &&
       !key.startsWith('--header-text-') &&
+      !key.startsWith('--leading-') &&
       !key.startsWith('--letter-spacing-') &&
       !key.startsWith('--font-weight-')
     )
@@ -122,6 +97,12 @@ export function useThemeStorage(options: ThemeStorageOptions) {
       config.typography.bodyFontSizeScale = sansFontConfig.metrics.fontSizeScale ?? 1;
       config.typography.bodyFontWeightScale = sansFontConfig.metrics.fontWeightScale ?? 1;
       config.typography.bodyTypeSizeRatio = sansFontConfig.metrics.typeSizeRatio ?? 1.2;
+      if (typeof sansFontConfig.metrics.headerLineHeight === "number") {
+        config.typography.headerLineHeight = sansFontConfig.metrics.headerLineHeight;
+      }
+      if (typeof sansFontConfig.metrics.bodyLineHeight === "number") {
+        config.typography.bodyLineHeight = sansFontConfig.metrics.bodyLineHeight;
+      }
     }
     computeAndCache(config);
     onFontsChange?.(fonts);

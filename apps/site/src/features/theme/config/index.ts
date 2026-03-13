@@ -18,10 +18,12 @@ export { generateColorPaletteCSS } from "./colors/generator";
 export {
   generateTypeScaleFromRatio,
   generateTypographyCSS,
+  generateLineHeightCSS,
   generateLetterSpacingCSS,
   applyDynamicFontSizeScalesWithRatio,
   applyDynamicFontSizeScales,
   applyDynamicHeaderFontSizeScales,
+  applyDynamicLineHeightScales,
   applyDynamicLetterSpacingScales,
 } from "./typography/generator";
 
@@ -39,5 +41,6 @@ export {
   generateThemeConfig,
   applyDynamicThemeScales,
   generateConfigMessage,
+  generateThemeSetupFiles,
   generateFullThemeConfig,
 } from "./theme/generator";

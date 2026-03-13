@@ -1,4 +1,4 @@
-import { baseSpacing } from "./constants";
+import { getSpacingCssVariables } from "../shared/layout-variables";
 
 /**
  * Generates fluid spacing CSS using an exponential curve.
@@ -6,24 +6,9 @@ import { baseSpacing } from "./constants";
  * Each spacing value uses clamp(min, fluid vw, max) for viewport responsiveness.
  */
 export function generateFluidSpacingCSS(spacingScale: number): string {
-  const lines: string[] = [];
-  baseSpacing.forEach(({ name, min, fluid, max }) => {
-    const scaledMin = (min * spacingScale).toFixed(3);
-    const scaledFluid = (fluid * spacingScale).toFixed(2);
-    const scaledMax = (max * spacingScale).toFixed(3);
-    lines.push(
-      `  --spacing-${name}: clamp(${scaledMin}rem, ${scaledFluid}vw, ${scaledMax}rem);`,
-    );
-  });
-
-  const scaledMin = (0.2 * spacingScale).toFixed(3);
-  const scaledFluid = (2.5 * spacingScale).toFixed(2);
-  const scaledMax = (0.25 * spacingScale).toFixed(3);
-  lines.push(
-    `  --spacing: clamp(${scaledMin}rem, ${scaledFluid}vw, ${scaledMax}rem);`,
-  );
-
-  return lines.join("\n");
+  return Object.entries(getSpacingCssVariables(spacingScale))
+    .map(([name, value]) => `  ${name}: ${value};`)
+    .join("\n");
 }
 
 /**
@@ -32,18 +17,9 @@ export function generateFluidSpacingCSS(spacingScale: number): string {
  */
 export function applyDynamicSpacingScale(spacingScale: number): void {
   const root = document.documentElement;
+  const vars = getSpacingCssVariables(spacingScale);
 
-  baseSpacing.forEach(({ name, min, fluid, max }) => {
-    const scaledMin = (min * spacingScale).toFixed(3);
-    const scaledFluid = (fluid * spacingScale).toFixed(2);
-    const scaledMax = (max * spacingScale).toFixed(3);
-    const clampValue = `clamp(${scaledMin}rem, ${scaledFluid}vw, ${scaledMax}rem)`;
-    root.style.setProperty(`--spacing-${name}`, clampValue);
+  Object.entries(vars).forEach(([varName, value]) => {
+    root.style.setProperty(varName, value);
   });
-
-  const scaledMin = (0.2 * spacingScale).toFixed(3);
-  const scaledFluid = (2.5 * spacingScale).toFixed(2);
-  const scaledMax = (0.25 * spacingScale).toFixed(3);
-  const clampValue = `clamp(${scaledMin}rem, ${scaledFluid}vw, ${scaledMax}rem)`;
-  root.style.setProperty("--spacing", clampValue);
 }

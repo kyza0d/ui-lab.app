@@ -6,23 +6,11 @@ import {
   applyDynamicSpacingScale,
   applyDynamicFontSizeScalesWithRatio,
   applyDynamicHeaderFontSizeScales,
+  applyDynamicLineHeightScales,
   applyDynamicLetterSpacingScales,
   applyDynamicFontWeightScales,
 } from "../config";
-
-/**
- * Grouped configuration objects to reduce dependency array size
- */
-export interface TypographyConfig {
-  headerTypeSizeRatio: number;
-  headerFontSizeScale: number;
-  headerFontWeightScale: number;
-  headerLetterSpacingScale: number;
-  bodyTypeSizeRatio: number;
-  bodyFontSizeScale: number;
-  bodyFontWeightScale: number;
-  bodyLetterSpacingScale: number;
-}
+import { type TypographyConfig } from "../lib/typography-config";
 
 export interface LayoutConfig {
   radius: number;
@@ -79,12 +67,18 @@ export function useThemeConfiguration(config: ThemeConfigurationInput) {
     // Apply body typography: ratio + font size scale
     applyDynamicFontSizeScalesWithRatio(
       typography.bodyTypeSizeRatio,
-      typography.bodyFontSizeScale
+      typography.bodyFontSizeScale,
+      typography.globalMinFontSizePx,
     );
     // Apply header typography: ratio + font size scale
     applyDynamicHeaderFontSizeScales(
       typography.headerTypeSizeRatio,
-      typography.headerFontSizeScale
+      typography.headerFontSizeScale,
+      typography.globalMinFontSizePx,
+    );
+    applyDynamicLineHeightScales(
+      typography.headerLineHeight,
+      typography.bodyLineHeight,
     );
     // Apply letter spacing scales
     applyDynamicLetterSpacingScales(
@@ -103,6 +97,9 @@ export function useThemeConfiguration(config: ThemeConfigurationInput) {
     typography.bodyFontSizeScale,
     typography.headerTypeSizeRatio,
     typography.headerFontSizeScale,
+    typography.headerLineHeight,
+    typography.globalMinFontSizePx,
+    typography.bodyLineHeight,
     typography.bodyLetterSpacingScale,
     typography.headerLetterSpacingScale,
     typography.headerFontWeightScale,
