@@ -87,19 +87,18 @@ export function CopyComponentPage({ componentId }: { componentId: string }) {
     <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className='w-65'>
       <Expand.Trigger>
         <Group>
-          <div className="w-10 bg-background-800 flex items-center px-3 text-foreground-400 text-sm font-medium">
+          <div className="w-13 flex justify-center items-center px-3 text-foreground-400 text-sm font-medium">
             {copied ? <FaCheck size={12} className="text-foreground-400" /> : <FaFileLines />}
           </div>
           <Divider />
-          <Group.Button
+          <div
             onClick={() => setIsOpen(o => !o)}
-            variant='outline'
             title="Copy component context as Markdown"
-            className="text-xs w-55 justify-start"
+            className="flex text-xs font-medium p-2 w-55 items-center justify-start"
           >
             {copied ? <>Copied {copied.lines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
             {!copied && <Expand.Icon className='ml-auto text-foreground-400 bg-transparent' />}
-          </Group.Button>
+          </div>
         </Group>
       </Expand.Trigger>
       <Expand.Content from="below" className='w-[calc(100%-var(--radius-md))] mx-auto -mt-(--border-width-base)'>
@@ -110,10 +109,7 @@ export function CopyComponentPage({ componentId }: { componentId: string }) {
               onClick={() => handleCopy(source)}
               className="flex items-center rounded-sm text-xs text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700 text-left"
             >
-              <span className="flex items-center justify-center px-3 py-2 text-sm">
-                {copied?.source === source ? <FaCheck /> : <FaFileLines />}
-              </span>
-              <span className="flex-1 py-2">{label}</span>
+              <span className="flex-1 py-2 px-3">{label}</span>
             </button>
           ))}
         </div>

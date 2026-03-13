@@ -29,6 +29,15 @@ export const DOCUMENTATION_SECTIONS: SidebarSection[] = [
     ]
   },
   {
+    "label": "Guides",
+    "items": [
+      {
+        "id": "guides-theme-switching",
+        "label": "Theme Switching"
+      }
+    ]
+  },
+  {
     "label": "Agents & MCPs",
     "items": [
       {

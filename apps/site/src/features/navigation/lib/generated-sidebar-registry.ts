@@ -52,6 +52,15 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             ]
       },
       {
+            "label": "Guides",
+            "items": [
+                  {
+                        "id": "guides-theme-switching",
+                        "label": "Theme Switching"
+                  }
+            ]
+      },
+      {
             "label": "Agents & MCPs",
             "items": [
                   {
@@ -83,6 +92,12 @@ export const SIDEBAR_REGISTRY: SidebarRegistry = {
             "description": "How UI Lab's token system works — color families, shade ranges, dark mode inversion, and dynamic accent customization.",
             "slug": "customization-theming",
             "category": "Customization"
+      },
+      "guides-theme-switching": {
+            "title": "Theme Switching",
+            "description": "Set up light/dark mode with UI Lab using the same CSS-first contract as factory-gen.site: app/theme.css, generateColorModeScript(), and useColorMode().",
+            "slug": "guides-theme-switching",
+            "category": "Guides"
       },
       "installation": {
             "title": "Installation",

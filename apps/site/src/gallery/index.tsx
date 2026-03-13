@@ -30,6 +30,7 @@ import { CheckboxAnimation } from "./timelines/checkbox.animation";
 import { ConfirmAnimation } from "./timelines/confirm.animation";
 import { CommandAnimation } from "./timelines/command.animation";
 import { DateAnimation } from "./timelines/date.animation";
+import { ColorAnimation } from "./timelines/color.animation";
 
 const TAIL_PATH =
   "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
@@ -83,23 +84,7 @@ export const previews: Record<string, React.ReactNode> = {
   card: <CardAnimation />,
 
   checkbox: <CheckboxAnimation />,
-  color: (
-    <div className="w-[80%] max-w-[120px] rounded-[8px] border-[2px] border-background-700 flex flex-col gap-2 p-0.5 bg-background-800/20">
-      <div className="flex  flex-col p-[3px] gap-2 rounded-[3px]">
-        <div className="rounded-[3px] w-full h-[60px] relative bg-background-800">
-          <div className="w-2 h-2 bg-background-500 rounded-full absolute top-[30%] left-[60%] -translate-x-1/2 -translate-y-1/2" />
-        </div>
-        <div className="px-[4px] flex flex-col gap-[4px]">
-          <div className="rounded-[3px] w-full h-2 bg-background-700 relative">
-            <div className="w-1 h-3 bg-background-500 rounded-[3px] absolute left-[70%] top-1/2 -translate-x-1/2 -translate-y-1/2" />
-          </div>
-          <div className="rounded-[3px] mt-1 w-full flex items-center h-6 pl-[6px] border-[1px] border-background-700 relative">
-            <div className="w-[53%] h-2 opacity-10 rounded-md bg-background-500"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  ),
+  color: <ColorAnimation />,
 
   command: <CommandAnimation />,
 

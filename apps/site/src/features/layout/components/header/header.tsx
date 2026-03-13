@@ -5,7 +5,7 @@ import { useState, useMemo, memo } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
 import { CommandPalette } from "@/features/command-palette";
 import { Logo } from "@/shared";
-import { Input, Badge, Divider, Tabs, TabsList, TabsTrigger, Button, Tooltip } from "ui-lab-components";
+import { Input, Divider, Tabs, TabsList, TabsTrigger, Button, Tooltip } from "ui-lab-components";
 import { useApp } from "@/features/theme";
 import { useChat } from "@/features/chat";
 import { cn } from "@/shared";
@@ -118,8 +118,18 @@ export default function Header({
             )}
           </div>
 
-          <div className="flex gap-2 absolute left-1/2 -translate-x-1/2">
+          <div className="flex gap-2 mr-2">
             <div className="relative flex items-center">
+              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
+                <Button
+                  styles="p-2"
+                  icon={{ left: <FaMagnifyingGlass size={13} /> }}
+                  onClick={() => setIsCommandPaletteOpen(true)}
+                />
+              </Tooltip>
+            </div>
+
+            <div className="hidden relative flex items-center">
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Input
                   placeholder="Search..."

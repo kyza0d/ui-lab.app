@@ -34,19 +34,18 @@ export function CopyPage() {
 
   return (
     <Group className='w-65 h-12'>
-      <div className="bg-background-800 w-10 flex items-center px-3 text-foreground-400 text-sm font-medium">
+      <div className="w-13 flex justify-center items-center px-3 text-foreground-400 text-sm font-medium">
         <FaFileLines />
       </div>
       <Divider />
-      <Group.Button
+      <div
         onClick={handleCopy}
-        variant='outline'
         title="Copy rendered content as Markdown"
-        className="text-xs justify-start w-55"
+        className="flex text-xs font-medium p-2 w-55 items-center justify-start"
       >
 
         {copiedLines !== null ? <>Copied {copiedLines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
-      </Group.Button>
+      </div>
     </Group>
   );
 }

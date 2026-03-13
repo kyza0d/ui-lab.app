@@ -286,6 +286,48 @@ export const tocRegistry: TocRegistry = {
       "level": 2
     }
   ],
+  "guides-theme-switching": [
+    {
+      "id": "recommended-contract",
+      "title": "Recommended contract",
+      "level": 2
+    },
+    {
+      "id": "1-import-tailwind-your-theme-and-ui-lab-styles",
+      "title": "1. Import Tailwind, your theme, and UI Lab styles",
+      "level": 2
+    },
+    {
+      "id": "2-add-the-pre-hydration-theme-script-in-applayouttsx",
+      "title": "2. Add the pre-hydration theme script in `app/layout.tsx`",
+      "level": 2
+    },
+    {
+      "id": "3-toggle-the-theme-from-a-client-component",
+      "title": "3. Toggle the theme from a client component",
+      "level": 2
+    },
+    {
+      "id": "4-structure-appthemecss-like-factory-gensite",
+      "title": "4. Structure `app/theme.css` like `factory-gen.site`",
+      "level": 2
+    },
+    {
+      "id": "when-to-use-themeprovider",
+      "title": "When to use `ThemeProvider`",
+      "level": 2
+    },
+    {
+      "id": "what-changed-from-older-setup-examples",
+      "title": "What changed from older setup examples",
+      "level": 2
+    },
+    {
+      "id": "further-reading",
+      "title": "Further reading",
+      "level": 2
+    }
+  ],
   "index": [
     {
       "id": "design-system-overview",

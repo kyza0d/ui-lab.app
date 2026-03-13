@@ -28,19 +28,18 @@ export function OpenPage({ componentId }: { componentId?: string }) {
     <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className='w-65'>
       <Expand.Trigger>
         <Group>
-          <div className="w-10 bg-background-800 flex items-center px-3 text-foreground-400 text-sm font-medium">
+          <div className="w-13 flex justify-center items-center px-3 text-foreground-400 text-sm font-medium">
             <FaArrowUpRightFromSquare size={13} />
           </div>
           <Divider />
-          <Group.Button
+          <div
             onClick={() => setIsOpen(o => !o)}
-            variant='outline'
             title="Open this page in another app"
-            className="text-xs w-55 justify-start"
+            className="flex text-xs font-medium p-2 w-55 items-center justify-start"
           >
             Open Page
             <Expand.Icon className='ml-auto text-foreground-400 bg-transparent' />
-          </Group.Button>
+          </div>
         </Group>
       </Expand.Trigger>
       <Expand.Content from="below" className='w-[calc(100%-var(--radius-md))] mx-auto -mt-(--border-width-base)'>
@@ -53,8 +52,8 @@ export function OpenPage({ componentId }: { componentId?: string }) {
               rel="noopener noreferrer"
               className="flex rounded-sm items-center text-xs text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700"
             >
-              <span className="flex items-center justify-center px-3 py-2 text-sm">
-                <Icon />
+              <span className="flex items-center justify-center mr-2 px-3 py-2 text-sm">
+                <Icon className='w-5 h-5' />
               </span>
               <span className="flex-1 py-2">{label}</span>
               <span className="px-3 py-2 opacity-60">

@@ -57,6 +57,20 @@ export const BREADCRUMB_REGISTRY: BreadcrumbRegistry = {
       ]
     },
     {
+      "path": "/docs/guides-theme-switching",
+      "domain": "/docs",
+      "domainLabel": "UI Lab Overview",
+      "breadcrumbs": [
+        {
+          "label": "UI Lab Overview",
+          "href": "/docs"
+        },
+        {
+          "label": "\"Theme Switching\""
+        }
+      ]
+    },
+    {
       "path": "/docs/installation",
       "domain": "/docs",
       "domainLabel": "UI Lab Overview",
