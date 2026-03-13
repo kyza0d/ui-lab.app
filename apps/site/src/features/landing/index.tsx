@@ -1,17 +1,12 @@
 "use client";
 
-import { cn } from "@/shared";
 import {
   FaBrain,
   FaPaintbrush,
   FaEye,
-  FaTags,
   FaRocket,
-  FaArrowUp,
-  FaUpRightFromSquare,
-  FaArrowPointer,
-  FaArrowDownLong,
   FaArrowRightLong,
+  FaCube,
 } from "react-icons/fa6";
 import { Button } from "ui-lab-components";
 
@@ -19,20 +14,9 @@ function HeroSection() {
   return (
     <>
       <div className="z-10 mt-12 sm:mt-0 overflow-hidden">
-        <div className="relative h-full flex flex-col justify-between md:justify-center">
+        <div className="grid-paper relative h-full flex flex-col justify-between md:justify-center">
           <div className="flex items-center text-center flex-col pt-8 md:pt-0">
-            <div className="flex gap-2 mb-4">
-              <span className="flex h-[32px] font-medium items-center overflow-hidden gap-[9px] bg-background-950 border border-background-700 rounded-[8px] text-foreground-300 text-sm pl-[3px]">
-                <div className="flex p-1.5 text-foreground-400 rounded-[5px] border-background-700">
-                  <FaRocket size={13} />
-                </div>
-                <span className="text-xs font-semibold">UI Lab Launches!</span>
-                <span className="bg-background-800/50 flex items-center gap-3 border-l border-background-700 h-full text-xs font-smeibold pt-1 px-3">
-                  View Details <FaArrowRightLong className="text-foreground-400" />
-                </span>
-              </span>
-            </div>
-            <h1 className="mb-2 text-xl max-w-[25ch] sm:max-w-[38ch] text-foreground-200">
+            <h1 className="isolate mb-2 text-xl max-w-[25ch] sm:max-w-[38ch] text-foreground-200">
               Beautiful Software Built for Everyone.
             </h1>
             <p className="text-foreground-400 w-full sm:w-[59ch] max-w-[59ch] px-4">
@@ -42,13 +26,16 @@ function HeroSection() {
             <div className="flex gap-3 mt-8 mb-6 md:mt-10 md:mb-0">
               <Button
                 size="sm"
+                variant="primary"
               // icon={{ left: <FaBrain />, right: <FaPaintbrush /> }}
               // className={cn("flex gap-4", 'mb-40')}
               // styles={{ root: ["border-2 border-gray-500", 'my-2 mx-18'], icon: { left: "bg-red-500", right: "bg-blue-500" } }}
               >
-                Get Started
+                Documentation
               </Button>
-              <Button variant="outline" size="sm" className="font-semibold" href="/components">
+              <Button
+                icon={{ left: <FaCube className="text-foreground-200 mr-1 mb-px" /> }}
+                variant="secondary" size="sm" className="font-semibold" href="/components">
                 View Components
               </Button>
             </div>
@@ -65,6 +52,19 @@ function HeroSection() {
                 <FaBrain className="w-3.5 h-3.5" /> LLM Enabled
               </span>
             </div>
+
+            <div className="hidden flex gap-2 ml-6">
+              <span className="flex h-[32px] font-medium items-center overflow-hidden gap-[9px] bg-background-950 border border-background-700 rounded-[8px] text-foreground-300 text-sm pl-[3px]">
+                <div className="flex p-1.5 text-foreground-400 rounded-[5px] border-background-700">
+                  <FaRocket size={13} />
+                </div>
+                <span className="text-xs font-semibold">UI Lab Launches!</span>
+                <span className="bg-background-800/50 flex items-center gap-3 border-l border-background-700 h-full text-xs font-smeibold px-3">
+                  View Details <FaArrowRightLong className="text-foreground-400" />
+                </span>
+              </span>
+            </div>
+
             <p className="ml-auto text-xs max-w-[41ch] text-foreground-400 md:mb-[14px]">
               "User Interface" (UI) is the space where interactions between humans and machines occur.
             </p>

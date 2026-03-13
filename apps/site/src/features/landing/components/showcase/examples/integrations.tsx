@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { List, Group, Select, Divider } from "ui-lab-components";
+import { List, Group, Select, Divider, Button } from "ui-lab-components";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { SiGithub, SiSlack, SiFigma, SiLinear, SiNotion, SiVercel } from "react-icons/si";
 
@@ -98,15 +98,13 @@ export function IntegrationsPanel() {
                     <div className="text-xs font-medium text-foreground-100">{item.name}</div>
                     <List.Desc>{item.desc}</List.Desc>
                   </div>
-                  <button
+                  <Button
+                    size="sm"
+                    variant="ghost"
                     onClick={(e) => { e.stopPropagation(); toggle(item.id); }}
-                    className={`flex-shrink-0 text-xs px-2.5 py-1 rounded font-medium transition-colors ${isConnected
-                      ? "bg-background-400 text-foreground-200 hover:bg-background-500 hover:text-foreground-100"
-                      : "bg-background-300 text-foreground-400 hover:bg-background-400 hover:text-foreground-100"
-                      }`}
                   >
                     {isConnected ? "Connected" : "Connect"}
-                  </button>
+                  </Button>
                 </List.Item>
                 {i < visible.length - 1 && <List.Divider spacing="none" />}
               </div>
