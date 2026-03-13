@@ -1,6 +1,7 @@
 import * as React from "react"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import { Input } from "../Input"
 import { ChevronDown } from "lucide-react"
 import styles from "./Select.module.css"
 import { useSelectContext } from "./Select"
@@ -149,6 +150,9 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
       isDisabled,
       setIsOpen,
       isOpen,
+      contentPlacement,
+      contentId,
+      triggerRef,
       selectedTextValue,
       navigateToNextItem,
       navigateToPrevItem,
@@ -158,7 +162,11 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
     } = useSelectContext()
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [isSearchActive, setIsSearchActive] = React.useState(false)
-    const mergedRef = useMergedRef<HTMLInputElement>(inputRef, ref)
+    const mergedRef = useMergedRef<HTMLInputElement>(
+      inputRef,
+      triggerRef as React.MutableRefObject<HTMLInputElement | null>,
+      ref
+    )
 
     React.useEffect(() => {
       if (!isOpen) {
@@ -168,6 +176,16 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
 
     const displayValue = isSearchActive ? searchValue : (selectedTextValue || "")
     const resolved = resolveSearchableTriggerBaseStyles(stylesProp);
+
+    const focusInput = React.useCallback((selectValue = false) => {
+      const input = inputRef.current
+      if (!input) return
+
+      input.focus({ preventScroll: true })
+      if (selectValue && selectedTextValue && !searchValue) {
+        input.select()
+      }
+    }, [searchValue, selectedTextValue])
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (!isOpen) {
@@ -193,40 +211,64 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
     }
 
     const handleClick = () => {
-      if (selectedTextValue && !searchValue && inputRef.current) {
-        inputRef.current.select()
-      }
+      focusInput(true)
       if (!isOpen) {
         setIsOpen(true)
       }
     }
 
     return (
-      <input
-        ref={mergedRef}
-        type="text"
-        role="combobox"
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
-        aria-autocomplete="list"
-        value={displayValue}
-        onChange={(e) => {
-          setSearchValue(e.target.value)
-          setIsSearchActive(true)
-          setIsOpen(true)
-        }}
-        onKeyDown={handleKeyDown}
-        onClick={handleClick}
-        onFocus={() => {
-          if (!isOpen) {
-            setIsOpen(true)
+      <div
+        className={cn(styles.trigger, styles['search-trigger'], className, resolved.root)}
+        data-slot="trigger"
+        data-open={isOpen ? "true" : undefined}
+        data-disabled={isDisabled || undefined}
+        data-placement={contentPlacement}
+        onMouseDown={(e) => {
+          if (e.target !== inputRef.current) {
+            e.preventDefault()
+            focusInput(true)
+            if (!isOpen) {
+              setIsOpen(true)
+            }
           }
         }}
-        placeholder={placeholder}
-        disabled={isDisabled}
-        className={cn(styles.trigger, className, resolved.root)}
-        {...props}
-      />
+      >
+        <div className={cn(styles['value-section'], styles['search-value-section'])}>
+          <Input
+            ref={mergedRef}
+            type="text"
+            role="combobox"
+            aria-haspopup="listbox"
+            aria-expanded={isOpen}
+            aria-controls={isOpen ? contentId : undefined}
+            aria-autocomplete="list"
+            value={displayValue}
+            onChange={(e) => {
+              setSearchValue(e.target.value)
+              setIsSearchActive(true)
+              setIsOpen(true)
+            }}
+            onKeyDown={handleKeyDown}
+            onClick={handleClick}
+            onFocus={() => {
+              if (!isOpen) {
+                setIsOpen(true)
+              }
+            }}
+            placeholder={placeholder}
+            disabled={isDisabled}
+            variant="ghost"
+            className={styles['search-trigger-input']}
+            {...props}
+          />
+        </div>
+        <div className={cn(styles['icon-section'], styles['search-icon-section'])}>
+          <div className={styles.icon}>
+            <ChevronDown size={14} />
+          </div>
+        </div>
+      </div>
     )
   }
 )
