@@ -4,7 +4,6 @@ import {
   type SimpleThemeColors,
   DEFAULT_GLOBAL_ADJUSTMENTS,
 } from "../constants/themes";
-import { themes } from "../constants/themes";
 import {
   getSourceConfig,
   validateThemeCache,
@@ -15,7 +14,12 @@ import { ensureSemanticColorIntegrity } from "./color/semantic";
 import { type GlobalColorAdjustments } from "./color-utils";
 import { useThemeConfiguration } from "../hooks/use-theme-configuration";
 import { clampTypographyConfig, isValidTypographyConfig } from "./typography-constraints";
-import { type FontKey, getDefaultSansFont, getDefaultMonoFont } from "../constants/font-config";
+import { type FontKey } from "../constants/font-config";
+import {
+  normalizeGlobalMinFontSizePx,
+  normalizeTypographyLineHeight,
+} from "./typography-config";
+import { getDefaultAppPreferences } from "./default-theme-config";
 
 export interface AppContextType {
   isSettingsPanelOpen: boolean;
@@ -49,6 +53,8 @@ export interface AppContextType {
   setHeaderFontWeightScale: (scale: number) => void;
   headerLetterSpacingScale: number;
   setHeaderLetterSpacingScale: (scale: number) => void;
+  headerLineHeight: number;
+  setHeaderLineHeight: (lineHeight: number) => void;
   bodyTypeSizeRatio: number;
   setBodyTypeSizeRatio: (ratio: number) => void;
   bodyFontSizeScale: number;
@@ -57,33 +63,15 @@ export interface AppContextType {
   setBodyFontWeightScale: (scale: number) => void;
   bodyLetterSpacingScale: number;
   setBodyLetterSpacingScale: (scale: number) => void;
+  bodyLineHeight: number;
+  setBodyLineHeight: (lineHeight: number) => void;
+  globalMinFontSizePx: number;
+  setGlobalMinFontSizePx: (size: number) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const defaultPreferences = {
-  colors: {
-    ...themes["Vitesse"]["dark"],
-    semantic: themes["Vitesse"]["dark"].semantic
-      ? ensureSemanticColorIntegrity(themes["Vitesse"]["dark"].semantic)
-      : undefined,
-  },
-  mode: "dark" as const,
-  radius: 0.5,
-  borderWidth: 2,
-  spacingScale: 0.9,
-  globalAdjustments: DEFAULT_GLOBAL_ADJUSTMENTS,
-  selectedSansFont: getDefaultSansFont().name as FontKey,
-  selectedMonoFont: getDefaultMonoFont().name as FontKey,
-  headerTypeSizeRatio: 1.125,
-  headerFontSizeScale: 1,
-  headerFontWeightScale: 1,
-  headerLetterSpacingScale: 1,
-  bodyTypeSizeRatio: 1.2,
-  bodyFontSizeScale: 1,
-  bodyFontWeightScale: 1,
-  bodyLetterSpacingScale: 1,
-};
+const defaultPreferences = getDefaultAppPreferences();
 
 function loadPreferencesFromStorage() {
   if (typeof window === "undefined") return null;
@@ -98,16 +86,33 @@ function loadPreferencesFromStorage() {
       : undefined,
   };
 
-  const bodyTypeSizeRatio = sourceConfig.typography.bodyTypeSizeRatio ?? 1.2;
-  const bodyFontSizeScale = sourceConfig.typography.bodyFontSizeScale ?? 1;
+  const globalMinFontSizePx = normalizeGlobalMinFontSizePx(
+    sourceConfig.typography.globalMinFontSizePx,
+  );
+  const bodyTypeSizeRatio =
+    sourceConfig.typography.bodyTypeSizeRatio ??
+    defaultPreferences.bodyTypeSizeRatio;
+  const bodyFontSizeScale =
+    sourceConfig.typography.bodyFontSizeScale ??
+    defaultPreferences.bodyFontSizeScale;
 
   let finalBodyTypeSizeRatio = bodyTypeSizeRatio;
   let finalBodyFontSizeScale = bodyFontSizeScale;
 
-  if (!isValidTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale)) {
-    const clamped = clampTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale);
+  if (
+    !isValidTypographyConfig(
+      bodyTypeSizeRatio,
+      bodyFontSizeScale,
+      globalMinFontSizePx,
+    )
+  ) {
+    const clamped = clampTypographyConfig(
+      bodyTypeSizeRatio,
+      bodyFontSizeScale,
+      globalMinFontSizePx,
+    );
     console.warn(
-      `[AppContext] Body typography config violated 14px minimum. Clamped from ratio=${bodyTypeSizeRatio}, scale=${bodyFontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)}, scale=${clamped.fontSizeScale.toFixed(3)}`
+      `[AppContext] Body typography config violated the ${globalMinFontSizePx}px minimum. Clamped from ratio=${bodyTypeSizeRatio}, scale=${bodyFontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)}, scale=${clamped.fontSizeScale.toFixed(3)}`
     );
     finalBodyTypeSizeRatio = clamped.typeSizeRatio;
     finalBodyFontSizeScale = clamped.fontSizeScale;
@@ -122,14 +127,35 @@ function loadPreferencesFromStorage() {
     globalAdjustments: sourceConfig.colors.globalAdjustments ?? DEFAULT_GLOBAL_ADJUSTMENTS,
     selectedSansFont: (sourceConfig.fonts?.sansFont ?? defaultPreferences.selectedSansFont) as FontKey,
     selectedMonoFont: (sourceConfig.fonts?.monoFont ?? defaultPreferences.selectedMonoFont) as FontKey,
-    headerTypeSizeRatio: sourceConfig.typography.headerTypeSizeRatio ?? 1.125,
-    headerFontSizeScale: sourceConfig.typography.headerFontSizeScale ?? 1,
-    headerFontWeightScale: sourceConfig.typography.headerFontWeightScale ?? 1,
-    headerLetterSpacingScale: sourceConfig.typography.headerLetterSpacingScale ?? 1,
+    headerTypeSizeRatio:
+      sourceConfig.typography.headerTypeSizeRatio ??
+      defaultPreferences.headerTypeSizeRatio,
+    headerFontSizeScale:
+      sourceConfig.typography.headerFontSizeScale ??
+      defaultPreferences.headerFontSizeScale,
+    headerFontWeightScale:
+      sourceConfig.typography.headerFontWeightScale ??
+      defaultPreferences.headerFontWeightScale,
+    headerLetterSpacingScale:
+      sourceConfig.typography.headerLetterSpacingScale ??
+      defaultPreferences.headerLetterSpacingScale,
+    headerLineHeight: normalizeTypographyLineHeight(
+      sourceConfig.typography.headerLineHeight,
+      defaultPreferences.headerLineHeight,
+    ),
     bodyTypeSizeRatio: finalBodyTypeSizeRatio,
     bodyFontSizeScale: finalBodyFontSizeScale,
-    bodyFontWeightScale: sourceConfig.typography.bodyFontWeightScale ?? 1,
-    bodyLetterSpacingScale: sourceConfig.typography.bodyLetterSpacingScale ?? 1,
+    bodyFontWeightScale:
+      sourceConfig.typography.bodyFontWeightScale ??
+      defaultPreferences.bodyFontWeightScale,
+    bodyLetterSpacingScale:
+      sourceConfig.typography.bodyLetterSpacingScale ??
+      defaultPreferences.bodyLetterSpacingScale,
+    bodyLineHeight: normalizeTypographyLineHeight(
+      sourceConfig.typography.bodyLineHeight,
+      defaultPreferences.bodyLineHeight,
+    ),
+    globalMinFontSizePx,
   };
 }
 
@@ -137,12 +163,27 @@ function ThemeConfigurationApplier() {
   const {
     isThemeInitialized,
     headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, headerLetterSpacingScale,
+    headerLineHeight,
     bodyTypeSizeRatio, bodyFontSizeScale, bodyFontWeightScale, bodyLetterSpacingScale,
+    bodyLineHeight,
+    globalMinFontSizePx,
     radius, borderWidth, spacingScale
   } = useApp();
 
   useThemeConfiguration({
-    typography: { headerTypeSizeRatio, headerFontSizeScale, headerFontWeightScale, headerLetterSpacingScale, bodyTypeSizeRatio, bodyFontSizeScale, bodyFontWeightScale, bodyLetterSpacingScale },
+    typography: {
+      headerTypeSizeRatio,
+      headerFontSizeScale,
+      headerFontWeightScale,
+      headerLetterSpacingScale,
+      headerLineHeight,
+      bodyTypeSizeRatio,
+      bodyFontSizeScale,
+      bodyFontWeightScale,
+      bodyLetterSpacingScale,
+      bodyLineHeight,
+      globalMinFontSizePx,
+    },
     layout: { radius, borderWidth, spacingScale },
     isEnabled: isThemeInitialized,
   });
@@ -175,10 +216,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [headerFontSizeScale, setHeaderFontSizeScale] = useState(defaultPreferences.headerFontSizeScale);
   const [headerFontWeightScale, setHeaderFontWeightScale] = useState(defaultPreferences.headerFontWeightScale);
   const [headerLetterSpacingScale, setHeaderLetterSpacingScale] = useState(defaultPreferences.headerLetterSpacingScale);
+  const [headerLineHeight, setHeaderLineHeight] = useState(defaultPreferences.headerLineHeight);
   const [bodyTypeSizeRatio, setBodyTypeSizeRatio] = useState(defaultPreferences.bodyTypeSizeRatio);
   const [bodyFontSizeScale, setBodyFontSizeScale] = useState(defaultPreferences.bodyFontSizeScale);
   const [bodyFontWeightScale, setBodyFontWeightScale] = useState(defaultPreferences.bodyFontWeightScale);
   const [bodyLetterSpacingScale, setBodyLetterSpacingScale] = useState(defaultPreferences.bodyLetterSpacingScale);
+  const [bodyLineHeight, setBodyLineHeight] = useState(defaultPreferences.bodyLineHeight);
+  const [globalMinFontSizePx, setGlobalMinFontSizePx] = useState(
+    defaultPreferences.globalMinFontSizePx,
+  );
 
   useEffect(() => {
     const savedPrefs = loadPreferencesFromStorage();
@@ -195,10 +241,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setHeaderFontSizeScale(savedPrefs.headerFontSizeScale);
       setHeaderFontWeightScale(savedPrefs.headerFontWeightScale);
       setHeaderLetterSpacingScale(savedPrefs.headerLetterSpacingScale);
+      setHeaderLineHeight(savedPrefs.headerLineHeight);
       setBodyTypeSizeRatio(savedPrefs.bodyTypeSizeRatio);
       setBodyFontSizeScale(savedPrefs.bodyFontSizeScale);
       setBodyFontWeightScale(savedPrefs.bodyFontWeightScale);
       setBodyLetterSpacingScale(savedPrefs.bodyLetterSpacingScale);
+      setBodyLineHeight(savedPrefs.bodyLineHeight);
+      setGlobalMinFontSizePx(savedPrefs.globalMinFontSizePx);
     }
     setIsThemeInitialized(true);
   }, []);
@@ -223,16 +272,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
                 : undefined,
             };
 
+            const globalMinFontSizePx = normalizeGlobalMinFontSizePx(
+              config.typography.globalMinFontSizePx,
+            );
             const bodyTypeSizeRatio = config.typography.bodyTypeSizeRatio;
             const bodyFontSizeScale = config.typography.bodyFontSizeScale;
 
             let finalBodyTypeSizeRatio = bodyTypeSizeRatio;
             let finalBodyFontSizeScale = bodyFontSizeScale;
 
-            if (!isValidTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale)) {
-              const clamped = clampTypographyConfig(bodyTypeSizeRatio, bodyFontSizeScale);
+            if (
+              !isValidTypographyConfig(
+                bodyTypeSizeRatio,
+                bodyFontSizeScale,
+                globalMinFontSizePx,
+              )
+            ) {
+              const clamped = clampTypographyConfig(
+                bodyTypeSizeRatio,
+                bodyFontSizeScale,
+                globalMinFontSizePx,
+              );
               console.warn(
-                `[AppContext] Storage sync contained invalid body typography config. Clamped ratio=${bodyTypeSizeRatio} scale=${bodyFontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)} scale=${clamped.fontSizeScale.toFixed(3)}`
+                `[AppContext] Storage sync contained invalid body typography config for the ${globalMinFontSizePx}px minimum. Clamped ratio=${bodyTypeSizeRatio} scale=${bodyFontSizeScale} to ratio=${clamped.typeSizeRatio.toFixed(3)} scale=${clamped.fontSizeScale.toFixed(3)}`
               );
               finalBodyTypeSizeRatio = clamped.typeSizeRatio;
               finalBodyFontSizeScale = clamped.fontSizeScale;
@@ -254,10 +316,23 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             setHeaderFontSizeScale(config.typography.headerFontSizeScale);
             setHeaderFontWeightScale(config.typography.headerFontWeightScale);
             setHeaderLetterSpacingScale(config.typography.headerLetterSpacingScale);
+            setHeaderLineHeight(
+              normalizeTypographyLineHeight(
+                config.typography.headerLineHeight,
+                defaultPreferences.headerLineHeight,
+              ),
+            );
             setBodyTypeSizeRatio(finalBodyTypeSizeRatio);
             setBodyFontSizeScale(finalBodyFontSizeScale);
             setBodyFontWeightScale(config.typography.bodyFontWeightScale);
             setBodyLetterSpacingScale(config.typography.bodyLetterSpacingScale);
+            setBodyLineHeight(
+              normalizeTypographyLineHeight(
+                config.typography.bodyLineHeight,
+                defaultPreferences.bodyLineHeight,
+              ),
+            );
+            setGlobalMinFontSizePx(globalMinFontSizePx);
           }
         } catch (error) {
           console.warn("[AppContext] Failed to sync storage change:", error);
@@ -301,6 +376,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setHeaderFontWeightScale,
     headerLetterSpacingScale,
     setHeaderLetterSpacingScale,
+    headerLineHeight,
+    setHeaderLineHeight,
     bodyTypeSizeRatio,
     setBodyTypeSizeRatio,
     bodyFontSizeScale,
@@ -309,6 +386,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setBodyFontWeightScale,
     bodyLetterSpacingScale,
     setBodyLetterSpacingScale,
+    bodyLineHeight,
+    setBodyLineHeight,
+    globalMinFontSizePx,
+    setGlobalMinFontSizePx,
   }), [
     isSettingsPanelOpen,
     isCommandPaletteOpen,
@@ -326,10 +407,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     headerFontSizeScale,
     headerFontWeightScale,
     headerLetterSpacingScale,
+    headerLineHeight,
     bodyTypeSizeRatio,
     bodyFontSizeScale,
     bodyFontWeightScale,
     bodyLetterSpacingScale,
+    bodyLineHeight,
+    globalMinFontSizePx,
   ]);
 
   return <AppContext.Provider value={value}>

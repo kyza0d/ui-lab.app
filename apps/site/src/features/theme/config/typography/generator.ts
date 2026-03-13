@@ -1,5 +1,13 @@
 import { ExtendedTypeScale } from "../shared/types";
 import { minFontSizeConstraints, staticFontSizes, fluidSizes } from "./constants";
+import {
+  DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+  pxToRem,
+} from "../../lib/typography-config";
+
+interface TypeScaleOptions {
+  globalMinFontSizePx?: number;
+}
 
 /**
  * Generates a type scale based on a ratio
@@ -9,14 +17,19 @@ import { minFontSizeConstraints, staticFontSizes, fluidSizes } from "./constants
  * @param ratio - The scale ratio (1.067 - 1.2), only affects fluid sizes
  * @param fontSizeScale - Font size scale factor to apply (0.85 - 1.15)
  * @param baseSize - The base size in rem (default: 1)
+ * @param options - Additional generation options such as the global min font size
  * @returns Array of generated type scale sizes
  */
 export function generateTypeScaleFromRatio(
   ratio: number,
   fontSizeScale: number = 1,
   baseSize: number = 1,
+  options: TypeScaleOptions = {},
 ): ExtendedTypeScale[] {
   const scale: ExtendedTypeScale[] = [];
+  const globalMinFontSizeRem = pxToRem(
+    options.globalMinFontSizePx ?? DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+  );
   const names = [
     "xs",
     "sm",
@@ -33,7 +46,9 @@ export function generateTypeScaleFromRatio(
 
   names.forEach((name, i) => {
     const isFluid = fluidSizes.has(name);
-    const minConstraint = minFontSizeConstraints[name];
+    const minConstraint =
+      globalMinFontSizeRem *
+      (minFontSizeConstraints[name] / minFontSizeConstraints.xs);
 
     if (!isFluid) {
       const staticSize = staticFontSizes[name as keyof typeof staticFontSizes];
@@ -74,8 +89,11 @@ export function generateTypeScaleFromRatio(
 export function generateTypographyCSS(
   typeSizeRatio: number,
   fontSizeScale: number,
+  globalMinFontSizePx?: number,
 ): string {
-  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale);
+  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale, 1, {
+    globalMinFontSizePx,
+  });
   const lines: string[] = [];
 
   typeScale.forEach(({ name, cssValue }) => {
@@ -83,6 +101,16 @@ export function generateTypographyCSS(
   });
 
   return lines.join("\n");
+}
+
+export function generateLineHeightCSS(
+  headerLineHeight: number,
+  bodyLineHeight: number,
+): Record<string, string> {
+  return {
+    "--leading-header": String(headerLineHeight),
+    "--leading-body": String(bodyLineHeight),
+  };
 }
 
 /**
@@ -97,9 +125,12 @@ export function generateTypographyCSS(
 export function applyDynamicFontSizeScalesWithRatio(
   typeSizeRatio: number,
   fontSizeScale: number,
+  globalMinFontSizePx?: number,
 ): void {
   const root = document.documentElement;
-  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale);
+  const typeScale = generateTypeScaleFromRatio(typeSizeRatio, fontSizeScale, 1, {
+    globalMinFontSizePx,
+  });
 
   typeScale.forEach(({ name, cssValue }) => {
     root.style.setProperty(`--text-${name}`, cssValue);
@@ -127,13 +158,28 @@ export function applyDynamicFontSizeScales(fontSizeScale: number): void {
 export function applyDynamicHeaderFontSizeScales(
   headerTypeSizeRatio: number,
   headerFontSizeScale: number,
+  globalMinFontSizePx?: number,
 ): void {
   const root = document.documentElement;
-  const typeScale = generateTypeScaleFromRatio(headerTypeSizeRatio, headerFontSizeScale);
+  const typeScale = generateTypeScaleFromRatio(
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    1,
+    { globalMinFontSizePx },
+  );
 
   typeScale.forEach(({ name, cssValue }) => {
     root.style.setProperty(`--header-text-${name}`, cssValue);
   });
+}
+
+export function applyDynamicLineHeightScales(
+  headerLineHeight: number,
+  bodyLineHeight: number,
+): void {
+  const root = document.documentElement;
+  root.style.setProperty("--leading-header", String(headerLineHeight));
+  root.style.setProperty("--leading-body", String(bodyLineHeight));
 }
 
 /**

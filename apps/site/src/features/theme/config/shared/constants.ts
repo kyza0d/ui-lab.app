@@ -1,53 +1,53 @@
 export const SEMANTIC_HTML_STYLES = `
   h1 {
     font-size: var(--text-3xl);
-    line-height: var(--line-height-tight);
+    line-height: var(--leading-header);
     font-weight: var(--font-weight-bold);
     letter-spacing: var(--letter-spacing-tight);
   }
 
   h2 {
     font-size: var(--text-2xl);
-    line-height: var(--line-height-tight);
+    line-height: var(--leading-header);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-tight);
   }
 
   h3 {
     font-size: var(--text-xl);
-    line-height: var(--line-height-snug);
+    line-height: var(--leading-header);
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--letter-spacing-snug);
   }
 
   h4 {
     font-size: var(--text-lg);
-    line-height: var(--line-height-snug);
+    line-height: var(--leading-header);
     font-weight: var(--font-weight-medium);
   }
 
   h5 {
     font-size: var(--text-md);
-    line-height: var(--line-height-normal);
+    line-height: var(--leading-header);
     font-weight: var(--font-weight-medium);
   }
 
   h6 {
     font-size: var(--text-md);
-    line-height: var(--line-height-normal);
+    line-height: var(--leading-header);
     font-weight: var(--font-weight-medium);
   }
 
   p {
     font-size: var(--text-md);
-    line-height: var(--line-height-relaxed);
+    line-height: var(--leading-body);
     font-weight: var(--font-weight-normal);
     letter-spacing: var(--letter-spacing-normal);
   }
 
   small {
     font-size: var(--text-sm);
-    line-height: var(--line-height-normal);
+    line-height: var(--leading-body);
     font-weight: var(--font-weight-normal);
   }
 
@@ -86,7 +86,7 @@ export const SEMANTIC_HTML_STYLES = `
     padding: 1rem;
     border-radius: var(--radius-sm);
     overflow-x: auto;
-    line-height: var(--line-height-normal);
+    line-height: var(--leading-body);
   }
 
   pre code {

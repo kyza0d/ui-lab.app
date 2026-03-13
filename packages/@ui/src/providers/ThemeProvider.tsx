@@ -1,210 +1,191 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { applyThemeCSSVariables, extractThemeVariables } from './extractThemeVars'
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { generateThemeScript } from './themeScript'
+import { applyThemeTokens, normalizeThemeTokens, type ThemeMode, type ThemeTokenBatch } from './theme-contract'
 
 export interface ThemeContextType {
   cssVariables: Record<string, string>
   isThemeInitialized: boolean
-  themeMode: 'light' | 'dark'
-  setThemeMode: (mode: 'light' | 'dark') => void
+  themeMode: ThemeMode
+  setThemeMode: (mode: ThemeMode) => void
   toggleThemeMode: () => void
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
-
-const STORAGE_KEY = 'ui-lab-theme-complete'
-
-interface StoredThemeConfig {
-  themeMode: 'light' | 'dark'
-  cssVariables: Record<string, string>
+export interface ThemeProviderProps {
+  children: React.ReactNode
+  themes?: Partial<Record<ThemeMode, ThemeTokenBatch>>
+  defaultMode?: ThemeMode | 'system'
+  storageKey?: string
 }
 
-function injectThemeScript(): void {
+interface StoredThemeConfig {
+  themeMode?: ThemeMode
+  cssVariables?: Record<string, string>
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+const DEFAULT_STORAGE_KEY = 'ui-lab-theme-complete'
+
+function injectThemeScript(storageKey: string, defaultMode: ThemeProviderProps['defaultMode']): void {
   if (typeof document === 'undefined') return
 
   const scriptId = 'theme-provider-script'
-  if (document.getElementById(scriptId)) return
+  const existing = document.getElementById(scriptId)
+  const nextScript = generateThemeScript({ storageKey, defaultMode })
+
+  if (existing) {
+    if (existing.textContent !== nextScript) {
+      existing.textContent = nextScript
+    }
+    return
+  }
 
   const script = document.createElement('script')
   script.id = scriptId
   script.type = 'text/javascript'
-  script.textContent = generateThemeScript()
-  if (script.nonce) script.nonce = ''
+  script.textContent = nextScript
 
-  // Try to insert at the very beginning of head
   const head = document.head
-  if (head && head.firstChild) {
+  if (head?.firstChild) {
     head.insertBefore(script, head.firstChild)
-  } else if (head) {
-    head.appendChild(script)
+    return
   }
+
+  head?.appendChild(script)
 }
 
-function getDeviceThemePreference(): 'light' | 'dark' {
-  if (typeof window === 'undefined') return 'dark'
+function getSystemThemeMode(): ThemeMode {
+  if (typeof window === 'undefined') return 'light'
 
   try {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark'
-    }
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light'
-    }
-  } catch (e) {
-    console.warn('[ThemeProvider] Failed to detect device theme preference:', e)
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  } catch {
+    return 'light'
+  }
+}
+
+function readStoredTheme(storageKey: string): StoredThemeConfig | null {
+  if (typeof window === 'undefined') return null
+
+  try {
+    const raw = localStorage.getItem(storageKey)
+    if (!raw) return null
+    return JSON.parse(raw) as StoredThemeConfig
+  } catch {
+    return null
+  }
+}
+
+function resolveInitialThemeMode(
+  defaultMode: ThemeProviderProps['defaultMode'],
+  storageKey: string,
+): ThemeMode {
+  const storedTheme = readStoredTheme(storageKey)?.themeMode
+  if (storedTheme === 'light' || storedTheme === 'dark') {
+    return storedTheme
   }
 
-  return 'dark'
-}
-
-function convertToUnderlyingVariables(colorPalette: Record<string, string>): Record<string, string> {
-  return colorPalette
-}
-
-function invertPaletteForMode(cssVariables: Record<string, string>, mode: 'light' | 'dark'): Record<string, string> {
-  if (mode === 'dark') return cssVariables
-
-  const inverted: Record<string, string> = {}
-  const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
-  const shadeMap: Record<number, number> = {
-    50: 950, 100: 900, 200: 800, 300: 700, 400: 600, 500: 500,
-    600: 400, 700: 300, 800: 200, 900: 100, 950: 50,
+  if (defaultMode === 'light' || defaultMode === 'dark') {
+    return defaultMode
   }
 
-  Object.entries(cssVariables).forEach(([key, value]) => {
-    const match = key.match(/--(.+?)-(\d+)$/)
-    if (match) {
-      const [, role, shadeStr] = match
-      const shade = parseInt(shadeStr) as typeof shades[number]
-      const invertedShade = shadeMap[shade]
-      if (invertedShade !== undefined) {
-        const invertedKey = `--${role}-${invertedShade}`
-        inverted[key] = cssVariables[invertedKey] || value
-      }
-    }
-  })
-
-  return Object.keys(inverted).length > 0 ? inverted : cssVariables
+  return getSystemThemeMode()
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+function syncRootThemeMode(mode: ThemeMode): void {
+  if (typeof document === 'undefined') return
+
+  const root = document.documentElement
+  root.dataset.theme = mode
+  root.style.colorScheme = mode
+  root.classList.toggle('dark', mode === 'dark')
+  root.classList.toggle('light', mode === 'light')
+}
+
+function persistThemeConfig(
+  storageKey: string,
+  mode: ThemeMode,
+  cssVariables: Record<string, string>,
+): void {
+  if (typeof window === 'undefined') return
+
+  try {
+    const payload: StoredThemeConfig = { themeMode: mode }
+    if (Object.keys(cssVariables).length > 0) {
+      payload.cssVariables = cssVariables
+    }
+    localStorage.setItem(storageKey, JSON.stringify(payload))
+  } catch {
+    // Ignore storage failures. The DOM has already been updated.
+  }
+}
+
+function getThemeTokensForMode(
+  themes: ThemeProviderProps['themes'],
+  mode: ThemeMode,
+): Record<string, string> {
+  return normalizeThemeTokens(themes?.[mode] ?? {})
+}
+
+export function ThemeProvider({
+  children,
+  themes,
+  defaultMode = 'system',
+  storageKey = DEFAULT_STORAGE_KEY,
+}: ThemeProviderProps) {
   const [cssVariables, setCssVariables] = useState<Record<string, string>>({})
   const [isThemeInitialized, setIsThemeInitialized] = useState(false)
-  const [themeMode, setThemeModeState] = useState<'light' | 'dark'>('dark')
-  const [darkPalette, setDarkPalette] = useState<Record<string, string> | null>(null)
+  const [themeMode, setThemeModeState] = useState<ThemeMode>(() => resolveInitialThemeMode(defaultMode, storageKey))
+  const appliedTokensRef = useRef<Record<string, string>>({})
 
-  const setThemeMode = (mode: 'light' | 'dark') => {
-    // Update DOM immediately to prevent visual flashing
-    if (typeof window !== 'undefined') {
-      try {
-        document.documentElement.setAttribute('data-theme', mode)
-      } catch (e) {
-        console.warn('[ThemeProvider] Failed to set data-theme attribute:', e)
-      }
+  const applyMode = (mode: ThemeMode) => {
+    syncRootThemeMode(mode)
+
+    const nextTokens = getThemeTokensForMode(themes, mode)
+    if (Object.keys(nextTokens).length > 0) {
+      applyThemeTokens(nextTokens, appliedTokensRef.current)
+      appliedTokensRef.current = nextTokens
+      setCssVariables(nextTokens)
+      persistThemeConfig(storageKey, mode, nextTokens)
+    } else {
+      setCssVariables({})
+      persistThemeConfig(storageKey, mode, {})
     }
 
     setThemeModeState(mode)
-    if (typeof window === 'undefined') return
+  }
 
-    try {
-      let palette = darkPalette
-
-      if (!darkPalette) {
-        const { cssVariables: extracted } = extractThemeVariables('dark')
-        if (Object.keys(extracted).length > 0) {
-          palette = extracted
-          setDarkPalette(extracted)
-        }
-      }
-
-      if (palette && Object.keys(palette).length > 0) {
-        const adjusted = invertPaletteForMode(palette, mode)
-        const underlying = convertToUnderlyingVariables(adjusted)
-        applyThemeCSSVariables(underlying)
-        setCssVariables(adjusted)
-
-        try {
-          const stored: StoredThemeConfig = {
-            themeMode: mode,
-            cssVariables: adjusted,
-          }
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(stored))
-        } catch (e) {
-          console.warn('[ThemeProvider] Failed to persist theme:', e)
-        }
-      }
-    } catch (e) {
-      console.warn('[ThemeProvider] Failed to update theme mode:', e)
-    }
+  const setThemeMode = (mode: ThemeMode) => {
+    applyMode(mode)
   }
 
   const toggleThemeMode = () => {
-    setThemeMode(themeMode === 'dark' ? 'light' : 'dark')
+    applyMode(themeMode === 'dark' ? 'light' : 'dark')
   }
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    injectThemeScript(storageKey, defaultMode)
 
-    injectThemeScript()
+    const initialMode = resolveInitialThemeMode(defaultMode, storageKey)
+    const storedVariables = readStoredTheme(storageKey)?.cssVariables ?? {}
 
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY)
-      if (saved) {
-        try {
-          const data = JSON.parse(saved) as StoredThemeConfig
-          if (data && (data.themeMode === 'light' || data.themeMode === 'dark')) {
-            setThemeModeState(data.themeMode)
-            document.documentElement.setAttribute('data-theme', data.themeMode)
-            if (data.cssVariables && Object.keys(data.cssVariables).length > 0) {
-              setCssVariables(data.cssVariables)
-              setDarkPalette(data.cssVariables)
-              const underlying = convertToUnderlyingVariables(data.cssVariables)
-              applyThemeCSSVariables(underlying)
-            }
-          } else {
-            throw new Error('Invalid saved theme data')
-          }
-        } catch (parseError) {
-          console.warn('[ThemeProvider] Failed to parse saved theme:', parseError)
-          try {
-            localStorage.removeItem(STORAGE_KEY)
-          } catch (e) {
-            // Ignore removal errors
-          }
-          const { cssVariables: extracted } = extractThemeVariables('dark')
-          if (Object.keys(extracted).length > 0) {
-            setDarkPalette(extracted)
-            setCssVariables(extracted)
-            const underlying = convertToUnderlyingVariables(extracted)
-            applyThemeCSSVariables(underlying)
-          }
-          setThemeModeState('dark')
-          document.documentElement.setAttribute('data-theme', 'dark')
-        }
-      } else {
-        // No saved theme, detect device preference
-        const deviceTheme = getDeviceThemePreference()
-        const { cssVariables: extracted } = extractThemeVariables(deviceTheme)
-        if (Object.keys(extracted).length > 0) {
-          setDarkPalette(extracted)
-          setCssVariables(extracted)
-          const underlying = convertToUnderlyingVariables(extracted)
-          applyThemeCSSVariables(underlying)
-        }
-        setThemeModeState(deviceTheme)
-        document.documentElement.setAttribute('data-theme', deviceTheme)
-      }
-    } catch (e) {
-      console.warn('[ThemeProvider] Failed to initialize theme:', e)
-      const deviceTheme = getDeviceThemePreference()
-      setThemeModeState(deviceTheme)
-      document.documentElement.setAttribute('data-theme', deviceTheme)
-    } finally {
-      setIsThemeInitialized(true)
+    syncRootThemeMode(initialMode)
+
+    const nextTokens = Object.keys(getThemeTokensForMode(themes, initialMode)).length > 0
+      ? getThemeTokensForMode(themes, initialMode)
+      : storedVariables
+
+    if (Object.keys(nextTokens).length > 0) {
+      applyThemeTokens(nextTokens, appliedTokensRef.current)
+      appliedTokensRef.current = nextTokens
+      setCssVariables(nextTokens)
+      persistThemeConfig(storageKey, initialMode, nextTokens)
     }
-  }, [])
+
+    setThemeModeState(initialMode)
+    setIsThemeInitialized(true)
+  }, [defaultMode, storageKey, themes])
 
   const contextValue = useMemo(
     () => ({
@@ -226,17 +207,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useThemeVariables(): ThemeContextType {
   const context = useContext(ThemeContext)
-  if (context === undefined) {
-    console.warn(
-      '[useThemeVariables] Hook must be used within a ThemeProvider. Returning empty theme.'
-    )
-    return {
-      cssVariables: {},
-      isThemeInitialized: false,
-      themeMode: 'dark',
-      setThemeMode: () => { },
-      toggleThemeMode: () => { },
-    }
+  if (context) return context
+
+  return {
+    cssVariables: {},
+    isThemeInitialized: false,
+    themeMode: 'light',
+    setThemeMode: () => { },
+    toggleThemeMode: () => { },
   }
-  return context
 }
