@@ -63,7 +63,7 @@ export function buildFileMap(metadata: MetadataItem[]): Record<string, Omit<Meta
 
 function getDynamicSectionOrder(foundSections: string[], domain: Domain): string[] {
   const preferredOrder: Record<Domain, string[]> = {
-    docs: ['Getting Started', 'Customization', 'Agents & MCPs', 'Development', 'Architecture & Advanced'],
+    docs: ['Getting Started', 'Customization', 'Guides', 'Agents & MCPs', 'Development', 'Architecture & Advanced'],
     'agents-mcps': ['Getting Started', 'Concepts', 'Building Workflows', 'Reference', 'Technical Reference', 'AI Integration', 'Development'],
     cli: ['Getting Started', 'Advanced'],
     'design-system': ['Foundation', 'Systems', 'Guidelines'],
