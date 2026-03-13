@@ -41,15 +41,17 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
           <p className="text-foreground-400">{description}</p>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-24">
           {examples.map((example) => (
             <div key={example.id} id={example.id} className="scroll-mt-20 space-y-2">
-              <div>
+              <div className="mb-8">
                 <h2 className="text-base font-semibold text-foreground-100">{example.title}</h2>
                 <p className="text-sm text-foreground-400">{example.description}</p>
               </div>
-              <div className={`border border-background-700 relative p-24 flex rounded-lg ${example.previewLayout === "center" ? "justify-center items-center" : example.previewLayout === "start" ? "justify-start items-start" : ""}`}>
-                {example.preview}
+              <div className="w-full border border-background-700 rounded-sm">
+                <div className="flex justify-start mx-auto w-fit relative p-24">
+                  {example.preview}
+                </div>
               </div>
             </div>
           ))}

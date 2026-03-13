@@ -1,44 +1,133 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { TypographyPanel } from "@/features/theme/components/settings/typography-panel";
-import { useThemeConfiguration } from "@/features/theme/hooks/use-theme-configuration";
-import { getFontConfig, getDefaultSansFont, getDefaultMonoFont } from "@/features/theme/constants/font-config";
-import { generateTypeScaleFromRatio } from "@/features/theme/config/typography/generator";
-import { generateLetterSpacingCSS } from "@/features/theme/config/typography/generator";
+import {
+  getFontConfig,
+  getDefaultSansFont,
+  getDefaultMonoFont,
+  type FontConfig,
+  type FontKey,
+  SANS_FONTS,
+} from "@/features/theme/constants/font-config";
+import {
+  generateLineHeightCSS,
+  generateLetterSpacingCSS,
+  generateTypeScaleFromRatio,
+} from "@/features/theme/config/typography/generator";
+import {
+  DEFAULT_BODY_LINE_HEIGHT,
+  DEFAULT_HEADER_LINE_HEIGHT,
+  DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+  type TypographyConfig,
+} from "@/features/theme/lib/typography-config";
+import { Button, Divider } from "ui-lab-components";
 
 const defaultSansFont = getDefaultSansFont();
 const defaultMonoFont = getDefaultMonoFont();
 
-const KARLA_FAMILY = '"Karla Variable", system-ui, sans-serif';
+const KARLA_FAMILY = defaultSansFont.family;
 
-// Precompute Karla's default CSS variable values once.
-// Applied as inline style on the ghost container so sliders never affect it.
-const KARLA_VARS = (() => {
-  const vars: Record<string, string> = { fontFamily: KARLA_FAMILY };
+const FONT_WEIGHT_DEFS = [
+  { name: "thin", value: 100 },
+  { name: "extralight", value: 200 },
+  { name: "light", value: 300 },
+  { name: "normal", value: 400 },
+  { name: "medium", value: 500 },
+  { name: "semibold", value: 600 },
+  { name: "bold", value: 700 },
+  { name: "extrabold", value: 800 },
+  { name: "black", value: 900 },
+] as const;
 
-  // Karla defaults: ratio=1.2, fontSizeScale=1
-  generateTypeScaleFromRatio(1.2, 1).forEach(({ name, cssValue }) => {
+type PreviewTypographyState = TypographyConfig;
+type SansTypographyState = Record<string, PreviewTypographyState>;
+
+function clampFontWeight(value: number) {
+  return Math.max(100, Math.min(900, Math.round(value)));
+}
+
+function getFontPreviewState(fontConfig?: FontConfig): PreviewTypographyState {
+  const metrics = fontConfig?.metrics;
+
+  return {
+    headerTypeSizeRatio: metrics?.typeSizeRatio ?? 1.2,
+    headerFontSizeScale: metrics?.fontSizeScale ?? 1,
+    headerFontWeightScale: metrics?.headerFontWeightScale ?? metrics?.fontWeightScale ?? 1,
+    headerLetterSpacingScale: metrics?.headerLetterSpacingScale ?? 0,
+    headerLineHeight: metrics?.headerLineHeight ?? DEFAULT_HEADER_LINE_HEIGHT,
+    bodyTypeSizeRatio: metrics?.bodyTypeSizeRatio ?? metrics?.typeSizeRatio ?? 1.2,
+    bodyFontSizeScale: metrics?.bodyFontSizeScale ?? metrics?.fontSizeScale ?? 1,
+    bodyFontWeightScale: metrics?.bodyFontWeightScale ?? metrics?.fontWeightScale ?? 1,
+    bodyLetterSpacingScale: metrics?.bodyLetterSpacingScale ?? 1,
+    bodyLineHeight: metrics?.bodyLineHeight ?? DEFAULT_BODY_LINE_HEIGHT,
+    globalMinFontSizePx: DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
+  };
+}
+
+function buildInitialSansTypographyState(): SansTypographyState {
+  return Object.fromEntries(
+    SANS_FONTS.map((font) => [font.name, getFontPreviewState(font)]),
+  );
+}
+
+function buildPreviewVars(
+  family: string,
+  typography: PreviewTypographyState,
+): CSSProperties {
+  const vars: Record<string, string> = { fontFamily: family };
+
+  generateTypeScaleFromRatio(
+    typography.bodyTypeSizeRatio,
+    typography.bodyFontSizeScale,
+    1,
+    { globalMinFontSizePx: typography.globalMinFontSizePx },
+  ).forEach(({ name, cssValue }) => {
     vars[`--text-${name}`] = cssValue;
+  });
+
+  generateTypeScaleFromRatio(
+    typography.headerTypeSizeRatio,
+    typography.headerFontSizeScale,
+    1,
+    { globalMinFontSizePx: typography.globalMinFontSizePx },
+  ).forEach(({ name, cssValue }) => {
     vars[`--header-text-${name}`] = cssValue;
   });
 
-  // Letter spacing: bodyScale=1, headerScale=0 (Karla defaults)
-  Object.assign(vars, generateLetterSpacingCSS(1, 0));
+  Object.assign(
+    vars,
+    generateLineHeightCSS(
+      typography.headerLineHeight,
+      typography.bodyLineHeight,
+    ),
+  );
 
-  // Font weights at scale=1 (no adjustment)
-  const weightNames = ["thin","extralight","light","normal","medium","semibold","bold","extrabold","black"];
-  const weightValues = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-  weightNames.forEach((name, i) => {
-    vars[`--font-weight-header-${name}`] = String(weightValues[i]);
-    vars[`--font-weight-body-${name}`] = String(weightValues[i]);
+  Object.assign(
+    vars,
+    generateLetterSpacingCSS(
+      typography.bodyLetterSpacingScale,
+      typography.headerLetterSpacingScale,
+    ),
+  );
+
+  FONT_WEIGHT_DEFS.forEach(({ name, value }) => {
+    const headerWeight = clampFontWeight(value * typography.headerFontWeightScale);
+    const bodyWeight = clampFontWeight(value * typography.bodyFontWeightScale);
+
+    vars[`--font-weight-${name}`] = String(headerWeight);
+    vars[`--font-weight-header-${name}`] = String(headerWeight);
+    vars[`--font-weight-body-${name}`] = String(bodyWeight);
   });
 
-  return vars as React.CSSProperties;
-})();
+  return vars as CSSProperties;
+}
+
+const KARLA_VARS = buildPreviewVars(KARLA_FAMILY, getFontPreviewState(defaultSansFont));
 
 function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
   const [copied, setCopied] = useState(false);
+
   return (
     <button
       onClick={() => {
@@ -46,7 +135,7 @@ function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) 
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }}
-      className="text-xs px-3 py-1.5 bg-background-800 hover:bg-background-700 text-foreground-300 rounded border border-background-600 transition-colors"
+      className="rounded border border-background-600 bg-background-800 px-3 py-1.5 text-xs text-foreground-300 transition-colors hover:bg-background-700"
     >
       {copied ? "Copied!" : label}
     </button>
@@ -62,8 +151,10 @@ function SansPreviewContent() {
       <h4 className="text-header-md font-bold text-foreground-50">Heading 4 — Pack my box with five</h4>
       <h5 className="text-header-md font-bold text-foreground-50">Heading 5 — dozen liquor jugs</h5>
       <h6 className="text-header-sm font-bold text-foreground-50">Heading 6 — How vexingly quick</h6>
-      <p className="text-foreground-100 leading-relaxed">
-        Body text. The five boxing wizards jump quickly. Sphinx of black quartz, judge my vow. How vexingly quick daft zebras jump! The job requires extra pluck and zeal from every young wage earner.
+      <p className="text-foreground-100">
+        Body text. The five boxing wizards jump quickly. Sphinx of black quartz, judge my vow.
+        How vexingly quick daft zebras jump! The job requires extra pluck and zeal from every
+        young wage earner.
       </p>
       <p className="text-sm text-foreground-200">
         Small text — 0123456789 !@#$%^&*() — captions, helper text, and secondary information.
@@ -72,55 +163,107 @@ function SansPreviewContent() {
   );
 }
 
+function PreviewSurface({
+  activeStyle,
+  children,
+  reference,
+  referenceStyle,
+}: {
+  activeStyle: CSSProperties;
+  children: ReactNode;
+  reference?: ReactNode;
+  referenceStyle?: CSSProperties;
+}) {
+  return (
+    <div className="relative">
+      {reference && referenceStyle ? (
+        <div
+          className="pointer-events-none absolute inset-0 select-none"
+          style={{ ...referenceStyle, opacity: 0.2 }}
+          aria-hidden
+        >
+          {reference}
+        </div>
+      ) : null}
+      <div style={activeStyle}>{children}</div>
+    </div>
+  );
+}
+
 export default function TypographyDevPage() {
-  const [selectedSansFont, setSelectedSansFont] = useState(defaultSansFont.name);
-  const [selectedMonoFont, setSelectedMonoFont] = useState(defaultMonoFont.name);
-  const [headerTypeSizeRatio, setHeaderTypeSizeRatio] = useState(1.2);
-  const [headerFontSizeScale, setHeaderFontSizeScale] = useState(1);
-  const [headerFontWeightScale, setHeaderFontWeightScale] = useState(1);
-  const [headerLetterSpacingScale, setHeaderLetterSpacingScale] = useState(0);
-  const [bodyTypeSizeRatio, setBodyTypeSizeRatio] = useState(1.2);
-  const [bodyFontSizeScale, setBodyFontSizeScale] = useState(1);
-  const [bodyFontWeightScale, setBodyFontWeightScale] = useState(1);
-  const [bodyLetterSpacingScale, setBodyLetterSpacingScale] = useState(1);
+  const [selectedSansFont, setSelectedSansFont] = useState<string>(defaultSansFont.name);
+  const [selectedMonoFont, setSelectedMonoFont] = useState<string>(defaultMonoFont.name);
+  const [sansTypographyByFont, setSansTypographyByFont] = useState<SansTypographyState>(
+    buildInitialSansTypographyState,
+  );
+
+  const activeSansTypography =
+    sansTypographyByFont[selectedSansFont] ?? getFontPreviewState(defaultSansFont);
+  const {
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
+    headerLetterSpacingScale,
+    headerLineHeight,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
+    bodyFontWeightScale,
+    bodyLetterSpacingScale,
+    bodyLineHeight,
+    globalMinFontSizePx,
+  } = activeSansTypography;
+
+  const updateSelectedSansTypography = (
+    updates:
+      | Partial<PreviewTypographyState>
+      | ((current: PreviewTypographyState) => PreviewTypographyState),
+  ) => {
+    setSansTypographyByFont((current) => {
+      const currentTypography =
+        current[selectedSansFont] ?? getFontPreviewState(defaultSansFont);
+      const nextTypography =
+        typeof updates === "function"
+          ? updates(currentTypography)
+          : { ...currentTypography, ...updates };
+
+      return {
+        ...current,
+        [selectedSansFont]: nextTypography,
+      };
+    });
+  };
 
   const isKarlaSelected = selectedSansFont === "Karla";
 
-  useEffect(() => {
-    const sansFontConfig = getFontConfig(selectedSansFont as any, "sans");
-    const monoFontConfig = getFontConfig(selectedMonoFont as any, "mono");
-    if (sansFontConfig) document.documentElement.style.setProperty("--font-sans", sansFontConfig.family);
-    if (monoFontConfig) document.documentElement.style.setProperty("--font-mono", monoFontConfig.family);
-  }, [selectedSansFont, selectedMonoFont]);
-
-  useThemeConfiguration({
-    typography: {
-      headerTypeSizeRatio,
-      headerFontSizeScale,
-      headerFontWeightScale,
-      headerLetterSpacingScale,
-      bodyTypeSizeRatio,
-      bodyFontSizeScale,
-      bodyFontWeightScale,
-      bodyLetterSpacingScale,
-    },
-    layout: { radius: 0.5, borderWidth: 1, spacingScale: 1 },
-    isEnabled: true,
-  });
-
-  // Build FontMetrics object matching font-config.ts shape; omit optional fields at defaults
   const fontMetrics: Record<string, number> = {
     fontSizeScale: headerFontSizeScale,
     fontWeightScale: headerFontWeightScale,
     typeSizeRatio: headerTypeSizeRatio,
   };
+
   if (headerLetterSpacingScale !== 0) fontMetrics.headerLetterSpacingScale = headerLetterSpacingScale;
+  if (headerLineHeight !== DEFAULT_HEADER_LINE_HEIGHT) fontMetrics.headerLineHeight = headerLineHeight;
   if (bodyLetterSpacingScale !== 1) fontMetrics.bodyLetterSpacingScale = bodyLetterSpacingScale;
   if (bodyFontWeightScale !== 1) fontMetrics.bodyFontWeightScale = bodyFontWeightScale;
   if (bodyFontSizeScale !== 1) fontMetrics.bodyFontSizeScale = bodyFontSizeScale;
+  if (bodyLineHeight !== DEFAULT_BODY_LINE_HEIGHT) fontMetrics.bodyLineHeight = bodyLineHeight;
   if (bodyTypeSizeRatio !== headerTypeSizeRatio) fontMetrics.bodyTypeSizeRatio = bodyTypeSizeRatio;
 
-  const sansFontConfig = getFontConfig(selectedSansFont as any, "sans");
+  const sansFontConfig = getFontConfig(selectedSansFont as never, "sans");
+  const monoFontConfig = getFontConfig(selectedMonoFont as never, "mono");
+  const activeSansPreviewStyle = buildPreviewVars(sansFontConfig?.family ?? KARLA_FAMILY, {
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
+    headerLetterSpacingScale,
+    headerLineHeight,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
+    bodyFontWeightScale,
+    bodyLetterSpacingScale,
+    bodyLineHeight,
+    globalMinFontSizePx,
+  });
   const configSnippet = `{
   name: "${selectedSansFont}",
   family: '${sansFontConfig?.family ?? "..."}',
@@ -129,67 +272,88 @@ export default function TypographyDevPage() {
   metrics: ${JSON.stringify(fontMetrics, null, 4).replace(/\n/g, "\n  ")},
 }`;
 
+  const applySansFontPreset = (fontName: string) => {
+    setSelectedSansFont(fontName);
+    setSansTypographyByFont((current) => {
+      if (current[fontName]) {
+        return current;
+      }
+
+      const nextFontConfig = getFontConfig(fontName as FontKey, "sans");
+
+      return {
+        ...current,
+        [fontName]: getFontPreviewState(nextFontConfig),
+      };
+    });
+  };
+
+  const handleResetAll = () => {
+    setSelectedSansFont(defaultSansFont.name);
+    setSelectedMonoFont(defaultMonoFont.name);
+    setSansTypographyByFont(buildInitialSansTypographyState());
+  };
+
   return (
     <div className="min-h-screen bg-background-950">
-      <div className="p-8 border-b border-background-700">
-        <div className="max-w-7xl mx-auto flex items-start justify-between gap-6">
+      <div className="p-8">
+        <div className="mx-auto mb-8 flex max-w-7xl items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground-50 mb-2">Typography Fine-Tuning</h1>
-            <p className="text-foreground-400">
-              Karla reference (20% opacity) is fixed to its default config values. Adjust sliders to match the active font on top.
+            <h1 className="text-lg font-semibold text-foreground-100">Typography Playground</h1>
+            <p className="mt-1 text-sm text-foreground-500">
+              Reset restores the page to the defaults defined in font-config.ts.
             </p>
           </div>
-          <CopyButton text={configSnippet} label="Copy Config" />
+          <Button variant="outline" size="sm" onPress={handleResetAll}>
+            Reset all to defaults
+          </Button>
         </div>
-      </div>
-
-      <div className="p-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-
-            {/* Sans Font Preview */}
-            <div className="bg-background-900 border border-background-700 rounded-lg p-8 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-foreground-400 uppercase tracking-wide">
-                  Sans — {selectedSansFont}
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="space-y-6 lg:col-span-2">
+            <div className="space-y-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <div className="text-sm font-medium text-foreground-400">
+                    Sans — {selectedSansFont}
+                  </div>
+                  <p className="mt-1 text-xs text-foreground-500">
+                    Type specimen keeps the Karla ghost overlay.
+                  </p>
                 </div>
                 {!isKarlaSelected && (
                   <div className="flex items-center gap-4 text-xs text-foreground-500">
                     <span className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-sm bg-foreground-300 opacity-20 inline-block" />
+                      <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground-300 opacity-20" />
                       Karla default
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-sm bg-foreground-100 inline-block" />
+                      <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground-100" />
                       {selectedSansFont} (active)
                     </span>
                   </div>
                 )}
               </div>
 
-              <div className="relative">
-                {/* Karla reference layer — CSS vars pinned to Karla defaults, never affected by sliders */}
-                {!isKarlaSelected && (
-                  <div
-                    className="absolute inset-0 pointer-events-none select-none"
-                    style={{ ...KARLA_VARS, opacity: 0.2 }}
-                    aria-hidden
-                  >
-                    <SansPreviewContent />
-                  </div>
-                )}
-                {/* Active font layer — uses global CSS vars from sliders */}
+              <PreviewSurface
+                activeStyle={activeSansPreviewStyle}
+                reference={!isKarlaSelected ? <SansPreviewContent /> : undefined}
+                referenceStyle={!isKarlaSelected ? KARLA_VARS : undefined}
+              >
                 <SansPreviewContent />
-              </div>
+              </PreviewSurface>
             </div>
 
-            {/* Mono Font Preview */}
-            <div className="bg-background-900 border border-background-700 rounded-lg p-8 space-y-4">
-              <div className="text-sm font-medium text-foreground-400 uppercase tracking-wide">
+            <Divider size="sm" variant="dashed" className="my-12" />
+
+            <div className="space-y-4">
+              <div className="text-sm font-medium text-foreground-400">
                 Mono — {selectedMonoFont}
               </div>
-              <pre className="font-mono text-base bg-background-800 p-4 rounded border border-background-700 text-foreground-100 overflow-x-auto">
-{`const greeting = "Hello, World!";
+              <pre
+                className="overflow-x-auto rounded border border-background-700 bg-background-800 p-4 font-mono text-base text-foreground-100"
+                style={{ fontFamily: monoFontConfig?.family ?? defaultMonoFont.family }}
+              >
+                {`const greeting = "Hello, World!";
 console.log(greeting);
 
 function example() {
@@ -199,54 +363,69 @@ function example() {
   };
 }`}
               </pre>
-              <code className="font-mono text-sm bg-background-800 px-2 py-1 rounded text-foreground-100">
+              <code
+                className="rounded bg-background-800 px-2 py-1 font-mono text-sm text-foreground-100"
+                style={{ fontFamily: monoFontConfig?.family ?? defaultMonoFont.family }}
+              >
                 const variable = "inline code example";
               </code>
             </div>
 
-            {/* Weight Variants */}
-            <div className="bg-background-900 border border-background-700 rounded-lg p-8 space-y-4">
-              <div className="text-sm font-medium text-foreground-400 uppercase tracking-wide">
-                Weight Variants
-              </div>
+            <Divider size="sm" variant="dashed" className="my-12" />
+
+            <div className="space-y-4">
+              <div className="text-sm font-medium text-foreground-400">Weight Variants</div>
               <div className="space-y-3">
-                {[["font-bold", "Bold — 700"], ["font-semibold", "Semibold — 600"], ["font-medium", "Medium — 500"], ["font-normal", "Regular — 400"]] .map(([cls, label]) => (
+                {[
+                  ["font-bold", "Bold — 700"],
+                  ["font-semibold", "Semibold — 600"],
+                  ["font-medium", "Medium — 500"],
+                  ["font-normal", "Regular — 400"],
+                ].map(([cls, label]) => (
                   <div key={cls} className="relative">
                     {!isKarlaSelected && (
-                      <div className="absolute inset-0 pointer-events-none select-none opacity-20" style={KARLA_VARS} aria-hidden>
+                      <div
+                        className="absolute inset-0 pointer-events-none select-none opacity-20"
+                        style={KARLA_VARS}
+                        aria-hidden
+                      >
                         <div className={`${cls} text-foreground-200`}>{label}</div>
-                        <p className="text-foreground-300">The quick brown fox jumps over the lazy dog.</p>
+                        <p className="text-foreground-300">
+                          The quick brown fox jumps over the lazy dog.
+                        </p>
                       </div>
                     )}
-                    <div className={`${cls} text-foreground-200`}>{label}</div>
-                    <p className="text-foreground-300">The quick brown fox jumps over the lazy dog.</p>
+                    <div style={activeSansPreviewStyle}>
+                      <div className={`${cls} text-foreground-200`}>{label}</div>
+                      <p className="text-foreground-300">
+                        The quick brown fox jumps over the lazy dog.
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Config Export */}
-            <div className="bg-background-900 border border-background-700 rounded-lg p-8 space-y-4">
+            <Divider size="sm" variant="dashed" className="my-12" />
+
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-foreground-400 uppercase tracking-wide">
-                  Font Config Export
-                </div>
+                <div className="text-sm font-medium text-foreground-400">Font Config Export</div>
                 <CopyButton text={configSnippet} label="Copy to font-config.ts" />
               </div>
               <p className="text-xs text-foreground-500">
                 Paste into <code className="text-foreground-300">SANS_FONTS</code> in{" "}
-                <code className="text-foreground-300">font-config.ts</code>. Optional fields omitted at defaults.
+                <code className="text-foreground-300">font-config.ts</code>. Optional fields
+                omitted at defaults.
               </p>
-              <pre className="text-xs bg-background-800 p-4 rounded border border-background-700 text-foreground-100 overflow-x-auto leading-relaxed">
+              <pre className="overflow-x-auto rounded border border-background-700 bg-background-800 p-4 text-xs text-foreground-100">
                 {configSnippet}
               </pre>
             </div>
-
           </div>
 
-          {/* Controls Column */}
-          <div className="bg-background-900 border border-background-700 rounded-lg p-6 sticky top-8 h-fit">
-            <h2 className="text-lg font-semibold text-foreground-100 mb-4">Controls</h2>
+          <div className="sticky top-8 h-fit">
+            <h2 className="mb-4 text-lg font-semibold text-foreground-100">Controls</h2>
             <TypographyPanel
               selectedSansFont={selectedSansFont}
               selectedMonoFont={selectedMonoFont}
@@ -254,20 +433,48 @@ function example() {
               headerFontSizeScale={headerFontSizeScale}
               headerFontWeightScale={headerFontWeightScale}
               headerLetterSpacingScale={headerLetterSpacingScale}
+              headerLineHeight={headerLineHeight}
               bodyTypeSizeRatio={bodyTypeSizeRatio}
               bodyFontSizeScale={bodyFontSizeScale}
               bodyFontWeightScale={bodyFontWeightScale}
               bodyLetterSpacingScale={bodyLetterSpacingScale}
-              onSansFontChange={(fontName) => setSelectedSansFont(fontName as any)}
-              onMonoFontChange={(fontName) => setSelectedMonoFont(fontName as any)}
-              onHeaderTypeSizeRatioChange={setHeaderTypeSizeRatio}
-              onHeaderFontSizeScaleChange={setHeaderFontSizeScale}
-              onHeaderFontWeightScaleChange={setHeaderFontWeightScale}
-              onHeaderLetterSpacingChange={setHeaderLetterSpacingScale}
-              onBodyTypeSizeRatioChange={setBodyTypeSizeRatio}
-              onBodyFontSizeScaleChange={setBodyFontSizeScale}
-              onBodyFontWeightScaleChange={setBodyFontWeightScale}
-              onBodyLetterSpacingChange={setBodyLetterSpacingScale}
+              bodyLineHeight={bodyLineHeight}
+              globalMinFontSizePx={globalMinFontSizePx}
+              onSansFontChange={applySansFontPreset}
+              onMonoFontChange={(fontName) => setSelectedMonoFont(fontName as never)}
+              onGlobalMinFontSizePxChange={(value) =>
+                updateSelectedSansTypography({ globalMinFontSizePx: value })
+              }
+              onHeaderTypeSizeRatioChange={(value) =>
+                updateSelectedSansTypography({ headerTypeSizeRatio: value })
+              }
+              onHeaderFontSizeScaleChange={(value) =>
+                updateSelectedSansTypography({ headerFontSizeScale: value })
+              }
+              onHeaderFontWeightScaleChange={(value) =>
+                updateSelectedSansTypography({ headerFontWeightScale: value })
+              }
+              onHeaderLetterSpacingChange={(value) =>
+                updateSelectedSansTypography({ headerLetterSpacingScale: value })
+              }
+              onHeaderLineHeightChange={(value) =>
+                updateSelectedSansTypography({ headerLineHeight: value })
+              }
+              onBodyTypeSizeRatioChange={(value) =>
+                updateSelectedSansTypography({ bodyTypeSizeRatio: value })
+              }
+              onBodyFontSizeScaleChange={(value) =>
+                updateSelectedSansTypography({ bodyFontSizeScale: value })
+              }
+              onBodyFontWeightScaleChange={(value) =>
+                updateSelectedSansTypography({ bodyFontWeightScale: value })
+              }
+              onBodyLetterSpacingChange={(value) =>
+                updateSelectedSansTypography({ bodyLetterSpacingScale: value })
+              }
+              onBodyLineHeightChange={(value) =>
+                updateSelectedSansTypography({ bodyLineHeight: value })
+              }
             />
           </div>
         </div>
