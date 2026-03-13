@@ -26,6 +26,9 @@
   font-style: italic;
 }
 
+@import "./theme.css";
+/* @import "ui-lab-components/styles.css"; */
+
 @theme {
   --font-sans: "Karla", system-ui, sans-serif;
   --font-mono: "Ioskeley Mono", monospace;
@@ -51,6 +54,9 @@
   --header-text-3xl: clamp(1.763rem, 3.73vw, 2.385rem);
   --header-text-4xl: clamp(2.115rem, 4.48vw, 2.862rem);
   --header-text-5xl: clamp(2.538rem, 5.37vw, 3.434rem);
+
+  --leading-header: 1.5;
+  --leading-body: 1.5;
 
   --font-weight-thin: 100;
   --font-weight-extralight: 200;
@@ -107,53 +113,6 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
 
-  --color-background-500: var(--background-500, oklch(50% 0 0));
-  --color-background-600: var(--background-600, oklch(32% 0 0));
-  --color-background-700: var(--background-700, oklch(26% 0 0));
-  --color-background-800: var(--background-800, oklch(23% 0 0));
-  --color-background-900: var(--background-900, oklch(21% 0 0));
-  --color-background-950: var(--background-950, oklch(18% 0 0));
-  --color-foreground-50: var(--foreground-50, oklch(98% 0.000 0.0));
-  --color-foreground-100: var(--foreground-100, oklch(95% 0.000 0.0));
-  --color-foreground-200: var(--foreground-200, oklch(90% 0.000 0.0));
-  --color-foreground-300: var(--foreground-300, oklch(84% 0.000 0.0));
-  --color-foreground-400: var(--foreground-400, oklch(80% 0.000 0.0));
-  --color-accent-50: var(--accent-50, oklch(99.0% 0.000 0.0));
-  --color-accent-100: var(--accent-100, oklch(97.0% 0.000 0.0));
-  --color-accent-200: var(--accent-200, oklch(91.0% 0.000 0.0));
-  --color-accent-300: var(--accent-300, oklch(72.0% 0.000 0.0));
-  --color-accent-400: var(--accent-400, oklch(58.0% 0.000 0.0));
-  --color-accent-500: var(--accent-500, oklch(32.0% 0.000 0.0));
-  --color-accent-600: var(--accent-600, oklch(28.0% 0.000 0.0));
-  --color-success-50: var(--success-50, oklch(16.0% 0.000 142.0));
-  --color-success-100: var(--success-100, oklch(29.0% 0.016 142.0));
-  --color-success-200: var(--success-200, oklch(31.0% 0.032 142.0));
-  --color-success-300: var(--success-300, oklch(42.0% 0.056 142.0));
-  --color-success-400: var(--success-400, oklch(55.0% 0.080 142.0));
-  --color-success-500: var(--success-500, oklch(60.0% 0.112 142.0));
-  --color-success-600: var(--success-600, oklch(80.0% 0.144 142.0));
-  --color-danger-50: var(--danger-50, oklch(16.0% 0.000 25.0));
-  --color-danger-100: var(--danger-100, oklch(29.0% 0.015 25.0));
-  --color-danger-200: var(--danger-200, oklch(31.0% 0.030 25.0));
-  --color-danger-300: var(--danger-300, oklch(42.0% 0.053 25.0));
-  --color-danger-400: var(--danger-400, oklch(55.0% 0.075 25.0));
-  --color-danger-500: var(--danger-500, oklch(60.0% 0.105 25.0));
-  --color-danger-600: var(--danger-600, oklch(80.0% 0.135 25.0));
-  --color-warning-50: var(--warning-50, oklch(16.0% 0.000 65.0));
-  --color-warning-100: var(--warning-100, oklch(29.0% 0.015 65.0));
-  --color-warning-200: var(--warning-200, oklch(31.0% 0.030 65.0));
-  --color-warning-300: var(--warning-300, oklch(42.0% 0.053 65.0));
-  --color-warning-400: var(--warning-400, oklch(55.0% 0.075 65.0));
-  --color-warning-500: var(--warning-500, oklch(60.0% 0.105 65.0));
-  --color-warning-600: var(--warning-600, oklch(80.0% 0.135 65.0));
-  --color-info-50: var(--info-50, oklch(16.0% 0.000 255.0));
-  --color-info-100: var(--info-100, oklch(29.0% 0.015 255.0));
-  --color-info-200: var(--info-200, oklch(31.0% 0.030 255.0));
-  --color-info-300: var(--info-300, oklch(42.0% 0.053 255.0));
-  --color-info-400: var(--info-400, oklch(55.0% 0.075 255.0));
-  --color-info-500: var(--info-500, oklch(60.0% 0.105 255.0));
-  --color-info-600: var(--info-600, oklch(80.0% 0.135 255.0));
-
   /* Header typography scale factors */
   --header-type-size-ratio: 1.125;
   --header-font-size-scale: 1;
@@ -191,6 +150,7 @@
   h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.6rem 0 ;
     font-weight: var(--font-weight-header-semibold);
+    line-height: var(--leading-header);
   }
 
   h1 {
@@ -238,6 +198,7 @@
   p {
     font-size: var(--text-md);
     letter-spacing: var(--letter-spacing-md);
+    line-height: var(--leading-body);
     font-weight: var(--font-weight-body-medium);
     max-width: 80ch;
     margin: 0 0 0.4rem 0;
@@ -420,6 +381,7 @@ html.theme-transition *::before,
 html.theme-transition *::after {
   transition: none;
 }
+
 
 /* Code and Pre Styles */
 pre {
