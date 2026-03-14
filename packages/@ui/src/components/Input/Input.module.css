@@ -2,16 +2,9 @@
 
 @layer components {
   .input {
-    --background: var(--background-950);
-    --foreground: var(--foreground-50);
-    --placeholder: var(--foreground-400);
-    --border: var(--background-700);
-    --background-hover: var(--background-700);
-    --border-hover: var(--background-600);
-    --ring-color: var(--accent-500);
+    --disabled-opacity: 0.5;
 
-    width: 100%;
-    display: block;
+    @apply block w-full px-3 py-2;
     font-family: inherit;
     font-size: var(--text-xs);
     line-height: var(--leading-snug);
@@ -21,7 +14,6 @@
     border-radius: var(--radius-sm);
     outline: none;
     box-sizing: border-box;
-    @apply px-3 py-2;
     transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop), background-color 150ms var(--ease-snappy-pop);
 
     &::placeholder {
@@ -30,35 +22,31 @@
 
     &[data-active] {
       border-color: var(--ring-color);
-      box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring-color) 20%, transparent);
+      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
     }
 
     &[data-focus-visible] {
       @apply ring-0;
       border-color: var(--ring-color);
-      /* box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 20%, transparent); */
+      /* box-shadow: 0 0 0 3px mix(var(--ring-color) 20%, transparent); */
     }
 
     &[data-disabled] {
-      background-color: var(--background-900);
-      color: var(--foreground-400);
+      background-color: var(--disabled-background);
+      color: var(--disabled-foreground);
       cursor: not-allowed;
       opacity: 0.6;
     }
 
     &[data-error] {
-      --border: var(--danger-600);
-      --ring-color: var(--danger-600);
-      border-color: var(--danger-600);
-
       &[data-active] {
-        border-color: var(--danger-600);
-        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);
+        border-color: var(--ring-color);
+        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
       }
 
       &[data-focus-visible] {
-        border-color: var(--danger-600);
-        box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger-600) 20%, transparent);
+        border-color: var(--ring-color);
+        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
       }
     }
 
@@ -78,84 +66,51 @@
     }
   }
 
-  .input[data-variant="ghost"] {
-    --background: transparent;
-    --border: transparent;
-    --background-hover: transparent;
-    --border-hover: transparent;
-
-    &[data-focus-visible] {
-      box-shadow: none;
-    }
-  }
-
   .icon-wrapper {
-    position: absolute;
-    top: 50%;
-    display: flex;
-    align-items: center;
-    color: var(--foreground-400);
+    @apply absolute top-1/2 z-10 flex -translate-y-1/2 items-center;
+    color: var(--icon-color);
     pointer-events: none;
-    transform: translateY(-50%);
-    z-index: 10;
   }
 
-  .prefix-icon {
-    left: 0.60rem;
-  }
+  .prefix-icon { left: 0.60rem; }
 
-  .suffix-icon {
-    right: 1.00rem;
-  }
+  .suffix-icon { right: 1.00rem; }
 
   .container {
-    position: relative;
-    width: 100%;
+    @apply relative w-full;
   }
 
   .number-controls {
-    @apply w-6;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
+    @apply absolute inset-y-0 right-0 z-10 flex w-6 flex-col;
     pointer-events: auto;
-    z-index: 10;
   }
 
-  .numberControls.disabled {
-    opacity: 0.5;
+  .number-controls.disabled {
+    opacity: var(--disabled-opacity);
     cursor: not-allowed;
   }
 
   .spin-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex w-full flex-1 items-center justify-center p-0 cursor-pointer;
     flex: 1;
-    width: 100%;
-    padding: 0;
     background-color: transparent;
     border: none;
-    color: var(--foreground-400);
-    cursor: pointer;
+    color: var(--spin-color);
     transition: color 150ms ease-out, background-color 150ms ease-out;
 
-&:hover:not(:disabled) {
-      background-color: var(--background-800);
-      color: var(--foreground-200);
+    &:hover:not(:disabled) {
+      background-color: var(--spin-hover-background);
+      color: var(--spin-hover-color);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--background-700);
-      color: var(--accent-500);
+      background-color: var(--spin-active-background);
+      color: var(--spin-active-color);
     }
 
     &:disabled {
       cursor: not-allowed;
-      opacity: 0.5;
+      opacity: var(--disabled-opacity);
     }
   }
 }

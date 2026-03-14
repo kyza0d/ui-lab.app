@@ -5,7 +5,7 @@ declare const styles: {
   header: string;
   title: string;
   spacer: string;
-  closeButton: string;
+  close: string;
   closeIcon: string;
   content: string;
   footer: string;

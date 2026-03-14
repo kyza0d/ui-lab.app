@@ -2,48 +2,41 @@
 
 @layer components {
   .trigger {
-    display: inline-block;
+    @apply inline-block;
   }
 
   .root {
-    position: absolute;
+    @apply absolute;
     pointer-events: none;
     z-index: 50;
   }
 
   .content {
+    --frame-fill: var(--tooltip-fill);
+    --frame-stroke-color: var(--tooltip-border-color);
     opacity: 0;
-    transform: scale(0.95);
     transition: opacity 0.15s ease-out, transform 0.15s ease-out;
-    pointer-events: none;
   }
 
   .content[data-visible="true"] {
     opacity: 1;
-    transform: scale(1);
     pointer-events: auto;
   }
 
-  .content[data-instant] {
-    transition: none;
-  }
-
+  .content[data-instant],
   [data-scrolling] .content {
     transition: none;
   }
 
-  .content-frame {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.5rem;
-    color: var(--foreground-200);
+  .frame {
+    @apply flex items-center gap-1.5 px-2 py-1;
+    color: var(--foreground);
     font-weight: var(--font-weight-medium);
     font-size: var(--text-xs);
-    white-space: nowrap;
+    @apply whitespace-nowrap;
   }
 
-  .content-frame[data-hint] {
+  .frame[data-hint] {
     @apply pr-1;
   }
 }

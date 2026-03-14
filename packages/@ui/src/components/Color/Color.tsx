@@ -279,7 +279,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.color, className, resolved.root)}
+        className={cn('color', styles.color, className, resolved.root)}
         data-size={size}
         data-disabled={disabled || undefined}
         {...props}

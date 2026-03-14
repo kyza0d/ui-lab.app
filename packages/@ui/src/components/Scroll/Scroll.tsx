@@ -425,7 +425,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       return (
         <div
           ref={ref}
-          className={cn(css.root, resolved.root, className)}
+          className={cn('scroll', css.root, resolved.root, className)}
           style={{
             ...(direction === "horizontal"
               ? { width: "100%", maxWidth }
@@ -446,7 +446,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       return (
         <div
           ref={mergedRef}
-          className={cn(css.root, css.horizontal, className, resolved.root, resolved.horizontal)}
+          className={cn('scroll', css.root, css.horizontal, className, resolved.root, resolved.horizontal)}
           style={{
             width: "100%",
             maxWidth,
@@ -497,7 +497,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
     return (
       <div
         ref={mergedRef}
-        className={cn(css.root, css.vertical, className, resolved.root, resolved.vertical)}
+        className={cn('scroll', css.root, css.vertical, className, resolved.root, resolved.vertical)}
         style={{
           height: "100%",
           maxHeight,

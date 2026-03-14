@@ -11,7 +11,6 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Button.module.css";
 
-type ButtonVariant = "primary" | "default" | "secondary" | "outline" | "ghost" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonIconStyles {
@@ -49,8 +48,8 @@ function resolveButtonStyles(styles: ButtonStylesProp | undefined) {
 }
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href" | "target"> {
-  /** Visual style of the button */
-  variant?: ButtonVariant;
+  /** Variant class appended to the root element. Accepts any string. */
+  variant?: string;
   /** Size of the button */
   size?: ButtonSize;
   /** Disables interaction and applies disabled styling */
@@ -69,15 +68,6 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: ButtonStylesProp;
 }
-
-const variantMap = {
-  primary: css["primary"],
-  default: css["default"],
-  secondary: css["secondary"],
-  outline: css["outline"],
-  ghost: css["ghost"],
-  danger: css["danger"],
-} as const;
 
 const sizeMap = {
   sm: css["sm"],
@@ -124,7 +114,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     const { hoverProps, isHovered } = useHover({ isDisabled: isButtonDisabled });
 
     const resolved = resolveButtonStyles(styles);
-    const buttonClassName = cn("button", variant, size, css.button, variantMap[variant], sizeMap[size], className, resolved.root);
+    const buttonClassName = cn("button", variant, size, css.button, sizeMap[size], className, resolved.root);
 
     if (isAnchor) {
       return (

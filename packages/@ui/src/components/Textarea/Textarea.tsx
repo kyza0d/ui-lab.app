@@ -227,7 +227,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         data-size={size}
         data-resize-axis={resizeAxis}
         data-scroll={maxHeight ? "true" : undefined}
-        className={cn(css.textarea, textareaClassName, resolved.root)}
+        className={cn('textarea', css.textarea, textareaClassName, resolved.root)}
         style={textareaStyle}
         value={currentValue}
         {...mergeProps(focusProps, {
@@ -250,7 +250,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           {maxHeight ? (
             <div
               ref={scrollWrapperRef}
-              className={css["scroll-wrapper"]}
+              className={cn('textarea', 'scroll-wrapper', css["scroll-wrapper"])}
               data-focus-visible={isFocusVisible ? "true" : undefined}
               data-active={isFocused ? "true" : undefined}
               data-disabled={disabled || undefined}
@@ -269,14 +269,14 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-hidden="true"
               data-axis={resizeAxis}
               data-slot="resize-handle"
-              className={css["resize-handle"]}
+              className={cn('textarea', 'resize-handle', css["resize-handle"])}
               onMouseDown={handleResizeMouseDown}
             />
           )}
         </div>
         {showCharacterCount && (
           <div
-            className={cn(css["character-count"], resolved.characterCount)}
+            className={cn('textarea', 'character-count', css["character-count"], resolved.characterCount)}
             data-over-limit={isOverLimit || undefined}
           >
             {charCount}{maxCharacters ? ` / ${maxCharacters}` : ""} characters

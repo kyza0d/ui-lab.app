@@ -2,47 +2,36 @@
 
 @layer components {
   .expand {
-    --trigger-background: transparent;
-    --trigger-background-hover: var(--background-900);
-    --trigger-foreground: var(--foreground-50);
-    --content-background: transparent;
-    --content-foreground: var(--foreground-300);
+    --disabled-opacity: 0.6;
 
-    display: flex;
-    flex-direction: column;
+    @apply flex flex-col;
   }
 
   .expand[data-disabled] {
-    opacity: 0.6;
+    opacity: var(--disabled-opacity);
     cursor: not-allowed;
   }
 
   .trigger {
-    @apply text-left cursor-pointer;
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0;
+    @apply flex w-full items-stretch justify-between p-0 text-left cursor-pointer;
+
     font-size: var(--text-sm);
     line-height: var(--leading-snug);
     color: var(--trigger-foreground);
     background-color: var(--trigger-background);
+
     border: none;
     border-radius: var(--radius-sm);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &[data-disabled] {
       cursor: not-allowed;
-      opacity: 0.6;
+      opacity: var(--disabled-opacity);
     }
   }
 
   .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @apply px-3 py-2;
-    flex-shrink: 0;
+    @apply flex shrink-0 items-center justify-center px-3 py-2;
     color: inherit;
     border-radius: var(--radius-sm);
 
@@ -83,12 +72,10 @@
 
   /* from="left": content appears left of trigger */
   .expand:has(.content[data-from="left"]) {
-    flex-direction: row-reverse;
-    align-items: flex-start;
+    @apply flex-row-reverse items-start;
 
     .trigger {
-      width: auto;
-      flex-direction: column;
+      @apply w-auto flex-col;
     }
 
     .icon > * {
@@ -102,12 +89,10 @@
 
   /* from="right": content appears right of trigger */
   .expand:has(.content[data-from="right"]) {
-    flex-direction: row;
-    align-items: flex-start;
+    @apply flex-row items-start;
 
     .trigger {
-      width: auto;
-      flex-direction: column;
+      @apply w-auto flex-col;
     }
 
     .icon > * {
@@ -130,21 +115,17 @@
       grid-template-columns: 1fr;
     }
 
-    .contentInner {
+    .content-inner {
       min-height: unset;
       min-width: 0;
     }
   }
 
   .title {
-    flex: 1;
+    @apply flex flex-1 min-w-0 items-center overflow-hidden py-2 pl-3;
+
     font-weight: var(--font-weight-medium);
-    @apply py-2 pl-3;
-    display: flex;
-    align-items: center;
     border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-    min-width: 0;
-    overflow: hidden;
 
     @media (hover: hover) {
       .trigger:not([data-disabled]):hover & {
@@ -163,9 +144,8 @@
   }
 
   .content {
-    display: grid;
+    @apply grid overflow-hidden;
     grid-template-rows: 0fr;
-    overflow: hidden;
     transition: grid-template-rows 300ms var(--ease-smooth-settle);
 
     &[data-expanded="true"] {
@@ -173,9 +153,8 @@
     }
   }
 
-  .contentInner {
-    overflow: hidden;
-    min-height: 0;
+  .content-inner {
+    @apply min-h-0 overflow-hidden;
     color: var(--content-foreground);
     background-color: var(--content-background);
   }

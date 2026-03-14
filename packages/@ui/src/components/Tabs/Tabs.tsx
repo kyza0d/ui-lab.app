@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { useFocusRing, useHover, mergeProps } from "react-aria"
+import { useFocusRing } from "react-aria"
 import { cn } from "@/lib/utils"
 import { StyleValue } from "@/lib/utils"
 import { StylesProp, createStylesResolver } from "@/lib/styles"
 import css from "./Tabs.module.css"
 
-type TabsVariant = "default" | "underline"
+type TabsVariant = "underline"
 type TabsOrientation = "horizontal" | "vertical"
 
 interface IndicatorPosition {
@@ -25,11 +25,9 @@ interface ListDimensions {
 interface TabsContextValue {
   selectedValue: string
   setSelectedValue: (value: string) => void
-  variant: TabsVariant
+  variant?: TabsVariant
   orientation: TabsOrientation
   isDisabledTab: (value: string) => boolean
-  hoveredValue: string | null
-  setHoveredValue: (value: string | null) => void
   indicatorReady: boolean
   setIndicatorReady: (ready: boolean) => void
 }
@@ -49,7 +47,7 @@ interface TabsStyleSlots {
 }
 
 interface TabsProps {
-  /** Visual style of the tab list indicator */
+  /** Optional alternate visual style of the tab list indicator */
   variant?: TabsVariant
   /** Direction of the tab list layout */
   orientation?: TabsOrientation
@@ -71,7 +69,7 @@ const resolveTabsBaseStyles = createStylesResolver(['root'] as const)
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
   (
     {
-      variant = "default",
+      variant,
       orientation = "horizontal",
       defaultValue,
       value: controlledValue,
@@ -85,7 +83,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const { root } = resolveTabsBaseStyles(stylesProp)
 
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue || "")
-    const [hoveredValue, setHoveredValue] = React.useState<string | null>(null)
     const [disabledTabs, setDisabledTabs] = React.useState<Set<string>>(new Set())
 
     const selectedValue = controlledValue !== undefined ? controlledValue : uncontrolledValue
@@ -128,8 +125,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           variant,
           orientation,
           isDisabledTab,
-          hoveredValue,
-          setHoveredValue,
           indicatorReady,
           setIndicatorReady,
         }}
@@ -137,7 +132,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
         <div
           ref={ref}
           className={cn("tabs", css.tabs, root, className)}
-          data-variant={variant}
           data-orientation={orientation}
         >
           {React.Children.map(children, (child) =>
@@ -175,7 +169,7 @@ const resolveTabsListBaseStyles = createStylesResolver(['root', 'indicator'] as 
 /** Container for the row of tab trigger buttons */
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
   ({ className, children, "aria-label": ariaLabel, styles: stylesProp }, ref) => {
-    const { selectedValue, hoveredValue, variant, orientation, setIndicatorReady } = useTabsContext()
+    const { selectedValue, variant, orientation, setIndicatorReady } = useTabsContext()
     const { root, indicator } = resolveTabsListBaseStyles(stylesProp);
     const listRef = React.useRef<HTMLDivElement>(null)
     const [indicatorPosition, setIndicatorPosition] = React.useState<IndicatorPosition>({
@@ -340,16 +334,17 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         role="tablist"
         aria-label={ariaLabel}
         aria-orientation={orientation}
-        className={cn("tabsList", css.tabsList, root, className)}
+        className={cn("tabs", "list", css.list, root, className)}
         data-variant={variant}
         data-orientation={orientation}
         style={{ position: "relative" }}
       >
         {indicatorPosition.width > 0 && (
           <div
-            className={cn("indicator", css.indicator, {
-              [css.indicatorDefault]: variant === "default",
-              [css.indicatorUnderline]: variant === "underline",
+            className={cn("tabs", "indicator",
+              variant === "underline" && "indicator-underline",
+              css.indicator, {
+              [css["indicator-underline"]]: variant === "underline",
             }, indicator)}
             style={getIndicatorStyle}
           />
@@ -399,15 +394,12 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
     },
     ref
   ) => {
-    const { selectedValue, setSelectedValue, hoveredValue, setHoveredValue, indicatorReady } =
-      useTabsContext()
+    const { selectedValue, setSelectedValue, indicatorReady } = useTabsContext()
     const { root, icon: iconStyles } = resolveTabsTriggerBaseStyles(stylesProp);
     const buttonRef = React.useRef<HTMLButtonElement>(null)
     const isSelected = value === selectedValue
-    const isHovered = value === hoveredValue
 
     const { focusProps, isFocusVisible } = useFocusRing()
-    const { hoverProps, isHovered: isHoverActive } = useHover({ isDisabled: disabled })
 
     React.useEffect(() => {
       if (disabled) {
@@ -477,7 +469,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
 
     return (
       <button
-        {...mergeProps(focusProps, hoverProps)}
+        {...focusProps}
         ref={mergedRef}
         id={`${value}-trigger`}
         role="tab"
@@ -486,18 +478,15 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         tabIndex={isSelected ? 0 : -1}
         disabled={disabled}
         data-tabs-value={value}
-        className={cn("tabsTrigger", css.tabsTrigger, root, className)}
+        className={cn("tabs", "trigger", css.trigger, root, className)}
         data-selected={isSelected ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
         data-focus-visible={isFocusVisible ? "true" : undefined}
-        data-hovered={isHoverActive ? "true" : "false"}
         data-indicator-ready={isSelected && indicatorReady ? "true" : undefined}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
-        onMouseEnter={() => !disabled && setHoveredValue(value)}
-        onMouseLeave={() => setHoveredValue(null)}
       >
-        {icon && <span className={cn(css.triggerIcon, iconStyles)}>{icon}</span>}
+        {icon && <span className={cn(css["trigger-icon"], iconStyles)}>{icon}</span>}
         {children}
       </button>
     )
@@ -524,7 +513,7 @@ const resolveTabsContentBaseStyles = createStylesResolver(['root'] as const);
 /** Content panel shown when its corresponding tab is active */
 const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
   ({ value, className, children, styles: stylesProp }, ref) => {
-    const { selectedValue, variant, orientation } = useTabsContext()
+    const { selectedValue, orientation } = useTabsContext()
     const { root } = resolveTabsContentBaseStyles(stylesProp);
     const isVisible = value === selectedValue
 
@@ -534,8 +523,7 @@ const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
         role="tabpanel"
         aria-labelledby={`${value}-trigger`}
         id={`${value}-content`}
-        className={cn("tabsContent", css.tabsContent, root, className)}
-        data-variant={variant}
+        className={cn("tabs", "content", css.content, root, className)}
         data-orientation={orientation}
         hidden={!isVisible}
       >

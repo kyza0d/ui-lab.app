@@ -7,12 +7,11 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Banner.module.css";
 import { Info, CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
 
-type BannerVariant = "note" | "info" | "success" | "warning" | "danger";
 type BannerSize = "sm" | "md" | "lg";
 
 export interface BannerStyleSlots {
   root?: StyleValue;
-  iconContainer?: StyleValue;
+  "icon-container"?: StyleValue;
   content?: StyleValue;
   dismiss?: StyleValue;
 }
@@ -20,8 +19,8 @@ export interface BannerStyleSlots {
 export type BannerStylesProp = StylesProp<BannerStyleSlots>;
 
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Visual style of the banner conveying its intent */
-  variant?: BannerVariant;
+  /** Variant class appended to the root element. Accepts any string. */
+  variant?: string;
   /** Controls the padding and font size of the banner */
   size?: BannerSize;
   /** When true, renders a dismiss button that hides the banner on click */
@@ -42,24 +41,23 @@ export interface BannerBodyProps extends React.HTMLAttributes<HTMLParagraphEleme
   styles?: StyleValue;
 }
 
-const variantMap = {
-  note: css["note"],
-  info: css["info"],
-  success: css["success"],
-  warning: css["warning"],
-  danger: css["danger"],
+const bannerIcons = {
+  note: Info,
+  info: Info,
+  success: CircleCheck,
+  warning: TriangleAlert,
+  danger: CircleAlert,
 } as const;
 
-const getBannerIcon = (variant: BannerVariant) => {
-  const iconProps = { className: css.icon };
-  const icons = {
-    note: <Info {...iconProps} />,
-    info: <Info {...iconProps} />,
-    success: <CircleCheck {...iconProps} />,
-    warning: <TriangleAlert {...iconProps} />,
-    danger: <CircleAlert {...iconProps} />,
-  };
-  return icons[variant];
+type PresetBannerVariant = keyof typeof bannerIcons;
+
+function isPresetBannerVariant(variant: string): variant is PresetBannerVariant {
+  return Object.prototype.hasOwnProperty.call(bannerIcons, variant);
+}
+
+const getBannerIcon = (variant: string) => {
+  const Icon = bannerIcons[isPresetBannerVariant(variant) ? variant : "note"];
+  return <Icon className={css.icon} />;
 };
 
 const sizeMap = {
@@ -68,7 +66,7 @@ const sizeMap = {
   lg: css["lg"],
 } as const;
 
-const resolveBannerBaseStyles = createStylesResolver(['root', 'iconContainer', 'content', 'dismiss'] as const);
+const resolveBannerBaseStyles = createStylesResolver(['root', 'icon-container', 'content', 'dismiss'] as const);
 
 /** Heading text for the banner message */
 const BannerTitle = React.forwardRef<HTMLHeadingElement, BannerTitleProps>(
@@ -130,12 +128,12 @@ const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
       <div
         {...mergeProps(hoverProps, props)}
         ref={ref}
-        className={cn("banner", css.banner, variantMap[variant], sizeMap[size], className, resolved.root)}
+        className={cn("banner", variant, css.banner, sizeMap[size], className, resolved.root)}
         data-variant={variant}
         data-size={size}
         data-hovered={isHovered ? "true" : "false"}
       >
-        {icon && <div className={cn("icon", css.iconContainer, resolved.iconContainer)}>{icon}</div>}
+        {icon && <div className={cn("icon", css.icon, resolved["icon-container"])}>{icon}</div>}
         <div className={cn("content", css.content, resolved.content)}>
           {children}
         </div>

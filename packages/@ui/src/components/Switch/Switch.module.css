@@ -2,18 +2,6 @@
 
 @layer components {
   .switch {
-    --track-background-unchecked: var(--background-700);
-    --track-background-checked: var(--background-500);
-    --track-background-hover: var(--background-800);
-    --track-background-active: var(--background-800);
-    --track-background-disabled: var(--background-950);
-    --thumb-background-unchecked: var(--background-500);
-    --thumb-background-checked: var(--foreground-300);
-
-    --border: var(--background-600);
-    --border-hover: transparent;
-    --border-active: transparent;
-
     --radius: 9999px;
     --inner-radius: calc(var(--radius) - var(--border-width-base));
 
@@ -22,21 +10,16 @@
     --thumb-size: 1rem;
     --thumb-offset: 0.25rem;
 
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
+    --disabled-opacity: 0.6;
+
+    @apply relative inline-flex cursor-pointer items-center;
     user-select: none;
     width: var(--width);
     height: var(--height);
   }
 
   .switch-track {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    @apply absolute inset-0;
     transition: background-color 180ms var(--ease-snappy-pop), border-color 180ms var(--ease-snappy-pop), transform 180ms var(--ease-snappy-pop);
     background-color: var(--track-background-unchecked);
     border: var(--border-width-base) solid var(--border);
@@ -48,11 +31,8 @@
   }
 
   .switch-thumb {
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    @apply absolute top-0 bottom-0 my-auto;
     left: var(--thumb-offset);
-    margin: auto 0;
     width: var(--thumb-size);
     height: var(--thumb-size);
     transition: left 180ms var(--ease-snappy-pop), background-color 180ms var(--ease-snappy-pop);
@@ -64,7 +44,7 @@
 
   .switch[data-selected] .switch-track {
     background-color: var(--track-background-checked);
-    border-color: transparent;
+    border-color: var(--border-checked);
   }
 
   .switch[data-selected] .switch-thumb {
@@ -83,14 +63,14 @@
   }
 
   .switch[data-disabled] {
-    opacity: 0.6;
+    opacity: var(--disabled-opacity);
     cursor: not-allowed;
   }
 
 
 
   .switch[data-focus-visible] {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 40%, transparent);
+    box-shadow: var(--focus-ring);
   }
 
   .switch-sm {

@@ -1,12 +1,11 @@
 declare const styles: {
   tabs: string;
-  tabsList: string;
+  list: string;
   indicator: string;
-  indicatorDefault: string;
-  indicatorUnderline: string;
-  tabsTrigger: string;
-  triggerIcon: string;
-  tabsContent: string;
+  "indicator-underline": string;
+  trigger: string;
+  "trigger-icon": string;
+  content: string;
 };
 
 export default styles;

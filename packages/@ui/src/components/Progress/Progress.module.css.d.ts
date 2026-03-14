@@ -12,7 +12,7 @@ export interface Styles {
   indeterminate: string;
   wrapper: string;
   hasLabel: string;
-  labelRow: string;
+  "label-row": string;
   label: string;
   value: string;
 }

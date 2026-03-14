@@ -1,6 +1,10 @@
-export const expand: string;
-export const trigger: string;
-export const icon: string;
-export const title: string;
-export const content: string;
-export const contentInner: string;
+declare const styles: {
+  expand: string;
+  trigger: string;
+  icon: string;
+  title: string;
+  content: string;
+  "content-inner": string;
+};
+
+export default styles;

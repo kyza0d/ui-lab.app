@@ -99,8 +99,8 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
           {label && (
             <label
               className={cn(
-                styles["radio-label"],
-                disabled && styles["radio-label-disabled"]
+                'radio', 'radio-label', styles["radio-label"],
+                disabled && 'radio-label-disabled', disabled && styles["radio-label-disabled"]
               )}
             >
               {label}
@@ -201,7 +201,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
           <div className="relative">
             <div
               className={cn(
-                styles.radio,
+                'radio', styles.radio,
                 styles[size],
                 className,
                 resolved.root
@@ -232,8 +232,8 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
                 <label
                   htmlFor={radioId}
                   className={cn(
-                    styles["radio-label"],
-                    disabled && styles["radio-label-disabled"],
+                    'radio', 'radio-label', styles["radio-label"],
+                    disabled && 'radio-label-disabled', disabled && styles["radio-label-disabled"],
                     resolved.label
                   )}
                   suppressHydrationWarning
@@ -244,8 +244,8 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
               {description && (
                 <p
                   className={cn(
-                    styles["radio-description"],
-                    error && styles["radio-description-error"],
+                    'radio', 'radio-description', styles["radio-description"],
+                    error && 'radio-description-error', error && styles["radio-description-error"],
                     resolved.description
                   )}
                 >
@@ -337,7 +337,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
           <div className="relative">
             <div
               className={cn(
-                styles.radio,
+                'radio', styles.radio,
                 styles[size],
                 className,
                 resolved.root
@@ -372,8 +372,8 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
                 <label
                   htmlFor={radioId}
                   className={cn(
-                    styles["radio-label"],
-                    disabled && styles["radio-label-disabled"],
+                    'radio', 'radio-label', styles["radio-label"],
+                    disabled && 'radio-label-disabled', disabled && styles["radio-label-disabled"],
                     resolved.label
                   )}
                   suppressHydrationWarning
@@ -384,8 +384,8 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
               {description && (
                 <p
                   className={cn(
-                    styles["radio-description"],
-                    error && styles["radio-description-error"],
+                    'radio', 'radio-description', styles["radio-description"],
+                    error && 'radio-description-error', error && styles["radio-description-error"],
                     resolved.description
                   )}
                 >

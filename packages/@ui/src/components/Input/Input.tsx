@@ -100,7 +100,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={css.container}>
         {hasPrefix && (
-          <div className={cn(css['icon-wrapper'], css['prefix-icon'])}>
+          <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], css['prefix-icon'])}>
             {prefixIcon}
           </div>
         )}
@@ -114,6 +114,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-error={error ? "true" : undefined}
           data-variant={variant}
           className={cn(
+            'input',
             css.input,
             hasPrefix && "pl-10",
             (hasSuffix || isNumberType) && "pr-6",
@@ -133,7 +134,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           >
             <button
               type="button"
-              className={css['spin-button']}
+              className={cn('input', 'spin-button', css['spin-button'])}
               onClick={() => handleSpinClick("up")}
               disabled={disabled}
               tabIndex={-1}
@@ -143,7 +144,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
             <button
               type="button"
-              className={css['spin-button']}
+              className={cn('input', 'spin-button', css['spin-button'])}
               onClick={() => handleSpinClick("down")}
               disabled={disabled}
               tabIndex={-1}
@@ -154,7 +155,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
         {hasSuffix && (
-          <div className={cn(css['icon-wrapper'], css['suffix-icon'])}>
+          <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], css['suffix-icon'])}>
             {suffixIcon}
           </div>
         )}

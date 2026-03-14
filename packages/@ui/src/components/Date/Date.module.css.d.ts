@@ -1,14 +1,14 @@
 declare const styles: {
   calendar: string
-  dayHeaders: string
-  dayHeader: string
+  "day-headers": string
+  "day-header": string
   header: string
-  monthYear: string
-  navButton: string
+  "month-year": string
+  "nav-button": string
   grid: string
-  dayCell: string
-  weekHeader: string
-  weekNumber: string
+  "day-cell": string
+  "week-header": string
+  "week-number": string
 }
 
 export default styles

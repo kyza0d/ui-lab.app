@@ -2,49 +2,20 @@
 
 @layer components {
   .progress {
-    --track-background: var(--background-700);
-    --fill-background: color-mix(in srgb, var(--accent-600) 60%, var(--background-500));
-
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+    @apply relative w-full overflow-hidden;
     border-radius: var(--radius-full);
     background-color: var(--track-background);
   }
 
-  .progress.sm {
-    height: 0.25rem;
-  }
-
-  .progress.md {
-    height: 0.5rem;
-  }
-
-  .progress.lg {
-    height: 0.75rem;
-  }
+  .progress.sm { height: 0.25rem; }
+  .progress.md { height: 0.5rem; }
+  .progress.lg { height: 0.75rem; }
 
   .fill {
-    height: 100%;
+    @apply h-full;
     border-radius: var(--radius-full);
     background-color: var(--fill-background);
     transition: width 300ms var(--ease-snappy-pop);
-  }
-
-  .fill.default {
-    --fill-background: var(--accent-500);
-  }
-
-  .fill.success {
-    --fill-background: var(--success-500);
-  }
-
-  .fill.warning {
-    --fill-background: var(--warning-500);
-  }
-
-  .fill.error {
-    --fill-background: var(--danger-500);
   }
 
   .fill.animated {
@@ -57,17 +28,17 @@
   }
 
   .wrapper {
-    width: 100%;
+    @apply w-full;
   }
 
-  .wrapper.hasLabel {
+  .wrapper.has-label {
     @apply space-y-1;
   }
 
-  .labelRow {
+  .label-row {
     @apply flex items-center justify-between;
     font-size: var(--text-sm);
-    color: var(--foreground-400);
+    color: var(--foreground);
   }
 
   .label {
@@ -88,11 +59,7 @@
   }
 
   @keyframes progress-indeterminate {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(400%);
-    }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
   }
 }

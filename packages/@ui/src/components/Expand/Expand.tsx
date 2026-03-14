@@ -155,7 +155,7 @@ const ExpandContent = React.forwardRef<HTMLDivElement, ExpandContentProps>(
         aria-hidden={!state.isSelected}
         {...props}
       >
-        <div className={styles.contentInner}>{children}</div>
+        <div className={styles["content-inner"]}>{children}</div>
       </div>
     );
   },

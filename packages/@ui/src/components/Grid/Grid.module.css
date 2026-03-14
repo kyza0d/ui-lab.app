@@ -2,8 +2,7 @@
 
 @layer components {
   .grid {
-    display: grid;
-    width: 100%;
+    @apply grid w-full;
     grid-template-columns: var(--grid-tpl, repeat(3, 1fr));
     grid-template-rows: var(--grid-rows, auto);
     gap: var(--grid-gap, calc(var(--spacing, 0.25rem) * 4));
@@ -85,13 +84,8 @@
     }
   }
 
-  .grid.has-row-gap {
-    row-gap: var(--grid-row-gap);
-  }
-
-  .grid.has-col-gap {
-    column-gap: var(--grid-col-gap);
-  }
+  .grid.has-row-gap { row-gap: var(--grid-row-gap); }
+  .grid.has-col-gap { column-gap: var(--grid-col-gap); }
 
   @container grid-ctx (width < 400px) {
     .container .grid {

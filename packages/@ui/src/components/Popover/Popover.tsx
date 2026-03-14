@@ -229,7 +229,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
               }}
             >
               <div
-                className={cn(css.content)}
+                className={cn('popover', 'content', css.content)}
                 style={{
                   opacity: isAnimating ? 1 : 0,
                   transform: isAnimating ? "scale(1)" : getInitialTransform(placement),
@@ -242,11 +242,9 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
                   shapeMode={showArrow ? "extend" : undefined}
                   path={showArrow ? ARROW_PATH : undefined}
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
-                  fill="var(--background-900)"
-                  borderColor="var(--background-700)"
                   cornerRadius={8}
                   padding="none"
-                  className={cn(css["content-frame"], externalContentClassName, resolved.content)}
+                  className={cn('popover', 'frame', css.frame, externalContentClassName, resolved.content)}
                 >
                   {content}
                 </Frame>

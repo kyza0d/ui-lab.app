@@ -2,14 +2,11 @@
 
 @layer components {
   .page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    position: relative;
+    @apply flex flex-col w-full relative;
   }
 
   .page[data-centered="true"] {
-    align-items: center;
+    @apply items-center;
   }
 
   .page[data-fullscreen="false"] {
@@ -17,23 +14,13 @@
     margin-right: auto;
   }
 
-  .paddingNone {
-    padding: 0;
-  }
+  .padding-none { padding: 0; }
 
-  .paddingSm {
-    padding: var(--spacing-sm, 0.5rem);
-  }
+  .padding-sm { padding: var(--spacing-sm, 0.5rem); }
 
-  .paddingMd {
-    padding: var(--spacing-md, 1rem);
-  }
+  .padding-md { padding: var(--spacing-md, 1rem); }
 
-  .paddingLg {
-    padding: var(--spacing-lg, 1.5rem);
-  }
+  .padding-lg { padding: var(--spacing-lg, 1.5rem); }
 
-  .paddingXl {
-    padding: var(--spacing-xl, 2rem);
-  }
+  .padding-xl { padding: var(--spacing-xl, 2rem); }
 }

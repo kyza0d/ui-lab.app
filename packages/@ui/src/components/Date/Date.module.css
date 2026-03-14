@@ -2,148 +2,103 @@
 
 @layer components {
   .calendar {
-    --background: var(--background-950);
-    --foreground: var(--foreground-50);
-    --border: var(--background-700);
+    --disabled-opacity: 0.5;
 
-    display: inline-flex;
-    flex-direction: column;
-    gap: 0;
+    @apply inline-flex flex-col overflow-hidden gap-0;
     border-radius: var(--radius-md);
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
-    overflow: hidden;
   }
 
-  .dayHeaders {
-    @apply px-4 pt-3 pb-1;
-    display: grid;
+  .day-headers {
+    @apply grid gap-2 px-4 pt-3 pb-1;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
-    background-color: var(--background);
+    background: var(--day-headers-background);
     border-top: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    background: var(--background-900);
   }
 
-  .dayHeader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
+  .day-header {
+    @apply flex items-center justify-center;
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-xs);
-    color: var(--foreground-400);
+    color: var(--day-header-color);
   }
 
   .header {
-    display: flex;
-    @apply pl-2 pr-1.5 py-1.5;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    color: var(--foreground-300);
+    @apply flex items-center justify-between gap-4 pl-2 pr-1.5 py-1.5;
+    color: var(--header-color);
   }
 
-  .monthYear {
-    font-weight: 500;
+  .month-year {
     @apply ml-2;
+    font-weight: var(--font-weight-medium);
     font-size: var(--text-sm);
     text-align: center;
   }
 
-  .navButton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2rem;
-    min-height: 2rem;
+  .nav-button {
+    @apply inline-flex min-h-8 min-w-8 items-center justify-center cursor-pointer;
     border-radius: var(--radius-sm);
     background-color: transparent;
-    color: var(--foreground-400);
+    color: var(--nav-button-color);
     border: 1px solid transparent;
-    cursor: pointer;
     font-size: var(--text-sm);
     font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .navButton:hover {
-    background-color: var(--background-800);
-  }
+  .nav-button:hover { background-color: var(--nav-button-background-hover); }
 
-  .navButton:focus-visible {
-    background: var(--background-800);
+  .nav-button:focus-visible {
+    background: var(--nav-button-background-hover);
     border-radius: 0px;
     outline: 0px solid var(--accent-500);
   }
 
   .grid {
-    display: grid;
+    @apply grid gap-1 px-4 pb-4;
     grid-template-columns: repeat(7, 1fr);  /* 7 days only */
-    @apply gap-1 px-4 pb-4;
-    background-color: var(--background);
+    background: var(--grid-background);
     border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-    background: var(--background-900);
   }
 
-  .dayCell {
-    --cell-bg: transparent;
-    --cell-text: var(--foreground-300);
+  .day-cell {
+    --cell-background: transparent;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2rem;
-    @apply py-2 px-2.5;
+    @apply flex min-h-8 items-center justify-center px-2.5 py-2 cursor-pointer;
     border-radius: var(--radius-base);
-    background-color: var(--cell-bg);
+    background-color: var(--cell-background);
     color: var(--cell-text);
     border: 2px solid transparent;
-    cursor: pointer;
     font-size: var(--text-sm);
     font-weight: 400;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .weekHeader {
+  .week-header {
     display: none;
   }
 
-  .weekNumber {
+  .week-number {
     display: none;
   }
 }
 
 /* Variant states - these are outside @layer */
-.dayCell[data-selected="true"] {
-  --cell-bg: var(--background-800);
-  --cell-text: var(--foreground-50);
+.day-cell[data-selected="true"] {
   font-weight: 500;
 }
 
-.dayCell[data-today="true"] {
-  --border: transparent;
-  --foreground: var(--foreground-50);
-  --cell-bg: var(--background-800);
-  color: var(--foreground);
-  border-color: var(--border);
+.day-cell[data-today="true"] {
+  border-color: transparent;
 }
 
-.dayCell[data-disabled="true"] {
-  --cell-bg: var(--background-700);
-  --cell-text: var(--foreground-400);
-  opacity: 0.5;
-  cursor: not-allowed;
+.day-cell[data-disabled="true"],
+.day-cell[data-out-of-range="true"] {
+  opacity: var(--disabled-opacity);
 }
 
-.dayCell[data-out-of-range="true"] {
-  --cell-text: var(--foreground-400);
-  opacity: 0.5;
-}
+.day-cell[data-disabled="true"] { cursor: not-allowed; }
 
-.dayCell:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
-  --cell-bg: var(--background-800);
-}
-
-.dayCell[data-focus-visible="true"]:not([data-disabled="true"]) {
-  outline: 2px solid var(--foreground-300);
-  outline-offset: 2px;
-}
+.day-cell[data-focus-visible="true"]:not([data-disabled="true"]) { outline: 2px solid var(--focus-ring); outline-offset: 2px; }

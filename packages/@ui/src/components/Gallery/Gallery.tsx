@@ -150,7 +150,7 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
       hoverProps,
       pressProps,
       {
-        className: cn(styles.item, className, resolved.root),
+        className: cn('gallery', 'item', styles.item, className, resolved.root),
         style: spanStyles,
         "data-focus-visible": isFocusVisible || undefined,
         "data-hovered": isHovered || undefined,
@@ -203,7 +203,7 @@ const GalleryBody = React.forwardRef<HTMLDivElement, GalleryBodyProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.body, className)}
+        className={cn('gallery', 'body', styles.body, className)}
         {...props}
       >
         {children}

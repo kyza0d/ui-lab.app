@@ -19,16 +19,29 @@ const NativeDate = globalThis.Date;
 export interface DateStyleSlots {
   root?: StyleValue;
   header?: StyleValue;
-  dayHeaders?: StyleValue;
+  "day-headers"?: StyleValue;
   grid?: StyleValue;
-  dayCell?: StyleValue; // individual date button
+  "day-cell"?: StyleValue; // individual date button
 }
 
 export type DateStylesProp = StylesProp<DateStyleSlots>;
 
-const resolveDateBaseStyles = createStylesResolver([
-  'root', 'header', 'dayHeaders', 'grid', 'dayCell'
-] as const);
+const dateStyleSlotKeys = ['root', 'header', 'day-headers', 'grid', 'day-cell'] as const;
+const resolveDateBaseStyles = createStylesResolver(dateStyleSlotKeys);
+
+function normalizeDateStyles(styles: DateStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) {
+    return styles;
+  }
+
+  return {
+    root: styles.root,
+    header: styles.header,
+    "day-headers": styles["day-headers"],
+    grid: styles.grid,
+    "day-cell": styles["day-cell"],
+  };
+}
 
 /**
  * Context type for Calendar state management
@@ -109,7 +122,6 @@ function getCalendarGrid(currentMonth: Date | null): Date[][] {
   const firstDay = getFirstDayOfMonth(currentMonth)
 
   const grid: Date[] = []
-  let currentDate = new NativeDate(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
 
   // Handle previous month's days
   if (firstDay > 0) {
@@ -165,7 +177,7 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
 
     const selectedDate = controlledValue !== undefined ? controlledValue : uncontrolledValue
 
-    const resolved = resolveDateBaseStyles(styles);
+    const resolved = resolveDateBaseStyles(normalizeDateStyles(styles));
 
     const isDateDisabled = React.useCallback(
       (date: Date): boolean => {
@@ -295,11 +307,11 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
     React.useEffect(() => {
       const now = new NativeDate()
       setToday(now)
-      
+
       if (currentMonth === null) { // Only set if not yet initialized
         setCurrentMonth(defaultMonth ?? now)
       }
-      
+
       if (focusedDate === null) { // Only set if not yet initialized
         setFocusedDate(selectedDate ?? now)
       }
@@ -318,8 +330,8 @@ const Date = React.forwardRef<HTMLDivElement, DateProps>(
           {currentMonth && (
             <>
               <DateHeader className={resolved.header} />
-              <DateDayHeaders className={resolved.dayHeaders} />
-              <DateGrid grid={calendarGrid} className={resolved.grid} dayCellClassName={resolved.dayCell} />
+              <DateDayHeaders className={resolved["day-headers"]} />
+              <DateGrid grid={calendarGrid} className={resolved.grid} dayCellClassName={resolved["day-cell"]} />
             </>
           )}
         </div>
@@ -343,33 +355,33 @@ const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
   ({ className, ...props }, ref) => {
     const { currentMonth, navigateMonth } = useDateContext()
 
-    const monthYear = currentMonth 
+    const monthYear = currentMonth
       ? currentMonth.toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        })
+        month: "long",
+        year: "numeric",
+      })
       : ""
 
     return (
       <div
         ref={ref}
-        className={cn("date-header", dateModuleStyles.header, className)}
+        className={cn("date", "date-header", dateModuleStyles.header, className)}
         {...props}
       >
-        <div className={cn("date-month-year", dateModuleStyles.monthYear)}>
+        <div className={cn("date-month-year", dateModuleStyles["month-year"])}>
           {monthYear}
         </div>
         <div>
           <button
             onClick={() => navigateMonth(-1)}
-            className={cn("date-prev-button", dateModuleStyles.navButton)}
+            className={cn("date", "date-nav-button", "date-prev-button", dateModuleStyles["nav-button"])}
             aria-label="Previous month"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={() => navigateMonth(1)}
-            className={cn("date-next-button", dateModuleStyles.navButton)}
+            className={cn("date", "date-nav-button", "date-next-button", dateModuleStyles["nav-button"])}
             aria-label="Next month"
           >
             <ChevronRight size={16} />
@@ -396,13 +408,13 @@ const DateDayHeaders = React.forwardRef<HTMLDivElement, DateDayHeadersProps>(
     return (
       <div
         ref={ref}
-        className={cn("date-day-headers", dateModuleStyles.dayHeaders, className)}
+        className={cn("date", "date-day-headers", dateModuleStyles["day-headers"], className)}
         {...props}
       >
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className={cn("date-day-header", dateModuleStyles.dayHeader)}
+            className={cn("date", "date-day-header", dateModuleStyles["day-header"])}
           >
             {day}
           </div>
@@ -430,7 +442,7 @@ const DateGrid = React.forwardRef<HTMLDivElement, DateGridProps>(
     return (
       <div
         ref={ref}
-        className={cn("date-grid", dateModuleStyles.grid, className)}
+        className={cn("date", "date-grid", dateModuleStyles.grid, className)}
         role="grid"
         {...props}
       >
@@ -438,7 +450,7 @@ const DateGrid = React.forwardRef<HTMLDivElement, DateGridProps>(
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className={cn("date-day-header", dateModuleStyles.weekHeader)}
+            className={cn("date-day-header", dateModuleStyles["week-header"])}
             role="columnheader"
           >
             {day}
@@ -518,7 +530,7 @@ const DateDay = React.forwardRef<HTMLButtonElement, DateDayProps>(
         ref={buttonRef}
         onClick={handleClick}
         onFocus={handleFocus}
-        className={cn("date-day", dateModuleStyles.dayCell, className)}
+        className={cn("date", "date-day", dateModuleStyles["day-cell"], className)}
         data-selected={isSelected ? "true" : undefined}
         data-today={isCurrentToday ? "true" : undefined}
         data-disabled={isDisabled ? "true" : undefined}
