@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Toaster } from "ui-lab-components";
+import { Banner, Toaster } from "ui-lab-components";
 import { HeroSection, Showcase, NodeSection } from "@/features/landing";
 import { FeaturesSection } from "@/features/landing/components/FeaturesSection";
 import { LandingSidebar } from "@/features/landing/components/landing-sidebar";
@@ -34,7 +34,6 @@ export default function Home() {
               >
               </div>
             </div>
-
             <div className="py-6">
               <Showcase />
             </div>

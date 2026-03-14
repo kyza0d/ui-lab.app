@@ -1,5 +1,3 @@
-import "ui-lab-components/styles.css"
-// import "./theme.css";
 import "./globals.css";
 
 import "@fontsource/geist-sans";
@@ -11,7 +9,6 @@ import "@fontsource-variable/jetbrains-mono";
 
 import { Metadata } from "next";
 
-import { Suspense } from "react";
 import { RootLayoutClient } from "./client";
 import { generateMetadata } from "@/shared/lib/metadata";
 import { getInitialThemeScript } from "@/features/theme/lib/initial-theme-script";

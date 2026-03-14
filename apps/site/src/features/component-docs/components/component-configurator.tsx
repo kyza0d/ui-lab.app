@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { cn } from "@/shared";
 import { Code } from "@/features/docs/components/code-display/code";
-import { Button, EasingPreview, EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "ui-lab-components";
+import { Button } from "ui-lab-components";
 import {
   Select,
   Tabs,
@@ -11,6 +11,8 @@ import {
   TabsTrigger,
   TabsContent,
 } from "ui-lab-components";
+import { EasingPreview } from "./easing-preview";
+import { EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "../lib/easing";
 
 
 

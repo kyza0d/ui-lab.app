@@ -49,11 +49,6 @@ import {
   type ComponentMetadata as RegistryMetadata,
   getComponentsInOrder,
 } from "ui-lab-registry";
-import {
-  experimentalRegistry,
-  type ExperimentalComponentMetadata,
-} from "@/features/experimental/lib/experimental-registry";
-import { serverComponentRegistry } from "./server-component-metadata"; // Import server-side registry
 import React from "react";
 export type { ComponentCategory } from "ui-lab-registry";
 export { categories, categoryMap, getCategoriesInOrder, getCategoryIcon } from "ui-lab-registry";
@@ -62,21 +57,19 @@ export interface ComponentMetadata extends RegistryMetadata {
   experimental?: boolean;
 }
 
-const experimentalIds = new Set(experimentalRegistry.map((c) => c.id));
-
-export const componentRegistry: ComponentMetadata[] = serverComponentRegistry.map(
-  (serverMetadata) => ({
-    ...serverMetadata,
-    preview: previews[serverMetadata.id] || <div />,
+export const componentRegistry: ComponentMetadata[] = Object.entries(registryData).map(
+  ([id, metadata]) => ({
+    ...metadata,
+    preview: previews[id] || <div />,
   }),
 );
 
-export const getComponentsByCategory = 
+export const getComponentsByCategory =
   (category: ComponentCategory): ComponentMetadata[] => {
     return componentRegistry.filter((c) => c.category === category);
   };
 
-export const getComponentsGroupedByCategory = 
+export const getComponentsGroupedByCategory =
   (): Record<ComponentCategory, ComponentMetadata[]> => {
     const result: Record<ComponentCategory, ComponentMetadata[]> = {} as Record<
       ComponentCategory,
@@ -96,7 +89,7 @@ export const getRelatedComponents = (id: string): ComponentMetadata[] => {
     .filter(Boolean) as ComponentMetadata[];
 };
 
-export const getComponentsInCategoryOrder = 
+export const getComponentsInCategoryOrder =
   (category: ComponentCategory): ComponentMetadata[] => {
     const componentIds = getComponentsInOrder(category);
 

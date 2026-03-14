@@ -44,7 +44,8 @@
     "three": "^0.182.0",
     "turndown": "^7.2.2",
     "ui-lab-components": "workspace:*",
-    "ui-lab-registry": "workspace:*"
+    "ui-lab-registry": "workspace:*",
+    "ui-lab-theme-onyx": "workspace:*"
   },
   "devDependencies": {
     "@iconify/react": "^6.0.2",

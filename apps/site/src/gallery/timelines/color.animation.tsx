@@ -34,7 +34,7 @@ export function ColorAnimation() {
 
     const handleEnter = () => {
       // Sequence: Hover -> Drag Hue -> Drag Canvas
-      setStage("hover"); 
+      setStage("hover");
       timers.push(setTimeout(() => setStage("hue"), 600));
       timers.push(setTimeout(() => setStage("canvas"), 1600));
     };
@@ -55,12 +55,12 @@ export function ColorAnimation() {
 
   // Constants
   const width = 200;
-  const height = 240;
+  const height = 185;
   const cx = 200;
   const cy = 150;
   const x = cx - width / 2;
   const y = cy - height / 2;
-  
+
   // Dimensions
   const canvasHeight = 120;
   const sliderHeight = 12;
@@ -69,8 +69,8 @@ export function ColorAnimation() {
   const rx = config.blockRx;
 
   // Colors
-  // Idle: Blue-ish
-  const colorIdle = "hsl(210, 80%, 50%)";
+  // Idle: Desaturated Blue-ish
+  const colorIdle = "hsl(210, 30%, 45%)";
   // Hue: Purple-ish (Dragging hue slider to the right)
   const colorHue = "hsl(270, 80%, 50%)";
   // Canvas: Lighter/Desaturated (Dragging canvas pointer)
@@ -120,12 +120,12 @@ export function ColorAnimation() {
   if (stage === "hover") {
     // Moving towards hue slider
     cursorX = x + huePosIdle;
-    cursorY = y + canvasHeight + gap + sliderHeight/2;
+    cursorY = y + canvasHeight + gap + sliderHeight / 2;
     cursorOpacity = 1;
   } else if (stage === "hue") {
     // Dragging hue slider
     cursorX = x + huePosHue;
-    cursorY = y + canvasHeight + gap + sliderHeight/2;
+    cursorY = y + canvasHeight + gap + sliderHeight / 2;
     cursorOpacity = 1;
     cursorScale = 0.9; // Press
   } else if (stage === "canvas") {
@@ -148,7 +148,7 @@ export function ColorAnimation() {
           aria-hidden="true"
         >
           <defs>
-             <radialGradient id="color-grid-fade" cx="50%" cy="50%" r="50%">
+            <radialGradient id="color-grid-fade" cx="50%" cy="50%" r="50%">
               <stop offset="40%" stopColor="white" stopOpacity="1" />
               <stop offset="100%" stopColor="white" stopOpacity="0" />
             </radialGradient>
@@ -156,11 +156,11 @@ export function ColorAnimation() {
               <rect width="400" height="300" fill="url(#color-grid-fade)" />
             </mask>
             <clipPath id="picker-clip">
-                 <path
-                  d={getRoundedRectPath(x, y, width, height, {
-                    tl: rx, tr: rx, bl: rx, br: rx
-                  })}
-                />
+              <path
+                d={getRoundedRectPath(x, y, width, height, {
+                  tl: rx, tr: rx, bl: rx, br: rx
+                })}
+              />
             </clipPath>
           </defs>
 
@@ -183,8 +183,10 @@ export function ColorAnimation() {
 
           {/* Main Container */}
           <g style={{
-              transform: stage !== "idle" ? "translateY(0)" : "translateY(0)", // Could add float
-              transition: config.transition
+            filter: stage === "idle" ? "grayscale(100%)" : "grayscale(0%)",
+            opacity: stage === "idle" ? 0.7 : 1,
+            transition: `${config.transition}, filter 0.6s ease, opacity 0.6s ease`,
+            transform: "translateY(0)",
           }}>
             {/* Background Shell */}
             <path
@@ -212,134 +214,113 @@ export function ColorAnimation() {
 
             {/* Inner Content Wrapper */}
             <g transform={`translate(${x}, ${y})`}>
-                
-                {/* 1. Color Canvas (Top) */}
-                <g>
-                    {/* The Canvas Background */}
-                    <path
-                        d={getRoundedRectPath(4, 4, width - 8, canvasHeight, {
-                            tl: rx - 4, tr: rx - 4, bl: 4, br: 4
-                        })}
-                        fill={currentColor}
-                        style={{ transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)" }}
-                    />
-                    
-                    {/* Canvas Highlight / Selection Ring */}
-                    <circle
-                        cx={canvasX} // Relative to container x, so we need to adjust or keep it absolute?
-                                     // My canvasX variable above is relative to container X.
-                        cy={canvasY}
-                        r={6}
-                        fill="none"
-                        stroke="white"
-                        strokeWidth="2"
-                        style={{ 
-                            transition: "all 1s cubic-bezier(0.25, 0, 0.25, 1)",
-                            opacity: 0.8,
-                            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
-                        }}
-                    />
+
+              {/* 1. Color Canvas (Top) */}
+              <g>
+                {/* The Canvas Background */}
+                <path
+                  d={getRoundedRectPath(4, 4, width - 8, canvasHeight, {
+                    tl: rx - 4, tr: rx - 4, bl: 4, br: 4
+                  })}
+                  fill={currentColor}
+                  style={{ transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)" }}
+                />
+
+                {/* Canvas Highlight / Selection Ring */}
+                <circle
+                  cx={canvasX} // Relative to container x, so we need to adjust or keep it absolute?
+                  // My canvasX variable above is relative to container X.
+                  cy={canvasY}
+                  r={6}
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                  style={{
+                    transition: "all 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                    opacity: 0.8,
+                    filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                  }}
+                />
+              </g>
+
+              {/* 2. Sliders (Middle) */}
+              <g transform={`translate(12, ${canvasHeight + gap + 4})`}>
+
+                {/* Hue Slider Track */}
+                <rect
+                  width={width - 24}
+                  height={sliderHeight}
+                  rx={sliderHeight / 2}
+                  fill="url(#hue-gradient)"
+                  className="text-background-800"
+                  style={{ opacity: 0.5 }} // Placeholder for actual gradient
+                />
+                {/* Faked Hue Gradient */}
+                <defs>
+                  <linearGradient id="hue-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#f00" />
+                    <stop offset="17%" stopColor="#ff0" />
+                    <stop offset="33%" stopColor="#0f0" />
+                    <stop offset="50%" stopColor="#0ff" />
+                    <stop offset="67%" stopColor="#00f" />
+                    <stop offset="83%" stopColor="#f0f" />
+                    <stop offset="100%" stopColor="#f00" />
+                  </linearGradient>
+                </defs>
+                <rect
+                  width={width - 24}
+                  height={sliderHeight}
+                  rx={sliderHeight / 2}
+                  fill="url(#hue-gradient)"
+                />
+
+                {/* Hue Knob */}
+                <circle
+                  cx={huePos}
+                  cy={sliderHeight / 2}
+                  r={sliderHeight / 2 + 2}
+                  fill="white"
+                  stroke="rgba(0,0,0,0.1)"
+                  strokeWidth="1"
+                  style={{
+                    transition: "cx 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                    filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                  }}
+                />
+
+                {/* Opacity Slider Track (Below Hue) */}
+                <g transform={`translate(0, ${sliderHeight + gap})`}>
+                  {/* Checkerboard pattern for transparency is too complex for this minimal view, just use solid */}
+                  <rect
+                    width={width - 24}
+                    height={sliderHeight}
+                    rx={sliderHeight / 2}
+                    className="text-background-700"
+                    fill="currentColor"
+                  />
+                  <rect
+                    width={width - 24}
+                    height={sliderHeight}
+                    rx={sliderHeight / 2}
+                    fill={currentColor}
+                    style={{
+                      transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                      opacity: 0.5 // Simulate some transparency
+                    }}
+                  />
+                  <circle
+                    cx={(width - 24) * 0.8} // Fixed pos for now
+                    cy={sliderHeight / 2}
+                    r={sliderHeight / 2 + 2}
+                    fill="white"
+                    stroke="rgba(0,0,0,0.1)"
+                    strokeWidth="1"
+                    style={{
+                      filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
+                    }}
+                  />
                 </g>
-
-                {/* 2. Sliders (Middle) */}
-                <g transform={`translate(12, ${canvasHeight + gap + 4})`}>
-                    
-                    {/* Hue Slider Track */}
-                    <rect 
-                        width={width - 24} 
-                        height={sliderHeight} 
-                        rx={sliderHeight/2} 
-                        fill="url(#hue-gradient)"
-                        className="text-background-800"
-                        style={{opacity: 0.5}} // Placeholder for actual gradient
-                    />
-                     {/* Faked Hue Gradient */}
-                    <defs>
-                        <linearGradient id="hue-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#f00" />
-                            <stop offset="17%" stopColor="#ff0" />
-                            <stop offset="33%" stopColor="#0f0" />
-                            <stop offset="50%" stopColor="#0ff" />
-                            <stop offset="67%" stopColor="#00f" />
-                            <stop offset="83%" stopColor="#f0f" />
-                            <stop offset="100%" stopColor="#f00" />
-                        </linearGradient>
-                    </defs>
-                    <rect 
-                        width={width - 24} 
-                        height={sliderHeight} 
-                        rx={sliderHeight/2} 
-                        fill="url(#hue-gradient)"
-                    />
-
-                    {/* Hue Knob */}
-                    <circle
-                        cx={huePos} 
-                        cy={sliderHeight/2}
-                        r={sliderHeight/2 + 2}
-                        fill="white"
-                        stroke="rgba(0,0,0,0.1)"
-                        strokeWidth="1"
-                        style={{ 
-                            transition: "cx 1s cubic-bezier(0.25, 0, 0.25, 1)",
-                            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
-                        }}
-                    />
-
-                    {/* Opacity Slider Track (Below Hue) */}
-                    <g transform={`translate(0, ${sliderHeight + gap})`}>
-                        {/* Checkerboard pattern for transparency is too complex for this minimal view, just use solid */}
-                        <rect 
-                            width={width - 24} 
-                            height={sliderHeight} 
-                            rx={sliderHeight/2} 
-                            className="text-background-700"
-                            fill="currentColor"
-                        />
-                        <rect 
-                            width={width - 24} 
-                            height={sliderHeight} 
-                            rx={sliderHeight/2} 
-                            fill={currentColor}
-                            style={{ 
-                                transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)",
-                                opacity: 0.5 // Simulate some transparency
-                            }}
-                        />
-                         <circle
-                            cx={(width - 24) * 0.8} // Fixed pos for now
-                            cy={sliderHeight/2}
-                            r={sliderHeight/2 + 2}
-                            fill="white"
-                            stroke="rgba(0,0,0,0.1)"
-                            strokeWidth="1"
-                            style={{ 
-                                filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
-                            }}
-                        />
-                    </g>
-                </g>
-
-                {/* 3. Inputs (Bottom) */}
-                <g transform={`translate(12, ${canvasHeight + gap * 2 + sliderHeight * 2 + 8})`}>
-                    {/* Hex Input */}
-                    <rect
-                        width={(width - 24) * 0.4}
-                        height={inputHeight}
-                        rx={4}
-                        className="text-background-800"
-                        fill="currentColor"
-                    />
-                    {/* Skeleton Text */}
-                    <rect x={8} y={12} width={40} height={8} rx={2} className="text-background-600" fill="currentColor" />
-
-                    {/* RGB Inputs (3 small boxes) */}
-                    <g transform={`translate(${(width - 24) * 0.4 + 8}, 0)`}>
-                        <rect width={28} height={inputHeight} rx={4} className="text-background-800" fill="currentColor" />
-                        <rect x={36} width={28} height={inputHeight} rx={4} className="text-background-800" fill="currentColor" />
-                        <rect x={72} width={28} height={inputHeight} rx={4} className="text-background-800" fill="currentColor" />
-                    </g>
-                </g>
+              </g>
             </g>
           </g>
 
@@ -353,7 +334,7 @@ export function ColorAnimation() {
               zIndex: 50
             }}
           >
-             <path
+            <path
               d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
               className={config.highlight.hoverClass}
               fill="currentColor"

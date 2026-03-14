@@ -166,6 +166,28 @@ export function LandingSidebar() {
               </div>
 
               <div>
+                <span className="text-xs font-semibold text-foreground-400">AI & Agents</span>
+                <div className="relative mt-2.5">
+                  <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
+                  <div className="space-y-1 pl-3">
+                    {AGENT_LINKS.map((link) => (
+                      <SidebarItemLink
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                          'block px-3 py-1.5 font-medium text-xs rounded-sm cursor-pointer',
+                          'transition-colors duration-300 ease-out',
+                          'hover:duration-0',
+                          'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
+                        )}
+                      >
+                        {link.label}
+                      </SidebarItemLink>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div>
                 <span className="text-xs font-semibold text-foreground-400">Resources</span>
                 <div className="relative mt-2.5">
                   <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
@@ -196,28 +218,6 @@ export function LandingSidebar() {
                 </div>
               </div>
 
-              <div>
-                <span className="text-xs font-semibold text-foreground-400">AI & Agents</span>
-                <div className="relative mt-2.5">
-                  <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
-                  <div className="space-y-1 pl-3">
-                    {AGENT_LINKS.map((link) => (
-                      <SidebarItemLink
-                        key={link.href}
-                        href={link.href}
-                        className={cn(
-                          'block px-3 py-1.5 font-medium text-xs rounded-sm cursor-pointer',
-                          'transition-colors duration-300 ease-out',
-                          'hover:duration-0',
-                          'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50'
-                        )}
-                      >
-                        {link.label}
-                      </SidebarItemLink>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
           </Scroll>
         </div>
