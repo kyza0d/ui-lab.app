@@ -2,7 +2,7 @@
 
 # UI Lab
 
-React component library and design system for building accessible, themeable interfaces. It ships 42 components built on React Aria, a typed registry of pre-built patterns and elements, an MCP server for AI-assisted development, and a documentation site with live previews and an interactive theme configurator.
+React component library and design system for building accessible, themeable interfaces. It ships 41 components built on React Aria, a typed registry of pre-built patterns and elements, an MCP server for AI-assisted development, and a documentation site with live previews and an interactive theme configurator.
 
 
 ## What's Included
@@ -23,7 +23,7 @@ React component library and design system for building accessible, themeable int
 npm install ui-lab-components
 ```
 
-**42 components** across these categories:
+**41 components** across these categories:
 
 | Category | Components |
 |----------|-----------|
@@ -33,7 +33,7 @@ npm install ui-lab-components
 | Data Display | Table, List, Code, Breadcrumbs, Color |
 | Feedback | Toast, Confirm, Progress, Badge |
 | Navigation | Tabs, Anchor, Command |
-| Visual | Mask, EasingPreview |
+| Visual | Mask |
 | Utility | Label, Divider, Banner, Button, Card, Scroll |
 
 **Key characteristics:**
