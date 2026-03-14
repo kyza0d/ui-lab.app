@@ -1,12 +1,6 @@
 export { Button } from "./components/Button";
 export type { ButtonProps, ButtonStyleSlots, ButtonStylesProp } from "./components/Button";
 
-export { EasingPreview } from "./components/EasingPreview";
-export type { EasingPreviewProps } from "./components/EasingPreview";
-
-export { EASING_FUNCTIONS, EASING_KEYS, getEasingByKey, getBezierValue, getCssVar } from "./utils/easing";
-export type { EasingKey } from "./utils/easing";
-
 export { Group } from "./components/Group";
 export type { GroupProps } from "./components/Group";
 

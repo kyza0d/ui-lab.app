@@ -197,7 +197,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         aria-expanded={submenuContext?.isOpen}
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
-        className={cn(css.subTrigger, className, resolved.root)}
+        className={cn(css['sub-trigger'], className, resolved.root)}
         data-highlighted={isHighlighted || isHovered || undefined}
         data-disabled={disabled || undefined}
         data-inset={inset || undefined}
@@ -206,7 +206,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         {...hoverProps}
       >
         {children}
-        <ChevronRight className={cn(css.subTriggerChevron, resolved.chevron)} />
+        <ChevronRight className={cn(css['sub-trigger-chevron'], resolved.chevron)} />
       </div>
     )
   }
@@ -383,7 +383,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
             ref={mergedRef}
             role="menu"
             tabIndex={-1}
-            className={cn(css.subContent, className, resolved.root)}
+            className={cn(css['sub-content'], className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
             onKeyDown={handleKeyDown}

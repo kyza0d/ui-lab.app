@@ -113,7 +113,7 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
       <ListContext.Provider value={contextValue}>
         <div
           role="list"
-          className={cn(styles.container, className)}
+          className={cn('list', styles.container, className)}
           data-variant={variant}
           data-spacing={spacing}
           data-keyboard-mode={isKeyboardMode ? 'true' : undefined}

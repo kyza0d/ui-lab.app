@@ -104,6 +104,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
           className={cn(
             'group',
             orientation,
+            variant,
             styles.group,
             orientationMap[orientation],
             spacingMap[spacing],

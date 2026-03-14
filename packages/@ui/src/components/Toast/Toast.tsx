@@ -20,22 +20,14 @@ const resolveToastBaseStyles = createStylesResolver([
   'content',
   'title',
   'description',
-  'closeButton',
+  'close',
   'icon'
 ] as const);
 
-const variantMap = {
-  default: css['default'],
-  danger: css['danger'],
-  success: css['success'],
-  info: css['info'],
-  warning: css['warning'],
-} as const;
-
 const toastIcons = {
-  danger: <Info className={css.icon} />,
+  danger: <TriangleAlert className={css.icon} />,
   success: <CircleCheck className={css.icon} />,
-  info: <TriangleAlert className={css.icon} />,
+  info: <Info className={css.icon} />,
   warning: <CircleAlert className={css.icon} />,
   default: null,
 };
@@ -236,7 +228,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
   return (
     <div
       ref={innerRef}
-      className={cn('toast', css.toast, variantMap[variant], resolved.root)}
+      className={cn('toast', css.toast, variant, resolved.root)}
       role="alert"
       onPointerDown={handlePointerDown}
     >
@@ -252,7 +244,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
       </div>
       <button
         onClick={handleDismiss}
-        className={cn('toast-close', css.closeButton, resolved.closeButton)}
+        className={cn('toast-close', css.close, resolved.close)}
         aria-label="Close"
       >
         <X className="w-4 h-4" />

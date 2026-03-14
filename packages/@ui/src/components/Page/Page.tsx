@@ -21,11 +21,11 @@ interface PageRootProps extends PageProps {
 }
 
 const paddingMap: Record<PagePadding, string> = {
-  none: css.paddingNone,
-  sm: css.paddingSm,
-  md: css.paddingMd,
-  lg: css.paddingLg,
-  xl: css.paddingXl,
+  none: css['padding-none'],
+  sm: css['padding-sm'],
+  md: css['padding-md'],
+  lg: css['padding-lg'],
+  xl: css['padding-xl'],
 };
 
 const PageRoot = React.forwardRef<HTMLDivElement, PageRootProps>(

@@ -2,19 +2,8 @@
 
 @layer components {
   .button {
-    --background: var(--background-800);
-    --foreground: var(--foreground-200);
-    --background-border: mix(var(--background-600) 15%, transparent);
-    --focus-visible: var(--accent-400);
-    
-    --hover-background: mix(var(--background-600) 40%, var(--background-950));
-    --hover-border: mix(var(--background-600) 75%, var(--background-950));
+    @apply inline-flex items-center justify-center gap-2 select-none cursor-pointer whitespace-nowrap;;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    
     background-color: var(--background);
     color: var(--foreground);
     border: var(--border-width-base, 1px) solid var(--background-border);
@@ -23,11 +12,8 @@
     font-weight: var(--font-weight-medium, 500);
     font-size: var(--text-sm, 0.875rem);
     line-height: var(--leading-tight, 1.25);
-    
+
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
-    cursor: pointer;
-    white-space: nowrap;
 
     &:hover:not(:disabled) {
       background-color: var(--hover-background);
@@ -50,58 +36,7 @@
     }
   }
 
-  .button.primary {
-    --background: var(--foreground-200);
-    --foreground: var(--background-900);
-    --background-border: var(--foreground-200);
-    --hover-background: var(--foreground-300);
-    --hover-border: var(--foreground-300);
-  }
-
-  .button.secondary {
-    --background: var(--background-900);
-    --foreground: var(--foreground-300);
-    --background-border: var(--background-700);
-  }
-
-  .button.outline {
-    --background: transparent;
-    --background-hover: var(--background-700);
-    --foreground: var(--foreground-300);
-    --border: var(--border-width-base) solid var(--background-700);
-
-    outline-style: unset !important;
-  }
-
-  .button.danger {
-    --background: mix(var(--danger-500) 15%, transparent);
-    --foreground: var(--danger-500);
-    --background-border: transparent;
-    --focus-visible: var(--danger-400);
-
-    --hover-background: mix(var(--danger-500) 25%, transparent);
-    --hover-border: transparent
-
-  }
-
-  .button.ghost {
-    --background: transparent;
-    --background-border: transparent;
-    --hover-background: var(--background-800);
-  }
-
-  .button.sm {
-    @apply px-3 py-1.5;
-    font-size: var(--text-xs);
-  }
-
-  .button.md {
-    @apply px-5 py-2;
-    font-size: var(--text-sm);
-  }
-
-  .button.lg {
-    @apply px-7 py-1.5;
-    font-size: var(--text-sm);
-  }
+  .button.sm { @apply px-3 py-1.5; font-size: var(--text-xs); }
+  .button.md { @apply px-5 py-2;   font-size: var(--text-sm); }
+  .button.lg { @apply px-7 py-1.5; font-size: var(--text-sm); }
 }

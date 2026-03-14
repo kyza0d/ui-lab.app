@@ -10,7 +10,6 @@ import {
   pressEnter,
   auditA11y,
 } from '@/tests/utils'
-import { renderButton, getButton } from './Button.test-utils'
 
 describe('Button - Accessibility', () => {
   it('has no accessibility violations', async () => {
@@ -164,5 +163,10 @@ describe('Button - Component Specific', () => {
     const button = screen.getByRole('button')
     expect(button).toBeDisabled()
     expect(button).toHaveAttribute('data-disabled', 'true')
+  })
+
+  it('renders a custom variant string as a root class', () => {
+    render(<Button variant="my-custom-variant">Custom</Button>)
+    expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass('my-custom-variant')
   })
 })

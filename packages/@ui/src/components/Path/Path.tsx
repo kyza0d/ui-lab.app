@@ -44,11 +44,11 @@ const PathItem = forwardRef<HTMLLIElement, PathItemProps>(
     const isInteractive = !isCurrent && !isDisabled && (href || onPress);
 
     return (
-      <li ref={ref} className={css.pathItem}>
+      <li ref={ref} className={css['path-item']}>
         {isInteractive ? (
           <a
             href={href}
-            className={`${css.pathItemLink} ${className || ''}`}
+            className={cn(css['path-item-link'], className || '')}
             data-disabled={isDisabled || undefined}
             data-current={isCurrent || undefined}
             aria-current={isCurrent ? 'page' : undefined}
@@ -63,7 +63,7 @@ const PathItem = forwardRef<HTMLLIElement, PathItemProps>(
           </a>
         ) : (
           <span
-            className={`${css.pathItemLink} ${className || ''}`}
+            className={`${css['path-item-link']} ${className || ''}`}
             data-disabled={isDisabled || undefined}
             data-current={isCurrent || undefined}
             aria-current={isCurrent ? 'page' : undefined}
@@ -92,9 +92,9 @@ const Path = forwardRef<HTMLElement, PathProps>(
         aria-label="Path"
       >
         <ol className={cn(
-          css.pathList,
+          css['path-list'],
           resolved.list,
-          separator && css.withCustomSeparator
+          separator && css['with-custom-separator']
         )}>
           {React.Children.map(childArray, (child, index) => {
             const isLastChild = index === childCount - 1;

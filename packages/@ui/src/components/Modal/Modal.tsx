@@ -40,7 +40,7 @@ export interface ModalStyleSlots {
   header?: StyleValue;
   title?: StyleValue;
   spacer?: StyleValue;
-  closeButton?: StyleValue;
+  close?: StyleValue;
   closeIcon?: StyleValue;
   content?: StyleValue;
   footer?: StyleValue;
@@ -49,7 +49,7 @@ export interface ModalStyleSlots {
 export type ModalStylesProp = StylesProp<ModalStyleSlots>;
 
 const resolveModalBaseStyles = createStylesResolver([
-  'root', 'overlay', 'backdrop', 'header', 'title', 'spacer', 'closeButton', 'closeIcon', 'content', 'footer'
+  'root', 'overlay', 'backdrop', 'header', 'title', 'spacer', 'close', 'closeIcon', 'content', 'footer'
 ] as const);
 
 export interface ModalProps {
@@ -64,7 +64,7 @@ export interface ModalProps {
   /** Optional footer content rendered below the body */
   footer?: React.ReactNode;
   /** Whether to show the X close button in the header */
-  closeButton?: boolean;
+  close?: boolean;
   /** Controls modal width: "fit" adapts to content, "auto" uses default width */
   size?: "fit" | "auto";
   /** Whether clicking the backdrop dismisses the modal */
@@ -99,7 +99,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       title,
       children,
       footer,
-      closeButton = true,
+      close = true,
       size = "auto",
       isDismissable = true,
       isKeyboardDismissDisabled = false,
@@ -148,6 +148,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
     return createPortal(
       <div
         className={cn(
+          "modal",
           "fixed inset-0 z-9999 flex items-center justify-center",
           css.overlay,
           overlayClassName,
@@ -156,7 +157,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       >
         {/* Backdrop overlay - click outside to dismiss */}
         <div
-          className={cn(css.backdrop, resolved.backdrop)}
+          className={cn("backdrop", css.backdrop, resolved.backdrop)}
           onMouseDown={() => { if (isDismissable) state.close(); }}
         />
 
@@ -176,18 +177,18 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
           data-open={state.isOpen || undefined}
         >
           {/* Header */}
-          {(title || closeButton) && (
+          {(title || close) && (
             <div className={cn(css.header, resolved.header)}>
               {title && (
                 <h4 {...titleProps} className={cn(css.title, resolved.title)}>
                   {title}
                 </h4>
               )}
-              {!title && closeButton && <div className={cn(css.spacer, resolved.spacer)} />}
-              {closeButton && (
+              {!title && close && <div className={cn(css.spacer, resolved.spacer)} />}
+              {close && (
                 <button
                   onClick={handleClose}
-                  className={cn(css.closeButton, resolved.closeButton)}
+                  className={cn(css.close, resolved.close)}
                   aria-label="Close modal"
                 >
                   <X className={cn(css.closeIcon, resolved.closeIcon)} />

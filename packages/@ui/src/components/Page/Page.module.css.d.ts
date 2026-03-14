@@ -1,6 +1,11 @@
-export const page: string;
-export const paddingNone: string;
-export const paddingSm: string;
-export const paddingMd: string;
-export const paddingLg: string;
-export const paddingXl: string;
+export interface Styles {
+  "page": string;
+  "padding-none": string;
+  "padding-sm": string;
+  "padding-md": string;
+  "padding-lg": string;
+  "padding-xl": string;
+}
+
+export const styles: Styles;
+export default styles;

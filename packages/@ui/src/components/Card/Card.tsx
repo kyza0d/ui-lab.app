@@ -40,7 +40,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
       <CardStylesContext.Provider value={resolvedStyles}>
         <div
           ref={ref}
-          className={cn(styles.card, resolvedStyles.root, className)}
+          className={cn('card', styles.card, resolvedStyles.root, className)}
           {...props}
         />
       </CardStylesContext.Provider>
@@ -56,7 +56,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.header, header, className)}
+        className={cn('card', 'header', styles.header, header, className)}
         {...props}
       />
     );
@@ -86,7 +86,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn(styles.footer, footer, className)}
+        className={cn('card', 'footer', styles.footer, footer, className)}
         {...props}
       />
     );

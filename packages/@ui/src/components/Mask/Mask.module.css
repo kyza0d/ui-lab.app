@@ -2,9 +2,7 @@
 
 @layer components {
   .mask {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    @apply relative h-full w-full;
   }
 }
 
@@ -17,7 +15,6 @@
 .mask[style*="--mask-clip-path"] {
   clip-path: var(--mask-clip-path);
 }
-
 
 .mask-gradient {
   background: var(--mask-gradient);

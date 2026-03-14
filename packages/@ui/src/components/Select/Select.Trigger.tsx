@@ -101,7 +101,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
           <div className={cn(styles['value-section'], resolved.valueSection)}>
             {icon?.prefix && <span className={cn(styles['icon-prefix'], resolved.iconPrefix)}>{icon.prefix}</span>}
             {mode === "multiple" && children === undefined ? (
-              <span className={styles.placeholder}>
+              <span className={cn('select', 'placeholder', styles.placeholder)}>
                 {selectedKeys && selectedKeys.size > 0
                   ? `${selectedKeys.size} selected`
                   : "Select items..."}
@@ -219,7 +219,7 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
 
     return (
       <div
-        className={cn(styles.trigger, styles['search-trigger'], className, resolved.root)}
+        className={cn('select', 'search-trigger', styles.trigger, styles['search-trigger'], className, resolved.root)}
         data-slot="trigger"
         data-open={isOpen ? "true" : undefined}
         data-disabled={isDisabled || undefined}

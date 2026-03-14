@@ -10,7 +10,7 @@ declare const styles: {
   sm: string;
   md: string;
   lg: string;
-  iconContainer: string;
+  icon: string;
   icon: string;
   title: string;
   body: string;

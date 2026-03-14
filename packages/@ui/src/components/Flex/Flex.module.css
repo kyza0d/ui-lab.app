@@ -2,105 +2,48 @@
 
 @layer components {
   .flex {
-    display: flex;
-    flex-direction: row;
+    @apply flex w-full flex-row;
     flex-wrap: nowrap;
     gap: var(--spacing-md);
     justify-content: flex-start;
     align-items: stretch;
-    width: 100%;
   }
 
   /* Direction variants */
-  .flex.row {
-    flex-direction: row;
-  }
-
-  .flex.column {
-    flex-direction: column;
-  }
+  .flex.row { flex-direction: row; }
+  .flex.column { flex-direction: column; }
 
   /* Wrap variants */
-  .flex.wrap {
-    flex-wrap: wrap;
-  }
-
-  .flex.nowrap {
-    flex-wrap: nowrap;
-  }
+  .flex.wrap { flex-wrap: wrap; }
+  .flex.nowrap { flex-wrap: nowrap; }
 
   /* Gap variants */
-  .flex.gap-xs {
-    gap: var(--spacing-xs);
-  }
-
-  .flex.gap-sm {
-    gap: var(--spacing-sm);
-  }
-
-  .flex.gap-md {
-    gap: var(--spacing-md);
-  }
-
-  .flex.gap-lg {
-    gap: var(--spacing-lg);
-  }
-
-  .flex.gap-xl {
-    gap: var(--spacing-xl);
-  }
+  .flex.gap-xs { gap: var(--spacing-xs); }
+  .flex.gap-sm { gap: var(--spacing-sm); }
+  .flex.gap-md { gap: var(--spacing-md); }
+  .flex.gap-lg { gap: var(--spacing-lg); }
+  .flex.gap-xl { gap: var(--spacing-xl); }
 
   /* Justify-content variants */
-  .flex.justify-flex-start {
-    justify-content: flex-start;
-  }
-
-  .flex.justify-flex-end {
-    justify-content: flex-end;
-  }
-
-  .flex.justify-center {
-    justify-content: center;
-  }
-
-  .flex.justify-space-between {
-    justify-content: space-between;
-  }
-
-  .flex.justify-space-around {
-    justify-content: space-around;
-  }
-
-  .flex.justify-space-evenly {
-    justify-content: space-evenly;
-  }
+  .flex.justify-flex-start { justify-content: flex-start; }
+  .flex.justify-flex-end { justify-content: flex-end; }
+  .flex.justify-center { justify-content: center; }
+  .flex.justify-space-between { justify-content: space-between; }
+  .flex.justify-space-around { justify-content: space-around; }
+  .flex.justify-space-evenly { justify-content: space-evenly; }
 
   /* Align-items variants */
-  .flex.align-flex-start {
-    align-items: flex-start;
-  }
-
-  .flex.align-flex-end {
-    align-items: flex-end;
-  }
-
-  .flex.align-center {
-    align-items: center;
-  }
-
-  .flex.align-stretch {
-    align-items: stretch;
-  }
-
-  .flex.align-baseline {
-    align-items: baseline;
-  }
+  .flex.align-flex-start { align-items: flex-start; }
+  .flex.align-flex-end { align-items: flex-end; }
+  .flex.align-center { align-items: center; }
+  .flex.align-stretch { align-items: stretch; }
+  .flex.align-baseline { align-items: baseline; }
 
   /* Container query parent - establishes containment context */
   .container-query-parent {
     container-type: inline-size;
     container-name: flex-parent;
-    width: 100%;
+    @apply w-full;
   }
 
   /* Container query responsive behavior - use .flex.container-responsive for specificity parity with base variants */

@@ -2,54 +2,13 @@
 
 @layer components {
   .badge {
-    --background: var(--background-800);
-    --foreground: var(--foreground-200);
-    --border: var(--background-600);
-
-    @apply px-3 py-0.5;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    @apply inline-flex items-center justify-center gap-2 px-3 py-0.5;
     font-weight: var(--font-weight-medium);
     font-size: var(--text-sm);
     background-color: var(--background);
     color: var(--foreground);
+    border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-sm);
-  }
-
-  .badge.default {
-    --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
-    --foreground: var(--foreground-200);
-
-    border: var(--border-width-base) solid var(--background-700)
-  }
-
-  .badge.secondary {
-    --background: color-mix(in srgb, var(--background-600) 40%, transparent);
-    --foreground: var(--foreground-300);
-
-    border: var(--border-width-base) solid var(--background-600);
-  }
-
-  .badge.success {
-    --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
-    --foreground: var(--success-600);
-  }
-
-  .badge.warning {
-    --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
-    --foreground: var(--warning-600);
-  }
-
-  .badge.danger {
-    --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
-    --foreground: var(--danger-600);
-  }
-
-  .badge.info {
-    --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
-    --foreground: var(--info-600);
   }
 
   .badge.sm {
@@ -72,43 +31,33 @@
     font-size: var(--text-sm);
   }
 
-  .pill {
-    border-radius: 9999px;
+  .pill { border-radius: 9999px; }
+
+  .icon {
+    @apply flex items-center shrink-0;
   }
 
-  .iconWrapper {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .dismissButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.25rem;
-    @apply p-1;
+  .dismiss {
+    @apply ml-1 flex items-center justify-center p-1 cursor-pointer;
     border-radius: var(--radius-xs);
     background: transparent;
     border: none;
-    color: var(--foreground-400);
-    cursor: pointer;
+    color: var(--dismiss-color);
     transition: opacity 150ms var(--ease-snappy-pop), transform 150ms var(--ease-snappy-pop);
     outline: none;
   }
 
-  .dismissButton[data-hovered="true"] {
-    background: color-mix(in srgb, var(--background-700) 80%, var(--background-900));
+  .dismiss-button[data-hovered="true"] {
+    background: var(--dismiss-hover-background);
   }
 
-  .dismissButton[data-pressed="true"] {
-    background: var(--background-700);
+  .dismiss-button[data-pressed="true"] {
+    background: var(--dismiss-pressed-background);
     transform: scale(0.95);
   }
 
-  .dismissButton[data-focus-visible="true"] {
+  .dismiss-button[data-focus-visible="true"] {
     outline: 2px solid currentColor;
     outline-offset: 1px;
   }
 }
-

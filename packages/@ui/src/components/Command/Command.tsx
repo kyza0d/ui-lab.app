@@ -305,7 +305,7 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
       <FocusScope contain restoreFocus>
         <div
           className={cn(
-            styles["palette"],
+            "command",
             styles["overlay"],
             overlayClassName,
           )}

@@ -1,5 +1,4 @@
 export interface Styles {
-  palette: string;
   overlay: string;
   backdrop: string;
   content: string;

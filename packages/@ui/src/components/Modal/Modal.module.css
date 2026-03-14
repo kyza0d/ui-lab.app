@@ -2,32 +2,21 @@
 
 @layer components {
   .overlay {
-    --modal-bg: var(--background-900);
-    --modal-bg-footer: var(--background-800);
-    --modal-border: var(--background-700);
-    --modal-title-color: var(--foreground-100);
-    --modal-text-color: var(--foreground-300);
-    --modal-close-color: var(--foreground-400);
-    --modal-close-hover: var(--foreground-200);
+    --disabled-opacity: 0.5;
   }
 
   .backdrop {
-    position: absolute;
-    inset: 0;
-    background-color: rgb(0 0 0 / 0.5);
+    @apply absolute inset-0 cursor-pointer;
+    background-color: var(--backdrop-background);
     backdrop-filter: blur(4px);
-    cursor: pointer;
   }
 
   .modal {
-    position: relative;
+    @apply relative flex w-full flex-col overflow-hidden;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     max-height: 90vh;
     margin: 1rem;
-    background-color: var(--modal-bg);
+    background-color: var(--modal-background);
     border: var(--border-width-base) solid var(--modal-border);
     border-radius: var(--radius-sm);
     pointer-events: auto;
@@ -35,17 +24,12 @@
   }
 
   .header {
-    @apply py-4 px-6 gap-2;
-
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @apply flex shrink-0 items-center justify-between gap-2 px-6 py-4;
     border-bottom: var(--border-width-base) solid var(--modal-border);
   }
 
   .title {
-    margin: 0;
+    @apply m-0;
     font-size: 1.125rem;
     font-weight: var(--font-weight-semibold);
     color: var(--modal-title-color);
@@ -55,34 +39,30 @@
     flex: 1;
   }
 
-  .close-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
+  .close {
+    @apply ml-auto flex items-center justify-center cursor-pointer;
     background: none;
     border: none;
-    cursor: pointer;
     color: var(--modal-close-color);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .closeButton:hover {
+  .close:hover {
     color: var(--modal-close-hover);
   }
 
-  .closeButton:active {
+  .close:active {
     transform: scale(0.92);
   }
 
-  .closeButton:focus {
+  .close:focus {
     outline: 2px solid var(--modal-close-hover);
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
 
   .closeIcon {
-    width: 1.25rem;
-    height: 1.25rem;
+    @apply h-5 w-5;
   }
 
   .content {
@@ -103,6 +83,7 @@
   .content::-webkit-scrollbar-thumb {
     background: var(--modal-border);
     border-radius: 3px;
+    transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .content::-webkit-scrollbar-thumb:hover {
@@ -110,13 +91,8 @@
   }
 
   .footer {
-    @apply py-4 px-6 gap-4;
-
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--background-950);
+    @apply flex shrink-0 items-center justify-between gap-4 px-6 py-4;
+    background-color: var(--footer-background);
     border-top: var(--border-width-base) solid var(--modal-border);
   }
 

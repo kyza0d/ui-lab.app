@@ -57,13 +57,6 @@ const getFrameSide = (position: TooltipPosition): "top" | "right" | "bottom" | "
   }
 };
 
-const placementMap: Record<TooltipPosition, "top" | "bottom" | "left" | "right"> = {
-  top: "top",
-  bottom: "bottom",
-  left: "left",
-  right: "right",
-};
-
 const getInitialTransform = (placement: string): string => {
   switch (placement) {
     case "top":
@@ -83,11 +76,19 @@ export interface TooltipStyleSlots {
   root?: StyleValue;
   trigger?: StyleValue;
   content?: StyleValue;
-  contentFrame?: StyleValue;
+  frame?: StyleValue;
   hintBadge?: StyleValue;
 }
 
 export type TooltipStylesProp = StylesProp<TooltipStyleSlots>;
+
+const resolveTooltipStyles = createStylesResolver([
+  'root',
+  'trigger',
+  'content',
+  'frame',
+  'hintBadge',
+] as const);
 
 export interface TooltipProps {
   children: React.ReactNode;
@@ -139,15 +140,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     const [startSwapTimer, clearSwapTimer] = useTimeout();
     const [startUnmountTimer, clearUnmountTimer] = useTimeout();
 
-    const resolveTooltipBaseStyles = createStylesResolver([
-      'root',
-      'trigger',
-      'content',
-      'contentFrame',
-      'hintBadge',
-    ] as const);
-
-    const resolved = resolveTooltipBaseStyles(styles);
+    const resolved = resolveTooltipStyles(styles);
 
     const onOpenChangeRef = useRef(onOpenChange);
     onOpenChangeRef.current = onOpenChange;
@@ -171,7 +164,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     const { tooltipProps: ariaTooltipProps } = useTooltip({}, state);
 
     const { refs, floatingStyles, placement } = useFloating({
-      placement: placementMap[position],
+      placement: position,
       whileElementsMounted: autoUpdate,
       middleware: [
         offset(TOOLTIP_GAP + ARROW_POSITIONING_SIZE),
@@ -270,12 +263,11 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
               }}
             >
               <div
-                className={cn(css.content, resolved.content)}
+                className={cn('tooltip', 'content', css.content, resolved.content)}
                 data-visible={(isVisible && isTriggerVisible) ? "true" : "false"}
                 data-instant={(isInstant || !isTriggerVisible) ? "true" : undefined}
                 style={{
                   transform: (isVisible && isTriggerVisible) ? "scale(1)" : getInitialTransform(placement),
-                  pointerEvents: (isVisible && isTriggerVisible) ? "auto" : "none",
                 }}
               >
                 <Frame
@@ -285,10 +277,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
                   cornerRadius={8}
                   padding="none"
-                  fill="var(--background-900)"
-                  borderColor="var(--background-700)"
                 >
-                  <div className={cn(css["content-frame"], resolved.contentFrame)} data-hint={hint ? "" : undefined}>
+                  <div className={cn('tooltip', 'frame', css.frame, resolved.frame)} data-hint={hint ? "" : undefined}>
                     {content}
                     {hint && <Badge variant="secondary" size="sm" className={cn(resolved.hintBadge)}>{hint}</Badge>}
                   </div>

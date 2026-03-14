@@ -2,40 +2,32 @@
 
 @layer components {
   .anchor {
-    display: inline;
+    @apply inline;
   }
 
   .preview {
-    display: inline;
+    @apply inline;
   }
 
   .trigger {
-    --underline-background: var(--background-600);
-
-    display: inline-block;
-    position: relative;
-    color: var(--foreground-200);
+    @apply inline-block relative cursor-pointer;
+    color: var(--foreground);
     text-decoration: none;
-    cursor: pointer;
-    transition: color 150ms var(--ease-gentle-ease);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:focus-visible {
-      outline: 2px solid var(--color-background-600);
+      outline: 2px solid var(--focus-ring);
       outline-offset: 2px;
       border-radius: 2px;
     }
   }
 
   .underline {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0px;
-    height: 1px;
+    @apply absolute left-0 right-0 bottom-0 h-px;
     background: var(--underline-background);
     transform-origin: right;
     transform: scaleX(1);
-    transition: transform 150ms var(--ease-gentle-ease);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
   }
 }

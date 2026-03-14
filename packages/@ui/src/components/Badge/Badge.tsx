@@ -13,20 +13,19 @@ import css from "./Badge.module.css";
 
 import { X } from "lucide-react";
 
-type BadgeVariant = "default" | 'secondary' | "success" | "warning" | "danger" | "info";
 type BadgeSize = "sm" | "md" | "lg";
 
 export interface BadgeStyleSlots {
   root?: StyleValue;
-  iconWrapper?: StyleValue;
-  dismissButton?: StyleValue;
+  icon?: StyleValue;
+  dismiss?: StyleValue;
 }
 
 export type BadgeStylesProp = StylesProp<BadgeStyleSlots>;
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual color style of the badge */
-  variant?: BadgeVariant;
+  variant?: string;
   /** Size of the badge */
   size?: BadgeSize;
   /** Icon element displayed before the badge label */
@@ -42,15 +41,6 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: BadgeStylesProp;
 }
-
-const variantMap = {
-  default: css["default"],
-  secondary: css["secondary"],
-  success: css["success"],
-  warning: css["warning"],
-  danger: css["danger"],
-  info: css["info"],
-} as const;
 
 const sizeMap = {
   sm: css["sm"],
@@ -84,7 +74,7 @@ function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
       ref={buttonRef}
       role="button"
       tabIndex={0}
-      className={cn(css.dismissButton, className)}
+      className={cn(css.dismiss, className)}
       data-pressed={isPressed || undefined}
       data-hovered={isHovered || undefined}
       data-focus-visible={isFocusVisible || undefined}
@@ -94,7 +84,7 @@ function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
   );
 }
 
-const resolveBadgeBaseStyles = createStylesResolver(['root', 'iconWrapper', 'dismissButton'] as const);
+const resolveBadgeBaseStyles = createStylesResolver(['root', 'icon', 'dismiss'] as const);
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   (
@@ -122,7 +112,6 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           variant,
           size,
           css.badge,
-          variantMap[variant],
           sizeMap[size],
           pill && css.pill,
           dismissible && css.dismissible,
@@ -136,12 +125,12 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {icon && (
-          <span className={cn(css.iconWrapper, resolved.iconWrapper)} aria-hidden="true">
+          <span className={cn(css.icon, resolved.icon)} aria-hidden="true">
             {icon}
           </span>
         )}
         {count !== undefined ? count : children}
-        {dismissible && <DismissButton onDismiss={onDismiss} size={size} className={resolved.dismissButton} />}
+        {dismissible && <DismissButton onDismiss={onDismiss} size={size} className={resolved.dismiss} />}
       </span>
     );
   }

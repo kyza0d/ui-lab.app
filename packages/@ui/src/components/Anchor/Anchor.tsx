@@ -159,12 +159,12 @@ const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorP
         href={href}
         target={target}
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
-        className={cn('trigger', css.trigger, resolved.root)}
+        className={cn('anchor', 'trigger', css.trigger, resolved.root)}
       >
         {filteredChildren}
       </a>
     ) : (
-      <span ref={ref as React.Ref<HTMLSpanElement>} className={cn('trigger', css.trigger, resolved.root)}>{filteredChildren}</span>
+      <span ref={ref as React.Ref<HTMLSpanElement>} className={cn('anchor', 'trigger', css.trigger, resolved.root)}>{filteredChildren}</span>
     );
 
     // If no preview content, render trigger directly without popover

@@ -2,14 +2,7 @@
 
 @layer components {
   .banner {
-    --background: var(--background-900);
-    --foreground: var(--info-50);
-    --border: var(--info-600);
-
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-4);
+    @apply flex w-full items-start gap-4;
     font-family: inherit;
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
@@ -22,39 +15,24 @@
   }
 
   .content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-2);
+    @apply flex flex-col gap-2;
   }
 
-  .iconContainer {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: flex-start;
+  .icon-container {
+    @apply flex shrink-0 items-center justify-center self-start;
   }
 
   .icon {
-    @apply mr-4;
-    width: 1.25rem;
-    height: 1.25rem;
-    color: currentColor;
+    @apply mr-4 h-5 w-5;
+    color: var(--icon-color, currentColor);
   }
 
   .dismiss {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    padding: 0;
+    @apply flex h-8 w-8 shrink-0 items-center justify-center p-0 cursor-pointer;
     background-color: transparent;
     color: currentColor;
     border: none;
     border-radius: var(--radius-sm);
-    cursor: pointer;
     transition: background-color 0.15s ease-out;
 
     &:focus-visible {
@@ -78,55 +56,6 @@
   }
 }
 
-.banner.note {
-  --background: var(--background-900);
-  --foreground: var(--foreground-200);
-  --border: var(--background-700);
-}
-
-.banner.note .icon {
-  color: var(--background-500);
-}
-
-.banner.info {
-  --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
-  --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--info-600) 30%, var(--background-900));
-}
-
-.banner.info .icon {
-  color: var(--info-600);
-}
-
-.banner.success {
-  --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
-  --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--success-600) 30%, var(--background-900));
-}
-
-.banner.success .icon {
-  color: var(--success-600);
-}
-
-.banner.warning {
-  --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
-  --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--warning-600) 30%, var(--background-900));
-}
-
-.banner.warning .icon {
-  color: var(--warning-600);
-}
-
-.banner.danger {
-  --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
-  --foreground: var(--foreground-200);
-  --border: color-mix(in srgb, var(--danger-600) 30%, var(--background-900));
-}
-
-.banner.danger .icon {
-  color: var(--danger-600);
-}
 
 .banner.sm {
   @apply px-3 py-2;

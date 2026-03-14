@@ -2,7 +2,7 @@ export interface Styles {
   trigger: string;
   root: string;
   content: string;
-  "content-frame": string;
+  frame: string;
 }
 
 declare const styles: Styles;

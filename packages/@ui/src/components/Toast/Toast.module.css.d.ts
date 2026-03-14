@@ -4,7 +4,7 @@ declare const styles: {
   content: string;
   title: string;
   description: string;
-  closeButton: string;
+  close: string;
   default: string;
   danger: string;
   success: string;

@@ -165,7 +165,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           />
           {displayChecked && !isIndeterminate && (
             <svg
-              className={(css as any)['checkbox-checkmark']}
+              className={cn('checkbox-root', 'checkbox-checkmark', (css as any)['checkbox-checkmark'])}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -178,7 +178,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           )}
           {isIndeterminate && (
             <svg
-              className={css['checkbox-indeterminate']}
+              className={cn('checkbox-root', 'checkbox-indeterminate', css['checkbox-indeterminate'])}
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -202,7 +202,10 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         {helperText && (
           <p
             className={cn(
+              'checkbox-root',
+              'helper-text',
               css["helper-text"],
+              helperTextError && 'helper-text-error',
               helperTextError
                 ? css["helper-text-error"]
                 : css["helper-text-normal"],

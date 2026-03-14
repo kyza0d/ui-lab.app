@@ -3,6 +3,7 @@ declare const styles: {
   horizontal: string;
   vertical: string;
   none: string;
+  xs: string;
   sm: string;
   ghost: string;
   item: string;

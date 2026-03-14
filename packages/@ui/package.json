@@ -34,10 +34,13 @@
       "import": "./dist/theme-script.es.js",
       "types": "./dist/providers/themeScript.d.ts"
     },
-    "./styles.css": "./dist/styles.css",
+    "./styles.css": {
+      "style": "./dist/styles.css",
+      "default": "./dist/styles.css"
+    },
     "./postcss": {
-      "import": "./dist/postcss-ui-lab.ts",
-      "types": "./dist/postcss-ui-lab.d.ts"
+      "import": "./dist/postcss-ui-lab.mjs",
+      "default": "./dist/postcss-ui-lab.mjs"
     }
   },
   "files": [

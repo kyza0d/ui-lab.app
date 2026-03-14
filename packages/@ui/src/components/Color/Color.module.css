@@ -2,12 +2,8 @@
 
 @layer components {
   .color {
-    --background: color-mix(in srgb, var(--background-800) 30%, transparent);;
-    --border: var(--background-700);
-    --ring-color: var(--accent-500);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    --disabled-opacity: 0.5;
+    @apply flex flex-col gap-4;
     background-color: var(--background);
     border: var(--border-width-base) solid var(--border);
     border-radius: var(--radius-sm);
@@ -15,90 +11,84 @@
   }
 
   .color[data-disabled="true"] {
-    opacity: 0.5;
+    opacity: var(--disabled-opacity);
     pointer-events: none;
   }
 
-  .colorControls {
+  .colorControls,
+  .color-controls {
     @apply pb-3 px-3 space-y-3;
   }
 
   /* Input styles */
-  .inputGroup {
-    width: 100%;
-    display: flex;
+  .inputGroup,
+  .input-group {
+    @apply flex w-full;
   }
 
-  .inputGroup > div:nth-child(1) {
+  .inputGroup > div:nth-child(1),
+  .input-group > div:nth-child(1) {
     flex: 1;
-    min-width: 0;
+    @apply min-w-0;
   }
 
-  .colorInput {
-    width: 100%;
-  }
+  .colorInput,
+  .color-input { @apply w-full; }
 
-  .formatSelect {
-    flex-shrink: 0;
-    width: 85px; /* Fixed width for the format selector */
-  }
+  .formatSelect,
+  .format-select { @apply shrink-0; width: 85px; }
 
-  .color[data-size="sm"] .formatSelect {
-    width: 75px;
-  }
+  .color[data-size="sm"] .formatSelect,
+  .color[data-size="sm"] .format-select { width: 75px; }
 
   /* Canvas Styles */
-  .canvasContainer {
-    position: relative;
+  .canvasContainer,
+  .canvas-container {
+    @apply relative mx-auto mt-2 flex flex-col;
     width: 96%;
-    @apply mx-auto mt-2;
     cursor: crosshair;
     touch-action: none;
-    display: flex;
-    flex-direction: column;
+    min-height: 160px;
   }
 
-  .canvasContainer[data-focus-visible="true"] {
+  .canvasContainer[data-focus-visible="true"],
+  .canvas-container[data-focus-visible="true"] {
     outline: 2px solid var(--ring-color);
     outline-offset: 2px;
   }
 
   .canvas {
-    position: relative;
-    width: 100%;
+    @apply relative w-full flex-1 overflow-hidden;
     flex: 1;
     border-radius: none;
-    /* clip-path: inset(0 round var(--radius-sm)); */
-    overflow: hidden;
   }
 
-  .canvasGradientHue {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    /* border-radius: var(--radius-sm); */
+  .canvasGradientHue,
+  .canvas-gradient-hue {
+    @apply absolute inset-0 overflow-hidden;
   }
 
-  .canvasGradientSaturation {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgb(255, 255, 255), transparent);
+  .canvasGradientSaturation,
+  .canvasGradientLightness,
+  .canvas-gradient-saturation,
+  .canvas-gradient-lightness {
+    @apply absolute inset-0;
     border-radius: none;
   }
 
-  .canvasGradientLightness {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgb(0, 0, 0), transparent);
-    border-radius: none
+  .canvas-gradient-saturation {
+    background: linear-gradient(to right, rgb(255, 255, 255), transparent);
   }
 
-  .canvasPointer {
-    position: absolute;
-    width: 12px;
-    height: 12px;
+  .canvas-gradient-lightness {
+    background: linear-gradient(to top, rgb(0, 0, 0), transparent);
+  }
+
+  .canvasPointer,
+  .canvas-pointer {
+    @apply absolute h-3 w-3;
     border-radius: var(--radius-full);
-    border: 2px solid color-mix(in srgb, var(--foreground-200) 50%, transparent);
+    border: 2px solid var(--pointer-border);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
     pointer-events: none;
     transform: translate(-50%, -50%);
@@ -106,21 +96,18 @@
   }
 
   /* Hue Slider Styles */
-  .hueSlider {
-    display: flex;
-    align-items: center;
+  .hueSlider,
+  .hue-slider {
+    @apply relative flex items-center overflow-hidden;
     height: 16px;
     border-radius: var(--radius-full);
-    position: relative;
     cursor: pointer;
     touch-action: none;
-    overflow: hidden;
   }
 
-  .hueTrack {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  .hueTrack,
+  .hue-track {
+    @apply relative h-full w-full;
     border-radius: var(--radius-full);
     background: linear-gradient(
       to right,
@@ -135,203 +122,178 @@
     border: var(--border-width-base) solid var(--border);
   }
 
-  .hueThumb {
-    position: absolute;
-    width: 12px;
-    height: 12px;
+  .hueThumb,
+  .opacityThumb,
+  .hue-thumb,
+  .opacity-thumb {
+    @apply absolute;
     border-radius: var(--radius-full);
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--thumb-border);
     top: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    background: white;
+    background: var(--thumb-background);
     pointer-events: none;
   }
 
-  .hueSlider[data-focus-visible="true"] .hueThumb {
+  .hueThumb,
+  .hue-thumb {
+    @apply h-3 w-3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  .hueSlider[data-focus-visible="true"] .hueThumb,
+  .hue-slider[data-focus-visible="true"] .hue-thumb {
     outline: 2px solid var(--ring-color);
     outline-offset: 2px;
   }
 
-  .hueThumb:hover {
+  .hue-thumb:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   }
 
-  .hueThumb:active {
+  .hue-thumb:active {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   /* Opacity Slider Styles */
-  .opacitySlider {
-    display: flex;
-    align-items: center;
+  .opacitySlider,
+  .opacity-slider {
+    @apply relative flex items-center overflow-hidden;
     height: 12px;
     border-radius: var(--radius-full);
-    position: relative;
     cursor: pointer;
     touch-action: none;
-    overflow: hidden;
   }
 
-  .opacityTrack {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  .opacityTrack,
+  .opacity-track {
+    @apply relative h-full w-full overflow-hidden;
     border-radius: var(--radius-full);
     background-image: repeating-linear-gradient(
       45deg,
-      var(--background-800),
-      var(--background-800) 10px,
-      var(--background-700) 10px,
-      var(--background-700) 20px
+      var(--checkerboard-dark),
+      var(--checkerboard-dark) 10px,
+      var(--checkerboard-light) 10px,
+      var(--checkerboard-light) 20px
     );
     border: var(--border-width-base) solid var(--border);
-    overflow: hidden;
   }
 
-  .opacityThumb {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: var(--radius-full);
-    border: 2px solid white;
+  .opacityThumb,
+  .opacity-thumb {
+    @apply h-2.5 w-2.5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    top: 50%;
     transform: translateY(-50%) translateX(-50%);
-    background: white;
-    pointer-events: none;
   }
 
-  .opacitySlider[data-focus-visible="true"] .opacityThumb {
+  .opacitySlider[data-focus-visible="true"] .opacityThumb,
+  .opacity-slider[data-focus-visible="true"] .opacity-thumb {
     outline: 2px solid var(--ring-color);
     outline-offset: 2px;
   }
 
-  .opacityThumb:hover {
+  .opacity-thumb:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   }
 
-  .opacityThumb:active {
+  .opacity-thumb:active {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   /* Recent Colors Styles */
-  .recentColors {
-    display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
+  .recentColors,
+  .recent-colors {
+    @apply flex gap-2 overflow-x-auto pb-1;
   }
 
-  .recentColorSwatch {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+  .recentColorSwatch,
+  .recent-color-swatch {
+    @apply h-8 w-8 shrink-0 cursor-pointer p-0;
     border-radius: var(--radius-sm);
     border: var(--border-width-base) solid var(--border);
-    cursor: pointer;
     background: none;
-    padding: 0;
     outline: none;
   }
 
-  .recentColorSwatch:hover {
+  .recentColorSwatch:hover,
+  .recent-color-swatch:hover {
     transform: scale(1.1);
     box-shadow: 0 0 0 2px var(--ring-color);
   }
 
-  .recentColorSwatch:active {
+  .recentColorSwatch:active,
+  .recent-color-swatch:active {
     transform: scale(0.95);
   }
 
-  .recentColorSwatch:focus-visible {
+  .recentColorSwatch:focus-visible,
+  .recent-color-swatch:focus-visible {
     outline: 2px solid var(--ring-color);
     outline-offset: 2px;
   }
 
 
-  /* Preview Container - deprecated, use previewSwatch instead */
-  .previewContainer {
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem 0;
+  /* Preview Container - deprecated, use preview-swatch instead */
+  .previewContainer,
+  .preview-container {
+    @apply flex justify-center py-2;
   }
 
   /* Preview Swatch - inline with input */
-  .previewSwatch {
-    position: relative;
-    width: 36px;
-    height: 36px;
+  .previewSwatch,
+  .preview-swatch {
+    @apply relative h-9 w-9 shrink-0 overflow-hidden;
     border-radius: var(--radius-sm);
     border: var(--border-width-base) solid var(--border);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    flex-shrink: 0;
   }
 
-  .previewSwatch::before {
+  .previewSwatch::before,
+  .preview-swatch::before {
     content: "";
-    position: absolute;
-    inset: 0;
+    @apply absolute inset-0;
     background-image: repeating-linear-gradient(
       45deg,
-      var(--background-700),
-      var(--background-700) 6px,
-      var(--background-800) 6px,
-      var(--background-800) 12px
+      var(--checkerboard-light),
+      var(--checkerboard-light) 6px,
+      var(--checkerboard-dark) 6px,
+      var(--checkerboard-dark) 12px
     );
     border-radius: var(--radius-sm);
     pointer-events: none;
     z-index: 1;
   }
 
-  .previewSwatch::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: var(--preview-color, transparent);
-    border-radius: var(--radius-sm);
-    pointer-events: none;
-    z-index: 2;
-  }
-
   .preview {
-    position: relative;
-    width: 64px;
-    height: 64px;
+    @apply relative h-16 w-16 overflow-hidden;
     border-radius: var(--radius-sm);
     border: var(--border-width-base) solid var(--border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
   }
 
   .preview::before {
     content: "";
-    position: absolute;
-    inset: 0;
+    @apply absolute inset-0;
     background-image: repeating-linear-gradient(
       45deg,
-      var(--background-700),
-      var(--background-700) 10px,
-      var(--background-800) 10px,
-      var(--background-800) 20px
+      var(--checkerboard-light),
+      var(--checkerboard-light) 10px,
+      var(--checkerboard-dark) 10px,
+      var(--checkerboard-dark) 20px
     );
     border-radius: var(--radius-sm);
     pointer-events: none;
     z-index: 1;
   }
 
+  .previewSwatch::after,
+  .preview-swatch::after,
   .preview::after {
     content: "";
-    position: absolute;
-    inset: 0;
+    @apply absolute inset-0;
     background-color: var(--preview-color, transparent);
     border-radius: var(--radius-sm);
     pointer-events: none;
     z-index: 2;
-  }
-
-  .canvasContainer {
-    min-height: 160px;
   }
 }

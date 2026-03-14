@@ -61,7 +61,7 @@ export interface FrameProps
 }
 
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
-  ({ children, variant, padding, className, styles, style, path, pathWidth = 0, side = "top", cornerRadius, fill, shapeMode = "indent", borderWidth, borderColor = "var(--background-700)", ...props }, ref) => {
+  ({ children, variant, padding, className, styles, style, path, pathWidth = 0, side = "top", cornerRadius, fill, shapeMode = "indent", borderWidth, borderColor = "var(--frame-stroke-color, var(--background-700))", ...props }, ref) => {
     const maskId = useId();
     const borderMaskId = `border-${maskId}`;
     const bgMaskId = `bg-${maskId}`;
@@ -150,16 +150,14 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
           </defs>
 
           {/* Background Fill Layer */}
-          {fill && (
-            <rect
-              x="-50%"
-              y="-50%"
-              width="200%"
-              height="200%"
-              fill={fill}
-              mask={`url(#${bgMaskId})`}
-            />
-          )}
+          <rect
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+            fill={fill ?? "var(--frame-fill, transparent)"}
+            mask={`url(#${bgMaskId})`}
+          />
 
           {/* Border Stroke Layer */}
           <rect

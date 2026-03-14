@@ -5,12 +5,11 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Progress.module.css";
 
-type ProgressVariant = "default" | "success" | "warning" | "error";
 type ProgressSize = "sm" | "md" | "lg";
 
 export interface ProgressStyleSlots {
   root?: StyleValue;
-  labelRow?: StyleValue;
+  ['label-row']?: StyleValue;
   label?: StyleValue;
   value?: StyleValue;
   progress?: StyleValue;
@@ -25,7 +24,7 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Maximum value that represents 100% */
   max?: number;
   /** Visual color variant indicating progress state */
-  variant?: ProgressVariant;
+  variant?: string;
   /** Size of the progress bar */
   size?: ProgressSize;
   /** Whether to show an infinite loading animation instead of a fixed value */
@@ -46,16 +45,9 @@ const sizeMap = {
   lg: css.lg,
 } as const;
 
-const variantMap = {
-  default: css.default,
-  success: css.success,
-  warning: css.warning,
-  error: css.error,
-} as const;
-
 const resolveProgressBaseStyles = createStylesResolver([
   'root',
-  'labelRow',
+  'label-row',
   'label',
   'value',
   'progress',
@@ -90,7 +82,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         className={cn(css.wrapper, hasLabelContent && css.hasLabel, resolved.root)}
       >
         {hasLabelContent && (
-          <div className={cn(css.labelRow, resolved.labelRow)}>
+          <div className={cn('progress', 'label-row', css['label-row'], resolved['label-row'])}>
             {label && (
               <span className={cn(css.label, resolved.label)}>
                 {label}
@@ -108,20 +100,14 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuemin={0}
           aria-valuemax={max}
           aria-label={label}
-          className={cn(css.progress, sizeMap[size], className, resolved.progress)}
+          className={cn('progress', variant, css.progress, sizeMap[size], className, resolved.progress)}
           data-variant={variant}
           data-size={size}
           data-indeterminate={indeterminate || undefined}
           {...props}
         >
           <div
-            className={cn(
-              css.fill,
-              variantMap[variant],
-              (animated || indeterminate) && css.animated,
-              indeterminate && css.indeterminate,
-              resolved.fill
-            )}
+            className={cn('progress', 'fill', variant, css.fill, (animated || indeterminate) && css.animated, indeterminate && css.indeterminate, resolved.fill)}
             style={indeterminate ? undefined : { width: `${percentage}%` }}
           />
         </div>
