@@ -1,0 +1,41 @@
+@reference "tailwindcss";
+
+@layer components {
+  .label {
+    display: block;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    color: var(--foreground);
+    transition: color 150ms ease;
+
+    &[data-size="sm"] { font-size: var(--text-xs); }
+    &[data-size="lg"] { font-size: var(--text-md); }
+
+    &[data-disabled] {
+      color: var(--disabled-foreground);
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &[data-error] {
+      color: var(--error-foreground);
+    }
+  }
+
+  .required-indicator {
+    margin-left: 0.25rem;
+    color: var(--required-color);
+  }
+
+  .helper-text {
+    display: block;
+    font-size: var(--text-xs);
+    margin-top: 0.25rem;
+    transition: color 150ms ease;
+    color: var(--helper-color);
+
+    &[data-error] {
+      color: var(--helper-error-color);
+    }
+  }
+}

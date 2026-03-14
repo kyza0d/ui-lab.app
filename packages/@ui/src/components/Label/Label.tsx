@@ -1,32 +1,6 @@
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-
-const labelVariants = cva(
-  "block text-foreground-300 transition-colors",
-  {
-    variants: {
-      size: {
-        sm: "text-xs",
-        md: "text-sm",
-        lg: "text-md",
-      },
-      disabled: {
-        true: "text-foreground-400 opacity-60 cursor-not-allowed",
-        false: "",
-      },
-      error: {
-        true: "text-danger-600",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      size: "md",
-      disabled: false,
-      error: false,
-    },
-  }
-);
+import css from "./Label.module.css";
 
 export interface LabelStyleSlots {
   root?: StyleValue;
@@ -39,8 +13,7 @@ export type LabelStylesProp = StylesProp<LabelStyleSlots>;
 const resolveLabelBaseStyles = createStylesResolver(['root', 'requiredIndicator', 'helperText'] as const);
 
 export interface LabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement>,
-  VariantProps<typeof labelVariants> {
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: LabelStylesProp;
   /** Whether to show a required asterisk indicator */
@@ -60,7 +33,7 @@ export interface LabelProps
 const Label = ({
   className,
   styles,
-  size,
+  size = "md",
   disabled,
   error,
   required,
@@ -73,25 +46,24 @@ const Label = ({
   return (
     <div className="w-full">
       <label
-        className={cn(
-          labelVariants({ size, disabled, error, className }),
-          resolved.root
-        )}
+        className={cn('label', css.label, className, resolved.root)}
+        data-size={size ?? 'md'}
+        data-disabled={disabled || undefined}
+        data-error={error || undefined}
         {...props}
       >
         {children}
         {required && (
-          <span className={cn("text-danger-600 ml-1", resolved.requiredIndicator)} aria-label="required">
+          <span className={cn('label', 'required-indicator', css['required-indicator'], resolved.requiredIndicator)} aria-label="required">
             *
           </span>
         )}
       </label>
       {helperText && (
-        <p className={cn(
-          "text-xs mt-1 transition-colors",
-          helperTextError ? "text-danger-600" : "text-foreground-400",
-          resolved.helperText
-        )}>
+        <p
+          className={cn('label', 'helper-text', css['helper-text'], resolved.helperText)}
+          data-error={helperTextError || undefined}
+        >
           {helperText}
         </p>
       )}
@@ -101,4 +73,4 @@ const Label = ({
 
 Label.displayName = "Label";
 
-export { Label, labelVariants };
+export { Label };

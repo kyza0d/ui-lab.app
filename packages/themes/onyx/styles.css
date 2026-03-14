@@ -226,6 +226,26 @@
   --checkerboard-light: var(--background-700);
 }
 
+/* Label Styles */
+
+.label {
+  --foreground: var(--foreground-300);
+  --disabled-foreground: var(--foreground-400);
+  --error-foreground: var(--danger-600);
+}
+
+.label.required-indicator {
+  --required-color: var(--danger-600);
+}
+
+.label.helper-text {
+  --helper-color: var(--foreground-400);
+}
+
+.label.helper-text[data-error] {
+  --helper-error-color: var(--danger-600);
+}
+
 /* Input Styles */
 
 .input {
