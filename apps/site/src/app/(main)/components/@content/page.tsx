@@ -16,7 +16,7 @@ export default function ComponentsPage() {
     <div>
       {/* Breadcrumbs */}
       <PathNav />
-      <div className="px-4 pt-(--header-height) pb-12">
+      <div className="pt-(--header-height) pb-12">
         <main className="w-full pt-12">
           {/* Organized Components by Category */}
           <div className="space-y-32">
@@ -25,7 +25,7 @@ export default function ComponentsPage() {
               if (componentsInCategory.length === 0) return null;
               return (
                 <div key={category} className="space-y-4">
-                  <Flex styles="gap-4">
+                  <Flex styles="gap-4 px-4">
                     {/* Category Header */}
                     <Flex justify="center" align="center" className="bg-background-800 border border-background-700 w-10 h-10 rounded-sm text-foreground-200 mr-3">
                       <Icon color="var(--foreground-400)" IconComponent={CategoryIcons[category as keyof typeof CategoryIcons] || CategoryIcons.default} size={18} />
@@ -41,7 +41,7 @@ export default function ComponentsPage() {
                   </Flex>
                   <Divider variant="dashed" size="sm" className="mx-auto mb-8 mt-10" />
                   {/* Components Grid */}
-                  <Gallery styles="w-full" columns={{ sm: "1", md: "2", lg: '3' }} gap="md">
+                  <Gallery className="px-4" styles="w-full" columns={{ sm: "1", md: "2", lg: '3' }} gap="md">
                     {componentsInCategory.map((component) => {
                       const href = `/components/${component.id}`;
                       const { onMouseEnter, onMouseLeave } = usePrefetchOnHover(href);

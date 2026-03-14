@@ -12,7 +12,8 @@ import { cn } from "@/shared";
 import {
   FaMagnifyingGlass,
   FaCodeBranch,
-  FaBars
+  FaBars,
+  FaMessage
 } from "react-icons/fa6";
 import { HiX } from "react-icons/hi";
 import { HiMiniSparkles } from "react-icons/hi2";
@@ -119,7 +120,7 @@ export default function Header({
           </div>
 
           <div className="flex gap-2 mr-2">
-            <div className="relative flex items-center">
+            <div className="hidden relative flex items-center">
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Button
                   styles="p-2"
@@ -129,7 +130,7 @@ export default function Header({
               </Tooltip>
             </div>
 
-            <div className="hidden relative flex items-center">
+            <div className="relative flex items-center">
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Input
                   placeholder="Search..."
@@ -166,7 +167,7 @@ export default function Header({
 
           <div className="flex items-center gap-2 flex-shrink-0">
             <div className="hidden lg:flex items-center gap-2">
-              <Button size="sm">
+              <Button icon={{ left: <FaMessage className="text-foreground-300" /> }} variant="ghost" size="sm">
                 Feedback
               </Button>
               <a
@@ -175,12 +176,13 @@ export default function Header({
                 rel="noopener noreferrer"
               >
                 <Button
+                  variant="ghost"
                   aria-label="GitHub Repository"
+                  className="p-2"
                   size="sm"
 
                 >
                   <FaCodeBranch size={14} />
-                  Source
                 </Button>
               </a>
               <Divider size='sm' className="-my-3" orientation="vertical" />

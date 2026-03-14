@@ -1,8 +1,12 @@
 @import "tailwindcss";
+@import "./theme.css";
+
+@import "ui-lab-components/styles.css";
+@import "ui-lab-theme-onyx";
 
 :root {
   /* Border Radius Scale */
-  --radius-xs: 0.05rem;
+  --radius-xs: 0.04rem;
   --radius-sm: 0.1rem;
   --radius-base: 0.2rem;
   --radius-md: 0.3rem;
@@ -25,9 +29,6 @@
   font-weight: 500;
   font-style: italic;
 }
-
-@import "./theme.css";
-/* @import "ui-lab-components/styles.css"; */
 
 @theme {
   --font-sans: "Karla", system-ui, sans-serif;
@@ -138,7 +139,6 @@
   --banner-height: 52px;      /* adjust to match your banner content */
   /* --indent-offset: 3px; */
 }
-
 
 .accent-icon {
   color: var(--color-accent-400, oklch(55.0% 0.075 142.5));
@@ -509,3 +509,4 @@ body {
   background: color-mix(in srgb, var(--accent-600) 10%, transparent);
   color: var(--accent-600)
 }
+

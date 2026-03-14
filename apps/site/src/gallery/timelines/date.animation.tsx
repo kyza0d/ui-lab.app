@@ -19,70 +19,70 @@ function getRoundedRectPath(x: number, y: number, w: number, h: number, r: { tl:
   `;
 }
 
-const MonthGrid = ({ 
-  state, 
-  x, 
-  y, 
-  highlightDayIndex = -1 
-}: { 
-  state: "idle" | "active" | "dim" | "entering" | "leaving"; 
-  x: number; 
-  y: number; 
+const MonthGrid = ({
+  state,
+  x,
+  y,
+  highlightDayIndex = -1
+}: {
+  state: "idle" | "active" | "dim" | "entering" | "leaving";
+  x: number;
+  y: number;
   highlightDayIndex?: number;
 }) => {
   const isActive = state === "active";
   const isDim = state === "dim";
-  
+
   const transition = config.transition;
 
   // Grid Layout
   const cols = 7;
-  const rows = 4;
-  const cellSize = 18;
+  const rows = 5;
+  const cellSize = 20;
   const gap = 6;
   const gridWidth = cols * cellSize + (cols - 1) * gap;
-  
+
   // Header Layout
-  const headerHeight = 30;
-  
+  const headerHeight = 34;
+
   return (
     <g style={{ transform: `translate(${x}px, ${y}px)`, opacity: isDim ? 0.5 : 1, transition: config.transition }}>
       {/* Header Month/Year */}
-      <rect 
-        x={0} y={0} width={60} height={8} rx={config.barRx} 
+      <rect
+        x={0} y={6} width={70} height={10} rx={config.barRx}
         className={isActive ? config.highlight.hoverClass : config.dim.class}
         fill="currentColor"
-        style={{ 
+        style={{
           opacity: isActive ? config.activeContent.labelActiveOpacity : config.activeContent.labelIdleOpacity,
-          transition 
+          transition
         }}
       />
-      
+
       {/* Chevrons */}
-      <g transform={`translate(${gridWidth - 30}, 0)`}>
-         {/* Prev */}
-         <polyline 
-            points="5,1 2,4 5,7" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="1.5" 
-            className={config.guidelines.colorClass}
-            style={{ opacity: 0.5 }}
-         />
-         {/* Next */}
-         <polyline 
-            points="25,1 28,4 25,7" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="1.5" 
-            className={isActive ? config.highlight.hoverClass : "text-foreground-300"}
-            style={{ opacity: isActive ? config.activeContent.interactiveActiveOpacity : config.activeContent.interactiveIdleOpacity, transition }}
-         />
+      <g transform={`translate(${gridWidth - 30}, 6)`}>
+        {/* Prev */}
+        <polyline
+          points="5,1 2,4 5,7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className={config.guidelines.colorClass}
+          style={{ opacity: 0.5 }}
+        />
+        {/* Next */}
+        <polyline
+          points="25,1 28,4 25,7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className={isActive ? config.highlight.hoverClass : "text-foreground-300"}
+          style={{ opacity: isActive ? config.activeContent.interactiveActiveOpacity : config.activeContent.interactiveIdleOpacity, transition }}
+        />
       </g>
 
       {/* Days Grid */}
       <g transform={`translate(0, ${headerHeight})`}>
-        {Array.from({ length: rows * cols }).map((_, i) => {
+        {Array.from({ length: rows * cols - 4 }).map((_, i) => {
           const isHighlighted = i === highlightDayIndex;
           const col = i % cols;
           const row = Math.floor(i / cols);
@@ -96,12 +96,12 @@ const MonthGrid = ({
               y={dy}
               width={cellSize}
               height={cellSize}
-              rx={4}
+              rx={config.barRx}
               className={isHighlighted ? config.highlight.hoverClass : config.highlight.idleClass}
               fill="currentColor"
               style={{
-                opacity: isHighlighted 
-                  ? config.bar.primaryOpacity 
+                opacity: isHighlighted
+                  ? config.bar.primaryOpacity
                   : (isActive ? 0.15 : 0.1),
                 transition
               }}
@@ -140,13 +140,13 @@ export function DateAnimation() {
   const transition = config.transition;
 
   // Animation States
-  const slideDistance = width; 
+  const slideDistance = width;
   const tapeX = isHovered ? -slideDistance : 0;
-  const slideTransition = "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1)"; 
-  
+  const slideTransition = "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1)";
+
   // Inner Padding
-  const px = 24;
-  const py = 24;
+  const px = 22;
+  const py = 11;
 
   return (
     <div ref={containerRef} className="bg-background-950 flex items-center justify-center relative overflow-hidden font-sans">
@@ -184,15 +184,15 @@ export function DateAnimation() {
 
           {/* Date Picker Container */}
           <g>
-             {/* Background */}
-            <rect 
+            {/* Background */}
+            <rect
               x={x} y={y} width={width} height={height} rx={rx}
               className="text-background-950"
               fill="currentColor"
               style={{ transition }}
             />
             {/* Border/Surface */}
-            <rect 
+            <rect
               x={x} y={y} width={width} height={height} rx={rx}
               className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
               fill="currentColor"
@@ -209,32 +209,32 @@ export function DateAnimation() {
           {/* Sliding Content (Clipped) */}
           <g clipPath="url(#date-content-clip)">
             <g style={{ transform: `translateX(${x + px + tapeX}px)`, transition: slideTransition }}>
-                
-                {/* Month 1 (Exits Left) */}
-                <MonthGrid 
-                  state={isHovered ? "leaving" : "idle"}
-                  x={0} 
-                  y={y + py}
-                  highlightDayIndex={10} 
-                />
-                
-                {/* Month 2 (Enters Center) */}
-                <MonthGrid 
-                  state={isHovered ? "active" : "entering"}
-                  x={slideDistance} 
-                  y={y + py}
-                  highlightDayIndex={15} 
-                />
 
-                 {/* Month 3 (Way Right - Preload) */}
-                 <MonthGrid 
-                  state="entering"
-                  x={slideDistance * 2} 
-                  y={y + py}
-                />
+              {/* Month 1 (Exits Left) */}
+              <MonthGrid
+                state={isHovered ? "leaving" : "idle"}
+                x={0}
+                y={y + py}
+                highlightDayIndex={10}
+              />
+
+              {/* Month 2 (Enters Center) */}
+              <MonthGrid
+                state={isHovered ? "active" : "entering"}
+                x={slideDistance}
+                y={y + py}
+                highlightDayIndex={15}
+              />
+
+              {/* Month 3 (Way Right - Preload) */}
+              <MonthGrid
+                state="entering"
+                x={slideDistance * 2}
+                y={y + py}
+              />
             </g>
           </g>
-          
+
           {/* Active Highlight Ring (Outer) */}
           <rect
             x={x - 10}
@@ -250,16 +250,15 @@ export function DateAnimation() {
             style={{
               opacity: isHovered ? config.accentOutline.hoverOpacity : config.accentOutline.idleOpacity,
               transition,
-              transform: `translateY(${isHovered ? 0 : -10}px)`
             }}
           />
 
           {/* Cursor (Simulate Interaction) */}
           <g
             style={{
-              transform: isHovered 
-                ? `translate(${x + width - 40}px, ${y + 35}px)` 
-                : `translate(${x + width + 40}px, ${y + height + 20}px)`, 
+              transform: isHovered
+                ? `translate(${x + width - 40}px, ${y + 24}px)`
+                : `translate(${x + width + 40}px, ${y + height + 20}px)`,
               opacity: isHovered ? 1 : 0,
               transition: "all 0.5s cubic-bezier(0.2, 1, 0.4, 1) 0.1s"
             }}
@@ -268,9 +267,9 @@ export function DateAnimation() {
               d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
               className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
               fill="currentColor"
-              style={{ 
+              style={{
                 transform: isHovered ? "scale(0.9)" : "scale(1)",
-                transition: "transform 0.2s" 
+                transition: "transform 0.2s"
               }}
             />
           </g>

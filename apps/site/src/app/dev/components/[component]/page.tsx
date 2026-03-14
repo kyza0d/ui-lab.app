@@ -1,9 +1,9 @@
 import { DevComponentClient } from "./client";
 import { cacheLife } from "next/cache";
-import { serverComponentRegistry } from "@/features/component-docs/lib/server-component-metadata";
+import { componentRegistry as registryData } from "ui-lab-registry";
 
 export function generateStaticParams() {
-  return serverComponentRegistry.map((c) => ({ component: c.id }));
+  return Object.keys(registryData).map((id) => ({ component: id }));
 }
 
 export default async function DevComponentPage({ params }: { params: Promise<{ component: string }> }) {

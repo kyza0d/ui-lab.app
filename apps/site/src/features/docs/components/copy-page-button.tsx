@@ -41,7 +41,7 @@ export function CopyPage() {
       <div
         onClick={handleCopy}
         title="Copy rendered content as Markdown"
-        className="flex text-xs font-medium p-2 w-55 items-center justify-start"
+        className="flex text-xs font-medium p-1.5 pl-4 w-55 items-center justify-start"
       >
 
         {copiedLines !== null ? <>Copied {copiedLines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
