@@ -1,0 +1,31 @@
+{
+  "name": "ui-lab-theme-onyx",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "main": "./styles.css",
+  "style": "./styles.css",
+  "exports": {
+    ".": {
+      "style": "./styles.css",
+      "default": "./styles.css"
+    },
+    "./styles.css": {
+      "style": "./styles.css",
+      "default": "./styles.css"
+    }
+  },
+  "files": [
+    "styles.css"
+  ],
+  "scripts": {
+    "build": "postcss src/onyx.css -o styles.css",
+    "clean": "rm -f styles.css"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.0",
+    "typescript": "^5"
+  }
+}
