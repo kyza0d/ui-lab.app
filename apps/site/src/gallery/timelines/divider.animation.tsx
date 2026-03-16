@@ -94,23 +94,6 @@ export function DividerAnimation() {
             </mask>
           </defs>
 
-          {/* Guidelines */}
-          <g
-            mask="url(#divider-grid-mask)"
-            className="text-foreground-300"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1="200" y1="0" x2="200" y2="300" />
-            <line x1="0" y1={guidelineY} x2="400" y2={guidelineY} style={{ transition: config.transition }} />
-          </g>
-
           {/* Content Stack */}
           <TextBlock y={y1 - step / 2} opacity={isHovered ? 0 : 0.8} />
 
@@ -120,7 +103,6 @@ export function DividerAnimation() {
 
           {/* Divider 2: HERO - revealed on hover */}
           <Divider y={y2} isHovered={isHovered} isActive={true} />
-
           <TextBlock y={y2 + step / 2} opacity={isHovered ? 0.6 : 0} />
 
           {/* Accent Outline follows Divider 2 on hover */}

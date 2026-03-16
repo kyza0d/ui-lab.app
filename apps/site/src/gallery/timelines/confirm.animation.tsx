@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import config from "./config.json";
+import {
+  Cursor,
+  CursorProvider,
+  type CursorFrame,
+} from "./preview-cursor";
 
 // Brought over from your GroupAnimation pattern
 function getRoundedRectPath(
@@ -34,7 +39,7 @@ export function ConfirmAnimation() {
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
 
-    let timers: NodeJS.Timeout[] = [];
+    const timers: NodeJS.Timeout[] = [];
 
     const handleEnter = () => {
       setStage("hovering");
@@ -85,19 +90,25 @@ export function ConfirmAnimation() {
     hover: { transform: "translateY(2px)" },
   };
 
-  // 1. Fixed Cursor Tracking
-  // Hardcode coordinates to target the logical center of the buttons rather than relying on container bounds
-  let cursorX = 200;
-  let cursorY = 200;
-  let cursorScale = 1;
-  let cursorOpacity = 0;
-
-  switch (stage) {
-    case "idle": cursorX = 250; cursorY = 220; cursorOpacity = 0; break;
-    case "hovering": cursorX = 200; cursorY = 150; cursorOpacity = 1; cursorScale = 1; break; // Center of Trash
-    case "clicking_trash": cursorX = 200; cursorY = 150; cursorOpacity = 1; cursorScale = 0.85; break; // Press Trash
-    case "confirming": cursorX = confirmX + (confirmW / 2); cursorY = 150; cursorOpacity = 1; cursorScale = 1; break; // Center of Confirm
-  }
+  const cursorFrames = {
+    idle: {
+      target: { x: 250, y: 220 },
+      opacity: 0,
+    },
+    hovering: {
+      target: { x: 200, y: 150 },
+      opacity: 1,
+    },
+    clicking_trash: {
+      target: { x: 200, y: 150 },
+      opacity: 1,
+      scale: 0.85,
+    },
+    confirming: {
+      target: { x: confirmX + confirmW / 2, y: 150 },
+      opacity: 1,
+    },
+  } satisfies Record<typeof stage, CursorFrame>;
 
   return (
     <div
@@ -127,23 +138,6 @@ export function ConfirmAnimation() {
             </clipPath>
           </defs>
 
-          {/* Guidelines */}
-          <g
-            mask="url(#group-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: stage !== "idle" ? 0.30 : 0.15,
-              strokeDashoffset: stage !== "idle" ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1={200} y1="0" x2={200} y2="300" />
-            <line x1="0" y1={centerY} x2="400" y2={centerY} />
-          </g>
-
           <g
             style={{
               opacity: isConfirming ? 0 : 1,
@@ -171,7 +165,7 @@ export function ConfirmAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: isTrashActive ? config.highlight.hoverFillOpacity : config.highlight.idleFillOpacity,
+                fillOpacity: isTrashActive ? 0.05 : config.highlight.idleFillOpacity,
                 strokeOpacity: isTrashActive ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
               }}
             />
@@ -293,7 +287,7 @@ export function ConfirmAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: config.highlight.hoverFillOpacity,
+                fillOpacity: 0.05,
                 strokeOpacity: config.highlight.hoverStrokeOpacity,
               }}
             />
@@ -330,20 +324,19 @@ export function ConfirmAnimation() {
             />
           </g>
 
-          <g
-            style={{
-              transform: `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`,
-              transition: `transform 0.5s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.25s ease-out`,
-              opacity: cursorOpacity,
+          <CursorProvider
+            phase={stage}
+            frames={cursorFrames}
+            appearance={{
+              className: config.highlight.hoverClass,
+              motionTransition:
+                "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.25s ease-out",
+              shapeTransition:
+                "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.25s ease-out",
             }}
           >
-            <path
-              d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
-              className={config.highlight.hoverClass}
-              fill="currentColor"
-              style={{ transition: config.transition }}
-            />
-          </g>
+            <Cursor />
+          </CursorProvider>
         </svg>
       </div>
     </div>

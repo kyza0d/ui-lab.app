@@ -8,81 +8,58 @@ import {
   type CursorFrame,
 } from "./preview-cursor";
 
-const CheckboxIcon = ({
+const RadioIcon = ({
   state,
-  isChecked,
-  isIndeterminate
+  isSelected,
 }: {
   state: "idle" | "active" | "dim";
-  isChecked: boolean;
-  isIndeterminate?: boolean;
+  isSelected: boolean;
 }) => {
   const isActive = state === "active";
   const isDim = state === "dim";
   const transition = config.transition;
 
-  const boxStrokeClass = isActive ? config.highlight.hoverClass : config.highlight.idleClass;
-
-  const checkColorClass = isActive ? "text-background-950" : config.highlight.idleClass;
-  const checkOpacity = isChecked || isIndeterminate ? 1 : 0;
+  const ringClass = isActive ? config.highlight.hoverClass : config.highlight.idleClass;
+  const dotClass = isActive ? config.highlight.hoverClass : config.highlight.idleClass;
 
   return (
     <g transform="translate(80, 18)">
-      {/* Checkbox Box Surface */}
-      <rect
-        width={20}
-        height={20}
-        rx={4}
-        className={isActive && isChecked ? config.highlight.hoverClass : "text-background-950"}
+      {/* Outer ring background */}
+      <circle
+        cx={10}
+        cy={10}
+        r={10}
+        className="text-background-950"
         fill="currentColor"
         style={{ transition }}
       />
-      <rect
-        width={20}
-        height={20}
-        rx={4}
-        className={boxStrokeClass}
+      {/* Outer ring stroke */}
+      <circle
+        cx={10}
+        cy={10}
+        r={10}
+        className={ringClass}
         fill="currentColor"
         stroke="currentColor"
         strokeWidth={config.strokeWidth}
         style={{
           transition,
-          fillOpacity: isActive && isChecked ? 1 : (isDim ? 0.05 : 0.1),
+          fillOpacity: isActive && isSelected ? 0.15 : (isDim ? 0.05 : 0.1),
           strokeOpacity: isActive ? 0.8 : 0.4,
         }}
       />
-
-      {/* Checkmark (FaCheck style) */}
-      <path
-        d="M6 10l3 3 6-6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={checkColorClass}
-        style={{
-          opacity: isChecked && !isIndeterminate ? checkOpacity : 0,
-          transform: isChecked ? "scale(1)" : "scale(0.5)",
-          transformOrigin: "center",
-          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-        }}
-      />
-
-      {/* Indeterminate Dash */}
-      <rect
-        x={5}
-        y={9}
-        width={10}
-        height={2}
-        rx={1}
-        className={checkColorClass}
+      {/* Inner dot */}
+      <circle
+        cx={10}
+        cy={10}
+        r={5}
+        className={dotClass}
         fill="currentColor"
         style={{
-          opacity: isIndeterminate ? checkOpacity : 0,
-          transform: isIndeterminate ? "scaleX(1)" : "scaleX(0)",
-          transformOrigin: "center",
-          transition,
+          opacity: isSelected ? 0.6 : 0,
+          transform: isSelected ? "scale(1)" : "scale(0.2)",
+          transformOrigin: "10px 10px",
+          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       />
     </g>
@@ -91,12 +68,10 @@ const CheckboxIcon = ({
 
 const RowContent = ({
   state,
-  isChecked,
-  isIndeterminate
+  isSelected,
 }: {
   state: "idle" | "active" | "dim";
-  isChecked: boolean;
-  isIndeterminate?: boolean;
+  isSelected: boolean;
 }) => {
   const isActive = state === "active";
   const isDim = state === "dim";
@@ -104,8 +79,7 @@ const RowContent = ({
 
   return (
     <g style={{ transition }}>
-      {/* Checkbox Icon */}
-      <CheckboxIcon state={state} isChecked={isChecked} isIndeterminate={isIndeterminate} />
+      <RadioIcon state={state} isSelected={isSelected} />
 
       {/* Label Skeleton */}
       <rect
@@ -114,7 +88,7 @@ const RowContent = ({
         fill="currentColor"
         style={{
           opacity: isActive ? config.activeContent.labelActiveOpacity : (isDim ? 0.2 : 0.4),
-          transition
+          transition,
         }}
       />
 
@@ -125,7 +99,7 @@ const RowContent = ({
         fill="currentColor"
         style={{
           opacity: isActive ? config.activeContent.subtextActiveOpacity : (isDim ? 0.1 : 0.2),
-          transition
+          transition,
         }}
       />
     </g>
@@ -137,15 +111,13 @@ const Row = ({
   y,
   isHovered,
   opacity,
-  isChecked,
-  isIndeterminate
+  isSelected,
 }: {
   state: "idle" | "active" | "dim";
   y: number;
   isHovered: boolean;
   opacity?: number;
-  isChecked: boolean;
-  isIndeterminate?: boolean;
+  isSelected: boolean;
 }) => {
   const getOpacity = () => {
     if (opacity !== undefined) return opacity;
@@ -156,19 +128,18 @@ const Row = ({
 
   return (
     <g style={{ transform: `translateY(${y}px)`, opacity: getOpacity(), transition: config.transition }}>
-      {/* Background Surface (Transparent trigger) */}
       <rect
         x={70} y={0} width={260} height={56} rx={config.blockRx}
         className="text-transparent"
         fill="currentColor"
         style={{ transition: config.transition }}
       />
-      <RowContent state={state} isChecked={isChecked} isIndeterminate={isIndeterminate} />
+      <RowContent state={state} isSelected={isSelected} />
     </g>
   );
 };
 
-export function CheckboxAnimation() {
+export function RadioAnimation() {
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -186,17 +157,22 @@ export function CheckboxAnimation() {
     };
   }, []);
 
-  const startY = 50;
+  const startY = 94;
   const rowHeight = 56;
   const gap = 20;
   const step = rowHeight + gap;
 
-  const activeRowY = isHovered ? startY + step : startY + step * 2;
+  // 3 rows total, only 2 visible at a time
+  const row0Y = isHovered ? startY - step : startY;
+  const row1Y = isHovered ? startY : startY + step;
+  const row2Y = isHovered ? startY + step : startY + step * 2;
+
+  const activeRowY = row2Y;
   const guidelineY = activeRowY + rowHeight / 2;
 
   const cursorFrames = {
     idle: {
-      target: { x: 240, y: 220 },
+      target: { x: 240, y: 240 },
       opacity: 0,
       rotate: 15,
       scale: 1.2,
@@ -214,48 +190,42 @@ export function CheckboxAnimation() {
       <div className="relative w-full">
         <svg viewBox="0 0 400 300" className="w-full h-full relative z-10 overflow-visible" aria-hidden="true">
           <defs>
-            <radialGradient id="checkbox-grid-fade" cx="50%" cy="50%" r="50%">
+            <radialGradient id="radio-grid-fade" cx="50%" cy="50%" r="50%">
               <stop offset="40%" stopColor="white" stopOpacity="1" />
               <stop offset="100%" stopColor="white" stopOpacity="0" />
             </radialGradient>
-            <mask id="checkbox-grid-mask">
-              <rect width="400" height="300" fill="url(#checkbox-grid-fade)" />
+            <mask id="radio-grid-mask">
+              <rect width="400" height="300" fill="url(#radio-grid-fade)" />
             </mask>
           </defs>
 
-          {/* Row Stack: Sliding conveyor belt */}
+          {/* Row 0 — pre-selected, slides out top on hover */}
           <Row
             state="idle"
-            isChecked={true}
+            isSelected={true}
             isHovered={isHovered}
-            y={isHovered ? startY - step : startY}
+            y={row0Y}
             opacity={isHovered ? 0 : 1}
           />
 
+          {/* Row 1 — shifts up, dims on hover */}
           <Row
             state={isHovered ? "dim" : "idle"}
-            isChecked={false}
-            isIndeterminate={true}
+            isSelected={false}
             isHovered={isHovered}
-            y={isHovered ? startY : startY + step}
+            y={row1Y}
           />
 
+          {/* Row 2 — slides in from bottom, gets selected on hover */}
           <Row
             state={isHovered ? "active" : "idle"}
-            isChecked={isHovered}
+            isSelected={isHovered}
             isHovered={isHovered}
-            y={activeRowY}
-          />
-
-          <Row
-            state={isHovered ? "dim" : "idle"}
-            isChecked={false}
-            isHovered={isHovered}
-            y={isHovered ? startY + step * 2 : startY + step * 3}
+            y={row2Y}
             opacity={isHovered ? 1 : 0}
           />
 
-          {/* Highlight for Active Row */}
+          {/* Active row highlight */}
           <g style={{ transform: `translateY(${activeRowY}px)`, transition: config.transition }}>
             <rect
               x={70} y={0} width={260} height={56} rx={config.blockRx}
@@ -269,7 +239,6 @@ export function CheckboxAnimation() {
                 strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : 0,
               }}
             />
-            {/* Accent Dotted Outline */}
             <rect
               x={60} y={-10} width={280} height={76}
               rx={config.blockRx + 5}

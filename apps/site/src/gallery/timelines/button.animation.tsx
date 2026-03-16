@@ -1,6 +1,11 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import config from "./config.json";
+import {
+  Cursor,
+  CursorProvider,
+  type CursorFrame,
+} from "./preview-cursor";
 
 export function ButtonAnimation() {
   const [isHovered, setIsHovered] = useState(false);
@@ -58,16 +63,21 @@ export function ButtonAnimation() {
     hover: { opacity: 1 },
   };
 
-  const cursor = {
+  const cursorPhase = isHovered ? "hover" : "idle";
+  const cursorFrames = {
     idle: {
-      transform: "translate(240px, 180px) rotate(15deg) scale(1.2)",
+      target: { x: 240, y: 180 },
       opacity: 0,
+      rotate: 15,
+      scale: 1.2,
     },
     hover: {
-      transform: `translate(${button.x + button.w / 2 - 8}px, ${button.y + 8}px) rotate(-15deg) scale(1.2)`,
+      target: { x: button.x + button.w / 2 - 8, y: button.y + 8 },
       opacity: 1,
+      rotate: -15,
+      scale: 1.2,
     },
-  };
+  } satisfies Record<typeof cursorPhase, CursorFrame>;
 
   const press = {
     idle: { transform: "translateY(0px)" },
@@ -94,23 +104,6 @@ export function ButtonAnimation() {
               <rect width="400" height="300" fill="url(#group-grid-fade)" />
             </mask>
           </defs>
-
-          {/* Guidelines */}
-          <g
-            mask="url(#group-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1={200} y1="0" x2={200} y2="300" />
-            <line x1="0" y1={main.idle.y + main.idle.h / 2} x2="400" y2={main.idle.y + main.idle.h / 2} />
-          </g>
 
           <g
             style={{
@@ -159,7 +152,7 @@ export function ButtonAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: `${config.transition}, x ${config.transition.split(" ")[1]}, width ${config.transition.split(" ")[1]}`,
-                fillOpacity: isHovered ? config.highlight.hoverFillOpacity : config.highlight.idleFillOpacity,
+                fillOpacity: isHovered ? 0.05 : config.highlight.idleFillOpacity,
                 strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
               }}
             />
@@ -216,7 +209,7 @@ export function ButtonAnimation() {
                 style={{
                   transition: `${config.transition}, x ${config.transition.split(" ")[1]}`,
                   opacity: squareButtonAnimation[isHovered ? "hover" : "idle"].opacity,
-                  fillOpacity: isHovered ? config.highlight.hoverFillOpacity : 0,
+                  fillOpacity: isHovered ? 0.05 : 0,
                   strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : 0,
                 }}
               />
@@ -248,7 +241,7 @@ export function ButtonAnimation() {
                 style={{
                   transition: `${config.transition}, x ${config.transition.split(" ")[1]}`,
                   opacity: squareButtonAnimation[isHovered ? "hover" : "idle"].opacity,
-                  fillOpacity: isHovered ? config.highlight.hoverFillOpacity : 0,
+                  fillOpacity: isHovered ? 0.05 : 0,
                   strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : 0,
                 }}
               />
@@ -268,20 +261,19 @@ export function ButtonAnimation() {
             </g>
           </g>
 
-          {/* Cursor – follows main button center */}
-          <g
-            style={{
-              ...(isHovered ? cursor.hover : cursor.idle),
-              transition: `transform 0.5s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.25s ease-out`,
+          <CursorProvider
+            phase={cursorPhase}
+            frames={cursorFrames}
+            appearance={{
+              className: config.highlight.hoverClass,
+              motionTransition:
+                "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.25s ease-out",
+              shapeTransition:
+                "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1), opacity 0.25s ease-out",
             }}
           >
-            <path
-              d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
-              className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
-              fill="currentColor"
-              style={{ transition: config.transition }}
-            />
-          </g>
+            <Cursor />
+          </CursorProvider>
         </svg>
       </div>
     </div>

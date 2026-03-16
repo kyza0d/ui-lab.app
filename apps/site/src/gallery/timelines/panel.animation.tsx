@@ -73,44 +73,6 @@ export function PanelAnimation() {
             </mask>
           </defs>
 
-          {/* Grid Layer */}
-          <g
-            mask="url(#panel-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            {vLines.map((x) => (
-              <line key={`v${x}`} x1={x} y1="0" x2={x} y2="300" />
-            ))}
-            {hLines.map((y) => (
-              <line key={`h${y}`} x1="0" y1={y} x2="400" y2={y} />
-            ))}
-          </g>
-
-          <g mask="url(#panel-grid-mask)">
-            {intersections.map((pt, i) => (
-              <circle
-                key={`dot${i}`}
-                cx={pt.x}
-                cy={pt.y}
-                r="1.5"
-                fill="currentColor"
-                className={config.guidelines.colorClass}
-                style={{
-                  transition: "opacity 0.7s ease",
-                  opacity: isHovered ? 0.40 : 0.1,
-                }}
-              />
-            ))}
-          </g>
-
           {/* Sidebar Panel */}
           <g>
             <path
@@ -158,7 +120,7 @@ export function PanelAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: isHovered ? config.highlight.hoverFillOpacity : config.dim.fillOpacity,
+                fillOpacity: isHovered ? 0.05 : config.dim.fillOpacity,
                 strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.dim.strokeOpacity,
               }}
             />

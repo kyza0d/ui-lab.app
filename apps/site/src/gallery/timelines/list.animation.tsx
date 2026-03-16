@@ -54,7 +54,7 @@ const ActiveHighlight = ({ y, isHovered }: { y: number; isHovered: boolean }) =>
         strokeWidth={config.strokeWidth}
         style={{
           transition: config.transition,
-          fillOpacity: isHovered ? config.highlight.hoverFillOpacity : 0,
+          fillOpacity: isHovered ? 0.05 : 0,
           strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : 0,
         }}
       />
@@ -137,22 +137,6 @@ export function ListAnimation() {
               <rect width="400" height="300" fill="url(#list-grid-fade)" />
             </mask>
           </defs>
-
-          <g
-            mask="url(#list-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1="200" y1="0" x2="200" y2="300" />
-            <line x1="0" y1={guidelineY} x2="400" y2={guidelineY} style={{ transition: config.transition }} />
-          </g>
 
           <Row
             state="idle"

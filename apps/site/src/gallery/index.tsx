@@ -3,7 +3,6 @@
 import React from "react";
 import {
   Divider,
-  Frame,
   Mask,
 } from "ui-lab-components";
 import { CardAnimation } from "./timelines/card.animation";
@@ -14,71 +13,45 @@ import { FlexAnimation } from "./timelines/flex.animation";
 import { GroupAnimation } from "./timelines/group.animation";
 import {
   FaInfo,
-  FaCircleInfo,
-  FaChevronRight,
-  FaX,
   FaChevronDown,
   FaMagnifyingGlass,
-  FaEnvelope,
-  FaQuestion,
 } from "react-icons/fa6";
 import { GalleryAnimation } from "./timelines/gallery.animation";
+import { PopoverAnimation } from "./timelines/popover.animation";
 import { ListAnimation } from "./timelines/list.animation";
 import { PanelAnimation } from "./timelines/panel.animation";
+import { BannerAnimation } from "./timelines/banner.animation";
 import { ButtonAnimation } from "./timelines/button.animation";
 import { CheckboxAnimation } from "./timelines/checkbox.animation";
 import { ConfirmAnimation } from "./timelines/confirm.animation";
 import { CommandAnimation } from "./timelines/command.animation";
 import { DateAnimation } from "./timelines/date.animation";
 import { ColorAnimation } from "./timelines/color.animation";
+import { InputAnimation } from "./timelines/input.animation";
+import { RadioAnimation } from "./timelines/radio.animation";
+import { SelectAnimation } from "./timelines/select.animation";
+import { SliderAnimation } from "./timelines/slider.animation";
+import { SwitchAnimation } from "./timelines/switch.animation";
+import { TextareaAnimation } from "./timelines/textarea.animation";
+import { BadgeAnimation } from "./timelines/badge.animation";
+import { LabelAnimation } from "./timelines/label.animation";
+import { TooltipAnimation } from "./timelines/tooltip.animation";
+import { ProgressAnimation } from "./timelines/progress.animation";
+import { ToastAnimation } from "./timelines/toast.animation";
+import { PathAnimation } from "./timelines/path.animation";
+import { MenuAnimation } from "./timelines/menu.animation";
+import { TabsAnimation } from "./timelines/tabs.animation";
+import { AnchorAnimation } from "./timelines/anchor.animation";
 
-const TAIL_PATH =
-  "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
-const TAIL_WIDTH = 18;
 
 export const previews: Record<string, React.ReactNode> = {
-  anchor: (
-    <div className="w-full grid grid-rows-2 items-start gap-2 justify-center">
-      <div>
-        <div
-          className="w-[70px] h-3 opacity-10 rounded-md bg-background-500"
-        ></div>
-        <Divider size="sm" variant="dashed" />
-      </div>
-    </div>
-  ),
+  anchor: <AnchorAnimation />,
 
-  badge: (
-    <div className="flex flex-col gap-3">
-      <div className="w-[72px] h-[27px] gap-3 flex px-2 bg-background-900 items-center justify-center border border-background-700 rounded-[3px]">
-        <FaInfo size={12} className="text-background-500" />
-        <div
-          className="w-full h-2 opacity-10 rounded-md bg-background-500"
-        ></div>
-      </div>
-    </div>
-  ),
+  badge: <BadgeAnimation />,
 
-  banner: (
-    <div className="relative w-[85%] h-[36px] gap-3 flex px-2 bg-background-900 items-center justify-center border border-background-700 rounded-[3px]">
-      <FaCircleInfo size={16} className="text-background-500" />
-      <div className="flex flex-col gap-2 w-full">
-        <div className="w-[50%] h-2 opacity-10 rounded-md bg-background-500"></div>
-        <div className="w-[80%] h-1 opacity-10 rounded-md bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  banner: <BannerAnimation />,
 
-  path: (
-    <div className="w-[70%] flex items-center gap-3 max-w-sm">
-      <div className="w-[60%] h-4 opacity-10 rounded-md bg-background-500"></div>
-      <FaChevronRight
-        size={10}
-        className="text-foreground-400 opacity-20"
-      />
-      <div className="w-[30%] h-4 opacity-10 rounded-md bg-background-500"></div>
-    </div>
-  ),
+  path: <PathAnimation />,
 
   button: <ButtonAnimation />,
   card: <CardAnimation />,
@@ -105,28 +78,9 @@ export const previews: Record<string, React.ReactNode> = {
   gallery: <GalleryAnimation />,
   grid: <GridAnimation />,
   group: <GroupAnimation />,
+  input: <InputAnimation />,
 
-  input: (
-    <div className="flex flex-col">
-      <div className="w-[50%] h-2 opacity-10 ml-2 mb-2 rounded-[3px] bg-background-500"></div>
-      <div
-        className="rounded-[4px] w-[140px] h-[30px] flex pl-2 pr-4 items-center border border-background-700"
-      >
-        <div className="w-[80%] h-2 opacity-10 rounded-md bg-background-500"></div>
-        <div className="w-px h-4 opacity-30 rounded-md ml-2 bg-background-500"></div>
-      </div>
-    </div>
-  ),
-
-  label: (
-    <div className="flex flex-col">
-      <div className="flex mb-2 items-center gap-1 pl-1">
-        <FaEnvelope size={11} color="var(--background-600)" />
-        <div className="w-[50%] h-2 opacity-10 ml-2 rounded-md bg-background-500"></div>
-      </div>
-      <div className="w-[140px] h-[30px] flex bg-background-950 pl-2 pr-4 items-center border border-background-700 rounded-[3px]"></div>
-    </div>
-  ),
+  label: <LabelAnimation />,
 
   list: <ListAnimation />,
 
@@ -143,30 +97,7 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  menu: (
-    <div className="w-[50%] rounded-[3px] overflow-hidden border pt-2 border-background-700 flex flex-col max-w-sm">
-      <div className="h-4 pl-2 flex">
-        <div className="w-[50%] h-2 opacity-10 mr-2 rounded-md bg-background-500"></div>
-      </div>
-
-      <div className="h-4 pl-2 gap-2 flex">
-        <div className="w-[70%] h-2 opacity-10 rounded-md bg-background-500"></div>
-      </div>
-      <div className="h-4 pl-2 flex">
-        <div className="w-[60%] h-2 opacity-10 mr-2 rounded-md bg-background-500"></div>
-      </div>
-
-      <div className="text-foreground-400 flex flex-col py-2 px-2 gap-2 border-t border-background-700">
-        <div className="rounded-[3px] py-1 px-1 -m-1 bg-background-900">
-          <div className="w-[70%] h-2 opacity-10 mr-2 rounded-md bg-background-500"></div>
-        </div>
-        <div className="w-[50%] h-2 opacity-10 mr-2 rounded-md bg-background-500"></div>
-      </div>
-      <div className="text-foreground-400 flex flex-col py-2 pl-2 gap-2 border-t border-background-700">
-        <div className="w-[70%] h-2 opacity-10 mr-2 rounded-md bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  menu: <MenuAnimation />,
 
   modal: (
     <div className="w-[70%] rounded-[3px] overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
@@ -187,42 +118,11 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  popover: (
-    <div className="flex flex-col items-center gap-3">
-      <Frame
-        side="bottom"
-        shapeMode="extend"
-        cornerRadius={4}
-        path={TAIL_PATH}
-        pathWidth={TAIL_WIDTH}
-        fill="var(--color-background-900)"
-        padding="small"
-        className="w-auto max-w-sm"
-      >
-        <div className="w-20 h-3 bg-background-500 opacity-10 rounded-md" />
-      </Frame>
-      <div className="w-7 h-7 flex items-center px-2 rounded-[3px] bg-background-900 border border-background-700">
-        <FaQuestion size={12} className="text-background-500" />
-      </div>
-    </div>
-  ),
+  popover: <PopoverAnimation />,
 
-  progress: (
-    <div className="w-[70%] relative rounded-md">
-      <div className="w-full bg-background-700 rounded-md border border-background-600 left-0 absolute h-3" />
-      <div className="w-[50%] h-3 left-0 absolute rounded-md bg-background-600" />
-    </div>
-  ),
+  progress: <ProgressAnimation />,
 
-  radio: (
-    <div className="flex items-center gap-3">
-      <div className="w-5 h-5 flex items-center justify-center rounded-full border border-background-600 bg-background-700">
-        <div className="w-2 h-2 rounded-full bg-background-500 mr-[1px]"></div>
-      </div>
-      <div className="w-[80px] h-2 opacity-10 rounded-md bg-background-500"></div>
-    </div>
-  ),
-
+  radio: <RadioAnimation />,
   scroll: (
     <div className="w-[70%] rounded-[3px] flex gap-2">
       <div className="w-full pr-4">
@@ -245,29 +145,11 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
+  select: <SelectAnimation />,
 
-  select: (
-    <div className="w-[140px] h-[30px] flex bg-background-900 pl-2 pr-4 items-center justify-center border border-background-700 rounded-md">
-      <div className="w-[70%] h-2 opacity-10 rounded-md bg-background-500"></div>
-      <FaChevronDown size={10} className="text-foreground-400 ml-auto" />
-    </div>
-  ),
+  slider: <SliderAnimation />,
 
-  slider: (
-    <div className="w-[60%] relative rounded-md">
-      <div className="w-full rounded-md bg-background-700 border border-background-600 left-0 absolute h-3" />
-      <div className="w-[50%] h-3 left-0 absolute rounded-md bg-background-600" />
-      <div className="w-4 h-4 absolute -translate-x-1/2 left-1/2 rounded-full bg-background-500 -top-0.5"></div>
-    </div>
-  ),
-
-  switch: (
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-6 flex items-center rounded-full border border-background-600 bg-background-700 pl-[1px]">
-        <div className="w-5 h-5 rounded-full bg-background-500" />
-      </div>
-    </div>
-  ),
+  switch: <SwitchAnimation />,
 
   table: (
     <div className="w-[80%]">
@@ -329,60 +211,13 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  tabs: (
-    <div className="w-[160px] h-[42px] relative gap-2 flex items-center justify-center border-b border-background-700 px-1.5">
-      <div className="w-[30%] h-2 opacity-50 rounded-[3px] bg-background-500"></div>
-      <div className="w-[36%] h-0.75 absolute bottom-0 left-0 opacity-50 bg-background-500"></div>
-      <div className="w-[30%] h-2 opacity-10 rounded-[3px] bg-background-500"></div>
-      <div className="w-[30%] h-2 opacity-10 rounded-[3px] bg-background-500"></div>
-    </div>
-  ),
+  tabs: <TabsAnimation />,
 
-  textarea: (
-    <div className="flex flex-col">
-      <div className="w-[50%] h-2 opacity-10 ml-2 mb-2 rounded-[2px] bg-background-500"></div>
-      <div
-        className="rounded-[5px] w-[140px] h-[60px] flex bg-background-900 pl-2 pt-2 pr-4 border border-background-700"
-      >
-        <div className="w-[70%] h-2 opacity-10 mt-1 rounded-md bg-background-500"></div>
-        <div className="w-px h-4 opacity-30 rounded-md ml-2 bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  textarea: <TextareaAnimation />,
 
-  toast: (
-    <div className="w-50 h-10 relative gap-3 flex px-2 bg-background-900 items-center justify-center border border-background-700 rounded-[3px]">
-      <FaX
-        size={7}
-        className="text-foreground-400 absolute top-2 right-2"
-      />
-      <FaCircleInfo size={16} className="text-background-500" />
-      <div className="flex flex-col gap-2 w-full">
-        <div className="w-[50%] h-2 opacity-10 rounded-md bg-background-500"></div>
-        <div className="w-[80%] h-2 opacity-10 rounded-md bg-background-500"></div>
-      </div>
-    </div>
-  ),
+  toast: <ToastAnimation />,
 
-  tooltip: (
-    <div className="flex items-center gap-3">
-      <div className="w-7 h-7 flex items-center px-2 rounded-[3px] bg-background-900 border border-background-700">
-        <FaQuestion size={12} className="text-background-500" />
-      </div>
-      <Frame
-        side="left"
-        shapeMode="extend"
-        cornerRadius={4}
-        path={TAIL_PATH}
-        pathWidth={TAIL_WIDTH}
-        fill="var(--color-background-900)"
-        padding="small"
-        className="w-auto max-w-sm"
-      >
-        <div className="w-20 h-3 bg-background-500 opacity-10 rounded-md" />
-      </Frame>
-    </div>
-  ),
+  tooltip: <TooltipAnimation />,
 
   page: (
     <div className="w-40 flex flex-col border border-background-700 rounded overflow-hidden">

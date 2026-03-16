@@ -16,7 +16,7 @@ const CardBody = ({ state }: { state: "dim" | "idle" | "active" }) => {
   const fillOpacity = isDim
     ? config.dim.fillOpacity
     : isActive
-      ? config.highlight.hoverFillOpacity
+      ? 0.05
       : config.highlight.idleFillOpacity;
 
   const strokeOpacity = isDim
@@ -181,40 +181,6 @@ export function CardAnimation() {
               <rect width="400" height="300" fill="url(#card-grid-fade)" />
             </mask>
           </defs>
-
-          {/* Grid Layer */}
-          <g
-            mask="url(#card-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: step * -12,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            {vLines.map(x => <line key={`v${x}`} x1={x} y1="0" x2={x} y2="300" />)}
-            {hLines.map(y => <line key={`h${y}`} x1="0" y1={y} x2="400" y2={y} />)}
-          </g>
-
-          <g mask="url(#card-grid-mask)">
-            {intersections.map((pt, i) => (
-              <circle
-                key={`dot${i}`}
-                cx={pt.x}
-                cy={pt.y}
-                r="1"
-                fill="currentColor"
-                className={config.guidelines.colorClass}
-                style={{
-                  transition: "opacity 0.7s ease",
-                  opacity: isHovered ? 0.40 : 0.1,
-                }}
-              />
-            ))}
-          </g>
 
           {/* THE ARC SYSTEM: Continuous Forward Loop */}
           {Array.from({ length: 7 }, (_, i) => step - 2 + i)

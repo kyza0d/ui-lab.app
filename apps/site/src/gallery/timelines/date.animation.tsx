@@ -2,22 +2,20 @@
 
 import { useState, useEffect, useRef } from "react";
 import config from "./config.json";
+import {
+  Cursor,
+  CursorProvider,
+  type CursorFrame,
+} from "./preview-cursor";
 
-// Helper to generate a path for a rectangle with specific corner radii
-function getRoundedRectPath(x: number, y: number, w: number, h: number, r: { tl: number, tr: number, bl: number, br: number }) {
-  return `
-    M ${x + r.tl} ${y}
-    H ${x + w - r.tr}
-    A ${r.tr} ${r.tr} 0 0 1 ${x + w} ${y + r.tr}
-    V ${y + h - r.br}
-    A ${r.br} ${r.br} 0 0 1 ${x + w - r.br} ${y + h}
-    H ${x + r.bl}
-    A ${r.bl} ${r.bl} 0 0 1 ${x} ${y + h - r.bl}
-    V ${y + r.tl}
-    A ${r.tl} ${r.tl} 0 0 1 ${x + r.tl} ${y}
-    Z
-  `;
-}
+type AnimPhase = "idle" | "hovering" | "clicking" | "sliding";
+
+// Grid constants shared between MonthGrid and DateAnimation
+const COLS = 7;
+const ROWS = 5;
+const CELL_SIZE = 24;
+const CELL_GAP = 4;
+const GRID_WIDTH = COLS * CELL_SIZE + (COLS - 1) * CELL_GAP; // 192
 
 const MonthGrid = ({
   state,
@@ -35,13 +33,6 @@ const MonthGrid = ({
 
   const transition = config.transition;
 
-  // Grid Layout
-  const cols = 7;
-  const rows = 5;
-  const cellSize = 20;
-  const gap = 6;
-  const gridWidth = cols * cellSize + (cols - 1) * gap;
-
   // Header Layout
   const headerHeight = 34;
 
@@ -49,7 +40,7 @@ const MonthGrid = ({
     <g style={{ transform: `translate(${x}px, ${y}px)`, opacity: isDim ? 0.5 : 1, transition: config.transition }}>
       {/* Header Month/Year */}
       <rect
-        x={0} y={6} width={70} height={10} rx={config.barRx}
+        x={0} y={5} width={82} height={11} rx={config.barRx}
         className={isActive ? config.highlight.hoverClass : config.dim.class}
         fill="currentColor"
         style={{
@@ -59,22 +50,26 @@ const MonthGrid = ({
       />
 
       {/* Chevrons */}
-      <g transform={`translate(${gridWidth - 30}, 6)`}>
+      <g transform={`translate(${GRID_WIDTH - 32}, 3)`}>
         {/* Prev */}
         <polyline
-          points="5,1 2,4 5,7"
+          points="-4,2 -8,7 -4,12"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className={config.guidelines.colorClass}
-          style={{ opacity: 0.5 }}
+          style={{ opacity: 0.45 }}
         />
         {/* Next */}
         <polyline
-          points="25,1 28,4 25,7"
+          points="22,2 26,7 22,12"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className={isActive ? config.highlight.hoverClass : "text-foreground-300"}
           style={{ opacity: isActive ? config.activeContent.interactiveActiveOpacity : config.activeContent.interactiveIdleOpacity, transition }}
         />
@@ -82,22 +77,22 @@ const MonthGrid = ({
 
       {/* Days Grid */}
       <g transform={`translate(0, ${headerHeight})`}>
-        {Array.from({ length: rows * cols - 4 }).map((_, i) => {
+        {Array.from({ length: ROWS * COLS - 4 }).map((_, i) => {
           const isHighlighted = i === highlightDayIndex;
-          const col = i % cols;
-          const row = Math.floor(i / cols);
-          const dx = col * (cellSize + gap);
-          const dy = row * (cellSize + gap);
+          const col = i % COLS;
+          const row = Math.floor(i / COLS);
+          const dx = col * (CELL_SIZE + CELL_GAP);
+          const dy = row * (CELL_SIZE + CELL_GAP);
 
           return (
             <rect
               key={i}
               x={dx}
               y={dy}
-              width={cellSize}
-              height={cellSize}
+              width={CELL_SIZE}
+              height={CELL_SIZE}
               rx={config.barRx}
-              className={isHighlighted ? config.highlight.hoverClass : config.highlight.idleClass}
+              className={isHighlighted && isActive ? config.highlight.hoverClass : config.highlight.idleClass}
               fill="currentColor"
               style={{
                 opacity: isHighlighted
@@ -114,45 +109,92 @@ const MonthGrid = ({
 };
 
 export function DateAnimation() {
-  const [isHovered, setIsHovered] = useState(false);
+  const [phase, setPhase] = useState<AnimPhase>("idle");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    const handleEnter = () => setIsHovered(true);
-    const handleLeave = () => setIsHovered(false);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    const handleEnter = () => {
+      setPhase("hovering");
+      timers.push(setTimeout(() => setPhase("clicking"), 480));
+      timers.push(setTimeout(() => setPhase("sliding"), 720));
+    };
+
+    const handleLeave = () => {
+      timers.forEach(clearTimeout);
+      timers.length = 0;
+      setPhase("idle");
+    };
+
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
+      timers.forEach(clearTimeout);
     };
   }, []);
 
   // Container Dimensions
   const width = 220;
-  const height = 180;
+  const height = 196;
   const x = (400 - width) / 2;
   const y = (300 - height) / 2;
   const rx = config.blockRx;
   const transition = config.transition;
 
-  // Animation States
+  const isHovered = phase !== "idle";
+  const isClicking = phase === "clicking" || phase === "sliding";
+  const isSliding = phase === "sliding";
+
+  // Inner Padding (derived from grid width)
+  const px = (width - GRID_WIDTH) / 2; // 14
+  const py = 11;
+
+  // Slide tape
   const slideDistance = width;
-  const tapeX = isHovered ? -slideDistance : 0;
+  const tapeX = isSliding ? -slideDistance : 0;
   const slideTransition = "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1)";
 
-  // Inner Padding
-  const px = 22;
-  const py = 11;
+  // Chevron position in SVG space (next chevron center)
+  const chevronX = x + px + (GRID_WIDTH - 32) + 24;
+  const chevronY = y + py + 9;
+
+  const cursorFrames = {
+    idle: {
+      target: { x: x + width + 40, y: y + height + 20 },
+      opacity: 0,
+    },
+    hovering: {
+      target: { x: chevronX, y: chevronY },
+      opacity: 1,
+    },
+    clicking: {
+      target: { x: chevronX, y: chevronY },
+      opacity: 1,
+      scale: 0.82,
+    },
+    sliding: {
+      target: { x: chevronX, y: chevronY },
+      opacity: 1,
+    },
+  } satisfies Record<AnimPhase, CursorFrame>;
 
   return (
     <div ref={containerRef} className="bg-background-950 flex items-center justify-center relative overflow-hidden font-sans">
       <div className="relative w-full">
         <svg viewBox="0 0 400 300" className="w-full h-full relative z-10 overflow-visible" aria-hidden="true">
           <defs>
+            <style>{`
+              @keyframes date-ripple {
+                from { transform: scale(1); opacity: 0.35; }
+                to { transform: scale(5); opacity: 0; }
+              }
+            `}</style>
             <radialGradient id="date-grid-fade" cx="50%" cy="50%" r="50%">
               <stop offset="40%" stopColor="white" stopOpacity="1" />
               <stop offset="100%" stopColor="white" stopOpacity="0" />
@@ -164,23 +206,6 @@ export function DateAnimation() {
               <rect x={x} y={y} width={width} height={height} rx={rx} />
             </clipPath>
           </defs>
-
-          {/* Guidelines */}
-          <g
-            mask="url(#date-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? config.guidelines.hoverOpacity : config.guidelines.idleOpacity,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1="200" y1="0" x2="200" y2="300" />
-            <line x1="0" y1={150} x2="400" y2={150} />
-          </g>
 
           {/* Date Picker Container */}
           <g>
@@ -210,30 +235,44 @@ export function DateAnimation() {
           <g clipPath="url(#date-content-clip)">
             <g style={{ transform: `translateX(${x + px + tapeX}px)`, transition: slideTransition }}>
 
-              {/* Month 1 (Exits Left) */}
+              {/* Month 1 (Current — exits left on slide) */}
               <MonthGrid
-                state={isHovered ? "leaving" : "idle"}
+                state={isSliding ? "dim" : (isHovered ? "active" : "idle")}
                 x={0}
                 y={y + py}
                 highlightDayIndex={10}
               />
 
-              {/* Month 2 (Enters Center) */}
+              {/* Month 2 (Next — enters center on slide) */}
               <MonthGrid
-                state={isHovered ? "active" : "entering"}
+                state={isSliding ? "active" : "idle"}
                 x={slideDistance}
                 y={y + py}
                 highlightDayIndex={15}
               />
 
-              {/* Month 3 (Way Right - Preload) */}
+              {/* Month 3 (Preloaded right) */}
               <MonthGrid
-                state="entering"
+                state="idle"
                 x={slideDistance * 2}
                 y={y + py}
               />
             </g>
           </g>
+
+          {/* Chevron click ripple */}
+          <circle
+            cx={chevronX}
+            cy={chevronY}
+            r={4}
+            className={config.highlight.hoverClass}
+            fill="currentColor"
+            style={{
+              transformOrigin: `${chevronX}px ${chevronY}px`,
+              animation: isClicking ? "date-ripple 0.35s ease-out forwards" : "none",
+              opacity: 0,
+            }}
+          />
 
           {/* Active Highlight Ring (Outer) */}
           <rect
@@ -244,36 +283,28 @@ export function DateAnimation() {
             rx={rx + 5}
             fill="none"
             stroke="currentColor"
-            className={config.accentOutline.colorClass}
+            className={isHovered ? config.accentOutline.colorClass : config.highlight.idleClass}
             strokeWidth="1.5"
             strokeDasharray="4 4"
             style={{
-              opacity: isHovered ? config.accentOutline.hoverOpacity : config.accentOutline.idleOpacity,
+              opacity: isHovered ? config.accentOutline.hoverOpacity : 0,
               transition,
             }}
           />
 
-          {/* Cursor (Simulate Interaction) */}
-          <g
-            style={{
-              transform: isHovered
-                ? `translate(${x + width - 40}px, ${y + 24}px)`
-                : `translate(${x + width + 40}px, ${y + height + 20}px)`,
-              opacity: isHovered ? 1 : 0,
-              transition: "all 0.5s cubic-bezier(0.2, 1, 0.4, 1) 0.1s"
-            }}
+          <CursorProvider
+            phase={phase}
+            frames={cursorFrames}
+            appearance={() => ({
+              className: config.highlight.hoverClass,
+              hotspot: { x: 5, y: 4 },
+              transformOrigin: "7px 11px",
+              motionTransition: "transform 0.5s cubic-bezier(0.2, 1, 0.4, 1) 0.1s, opacity 0.3s ease",
+              shapeTransition: "transform 0.12s ease-in-out",
+            })}
           >
-            <path
-              d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
-              className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
-              fill="currentColor"
-              style={{
-                transform: isHovered ? "scale(0.9)" : "scale(1)",
-                transition: "transform 0.2s"
-              }}
-            />
-          </g>
-
+            <Cursor />
+          </CursorProvider>
         </svg>
       </div>
     </div>

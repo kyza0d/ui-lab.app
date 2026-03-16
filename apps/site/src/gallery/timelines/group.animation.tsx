@@ -40,7 +40,7 @@ export function GroupAnimation() {
   // Layout constants
   const centerLine = 200;
   const groupY = 130;
-  const itemWidth = 80;
+  const itemWidth = 100;
   const middleWidth = 100;
   const itemHeight = 40;
   const gap = isHovered ? 0 : 12;
@@ -70,23 +70,6 @@ export function GroupAnimation() {
             </mask>
           </defs>
 
-          {/* Guidelines */}
-          <g
-            mask="url(#group-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1={centerLine} y1="0" x2={centerLine} y2="300" />
-            <line x1="0" y1={groupY + itemHeight / 2} x2="400" y2={groupY + itemHeight / 2} />
-          </g>
-
           {/* Group Items */}
           <g style={{ transition: config.transition }}>
 
@@ -115,21 +98,21 @@ export function GroupAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: isHovered ? config.highlight.hoverFillOpacity : config.highlight.idleFillOpacity,
+                fillOpacity: isHovered ? 0.05 : config.highlight.idleFillOpacity,
                 strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
               }}
             />
             <rect
               x={leftX + 20}
               y={groupY + 16}
-              width={40}
+              width={60}
               height={8}
               rx={config.barRx}
               fill="currentColor"
               className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
               style={{
                 transition: config.transition,
-                opacity: config.bar.primaryOpacity,
+                opacity: config.bar.secondaryOpacity,
               }}
             />
 
@@ -158,7 +141,7 @@ export function GroupAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: config.dim.fillOpacity,
+                fillOpacity: isHovered ? 0.05 : config.highlight.idleFillOpacity,
                 strokeOpacity: config.dim.strokeOpacity,
               }}
             />
@@ -213,7 +196,7 @@ export function GroupAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: isHovered ? config.highlight.hoverFillOpacity : config.highlight.idleFillOpacity,
+                fillOpacity: isHovered ? 0.05 : config.highlight.idleFillOpacity,
                 strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
               }}
             />
@@ -233,7 +216,7 @@ export function GroupAnimation() {
             <rect
               x={rightX + 15}
               y={groupY + 16}
-              width={35}
+              width={45}
               height={8}
               rx={config.barRx}
               fill="currentColor"

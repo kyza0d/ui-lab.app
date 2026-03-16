@@ -81,59 +81,6 @@ export function FlexAnimation() {
             </mask>
           </defs>
 
-          {/* Vertical guidelines mapping to the equal-width columns */}
-          <g
-            mask="url(#flex-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0 : 0.25,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            {xLines.map((x) => (
-              <line key={`v${x}`} x1={x} y1="0" x2={x} y2="300" />
-            ))}
-          </g>
-
-          {/* Horizontal guidelines bounding the container height */}
-          <g
-            mask="url(#flex-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.25 : 0,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            {yLines.map((y) => (
-              <line key={`h${y}`} x1="0" y1={y} x2="400" y2={y} />
-            ))}
-          </g>
-
-          {/* Vertical dividers showing the new gaps in hover state */}
-          <g
-            mask="url(#flex-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.25 : 0,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1={230} y1={60} x2={230} y2={240} />
-            <line x1={290} y1={60} x2={290} y2={240} />
-          </g>
-
           {/* Flex Items */}
           {blocks.map((b, i) => {
             const current = isHovered ? b.col : b.row;
@@ -173,7 +120,7 @@ export function FlexAnimation() {
                     transition: config.transition,
                     transitionDelay: currentDelay,
                     fillOpacity: isHighlighted
-                      ? isHovered ? config.highlight.hoverFillOpacity : config.highlight.idleFillOpacity
+                      ? isHovered ? 0.05 : config.highlight.idleFillOpacity
                       : config.dim.fillOpacity,
                     strokeOpacity: isHighlighted
                       ? isHovered ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity

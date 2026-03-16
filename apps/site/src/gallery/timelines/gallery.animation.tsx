@@ -111,7 +111,7 @@ const Item = ({ width, height, state, isLarge }: { width: number, height: number
   const isDim = state === "dim";
 
   const bgClass = isActive ? config.highlight.hoverClass : config.highlight.idleClass;
-  const fillOpacity = isActive ? config.highlight.hoverFillOpacity : (isDim ? config.dim.fillOpacity : config.highlight.idleFillOpacity);
+  const fillOpacity = isActive ? 0.05 : (isDim ? config.dim.fillOpacity : config.highlight.idleFillOpacity);
   const strokeOpacity = isActive ? config.highlight.hoverStrokeOpacity : (isDim ? config.dim.strokeOpacity : config.highlight.idleStrokeOpacity);
 
   return (
@@ -234,26 +234,6 @@ export function GalleryAnimation() {
         <svg viewBox="0 0 400 300" className="w-full h-full relative z-10 overflow-visible" aria-hidden="true">
           <defs>
           </defs>
-
-          {/* Background Guidelines */}
-          <g
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? config.guidelines.hoverOpacity : config.guidelines.idleOpacity,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            {vLines.map((x) => (
-              <line key={`v${x}`} x1={x} y1="0" x2={x} y2="300" />
-            ))}
-            {hLines.map((y) => (
-              <line key={`h${y}`} x1="0" y1={y} x2="400" y2={y} />
-            ))}
-          </g>
 
           <g>
             {/* Row 0: Featured Row (Initial view, scrolls out) */}

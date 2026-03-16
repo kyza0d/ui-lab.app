@@ -144,23 +144,6 @@ export function ExpandAnimation() {
             </clipPath>
           </defs>
 
-          {/* Guidelines */}
-          <g
-            mask="url(#expand-grid-mask)"
-            className="text-foreground-300"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? 0.30 : 0.15,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1="200" y1="0" x2="200" y2="300" />
-            <line x1="0" y1={guidelineY} x2="400" y2={guidelineY} style={{ transition: config.transition }} />
-          </g>
-
           {/* Background Rows & Content Stack */}
 
           {/* Row 0 - Shifts up/out on hover */}
@@ -206,7 +189,7 @@ export function ExpandAnimation() {
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: isHovered ? config.highlight.hoverFillOpacity : 0,
+                fillOpacity: isHovered ? 0.05 : 0,
                 strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : 0,
               }}
             />

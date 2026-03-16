@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import config from "./config.json";
+import {
+  Cursor,
+  CursorProvider,
+  type CursorFrame,
+} from "./preview-cursor";
 
 function getRoundedRectPath(
   x: number, y: number, w: number, h: number,
@@ -111,30 +116,26 @@ export function ColorAnimation() {
     canvasY = canvasYCanvas;
   }
 
-  // Cursor Logic
-  let cursorX = cx + 60; // Resting somewhere
-  let cursorY = cy + 60;
-  let cursorOpacity = 0;
-  let cursorScale = 1;
-
-  if (stage === "hover") {
-    // Moving towards hue slider
-    cursorX = x + huePosIdle;
-    cursorY = y + canvasHeight + gap + sliderHeight / 2;
-    cursorOpacity = 1;
-  } else if (stage === "hue") {
-    // Dragging hue slider
-    cursorX = x + huePosHue;
-    cursorY = y + canvasHeight + gap + sliderHeight / 2;
-    cursorOpacity = 1;
-    cursorScale = 0.9; // Press
-  } else if (stage === "canvas") {
-    // Dragging canvas
-    cursorX = x + canvasXCanvas;
-    cursorY = y + canvasYCanvas;
-    cursorOpacity = 1;
-    cursorScale = 0.9; // Press
-  }
+  const cursorFrames = {
+    idle: {
+      target: { x: cx + 60, y: cy + 60 },
+      opacity: 0,
+    },
+    hover: {
+      target: { x: x + huePosIdle, y: y + canvasHeight + gap + sliderHeight / 2 },
+      opacity: 1,
+    },
+    hue: {
+      target: { x: x + huePosHue, y: y + canvasHeight + gap + sliderHeight / 2 },
+      opacity: 1,
+      scale: 0.9,
+    },
+    canvas: {
+      target: { x: x + canvasXCanvas, y: y + canvasYCanvas },
+      opacity: 1,
+      scale: 0.9,
+    },
+  } satisfies Record<"idle" | "hover" | "hue" | "canvas", CursorFrame>;
 
   return (
     <div
@@ -163,23 +164,6 @@ export function ColorAnimation() {
               />
             </clipPath>
           </defs>
-
-          {/* Guidelines */}
-          <g
-            mask="url(#color-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: stage !== "idle" ? config.guidelines.hoverOpacity : config.guidelines.idleOpacity,
-              strokeDashoffset: stage !== "idle" ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1={cx} y1="0" x2={cx} y2="300" />
-            <line x1="0" y1={cy} x2="400" y2={cy} />
-          </g>
 
           {/* Main Container */}
           <g style={{
@@ -324,24 +308,17 @@ export function ColorAnimation() {
             </g>
           </g>
 
-          {/* Cursor */}
-          <g
-            style={{
-              transform: `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`,
-              transition: `transform 1s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.5s ease`, // Matching the movement transition
-              opacity: cursorOpacity,
-              pointerEvents: "none",
-              zIndex: 50
+          <CursorProvider
+            phase={stage}
+            frames={cursorFrames}
+            appearance={{
+              className: config.highlight.hoverClass,
+              motionTransition: "transform 1s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.5s ease",
+              shapeTransition: "transform 1s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.5s ease",
             }}
           >
-            <path
-              d="M0 0 L14 14 L9 15 L14 20 L12 22 L7 17 L2 22 Z"
-              className={config.highlight.hoverClass}
-              fill="currentColor"
-              stroke="white"
-              strokeWidth="1"
-            />
-          </g>
+            <Cursor />
+          </CursorProvider>
 
         </svg>
       </div>

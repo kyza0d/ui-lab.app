@@ -105,13 +105,14 @@ export function CommandAnimation() {
 
   // Layout Constants
   const centerLine = 150; // Half of new viewBox width 300
-  const paletteWidth = 190;
-  const startX = centerLine - paletteWidth / 2; // 55
-  const startY = 30; // Adjusted from 55
+  const paletteWidth = 160;
+  const startX = centerLine - paletteWidth / 2;
+  const startY = 18;
   const headerHeight = 32; // Adjusted from 48
-  const itemHeight = 30; // Adjusted from 44
+  const itemHeight = 34;
+  const listPaddingTop = 6;
   const footerHeight = 24; // Adjusted from 36
-  const listHeight = itemHeight * 3; // 90
+  const listHeight = listPaddingTop + itemHeight * 3;
   const totalHeight = headerHeight + listHeight + footerHeight; // 146
   const rx = config.blockRx;
 
@@ -124,7 +125,7 @@ export function CommandAnimation() {
       ref={containerRef}
       className="bg-background-950 flex items-center justify-center relative overflow-hidden font-sans"
     >
-      <div className="relative w-full max-w-[250px]">
+      <div className="relative w-full max-w-[210px]">
         <svg
           viewBox="0 0 300 200" // Adjusted from 400 300
           className="w-full h-auto relative z-10 overflow-visible"
@@ -142,23 +143,6 @@ export function CommandAnimation() {
               <rect x={startX} y={startY + headerHeight} width={paletteWidth} height={listHeight} />
             </clipPath>
           </defs>
-
-          {/* Guidelines */}
-          <g
-            mask="url(#command-grid-mask)"
-            className={config.guidelines.colorClass}
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            style={{
-              opacity: isHovered ? config.guidelines.hoverOpacity : config.guidelines.idleOpacity,
-              strokeDashoffset: isHovered ? 12 : 0,
-              transition: "opacity 0.7s ease, stroke-dashoffset 0.8s linear",
-            }}
-          >
-            <line x1="200" y1="0" x2="200" y2="300" />
-            <line x1="0" y1={150} x2="400" y2={150} />
-          </g>
 
           {/* Command Palette Shell */}
           <g>
@@ -239,7 +223,7 @@ export function CommandAnimation() {
 
             {/* List Area */}
             <g clipPath="url(#command-list-clip)">
-              <g transform={`translate(0, ${startY + headerHeight + scrollOffset})`} style={{ transition }}>
+              <g transform={`translate(0, ${startY + headerHeight + listPaddingTop + scrollOffset})`} style={{ transition }}>
                 <CommandItem state={isHovered ? "dim" : "idle"} y={0} x={startX} width={paletteWidth} />
                 <CommandItem state={isHovered ? "active" : "idle"} y={itemHeight} x={startX} width={paletteWidth} />
                 <CommandItem state={isHovered ? "idle" : "idle"} y={itemHeight * 2} x={startX} width={paletteWidth} />

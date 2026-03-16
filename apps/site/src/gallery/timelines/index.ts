@@ -13,3 +13,4 @@ export { CheckboxAnimation } from "./checkbox.animation";
 export { ConfirmAnimation } from "./confirm.animation";
 export { CommandAnimation } from "./command.animation";
 export { DateAnimation } from "./date.animation";
+export { Cursor, CursorProvider } from "./preview-cursor";

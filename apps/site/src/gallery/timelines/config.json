@@ -18,8 +18,8 @@
     "strokeOpacity": 0.2
   },
   "bar": {
-    "primaryOpacity": 0.9,
-    "secondaryOpacity": 0.3
+    "primaryOpacity": 0.7,
+    "secondaryOpacity": 0.5
   },
   "skeleton": {
     "mediaIdleOpacity": 0.2,
