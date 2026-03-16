@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { useState, useMemo, memo } from "react";
 import { ThemeToggle, SettingsPanel } from "@/features/landing";
-import { CommandPalette } from "@/features/command-palette";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const CommandPalette = dynamic(
+  () => import("@/features/command-palette").then(mod => ({ default: mod.CommandPalette })),
+  { ssr: false }
+);
 import { Logo } from "@/shared";
 import { Input, Divider, Tabs, TabsList, TabsTrigger, Button, Tooltip } from "ui-lab-components";
 import { useApp } from "@/features/theme";
@@ -203,7 +208,7 @@ export default function Header({
         </div>
       </header>
 
-      <CommandPalette />
+      <Suspense fallback={null}><CommandPalette /></Suspense>
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} pathname={pathname} />
     </>
   );

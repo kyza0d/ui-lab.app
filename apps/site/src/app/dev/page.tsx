@@ -7,7 +7,6 @@ const devRoutes = [
   { slug: "pattern", title: "Pattern" },
   { slug: "sidebar", title: "Sidebar" },
   { slug: "typography", title: "Typography" },
-  { slug: "radius", title: "Radius" },
 ];
 
 export default function DevIndexPage() {

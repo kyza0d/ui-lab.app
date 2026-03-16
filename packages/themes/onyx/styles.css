@@ -699,5 +699,5 @@
   --track-background: transparent;
   --thumb-background: var(--background-700);
   --thumb-hover-background: var(--background-600);
-  --thumb-dragging-background: mix(var(--background-500) 60%, var(--background-950));
+  --thumb-dragging-background: color-mix(in srgb, var(--background-500) 60%, var(--background-950));
 }

@@ -342,6 +342,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         {indicatorPosition.width > 0 && (
           <div
             className={cn("tabs", "indicator",
+              variant === "underline" && "underline",
               variant === "underline" && "indicator-underline",
               css.indicator, {
               [css["indicator-underline"]]: variant === "underline",

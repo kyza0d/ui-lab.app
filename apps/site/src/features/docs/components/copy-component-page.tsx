@@ -4,12 +4,11 @@ import { useState } from 'react';
 import { Expand, Group, Divider } from 'ui-lab-components';
 import { FaCheck, FaFileLines } from 'react-icons/fa6';
 import { generatedAPI, generatedStyles } from 'ui-lab-registry';
-import { getComponentById } from '@/features/component-docs';
+import type { ComponentDetail } from '@/types/component';
 
 type CopySource = 'examples' | 'api' | 'styles';
 
-function buildExamplesMarkdown(componentId: string): string {
-  const component = getComponentById(componentId);
+function buildExamplesMarkdown(component: ComponentDetail | undefined): string {
   if (!component) return '';
   const lines = [`# ${component.name}\n\n${component.description}`];
   component.examples.forEach((ex) => {
@@ -67,13 +66,13 @@ const copyOptions: { label: string; source: CopySource }[] = [
   { label: 'Copy Styles', source: 'styles' },
 ];
 
-export function CopyComponentPage({ componentId }: { componentId: string }) {
+export function CopyComponentPage({ componentId, component }: { componentId: string; component?: ComponentDetail }) {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState<{ source: CopySource; lines: number } | null>(null);
 
   const handleCopy = async (source: CopySource) => {
     let markdown = '';
-    if (source === 'examples') markdown = buildExamplesMarkdown(componentId);
+    if (source === 'examples') markdown = buildExamplesMarkdown(component);
     else if (source === 'api') markdown = buildAPIMarkdown(componentId);
     else markdown = buildStylesMarkdown(componentId);
     if (!markdown) return;
