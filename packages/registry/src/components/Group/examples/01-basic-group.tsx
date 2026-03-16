@@ -1,5 +1,4 @@
-import React from 'react';
-import { Group, Button } from 'ui-lab-components';
+import { Group } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Group',
@@ -9,9 +8,9 @@ export const metadata = {
 export default function Example() {
   return (
     <Group>
-      <Button>First</Button>
-      <Button>Second</Button>
-      <Button>Third</Button>
+      <Group.Button>First</Group.Button>
+      <Group.Button>Second</Group.Button>
+      <Group.Button>Third</Group.Button>
     </Group>
   );
 }

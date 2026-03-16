@@ -2,13 +2,11 @@ import React from 'react';
 import { Divider, Group } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-group.js';
-import Example2, { metadata as metadata2 } from './examples/02-active-buttons.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples';
 
 const examplesData = [
   { id: '01-basic-group', Component: Example1, metadata: metadata1 },
-  { id: '02-active-buttons', Component: Example2, metadata: metadata2 },
 ];
 
 
@@ -41,19 +39,6 @@ const groupControls: ControlDef[] = [
     defaultValue: false,
   },
 ]
-
-const groupButtonsCode = `import { Group } from "ui-lab-components";
-
-export function Example() {
-  return (
-    <Group>
-      <Group.Button variant="primary">Save</Group.Button>
-      <Group.Button variant="secondary">Draft</Group.Button>
-      <Group.Button variant="outline">Preview</Group.Button>
-      <Group.Button variant="ghost">Delete</Group.Button>
-    </Group>
-  );
-}`
 
 const groupBasicCode = `import { Group } from "ui-lab-components";
 
