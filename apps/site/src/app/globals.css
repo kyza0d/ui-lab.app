@@ -6,7 +6,7 @@
 
 :root {
   /* Border Radius Scale */
-  --radius-xs: 0.04rem;
+  --radius-xs: 0.05rem;
   --radius-sm: 0.1rem;
   --radius-base: 0.2rem;
   --radius-md: 0.3rem;

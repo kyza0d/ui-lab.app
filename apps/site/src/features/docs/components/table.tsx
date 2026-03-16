@@ -152,7 +152,7 @@ export function Table<T extends Record<string, any>>({
                       )}
                     </tr>
                     {expandRender && isExpanded && (
-                      <tr className="border-b border-background-800 last:border-b-0">
+                      <tr className="border-b border-background-800 last:border-b-0 bg-background-950">
                         <td
                           colSpan={columns.length + 1}
                           className="px-4 py-3"

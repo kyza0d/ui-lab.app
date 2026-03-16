@@ -9,7 +9,7 @@ import { cn } from "@/shared";
 import { Code, InlineCodeHighlight } from "@/features/docs";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
 import { useState, useMemo } from "react";
-import { generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
+import type { ComponentAPI, ComponentStyles } from "ui-lab-registry";
 import { FaFlask, FaGithub } from "react-icons/fa6";
 import { PathNav } from "@/features/navigation";
 import { Footer } from "@/features/layout";
@@ -29,10 +29,19 @@ const ReactAriaSvg = () => (
   </svg>
 );
 
-export function ComponentClient({ componentId }: { componentId: string }) {
+export function ComponentClient({ componentId, api, styles, reactAriaUrl, sourceUrl }: {
+  componentId: string;
+  api: ComponentAPI | null;
+  styles: ComponentStyles | null;
+  reactAriaUrl: string | null;
+  sourceUrl: string | null;
+}) {
   const { isOpen: isChatOpen } = useChat();
   const component = useMemo(() => getComponentById(componentId), [componentId]);
   const metadata = useMemo(() => getComponentMetadata(componentId), [componentId]);
+
+  const [activeTab, setActiveTab] = useState("examples");
+  const [visitedTabs, setVisitedTabs] = useState<Set<string>>(new Set(["examples"]));
 
   if (!component) {
     return (
@@ -50,12 +59,10 @@ export function ComponentClient({ componentId }: { componentId: string }) {
       </div>
     );
   }
+  const firstExample = useMemo(() => component.examples[0], [component]);
+  const remainingExamples = useMemo(() => component.examples.slice(1), [component]);
 
-  const [activeTab, setActiveTab] = useState("examples");
-  const firstExample = component.examples[0];
-  const remainingExamples = component.examples.slice(1);
-
-  const getTocItems = () => {
+  const tocItems = useMemo(() => {
     if (activeTab === "examples") {
       return remainingExamples.map((example) => ({
         id: example.id,
@@ -66,7 +73,6 @@ export function ComponentClient({ componentId }: { componentId: string }) {
 
     if (activeTab === "api") {
       const items: any[] = [];
-      const api = generatedAPI[componentId];
       if (api?.props && api.props.length > 0) {
         items.push({ id: "api-props", title: "Props", level: 2 });
       }
@@ -81,7 +87,6 @@ export function ComponentClient({ componentId }: { componentId: string }) {
 
     if (activeTab === "styles") {
       const items: any[] = [];
-      const styles = generatedStyles[componentId];
       if (styles && styles.cssVariables && styles.cssVariables.length > 0) {
         items.push({ id: "css-variables", title: "CSS Variables", level: 2 });
       }
@@ -92,9 +97,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
     }
 
     return [];
-  };
-
-  const tocItems = getTocItems();
+  }, [activeTab, api, styles, remainingExamples]);
 
   return (
     <div className={cn("px-4 grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
@@ -116,13 +119,13 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 <p className="text-md text-foreground-400 max-w-[66ch]">{component.description}</p>
               </div>
               <div className="flex gap-3 flex-row mb-4 mt-4">
-                {sourceUrls[componentId] && (
-                  <Button variant="outline" onClick={() => window.open(sourceUrls[componentId], '_blank')}>
+                {sourceUrl && (
+                  <Button variant="outline" onClick={() => window.open(sourceUrl, '_blank')}>
                     <FaGithub size={19} className="mr-4 text-foreground-400" /> Source
                   </Button>
                 )}
-                {reactAriaUrls[componentId] && (
-                  <Button variant="outline" onClick={() => window.open(reactAriaUrls[componentId], '_blank')}>
+                {reactAriaUrl && (
+                  <Button variant="outline" onClick={() => window.open(reactAriaUrl, '_blank')}>
                     <div className="mr-4"><ReactAriaSvg /></div>
                     React Aria
                   </Button>
@@ -138,7 +141,7 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 </ComponentConfigurator>
               </div>
             )}
-            <Tabs variant="underline" value={activeTab} onValueChange={setActiveTab} className="min-h-[calc(100vh-var(--header-height))]">
+            <Tabs variant="underline" value={activeTab} onValueChange={(tab) => { setActiveTab(tab); setVisitedTabs((prev) => new Set(prev).add(tab)); }} className="min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
                 <TabsList className="grid w-fit grid-cols-3">
                   <TabsTrigger className="pb-3" value="examples">Examples</TabsTrigger>
@@ -163,10 +166,10 @@ export function ComponentClient({ componentId }: { componentId: string }) {
                 </section>
               </TabsContent>
               <TabsContent value="api" className="mt-6">
-                <APIDocumentation componentId={componentId} api={generatedAPI[componentId]} styleableParts={generatedStyles[componentId]?.styleableParts || []} />
+                {visitedTabs.has("api") && <APIDocumentation componentId={componentId} api={api} styleableParts={styles?.styleableParts || []} />}
               </TabsContent>
               <TabsContent value="styles" className="mt-6">
-                <StylesDocumentation componentId={componentId} styles={generatedStyles[componentId]} />
+                {visitedTabs.has("styles") && <StylesDocumentation componentId={componentId} styles={styles} />}
               </TabsContent>
             </Tabs>
           </div>
@@ -225,13 +228,6 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
         return <InlineCodeHighlight code={value} language="typescript" />;
       },
     },
-    {
-      key: "defaultValue",
-      label: "Default",
-      render: (value: any) => (
-        value ? <InlineCodeHighlight code={value} language="typescript" /> : <span className="text-foreground-400">-</span>
-      ),
-    },
   ];
 
   type SubPropData = {
@@ -275,9 +271,14 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
             expandRender={(row) => {
               if (row.name === "styles" && styleableParts && styleableParts.length > 0) {
                 return (
-                  <div className="flex flex-col gap-2 p-2">
-                    <p className="text-foreground-400 text-xs">{row.description}</p>
-                    <div className="mt-2">
+                  <div className="flex flex-col gap-3 p-2">
+                    {row.description && (
+                      <div className="flex flex-col gap-1">
+                        <span className="text-foreground-500 text-xs font-medium">Description</span>
+                        <p className="text-foreground-400 text-xs">{row.description}</p>
+                      </div>
+                    )}
+                    <div className="mt-1">
                       <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-foreground-400 text-sm mt-1">
                         {styleableParts.map((part) => (
                           <li key={part.name}>
@@ -289,9 +290,23 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                   </div>
                 );
               }
-              return row.description ? (
-                <p className="text-foreground-400 text-xs">{row.description}</p>
-              ) : null;
+              if (!row.description && !row.defaultValue) return null;
+              return (
+                <div className="flex flex-col gap-3 p-2">
+                  {row.description && (
+                    <div className="flex flex-col gap-1">
+                      <span className="text-foreground-500 text-xs font-medium">Description</span>
+                      <p className="text-foreground-400 text-xs">{row.description}</p>
+                    </div>
+                  )}
+                  {row.defaultValue && (
+                    <div className="flex flex-col gap-1">
+                      <span className="text-foreground-500 text-xs font-medium">Default</span>
+                      <InlineCodeHighlight code={row.defaultValue} language="typescript" />
+                    </div>
+                  )}
+                </div>
+              );
             }}
           />
         </div>
@@ -316,7 +331,10 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                     data={subProps.props}
                     columns={subPropsColumns}
                     expandRender={(row) => row.description ? (
-                      <p className="text-foreground-400 text-xs">{row.description}</p>
+                      <div className="flex flex-col gap-1 p-2">
+                        <span className="text-foreground-500 text-xs font-medium">Description</span>
+                        <p className="text-foreground-400 text-xs">{row.description}</p>
+                      </div>
                     ) : null}
                   />
                 ) : (
@@ -359,7 +377,7 @@ const ColorSwatch = ({ color }: { color: string }) => {
   );
 };
 
-function StylesDocumentation({ componentId, styles }: { componentId: string; styles: StyleInfo }) {
+function StylesDocumentation({ componentId, styles }: { componentId: string; styles: StyleInfo | null }) {
   const groupedVariables = useMemo(() => {
     if (!styles?.cssVariables) return {};
     const groups: Record<string, CssVariable[]> = {};

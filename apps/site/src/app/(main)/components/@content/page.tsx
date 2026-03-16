@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/features/component-docs";
+import { previews } from "@/gallery";
 import Icon from "@/shared/components/Icon";
 import { Icons, CategoryIcons } from "@/shared/components/icon-registry";
 import { PathNav } from "@/features/navigation";
@@ -66,7 +67,7 @@ export default function ComponentsPage() {
                               className="w-full h-45 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 flex-shrink-0"
                             >
                               <div className='w-80 px-4 gap-2 flex items-center justify-center'>
-                                {component.preview}
+                                {previews[component.id] || <div />}
                               </div>
                               <div className='absolute top-0 left-0 w-full h-full'>
                                 {/* <div className='hidden grid-paper' /> */}

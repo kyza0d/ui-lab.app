@@ -3,7 +3,12 @@
 import { FaPaintRoller } from "react-icons/fa6";
 import { Button, Tooltip } from "ui-lab-components";
 import { useRef } from "react";
-import { SettingsDialog } from "@/features/theme/components/settings-dialog";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const SettingsDialog = dynamic(
+  () => import("@/features/theme/components/settings-dialog").then(mod => ({ default: mod.SettingsDialog })),
+  { ssr: false }
+);
 import { useApp } from "@/features/theme";
 
 export const SettingsPanel = () => {
@@ -22,11 +27,13 @@ export const SettingsPanel = () => {
           <FaPaintRoller size={14} className="text-foreground-300" />
         </Button>
       </Tooltip>
-      <SettingsDialog
-        isOpen={isSettingsPanelOpen}
-        onOpenChange={setIsSettingsPanelOpen}
-        triggerRef={buttonRef}
-      />
+      <Suspense fallback={null}>
+        <SettingsDialog
+          isOpen={isSettingsPanelOpen}
+          onOpenChange={setIsSettingsPanelOpen}
+          triggerRef={buttonRef}
+        />
+      </Suspense>
     </>
   );
 };

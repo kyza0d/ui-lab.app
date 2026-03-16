@@ -3,27 +3,15 @@
 import { useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
 import { Divider, Group, Select, Slider } from "ui-lab-components";
-import { FaPercent, FaMagnifyingGlass, FaCopy, FaEnvelope, FaFilter, FaXmark, FaPencil, FaStar, FaTrash } from "react-icons/fa6";
+import { FaPercent, FaMagnifyingGlass, FaCopy, FaEnvelope, FaFilter } from "react-icons/fa6";
 
 function FilterBarPreview() {
-  const [category, setCategory] = useState<string | number | null>("all");
   const [status, setStatus] = useState<string | number | null>("active");
 
   return (
     <Group orientation="horizontal">
       <Group.Input prefixIcon={<FaMagnifyingGlass />} placeholder="Search...">
       </Group.Input>
-      <Group.Select selectedKey={category} onSelectionChange={setCategory} className="w-44">
-        <Select.Trigger><Select.Value placeholder="Category" /></Select.Trigger>
-        <Divider />
-        <Select.Content>
-          <Select.List>
-            <Select.Item value="all" textValue="All Items">All Items</Select.Item>
-            <Select.Item value="recent" textValue="Recent">Recent</Select.Item>
-            <Select.Item value="featured" textValue="Featured">Featured</Select.Item>
-          </Select.List>
-        </Select.Content>
-      </Group.Select>
       <Divider />
       <Group.Select selectedKey={status} onSelectionChange={setStatus} className="w-36">
         <Select.Trigger><Select.Value placeholder="Status" /></Select.Trigger>
@@ -50,7 +38,8 @@ function InputGroupPreview() {
         </div>
         <Divider />
         <Group.Input placeholder="Search documentation..." className="w-64" />
-        <Group.Button variant="primary">Search</Group.Button>
+        <Divider />
+        <Group.Button variant="secondary">Search</Group.Button>
       </Group>
       <Group>
         <div className="bg-background-800 flex items-center px-3 text-foreground-400">
@@ -58,10 +47,12 @@ function InputGroupPreview() {
         </div>
         <Divider />
         <Group.Input placeholder="you@example.com" type="email" className="w-64" />
-        <Group.Button variant="primary">Subscribe</Group.Button>
+        <Divider />
+        <Group.Button variant="secondary">Subscribe</Group.Button>
       </Group>
       <Group>
         <Group.Input defaultValue="npm install ui-lab" readOnly className="w-64 font-mono text-sm" />
+        <Divider />
         <Group.Button variant="outline" icon={{ left: <FaCopy className="mr-1.5 text-foreground-400" /> }} />
       </Group>
     </div>

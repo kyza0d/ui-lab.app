@@ -3,12 +3,7 @@
  * Extracted from @floating-ui/utils/dom.ts
  */
 
-// Re-export math utilities that dom modules may need
 export { round, max, min, createCoords, floor } from '../index';
-
-// ============================================================================
-// Type Guards
-// ============================================================================
 
 function hasWindow() {
   return typeof window !== 'undefined';
@@ -68,14 +63,10 @@ export function isShadowRoot(value: unknown): value is ShadowRoot {
   );
 }
 
-// ============================================================================
-// Overflow & Containment Detection
-// ============================================================================
-
 const invalidOverflowDisplayValues = new Set(['inline', 'contents']);
 
 export function isOverflowElement(element: Element): boolean {
-  const {overflow, overflowX, overflowY, display} = getComputedStyle(element);
+  const { overflow, overflowX, overflowY, display } = getComputedStyle(element);
   return (
     /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) &&
     !invalidOverflowDisplayValues.has(display)
@@ -99,10 +90,6 @@ export function isTopLayer(element: Element): boolean {
     }
   });
 }
-
-// ============================================================================
-// Containing Block Detection
-// ============================================================================
 
 const transformProperties = [
   'transform',
@@ -165,10 +152,6 @@ export function isWebKit(): boolean {
   if (typeof CSS === 'undefined' || !CSS.supports) return false;
   return CSS.supports('-webkit-backdrop-filter', 'none');
 }
-
-// ============================================================================
-// DOM Traversal & Scroll Utilities
-// ============================================================================
 
 const lastTraversableNodeNames = new Set(['html', 'body', '#document']);
 

@@ -2,7 +2,7 @@ import { ComponentClient } from "./client";
 import { cacheLife } from "next/cache";
 import { generateMetadata as generateSiteMetadata } from "@/shared";
 import { extractComponentMetadata } from "@/shared/lib/metadata-extractors";
-import { componentRegistry } from "ui-lab-registry";
+import { componentRegistry, generatedAPI, generatedStyles, reactAriaUrls, sourceUrls } from "ui-lab-registry";
 
 const componentIds = [
   "button", "input", "label", "select", "textarea",
@@ -39,5 +39,13 @@ export default async function ComponentDetailPage({ params }: { params: Promise<
   cacheLife('hours');
 
   const { component: componentId } = await params;
-  return <ComponentClient componentId={componentId} />;
+  return (
+    <ComponentClient
+      componentId={componentId}
+      api={generatedAPI[componentId] ?? null}
+      styles={generatedStyles[componentId] ?? null}
+      reactAriaUrl={reactAriaUrls[componentId] ?? null}
+      sourceUrl={sourceUrls[componentId] ?? null}
+    />
+  );
 }

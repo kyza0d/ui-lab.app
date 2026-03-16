@@ -35,6 +35,7 @@ export default defineConfig({
       external: ['react', 'react-dom', 'shiki', /^shiki\/.*/],
       output: {
         entryFileNames: '[name].es.js',
+        banner: (chunk) => chunk.name === 'ui-lab-ui' ? '"use client";' : '',
       },
     },
   },

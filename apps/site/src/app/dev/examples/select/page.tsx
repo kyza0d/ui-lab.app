@@ -197,7 +197,7 @@ function SearchTriggerTemplatePreview() {
           selectedKey={template}
           valueLabel={selected?.label}
           onSelectionChange={setTemplate}
-          className="w-80"
+          className="w-120"
         >
           <Searchable.Trigger placeholder="Search templates..." />
           <Select.Content>
@@ -221,7 +221,7 @@ function SearchTriggerTemplatePreview() {
         </Select>
       </div>
       {selected && Icon && (
-        <div className="rounded-md border border-foreground-200 bg-background-700 p-3">
+        <div className="rounded-sm border border-background-700 bg-background-800 p-3">
           <div className="flex items-center gap-2 text-sm text-foreground-200">
             <Icon className="h-4 w-4 text-foreground-300" />
             <span>{selected.label}</span>
