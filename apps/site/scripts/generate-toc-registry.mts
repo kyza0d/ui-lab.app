@@ -9,7 +9,7 @@ export interface TocItem {
   level: number;
 }
 
-export type TocRegistry = Record<string, TocItem[]>;
+type TocRegistry = Record<string, TocItem[]>;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,10 +29,10 @@ function extractHeadings(markdown: string) {
   while ((match = headingRegex.exec(markdown)) !== null) {
     const level = match[1].length;
     const rawTitle = match[2];
-    
+
     // Strip MDX components/tags for ID and display title
     const title = rawTitle.replace(/<[^>]*>?/gm, '').trim();
-    
+
     let id = title
       .toLowerCase()
       .replace(/[^\w\s-]/g, '')
