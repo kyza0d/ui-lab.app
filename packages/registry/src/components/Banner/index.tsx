@@ -3,7 +3,7 @@ import { Banner } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-banner.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaInfoCircle } from 'react-icons/fa';
 
 const examplesData = [
@@ -96,4 +96,4 @@ export const bannerDetail: ComponentDetail = {
 };
 
 export { bannerControls };
-export * from './examples/index';
+export * from './examples/index.js';

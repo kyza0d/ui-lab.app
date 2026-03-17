@@ -17,7 +17,7 @@
 /**
  * Then in app/layout.tsx:
  *
- * import { Providers } from './providers'
+ * import { Providers } from './providers.js'
  *
  * export default function RootLayout({ children }: { children: React.ReactNode }) {
  *   return (

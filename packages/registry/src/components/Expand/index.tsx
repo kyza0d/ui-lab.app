@@ -3,7 +3,7 @@ import { Expand } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-expand.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaChevronDown } from 'react-icons/fa6';
 
 // Define examplesData locally
@@ -99,4 +99,4 @@ export const expandDetail: ComponentDetail = {
 };
 
 export { expandControls };
-export * from './examples/index';
+export * from './examples/index.js';

@@ -4,7 +4,7 @@ import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-checkbox.js';
 import Example2, { metadata as metadata2 } from './examples/02-checkbox-group-with-descriptions.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaCheck } from 'react-icons/fa6';
 
 const examplesData = [
@@ -109,4 +109,4 @@ export const checkboxDetail: ComponentDetail = {
 };
 
 export { checkboxControls };
-export * from './examples/index';
+export * from './examples/index.js';

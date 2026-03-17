@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { CopyButtonWithToast } from './layout/CopyButtonWithToast';
+import { CopyButtonWithToast } from './layout/CopyButtonWithToast.js';
 
 export function CopyPageWithSuccess() {
   const [notification, setNotification] = useState<string | null>(null);

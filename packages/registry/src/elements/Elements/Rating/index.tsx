@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ElementMetadata } from '../../../types';
+import type { ElementMetadata } from '../../../types.js';
 import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {

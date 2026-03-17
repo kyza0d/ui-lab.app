@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar } from './layout/Sidebar';
+import { Sidebar } from './layout/Sidebar.js';
 
 export function BasicSidebar() {
   return (

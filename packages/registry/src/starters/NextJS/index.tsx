@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StarterMetadata } from '../../types';
+import type { StarterMetadata } from '../../types.js';
 
 const baseMetadata = {
   id: 'nextjs-basic',

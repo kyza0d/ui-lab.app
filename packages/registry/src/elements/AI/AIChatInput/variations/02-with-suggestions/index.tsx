@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { PromptInputWithSuggestions } from './layout/PromptInputWithSuggestions';
+import { PromptInputWithSuggestions } from './layout/PromptInputWithSuggestions.js';
 
 export function AIChatInputWithSuggestions() {
   const [prompt, setPrompt] = useState('');

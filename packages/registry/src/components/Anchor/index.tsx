@@ -3,7 +3,7 @@ import { Anchor, Divider } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-anchor.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-anchor', Component: Example1, metadata: metadata1 },
@@ -67,4 +67,4 @@ export const anchorDetail: ComponentDetail = {
 };
 
 export { anchorControls };
-export * from './examples/index';
+export * from './examples/index.js';

@@ -3,7 +3,7 @@ import { Button, Frame, Popover } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-popover.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaQuestion } from 'react-icons/fa6';
 
 const TAIL_WIDTH = 18;
@@ -120,4 +120,4 @@ export const popoverDetail: ComponentDetail = {
 };
 
 export { popoverControls };
-export * from './examples/index';
+export * from './examples/index.js';

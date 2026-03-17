@@ -8,7 +8,7 @@
       {
         "filename": "index.tsx",
         "language": "typescript",
-        "code": "\"use client\";\n\nimport { Sidebar } from './layout/Sidebar';\n\nexport function BasicSidebar() {\n  return (\n    <div className=\"flex min-h-screen bg-background-950\">\n      <Sidebar activeItem=\"home\" />\n\n      <main className=\"flex-1\">\n        {/* Content */}\n      </main>\n    </div>\n  );\n}\n",
+        "code": "\"use client\";\n\nimport { Sidebar } from './layout/Sidebar.js';\n\nexport function BasicSidebar() {\n  return (\n    <div className=\"flex min-h-screen bg-background-950\">\n      <Sidebar activeItem=\"home\" />\n\n      <main className=\"flex-1\">\n        {/* Content */}\n      </main>\n    </div>\n  );\n}\n",
         "isEntryPoint": true
       },
       {

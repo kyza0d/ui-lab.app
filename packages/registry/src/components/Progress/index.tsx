@@ -1,9 +1,9 @@
 import React from 'react';
 import { Progress } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-progress';
+import Example1, { metadata as metadata1 } from './examples/01-basic-progress.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-progress', Component: Example1, metadata: metadata1 },
@@ -123,4 +123,4 @@ export const progressDetail: ComponentDetail = {
 };
 
 export { progressControls };
-export * from './examples/index';
+export * from './examples/index.js';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SiTauri } from 'react-icons/si';
-import type { StarterMetadata } from '../../types';
+import type { StarterMetadata } from '../../types.js';
 
 const baseMetadata = {
   id: 'tauri-desktop',

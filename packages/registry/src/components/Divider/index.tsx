@@ -11,7 +11,7 @@ import Example3, {
   metadata as metadata3,
 } from "./examples/03-vertical-divider.js";
 import examplesJson from "./examples.json";
-import { loadComponentExamples } from "../../utils/load-component-examples";
+import { loadComponentExamples } from "../../utils/load-component-examples.js";
 
 // Define examplesData locally
 const examplesData = [
@@ -107,4 +107,4 @@ export const dividerDetail: ComponentDetail = {
 };
 
 export { dividerControls };
-export * from "./examples/index";
+export * from "./examples/index.js";

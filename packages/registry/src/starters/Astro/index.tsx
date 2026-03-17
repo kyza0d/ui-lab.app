@@ -1,6 +1,6 @@
 import React from 'react';
 import { SiAstro } from 'react-icons/si';
-import type { StarterMetadata } from '../../types';
+import type { StarterMetadata } from '../../types.js';
 
 const baseMetadata = {
   id: 'astro-static',

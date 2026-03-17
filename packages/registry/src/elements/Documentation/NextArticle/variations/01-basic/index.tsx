@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { NextArticleCard } from './layout/NextArticleCard';
+import { NextArticleCard } from './layout/NextArticleCard.js';
 
 export function BasicNextArticle() {
   const articles = [

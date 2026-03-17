@@ -10,7 +10,7 @@ import Example3, { metadata as metadata3 } from './examples/03-danger-toast.js';
 import Example4, { metadata as metadata4 } from './examples/04-info-toast.js';
 import Example5, { metadata as metadata5 } from './examples/05-warning-toast.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaInfoCircle } from 'react-icons/fa';
 
 // Define examplesData locally
@@ -125,4 +125,4 @@ export const toastDetail: ComponentDetail = {
 };
 
 export { toastControls };
-export * from './examples/index';
+export * from './examples/index.js';

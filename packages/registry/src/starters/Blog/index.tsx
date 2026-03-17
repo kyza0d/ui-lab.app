@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaPen } from 'react-icons/fa6';
-import type { StarterMetadata } from '../../types';
+import type { StarterMetadata } from '../../types.js';
 
 const baseMetadata = {
   id: 'blog-platform',

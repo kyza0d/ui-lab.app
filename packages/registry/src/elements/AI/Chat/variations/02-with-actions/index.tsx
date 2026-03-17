@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from 'react';
-import { ChatContainerWithActions } from './layout/ChatContainerWithActions';
-import { ChatMessage } from './layout/ChatMessage';
-import { ChatInputWithActions } from './layout/ChatInputWithActions';
+import { ChatContainerWithActions } from './layout/ChatContainerWithActions.js';
+import { ChatMessage } from './layout/ChatMessage.js';
+import { ChatInputWithActions } from './layout/ChatInputWithActions.js';
 
 interface Message {
   id: string;

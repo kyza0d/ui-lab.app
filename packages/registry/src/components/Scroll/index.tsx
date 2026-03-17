@@ -4,7 +4,7 @@ import { ControlDef, ComponentDetail } from '@/types';
 import { FaComputerMouse } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-scroll.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-scroll', Component: Example1, metadata: metadata1 },
@@ -125,4 +125,4 @@ export const scrollDetail: ComponentDetail = {
 };
 
 export { scrollControls };
-export * from './examples/index';
+export * from './examples/index.js';

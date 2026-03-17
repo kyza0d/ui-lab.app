@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { ExpandableThoughtStep } from './layout/ExpandableThoughtStep';
+import { ExpandableThoughtStep } from './layout/ExpandableThoughtStep.js';
 
 export function ChainOfThoughtWithDetails() {
   const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([1]));

@@ -102,7 +102,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm generate && tsc && tsx scripts/fix-esm-imports.ts",
+    "build": "pnpm generate && tsc",
     "type-check": "tsc --noEmit",
     "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",
     "validate": "tsx scripts/validate-registry.ts",

@@ -1,4 +1,4 @@
-import type { ElementMetadata } from '../types';
+import type { ElementMetadata } from '../types.js';
 
 export type ElementCategoryId = 'layout' | 'form' | 'navigation' | 'content' | 'card' | 'documentation' | 'ai' | 'other';
 

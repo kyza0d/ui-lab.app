@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { ThoughtStep } from './layout/ThoughtStep';
+import { ThoughtStep } from './layout/ThoughtStep.js';
 
 export function BasicChainOfThought() {
   const steps = [

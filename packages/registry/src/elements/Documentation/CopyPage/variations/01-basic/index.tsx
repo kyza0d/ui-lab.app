@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { CopyButton } from './layout/CopyButton';
+import { CopyButton } from './layout/CopyButton.js';
 
 export function BasicCopyPage() {
   return (

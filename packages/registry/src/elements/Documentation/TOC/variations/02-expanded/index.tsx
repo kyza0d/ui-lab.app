@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { ExpandableTableOfContents } from './layout/ExpandableTableOfContents';
+import { ExpandableTableOfContents } from './layout/ExpandableTableOfContents.js';
 
 export function ExpandedTOC() {
   const [activeSection, setActiveSection] = useState('intro');

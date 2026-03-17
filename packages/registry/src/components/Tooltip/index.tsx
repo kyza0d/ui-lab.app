@@ -4,7 +4,7 @@ import { ControlDef, ComponentDetail } from '@/types';
 import { FaQuestion } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-tooltip.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const TAIL_WIDTH = 18;
 const TAIL_PATH = "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 13.50 0.00 18.00 0.00";
@@ -134,4 +134,4 @@ export const tooltipDetail: ComponentDetail = {
 };
 
 export { tooltipControls };
-export * from './examples/index';
+export * from './examples/index.js';

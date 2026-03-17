@@ -1,6 +1,6 @@
 'use client';
 
-import { Page } from './layout/Page';
+import { Page } from './layout/Page.js';
 
 export function BasicPage() {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SiVite } from 'react-icons/si';
-import type { StarterMetadata } from '../../types';
+import type { StarterMetadata } from '../../types.js';
 
 const baseMetadata = {
   id: 'vite-react',

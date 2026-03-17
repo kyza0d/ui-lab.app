@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { TableOfContents } from './layout/TableOfContents';
+import { TableOfContents } from './layout/TableOfContents.js';
 
 export function BasicTOC() {
   return (

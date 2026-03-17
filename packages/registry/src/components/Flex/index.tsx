@@ -3,7 +3,7 @@ import { Flex } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-flex.js';
 import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples';
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 // Define examplesData locally
 const examplesData = [
@@ -159,4 +159,4 @@ export const flexDetail: ComponentDetail = {
 };
 
 export { flexControls };
-export * from './examples/index';
+export * from './examples/index.js';

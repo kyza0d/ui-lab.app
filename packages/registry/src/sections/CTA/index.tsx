@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SectionMetadata } from '../../types';
+import type { SectionMetadata } from '../../types.js';
 import { createSectionSkeleton } from '../utils/create-section-skeleton.js';
 import variationsData from './variations.json' with { type: 'json' };
 

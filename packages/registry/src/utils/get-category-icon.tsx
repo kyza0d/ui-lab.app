@@ -1,6 +1,6 @@
 import { categoryIconConfig } from '../icons-config.js';
 import { categories } from '../categories.js';
-import type { ComponentCategory } from '../types';
+import type { ComponentCategory } from '../types.js';
 
 // Generate icon map from config
 const iconMap = Object.fromEntries(
