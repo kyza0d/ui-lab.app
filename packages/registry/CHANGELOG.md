@@ -1,5 +1,16 @@
 # ui-lab-registry
 
+## 0.3.0
+
+### Minor Changes
+
+- Textarea now supports a maxHeight prop for scroll-constrained inputs. Select has an improved searchable trigger with better accessibility. The theme system has been redesigned using CSS variables and semantic color tokens, with a new Onyx theme added.
+
+### Patch Changes
+
+- Updated dependencies
+  - ui-lab-components@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

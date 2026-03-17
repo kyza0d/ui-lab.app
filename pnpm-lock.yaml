@@ -136,11 +136,11 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2
       ui-lab-components:
-        specifier: workspace:*
-        version: link:../../packages/@ui
+        specifier: 0.3.0
+        version: 0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0)
       ui-lab-registry:
-        specifier: workspace:*
-        version: link:../../packages/registry
+        specifier: 0.3.0
+        version: 0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0)
       ui-lab-theme-onyx:
         specifier: workspace:*
         version: link:../../packages/themes/onyx
@@ -182,8 +182,8 @@ importers:
         specifier: ^1.0.4
         version: 1.25.1(hono@4.11.3)(zod@4.3.2)
       ui-lab-registry:
-        specifier: workspace:*
-        version: link:../registry
+        specifier: 0.3.0
+        version: 0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0)
     devDependencies:
       '@types/node':
         specifier: ^22.10.2
@@ -352,8 +352,8 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.1)
       ui-lab-components:
-        specifier: workspace:*
-        version: link:../@ui
+        specifier: 0.3.0
+        version: 0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0)
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.11
@@ -5509,6 +5509,17 @@ packages:
 
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
+
+  ui-lab-components@0.3.0:
+    resolution: {integrity: sha512-CgNni8GwOb/Wlp72qNNfDw+IVojnvZf/jP97F2xqmEp7vX5sPTaB5n1wjBv1awEpm0Y74EMKG8DAK6/0hTLeOA==}
+    peerDependencies:
+      '@shikijs/transformers': ^3.20.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
+      shiki: ^3.17.1
+
+  ui-lab-registry@0.3.0:
+    resolution: {integrity: sha512-ywM9rM2adGC8obF8rBPaWPcnzMWlG8tAPQUk2ob20h6f+J+/sZBKjfjdi0kbGQlauFaanuOCxdeMzxvOz+kF9A==}
 
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
@@ -12212,6 +12223,49 @@ snapshots:
   typescript@5.9.3: {}
 
   ufo@1.6.1: {}
+
+  ui-lab-components@0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0):
+    dependencies:
+      '@floating-ui/react-dom': 2.1.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@gsap/react': 2.1.2(gsap@3.14.2)(react@19.2.1)
+      '@react-aria/button': 3.14.4(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/dialog': 3.5.32(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/focus': 3.21.4(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/interactions': 3.27.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/listbox': 3.15.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/overlays': 3.31.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/radio': 3.12.4(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/searchfield': 3.8.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/switch': 3.7.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-aria/utils': 3.33.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@react-stately/list': 3.13.3(react@19.2.1)
+      '@react-stately/overlays': 3.6.22(react@19.2.1)
+      '@react-stately/searchfield': 3.5.18(react@19.2.1)
+      '@react-stately/slider': 3.7.4(react@19.2.1)
+      '@react-stately/toggle': 3.9.4(react@19.2.1)
+      '@react-types/shared': 3.33.0(react@19.2.1)
+      '@shikijs/transformers': 3.20.0
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      gsap: 3.14.2
+      lucide-react: 0.525.0(react@19.2.1)
+      postcss: 8.5.6
+      react: 19.2.1
+      react-aria: 3.45.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      react-dom: 19.2.1(react@19.2.1)
+      react-stately: 3.44.0(react@19.2.1)
+      shiki: 3.20.0
+
+  ui-lab-registry@0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0):
+    dependencies:
+      lucide-react: 0.562.0(react@19.2.1)
+      react-icons: 5.5.0(react@19.2.1)
+      ui-lab-components: 0.3.0(@shikijs/transformers@3.20.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(shiki@3.20.0)
+    transitivePeerDependencies:
+      - '@shikijs/transformers'
+      - react
+      - react-dom
+      - shiki
 
   unbox-primitive@1.1.0:
     dependencies:
