@@ -102,7 +102,7 @@ export function GridCTA({ contentType, onSubmit }: GridCTAProps) {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className={styles.formContainer}>
-          <Group orientation="horizontal" variant="outline">
+          <Group orientation="horizontal">
             <Group.Input
               type="email"
               placeholder="Enter your email"

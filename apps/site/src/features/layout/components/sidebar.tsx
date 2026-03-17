@@ -13,7 +13,7 @@ import {
 } from '@/app/lib/sidebar-config';
 import { getSectionsForNav, getHrefForNavItem, isNavItemActive } from '@/features/navigation/lib/sidebar-sections';
 import { getActiveElementsNavFromPathname } from '@/features/packages/lib/sidebar-sections';
-import { ElementsList } from '@/features/packages/components/elements-sidebar-content';
+import { ElementsList } from '@/features/packages/components/sidebar-content';
 
 const SidebarItemLink = memo(function SidebarItemLink({
   href,
@@ -93,7 +93,17 @@ export function Sidebar() {
 
   return (
     <>
-      {isOpen && <div className="fixed inset-0 bg-black/50 z-50 lg:hidden" onClick={closeSidebar} />}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 lg:hidden"
+          onClick={closeSidebar}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') closeSidebar();
+          }}
+          role="button"
+          tabIndex={0}
+        />
+      )}
 
       <aside className={cn(
         sidebarWidth, 'flex flex-col',

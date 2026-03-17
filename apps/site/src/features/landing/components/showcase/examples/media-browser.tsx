@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useReducer, useMemo } from "react";
 import { Group, Divider, Select, Checkbox, Input } from "ui-lab-components";
 import { FaList, FaGrip, FaChevronLeft, FaChevronRight, FaMagnifyingGlass, FaTrash, FaEllipsis } from "react-icons/fa6";
 
@@ -15,45 +15,77 @@ const FILES = [
 
 
 
+interface BrowserState {
+  view: "list" | "grid";
+  sort: string | number | null;
+  page: number;
+  search: string;
+  selected: Set<string>;
+}
+
+type BrowserAction =
+  | { type: 'SET_VIEW'; payload: "list" | "grid" }
+  | { type: 'SET_SORT'; payload: string | number | null }
+  | { type: 'SET_PAGE'; payload: number }
+  | { type: 'SET_SEARCH'; payload: string }
+  | { type: 'SET_SELECTED'; payload: Set<string> };
+
+function browserReducer(state: BrowserState, action: BrowserAction): BrowserState {
+  switch (action.type) {
+    case 'SET_VIEW':
+      return { ...state, view: action.payload };
+    case 'SET_SORT':
+      return { ...state, sort: action.payload };
+    case 'SET_PAGE':
+      return { ...state, page: action.payload };
+    case 'SET_SEARCH':
+      return { ...state, search: action.payload };
+    case 'SET_SELECTED':
+      return { ...state, selected: action.payload };
+    default:
+      return state;
+  }
+}
+
 export function FileBrowser() {
-  const [view, setView] = useState<"list" | "grid">("list");
-  const [sort, setSort] = useState<string | number | null>("newest");
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [state, dispatch] = useReducer(browserReducer, {
+    view: "list",
+    sort: "newest",
+    page: 1,
+    search: "",
+    selected: new Set<string>(),
+  });
   const TOTAL_PAGES = 3;
 
   const filteredFiles = useMemo(() => {
-    const query = search.toLowerCase();
+    const query = state.search.toLowerCase();
     return FILES.filter(file =>
       file.name.toLowerCase().includes(query) ||
       file.type.toLowerCase().includes(query)
     );
-  }, [search]);
+  }, [state.search]);
 
-  const selectedCount = selected.size;
+  const selectedCount = state.selected.size;
   const isAllSelected = filteredFiles.length > 0 && selectedCount === filteredFiles.length;
   const isSomeSelected = selectedCount > 0 && selectedCount < filteredFiles.length;
 
   const toggleSelect = (fileName: string) => {
-    setSelected(prev => {
-      const next = new Set(prev);
-      if (next.has(fileName)) next.delete(fileName);
-      else next.add(fileName);
-      return next;
-    });
+    const next = new Set(state.selected);
+    if (next.has(fileName)) next.delete(fileName);
+    else next.add(fileName);
+    dispatch({ type: 'SET_SELECTED', payload: next });
   };
 
   const toggleSelectAll = () => {
     if (isAllSelected) {
-      setSelected(new Set());
+      dispatch({ type: 'SET_SELECTED', payload: new Set() });
     } else {
-      setSelected(new Set(filteredFiles.map(f => f.name)));
+      dispatch({ type: 'SET_SELECTED', payload: new Set(filteredFiles.map(f => f.name)) });
     }
   };
 
   const clearSelection = () => {
-    setSelected(new Set());
+    dispatch({ type: 'SET_SELECTED', payload: new Set() });
   };
 
   return (
@@ -67,14 +99,14 @@ export function FileBrowser() {
         <Group spacing="none" variant="ghost" className="justify-between w-full">
           <Group.Input
             placeholder="Search files..."
-            value={search}
+            value={state.search}
             className="w-full! flex-1"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => dispatch({ type: 'SET_SEARCH', payload: e.target.value })}
             prefixIcon={<FaMagnifyingGlass size={12} className="text-foreground-500" />}
           />
           <Divider orientation="vertical" />
           <Group.Select
-            selectedKey={sort} onSelectionChange={setSort} className="w-28">
+            selectedKey={state.sort} onSelectionChange={(v) => dispatch({ type: 'SET_SORT', payload: v })} className="w-28">
             <Select.Trigger>
               <Select.Value placeholder="Sort" />
             </Select.Trigger>
@@ -88,11 +120,11 @@ export function FileBrowser() {
             </Select.Content>
           </Group.Select>
           <Divider orientation="vertical" />
-          <Group.Button active={view === "list"} onClick={() => setView("list")} aria-label="List view">
+          <Group.Button active={state.view === "list"} onClick={() => dispatch({ type: 'SET_VIEW', payload: "list" })} aria-label="List view">
             <FaList size={13} />
           </Group.Button>
           <Divider orientation="vertical" />
-          <Group.Button active={view === "grid"} onClick={() => setView("grid")} aria-label="Grid view">
+          <Group.Button active={state.view === "grid"} onClick={() => dispatch({ type: 'SET_VIEW', payload: "grid" })} aria-label="Grid view">
             <FaGrip size={13} />
           </Group.Button>
         </Group>
@@ -118,11 +150,11 @@ export function FileBrowser() {
             <div className="text-center">
               <div className="text-3xl text-foreground-500 mb-2">○</div>
               <span className="text-xs text-foreground-500">
-                {search ? "No files match your search" : "No files found"}
+                {state.search ? "No files match your search" : "No files found"}
               </span>
             </div>
           </div>
-        ) : view === "list" ? (
+        ) : state.view === "list" ? (
           <div>
             <div className="flex items-center gap-3 px-4 py-2.5 bg-background-300 border-b border-background-700">
               <Checkbox
@@ -140,7 +172,7 @@ export function FileBrowser() {
                 <div className="flex items-center gap-3 px-4 py-2.5 hover:bg-background-300 transition-colors">
                   <Checkbox
                     size="sm"
-                    checked={selected.has(file.name)}
+                    checked={state.selected.has(file.name)}
                     onChange={() => toggleSelect(file.name)}
                   />
                   <span className="text-xs text-foreground-100 flex-1 truncate">{file.name}</span>
@@ -164,7 +196,7 @@ export function FileBrowser() {
                 <div className="absolute top-1.5 left-1.5">
                   <Checkbox
                     size="sm"
-                    checked={selected.has(file.name)}
+                    checked={state.selected.has(file.name)}
                     onChange={() => toggleSelect(file.name)}
                   />
                 </div>
@@ -180,17 +212,17 @@ export function FileBrowser() {
       </div>
 
       <div className="px-3 py-2 border-t border-background-700 flex items-center justify-between">
-        <span className="text-xs text-foreground-500">Page {page} of {TOTAL_PAGES}</span>
+        <span className="text-xs text-foreground-500">Page {state.page} of {TOTAL_PAGES}</span>
         <Group variant="ghost" spacing="none">
-          <Group.Button isDisabled={page === 1} onClick={() => setPage(p => Math.max(1, p - 1))} aria-label="Previous">
+          <Group.Button isDisabled={state.page === 1} onClick={() => dispatch({ type: 'SET_PAGE', payload: Math.max(1, state.page - 1) })} aria-label="Previous">
             <FaChevronLeft size={11} />
           </Group.Button>
           {[1, 2, 3].map((p) => (
-            <Group.Button key={p} active={page === p} onClick={() => setPage(p)}>
+            <Group.Button key={p} active={state.page === p} onClick={() => dispatch({ type: 'SET_PAGE', payload: p })}>
               {p}
             </Group.Button>
           ))}
-          <Group.Button isDisabled={page === TOTAL_PAGES} onClick={() => setPage(p => Math.min(TOTAL_PAGES, p + 1))} aria-label="Next">
+          <Group.Button isDisabled={state.page === TOTAL_PAGES} onClick={() => dispatch({ type: 'SET_PAGE', payload: Math.min(TOTAL_PAGES, state.page + 1) })} aria-label="Next">
             <FaChevronRight size={11} />
           </Group.Button>
         </Group>

@@ -1,4 +1,5 @@
-export { Header, HeaderClient, ElementsHeaderSetup } from "./components/header";
+export { HeaderClient, ElementsHeaderSetup } from "./components/header";
 export { Footer } from "./components/footer";
-export { SidebarProvider } from "./hooks/sidebar-context";
-export { LandingSidebarProvider } from "./hooks/landing-sidebar-context";
+export { ContentSectionLayout } from "./components/content-section-layout";
+export { DetailPageShell } from "./components/detail-page-shell";
+export { GenericContentGrid } from "../packages/components/content-grid";

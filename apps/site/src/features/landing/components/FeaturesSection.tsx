@@ -71,7 +71,7 @@ export function FeaturesSection() {
 
   features.forEach((feature, i) => {
     if (i > 0 && currentRowSpan === 0) {
-      elements.push(<Divider spacing="none" key={`divider-${i}`} style={{ gridColumn: 'span 12' }} />);
+      elements.push(<Divider spacing="none" key={`divider-before-${feature.title}`} style={{ gridColumn: 'span 12' }} />);
     }
 
     const hasLink = !!feature.link;
@@ -106,11 +106,11 @@ export function FeaturesSection() {
     );
 
     const cardElement = hasLink ? (
-      <Link key={`feature-${i}`} href={feature.link} className="block" style={{ gridColumn: `span ${feature.colSpan}` }}>
+      <Link key={feature.title} href={feature.link} className="block" style={{ gridColumn: `span ${feature.colSpan}` }}>
         {cardContent}
       </Link>
     ) : (
-      <div key={`feature-${i}`} style={{ gridColumn: `span ${feature.colSpan}` }}>
+      <div key={feature.title} style={{ gridColumn: `span ${feature.colSpan}` }}>
         {cardContent}
       </div>
     );

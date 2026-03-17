@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useReducer } from "react";
 import { List, Group, Select, Badge, Divider, Button } from "ui-lab-components";
-import { FaXmark, FaEnvelope, FaMagnifyingGlass, FaGear, FaUsers, FaPersonArrowDownToLine, FaArrowTurnUp } from "react-icons/fa6";
-import { HiMiniArrowTurnDownRight } from "react-icons/hi2";
+import { FaEnvelope, FaMagnifyingGlass, FaGear, FaUsers, FaArrowTurnUp } from "react-icons/fa6";
 
 interface Member {
   name: string;
@@ -22,12 +21,47 @@ const INITIAL_MEMBERS: Member[] = [
 
 const PENDING_INVITE = { email: "alex@relay.so", role: "Member", sentAt: "2h ago" };
 
+type State = {
+  members: Member[];
+  search: string;
+  roleFilter: string;
+  inviteEmail: string;
+  inviteRole: string;
+};
+
+type Action =
+  | { type: 'SET_ROLE'; index: number; role: string }
+  | { type: 'SET_SEARCH'; value: string }
+  | { type: 'SET_ROLE_FILTER'; value: string }
+  | { type: 'SET_INVITE_EMAIL'; value: string }
+  | { type: 'SET_INVITE_ROLE'; value: string };
+
+function memberReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'SET_ROLE':
+      return { ...state, members: state.members.map((m, i) => i === action.index ? { ...m, role: action.role } : m) };
+    case 'SET_SEARCH':
+      return { ...state, search: action.value };
+    case 'SET_ROLE_FILTER':
+      return { ...state, roleFilter: action.value };
+    case 'SET_INVITE_EMAIL':
+      return { ...state, inviteEmail: action.value };
+    case 'SET_INVITE_ROLE':
+      return { ...state, inviteRole: action.value };
+    default:
+      return state;
+  }
+}
+
 export function MemberRolePanel() {
-  const [members, setMembers] = useState<Member[]>(INITIAL_MEMBERS);
-  const [search, setSearch] = useState("");
-  const [roleFilter, setRoleFilter] = useState<string>("all");
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState("Member");
+  const [state, dispatch] = useReducer(memberReducer, {
+    members: INITIAL_MEMBERS,
+    search: "",
+    roleFilter: "all",
+    inviteEmail: "",
+    inviteRole: "Member",
+  });
+  const { members, search, roleFilter, inviteEmail, inviteRole } = state;
 
   const filtered = useMemo(() => {
     return members.filter((m) => {
@@ -42,7 +76,7 @@ export function MemberRolePanel() {
 
   function setRole(index: number, role: string | number | null) {
     if (!role) return;
-    setMembers((prev) => prev.map((m, i) => i === index ? { ...m, role: String(role) } : m));
+    dispatch({ type: 'SET_ROLE', index, role: String(role) });
   }
 
   return (
@@ -65,12 +99,12 @@ export function MemberRolePanel() {
             prefixIcon={<FaMagnifyingGlass />}
             className="w-[220px]"
             value={search}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: 'SET_SEARCH', value: e.target.value })}
           />
           <Divider />
           <Group.Select
             selectedKey={roleFilter}
-            onSelectionChange={(key) => setRoleFilter(String(key))}
+            onSelectionChange={(key) => dispatch({ type: 'SET_ROLE_FILTER', value: String(key) })}
             className="flex-none"
           >
             <Select.Trigger className="bg-background-900">
@@ -100,7 +134,7 @@ export function MemberRolePanel() {
               <List.Item value={member.email} className="px-4 py-3">
                 <List.Media>
                   <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-foreground-300 bg-background-800 flex-shrink-0"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-foreground-300 bg-background-800 shrink-0"
                   >
                     {member.initials}
                   </div>
@@ -139,7 +173,7 @@ export function MemberRolePanel() {
         <List.Divider spacing="none" />
         <List.Item value="pending-alex" className="px-4 py-3">
           <List.Media>
-            <div className="w-8 h-8 rounded-full bg-background-700 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-background-700 flex items-center justify-center shrink-0">
               <FaEnvelope className="w-3.5 h-3.5 text-foreground-500" />
             </div>
           </List.Media>
@@ -159,12 +193,12 @@ export function MemberRolePanel() {
             className="flex-1"
             prefixIcon={<FaEnvelope />}
             value={inviteEmail}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInviteEmail(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: 'SET_INVITE_EMAIL', value: e.target.value })}
           />
           <Divider />
           <Group.Select
             selectedKey={inviteRole}
-            onSelectionChange={(key) => setInviteRole(String(key))}
+            onSelectionChange={(key) => dispatch({ type: 'SET_INVITE_ROLE', value: String(key) })}
             className="w-[110px] flex-none"
           >
             <Select.Trigger variant="ghost">
