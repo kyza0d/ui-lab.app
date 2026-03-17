@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import {
   applyDynamicThemeScales,
-  applyDynamicSpacingScale,
   applyDynamicFontSizeScalesWithRatio,
   applyDynamicHeaderFontSizeScales,
   applyDynamicLineHeightScales,
@@ -11,14 +10,15 @@ import {
   applyDynamicFontWeightScales,
 } from "../config";
 import { type TypographyConfig } from "../lib/typography-config";
+import { applyDynamicSpacingScale } from "../config/spacing/generator";
 
-export interface LayoutConfig {
+interface LayoutConfig {
   radius: number;
   borderWidth: number;
   spacingScale: number;
 }
 
-export interface ThemeConfigurationInput {
+interface ThemeConfigurationInput {
   typography: TypographyConfig;
   layout: LayoutConfig;
   isEnabled?: boolean;

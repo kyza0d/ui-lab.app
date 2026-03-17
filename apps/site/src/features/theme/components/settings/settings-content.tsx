@@ -31,114 +31,23 @@ import { LayoutPanel } from "./layout-panel";
 
 type ConfigTab = "colors" | "layout" | "fonts";
 
-export const SettingsContent = () => {
-  const {
-    currentThemeColors,
-    setCurrentThemeColors,
-    radius,
-    setRadius,
-    borderWidth,
-    setBorderWidth,
-    spacingScale,
-    setSpacingScale,
-    currentThemeMode,
-    isThemeInitialized,
-    globalAdjustments,
-    setGlobalAdjustments,
-    selectedSansFont,
-    setSelectedSansFont,
-    selectedMonoFont,
-    setSelectedMonoFont,
-    headerTypeSizeRatio,
-    setHeaderTypeSizeRatio,
-    headerFontSizeScale,
-    setHeaderFontSizeScale,
-    headerFontWeightScale,
-    setHeaderFontWeightScale,
-    headerLetterSpacingScale,
-    setHeaderLetterSpacingScale,
-    headerLineHeight,
-    setHeaderLineHeight,
-    bodyTypeSizeRatio,
-    setBodyTypeSizeRatio,
-    bodyFontSizeScale,
-    setBodyFontSizeScale,
-    bodyFontWeightScale,
-    setBodyFontWeightScale,
-    bodyLetterSpacingScale,
-    setBodyLetterSpacingScale,
-    bodyLineHeight,
-    setBodyLineHeight,
-    globalMinFontSizePx,
-    setGlobalMinFontSizePx,
-  } = useApp();
-
-  const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
-  const [localColors, setLocalColors] = useState(
-    currentThemeColors || themes["Vitesse"].dark,
-  );
-  const [expandedColor, setExpandedColor] = useState<string | null>(null);
-  const [localGlobalAdjustments, setLocalGlobalAdjustments] =
-    useState<GlobalColorAdjustments>(globalAdjustments);
-
-  useEffect(() => {
-    if (isThemeInitialized && currentThemeColors) {
-      setLocalColors(currentThemeColors);
-    }
-  }, [isThemeInitialized, currentThemeColors]);
-
-  useEffect(() => {
-    if (isThemeInitialized) {
-      setLocalGlobalAdjustments(globalAdjustments);
-    }
-  }, [isThemeInitialized, globalAdjustments]);
-
-  const {
-    applyAndPersistColors,
-    applyAndPersistTypography,
-    applyAndPersistLayout,
-    applyAndPersistFonts,
-  } = useThemeStorage({
-    onColorsChange: setCurrentThemeColors,
-    onTypographyChange: (config: TypographyConfig) => {
-      setHeaderTypeSizeRatio(config.headerTypeSizeRatio);
-      setHeaderFontSizeScale(config.headerFontSizeScale);
-      setHeaderFontWeightScale(config.headerFontWeightScale);
-      setHeaderLetterSpacingScale(config.headerLetterSpacingScale);
-      setHeaderLineHeight(config.headerLineHeight);
-      setBodyTypeSizeRatio(config.bodyTypeSizeRatio);
-      setBodyFontSizeScale(config.bodyFontSizeScale);
-      setBodyFontWeightScale(config.bodyFontWeightScale);
-      setBodyLetterSpacingScale(config.bodyLetterSpacingScale);
-      setBodyLineHeight(config.bodyLineHeight);
-      setGlobalMinFontSizePx(config.globalMinFontSizePx);
-    },
-    onLayoutChange: (config: any) => {
-      setRadius(config.radius);
-      setBorderWidth(config.borderWidth);
-      setSpacingScale(config.spacingScale);
-    },
-    onFontsChange: (config: any) => {
-      setSelectedSansFont(config.sansFont);
-      setSelectedMonoFont(config.monoFont);
-    },
-    currentThemeMode,
-  });
-
-  const currentTypography: TypographyConfig = {
-    headerTypeSizeRatio,
-    headerFontSizeScale,
-    headerFontWeightScale,
-    headerLetterSpacingScale,
-    headerLineHeight,
-    bodyTypeSizeRatio,
-    bodyFontSizeScale,
-    bodyFontWeightScale,
-    bodyLetterSpacingScale,
-    bodyLineHeight,
-    globalMinFontSizePx,
-  };
-
+function useSettingsHandlers(
+  localColors: any,
+  localGlobalAdjustments: GlobalColorAdjustments,
+  currentThemeMode: string,
+  applyAndPersistColors: (colors: any) => void,
+  applyAndPersistFonts: (fonts: any) => void,
+  applyAndPersistTypography: (typography: TypographyConfig) => void,
+  selectedSansFont: string,
+  selectedMonoFont: string,
+  globalMinFontSizePx: number,
+  headerLineHeight: number,
+  bodyLineHeight: number,
+  currentTypography: TypographyConfig,
+  setLocalColors: (colors: any) => void,
+  setLocalGlobalAdjustments: (adj: GlobalColorAdjustments) => void,
+  setGlobalAdjustments: (adj: GlobalColorAdjustments) => void,
+) {
   const updateTypography = (next: Partial<TypographyConfig>) => {
     applyAndPersistTypography({
       ...currentTypography,
@@ -259,6 +168,135 @@ export const SettingsContent = () => {
     applyAndPersistFonts({ sansFont: selectedSansFont, monoFont: fontName as any });
   };
 
+  return { handleGlobalAdjustmentChange, handleColorChange, handleChromaLimitChange, handleSansFontChange, handleMonoFontChange, updateTypography };
+}
+
+export const SettingsContent = () => {
+  const {
+    currentThemeColors,
+    setCurrentThemeColors,
+    radius,
+    setRadius,
+    borderWidth,
+    setBorderWidth,
+    spacingScale,
+    setSpacingScale,
+    currentThemeMode,
+    isThemeInitialized,
+    globalAdjustments,
+    setGlobalAdjustments,
+    selectedSansFont,
+    setSelectedSansFont,
+    selectedMonoFont,
+    setSelectedMonoFont,
+    headerTypeSizeRatio,
+    setHeaderTypeSizeRatio,
+    headerFontSizeScale,
+    setHeaderFontSizeScale,
+    headerFontWeightScale,
+    setHeaderFontWeightScale,
+    headerLetterSpacingScale,
+    setHeaderLetterSpacingScale,
+    headerLineHeight,
+    setHeaderLineHeight,
+    bodyTypeSizeRatio,
+    setBodyTypeSizeRatio,
+    bodyFontSizeScale,
+    setBodyFontSizeScale,
+    bodyFontWeightScale,
+    setBodyFontWeightScale,
+    bodyLetterSpacingScale,
+    setBodyLetterSpacingScale,
+    bodyLineHeight,
+    setBodyLineHeight,
+    globalMinFontSizePx,
+    setGlobalMinFontSizePx,
+  } = useApp();
+
+  const [activeTab, setActiveTab] = useState<ConfigTab>("colors");
+  const [localColors, setLocalColors] = useState(
+    currentThemeColors || themes["Vitesse"].dark,
+  );
+  const [expandedColor, setExpandedColor] = useState<string | null>(null);
+  const [localGlobalAdjustments, setLocalGlobalAdjustments] =
+    useState<GlobalColorAdjustments>(globalAdjustments);
+
+  useEffect(() => {
+    if (isThemeInitialized && currentThemeColors) {
+      setLocalColors(currentThemeColors);
+    }
+  }, [isThemeInitialized, currentThemeColors]);
+
+  // Derived state instead of useEffect:
+  // Using a key prop on the component that renders this or a parent ensures reset on prop change.
+  // Alternatively, if we MUST sync, this is how it should be done if NOT using a key prop:
+  // const [localGlobalAdjustments, setLocalGlobalAdjustments] = useState(globalAdjustments);
+  // if (prevGlobalAdjustments !== globalAdjustments) { setLocalGlobalAdjustments(globalAdjustments); ... }
+
+  const {
+    applyAndPersistColors,
+    applyAndPersistTypography,
+    applyAndPersistLayout,
+    applyAndPersistFonts,
+  } = useThemeStorage({
+    onColorsChange: setCurrentThemeColors,
+    onTypographyChange: (config: TypographyConfig) => {
+      setHeaderTypeSizeRatio(config.headerTypeSizeRatio);
+      setHeaderFontSizeScale(config.headerFontSizeScale);
+      setHeaderFontWeightScale(config.headerFontWeightScale);
+      setHeaderLetterSpacingScale(config.headerLetterSpacingScale);
+      setHeaderLineHeight(config.headerLineHeight);
+      setBodyTypeSizeRatio(config.bodyTypeSizeRatio);
+      setBodyFontSizeScale(config.bodyFontSizeScale);
+      setBodyFontWeightScale(config.bodyFontWeightScale);
+      setBodyLetterSpacingScale(config.bodyLetterSpacingScale);
+      setBodyLineHeight(config.bodyLineHeight);
+      setGlobalMinFontSizePx(config.globalMinFontSizePx);
+    },
+    onLayoutChange: (config: any) => {
+      setRadius(config.radius);
+      setBorderWidth(config.borderWidth);
+      setSpacingScale(config.spacingScale);
+    },
+    onFontsChange: (config: any) => {
+      setSelectedSansFont(config.sansFont);
+      setSelectedMonoFont(config.monoFont);
+    },
+    currentThemeMode,
+  });
+
+  const currentTypography: TypographyConfig = {
+    headerTypeSizeRatio,
+    headerFontSizeScale,
+    headerFontWeightScale,
+    headerLetterSpacingScale,
+    headerLineHeight,
+    bodyTypeSizeRatio,
+    bodyFontSizeScale,
+    bodyFontWeightScale,
+    bodyLetterSpacingScale,
+    bodyLineHeight,
+    globalMinFontSizePx,
+  };
+
+  const { handleGlobalAdjustmentChange, handleColorChange, handleChromaLimitChange, handleSansFontChange, handleMonoFontChange, updateTypography } = useSettingsHandlers(
+    localColors,
+    localGlobalAdjustments,
+    currentThemeMode,
+    applyAndPersistColors,
+    applyAndPersistFonts,
+    applyAndPersistTypography,
+    selectedSansFont,
+    selectedMonoFont,
+    globalMinFontSizePx,
+    headerLineHeight,
+    bodyLineHeight,
+    currentTypography,
+    setLocalColors,
+    setLocalGlobalAdjustments,
+    setGlobalAdjustments,
+  );
+
 
   return (
     <div className="w-full h-full select-none flex flex-col bg-background-900/90 text-foreground">
@@ -313,30 +351,10 @@ export const SettingsContent = () => {
             <TypographyPanel
               selectedSansFont={selectedSansFont}
               selectedMonoFont={selectedMonoFont}
-              headerTypeSizeRatio={headerTypeSizeRatio}
-              headerFontSizeScale={headerFontSizeScale}
-              headerFontWeightScale={headerFontWeightScale}
-              headerLetterSpacingScale={headerLetterSpacingScale}
-              headerLineHeight={headerLineHeight}
-              bodyTypeSizeRatio={bodyTypeSizeRatio}
-              bodyFontSizeScale={bodyFontSizeScale}
-              bodyFontWeightScale={bodyFontWeightScale}
-              bodyLetterSpacingScale={bodyLetterSpacingScale}
-              bodyLineHeight={bodyLineHeight}
-              globalMinFontSizePx={globalMinFontSizePx}
+              typography={currentTypography}
               onSansFontChange={handleSansFontChange}
               onMonoFontChange={handleMonoFontChange}
-              onGlobalMinFontSizePxChange={(size) => updateTypography({ globalMinFontSizePx: size })}
-              onHeaderTypeSizeRatioChange={(ratio) => updateTypography({ headerTypeSizeRatio: ratio })}
-              onHeaderFontSizeScaleChange={(scale) => updateTypography({ headerFontSizeScale: scale })}
-              onHeaderFontWeightScaleChange={(scale) => updateTypography({ headerFontWeightScale: scale })}
-              onHeaderLetterSpacingChange={(scale) => updateTypography({ headerLetterSpacingScale: scale })}
-              onHeaderLineHeightChange={(lineHeight) => updateTypography({ headerLineHeight: lineHeight })}
-              onBodyTypeSizeRatioChange={(ratio) => updateTypography({ bodyTypeSizeRatio: ratio })}
-              onBodyFontSizeScaleChange={(scale) => updateTypography({ bodyFontSizeScale: scale })}
-              onBodyFontWeightScaleChange={(scale) => updateTypography({ bodyFontWeightScale: scale })}
-              onBodyLetterSpacingChange={(scale) => updateTypography({ bodyLetterSpacingScale: scale })}
-              onBodyLineHeightChange={(lineHeight) => updateTypography({ bodyLineHeight: lineHeight })}
+              onTypographyChange={updateTypography}
             />
           </TabsContent>
 

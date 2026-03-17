@@ -145,7 +145,7 @@ export function applyDynamicFontSizeScalesWithRatio(
  *
  * @param fontSizeScale - Font size scale factor (0.85 - 1.15)
  */
-export function applyDynamicFontSizeScales(fontSizeScale: number): void {
+function applyDynamicFontSizeScales(fontSizeScale: number): void {
   applyDynamicFontSizeScalesWithRatio(1.125, fontSizeScale);
 }
 
@@ -185,8 +185,8 @@ export function applyDynamicLineHeightScales(
 /**
  * Generates letter spacing CSS variables as key-value pairs
  * Used for caching and consistency across cache/inline/React paths
- * @param bodyLetterSpacingScale - Body letter spacing scale factor (0.8 - 1.2)
- * @param headerLetterSpacingScale - Header letter spacing scale factor (0.8 - 1.2)
+ * @param bodyLetterSpacingScale - Body letter spacing scale factor (0 - 3.0)
+ * @param headerLetterSpacingScale - Header letter spacing scale factor (-5.0 - 2.0)
  * @returns Object mapping CSS variable names to values
  */
 export function generateLetterSpacingCSS(
@@ -194,23 +194,20 @@ export function generateLetterSpacingCSS(
   headerLetterSpacingScale: number = 1,
 ): Record<string, string> {
   const vars: Record<string, string> = {};
-  const baseLetterSpacingFactor = 0.005;
+  const baseLetterSpacingFactor = 0.015;
   const textNames = ["xs", "sm", "md", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl"] as const;
   const baseIndex = 3;
 
   textNames.forEach((name, i) => {
     const stepsFromBase = i - baseIndex;
     const baseLetterSpacing = stepsFromBase * baseLetterSpacingFactor;
-    const scaledLetterSpacing =
-      stepsFromBase < 0
-        ? baseLetterSpacing / bodyLetterSpacingScale
-        : baseLetterSpacing * bodyLetterSpacingScale;
+    const scaledLetterSpacing = baseLetterSpacing + (bodyLetterSpacingScale - 1) * baseLetterSpacingFactor;
     vars[`--letter-spacing-${name}`] = `${scaledLetterSpacing.toFixed(4)}em`;
   });
 
   const headerSizeNames = ["sm", "md", "lg", "xl"];
   headerSizeNames.forEach((name) => {
-    const spacingValue = headerLetterSpacingScale * 0.002;
+    const spacingValue = headerLetterSpacingScale * 0.006;
     vars[`--letter-spacing-header-${name}`] = `${spacingValue.toFixed(4)}em`;
   });
 
@@ -220,8 +217,8 @@ export function generateLetterSpacingCSS(
 /**
  * Applies dynamic letter spacing scales to the DOM
  * Updates all --letter-spacing-* CSS variables based on body letter spacing scale
- * @param bodyLetterSpacingScale - Body letter spacing scale factor (0.8 - 1.2)
- * @param headerLetterSpacingScale - Header letter spacing scale factor (0.8 - 1.2)
+ * @param bodyLetterSpacingScale - Body letter spacing scale factor (0 - 3.0)
+ * @param headerLetterSpacingScale - Header letter spacing scale factor (-5.0 - 2.0)
  */
 export function applyDynamicLetterSpacingScales(
   bodyLetterSpacingScale: number = 1,

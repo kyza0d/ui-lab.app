@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import { Cursor, CursorProvider, type CursorFrame } from "./preview-cursor";
 
@@ -11,32 +11,31 @@ type Stage = "idle" | "hovering" | "open";
 export function AnchorAnimation() {
   const [stage, setStage] = useState<Stage>("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("hovering");
+    timersRef.current.push(setTimeout(() => setStage("open"), 500));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    let timers: ReturnType<typeof setTimeout>[] = [];
-
-    const handleEnter = () => {
-      setStage("hovering");
-      timers.push(setTimeout(() => setStage("open"), 500));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      timers = [];
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const isActive = stage !== "idle";
   const isOpen = stage === "open";
@@ -89,7 +88,7 @@ export function AnchorAnimation() {
                 style={{ borderColor: "color-mix(in srgb, var(--color-background-700) 50%, transparent)" }}
               >
                 <div
-                  className="w-[7px] h-[7px] rounded-full flex-shrink-0"
+                  className="w-[7px] h-[7px] rounded-full shrink-0"
                   style={{
                     backgroundColor: "var(--color-accent-500)",
                     opacity: isOpen ? 0.55 : 0,

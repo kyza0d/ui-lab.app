@@ -136,11 +136,11 @@ export function PanelAnimation() {
               style={{ transition: config.transition, opacity: isHovered ? 0 : 0.4 }}
             />
             {/* Sidebar List Items (Visible only when expanded) */}
-            {[0, 1, 2, 3].map((i) => (
+            {[0, 1, 2, 3].map((n, i) => (
               <rect
-                key={`side-bar-${i}`}
+                key={`side-bar-${n}`}
                 x={75}
-                y={80 + i * 24}
+                y={80 + n * 24}
                 width={50}
                 height={8}
                 rx={config.barRx}

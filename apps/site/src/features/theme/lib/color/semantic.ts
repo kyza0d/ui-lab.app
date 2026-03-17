@@ -45,7 +45,7 @@ export function getSemanticChromaLimit(
   return config[mode]?.chromaLimit ?? 0.025;
 }
 
-export function validateSemanticColorStructure(
+function validateSemanticColorStructure(
   semantic: unknown
 ): SemanticColors | null {
   if (!semantic || typeof semantic !== "object") {
@@ -104,7 +104,7 @@ export function validateSemanticColorStructure(
   return Object.keys(result).length > 0 ? (result as SemanticColors) : null;
 }
 
-export function mergeSemanticColorsWithDefaults(
+function mergeSemanticColorsWithDefaults(
   loaded: SemanticColors | null | undefined
 ): SemanticColors {
   if (!loaded) {

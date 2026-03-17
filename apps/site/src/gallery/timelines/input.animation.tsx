@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import {
   Cursor,
@@ -34,59 +34,58 @@ export function InputAnimation() {
 
   // For typing simulation (0 to 1)
   const [typingProgress, setTypingProgress] = useState(0);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const animationFrameRef = useRef<number>(0);
+
+  const handleEnter = useCallback(() => {
+    setStage("hovering");
+
+    // Move to focus/click
+    timersRef.current.push(setTimeout(() => {
+      setStage("focused");
+    }, 600));
+
+    // Start typing
+    timersRef.current.push(setTimeout(() => {
+      setStage("typing");
+      // Animate typing progress
+      let start: number | null = null;
+      const duration = 800; // ms to type
+      const step = (timestamp: number) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        setTypingProgress(progress);
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(step);
+        } else {
+          setStage("completed");
+        }
+      };
+      animationFrameRef.current = requestAnimationFrame(step);
+    }, 1100));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    setStage("idle");
+    setTypingProgress(0);
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-
-    let timers: NodeJS.Timeout[] = [];
-    let animationFrame: number;
-
-    const handleEnter = () => {
-      setStage("hovering");
-
-      // Move to focus/click
-      timers.push(setTimeout(() => {
-        setStage("focused");
-      }, 600));
-
-      // Start typing
-      timers.push(setTimeout(() => {
-        setStage("typing");
-        // Animate typing progress
-        let start: number | null = null;
-        const duration = 800; // ms to type
-        const step = (timestamp: number) => {
-          if (!start) start = timestamp;
-          const progress = Math.min((timestamp - start) / duration, 1);
-          setTypingProgress(progress);
-          if (progress < 1) {
-            animationFrame = requestAnimationFrame(step);
-          } else {
-            setStage("completed");
-          }
-        };
-        animationFrame = requestAnimationFrame(step);
-      }, 1100));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      if (animationFrame) cancelAnimationFrame(animationFrame);
-      setStage("idle");
-      setTypingProgress(0);
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
-      if (animationFrame) cancelAnimationFrame(animationFrame);
+      timersRef.current.forEach(clearTimeout);
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   // Layout Constants
   const centerY = 150;

@@ -31,7 +31,7 @@ export function generateMaxWidthScaleCSS(scale: number): string {
  * Applies dynamic max-width scales to the DOM
  * @param scale - Max-width scale factor (e.g., 1 = 1rem base, 0.8 = 0.8rem base)
  */
-export function applyMaxWidthScalesToDOM(scale: number): void {
+function applyMaxWidthScalesToDOM(scale: number): void {
   const root = document.documentElement;
   root.style.setProperty("--max-width-scale", `${scale}rem`);
 }

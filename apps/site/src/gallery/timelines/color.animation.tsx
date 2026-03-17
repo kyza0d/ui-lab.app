@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import {
   Cursor,
@@ -29,34 +29,33 @@ function getRoundedRectPath(
 export function ColorAnimation() {
   const [stage, setStage] = useState<"idle" | "hover" | "hue" | "canvas">("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    // Sequence: Hover -> Drag Hue -> Drag Canvas
+    setStage("hover");
+    timersRef.current.push(setTimeout(() => setStage("hue"), 600));
+    timersRef.current.push(setTimeout(() => setStage("canvas"), 1600));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-
-    let timers: NodeJS.Timeout[] = [];
-
-    const handleEnter = () => {
-      // Sequence: Hover -> Drag Hue -> Drag Canvas
-      setStage("hover");
-      timers.push(setTimeout(() => setStage("hue"), 600));
-      timers.push(setTimeout(() => setStage("canvas"), 1600));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   // Constants
   const width = 200;
@@ -220,7 +219,7 @@ export function ColorAnimation() {
                   stroke="white"
                   strokeWidth="2"
                   style={{
-                    transition: "all 1s cubic-bezier(0.25, 0, 0.25, 1)",
+                    transition: "cx 1s cubic-bezier(0.25, 0, 0.25, 1), cy 1s cubic-bezier(0.25, 0, 0.25, 1)",
                     opacity: 0.8,
                     filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))"
                   }}

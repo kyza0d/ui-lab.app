@@ -2,7 +2,7 @@ import type { ColorRole, OklchColor, ScaleRange, ShadeScale, ChromaBounds, Globa
 
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n));
 
-export const SCALE_RANGES: Record<ColorRole, ScaleRange> = {
+const SCALE_RANGES: Record<ColorRole, ScaleRange> = {
   foreground: { min: 50, max: 400 },
   background: { min: 500, max: 950 },
   accent: { min: 50, max: 600 },
@@ -25,7 +25,6 @@ export const CHROMA_BOUNDARIES: Record<ColorRole, ChromaBounds> = {
 export const DEFAULT_GLOBAL_ADJUSTMENTS: GlobalColorAdjustments = { lightnessShift: 0, chromaBoost: 1.0 };
 
 export const ALL_SHADES: ShadeScale[] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-export const SHADES = ALL_SHADES;
 
 export const SCALES: Record<string, Partial<Record<ShadeScale, number>>> = {
   dark: { 50: .98, 100: .95, 200: .9, 300: .84, 400: .65, 500: .5, 600: .32, 700: .26, 800: .23, 900: .21, 950: .18 },

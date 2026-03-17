@@ -59,7 +59,7 @@ const RadioIcon = ({
           opacity: isSelected ? 0.6 : 0,
           transform: isSelected ? "scale(1)" : "scale(0.2)",
           transformOrigin: "10px 10px",
-          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          transition: "opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       />
     </g>

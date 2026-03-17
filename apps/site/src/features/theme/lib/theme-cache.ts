@@ -11,7 +11,7 @@ export interface ThemeSourceConfig {
   mode: "light" | "dark";
 }
 
-export interface CompleteThemeCache {
+interface CompleteThemeCache {
   cssVariables: Record<string, string>;
   themeMode: "light" | "dark";
   sourceConfig: ThemeSourceConfig;
@@ -22,7 +22,7 @@ export interface CompleteThemeCache {
 export const THEME_CACHE_KEY = "uilab_theme_complete";
 const REQUIRED_VARS = ["--background-500", "--text-md"];
 
-export function getDevicePreferredTheme(): "light" | "dark" {
+function getDevicePreferredTheme(): "light" | "dark" {
   if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
@@ -44,23 +44,23 @@ export function validateThemeCache(data: unknown): CompleteThemeCache | null {
     themeMode,
     sourceConfig: sourceConfig
       ? {
-          ...defaultSourceConfig,
-          ...sourceConfig,
-          typography: {
-            ...defaultSourceConfig.typography,
-            ...(sourceConfig.typography || {}),
-          },
-          layout: {
-            ...defaultSourceConfig.layout,
-            ...(sourceConfig.layout || {}),
-          },
-          fonts: sourceConfig.fonts
-            ? {
-                ...defaultSourceConfig.fonts!,
-                ...sourceConfig.fonts,
-              }
-            : defaultSourceConfig.fonts,
-        }
+        ...defaultSourceConfig,
+        ...sourceConfig,
+        typography: {
+          ...defaultSourceConfig.typography,
+          ...(sourceConfig.typography || {}),
+        },
+        layout: {
+          ...defaultSourceConfig.layout,
+          ...(sourceConfig.layout || {}),
+        },
+        fonts: sourceConfig.fonts
+          ? {
+            ...defaultSourceConfig.fonts!,
+            ...sourceConfig.fonts,
+          }
+          : defaultSourceConfig.fonts,
+      }
       : defaultSourceConfig,
     timestamp: typeof d.timestamp === "number" ? d.timestamp : Date.now(),
     version: 1,
@@ -72,7 +72,7 @@ function getDefaultSourceConfig(mode?: "light" | "dark"): ThemeSourceConfig {
   return getDefaultThemeSourceConfig(resolvedMode);
 }
 
-export function getCompleteThemeCache(): CompleteThemeCache | null {
+function getCompleteThemeCache(): CompleteThemeCache | null {
   if (typeof window === "undefined") return null;
   try {
     const cached = localStorage.getItem(THEME_CACHE_KEY);
@@ -119,7 +119,7 @@ export function cacheCompleteTheme(
  * - --font-weight-* (header and body variants)
  * - Scale/ratio variables (--header-type-size-ratio, etc.)
  */
-export function extractTypographyVariablesFromCache(
+function extractTypographyVariablesFromCache(
   cssVariables: Record<string, string>
 ): Record<string, string> {
   return Object.fromEntries(
@@ -157,11 +157,4 @@ function getFontFamilyString(fontName: FontKey, category: "sans" | "mono"): stri
   const fonts = category === "sans" ? SANS_FONTS : MONO_FONTS;
   const fontConfig = fonts.find((f) => f.name === fontName);
   return fontConfig?.family || (category === "sans" ? '"Karla", system-ui, sans-serif' : '"Ioskeley Mono", monospace');
-}
-
-export function clearCompleteThemeCache(): void {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.removeItem(THEME_CACHE_KEY);
-  } catch { }
 }

@@ -18,9 +18,6 @@ export interface ThemeConfig {
   mode: "light" | "dark";
 }
 
-const TEXT_NAMES = ['xs', 'sm', 'md', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl'] as const;
-const TEXT_BASE_INDEX = 3;
-
 function generateTextSizeVars(
   prefix: string,
   typeSizeRatio: number,
@@ -166,21 +163,3 @@ export function computeAllCssVariables(config: ThemeConfig): Record<string, stri
   };
 }
 
-export interface LetterSpacingValue {
-  name: string;
-  value: string;
-}
-
-export function getLetterSpacingValues(typeSizeRatio: number, letterSpacingScale: number = 1): LetterSpacingValue[] {
-  const baseLetterSpacingFactor = 0.005;
-  const inverseScale = 1 / letterSpacingScale;
-  return TEXT_NAMES.map((name, i) => {
-    const stepsFromBase = i - TEXT_BASE_INDEX;
-    const baseLetterSpacing = stepsFromBase * baseLetterSpacingFactor;
-    const scaledLetterSpacing = baseLetterSpacing * inverseScale;
-    return {
-      name,
-      value: `${scaledLetterSpacing.toFixed(4)}em`,
-    };
-  });
-}

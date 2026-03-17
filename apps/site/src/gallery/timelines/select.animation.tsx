@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import {
   Cursor,
@@ -35,36 +35,35 @@ export function SelectAnimation() {
     "idle" | "hover_trigger" | "open" | "hover_option" | "selecting" | "selected"
   >("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("hover_trigger");
+    // Sequence: Hover -> Click/Open -> Hover Option -> Click/Select -> Close
+    timersRef.current.push(setTimeout(() => setStage("open"), 600));
+    timersRef.current.push(setTimeout(() => setStage("hover_option"), 1400));
+    timersRef.current.push(setTimeout(() => setStage("selecting"), 2200));
+    timersRef.current.push(setTimeout(() => setStage("selected"), 2500));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-
-    let timers: NodeJS.Timeout[] = [];
-
-    const handleEnter = () => {
-      setStage("hover_trigger");
-      // Sequence: Hover -> Click/Open -> Hover Option -> Click/Select -> Close
-      timers.push(setTimeout(() => setStage("open"), 600));
-      timers.push(setTimeout(() => setStage("hover_option"), 1400));
-      timers.push(setTimeout(() => setStage("selecting"), 2200));
-      timers.push(setTimeout(() => setStage("selected"), 2500));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const isOpen = ["open", "hover_option", "selecting"].includes(stage);
   const isSelected = stage === "selected";
@@ -242,12 +241,12 @@ export function SelectAnimation() {
               />
 
               {/* Items */}
-              {[0, 1, 2].map((i) => {
-                const isActive = isHoveringOption && i === 1; // 2nd item is the one we interact with
-                const itemY = dropdownY + padding + (i * (itemH + itemGap));
+              {[0, 1, 2].map((n) => {
+                const isActive = isHoveringOption && n === 1; // 2nd item is the one we interact with
+                const itemY = dropdownY + padding + (n * (itemH + itemGap));
 
                 return (
-                  <g key={i} style={{ transition }}>
+                  <g key={n} style={{ transition }}>
                     {/* Item Highlight */}
                     <rect
                       x={triggerX + padding}
@@ -267,7 +266,7 @@ export function SelectAnimation() {
                     <rect
                       x={triggerX + padding + 12}
                       y={itemY + 12}
-                      width={80 + (i * 20)} // Varying widths
+                      width={80 + (n * 20)} // Varying widths
                       height={10}
                       rx={3}
                       fill="currentColor"

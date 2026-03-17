@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import {
   Cursor,
@@ -11,31 +11,31 @@ import {
 export function SliderAnimation() {
   const [stage, setStage] = useState<"idle" | "hover" | "drag">("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("hover");
+    timersRef.current.push(setTimeout(() => setStage("drag"), 500));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    let timers: NodeJS.Timeout[] = [];
-
-    const handleEnter = () => {
-      setStage("hover");
-      timers.push(setTimeout(() => setStage("drag"), 500));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   // Layout
   const cx = 200;

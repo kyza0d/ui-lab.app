@@ -9,7 +9,7 @@ export const paletteToCssVars = (name: string, p: ColorPalette): Record<string, 
   return vars;
 };
 
-export function applyPalettesToDocument(p: { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes }) {
+function applyPalettesToDocument(p: { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes }) {
   const allVars = {
     ...paletteToCssVars('background', p.background),
     ...paletteToCssVars('foreground', p.foreground),
@@ -19,7 +19,7 @@ export function applyPalettesToDocument(p: { background: ColorPalette; foregroun
   Object.entries(allVars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v as string));
 }
 
-export function logColorVariablesForExport(p: { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes }) {
+function logColorVariablesForExport(p: { background: ColorPalette; foreground: ColorPalette; accent: ColorPalette; semantic?: SemanticPalettes }) {
   let out = '';
   const add = (name: string, pal: ColorPalette) => {
     const shades = (Object.keys(pal) as unknown as ShadeScale[]).filter((s) => pal[s]).sort((a, b) => Number(a) - Number(b));

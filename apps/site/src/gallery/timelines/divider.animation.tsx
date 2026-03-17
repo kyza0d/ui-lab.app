@@ -27,7 +27,7 @@ const Divider = ({ y, isHovered, isActive, opacity }: { y: number, isHovered: bo
         strokeLinecap="round"
         className={highlight ? config.highlight.hoverClass : config.guidelines.colorClass}
         style={{
-          transition: "all 0.55s cubic-bezier(0.25, 0, 0.25, 1)",
+          transition: "x1 0.55s cubic-bezier(0.25, 0, 0.25, 1), x2 0.55s cubic-bezier(0.25, 0, 0.25, 1), stroke-width 0.55s cubic-bezier(0.25, 0, 0.25, 1), stroke-dasharray 0.55s cubic-bezier(0.25, 0, 0.25, 1), stroke-dashoffset 0.55s cubic-bezier(0.25, 0, 0.25, 1)",
           strokeDashoffset: highlight ? 20 : 0,
         }}
       />
@@ -37,7 +37,7 @@ const Divider = ({ y, isHovered, isActive, opacity }: { y: number, isHovered: bo
         r={highlight ? 3.5 : 1.5}
         fill="currentColor"
         className={highlight ? config.highlight.hoverClass : "text-foreground-300"}
-        style={{ transition: "all 0.55s cubic-bezier(0.25, 0, 0.25, 1)" }}
+        style={{ transition: "cx 0.55s cubic-bezier(0.25, 0, 0.25, 1), r 0.55s cubic-bezier(0.25, 0, 0.25, 1)" }}
       />
       <circle
         cx={highlight ? 340 : 320}
@@ -45,7 +45,7 @@ const Divider = ({ y, isHovered, isActive, opacity }: { y: number, isHovered: bo
         r={highlight ? 3.5 : 1.5}
         fill="currentColor"
         className={highlight ? config.highlight.hoverClass : "text-foreground-300"}
-        style={{ transition: "all 0.55s cubic-bezier(0.25, 0, 0.25, 1)" }}
+        style={{ transition: "cx 0.55s cubic-bezier(0.25, 0, 0.25, 1), r 0.55s cubic-bezier(0.25, 0, 0.25, 1)" }}
       />
     </g>
   );

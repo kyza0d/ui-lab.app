@@ -19,7 +19,7 @@ export interface SemanticColorConfig { light: { color: OklchColor; chromaLimit?:
 export type SemanticColors = Record<SemanticColorType, SemanticColorConfig>;
 export type SemanticPalettes = Record<SemanticColorType, ColorPalette>;
 
-export interface ThemePaletteOptions {
+interface ThemePaletteOptions {
   mode?: ThemeMode;
   shift?: number;
   semantic?: SemanticColors;

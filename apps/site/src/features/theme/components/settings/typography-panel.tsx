@@ -13,71 +13,45 @@ import {
   TYPOGRAPHY_LINE_HEIGHT_MIN,
   TYPOGRAPHY_TYPE_SIZE_RATIO_MAX,
   TYPOGRAPHY_TYPE_SIZE_RATIO_MIN,
+  TypographyConfig,
 } from "../../lib/typography-config";
 
 interface TypographyPanelProps {
   selectedSansFont: string;
   selectedMonoFont: string;
-  headerTypeSizeRatio: number;
-  headerFontSizeScale: number;
-  headerFontWeightScale: number;
-  headerLetterSpacingScale: number;
-  headerLineHeight: number;
-  bodyTypeSizeRatio: number;
-  bodyFontSizeScale: number;
-  bodyFontWeightScale: number;
-  bodyLetterSpacingScale: number;
-  bodyLineHeight: number;
-  globalMinFontSizePx: number;
+  typography: TypographyConfig;
   onSansFontChange: (fontName: string) => void;
   onMonoFontChange: (fontName: string) => void;
-  onGlobalMinFontSizePxChange: (size: number) => void;
-  onHeaderTypeSizeRatioChange: (ratio: number) => void;
-  onHeaderFontSizeScaleChange: (scale: number) => void;
-  onHeaderFontWeightScaleChange: (scale: number) => void;
-  onHeaderLetterSpacingChange: (scale: number) => void;
-  onHeaderLineHeightChange: (lineHeight: number) => void;
-  onBodyTypeSizeRatioChange: (ratio: number) => void;
-  onBodyFontSizeScaleChange: (scale: number) => void;
-  onBodyFontWeightScaleChange: (scale: number) => void;
-  onBodyLetterSpacingChange: (scale: number) => void;
-  onBodyLineHeightChange: (lineHeight: number) => void;
+  onTypographyChange: (next: Partial<TypographyConfig>) => void;
 }
 
 export const TypographyPanel = memo(
   ({
     selectedSansFont,
     selectedMonoFont,
-    headerTypeSizeRatio,
-    headerFontSizeScale,
-    headerFontWeightScale,
-    headerLetterSpacingScale,
-    headerLineHeight,
-    bodyTypeSizeRatio,
-    bodyFontSizeScale,
-    bodyFontWeightScale,
-    bodyLetterSpacingScale,
-    bodyLineHeight,
-    globalMinFontSizePx,
+    typography,
     onSansFontChange,
     onMonoFontChange,
-    onGlobalMinFontSizePxChange,
-    onHeaderTypeSizeRatioChange,
-    onHeaderFontSizeScaleChange,
-    onHeaderFontWeightScaleChange,
-    onHeaderLetterSpacingChange,
-    onHeaderLineHeightChange,
-    onBodyTypeSizeRatioChange,
-    onBodyFontSizeScaleChange,
-    onBodyFontWeightScaleChange,
-    onBodyLetterSpacingChange,
-    onBodyLineHeightChange,
+    onTypographyChange,
   }: TypographyPanelProps) => {
+    const {
+      headerTypeSizeRatio,
+      headerFontSizeScale,
+      headerFontWeightScale,
+      headerLetterSpacingScale,
+      headerLineHeight,
+      bodyTypeSizeRatio,
+      bodyFontSizeScale,
+      bodyFontWeightScale,
+      bodyLetterSpacingScale,
+      bodyLineHeight,
+      globalMinFontSizePx,
+    } = typography;
     return (
       <div className="m-0 space-y-2">
         <div className="mx-[6px] mb-4 p-3 bg-background-800/40 rounded-[12px] border border-background-700 space-y-3">
           <div className="space-y-2">
-            <label className="text-xs font-medium text-foreground-400 block">
+            <label className="text-xs font-medium text-foreground-400 block" htmlFor="sans-font-select">
               Sans Font
             </label>
             <Select
@@ -99,7 +73,7 @@ export const TypographyPanel = memo(
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-foreground-400 block">
+            <label className="text-xs font-medium text-foreground-400 block" htmlFor="mono-font-select">
               Mono Font
             </label>
             <Select
@@ -127,7 +101,7 @@ export const TypographyPanel = memo(
             max={MAX_GLOBAL_MIN_FONT_SIZE_PX}
             step={0.25}
             unit="px"
-            onChange={onGlobalMinFontSizePxChange}
+            onChange={(size) => onTypographyChange({ globalMinFontSizePx: size })}
           />
         </div>
 
@@ -149,7 +123,7 @@ export const TypographyPanel = memo(
                 max={TYPOGRAPHY_TYPE_SIZE_RATIO_MAX}
                 step={0.001}
                 unit=""
-                onChange={onHeaderTypeSizeRatioChange}
+                onChange={(ratio) => onTypographyChange({ headerTypeSizeRatio: ratio })}
               />
               <SliderControl
                 label="Scale"
@@ -158,7 +132,7 @@ export const TypographyPanel = memo(
                 max={TYPOGRAPHY_FONT_SIZE_SCALE_MAX}
                 step={0.01}
                 unit="x"
-                onChange={onHeaderFontSizeScaleChange}
+                onChange={(scale) => onTypographyChange({ headerFontSizeScale: scale })}
               />
               <SliderControl
                 label="Letter Spacing"
@@ -167,7 +141,7 @@ export const TypographyPanel = memo(
                 max={2.0}
                 step={0.05}
                 unit="x"
-                onChange={onHeaderLetterSpacingChange}
+                onChange={(scale) => onTypographyChange({ headerLetterSpacingScale: scale })}
               />
               <SliderControl
                 label="Weight"
@@ -176,7 +150,7 @@ export const TypographyPanel = memo(
                 max={1.20}
                 step={0.01}
                 unit="x"
-                onChange={onHeaderFontWeightScaleChange}
+                onChange={(scale) => onTypographyChange({ headerFontWeightScale: scale })}
               />
               <SliderControl
                 label="Line Height"
@@ -185,7 +159,7 @@ export const TypographyPanel = memo(
                 max={TYPOGRAPHY_LINE_HEIGHT_MAX}
                 step={0.01}
                 unit=""
-                onChange={onHeaderLineHeightChange}
+                onChange={(lineHeight) => onTypographyChange({ headerLineHeight: lineHeight })}
               />
             </div>
           </div>
@@ -205,7 +179,7 @@ export const TypographyPanel = memo(
                 max={TYPOGRAPHY_TYPE_SIZE_RATIO_MAX}
                 step={0.001}
                 unit=""
-                onChange={onBodyTypeSizeRatioChange}
+                onChange={(ratio) => onTypographyChange({ bodyTypeSizeRatio: ratio })}
               />
               <SliderControl
                 label="Scale"
@@ -214,16 +188,16 @@ export const TypographyPanel = memo(
                 max={TYPOGRAPHY_FONT_SIZE_SCALE_MAX}
                 step={0.001}
                 unit="x"
-                onChange={onBodyFontSizeScaleChange}
+                onChange={(scale) => onTypographyChange({ bodyFontSizeScale: scale })}
               />
               <SliderControl
                 label="Letter Spacing"
                 value={bodyLetterSpacingScale}
-                min={0.2}
-                max={10.0}
+                min={0}
+                max={3}
                 step={0.05}
                 unit="x"
-                onChange={onBodyLetterSpacingChange}
+                onChange={(scale) => onTypographyChange({ bodyLetterSpacingScale: scale })}
               />
               <SliderControl
                 label="Weight"
@@ -232,7 +206,7 @@ export const TypographyPanel = memo(
                 max={1.20}
                 step={0.01}
                 unit="x"
-                onChange={onBodyFontWeightScaleChange}
+                onChange={(scale) => onTypographyChange({ bodyFontWeightScale: scale })}
               />
               <SliderControl
                 label="Line Height"
@@ -241,7 +215,7 @@ export const TypographyPanel = memo(
                 max={TYPOGRAPHY_LINE_HEIGHT_MAX}
                 step={0.01}
                 unit=""
-                onChange={onBodyLineHeightChange}
+                onChange={(lineHeight) => onTypographyChange({ bodyLineHeight: lineHeight })}
               />
             </div>
           </div>

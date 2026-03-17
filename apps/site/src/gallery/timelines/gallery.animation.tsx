@@ -182,8 +182,8 @@ const Row = ({
           </g>
         </>
       ) : (
-        [0, 1, 2].map((i) => (
-          <g key={i} transform={`translate(${startX + i * (itemWidth + gap)}, 0)`}>
+        [0, 1, 2].map((n) => (
+          <g key={n} transform={`translate(${startX + n * (itemWidth + gap)}, 0)`}>
             <Item
               width={itemWidth}
               height={itemHeight}

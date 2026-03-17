@@ -1,7 +1,7 @@
 import { ShikiPalettes } from './types'
 import { oklchToHex, ThemeMode, ShadeScale } from '../../color-utils'
 
-export interface TokenMapping {
+interface TokenMapping {
   scope: string | string[]
   getColor: (palettes: ShikiPalettes, mode: ThemeMode) => string
   fontStyle?: string
@@ -40,7 +40,7 @@ const getShade = (darkShade: ShadeScale, mode: ThemeMode): ShadeScale => {
   return shadeMapping[darkShade]
 }
 
-export const TOKEN_MAPPINGS: TokenMapping[] = [
+const TOKEN_MAPPINGS: TokenMapping[] = [
   {
     scope: ['comment', 'punctuation.definition.comment'],
     getColor: (p, mode) => oklchToHex(p.syntax_base[getShade(500, mode)]!)

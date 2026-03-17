@@ -7,10 +7,10 @@ import { cacheCompleteTheme, applyThemeCacheToDOM, getSourceConfig, type ThemeSo
 import { type FontKey, getFontConfig } from "../constants/font-config";
 import { type TypographyConfig } from "../lib/typography-config";
 import { getDefaultThemeSourceConfig } from "../lib/default-theme-config";
-export interface LayoutConfig { radius: number; borderWidth: number; spacingScale: number }
-export interface FontsConfig { sansFont: FontKey; monoFont: FontKey }
+interface LayoutConfig { radius: number; borderWidth: number; spacingScale: number }
+interface FontsConfig { sansFont: FontKey; monoFont: FontKey }
 
-export interface ThemeStorageOptions {
+interface ThemeStorageOptions {
   onColorsChange?: (colors: SimpleThemeColors) => void;
   onTypographyChange?: (config: TypographyConfig) => void;
   onLayoutChange?: (config: LayoutConfig) => void;
@@ -33,24 +33,6 @@ function buildConfig(source: ThemeSourceConfig | null, mode: "light" | "dark"): 
 function computeAndCache(config: ThemeConfig): void {
   const cssVariables = computeAllCssVariables(config);
   cacheCompleteTheme(cssVariables, config);
-
-  // Filter out typography variables - React's useThemeConfiguration is the sole source for typography
-  // This prevents oscillation from multiple sources applying the same values.
-  //
-  // SYNCHRONIZATION HANDOFF:
-  // 1. User moves slider → applyAndPersistTypography() called
-  // 2. Calculates new typography CSS variables
-  // 3. Caches them (stored in localStorage with sourceConfig)
-  // 4. Applies only NON-typography variables to DOM (inline script already applied typography)
-  // 5. State updates → useThemeConfiguration runs → applies new typography values
-  // 6. Result: single source (React) handles typography, preventing conflicts
-  //
-  // Why typography is cached but not applied here:
-  // - Inline script applies cached typography during hydration (fast, no FOUC)
-  // - React state loads from same cache (automatic sync)
-  // - useThemeConfiguration applies with deferred timing (after initialization)
-  // - Storage handler only applies non-typography (inline already did typography)
-  // - When user changes: React state updates trigger useThemeConfiguration exclusively
   const nonTypographyVars = Object.fromEntries(
     Object.entries(cssVariables).filter(([key]) =>
       !key.startsWith('--text-') &&

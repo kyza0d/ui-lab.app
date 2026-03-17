@@ -24,7 +24,7 @@ export type CursorFrame = {
   shapeTransition?: string;
 };
 
-export type CursorAppearance = {
+type CursorAppearance = {
   path?: string;
   className?: string;
   fill?: string;

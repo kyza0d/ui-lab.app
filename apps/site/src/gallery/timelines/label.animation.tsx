@@ -1,36 +1,36 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 
 export function LabelAnimation() {
   const [stage, setStage] = useState<"idle" | "required" | "error">("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("required");
+    timersRef.current.push(setTimeout(() => setStage("error"), 700));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    let timers: NodeJS.Timeout[] = [];
-
-    const handleEnter = () => {
-      setStage("required");
-      timers.push(setTimeout(() => setStage("error"), 700));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const isError = stage === "error";
   const isActive = stage !== "idle";

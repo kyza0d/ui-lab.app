@@ -39,6 +39,6 @@ export function generateColorPaletteVariables(colors: any, mode: "light" | "dark
   return variables;
 }
 
-export function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
+function generateColorPaletteCSS(colors: any, mode: "light" | "dark"): string {
   return renderCssVariables(generateColorPaletteVariables(colors, mode));
 }

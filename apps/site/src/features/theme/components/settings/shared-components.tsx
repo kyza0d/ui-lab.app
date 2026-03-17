@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useMemo } from "react";
+import { memo, useMemo, useCallback } from "react";
 import {
   FaChevronDown,
   FaCheck,
@@ -21,7 +21,7 @@ import { useApp } from "../../lib/app-context";
 const MICRO_LABEL = "text-xs font-semibold text-foreground-400";
 const VALUE_LABEL = "text-xs text-foreground-300";
 
-export interface SliderControlProps {
+interface SliderControlProps {
   label: string;
   value: number;
   min: number;
@@ -31,7 +31,7 @@ export interface SliderControlProps {
   onChange: (value: number) => void;
 }
 
-export interface GlobalSliderProps {
+interface GlobalSliderProps {
   label: string;
   value: number;
   min: number;
@@ -60,13 +60,13 @@ export interface ColorRowProps {
   hueRange?: HueRange;
 }
 
-export interface TypeScaleSliderProps {
+interface TypeScaleSliderProps {
   value?: number;
   onChange: (ratio: number) => void;
   fontSizeScale: number;
 }
 
-export interface ColorPickerProps {
+interface ColorPickerProps {
   color: OklchColor;
   onChange: (color: OklchColor) => void;
   hueRange?: HueRange;
@@ -104,7 +104,7 @@ export const SliderControl = memo(
 
 SliderControl.displayName = "SliderControl";
 
-export const GlobalSlider = memo(
+const GlobalSlider = memo(
   ({
     label,
     value,
@@ -241,7 +241,7 @@ export const ColorRow = memo(
 
 ColorRow.displayName = "ColorRow";
 
-export const TypeScaleSlider = memo(
+const TypeScaleSlider = memo(
   ({ value, onChange, fontSizeScale }: TypeScaleSliderProps) => {
     const ratio = value ?? 1.2;
     const scaleName = getScaleName(ratio);
@@ -249,7 +249,7 @@ export const TypeScaleSlider = memo(
     return (
       <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3 mx-[6px] mt-2">
         <div className="flex justify-between items-start px-4 pt-2">
-          <label className="text-xs font-medium text-foreground-400">
+          <label className="text-xs font-medium text-foreground-400" htmlFor="type-scale-slider">
             Type Scale
           </label>
           <div className="flex flex-col items-end text-right">
@@ -278,7 +278,7 @@ export const TypeScaleSlider = memo(
 
 TypeScaleSlider.displayName = "TypeScaleSlider";
 
-export const ColorPicker = memo(
+const ColorPicker = memo(
   ({ color, onChange, hueRange, type }: ColorPickerProps) => {
     const { currentThemeMode } = useApp();
 
@@ -335,7 +335,7 @@ export const ColorPicker = memo(
 
     return (
       <div className="grid grid-cols-4 gap-2">
-        {swatches.map((h, i) => {
+        {swatches.map((h) => {
           const isNeutral = h === null;
           const isSelected = color.c <= 0.005
             ? isNeutral
@@ -346,7 +346,7 @@ export const ColorPicker = memo(
 
           return (
             <button
-              key={i}
+              key={h ?? 'neutral'}
               onClick={() => {
                 if (isNeutral) {
                   onChange({ l: 1, c: 0, h: 0 });
@@ -390,6 +390,12 @@ export const GlobalAdjustmentsPanel = memo(
     onLightnessChange: (value: number) => void;
     onChromaChange: (value: number) => void;
   }) => {
+    const formatLightness = useCallback((v: number) =>
+      `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`
+    , []);
+
+    const formatChroma = useCallback((v: number) => `×${v.toFixed(2)}`, []);
+
     return (
       <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
         <div className={`${MICRO_LABEL} mb-3 flex items-center gap-2`}>
@@ -404,9 +410,7 @@ export const GlobalAdjustmentsPanel = memo(
             max={0.015}
             step={0.001}
             unit="%"
-            formatValue={(v) =>
-              `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`
-            }
+            formatValue={formatLightness}
             onChange={onLightnessChange}
           />
           <GlobalSlider
@@ -416,7 +420,7 @@ export const GlobalAdjustmentsPanel = memo(
             max={1.5}
             step={0.05}
             unit="×"
-            formatValue={(v) => `×${v.toFixed(2)}`}
+            formatValue={formatChroma}
             onChange={onChromaChange}
           />
         </div>

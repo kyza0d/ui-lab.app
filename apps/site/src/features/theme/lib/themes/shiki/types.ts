@@ -22,7 +22,7 @@ export interface ShikiPalettes {
   syntax_accent: ColorPalette
 }
 
-export interface TokenMapping {
+interface TokenMapping {
   scope: string | string[]
   shade: number
   paletteKey: keyof Pick<ShikiPalettes, 'syntax_base' | 'syntax_accent'>

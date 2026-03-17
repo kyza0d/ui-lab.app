@@ -9,7 +9,7 @@ import { type LayoutScaleConfig } from "../config/shared/layout-variables";
 import { ensureSemanticColorIntegrity } from "./color/semantic";
 import { DEFAULT_TYPOGRAPHY_CONFIG } from "./typography-config";
 
-export const DEFAULT_THEME_MODE = "dark" as const;
+const DEFAULT_THEME_MODE = "dark" as const;
 
 export const DEFAULT_LAYOUT_CONFIG: LayoutScaleConfig = {
   radius: 0.9,
@@ -22,7 +22,7 @@ export const DEFAULT_FONT_CONFIG = {
   monoFont: getDefaultMonoFont().name as FontKey,
 };
 
-export function getDefaultThemeColors(
+function getDefaultThemeColors(
   mode: "light" | "dark" = DEFAULT_THEME_MODE,
 ): SimpleThemeColors {
   const preset = themes[DEFAULT_THEME_NAME][mode];

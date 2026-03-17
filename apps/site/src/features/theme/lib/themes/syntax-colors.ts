@@ -1,6 +1,6 @@
 import { OklchColor, ColorPalette, ThemeMode, EasingFunction, ChromaScalingFunction, generateColorPalette, applyGlobalAdjustments } from '../color-utils'
 
-export interface SyntaxPalettes {
+interface SyntaxPalettes {
   syntax_base: ColorPalette
   syntax_accent: ColorPalette
 }

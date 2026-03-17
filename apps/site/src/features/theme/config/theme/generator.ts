@@ -1,16 +1,13 @@
 import { generateColorPaletteVariables } from "../colors/generator";
-import {
-  generateTypographyCSS,
-  generateLineHeightCSS,
-} from "../typography/generator";
 import { generateFontWeightCSS } from "../font-weight/generator";
 import { generateRadiusScaleCSS, generateRadiusRootCSS, applyRadiusScalesToDOM } from "../radius/generator";
 import { generateBorderWidthScaleCSS, applyBorderWidthScalesToDOM } from "../border-width/generator";
 import { generateFluidSpacingCSS } from "../spacing/generator";
 import { generateMaxWidthVariablesCSS, generateMaxWidthScaleCSS } from "../max-width/generator";
 import { SEMANTIC_HTML_STYLES } from "../shared/constants";
+import { generateLineHeightCSS, generateTypographyCSS } from "../typography/generator";
 
-export interface GeneratedThemeSetupFiles {
+interface GeneratedThemeSetupFiles {
   themeCss: string
   globalsCss: string
   layoutTsx: string
@@ -31,7 +28,7 @@ function renderCssVariables(variables: Record<string, string>): string {
  * @param borderWidth - Base border width in px (0 - 4)
  * @returns Formatted CSS string ready to copy/paste
  */
-export function generateThemeConfig(
+function generateThemeConfig(
   radius: number,
   borderWidth: number,
 ): string {
@@ -60,7 +57,7 @@ export function applyDynamicThemeScales(
 /**
  * Generates a user-friendly message with instructions
  */
-export function generateConfigMessage(
+function generateConfigMessage(
   radius: number,
   borderWidth: number,
 ): string {
@@ -181,7 +178,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: generateColorModeScript() }} />
+        {/* Must run from initial head markup to apply the saved theme before first paint. */}
+        <script>{generateColorModeScript()}</script>
       </head>
       <body>{children}</body>
     </html>
@@ -300,7 +298,7 @@ ${themeToggleModuleCss}`;
  * Generates a single bundled export containing every file required for the
  * current recommended theme setup.
  */
-export function generateFullThemeConfig(
+function generateFullThemeConfig(
   colors: any,
   mode: "light" | "dark",
   typeSizeRatio: number,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import {
   Cursor,
@@ -27,43 +27,149 @@ function getRoundedRectPath(
   `;
 }
 
+function TrashButtonGroup({ trashX, containerY, trashW, containerH, rx, isConfirming, isTrashActive, isNotIdle }: {
+  trashX: number; containerY: number; trashW: number; containerH: number;
+  rx: number; isConfirming: boolean; isTrashActive: boolean; isNotIdle: boolean;
+}) {
+  return (
+    <g
+      style={{
+        opacity: isConfirming ? 0 : 1,
+        transform: isConfirming ? "translateY(-40px)" : (isNotIdle ? "translateY(2px)" : "translateY(0px)"),
+        transition: config.transition,
+        pointerEvents: isConfirming ? "none" : "auto",
+      }}
+    >
+      <path
+        d={getRoundedRectPath(trashX, containerY, trashW, containerH, { tl: rx, bl: rx, tr: rx, br: rx })}
+        className="text-background-950"
+        fill="currentColor"
+        style={{ transition: config.transition }}
+      />
+      <path
+        d={getRoundedRectPath(trashX, containerY, trashW, containerH, { tl: rx, bl: rx, tr: rx, br: rx })}
+        className={isTrashActive ? config.highlight.hoverClass : config.highlight.idleClass}
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth={config.strokeWidth}
+        style={{
+          transition: config.transition,
+          fillOpacity: isTrashActive ? 0.05 : config.highlight.idleFillOpacity,
+          strokeOpacity: isTrashActive ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
+        }}
+      />
+      <rect
+        x={trashX + 12} y={containerY + 14} width={12} height={12} rx={config.barRx}
+        fill="currentColor"
+        className={isTrashActive ? config.highlight.hoverClass : config.highlight.idleClass}
+        style={{ transition: config.transition, opacity: config.bar.primaryOpacity }}
+      />
+      <rect
+        x={trashX + 30} y={containerY + 16} width={58} height={8} rx={config.barRx}
+        fill="currentColor"
+        className={isTrashActive ? config.highlight.hoverClass : config.highlight.idleClass}
+        style={{ transition: config.transition, opacity: config.bar.primaryOpacity }}
+      />
+    </g>
+  );
+}
+
+function ConfirmButtonGroup({ confirmX, cancelX, containerY, confirmW, cancelW, containerH, rx, isConfirming }: {
+  confirmX: number; cancelX: number; containerY: number; confirmW: number;
+  cancelW: number; containerH: number; rx: number; isConfirming: boolean;
+}) {
+  return (
+    <g
+      style={{
+        opacity: isConfirming ? 1 : 0,
+        transform: isConfirming ? "translateY(2px)" : "translateY(20px)",
+        transition: config.transition,
+        transitionDelay: isConfirming ? "0.3s" : "0s",
+        pointerEvents: isConfirming ? "auto" : "none",
+      }}
+    >
+      <rect
+        x={confirmX - 10} y={containerY - 10} width={confirmW + 20} height={containerH + 20}
+        rx={rx + 5} fill="none" stroke="currentColor" className="text-accent-500"
+        strokeWidth="1.5" strokeDasharray="4 4"
+        style={{ opacity: 0.4, transition: config.transition, transformOrigin: "center" }}
+      />
+      <path
+        d={getRoundedRectPath(cancelX, containerY, cancelW, containerH, { tl: rx, bl: rx, tr: rx, br: rx })}
+        className="text-background-950" fill="currentColor"
+        style={{ transition: config.transition }}
+      />
+      <path
+        d={getRoundedRectPath(cancelX, containerY, cancelW, containerH, { tl: rx, bl: rx, tr: rx, br: rx })}
+        className={config.highlight.idleClass} fill="currentColor" stroke="currentColor"
+        strokeWidth={config.strokeWidth}
+        style={{ transition: config.transition, fillOpacity: config.highlight.idleFillOpacity, strokeOpacity: config.highlight.idleStrokeOpacity }}
+      />
+      <rect
+        x={cancelX + (cancelW - 40) / 2} y={containerY + 20} width={40} height={8} rx={config.barRx}
+        className={config.highlight.idleClass} fill="currentColor"
+        style={{ transition: config.transition, opacity: config.bar.secondaryOpacity }}
+      />
+      <path
+        d={getRoundedRectPath(confirmX, containerY, confirmW, containerH, { tl: rx, bl: rx, tr: rx, br: rx })}
+        className="text-background-950" fill="currentColor"
+        style={{ transition: config.transition }}
+      />
+      <path
+        d={getRoundedRectPath(confirmX, containerY, confirmW, containerH, { tl: rx, bl: rx, tr: rx, br: rx })}
+        className={config.highlight.hoverClass} fill="currentColor" stroke="currentColor"
+        strokeWidth={config.strokeWidth}
+        style={{ transition: config.transition, fillOpacity: 0.05, strokeOpacity: config.highlight.hoverStrokeOpacity }}
+      />
+      <rect
+        x={confirmX} y={containerY} width={isConfirming ? confirmW : 0} height={containerH}
+        clipPath="url(#confirm-clip)" className="text-accent-500" fill="currentColor"
+        style={{ opacity: 0.6, transition: isConfirming ? "width 2s ease-out" : "none", transitionDelay: isConfirming ? "0.8s" : "0s" }}
+      />
+      <rect
+        x={confirmX + (confirmW - 46) / 2} y={containerY + 20} width={46} height={8} rx={config.barRx}
+        className={config.highlight.hoverClass} fill="currentColor"
+        style={{ transition: config.transition, opacity: config.bar.primaryOpacity }}
+      />
+    </g>
+  );
+}
+
 export function ConfirmAnimation() {
-  // Expanded state machine for a realistic multi-click sequence
   const [stage, setStage] = useState<
     "idle" | "hovering" | "clicking_trash" | "confirming"
   >("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("hovering");
+    timersRef.current.push(setTimeout(() => setStage("clicking_trash"), 500));
+    timersRef.current.push(setTimeout(() => setStage("confirming"), 800));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-
-    const timers: NodeJS.Timeout[] = [];
-
-    const handleEnter = () => {
-      setStage("hovering");
-      // Sequence the actions naturally
-      timers.push(setTimeout(() => setStage("clicking_trash"), 500));
-      timers.push(setTimeout(() => setStage("confirming"), 800));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const isConfirming = stage === "confirming";
   const isTrashActive = stage === "hovering" || stage === "clicking_trash";
+  const isNotIdle = stage !== "idle";
 
   // Layout Constants
   const centerY = 150;
@@ -75,7 +181,7 @@ export function ConfirmAnimation() {
   const trashW = 130;
   const cancelW = 110;
   const confirmW = 148;
-  const gap = 20; // Increased gap for distinct button look
+  const gap = 20;
 
   // Fixed Layout Positions
   const trashX = 200 - trashW / 2;
@@ -84,30 +190,11 @@ export function ConfirmAnimation() {
   const cancelX = confirmGroupX;
   const confirmX = confirmGroupX + cancelW + gap;
 
-  // Press animation style
-  const press = {
-    idle: { transform: "translateY(0px)" },
-    hover: { transform: "translateY(2px)" },
-  };
-
   const cursorFrames = {
-    idle: {
-      target: { x: 250, y: 220 },
-      opacity: 0,
-    },
-    hovering: {
-      target: { x: 200, y: 150 },
-      opacity: 1,
-    },
-    clicking_trash: {
-      target: { x: 200, y: 150 },
-      opacity: 1,
-      scale: 0.85,
-    },
-    confirming: {
-      target: { x: confirmX + confirmW / 2, y: 150 },
-      opacity: 1,
-    },
+    idle: { target: { x: 250, y: 220 }, opacity: 0 },
+    hovering: { target: { x: 200, y: 150 }, opacity: 1 },
+    clicking_trash: { target: { x: 200, y: 150 }, opacity: 1, scale: 0.85 },
+    confirming: { target: { x: confirmX + confirmW / 2, y: 150 }, opacity: 1 },
   } satisfies Record<typeof stage, CursorFrame>;
 
   return (
@@ -138,191 +225,16 @@ export function ConfirmAnimation() {
             </clipPath>
           </defs>
 
-          <g
-            style={{
-              opacity: isConfirming ? 0 : 1,
-              transform: isConfirming ? "translateY(-40px)" : (stage !== "idle" ? press.hover.transform : press.idle.transform),
-              transition: config.transition,
-              pointerEvents: isConfirming ? "none" : "auto",
-            }}
-          >
-            {/* Trash Button Surface */}
-            <path
-              d={getRoundedRectPath(trashX, containerY, trashW, containerH, {
-                tl: rx, bl: rx, tr: rx, br: rx,
-              })}
-              className="text-background-950"
-              fill="currentColor"
-              style={{ transition: config.transition }}
-            />
-            <path
-              d={getRoundedRectPath(trashX, containerY, trashW, containerH, {
-                tl: rx, bl: rx, tr: rx, br: rx,
-              })}
-              className={isTrashActive ? config.highlight.hoverClass : config.highlight.idleClass}
-              fill="currentColor"
-              stroke="currentColor"
-              strokeWidth={config.strokeWidth}
-              style={{
-                transition: config.transition,
-                fillOpacity: isTrashActive ? 0.05 : config.highlight.idleFillOpacity,
-                strokeOpacity: isTrashActive ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
-              }}
-            />
-
-            {/* Trash Button Skeletons */}
-            <rect
-              x={trashX + 12}
-              y={containerY + 14}
-              width={12}
-              height={12}
-              rx={config.barRx}
-              fill="currentColor"
-              className={isTrashActive ? config.highlight.hoverClass : config.highlight.idleClass}
-              style={{
-                transition: config.transition,
-                opacity: config.bar.primaryOpacity,
-              }}
-            />
-            <rect
-              x={trashX + 30}
-              y={containerY + 16}
-              width={58}
-              height={8}
-              rx={config.barRx}
-              fill="currentColor"
-              className={isTrashActive ? config.highlight.hoverClass : config.highlight.idleClass}
-              style={{
-                transition: config.transition,
-                opacity: config.bar.primaryOpacity,
-              }}
-            />
-          </g>
-
-          <g
-            style={{
-              opacity: isConfirming ? 1 : 0,
-              transform: isConfirming ? press.hover.transform : "translateY(20px)",
-              transition: config.transition,
-              transitionDelay: isConfirming ? "0.3s" : "0s",
-              pointerEvents: isConfirming ? "auto" : "none",
-            }}
-          >
-
-
-            {/* Accent outline for Confirm button */}
-            <rect
-              x={confirmX - 10}
-              y={containerY - 10}
-              width={confirmW + 20}
-              height={containerH + 20}
-              rx={rx + 5}
-              fill="none"
-              stroke="currentColor"
-              className="text-accent-500"
-              strokeWidth="1.5"
-              strokeDasharray="4 4"
-              style={{
-                opacity: 0.4,
-                transition: config.transition,
-                transformOrigin: "center",
-              }}
-            />
-
-            {/* Cancel Button */}
-            <path
-              d={getRoundedRectPath(cancelX, containerY, cancelW, containerH, {
-                tl: rx, bl: rx, tr: rx, br: rx,
-              })}
-              className="text-background-950"
-              fill="currentColor"
-              style={{ transition: config.transition }}
-            />
-            <path
-              d={getRoundedRectPath(cancelX, containerY, cancelW, containerH, {
-                tl: rx, bl: rx, tr: rx, br: rx,
-              })}
-              className={config.highlight.idleClass}
-              fill="currentColor"
-              stroke="currentColor"
-              strokeWidth={config.strokeWidth}
-              style={{
-                transition: config.transition,
-                fillOpacity: config.highlight.idleFillOpacity,
-                strokeOpacity: config.highlight.idleStrokeOpacity,
-              }}
-            />
-
-            {/* Cancel Skeleton */}
-            <rect
-              x={cancelX + (cancelW - 40) / 2}
-              y={containerY + 20}
-              width={40}
-              height={8}
-              rx={config.barRx}
-              className={config.highlight.idleClass}
-              fill="currentColor"
-              style={{
-                transition: config.transition,
-                opacity: config.bar.secondaryOpacity
-              }}
-            />
-
-            {/* Confirm Button */}
-            <path
-              d={getRoundedRectPath(confirmX, containerY, confirmW, containerH, {
-                tl: rx, bl: rx, tr: rx, br: rx,
-              })}
-              className="text-background-950"
-              fill="currentColor"
-              style={{ transition: config.transition }}
-            />
-            <path
-              d={getRoundedRectPath(confirmX, containerY, confirmW, containerH, {
-                tl: rx, bl: rx, tr: rx, br: rx,
-              })}
-              className={config.highlight.hoverClass}
-              fill="currentColor"
-              stroke="currentColor"
-              strokeWidth={config.strokeWidth}
-              style={{
-                transition: config.transition,
-                fillOpacity: 0.05,
-                strokeOpacity: config.highlight.hoverStrokeOpacity,
-              }}
-            />
-
-            {/* Loading Progress Bar (Fills slowly from left to right) */}
-            <rect
-              x={confirmX}
-              y={containerY}
-              width={isConfirming ? confirmW : 0}
-              height={containerH}
-              clipPath="url(#confirm-clip)"
-              className="text-accent-500"
-              fill="currentColor"
-              style={{
-                opacity: 0.6,
-                transition: isConfirming ? "width 2s ease-out" : "none",
-                transitionDelay: isConfirming ? "0.8s" : "0s",
-              }}
-            />
-
-            {/* Confirm Skeleton */}
-            <rect
-              x={confirmX + (confirmW - 46) / 2}
-              y={containerY + 20}
-              width={46}
-              height={8}
-              rx={config.barRx}
-              className={config.highlight.hoverClass}
-              fill="currentColor"
-              style={{
-                transition: config.transition,
-                opacity: config.bar.primaryOpacity
-              }}
-            />
-          </g>
+          <TrashButtonGroup
+            trashX={trashX} containerY={containerY} trashW={trashW}
+            containerH={containerH} rx={rx} isConfirming={isConfirming}
+            isTrashActive={isTrashActive} isNotIdle={isNotIdle}
+          />
+          <ConfirmButtonGroup
+            confirmX={confirmX} cancelX={cancelX} containerY={containerY}
+            confirmW={confirmW} cancelW={cancelW} containerH={containerH}
+            rx={rx} isConfirming={isConfirming}
+          />
 
           <CursorProvider
             phase={stage}

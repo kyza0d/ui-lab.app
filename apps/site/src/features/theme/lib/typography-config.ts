@@ -1,4 +1,4 @@
-export const ROOT_FONT_SIZE_PX = 16;
+const ROOT_FONT_SIZE_PX = 16;
 
 export const DEFAULT_GLOBAL_MIN_FONT_SIZE_PX = 14;
 export const MIN_GLOBAL_MIN_FONT_SIZE_PX = 10;
@@ -56,7 +56,7 @@ export function normalizeGlobalMinFontSizePx(value: unknown): number {
   return clampGlobalMinFontSizePx(value);
 }
 
-export function clampTypographyLineHeight(value: number): number {
+function clampTypographyLineHeight(value: number): number {
   return Math.max(
     TYPOGRAPHY_LINE_HEIGHT_MIN,
     Math.min(TYPOGRAPHY_LINE_HEIGHT_MAX, value),

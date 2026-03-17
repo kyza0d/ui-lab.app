@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 import { Cursor, CursorProvider, type CursorFrame } from "./preview-cursor";
 
@@ -9,33 +9,32 @@ type AnimPhase = "idle" | "hovering" | "clicking" | "active";
 export function TabsAnimation() {
   const [phase, setPhase] = useState<AnimPhase>("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setPhase("hovering");
+    timersRef.current.push(setTimeout(() => setPhase("clicking"), 500));
+    timersRef.current.push(setTimeout(() => setPhase("active"), 700));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setPhase("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-
-    const handleEnter = () => {
-      setPhase("hovering");
-      timers.push(setTimeout(() => setPhase("clicking"), 500));
-      timers.push(setTimeout(() => setPhase("active"), 700));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      timers.length = 0;
-      setPhase("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
-      timers.forEach(clearTimeout);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const transition = config.transition;
 
@@ -174,11 +173,11 @@ export function TabsAnimation() {
 
           {/* Content skeleton */}
           <g>
-            {contentLines.map((line, i) => (
+            {contentLines.map((line, lineIndex) => (
               <rect
-                key={i}
+                key={lineIndex}
                 x={barX}
-                y={barY + tabHeight + 20 + i * 16}
+                y={barY + tabHeight + 20 + lineIndex * 16}
                 width={line.width}
                 height={6}
                 rx={config.barRx}

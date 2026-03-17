@@ -1,22 +1,22 @@
 import type { OklchColor, ShadeScale, ThemeMode, ColorPalette, EasingFunction, ChromaScalingFunction, SemanticColors, SemanticPalettes, GlobalColorAdjustments } from './types';
-import { SCALES, SHADES, SHADE_NORM, CHROMA_FACTORS, CHROMA_BOUNDARIES, DEFAULT_GLOBAL_ADJUSTMENTS, getShadesForRole, clampChromaToRole, applyGlobalAdjustments } from './scales';
+import { SCALES, ALL_SHADES, SHADE_NORM, CHROMA_FACTORS, CHROMA_BOUNDARIES, DEFAULT_GLOBAL_ADJUSTMENTS, getShadesForRole, clampChromaToRole, applyGlobalAdjustments } from './scales';
 
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n));
 const rnd = (n: number, p = 1000) => Math.round(n * p) / p;
 
-export const SimplifiedChromaScaling = {
+const SimplifiedChromaScaling = {
   linear: () => 1.0,
   desaturateBright: (t: number) => t < .2 ? .3 + t * 1.5 : t < .5 ? .6 + (t - .2) * 1.0 : .9 + (t - .5) * .2,
 };
 
-export const SimplifiedPaletteEasing = {
+const SimplifiedPaletteEasing = {
   linear: (t: number) => t,
   accent: (t: number) => t < .2 ? .9 - t * .5 : t < .5 ? .8 - (t - .2) * 1.0 : .5 + (t - .5) * 1.0,
 };
 
-export function applyEasingToScale(scale: Partial<Record<ShadeScale, number>>, shades?: ShadeScale[], ease?: EasingFunction): Partial<Record<ShadeScale, number>> {
+function applyEasingToScale(scale: Partial<Record<ShadeScale, number>>, shades?: ShadeScale[], ease?: EasingFunction): Partial<Record<ShadeScale, number>> {
   if (!ease) return scale;
-  const shadesToUse = shades || SHADES;
+  const shadesToUse = shades || ALL_SHADES;
   const vals = shadesToUse.map(s => scale[s]).filter((v): v is number => v !== undefined);
   const [min, max] = [Math.min(...vals), Math.max(...vals)];
 
@@ -26,14 +26,14 @@ export function applyEasingToScale(scale: Partial<Record<ShadeScale, number>>, s
   }, {} as any);
 }
 
-export const getLightnessScale = (m: ThemeMode) => m === 'light' ? SCALES.light : SCALES.dark;
-export const getSemanticLightnessScale = () => SCALES.sem;
+const getLightnessScale = (m: ThemeMode) => m === 'light' ? SCALES.light : SCALES.dark;
+const getSemanticLightnessScale = () => SCALES.sem;
 
 export function generateColorPalette(
   base: OklchColor, baseShade: ShadeScale = 500, mode: ThemeMode = 'dark', shift = 0, limit = 0.01,
   useSem = false, isAcc = false, ease?: EasingFunction, cScale?: ChromaScalingFunction, shades?: ShadeScale[], role?: string
 ): ColorPalette {
-  const shadesToUse = shades || (isAcc ? [50, 100, 200, 300, 400, 500, 600] as ShadeScale[] : SHADES);
+  const shadesToUse = shades || (isAcc ? [50, 100, 200, 300, 400, 500, 600] as ShadeScale[] : ALL_SHADES);
 
   const isNeutral = base.c <= 0.005;
   let scaleName = 'unknown';

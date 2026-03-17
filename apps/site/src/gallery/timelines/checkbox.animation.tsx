@@ -65,7 +65,7 @@ const CheckboxIcon = ({
           opacity: isChecked && !isIndeterminate ? checkOpacity : 0,
           transform: isChecked ? "scale(1)" : "scale(0.5)",
           transformOrigin: "center",
-          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          transition: "opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
       />
 

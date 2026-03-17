@@ -19,7 +19,7 @@ interface TypographyConstraintResult extends TypographyConstraintInput {
 
 const FONT_SCALE_SEARCH_STEP = 0.001;
 
-export function getSmallestMinSize(
+function getSmallestMinSize(
   typeSizeRatio: number,
   fontSizeScale: number,
   globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
@@ -118,7 +118,7 @@ export function clampTypographyConfig(
   };
 }
 
-export function clampTypographySettings(
+function clampTypographySettings(
   input: TypographyConstraintInput,
   globalMinFontSizePx: number = DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
 ): TypographyConstraintResult {

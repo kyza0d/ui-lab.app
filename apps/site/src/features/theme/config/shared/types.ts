@@ -1,9 +1,9 @@
-export interface ThemeConfig {
+interface ThemeConfig {
   radius: number;
   borderWidth: number;
 }
 
-export interface GeneratedTypeScale {
+interface GeneratedTypeScale {
   name: string;
   minSize: number;
   fluidVw: number;

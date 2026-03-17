@@ -64,7 +64,7 @@ export function getBorderWidthCssVariables(
   return vars;
 }
 
-export function getLayoutCssVariables(
+function getLayoutCssVariables(
   layout: LayoutScaleConfig,
 ): Record<string, string> {
   return {

@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { cssToOklch, getShadesForRole, type OklchColor, type ShadeScale, type ColorRole } from '../lib/color-utils'
 
-export function useColorVariable(family: ColorRole, shade: ShadeScale): OklchColor | null {
+function useColorVariable(family: ColorRole, shade: ShadeScale): OklchColor | null {
   const [color, setColor] = useState<OklchColor | null>(null)
   const observerRef = useRef<MutationObserver | null>(null)
 

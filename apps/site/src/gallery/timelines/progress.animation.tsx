@@ -1,36 +1,36 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import config from "./config.json";
 
 export function ProgressAnimation() {
   const [stage, setStage] = useState<"idle" | "filling" | "done">("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("filling");
+    timersRef.current.push(setTimeout(() => setStage("done"), 1050));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    let timers: NodeJS.Timeout[] = [];
-
-    const handleEnter = () => {
-      setStage("filling");
-      timers.push(setTimeout(() => setStage("done"), 1050));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const cx = 200;
   const cy = 150;
@@ -134,7 +134,7 @@ export function ProgressAnimation() {
               className={isDone ? "text-accent-500" : "text-background-400"}
               style={{
                 opacity: isActive ? (isDone ? 0.9 : 0.45) : 0,
-                transition: "all 0.5s ease",
+                transition: "opacity 0.5s ease",
               }}
             />
 

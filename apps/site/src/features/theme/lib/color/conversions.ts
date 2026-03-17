@@ -3,7 +3,7 @@ import type { OklchColor } from './types';
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n));
 const rnd = (n: number, p = 1000) => Math.round(n * p) / p;
 
-export function hexToOklch(hex: string): OklchColor {
+function hexToOklch(hex: string): OklchColor {
   const n = parseInt(hex.replace('#', ''), 16);
   const toL = (c: number) => (c /= 255) <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   const [r, g, b] = [toL(n >> 16), toL((n >> 8) & 0xFF), toL(n & 0xFF)];
@@ -60,6 +60,6 @@ export function cssToOklch(css: string): OklchColor | null {
   return m ? { l: parseFloat(m[1]) / 100, c: parseFloat(m[2]), h: parseFloat(m[3]) } : null;
 }
 
-export const adjustLightness = (k: OklchColor, amt: number): OklchColor => ({ ...k, l: clamp(k.l + amt) });
-export const adjustChroma = (k: OklchColor, amt: number): OklchColor => ({ ...k, c: Math.max(0, k.c + amt) });
-export const rotateHue = (k: OklchColor, deg: number): OklchColor => ({ ...k, h: (k.h + deg + 360) % 360 });
+const adjustLightness = (k: OklchColor, amt: number): OklchColor => ({ ...k, l: clamp(k.l + amt) });
+const adjustChroma = (k: OklchColor, amt: number): OklchColor => ({ ...k, c: Math.max(0, k.c + amt) });
+const rotateHue = (k: OklchColor, deg: number): OklchColor => ({ ...k, h: (k.h + deg + 360) % 360 });

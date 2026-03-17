@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useLayoutEffect, useEffect } from "react";
+import { useEffect, useLayoutEffect, useReducer, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { SettingsContent } from "./settings/settings-content";
 import { HiX } from "react-icons/hi";
@@ -16,18 +16,51 @@ const DIALOG_HEIGHT = 472;
 const GAP = 12;
 const EDGE_PADDING = 16;
 
+interface DialogState {
+  basePosition: { top: number; left: number } | null;
+  dragOffset: { x: number; y: number };
+  isDragging: boolean;
+}
+
+type DialogAction =
+  | { type: "set-base-position"; position: DialogState["basePosition"] }
+  | { type: "set-drag-offset"; offset: DialogState["dragOffset"] }
+  | { type: "set-dragging"; value: boolean }
+  | { type: "reset-position" };
+
+const INITIAL_DIALOG_STATE: DialogState = {
+  basePosition: null,
+  dragOffset: { x: 0, y: 0 },
+  isDragging: false,
+};
+
+function dialogReducer(state: DialogState, action: DialogAction): DialogState {
+  switch (action.type) {
+    case "set-base-position":
+      return { ...state, basePosition: action.position };
+    case "set-drag-offset":
+      return { ...state, dragOffset: action.offset };
+    case "set-dragging":
+      return { ...state, isDragging: action.value };
+    case "reset-position":
+      return { ...state, basePosition: null, dragOffset: { x: 0, y: 0 } };
+    default:
+      return state;
+  }
+}
+
 export const SettingsDialog = ({
   isOpen,
   onOpenChange,
   triggerRef,
 }: FloatingSettingsDialogProps) => {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const dialogRef = useRef<HTMLDivElement>(null);
-
-  // Position is separate from drag offset
-  const [basePosition, setBasePosition] = useState<{ top: number; left: number } | null>(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [dialogState, dispatch] = useReducer(dialogReducer, INITIAL_DIALOG_STATE);
 
   // Refs for drag math
   const dragStartRef = useRef<{ startX: number; startY: number; initialOffsetX: number; initialOffsetY: number } | null>(null);
@@ -36,22 +69,18 @@ export const SettingsDialog = ({
   const lastPositionRef = useRef<{ top: number; left: number } | null>(null);
   const currentPositionRef = useRef<{ top: number; left: number } | null>(null);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // ---------------------------------------------------------------------------
   // Positioning Logic (Viewport Relative)
   // ---------------------------------------------------------------------------
   // Keep currentPositionRef in sync with the effective rendered position
   useEffect(() => {
-    if (basePosition !== null) {
+    if (dialogState.basePosition !== null) {
       currentPositionRef.current = {
-        top: basePosition.top + dragOffset.y,
-        left: basePosition.left + dragOffset.x,
+        top: dialogState.basePosition.top + dialogState.dragOffset.y,
+        left: dialogState.basePosition.left + dialogState.dragOffset.x,
       };
     }
-  }, [basePosition, dragOffset]);
+  }, [dialogState.basePosition, dialogState.dragOffset]);
 
   useLayoutEffect(() => {
     if (!isOpen || !triggerRef?.current || !mounted) {
@@ -59,15 +88,14 @@ export const SettingsDialog = ({
         if (currentPositionRef.current) {
           lastPositionRef.current = currentPositionRef.current;
         }
-        setBasePosition(null);
-        setDragOffset({ x: 0, y: 0 });
+        dispatch({ type: "reset-position" });
       }
       return;
     }
 
     const calculatePosition = () => {
       if (lastPositionRef.current) {
-        setBasePosition(lastPositionRef.current);
+        dispatch({ type: "set-base-position", position: lastPositionRef.current });
         return;
       }
 
@@ -95,18 +123,19 @@ export const SettingsDialog = ({
         }
       }
 
-      setBasePosition({ top, left });
+      dispatch({ type: "set-base-position", position: { top, left } });
     };
 
     calculatePosition();
 
     const handleResizeScroll = () => calculatePosition();
+    const scrollListenerOptions = { capture: true, passive: true } as const;
     window.addEventListener("resize", handleResizeScroll);
-    window.addEventListener("scroll", handleResizeScroll, { capture: true });
+    window.addEventListener("scroll", handleResizeScroll, scrollListenerOptions);
 
     return () => {
       window.removeEventListener("resize", handleResizeScroll);
-      window.removeEventListener("scroll", handleResizeScroll, { capture: true });
+      window.removeEventListener("scroll", handleResizeScroll, scrollListenerOptions);
     };
   }, [isOpen, triggerRef, mounted]);
 
@@ -114,7 +143,7 @@ export const SettingsDialog = ({
   // Drag Logic
   // ---------------------------------------------------------------------------
   useEffect(() => {
-    if (!isDragging) return;
+    if (!dialogState.isDragging) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!dragStartRef.current) return;
@@ -122,14 +151,17 @@ export const SettingsDialog = ({
       const deltaX = e.clientX - dragStartRef.current.startX;
       const deltaY = e.clientY - dragStartRef.current.startY;
 
-      setDragOffset({
-        x: dragStartRef.current.initialOffsetX + deltaX,
-        y: dragStartRef.current.initialOffsetY + deltaY,
+      dispatch({
+        type: "set-drag-offset",
+        offset: {
+          x: dragStartRef.current.initialOffsetX + deltaX,
+          y: dragStartRef.current.initialOffsetY + deltaY,
+        },
       });
     };
 
     const handleMouseUp = () => {
-      setIsDragging(false);
+      dispatch({ type: "set-dragging", value: false });
       dragStartRef.current = null;
     };
 
@@ -140,34 +172,37 @@ export const SettingsDialog = ({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging]);
+  }, [dialogState.isDragging]);
 
   const handleDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
     if (!target.closest("[data-drag-handle]")) return;
 
     e.preventDefault();
-    setIsDragging(true);
+    dispatch({ type: "set-dragging", value: true });
     dragStartRef.current = {
       startX: e.clientX,
       startY: e.clientY,
-      initialOffsetX: dragOffset.x,
-      initialOffsetY: dragOffset.y,
+      initialOffsetX: dialogState.dragOffset.x,
+      initialOffsetY: dialogState.dragOffset.y,
     };
   };
 
   if (!mounted || !isOpen) return null;
 
-  const isReady = basePosition !== null;
-  const top = (basePosition?.top ?? 0) + dragOffset.y;
-  const left = (basePosition?.left ?? 0) + dragOffset.x;
+  const isReady = dialogState.basePosition !== null;
+  const top = (dialogState.basePosition?.top ?? 0) + dialogState.dragOffset.y;
+  const left = (dialogState.basePosition?.left ?? 0) + dialogState.dragOffset.x;
 
   return createPortal(
     <>
-      <div className="fixed inset-0 z-[9998] pointer-events-none" />
+      <div className="fixed inset-0 z-[9998] pointer-events-none" suppressHydrationWarning />
       <div
         ref={dialogRef}
         onMouseDown={handleDragStart}
+        role="dialog"
+        aria-modal="false"
+        tabIndex={-1}
         style={{
           position: "fixed",
           top,
@@ -179,6 +214,9 @@ export const SettingsDialog = ({
         }}
         className="fixed z-[9999] rounded-[16px] border border-background-600 bg-background-900/95 backdrop-blur-md flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') onOpenChange(false);
+        }}
       >
         <div
           data-drag-handle

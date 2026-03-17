@@ -2,7 +2,7 @@ import { type OklchColor, type ShadeScale, type SemanticColors, type EasingFunct
 
 export const DEFAULT_THEME_NAME = "Vitesse";
 
-export function getDefaultThemeVariant(): "light" | "dark" {
+function getDefaultThemeVariant(): "light" | "dark" {
   if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
@@ -26,16 +26,16 @@ export { DEFAULT_GLOBAL_ADJUSTMENTS };
 
 export type ThemeColors = SimpleThemeColors
 
-export function isSimpleTheme(colors: ThemeColors): colors is SimpleThemeColors {
+function isSimpleTheme(colors: ThemeColors): colors is SimpleThemeColors {
   return 'background' in colors;
 }
 
-export interface ThemeVariants {
+interface ThemeVariants {
   light: ThemeColors;
   dark: ThemeColors;
 }
 
-export const PRESET_THEMES = new Set(["Vitesse"]);
+const PRESET_THEMES = new Set(["Vitesse"]);
 
 export const themes: Record<string, ThemeVariants> = {
   "Vitesse": {
@@ -105,10 +105,10 @@ export const themes: Record<string, ThemeVariants> = {
   },
 };
 
-export function isPresetTheme(themeName: string): boolean {
+function isPresetTheme(themeName: string): boolean {
   return PRESET_THEMES.has(themeName);
 }
 
-export function isCustomTheme(themeName: string): boolean {
+function isCustomTheme(themeName: string): boolean {
   return !isPresetTheme(themeName);
 }

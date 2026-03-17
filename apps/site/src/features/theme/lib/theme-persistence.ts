@@ -1,6 +1,6 @@
 import { type SimpleThemeColors } from "../constants/themes";
 
-export interface ThemePreferences {
+interface ThemePreferences {
   colors: SimpleThemeColors;
   typography: {
     fontSizeScale: number;
@@ -20,7 +20,7 @@ const STORAGE_KEY = "theme-preferences";
 /**
  * Save theme preferences to localStorage
  */
-export function saveThemePreferences(prefs: ThemePreferences): void {
+function saveThemePreferences(prefs: ThemePreferences): void {
   if (typeof window === 'undefined') return;
 
   try {
@@ -52,7 +52,7 @@ export function saveThemePreferences(prefs: ThemePreferences): void {
 /**
  * Load theme preferences from localStorage
  */
-export function loadThemePreferences(): ThemePreferences | null {
+function loadThemePreferences(): ThemePreferences | null {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) {
@@ -89,7 +89,7 @@ export function loadThemePreferences(): ThemePreferences | null {
 /**
  * Apply theme preferences to the DOM
  */
-export function applyThemePreferences(prefs: ThemePreferences): void {
+function applyThemePreferences(prefs: ThemePreferences): void {
   const root = document.documentElement;
 
   // Apply theme mode
@@ -119,7 +119,7 @@ function applyColorsToDom(colors: SimpleThemeColors): void {
 /**
  * Clear saved preferences
  */
-export function clearThemePreferences(): void {
+function clearThemePreferences(): void {
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch (error) {

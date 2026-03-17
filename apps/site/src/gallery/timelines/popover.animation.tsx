@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Frame } from "ui-lab-components";
 import config from "./config.json";
 import {
@@ -17,32 +17,31 @@ const T = "all 0.4s cubic-bezier(0.25, 0, 0.25, 1)";
 export function PopoverAnimation() {
   const [stage, setStage] = useState<"idle" | "hovering" | "open">("idle");
   const containerRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const handleEnter = useCallback(() => {
+    setStage("hovering");
+    timersRef.current.push(setTimeout(() => setStage("open"), 500));
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setStage("idle");
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const galleryItem = el.closest(".group") || el;
-    let timers: ReturnType<typeof setTimeout>[] = [];
-
-    const handleEnter = () => {
-      setStage("hovering");
-      timers.push(setTimeout(() => setStage("open"), 500));
-    };
-
-    const handleLeave = () => {
-      timers.forEach(clearTimeout);
-      timers = [];
-      setStage("idle");
-    };
-
     galleryItem.addEventListener("mouseenter", handleEnter);
     galleryItem.addEventListener("mouseleave", handleLeave);
     return () => {
-      timers.forEach(clearTimeout);
+      timersRef.current.forEach(clearTimeout);
       galleryItem.removeEventListener("mouseenter", handleEnter);
       galleryItem.removeEventListener("mouseleave", handleLeave);
     };
-  }, []);
+  }, [handleEnter, handleLeave]);
 
   const isActive = stage !== "idle";
   const isOpen = stage === "open";
@@ -83,7 +82,6 @@ export function PopoverAnimation() {
               transition: T,
               transitionDelay: isOpen ? "0.1s" : "0s",
               pointerEvents: "none",
-              willChange: "transform, opacity",
               isolation: "isolate",
             }}
           >
