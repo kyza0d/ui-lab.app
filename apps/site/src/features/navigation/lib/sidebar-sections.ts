@@ -112,7 +112,7 @@ export function isNavItemActive(itemId: string, pathname: string, activeNav: Mai
   return pathname.includes(`/${itemId}`);
 }
 
-export function getTotalComponentCount(): number {
+function getTotalComponentCount(): number {
   const groupedComponents = getComponentsGroupedByCategory();
   return Object.values(groupedComponents).reduce((sum, components) => sum + components.length, 0);
 }

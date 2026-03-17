@@ -24,7 +24,7 @@ interface DomainRegistry {
   navSectionMap: Record<string, string[]> | null;
 }
 
-export interface SidebarRegistry {
+interface SidebarRegistry {
   docs: DomainRegistry;
   'design-system': DomainRegistry;
   [key: string]: DomainRegistry;
