@@ -7,6 +7,6 @@ export function getTocItemsForSection(section: DocSection): TocItem[] {
   return tocRegistry[indexKey] || [];
 }
 
-export function getTocItemsForSlug(slug: string): TocItem[] {
+function getTocItemsForSlug(slug: string): TocItem[] {
   return tocRegistry[slug] || [];
 }

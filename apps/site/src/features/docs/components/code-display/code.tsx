@@ -32,6 +32,7 @@ interface CodeProps {
 }
 
 const MAX_HEIGHT_LINES = 20;
+type CodeToHtmlOptions = Parameters<typeof codeToHtml>[1];
 
 export function Code({
   children,
@@ -79,10 +80,11 @@ export function Code({
       `custom-${currentThemeMode}`
     );
   }, [currentThemeColors, currentThemeMode]);
-  const [contentScrollWidth, setContentScrollWidth] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(0);
+  const [dimensions, setDimensions] = useState({ contentScrollWidth: 0, viewportWidth: 0 });
   const [isExpanded, setIsExpanded] = useState(false);
-  const [totalCodeLines, setTotalCodeLines] = useState(0);
+
+  const totalCodeLines = children.split('\n').length;
+  const preferredHighlighted = currentThemeMode === "light" ? preHighlightedLight : preHighlightedDark;
 
   const handleScrollTrack = useCallback(() => {
     if (viewportRef.current && scrollTrackRef.current) {
@@ -109,19 +111,13 @@ export function Code({
   }, []);
 
   useEffect(() => {
-    if (preHighlightedLight || preHighlightedDark) {
-      const preHighlighted = currentThemeMode === "light" ? preHighlightedLight : preHighlightedDark;
-      if (preHighlighted) {
-        setHighlightedCode(preHighlighted);
-        return;
-      }
-    }
+    if (preferredHighlighted) return;
 
     const highlight = async () => {
       try {
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(children, {
-          lang: language as any,
+          lang: language as CodeToHtmlOptions["lang"],
           theme,
           transformers: [transformerRenderIndentGuides()],
         });
@@ -139,13 +135,21 @@ export function Code({
     };
 
     highlight();
-  }, [children, language, currentThemeMode, shikiTheme, preHighlightedLight, preHighlightedDark]);
+  }, [children, language, currentThemeMode, preferredHighlighted, shikiTheme]);
+
+  useEffect(() => {
+    if (viewportRef.current) {
+      viewportRef.current.innerHTML = preferredHighlighted ?? highlightedCode;
+    }
+  }, [preferredHighlighted, highlightedCode]);
 
   useEffect(() => {
     const measure = () => {
       if (viewportRef.current) {
-        setContentScrollWidth(viewportRef.current.scrollWidth);
-        setViewportWidth(viewportRef.current.clientWidth);
+        setDimensions({
+          contentScrollWidth: viewportRef.current.scrollWidth,
+          viewportWidth: viewportRef.current.clientWidth,
+        });
       }
     };
     measure();
@@ -154,22 +158,9 @@ export function Code({
     return () => observer.disconnect();
   }, [highlightedCode]);
 
-  useEffect(() => {
-    const lines = children.split('\n').length;
-    setTotalCodeLines(lines);
-  }, [children]);
-
-  useEffect(() => {
-    if (totalCodeLines > MAX_HEIGHT_LINES) {
-      const hidden = totalCodeLines - MAX_HEIGHT_LINES;
-      setIsExpanded(hidden < 30);
-    } else {
-      setIsExpanded(false);
-    }
-  }, [totalCodeLines]);
-
-  const hasHorizontalOverflow = contentScrollWidth > viewportWidth;
+  const hasHorizontalOverflow = dimensions.contentScrollWidth > dimensions.viewportWidth;
   const hiddenCodeLines = totalCodeLines - MAX_HEIGHT_LINES;
+  const expanded = isExpanded || (totalCodeLines > MAX_HEIGHT_LINES && hiddenCodeLines < 30);
   const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES && hiddenCodeLines >= 30;
 
   return (
@@ -189,9 +180,9 @@ export function Code({
           onWheel={handleWheel}
           className={`
             overflow-y-auto overflow-x-hidden
-            [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:w-fit 
+            [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:w-fit
             [&_code]:text-foreground-300 [&_code]:whitespace-pre
-            
+
             /* Custom Vertical Scrollbar Styling */
             [&::-webkit-scrollbar]:w-2
             [&::-webkit-scrollbar-track]:bg-transparent
@@ -200,11 +191,10 @@ export function Code({
             [&::-webkit-scrollbar-thumb:hover]:bg-background-600
           `}
           style={{
-            overflowY: isExpanded ? 'auto' : 'hidden',
-            maskImage: !isExpanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',
-            WebkitMaskImage: !isExpanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',
+            overflowY: expanded ? 'auto' : 'hidden',
+            maskImage: !expanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',
+            WebkitMaskImage: !expanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',
           }}
-          dangerouslySetInnerHTML={{ __html: highlightedCode }}
         />
 
         {hasHorizontalOverflow && (
@@ -213,11 +203,11 @@ export function Code({
             onScroll={handleScrollTrack}
             className="flex-none w-full overflow-x-auto bg-background-950/50 backdrop-blur-sm"
           >
-            <div style={{ width: contentScrollWidth, height: '12px' }} />
+            <div style={{ width: dimensions.contentScrollWidth, height: '12px' }} />
           </div>
         )}
 
-        {shouldShowExpandButton && !isExpanded && (
+        {shouldShowExpandButton && !expanded && (
           <button
             onClick={() => setIsExpanded(true)}
             className="w-full px-4 flex items-center py-2 hover:bg-background-800 text-foreground-300 text-sm font-medium transition-colors border-t border-background-700"

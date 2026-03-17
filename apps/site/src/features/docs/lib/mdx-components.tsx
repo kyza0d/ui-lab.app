@@ -1,9 +1,11 @@
-import { Code, CodeWithPackageManager, InstallationFlow } from '../components/code-display/index'
+import { Code } from '../components/code-display/code'
+import { CodeWithPackageManager } from '../components/code-display/code-with-package-manager'
+import { InstallationFlow } from '../components/code-display/installation-flow'
 import Image from 'next/image'
 import Timeline from '../components/timeline'
 import ColorPaletteGrid from '@/features/theme/components/color-palette-grid'
 import { Banner, BannerTitle, BannerBody } from '../components/mdx/client-banner'
-import { Anchor, AnchorPreview, AnchorUnderline } from '../components/mdx/client-anchor'
+import { Anchor } from '../components/mdx/client-anchor'
 import { Divider } from '../components/mdx/client-divider'
 import { MermaidDiagram } from '../components/mdx/mermaid-diagram'
 import Icon from '@/shared/components/Icon'
@@ -45,12 +47,9 @@ export const mdxComponents = {
     </p>
   ),
   a: ({ children, href }: any) => (
-    <a
-      href={href}
-      className="text-blue-600 dark:text-blue-400 hover:underline"
-    >
+    <Anchor href={href} target={href?.startsWith('http') ? '_blank' : '_self'}>
       {children}
-    </a>
+    </Anchor>
   ),
   pre: ({ children }: any) => {
     if (typeof children === 'object' && children !== null && 'props' in children) {
@@ -130,7 +129,6 @@ export const mdxComponents = {
   InstallationFlow,
   Timeline,
   ColorPaletteGrid,
-  Anchor: Object.assign(Anchor, { Preview: AnchorPreview, Underline: AnchorUnderline }),
   Banner: Object.assign(Banner, { Title: BannerTitle, Body: BannerBody }),
   Divider,
   MermaidDiagram,

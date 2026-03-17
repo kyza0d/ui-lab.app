@@ -5,13 +5,13 @@ import matter from 'gray-matter'
 import path from 'path'
 import { cacheTag, cacheLife } from 'next/cache'
 
-export interface TocItem {
+interface TocItem {
   id: string
   title: string
   level: number
 }
 
-export interface DocMetadata {
+interface DocMetadata {
   slug: string
   title: string
   description?: string
@@ -20,7 +20,7 @@ export interface DocMetadata {
   tags?: string[]
 }
 
-export interface DocContent {
+interface DocContent {
   metadata: DocMetadata
   content: string
 }
@@ -103,15 +103,15 @@ export async function getDocBySlug(slug: string): Promise<DocContent | null> {
   return getDocBySlugFromDir(slug, DOCS_DIR)
 }
 
-export async function getAllDesignSystemDocs(): Promise<DocMetadata[]> {
-  return getAllDocsFromDir(DESIGN_SYSTEM_DIR)
-}
-
 export async function getDesignSystemDocBySlug(slug: string): Promise<DocContent | null> {
   return getDocBySlugFromDir(slug, DESIGN_SYSTEM_DIR)
 }
 
-export async function getDocsByCategory(category: string): Promise<DocMetadata[]> {
+async function getAllDesignSystemDocs(): Promise<DocMetadata[]> {
+  return getAllDocsFromDir(DESIGN_SYSTEM_DIR)
+}
+
+async function getDocsByCategory(category: string): Promise<DocMetadata[]> {
   const docs = await getAllDocs()
   return docs.filter(doc => doc.category === category)
 }

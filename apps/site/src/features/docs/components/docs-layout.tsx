@@ -1,6 +1,5 @@
 "use client";
 import { Sidebar } from "@/shared";
-import { PathNav } from "@/features/navigation";
 import { TableOfContents, type TableOfContentsItem } from "./table-of-contents";
 import { CopyPage } from "./copy-page-button";
 import { OpenPage } from "./open-page-button";
@@ -15,7 +14,9 @@ interface DocsLayoutProps {
   banner?: React.ReactNode;
 }
 
-export function DocsLayout({ children, tocItems = [], banner }: DocsLayoutProps) {
+const EMPTY_TOC_ITEMS: TableOfContentsItem[] = [];
+
+export function DocsLayout({ children, tocItems = EMPTY_TOC_ITEMS, banner }: DocsLayoutProps) {
   const { isOpen: isChatOpen } = useChat();
   return (
     <>
@@ -45,7 +46,6 @@ export function DocsLayout({ children, tocItems = [], banner }: DocsLayoutProps)
               banner ? "" : "mt-(--header-height)"
             )}
           >
-            <PathNav />
             <div className="flex items-center w-full min-w-0">
               <div className="py-12 px-4 md:px-6 mx-auto max-w-3xl w-full min-w-0">
                 {children}

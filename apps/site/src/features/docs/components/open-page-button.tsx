@@ -34,8 +34,13 @@ export function OpenPage({ componentId }: { componentId?: string }) {
           <Divider />
           <div
             onClick={() => setIsOpen(o => !o)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
+            }}
             title="Open this page in another app"
             className="flex text-xs font-medium p-1.5 pl-4 w-55 items-center justify-start"
+            role="button"
+            tabIndex={0}
           >
             Open Page
             <Expand.Icon className='ml-auto text-foreground-400 bg-transparent' />

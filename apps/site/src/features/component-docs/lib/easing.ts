@@ -26,14 +26,14 @@ export type EasingKey = keyof typeof EASING_FUNCTIONS;
 
 export const EASING_KEYS = Object.keys(EASING_FUNCTIONS) as EasingKey[];
 
-export function getEasingByKey(key: EasingKey) {
+function getEasingByKey(key: EasingKey) {
   return EASING_FUNCTIONS[key];
 }
 
-export function getBezierValue(key: EasingKey): string {
+function getBezierValue(key: EasingKey): string {
   return EASING_FUNCTIONS[key].bezier;
 }
 
-export function getCssVar(key: EasingKey): string {
+function getCssVar(key: EasingKey): string {
   return EASING_FUNCTIONS[key].cssVar;
 }

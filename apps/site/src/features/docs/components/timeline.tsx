@@ -55,7 +55,7 @@ export default function Timeline({ children }: { children: ReactNode }) {
         });
 
         return (
-          <div key={index} className="mt-10 relative flex items-start">
+          <div key={`${step.number ?? "step"}-${extractText(step.header)}`} className="mt-10 relative flex items-start">
             {/* Circle marker */}
             <div
               className="absolute left-0 flex pr-px items-center justify-center rounded-sm border border-background-700 text-xs font-bold text-foreground-300 z-10"

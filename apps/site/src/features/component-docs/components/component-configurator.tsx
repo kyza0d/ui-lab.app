@@ -16,12 +16,12 @@ import { EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "../lib/easing";
 
 
 
-export interface ControlOption {
+interface ControlOption {
   label: string;
   value: string | number | boolean;
 }
 
-export interface ControlDef {
+interface ControlDef {
   name: string;
   label: string;
   type: "select" | "toggle" | "text";
@@ -29,16 +29,18 @@ export interface ControlDef {
   defaultValue?: string | number | boolean;
 }
 
-export interface RenderContext {
+interface RenderContext {
   showCode: boolean;
   activeTab: number;
-  controlValues: Record<string, any>;
-  handleControlChange: (name: string, value: any) => void;
+  controlValues: Record<string, ControlValue>;
+  handleControlChange: (name: string, value: ControlValue) => void;
   selectedEasing: EasingKey;
   setSelectedEasing: (easing: EasingKey) => void;
 }
 
-export interface ComponentConfiguratorProps {
+type ControlValue = string | number | boolean;
+
+interface ComponentConfiguratorProps {
   title: string;
   description?: string;
   code: string;
@@ -49,7 +51,7 @@ export interface ComponentConfiguratorProps {
     code: string;
   }>;
   controls?: ControlDef[];
-  renderPreview?: (props: Record<string, any>) => React.ReactNode;
+  renderPreview?: (props: Record<string, unknown>) => React.ReactNode;
   customRenderer?: (context: RenderContext) => React.ReactNode;
   hidePreviewToggle?: boolean;
   fullWidth?: boolean;
@@ -57,14 +59,17 @@ export interface ComponentConfiguratorProps {
   previewLayout?: "center" | "start";
 }
 
+const EMPTY_TABS: Array<{ label: string; code: string }> = [];
+const EMPTY_CONTROLS: ControlDef[] = [];
+
 export function ComponentConfigurator({
   title,
   description,
   code,
   language = "typescriptreact",
   children,
-  tabs = [],
-  controls = [],
+  tabs = EMPTY_TABS,
+  controls = EMPTY_CONTROLS,
   renderPreview,
   customRenderer,
   hidePreviewToggle = false,
@@ -74,21 +79,21 @@ export function ComponentConfigurator({
 }: ComponentConfiguratorProps) {
   const [activeTab, setActiveTab] = useState<number>(0);
   const initialControlValues = useMemo(() => {
-    const initialValues: Record<string, any> = {};
+    const initialValues: Record<string, ControlValue> = {};
     controls.forEach((control) => {
       initialValues[control.name] =
         control.defaultValue ?? control.options?.[0]?.value ?? "";
     });
     return initialValues;
-  }, []);
-  const [controlValues, setControlValues] = useState<Record<string, any>>(initialControlValues);
+  }, [controls]);
+  const [controlValues, setControlValues] = useState<Record<string, ControlValue>>(initialControlValues);
   const [showCode, setShowCode] = useState<boolean>(false);
   const [selectedEasing, setSelectedEasing] = useState<EasingKey>("snappyPop");
 
   const allTabs = [{ label: "Usage", code }, ...tabs];
   const currentCode = allTabs[activeTab]?.code || code;
 
-  const handleControlChange = (name: string, value: any) => {
+  const handleControlChange = (name: string, value: ControlValue) => {
     setControlValues((prev) => ({
       ...prev,
       [name]: value,
@@ -144,7 +149,7 @@ export function ComponentConfigurator({
                   <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
                     {allTabs.map((tab, index) => (
                       <Button
-                        key={index}
+                        key={`${tab.label}-${tab.code}`}
                         size="sm"
                         onClick={() => setActiveTab(index)}
                         className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
@@ -231,7 +236,7 @@ export function ComponentConfigurator({
                     {control.type === "text" && (
                       <input
                         type="text"
-                        value={controlValues[control.name] ?? ""}
+                        value={String(controlValues[control.name] ?? "")}
                         onChange={(e) =>
                           handleControlChange(control.name, e.target.value)
                         }
@@ -244,7 +249,7 @@ export function ComponentConfigurator({
               {/* Easing Selector - only show if easing control is defined */}
               {controls.some((c) => c.name === "easing") && (
                 <div className="space-y-2">
-                  <label className="text-sm text-foreground-400">
+                  <label className="text-sm text-foreground-400" htmlFor="interaction-ease-select">
                     Interaction Ease
                   </label>
                   <Select
