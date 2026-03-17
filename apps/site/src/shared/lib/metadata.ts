@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTitleForPath, generateTitleFromPathname } from "./metadata-config";
 
-export interface SiteMetadataConfig {
+interface SiteMetadataConfig {
   title?: string;
   pathname?: string;
   description?: string;

@@ -27,6 +27,7 @@
     "beautiful-mermaid": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dompurify": "^3.3.3",
     "gray-matter": "^4.0.3",
     "gsap": "^3.12.2",
     "iconify-icon": "^2.1.0",
@@ -58,5 +59,10 @@
     "eslint-config-next": "^16.0.10",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "reactDoctor": {
+    "ignore": {
+      "rules": ["react-doctor/nextjs-no-native-script"]
+    }
   }
 }
