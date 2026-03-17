@@ -1,0 +1,16 @@
+import { ReactNode, Suspense } from "react";
+
+interface ContentSectionLayoutProps {
+  sidebar: ReactNode;
+  content: ReactNode;
+  minHeight?: boolean;
+}
+
+export function ContentSectionLayout({ sidebar, content, minHeight }: ContentSectionLayoutProps) {
+  return (
+    <div className={`max-w-(--page-width) mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto]${minHeight ? " min-h-screen" : ""}`}>
+      <Suspense fallback={null}>{sidebar}</Suspense>
+      {content}
+    </div>
+  );
+}
