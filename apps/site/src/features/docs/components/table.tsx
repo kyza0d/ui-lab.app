@@ -12,35 +12,47 @@ export interface Column<T> {
   filterable?: boolean;
   isCode?: boolean;
   codeLanguage?: string;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
   width?: string;
 }
 
-export interface TableProps<T> {
+interface TableProps<T> {
   data: T[];
   columns: Column<T>[];
   showFilters?: boolean;
   onRowClick?: (row: T) => void;
   onFilterChange?: (filters: Record<string, string>) => void;
   expandRender?: (row: T) => React.ReactNode;
+  getRowKey?: (row: T) => React.Key;
 }
 
-export function Table<T extends Record<string, any>>({
+export function Table<T extends object>({
   data,
   columns,
   showFilters = false,
   onRowClick,
   onFilterChange,
   expandRender,
+  getRowKey,
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, string>>({});
-  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+  const [expandedRows, setExpandedRows] = useState<Set<React.Key>>(new Set());
 
-  const toggleRow = (idx: number) => {
+  const resolveRowKey = (row: T) => {
+    const keyedRow = row as { id?: React.Key; slug?: React.Key; key?: React.Key };
+
+    if (getRowKey) return getRowKey(row);
+    if (keyedRow.id != null) return keyedRow.id;
+    if (keyedRow.slug != null) return keyedRow.slug;
+    if (keyedRow.key != null) return keyedRow.key;
+    return JSON.stringify(row);
+  };
+
+  const toggleRow = (rowKey: React.Key) => {
     setExpandedRows((prev) => {
       const next = new Set(prev);
-      if (next.has(idx)) next.delete(idx);
-      else next.add(idx);
+      if (next.has(rowKey)) next.delete(rowKey);
+      else next.add(rowKey);
       return next;
     });
   };
@@ -56,7 +68,7 @@ export function Table<T extends Record<string, any>>({
   const filteredData = data.filter((row) =>
     Object.entries(filters).every(([key, filterValue]) => {
       if (!filterValue) return true;
-      const cellValue = String(row[key]).toLowerCase();
+      const cellValue = String((row as Record<string, unknown>)[key]).toLowerCase();
       return cellValue.includes(filterValue.toLowerCase());
     })
   );
@@ -90,9 +102,9 @@ export function Table<T extends Record<string, any>>({
         <table className="min-w-full text-xs">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">
-              {columns.map((col, idx) => (
+              {columns.map((col) => (
                 <th
-                  key={idx}
+                  key={String(col.key)}
                   className="px-4 py-3 text-left font-semibold text-foreground-200"
                   style={{ width: col.width }}
                 >
@@ -104,13 +116,14 @@ export function Table<T extends Record<string, any>>({
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-              filteredData.map((row, idx) => {
-                const isExpanded = expandedRows.has(idx);
+              filteredData.map((row) => {
+                const rowKey = resolveRowKey(row);
+                const isExpanded = expandedRows.has(rowKey);
                 return (
-                  <Fragment key={idx}>
+                  <Fragment key={rowKey}>
                     <tr
                       onClick={() =>
-                        expandRender ? toggleRow(idx) : onRowClick?.(row)
+                        expandRender ? toggleRow(rowKey) : onRowClick?.(row)
                       }
                       className={cn(
                         "border-b border-background-800",
@@ -119,9 +132,9 @@ export function Table<T extends Record<string, any>>({
                           : ""
                       )}
                     >
-                      {columns.map((col, colIdx) => (
+                      {columns.map((col) => (
                         <td
-                          key={colIdx}
+                          key={String(col.key)}
                           className="px-4 py-3 text-foreground-300"
                           style={{ width: col.width }}
                         >

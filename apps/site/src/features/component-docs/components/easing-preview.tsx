@@ -1,7 +1,7 @@
 import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { EASING_FUNCTIONS, type EasingKey } from "../lib/easing";
 
-export interface EasingPreviewProps extends ComponentPropsWithoutRef<"svg"> {
+interface EasingPreviewProps extends ComponentPropsWithoutRef<"svg"> {
   easing: EasingKey;
   size?: "sm" | "md";
 }

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 
-export interface ChatContextType {
+interface ChatContextType {
   isOpen: boolean;
   toggleChat: () => void;
   openChat: () => void;

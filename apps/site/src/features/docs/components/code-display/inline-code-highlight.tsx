@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { codeToHtml } from "shiki";
 import { generateThemePalettes } from "@/features/theme/lib/color-utils";
 import { generateShikiTheme, type ShikiTheme } from "@/features/theme/lib/themes/shiki/generator";
@@ -13,42 +13,43 @@ interface InlineCodeHighlightProps {
   className?: string;
 }
 
+type CodeToHtmlOptions = Parameters<typeof codeToHtml>[1];
+
 export function InlineCodeHighlight({
   code,
   language = "typescript",
   className = ""
 }: InlineCodeHighlightProps) {
   const { currentThemeMode, currentThemeColors } = useApp();
-  const [highlightedCode, setHighlightedCode] = useState<string>(code);
-  const [isLoading, setIsLoading] = useState(true);
-  const [shikiTheme, setShikiTheme] = useState<ShikiTheme | null>(null);
+  const [highlightedCode, setHighlightedCode] = useState("");
+  const htmlRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    if (currentThemeColors) {
-      const palettes = generateThemePalettes(
-        currentThemeColors.background,
-        currentThemeColors.foreground,
-        currentThemeColors.accent,
-        currentThemeMode,
-        0,
-        currentThemeColors.semantic,
-        currentThemeColors.accentChromaLimit ?? 0.30,
-        currentThemeColors.accentEasing,
-        currentThemeColors.accentChromaScaling
-      );
-      const syntaxPalettes = generateSyntaxPalettes(
-        currentThemeColors.background,
-        currentThemeColors.accent,
-        currentThemeMode,
-        currentThemeColors.syntaxVariation ?? 0
-      );
-      const customTheme = generateShikiTheme(
-        { ...palettes, ...syntaxPalettes },
-        currentThemeMode,
-        `custom-${currentThemeMode}`
-      );
-      setShikiTheme(customTheme);
-    }
+  const shikiTheme = useMemo<ShikiTheme | null>(() => {
+    if (!currentThemeColors) return null;
+
+    const palettes = generateThemePalettes(
+      currentThemeColors.background,
+      currentThemeColors.foreground,
+      currentThemeColors.accent,
+      currentThemeMode,
+      0,
+      currentThemeColors.semantic,
+      currentThemeColors.accentChromaLimit ?? 0.30,
+      currentThemeColors.accentEasing,
+      currentThemeColors.accentChromaScaling
+    );
+    const syntaxPalettes = generateSyntaxPalettes(
+      currentThemeColors.background,
+      currentThemeColors.accent,
+      currentThemeMode,
+      currentThemeColors.syntaxVariation ?? 0
+    );
+
+    return generateShikiTheme(
+      { ...palettes, ...syntaxPalettes },
+      currentThemeMode,
+      `custom-${currentThemeMode}`
+    );
   }, [currentThemeColors, currentThemeMode]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export function InlineCodeHighlight({
       try {
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(code, {
-          lang: language as any,
+          lang: language as CodeToHtmlOptions["lang"],
           theme,
         });
         const codeMatch = html.match(/<code[^>]*>([\s\S]*?)<\/code>/);
@@ -65,18 +66,22 @@ export function InlineCodeHighlight({
       } catch (error) {
         console.error("Failed to highlight code:", error);
         setHighlightedCode(code);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     highlight();
   }, [code, language, currentThemeMode, shikiTheme]);
 
+  useEffect(() => {
+    if (htmlRef.current) {
+      htmlRef.current.innerHTML = highlightedCode || code;
+    }
+  }, [highlightedCode, code]);
+
   return (
     <code
+      ref={htmlRef}
       className={`font-mono text-xs ${className}`}
-      dangerouslySetInnerHTML={{ __html: highlightedCode }}
     />
   );
 }

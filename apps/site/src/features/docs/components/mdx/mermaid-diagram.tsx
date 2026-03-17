@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect, useRef } from 'react'
 import { renderMermaidSVG } from 'beautiful-mermaid'
 
 interface MermaidDiagramProps {
@@ -17,10 +20,18 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
     padding: 48,
   })
 
+  const divRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.innerHTML = svg
+    }
+  }, [svg])
+
   return (
     <div
+      ref={divRef}
       className="my-8 overflow-x-auto rounded-lg [&>svg]:max-w-full [&>svg]:h-auto"
-      dangerouslySetInnerHTML={{ __html: svg }}
     />
   )
 }

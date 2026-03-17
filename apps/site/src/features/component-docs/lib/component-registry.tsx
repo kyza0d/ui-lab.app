@@ -50,9 +50,9 @@ import {
   getComponentsInOrder,
 } from "ui-lab-registry";
 import React from "react";
-export type { ComponentCategory } from "ui-lab-registry";
-export { categories, categoryMap, getCategoriesInOrder, getCategoryIcon } from "ui-lab-registry";
-export interface ComponentMetadata extends RegistryMetadata {
+export { categoryMap, getCategoriesInOrder, getCategoryIcon } from "ui-lab-registry";
+
+interface ComponentMetadata extends RegistryMetadata {
   preview: React.ReactNode;
   experimental?: boolean;
 }
@@ -64,7 +64,7 @@ export const componentRegistry: ComponentMetadata[] = Object.entries(registryDat
   }),
 );
 
-export const getComponentsByCategory =
+const getComponentsByCategory =
   (category: ComponentCategory): ComponentMetadata[] => {
     return componentRegistry.filter((c) => c.category === category);
   };
@@ -81,7 +81,7 @@ export const getComponentsGroupedByCategory =
     return result;
   };
 
-export const getRelatedComponents = (id: string): ComponentMetadata[] => {
+const getRelatedComponents = (id: string): ComponentMetadata[] => {
   const component = componentRegistry.find((c) => c.id === id);
   if (!component) return [];
   return component.relatedComponents

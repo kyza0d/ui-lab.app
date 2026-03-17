@@ -92,8 +92,13 @@ export function CopyComponentPage({ componentId, component }: { componentId: str
           <Divider />
           <div
             onClick={() => setIsOpen(o => !o)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
+            }}
             title="Copy component context as Markdown"
             className="flex text-xs font-medium p-1.5 pl-4 w-55 items-center justify-start"
+            role="button"
+            tabIndex={0}
           >
             {copied ? <>Copied {copied.lines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
             {!copied && <Expand.Icon className='ml-auto text-foreground-400 bg-transparent' />}
