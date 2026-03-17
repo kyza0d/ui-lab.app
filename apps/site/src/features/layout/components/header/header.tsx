@@ -124,23 +124,13 @@ export default function Header({
             )}
           </div>
 
-          <div className="flex gap-2 mr-2">
-            <div className="hidden relative flex items-center">
-              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
-                <Button
-                  styles="p-2"
-                  icon={{ left: <FaMagnifyingGlass size={13} /> }}
-                  onClick={() => setIsCommandPaletteOpen(true)}
-                />
-              </Tooltip>
-            </div>
-
+          <div className="absolute  left-1/2 -translate-x-1/2  flex gap-2 mr-2">
             <div className="relative flex items-center">
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Input
                   placeholder="Search..."
-                  prefixIcon={<FaMagnifyingGlass size={13} />}
-                  styles="text-xs w-60 md:w-70 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                  prefixIcon={<FaMagnifyingGlass className="-translate-y-px" size={13} />}
+                  styles="text-xs w-80 md:w-90 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                   onClick={() => setIsCommandPaletteOpen(true)}
                   readOnly
                 />
@@ -172,7 +162,7 @@ export default function Header({
 
           <div className="flex items-center gap-2 shrink-0">
             <div className="hidden lg:flex items-center gap-2">
-              <Button icon={{ left: <FaMessage className="text-foreground-300" /> }} variant="ghost" size="sm">
+              <Button variant="ghost" size="sm">
                 Feedback
               </Button>
               <a
@@ -188,6 +178,7 @@ export default function Header({
 
                 >
                   <FaCodeBranch size={14} />
+                  Source
                 </Button>
               </a>
               <Divider size='sm' className="-my-3" orientation="vertical" />
