@@ -3,15 +3,12 @@ import {
   FaRegWindowMaximize,
   FaSwatchbook,
   FaBook,
-  FaTableCells,
-  FaGift,
   FaSeedling,
   FaPuzzlePiece,
-  FaSquare,
   FaLayerGroup,
 } from 'react-icons/fa6';
 
-export type SidebarDomain =
+type SidebarDomain =
   | 'docs'
   | 'components'
   | 'packages'
@@ -35,14 +32,6 @@ interface MainNavItemConfig {
   href: string;
   icon: any;
   domain: SidebarDomain;
-}
-
-interface SidebarSection {
-  label: string;
-  items: Array<{
-    id: string;
-    label: string;
-  }>;
 }
 
 const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
@@ -121,8 +110,4 @@ export function getMainNavItemsForDomain(domain: SidebarDomain): MainNavItemConf
     return MAIN_NAV_ITEMS.filter(item => item.domain === 'packages' || item.domain === 'sections' || item.domain === 'starters' || item.domain === 'patterns');
   }
   return MAIN_NAV_ITEMS.filter(item => item.domain === 'docs' || item.domain === 'design-system');
-}
-
-export function getMainNavItemConfig(id: MainNavItem): MainNavItemConfig | undefined {
-  return MAIN_NAV_ITEMS.find(item => item.id === id);
 }

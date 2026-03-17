@@ -1,26 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
 import { themes, useApp, useThemeStorage } from "@/features/theme";
 import { FaCircleHalfStroke } from "react-icons/fa6";
 import { Button, Tooltip } from "ui-lab-components";
 
 export const LandingThemeToggle = () => {
-  const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors, isThemeInitialized } = useApp();
-  const [isClient, setIsClient] = useState(false);
+  const { currentThemeMode, setCurrentThemeMode, currentThemeColors, setCurrentThemeColors } = useApp();
 
-  const { applyAndPersistColors, applyAndPersistModeAndColors } = useThemeStorage({
+  const { applyAndPersistModeAndColors } = useThemeStorage({
     onColorsChange: setCurrentThemeColors,
     onModeChange: setCurrentThemeMode,
     currentThemeMode,
   });
-
-  useEffect(() => { setIsClient(true); }, []);
-
-  useEffect(() => {
-    if (isThemeInitialized && currentThemeColors) {
-      applyAndPersistColors(currentThemeColors);
-    }
-  }, [isThemeInitialized]);
 
   const toggleTheme = () => {
     const nextMode = currentThemeMode === "light" ? "dark" : "light";
@@ -45,15 +35,17 @@ export const LandingThemeToggle = () => {
   };
 
   return (
-    <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
-      <Button
-        variant="ghost"
-        className="p-2"
-        onClick={toggleTheme}
-        aria-label="Toggle theme"
-      >
-        <FaCircleHalfStroke size={15} />
-      </Button>
-    </Tooltip>
+    <div suppressHydrationWarning>
+      <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
+        <Button
+          variant="ghost"
+          className="p-2"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          <FaCircleHalfStroke size={15} />
+        </Button>
+      </Tooltip>
+    </div>
   );
 };
