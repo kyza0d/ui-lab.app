@@ -1,21 +1,21 @@
-export interface ExtractedMetadata {
+interface ExtractedMetadata {
   title?: string;
   description?: string;
   keywords?: string[];
 }
 
-export interface DocMetadata {
+interface DocMetadata {
   title?: string;
   description?: string;
   keywords?: string[];
 }
 
-export interface ComponentMetadata {
+interface ComponentMetadata {
   name?: string;
   description?: string;
 }
 
-export interface ElementMetadata {
+interface ElementMetadata {
   name?: string;
   description?: string;
 }

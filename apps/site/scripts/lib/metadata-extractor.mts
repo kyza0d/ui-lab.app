@@ -6,7 +6,7 @@ interface FileItem {
   slug: string;
 }
 
-export async function extractMetadata(
+function extractMetadata(
   filePath: string,
   slug: string,
   domain: string

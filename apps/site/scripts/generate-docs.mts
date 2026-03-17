@@ -18,7 +18,6 @@ const CONTENT_DOMAINS = {
 const OUTPUT_FILE = path.join(__dirname, '../src/features/navigation/lib/generated-sidebar-registry.ts');
 const LEGACY_OUTPUT_FILE = path.join(__dirname, '../src/features/docs/lib/generated-docs.ts');
 const TOC_GENERATOR = path.join(__dirname, './generate-toc-registry.mts');
-const BREADCRUMB_GENERATOR = path.join(__dirname, './generate-breadcrumb-registry.mts');
 
 // Internal interfaces for documentation generation
 interface SidebarItem {
@@ -136,7 +135,7 @@ interface DomainRegistry {
   navSectionMap: Record<string, string[]> | null;
 }
 
-export interface SidebarRegistry {
+interface SidebarRegistry {
   docs: DomainRegistry;
   'design-system': DomainRegistry;
   [key: string]: DomainRegistry;
@@ -202,30 +201,11 @@ function runTocGenerator(): Promise<void> {
   });
 }
 
-function runBreadcrumbGenerator(): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    const process = spawn('tsx', [BREADCRUMB_GENERATOR]);
-
-    process.on('close', (code) => {
-      if (code !== 0) {
-        reject(new Error(`Breadcrumb generator exited with code ${code}`));
-      } else {
-        resolve();
-      }
-    });
-
-    process.on('error', (err) => {
-      reject(err);
-    });
-  });
-}
-
 async function generate() {
   try {
     console.log('Generating sidebar registry...');
     const registry = await generateSidebarRegistry();
     writeOutputFiles(registry);
-    await runBreadcrumbGenerator();
     await runTocGenerator();
     console.log('\n✓ All generators completed successfully');
   } catch (error) {

@@ -1,6 +1,6 @@
-export type RoutePath = string;
+type RoutePath = string;
 
-export interface RouteTitle {
+interface RouteTitle {
   path: RoutePath;
   title: string;
 }

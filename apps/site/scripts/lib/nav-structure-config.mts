@@ -18,6 +18,6 @@ export const NAV_STRUCTURE = {
 
 type NAV_STRUCTURE_KEYS = keyof typeof NAV_STRUCTURE;
 
-export function getNavSectionMappings(domain: NAV_STRUCTURE_KEYS) {
+function getNavSectionMappings(domain: NAV_STRUCTURE_KEYS) {
   return NAV_STRUCTURE[domain]?.subNav || null;
 }
