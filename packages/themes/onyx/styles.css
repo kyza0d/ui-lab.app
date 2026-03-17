@@ -403,12 +403,12 @@
 
 .switch {
   --track-background-unchecked: var(--background-700);
-  --track-background-checked: var(--background-500);
+  --track-background-checked: color-mix(in srgb, var(--accent-500) 80%, var(--background-500));
   --track-background-hover: var(--background-800);
   --track-background-active: var(--background-800);
   --track-background-disabled: var(--background-950);
   --thumb-background-unchecked: var(--background-500);
-  --thumb-background-checked: var(--foreground-300);
+  --thumb-background-checked: white;
 
   --border: var(--background-600);
   --border-hover: transparent;
