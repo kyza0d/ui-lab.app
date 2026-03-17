@@ -21,7 +21,7 @@ export const SettingsPanel = () => {
         <Button
           ref={buttonRef}
           variant="ghost"
-          className="p-2 hover:bg-theme-border/30"
+          className="p-2 text-foreground-300 hover:bg-theme-border/30"
           onClick={() => setIsSettingsPanelOpen(!isSettingsPanelOpen)}
         >
           <FaPaintRoller size={14} className="text-foreground-300" />
