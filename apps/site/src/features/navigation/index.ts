@@ -1,10 +1,3 @@
 export { SidebarItemLink } from "./components/sidebar-item-link";
-export { PathNav } from "./components/path-nav";
 export * from "./lib/sidebar-registry-resolver";
-export * from "./lib/breadcrumb-utils";
-export * from "./lib/breadcrumb-registry";
 export * from "./lib/generated-sidebar-registry";
-export * from "./lib/generated-breadcrumb-registry";
-export { usePath } from "./hooks/use-path";
-export { useSidebarSearch } from "./hooks/use-sidebar-search";
-export { useSidebarScroll, SidebarItemLink as SidebarItemLinkUtil, type SidebarSection } from "./lib/sidebar-utils";

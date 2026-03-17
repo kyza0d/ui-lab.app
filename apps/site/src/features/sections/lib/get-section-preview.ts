@@ -1,1 +1,1 @@
-export { getSectionPreview as getPreviewComponent, type DemoComponent as PreviewComponent } from 'ui-lab-registry/demo-registry';
+export { getSectionPreview as getPreviewComponent } from 'ui-lab-registry/demo-registry';
