@@ -1,5 +1,10 @@
 import { Dashboard } from '@/shared';
 import { getElementById, getSectionById } from 'ui-lab-registry';
+
+export const metadata = {
+  title: "Component Preview",
+  description: "Standalone preview of UI Lab components and design patterns.",
+};
 import { PreviewRenderer } from './preview-client';
 
 interface PreviewPageProps {

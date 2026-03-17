@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "Changelog",
+  description: "Version history and feature updates for UI Lab components.",
+};
+
 interface Release {
   version: string;
   date: string;
@@ -51,8 +56,8 @@ export default function ChangelogPage() {
               <span className="text-sm text-foreground-400">{release.date}</span>
             </div>
             <ul className="space-y-1.5 text-sm text-foreground-300">
-              {release.changes.map((change, i) => (
-                <li key={i}>— {change}</li>
+              {release.changes.map((change) => (
+                <li key={change}>— {change}</li>
               ))}
             </ul>
           </section>

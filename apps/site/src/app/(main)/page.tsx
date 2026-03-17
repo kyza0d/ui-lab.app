@@ -1,18 +1,19 @@
-"use client";
-
-import { useRef } from "react";
-import { Banner, Toaster } from "ui-lab-components";
+import { Toaster } from "ui-lab-components";
 import { HeroSection, Showcase, NodeSection } from "@/features/landing";
 import { FeaturesSection } from "@/features/landing/components/FeaturesSection";
 import { LandingSidebar } from "@/features/landing/components/landing-sidebar";
 import { Footer } from "@/features/layout";
+import { Metadata } from "next";
+import { generateMetadata as buildMetadata } from "@/shared/lib/metadata";
+
+export const metadata: Metadata = buildMetadata({
+  pathname: "/",
+});
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
     <>
-      <div ref={containerRef} className="w-full pt-16 flex flex-col md:flex-row">
+      <div className="w-full pt-16 flex flex-col md:flex-row">
         <Toaster />
         <LandingSidebar />
         <main className="flex-1 h-full w-full flex flex-col items-center md:overflow-x-hidden">

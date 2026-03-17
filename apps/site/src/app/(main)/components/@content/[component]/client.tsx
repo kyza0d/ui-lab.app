@@ -9,9 +9,8 @@ import { cn } from "@/shared";
 import { Code, InlineCodeHighlight } from "@/features/docs";
 import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
 import { useState, useMemo } from "react";
-import type { ComponentAPI, ComponentStyles } from "ui-lab-registry";
+import type { ComponentAPI } from "ui-lab-registry";
 import { FaFlask, FaGithub } from "react-icons/fa6";
-import { PathNav } from "@/features/navigation";
 import { Footer } from "@/features/layout";
 import { useChat } from "@/features/chat";
 
@@ -32,7 +31,7 @@ const ReactAriaSvg = () => (
 export function ComponentClient({ componentId, api, styles, reactAriaUrl, sourceUrl }: {
   componentId: string;
   api: ComponentAPI | null;
-  styles: ComponentStyles | null;
+  styles: StyleInfo | null;
   reactAriaUrl: string | null;
   sourceUrl: string | null;
 }) {
@@ -43,26 +42,11 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
   const [activeTab, setActiveTab] = useState("examples");
   const [visitedTabs, setVisitedTabs] = useState<Set<string>>(new Set(["examples"]));
 
-  if (!component) {
-    return (
-      <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
-        <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
-          <PathNav />
-          <div className="flex items-center">
-            <div className="pt-12 mx-auto max-w-3xl pb-12">
-              <h2 className="text-4xl font-bold text-foreground-50">Component Not Found</h2>
-              <p className="text-foreground-400 mt-4">The component you're looking for doesn't exist.</p>
-            </div>
-          </div>
-          <Footer />
-        </div>
-      </div>
-    );
-  }
-  const firstExample = useMemo(() => component.examples[0], [component]);
-  const remainingExamples = useMemo(() => component.examples.slice(1), [component]);
+  const firstExample = useMemo(() => component?.examples[0], [component]);
+  const remainingExamples = useMemo(() => component?.examples.slice(1) ?? [], [component]);
 
   const tocItems = useMemo(() => {
+    if (!component) return [];
     if (activeTab === "examples") {
       return remainingExamples.map((example) => ({
         id: example.id,
@@ -97,12 +81,27 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
     }
 
     return [];
-  }, [activeTab, api, styles, remainingExamples]);
+  }, [activeTab, api, styles, remainingExamples, component]);
+
+  if (!component) {
+    return (
+      <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
+        <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
+          <div className="flex items-center">
+            <div className="pt-12 mx-auto max-w-3xl pb-12">
+              <h2 className="text-4xl font-bold text-foreground-50">Component Not Found</h2>
+              <p className="text-foreground-400 mt-4">The component you're looking for doesn't exist.</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("px-4 grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
       <div className={cn("flex flex-col max-w-3xl mx-auto w-full justify-center mt-(--header-height)")}>
-        <PathNav />
         <Toaster />
         <div className="flex items-center">
           <div className="w-full pt-12 pb-12">
@@ -358,6 +357,7 @@ type CssVariable = {
 type StyleInfo = {
   rawCss: string;
   cssVariables: CssVariable[];
+  styleableParts: Array<{ name: string }>;
 };
 
 const colorRegex = /(oklch|rgb|rgba|hsl|hsla|#|var|color-mix|transparent)\b/i;
@@ -406,15 +406,15 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
     {
       key: 'name',
       label: 'Variable',
-      render: (value: string) => <InlineCodeHighlight code={value} language="css" />,
+      render: (value: string | null | undefined) => <InlineCodeHighlight code={value ?? ''} language="css" />,
     },
     {
       key: 'value',
       label: 'Value',
-      render: (value: string) => (
+      render: (value: string | null | undefined) => (
         <span className="flex items-center gap-2">
-          <ColorSwatch color={value} />
-          <InlineCodeHighlight code={value} language="css" />
+          <ColorSwatch color={value ?? ''} />
+          <InlineCodeHighlight code={value ?? ''} language="css" />
         </span>
       ),
     },

@@ -3,6 +3,13 @@ import { MDXRemote } from 'next-mdx-remote-client/rsc'
 import { getDesignSystemDocBySlug } from '@/features/docs'
 import { mdxComponents, mdxOptions } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { Metadata } from 'next'
+import { generateMetadata as buildMetadata } from '@/shared/lib/metadata'
+
+export const metadata: Metadata = buildMetadata({
+  pathname: '/design-system',
+  description: 'Foundations, tokens, and component guidance for the UI Lab design system.',
+});
 
 export default async function DesignSystemPage() {
   const doc = await getDesignSystemDocBySlug('index')

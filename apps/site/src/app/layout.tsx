@@ -23,11 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: getInitialThemeScript(),
-          }}
-        />
+        <script>{getInitialThemeScript()}</script>
       </head>
       <body className="antialiased">
         <RootLayoutClient>{children}</RootLayoutClient>
