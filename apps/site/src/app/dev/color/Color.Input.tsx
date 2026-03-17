@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Group } from "ui-lab-components";
 import { Select } from "ui-lab-components";
 import styles from "./Color.module.css";
 import { formatColorHex, formatColorRgb, isValidColor } from "./color-utils";
 
-export interface ColorInputProps {
+interface ColorInputProps {
   value: string;
   format: "hex" | "rgb";
   onFormatChange?: (format: "hex" | "rgb") => void;
@@ -34,15 +34,10 @@ export const ColorInput = React.forwardRef<
     },
     ref
   ) => {
-    const [inputValue, setInputValue] = useState(value);
-
-    useEffect(() => {
-      setInputValue(value);
-    }, [value]);
+    const inputValue = value;
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
-      setInputValue(newValue);
 
       if (isValidColor(newValue)) {
         onValueChange?.(newValue);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, useReducer } from "react";
 import { cn } from "@/shared";
 import styles from "./Color.module.css";
 import {
@@ -20,8 +20,27 @@ import { ColorOpacitySlider } from "./Color.OpacitySlider";
 import { ColorRecentColors } from "./Color.RecentColors";
 import { ColorInput } from "./Color.Input";
 
-export interface ColorProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+type CanvasState = { s: number; v: number; h: number; hg: number };
+type CanvasAction =
+  | { type: 'SET_FROM_COLOR'; h: number; s: number; v: number }
+  | { type: 'SET_CANVAS'; s: number; v: number }
+  | { type: 'SET_HUE'; h: number; updateHg: boolean };
+
+function canvasReducer(state: CanvasState, action: CanvasAction): CanvasState {
+  switch (action.type) {
+    case 'SET_FROM_COLOR':
+      if (action.s > 0) return { s: action.s, v: action.v, h: action.h, hg: action.h };
+      return { ...state, s: action.s, v: action.v };
+    case 'SET_CANVAS':
+      return { ...state, s: action.s, v: action.v };
+    case 'SET_HUE':
+      return { ...state, h: action.h, hg: action.updateHg ? action.h : state.hg };
+    default:
+      return state;
+  }
+}
+
+interface ColorProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   value?: string;
   defaultValue?: string;
   onChange?: (color: string) => void;
@@ -68,10 +87,10 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     const [initialState] = useState(initializeState);
 
     // Source of truth for canvas position (HSV Saturation & Value) and hue
-    const [canvasSaturation, setCanvasSaturation] = useState(initialState.s);
-    const [canvasBrightness, setCanvasBrightness] = useState(initialState.v);
-    const [hue, setHue] = useState(initialState.h);
-    const [hueWhenGrayscale, setHueWhenGrayscale] = useState(initialState.h);
+    const [canvasState, dispatchCanvas] = useReducer(canvasReducer, {
+      s: initialState.s, v: initialState.v, h: initialState.h, hg: initialState.h,
+    });
+    const { s: canvasSaturation, v: canvasBrightness, h: hue, hg: hueWhenGrayscale } = canvasState;
 
     // Track the last emitted color to distinguish external updates from internal ones
     const lastEmittedColor = useRef(currentValue);
@@ -85,14 +104,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
         const parsed = parseColor(currentValue);
         const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
 
-        setCanvasSaturation(s);
-        setCanvasBrightness(v);
-
-        // Preserve hue when desaturated
-        if (s > 0) {
-          setHue(h);
-          setHueWhenGrayscale(h);
-        }
+        dispatchCanvas({ type: 'SET_FROM_COLOR', h, s, v });
 
         lastEmittedColor.current = currentValue;
       }
@@ -127,8 +139,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     const handleCanvasChange = useCallback(
       (saturation: number, brightness: number) => {
         setIsDragging(true);
-        setCanvasSaturation(saturation);
-        setCanvasBrightness(brightness);
+        dispatchCanvas({ type: 'SET_CANVAS', s: saturation, v: brightness });
 
         const { r, g, b } = hsvToRgb(hue, saturation, brightness);
         const newColor = format === "hex"
@@ -154,10 +165,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
     const handleHueChange = useCallback(
       (newHue: number) => {
         setIsDragging(true);
-        setHue(newHue);
-        if (canvasSaturation > 0) {
-          setHueWhenGrayscale(newHue);
-        }
+        dispatchCanvas({ type: 'SET_HUE', h: newHue, updateHg: canvasSaturation > 0 });
 
         const { r, g, b } = hsvToRgb(newHue, canvasSaturation, canvasBrightness);
         const newColor = format === "hex"
@@ -209,12 +217,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
         // Update internal state immediately
         const parsed = parseColor(color);
         const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
-        setCanvasSaturation(s);
-        setCanvasBrightness(v);
-        if (s > 0) {
-          setHue(h);
-          setHueWhenGrayscale(h);
-        }
+        dispatchCanvas({ type: 'SET_FROM_COLOR', h, s, v });
 
         lastEmittedColor.current = color;
         handleColorChange(color);
@@ -229,12 +232,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
           // Update internal state immediately
           const parsed = parseColor(newValue);
           const { h, s, v } = rgbToHsv(parsed.r, parsed.g, parsed.b);
-          setCanvasSaturation(s);
-          setCanvasBrightness(v);
-          if (s > 0) {
-            setHue(h);
-            setHueWhenGrayscale(h);
-          }
+          dispatchCanvas({ type: 'SET_FROM_COLOR', h, s, v });
 
           lastEmittedColor.current = newValue;
           handleColorChange(newValue);

@@ -1,5 +1,12 @@
-"use client"
 import Link from "next/link";
+import { generateMetadata as buildMetadata } from "@/shared/lib/metadata";
+import { Metadata } from "next";
+
+export const metadata: Metadata = buildMetadata({
+  pathname: "/dev",
+  title: "Dev Playground",
+  description: "Internal development playground routes for UI Lab experiments and examples.",
+});
 
 const devRoutes = [
   { slug: "examples", title: "Examples" },

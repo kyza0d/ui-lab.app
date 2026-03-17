@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { useFocusRing } from "react-aria";
 import styles from "./Color.module.css";
 
-export interface ColorOpacitySliderProps {
+interface ColorOpacitySliderProps {
   value: number;
   color: string;
   onChange?: (opacity: number) => void;

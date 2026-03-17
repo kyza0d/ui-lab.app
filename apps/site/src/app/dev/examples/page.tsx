@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { readdirSync } from "fs";
+
+export const metadata = {
+  title: "Development Examples",
+  description: "Browse component examples in the development environment.",
+};
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 

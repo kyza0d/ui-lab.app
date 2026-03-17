@@ -15,7 +15,7 @@ export interface DevExample {
   previewLayout?: "center" | "start" | "flex-start";
 }
 
-export interface DevExampleLayoutProps {
+interface DevExampleLayoutProps {
   title: string;
   description: string;
   examples: DevExample[];

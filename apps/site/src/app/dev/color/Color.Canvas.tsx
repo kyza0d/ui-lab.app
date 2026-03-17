@@ -5,7 +5,7 @@ import { useFocusRing } from "react-aria";
 import { hsvToRgb } from "./color-utils";
 import styles from "./Color.module.css";
 
-export interface ColorCanvasProps {
+interface ColorCanvasProps {
   hue: number;
   saturation: number;
   brightness: number;
@@ -90,6 +90,9 @@ export const ColorCanvas = React.forwardRef<
         tabIndex={disabled ? -1 : 0}
         role="slider"
         aria-label="Color saturation and brightness"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={saturation}
         aria-valuetext={`Saturation: ${saturation.toFixed(0)}%, Brightness: ${brightness.toFixed(0)}%`}
       >
         <div className={styles.canvas}>

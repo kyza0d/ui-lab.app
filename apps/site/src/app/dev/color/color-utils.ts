@@ -1,19 +1,19 @@
 // Color conversion utilities
-export interface RGB {
+interface RGB {
   r: number;
   g: number;
   b: number;
   a?: number;
 }
 
-export interface HSL {
+interface HSL {
   h: number;
   s: number;
   l: number;
   a?: number;
 }
 
-export interface HSV {
+interface HSV {
   h: number;
   s: number;
   v: number;
@@ -24,7 +24,7 @@ export interface HSV {
  * Convert hex color string to RGB
  * Supports #RGB, #RRGGBB, #RGBA, #RRGGBBAA formats
  */
-export function hexToRgb(hex: string): RGB {
+function hexToRgb(hex: string): RGB {
   hex = hex.replace(/^#/, "");
 
   if (hex.length === 3) {
@@ -47,7 +47,7 @@ export function hexToRgb(hex: string): RGB {
  * Convert RGB to hex color string
  * Returns format: #RRGGBB or #RRGGBBAA (if alpha)
  */
-export function rgbToHex(r: number, g: number, b: number, a?: number): string {
+function rgbToHex(r: number, g: number, b: number, a?: number): string {
   const toHex = (n: number) => {
     const hex = Math.round(n).toString(16);
     return hex.length === 1 ? "0" + hex : hex;
