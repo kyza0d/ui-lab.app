@@ -16,6 +16,68 @@ type FileNode = {
   children?: FileNode[];
 };
 
+function FileTree({
+  nodes,
+  basePath = '',
+  openFolders,
+  toggleFolder,
+  activeFile,
+  setActiveFile,
+}: {
+  nodes: FileNode[];
+  basePath?: string;
+  openFolders: Set<string>;
+  toggleFolder: (path: string) => void;
+  activeFile?: string;
+  setActiveFile?: (filename: string) => void;
+}) {
+  return (
+    <>
+      {nodes.map((node) => {
+        const fullPath = basePath ? `${basePath}/${node.name}` : node.name;
+        const isOpen = openFolders.has(fullPath);
+        const isActive = node.filename === activeFile;
+
+        if (node.children) {
+          return (
+            <div key={fullPath} className="select-none">
+              <button
+                onClick={() => toggleFolder(fullPath)}
+                className="flex items-center gap-1.5 w-full mb-2 px-2 py-2 text-sm hover:bg-background-700"
+              >
+                {isOpen ? <FaFolderOpen size={14} /> : <FaFolder size={14} />}
+                <span className="text-foreground-300">{node.name}</span>
+              </button>
+              {isOpen && (
+                <div className="ml-4">
+                  <FileTree nodes={node.children} basePath={fullPath} openFolders={openFolders} toggleFolder={toggleFolder} activeFile={activeFile} setActiveFile={setActiveFile} />
+                </div>
+              )}
+            </div>
+          );
+        }
+
+        return (
+          <button
+            key={node.filename}
+            onClick={() => node.filename && setActiveFile?.(node.filename)}
+            className={`
+              flex items-center gap-1.5 w-full px-2 py-2 text-sm
+              ${isActive
+                ? 'bg-background-800 text-foreground-50'
+                : 'hover:bg-background-700 text-foreground-400'
+              }
+            `}
+          >
+            <FaFile size={12} />
+            <span className="truncate">{node.name}</span>
+          </button>
+        );
+      })}
+    </>
+  );
+}
+
 interface SectionPreviewContentProps {
   variant: 'preview' | 'code';
   setVariant: (v: 'preview' | 'code') => void;
@@ -99,49 +161,6 @@ export function SectionPreviewContent({
     });
   };
 
-  const renderTree = (nodes: FileNode[], basePath: string = '') => {
-    return nodes.map((node) => {
-      const fullPath = basePath ? `${basePath}/${node.name}` : node.name;
-      const isOpen = openFolders.has(fullPath);
-      const isActive = node.filename === activeFile;
-
-      if (node.children) {
-        return (
-          <div key={fullPath} className="select-none">
-            <button
-              onClick={() => toggleFolder(fullPath)}
-              className="flex items-center gap-1.5 w-full mb-2 px-2 py-2 text-sm hover:bg-background-700"
-            >
-              {isOpen ? <FaFolderOpen size={14} /> : <FaFolder size={14} />}
-              <span className="text-foreground-300">{node.name}</span>
-            </button>
-            {isOpen && (
-              <div className="ml-4">
-                {renderTree(node.children, fullPath)}
-              </div>
-            )}
-          </div>
-        );
-      }
-
-      return (
-        <button
-          key={node.filename}
-          onClick={() => node.filename && setActiveFile?.(node.filename)}
-          className={`
-            flex items-center gap-1.5 w-full px-2 py-2 text-sm
-            ${isActive
-              ? 'bg-background-800 text-foreground-50'
-              : 'hover:bg-background-700 text-foreground-400'
-            }
-          `}
-        >
-          <FaFile size={12} />
-          <span className="truncate">{node.name}</span>
-        </button>
-      );
-    });
-  };
 
   const currentFile = files?.find((f) => f.filename === activeFile) || files?.[0];
 
@@ -184,7 +203,7 @@ export function SectionPreviewContent({
             {files && files.length > 1 && (
               <div className="w-60 shrink-0 border-r border-background-700 overflow-y-auto p-3">
                 <div className="space-y-0.5">
-                  {renderTree(fileTree)}
+                  <FileTree nodes={fileTree} openFolders={openFolders} toggleFolder={toggleFolder} activeFile={activeFile} setActiveFile={setActiveFile} />
                 </div>
               </div>
             )}
