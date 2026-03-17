@@ -21,7 +21,7 @@
 }
 
 
-#docs h3 {
+#docs h3, strong {
   font-size: var(--text-sm);
   font-weight: 500;
   margin: 3.2rem 0 0.2rem 0;
@@ -43,6 +43,14 @@
 
 #docs .banner p {
   font-size: var(--text-xs);
+}
+
+#docs .banner .content {
+  @apply gap-1.5
+}
+
+#docs .banner .title {
+  @apply m-0
 }
 
 #docs .content p, #docs .trigger p {

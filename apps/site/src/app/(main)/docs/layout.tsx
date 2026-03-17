@@ -15,7 +15,7 @@ export default async function Layout({
   return (
     <DocsLayout
       banner={
-        <div className="hidden h-60 border-b border-background-700/40 bg-background-800 w-full text-sm font-medium">
+        <div className="hidden h-90 border-b border-background-700/40 bg-background-800 w-full text-sm font-medium">
         </div>
       }
       tocItems={tocItems}>

@@ -7,7 +7,7 @@ export interface TocItem {
   level: number;
 }
 
-type TocRegistry = Record<string, TocItem[]>;
+export type TocRegistry = Record<string, TocItem[]>;
 
 export const tocRegistry: TocRegistry = {
   "agents-mcps-installation": [
