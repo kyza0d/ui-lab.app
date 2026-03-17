@@ -1,9 +1,13 @@
+'use client';
+
 import React from 'react';
 import { Button, Modal } from 'ui-lab-components';
 import { PricingBadge } from '@/features/landing/components/pricing-badge';
 import type { ElementPackageMetadata, StarterMetadata } from 'ui-lab-registry';
 
 type PurchaseItem = ElementPackageMetadata | StarterMetadata;
+
+// PurchaseModal
 
 interface PurchaseModalProps {
   isOpen: boolean;
@@ -31,7 +35,7 @@ function getElementNames(item: PurchaseItem | null, type: 'element' | 'starter')
   return [];
 }
 
-export function PurchaseModal({ isOpen, item, type, onClose, gumroadBaseUrl }: PurchaseModalProps) {
+function PurchaseModal({ isOpen, item, type, onClose, gumroadBaseUrl }: PurchaseModalProps) {
   if (!item) return null;
 
   const gumroadUrl = getGumroadUrl(item, gumroadBaseUrl);
@@ -61,8 +65,8 @@ export function PurchaseModal({ isOpen, item, type, onClose, gumroadBaseUrl }: P
             <div>
               <h3 className="text-sm font-semibold text-foreground-100 mb-3">Features</h3>
               <ul className="space-y-2">
-                {item.pricing.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3">
+                {item.pricing.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
                     <span className="text-accent-400 mt-1">✓</span>
                     <span className="text-foreground-300 text-sm">{feature}</span>
                   </li>
@@ -116,5 +120,50 @@ export function PurchaseModal({ isOpen, item, type, onClose, gumroadBaseUrl }: P
         )}
       </Modal.Footer>
     </Modal>
+  );
+}
+
+// PurchaseModalClient
+
+interface PurchaseModalClientProps {
+  children: React.ReactNode;
+  type: 'element' | 'starter';
+}
+
+const ModalContext = React.createContext<{
+  selectedItem: PurchaseItem | null;
+  openModal: (item: PurchaseItem) => void;
+  closeModal: () => void;
+} | null>(null);
+
+export function usePurchaseModal() {
+  const context = React.useContext(ModalContext);
+  if (!context) {
+    throw new Error('usePurchaseModal must be used within PurchaseModalClient');
+  }
+  return context;
+}
+
+export function PurchaseModalClient({ children, type }: PurchaseModalClientProps) {
+  const [selectedItem, setSelectedItem] = React.useState<PurchaseItem | null>(null);
+
+  const openModal = React.useCallback((item: PurchaseItem) => {
+    setSelectedItem(item);
+  }, []);
+
+  const closeModal = React.useCallback(() => {
+    setSelectedItem(null);
+  }, []);
+
+  return (
+    <ModalContext.Provider value={{ selectedItem, openModal, closeModal }}>
+      {children}
+      <PurchaseModal
+        isOpen={selectedItem !== null}
+        item={selectedItem}
+        type={type}
+        onClose={closeModal}
+      />
+    </ModalContext.Provider>
   );
 }

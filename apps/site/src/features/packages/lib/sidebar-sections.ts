@@ -1,19 +1,19 @@
 import { elementsList, getAllStarters, getAllPackages, getElementsInPackage, elementRegistry } from 'ui-lab-registry';
 
-export function getElementsListForSidebar() {
+function getElementsListForSidebar() {
   return elementsList;
 }
 
-export function getPackagesForSidebar() {
+function getPackagesForSidebar() {
   return getAllPackages();
 }
 
-export function getPackageElementsForSidebar(packageId: string) {
+function getPackageElementsForSidebar(packageId: string) {
   const elementIds = getElementsInPackage(packageId);
   return elementIds.map(id => elementRegistry[id]).filter(Boolean);
 }
 
-export type ElementsNavType = 'packages' | 'sections' | 'starters' | 'patterns';
+type ElementsNavType = 'packages' | 'sections' | 'starters' | 'patterns';
 
 export function getActiveElementsNavFromPathname(pathname: string): ElementsNavType {
   if (pathname.startsWith('/sections')) return 'sections';
