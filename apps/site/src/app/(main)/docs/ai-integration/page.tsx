@@ -1,67 +1,62 @@
-"use client";
-
+import Link from "next/link";
+import { Metadata } from "next";
 import { DocumentationHeader } from "@/features/docs/components/documentation-header";
-import { Button } from "ui-lab-components";
+import { generateMetadata as buildMetadata } from "@/shared/lib/metadata";
 
-export default function AIIntegrationPage() {
+export const metadata: Metadata = buildMetadata({
+  pathname: "/docs/ai-integration",
+  title: "AI integration",
+  description: "Specifications and patterns for integrating AI capabilities with UI Lab components.",
+});
 
+function AccessingLlmsSection() {
   return (
-    <div className="w-full text-foreground-100">
-      <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-3xl px-6 py-16 lg:w-48rem">
-          <DocumentationHeader
-            title="AI integration"
-            description="Specifications and patterns for integrating AI capabilities with UI Lab components."
+    <div id="accessing-llms-txt" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Accessing LLMs.txt</h2>
+      <p className="text-foreground-300 mb-6">
+        After installing UI Lab, you can reference the documentation in multiple ways:
+      </p>
 
-          />
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Method 1: Local file</h3>
+      <p className="text-foreground-300 mb-4">
+        The LLMs.txt file is included in the package. Reference it from your node_modules:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300">
+          <code>node_modules/@ui-lab/core/LLMs.txt</code>
+        </pre>
+      </div>
 
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Method 2: CLI</h3>
+      <p className="text-foreground-300 mb-4">
+        Print LLMs.txt content to the terminal:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300">
+          <code>npx ui-lab llms</code>
+        </pre>
+      </div>
 
-          {/* Finding LLMs.txt */}
-          <div id="accessing-llms-txt" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Accessing LLMs.txt</h2>
-            <p className="text-foreground-300 mb-6">
-              After installing UI Lab, you can reference the documentation in multiple ways:
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Method 3: Web documentation</h3>
+      <p className="text-foreground-300">
+        Visit the UI Lab website for interactive component reference documentation.
+      </p>
+    </div>
+  );
+}
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Method 1: Local file</h3>
-            <p className="text-foreground-300 mb-4">
-              The LLMs.txt file is included in the package. Reference it from your node_modules:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300">
-                <code>node_modules/@ui-lab/core/LLMs.txt</code>
-              </pre>
-            </div>
+function UsingWithAiToolsSection() {
+  return (
+    <div id="using-with-ai-tools" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Using with AI tools</h2>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Method 2: CLI</h3>
-            <p className="text-foreground-300 mb-4">
-              Print LLMs.txt content to the terminal:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300">
-                <code>npx ui-lab llms</code>
-              </pre>
-            </div>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">ChatGPT / Claude / Copilot</h3>
+      <p className="text-foreground-300 mb-4">
+        Provide the LLMs.txt content when asking AI tools to generate components. Copy and paste the documentation at the start of your conversation:
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Method 3: Web documentation</h3>
-            <p className="text-foreground-300">
-              Visit the UI Lab website for interactive component reference documentation.
-            </p>
-          </div>
-
-          <div className="border-t border-background-700 my-16"></div>
-
-          {/* Using with AI Tools */}
-          <div id="using-with-ai-tools" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Using with AI tools</h2>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">ChatGPT / Claude / Copilot</h3>
-            <p className="text-foreground-300 mb-4">
-              Provide the LLMs.txt content when asking AI tools to generate components. Copy and paste the documentation at the start of your conversation:
-            </p>
-
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`You are a React/TypeScript developer. Use UI Lab components for the UI layer.
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`You are a React/TypeScript developer. Use UI Lab components for the UI layer.
 
 Here is the complete component documentation:
 
@@ -72,19 +67,19 @@ Now, build a user profile card that shows:
 - User name and email
 - Edit and delete buttons
 - Responsive design`}</code></pre>
-            </div>
+      </div>
 
-            <p className="text-foreground-300 mb-6">
-              The AI will generate code using the documented components and patterns, respecting the design system constraints.
-            </p>
+      <p className="text-foreground-300 mb-6">
+        The AI will generate code using the documented components and patterns, respecting the design system constraints.
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">IDE Extensions</h3>
-            <p className="text-foreground-300 mb-4">
-              Use GitHub Copilot or Cursor with the documentation. Add a comment with instructions:
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">IDE Extensions</h3>
+      <p className="text-foreground-300 mb-4">
+        Use GitHub Copilot or Cursor with the documentation. Add a comment with instructions:
+      </p>
 
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`// Use UI Lab components
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`// Use UI Lab components
 // Button variants: primary, secondary, tertiary, destructive
 // Card has Header, Title, Description, Content, Footer slots
 // Build a login form with email, password, and submit button
@@ -92,35 +87,36 @@ Now, build a user profile card that shows:
 export default function LoginForm() {
   // IDE suggests code using UI Lab components
 }`}</code></pre>
-            </div>
-          </div>
+      </div>
+    </div>
+  );
+}
 
-          <div className="border-t border-background-700 my-16"></div>
+function ExamplePromptsSection() {
+  return (
+    <div id="example-prompts" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Example prompts</h2>
 
-          {/* Example Prompts */}
-          <div id="example-prompts" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Example prompts</h2>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Simple component</h3>
-            <p className="text-foreground-300 mb-4">
-              Start simple. Provide clear requirements and let the AI handle implementation:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`Using UI Lab components, build a settings card with:
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Simple component</h3>
+      <p className="text-foreground-300 mb-4">
+        Start simple. Provide clear requirements and let the AI handle implementation:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`Using UI Lab components, build a settings card with:
 - Title: "Display Settings"
 - Toggle for dark mode
 - Dropdown for language selection
 - Save button at the bottom
 
 Make it accessible with proper labels and ARIA attributes.`}</code></pre>
-            </div>
+      </div>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Complex feature</h3>
-            <p className="text-foreground-300 mb-4">
-              For larger features, break down requirements and explain data structure:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`Build a product list component using UI Lab. Requirements:
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Complex feature</h3>
+      <p className="text-foreground-300 mb-4">
+        For larger features, break down requirements and explain data structure:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`Build a product list component using UI Lab. Requirements:
 
 Data:
 - products: { id, name, price, category, inStock }[]
@@ -136,14 +132,14 @@ Features:
 - Include pagination (10 items per page)
 
 Use Tailwind classes for layout, UI Lab for components.`}</code></pre>
-            </div>
+      </div>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Style and behavior specifics</h3>
-            <p className="text-foreground-300 mb-4">
-              Be specific about behavior and styling to get better results:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`Build a notification component using UI Lab:
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Style and behavior specifics</h3>
+      <p className="text-foreground-300 mb-4">
+        Be specific about behavior and styling to get better results:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`Build a notification component using UI Lab:
 
 Requirements:
 - Type: success, error, warning, info
@@ -155,57 +151,59 @@ Requirements:
 - Animate in/out smoothly
 - Position fixed at top-right
 - Respond to keyboard (Escape to close)`}</code></pre>
-            </div>
-          </div>
+      </div>
+    </div>
+  );
+}
 
-          <div className="border-t border-background-700 my-16"></div>
+function BestPracticesSection() {
+  return (
+    <div id="best-practices-for-ai-code-generation" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Best practices for AI code generation</h2>
 
-          {/* Best Practices */}
-          <div id="best-practices-for-ai-code-generation" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Best practices for AI code generation</h2>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">1. Provide context</h3>
+      <p className="text-foreground-300 mb-6">
+        Give the AI information about your project structure, state management (React hooks, Redux, etc), and any existing patterns. This helps generate code that fits your codebase.
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">1. Provide context</h3>
-            <p className="text-foreground-300 mb-6">
-              Give the AI information about your project structure, state management (React hooks, Redux, etc), and any existing patterns. This helps generate code that fits your codebase.
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">2. Include LLMs.txt early</h3>
+      <p className="text-foreground-300 mb-6">
+        Always provide the LLMs.txt documentation in the first message or system prompt. This prevents the AI from inventing components or props that don&apos;t exist.
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">2. Include LLMs.txt early</h3>
-            <p className="text-foreground-300 mb-6">
-              Always provide the LLMs.txt documentation in the first message or system prompt. This prevents the AI from inventing components or props that don't exist.
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">3. Review generated code</h3>
+      <p className="text-foreground-300 mb-6">
+        Even with AI guidance, review generated code for accessibility, performance, and correctness. Check for proper ARIA attributes, keyboard navigation, and semantic HTML.
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">3. Review generated code</h3>
-            <p className="text-foreground-300 mb-6">
-              Even with AI guidance, review generated code for accessibility, performance, and correctness. Check for proper ARIA attributes, keyboard navigation, and semantic HTML.
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">4. Test accessibility</h3>
+      <p className="text-foreground-300 mb-6">
+        Run accessibility checks on generated code. Use tools like axe DevTools, Lighthouse, or WebAIM to ensure components are truly accessible.
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">4. Test accessibility</h3>
-            <p className="text-foreground-300 mb-6">
-              Run accessibility checks on generated code. Use tools like axe DevTools, Lighthouse, or WebAIM to ensure components are truly accessible.
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">5. Iterate with feedback</h3>
+      <p className="text-foreground-300 mb-6">
+        Provide feedback to the AI when code doesn&apos;t meet requirements. Iterate by pointing out issues and asking for adjustments rather than starting over.
+      </p>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">5. Iterate with feedback</h3>
-            <p className="text-foreground-300 mb-6">
-              Provide feedback to the AI when code doesn't meet requirements. Iterate by pointing out issues and asking for adjustments rather than starting over.
-            </p>
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">6. Don&apos;t bypass documentation</h3>
+      <p className="text-foreground-300 mb-6">
+        If the AI generates props or components that seem wrong, check the LLMs.txt documentation. The AI&apos;s understanding is only as good as the documentation provided.
+      </p>
+    </div>
+  );
+}
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">6. Don't bypass documentation</h3>
-            <p className="text-foreground-300 mb-6">
-              If the AI generates props or components that seem wrong, check the LLMs.txt documentation. The AI's understanding is only as good as the documentation provided.
-            </p>
-          </div>
+function LlmsStructureSection() {
+  return (
+    <div id="understanding-llms-txt-structure" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Understanding LLMs.txt structure</h2>
+      <p className="text-foreground-300 mb-6">
+        LLMs.txt is organized by section, making it easy to find what you need. A typical entry looks like:
+      </p>
 
-          <div className="border-t border-background-700 my-16"></div>
-
-          {/* What's in LLMs.txt */}
-          <div id="understanding-llms-txt-structure" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Understanding LLMs.txt structure</h2>
-            <p className="text-foreground-300 mb-6">
-              LLMs.txt is organized by section, making it easy to find what you need. A typical entry looks like:
-            </p>
-
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`## Button Component
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`## Button Component
 
 ### Props
 - variant: 'primary' | 'secondary' | 'tertiary' | 'destructive'
@@ -232,25 +230,26 @@ Requirements:
 - Keyboard accessible (Enter, Space to activate)
 - aria-busy set when loading
 - aria-disabled set when disabled`}</code></pre>
-            </div>
+      </div>
 
-            <p className="text-foreground-300">
-              Each component entry includes purpose, props with descriptions, examples, accessibility notes, and integration guidelines.
-            </p>
-          </div>
+      <p className="text-foreground-300">
+        Each component entry includes purpose, props with descriptions, examples, accessibility notes, and integration guidelines.
+      </p>
+    </div>
+  );
+}
 
-          <div className="border-t border-background-700 my-16"></div>
+function AdvancedScenariosSection() {
+  return (
+    <div id="advanced-scenarios" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Advanced scenarios</h2>
 
-          {/* Advanced Scenarios */}
-          <div id="advanced-scenarios" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Advanced scenarios</h2>
-
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Custom hooks with components</h3>
-            <p className="text-foreground-300 mb-4">
-              Ask the AI to generate custom hooks alongside components:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`Create a useFormValidation hook and a SignupForm component using UI Lab.
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Custom hooks with components</h3>
+      <p className="text-foreground-300 mb-4">
+        Ask the AI to generate custom hooks alongside components:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`Create a useFormValidation hook and a SignupForm component using UI Lab.
 
 Hook should:
 - Track form values and validation state
@@ -262,14 +261,14 @@ Form should:
 - Display validation errors below inputs
 - Disable submit button if form is invalid
 - Show loading state while submitting`}</code></pre>
-            </div>
+      </div>
 
-            <h3 className="text-lg font-semibold text-foreground-100 mb-4">Integrating with existing code</h3>
-            <p className="text-foreground-300 mb-4">
-              Share your existing code structure and ask for UI Lab components that fit:
-            </p>
-            <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
-              <pre className="text-sm text-foreground-300"><code>{`I have this component:
+      <h3 className="text-lg font-semibold text-foreground-100 mb-4">Integrating with existing code</h3>
+      <p className="text-foreground-300 mb-4">
+        Share your existing code structure and ask for UI Lab components that fit:
+      </p>
+      <div className="bg-background-900 rounded border border-background-700 p-4 overflow-x-auto mb-6">
+        <pre className="text-sm text-foreground-300"><code>{`I have this component:
 
 interface Product {
   id: string;
@@ -282,35 +281,67 @@ const [products, setProducts] = useState<Product[]>([]);
 
 Refactor the rendering to use UI Lab Card, Badge, and Button
 components. Keep the same data structure and logic.`}</code></pre>
-            </div>
-          </div>
+      </div>
+    </div>
+  );
+}
 
+function AINextStepsSection() {
+  return (
+    <div id="next-steps" className="mb-16">
+      <h2 className="text-2xl font-bold text-foreground-50 mb-6">Next steps</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Link href="/docs/getting-started" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+          <h3 className="text-foreground-50 font-semibold mb-2">Getting started</h3>
+          <p className="text-foreground-400 text-sm">Learn how to use components in your project manually.</p>
+        </Link>
+        <Link href="/docs/accessibility" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+          <h3 className="text-foreground-50 font-semibold mb-2">Accessibility</h3>
+          <p className="text-foreground-400 text-sm">Ensure AI-generated code meets a11y standards.</p>
+        </Link>
+        <Link href="/docs/best-practices" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+          <h3 className="text-foreground-50 font-semibold mb-2">Best practices</h3>
+          <p className="text-foreground-400 text-sm">Learn patterns for effective component usage.</p>
+        </Link>
+        <Link href="/docs/customization" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
+          <h3 className="text-foreground-50 font-semibold mb-2">Customization</h3>
+          <p className="text-foreground-400 text-sm">Extend components with custom variants.</p>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function AIIntegrationContent() {
+  return (
+    <div className="w-full text-foreground-100">
+      <div className="flex flex-col lg:flex-row justify-between gap-0">
+        <main className="w-full mx-auto max-w-3xl px-6 py-16 lg:w-48rem">
+          <DocumentationHeader
+            title="AI integration"
+            description="Specifications and patterns for integrating AI capabilities with UI Lab components."
+
+          />
+
+          <AccessingLlmsSection />
           <div className="border-t border-background-700 my-16"></div>
-
-          {/* Next Steps */}
-          <div id="next-steps" className="mb-16">
-            <h2 className="text-2xl font-bold text-foreground-50 mb-6">Next steps</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a href="/docs/getting-started" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Getting started</h3>
-                <p className="text-foreground-400 text-sm">Learn how to use components in your project manually.</p>
-              </a>
-              <a href="/docs/accessibility" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Accessibility</h3>
-                <p className="text-foreground-400 text-sm">Ensure AI-generated code meets a11y standards.</p>
-              </a>
-              <a href="/docs/best-practices" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Best practices</h3>
-                <p className="text-foreground-400 text-sm">Learn patterns for effective component usage.</p>
-              </a>
-              <a href="/docs/customization" className="border border-background-700 hover:border-background-600 rounded p-6 transition-colors">
-                <h3 className="text-foreground-50 font-semibold mb-2">Customization</h3>
-                <p className="text-foreground-400 text-sm">Extend components with custom variants.</p>
-              </a>
-            </div>
-          </div>
+          <UsingWithAiToolsSection />
+          <div className="border-t border-background-700 my-16"></div>
+          <ExamplePromptsSection />
+          <div className="border-t border-background-700 my-16"></div>
+          <BestPracticesSection />
+          <div className="border-t border-background-700 my-16"></div>
+          <LlmsStructureSection />
+          <div className="border-t border-background-700 my-16"></div>
+          <AdvancedScenariosSection />
+          <div className="border-t border-background-700 my-16"></div>
+          <AINextStepsSection />
         </main>
       </div>
     </div>
   );
+}
+
+export default function AIIntegrationPage() {
+  return <AIIntegrationContent />;
 }
