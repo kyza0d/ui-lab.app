@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { cacheLife } from 'next/cache';
 import { getPackageById, getElementsInPackage, getAllPackages } from 'ui-lab-registry';
 import { ContentHeader } from '@/features/navigation/components/content-header';
 import PackageElementsClientWrapper from './wrapper';
@@ -27,9 +26,6 @@ export async function generateMetadata({
 }
 
 async function PackageContent({ packageId }: { packageId: string }) {
-  'use cache';
-  cacheLife('hours');
-
   const pkg = getPackageById(packageId);
   const elementIds = pkg ? getElementsInPackage(packageId) : [];
 

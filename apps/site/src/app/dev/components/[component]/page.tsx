@@ -1,5 +1,4 @@
 import { DevComponentClient } from "./client";
-import { cacheLife } from "next/cache";
 import { componentRegistry as registryData } from "ui-lab-registry";
 
 export async function generateMetadata({ params }: { params: Promise<{ component: string }> }) {
@@ -15,9 +14,6 @@ export function generateStaticParams() {
 }
 
 export default async function DevComponentPage({ params }: { params: Promise<{ component: string }> }) {
-  'use cache';
-  cacheLife('hours');
-
   const { component } = await params;
   return <DevComponentClient componentId={component} />;
 }

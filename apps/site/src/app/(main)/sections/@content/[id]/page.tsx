@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/cache';
 import SectionDetailClient from './client';
 import { sectionRegistry, getAllSections } from 'ui-lab-registry';
 import { generateMetadata as generateSiteMetadata } from '@/shared';
@@ -10,9 +9,6 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-  'use cache';
-  cacheLife('hours');
-
   const { id: sectionId } = await params;
   const sections = getAllSections();
   const section = sections.find(s => s.id === sectionId);
@@ -32,9 +28,6 @@ export default async function SectionDetailPage({
 }: {
   params: Promise<{ id: string }>
 }) {
-  'use cache';
-  cacheLife('hours');
-
   const { id: sectionId } = await params;
   return <SectionDetailClient sectionId={sectionId} />;
 }

@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/cache';
 import PatternDetailClient from './client';
 import { getAllPatterns, getPatternById } from 'ui-lab-registry';
 import { generateMetadata as generateSiteMetadata } from '@/shared';
@@ -8,9 +7,6 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-  'use cache';
-  cacheLife('hours');
-
   const { id: patternId } = await params;
   const pattern = getPatternById(patternId);
 
@@ -29,9 +25,6 @@ export default async function PatternDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  'use cache';
-  cacheLife('hours');
-
   const { id: patternId } = await params;
   return <PatternDetailClient patternId={patternId} />;
 }

@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/cache';
 import StarterDetailClient from './client';
 import { starterRegistry } from 'ui-lab-registry';
 import { generateMetadata as generateSiteMetadata } from '@/shared';
@@ -10,9 +9,6 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-  'use cache';
-  cacheLife('hours');
-
   const { id: starterId } = await params;
   const starter = starterRegistry[starterId as keyof typeof starterRegistry];
 
@@ -31,9 +27,6 @@ export default async function StarterDetailPage({
 }: {
   params: Promise<{ id: string }>
 }) {
-  'use cache';
-  cacheLife('hours');
-
   const { id: starterId } = await params;
   return <StarterDetailClient starterId={starterId} />;
 }

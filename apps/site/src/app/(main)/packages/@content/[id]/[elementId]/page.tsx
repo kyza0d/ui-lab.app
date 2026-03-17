@@ -1,4 +1,3 @@
-import { cacheLife } from 'next/cache';
 import ElementDetailClient from './client';
 import { elementRegistry, getElementsInPackage } from 'ui-lab-registry';
 import { generateMetadata as generateSiteMetadata } from '@/shared';
@@ -10,14 +9,11 @@ export function generateStaticParams() {
   return elementIds.map((elementId) => ({ id: packageId, elementId }));
 }
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ id: string; elementId: string }> 
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ id: string; elementId: string }>
 }) {
-  'use cache';
-  cacheLife('hours');
-
   const { elementId } = await params;
   const element = elementRegistry[elementId as keyof typeof elementRegistry];
 
@@ -37,9 +33,6 @@ export default async function PackageElementDetailPage({
 }: {
   params: Promise<{ id: string; elementId: string }>
 }) {
-  'use cache';
-  cacheLife('hours');
-
   const { elementId } = await params;
   return <ElementDetailClient elementId={elementId} />;
 }

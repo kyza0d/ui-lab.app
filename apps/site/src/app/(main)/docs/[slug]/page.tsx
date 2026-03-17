@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
-import { cacheLife } from 'next/cache'
 import { getDocBySlug, getAllDocs } from '@/features/docs'
 import { mdxComponents, mdxOptions } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
@@ -14,9 +13,6 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  'use cache';
-  cacheLife('hours');
-
   const { slug } = await params
   const doc = await getDocBySlug(slug)
 
@@ -33,9 +29,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function DocPage({ params }: { params: Promise<{ slug: string }> }) {
-  'use cache';
-  cacheLife('hours');
-
   const { slug } = await params
   const doc = await getDocBySlug(slug)
 
