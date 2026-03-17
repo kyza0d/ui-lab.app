@@ -175,7 +175,6 @@ export { normalizeThemeTokens, applyThemeTokens, createThemeStylesheet } from ".
 export type { ThemeMode, ThemeTokenBatch, ThemeStylesheetOptions } from "./providers/theme-contract";
 
 export { extractThemeVariables, applyThemeCSSVariables, generateThemePalettes, palettesToCssVariables, hexToOklch } from "./providers/extractThemeVars";
-export type { ThemeConfig, OklchColor, ColorPalette, ColorShade, ThemePalettes } from "./providers/extractThemeVars";
 
 export { generateThemeScript } from "./providers/themeScript";
 export { generateColorModeScript } from "./providers/themeScript";
