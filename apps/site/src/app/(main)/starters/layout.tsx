@@ -1,24 +1,15 @@
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 import { generateMetadata } from "@/shared";
-
-interface StartersLayoutProps {
-  children: ReactNode;
-  sidebar: ReactNode;
-  content: ReactNode;
-}
+import { ContentSectionLayout } from "@/features/layout";
 
 export const metadata = generateMetadata({ pathname: '/starters' });
 
 export default function StartersLayout({
   sidebar,
   content,
-}: Omit<StartersLayoutProps, "children">) {
-  return (
-    <div className="max-w-(--page-width) mx-auto grid grid-cols-1 md:grid-cols-[auto_1fr_auto] min-h-screen">
-      <Suspense fallback={null}>
-        {sidebar}
-      </Suspense>
-      {content}
-    </div>
-  );
+}: {
+  sidebar: ReactNode;
+  content: ReactNode;
+}) {
+  return <ContentSectionLayout sidebar={sidebar} content={content} minHeight />;
 }
