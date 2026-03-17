@@ -18,8 +18,8 @@ import {
   FaMagnifyingGlass,
   FaCodeBranch,
   FaBars,
-  FaMessage
 } from "react-icons/fa6";
+import { LuSearch } from "react-icons/lu";
 import { HiX } from "react-icons/hi";
 import { HiMiniSparkles } from "react-icons/hi2";
 import { PanelRight } from "lucide-react";
@@ -114,7 +114,7 @@ export default function Header({
             )}
 
             {hasRevealCollapse && tabGroup && activeTabId && (
-              <Tabs className="w-fit ml-8 hidden lg:block" value={activeTabId} variant="underline">
+              <Tabs className="w-fit ml-8 hidden md:block" value={activeTabId} variant="underline">
                 <TabsList>
                   {tabGroup.tabs.map((tab) => (
                     <TabItem key={tab.id} tab={tab} />
@@ -124,13 +124,25 @@ export default function Header({
             )}
           </div>
 
-          <div className="absolute  left-1/2 -translate-x-1/2  flex gap-2 mr-2">
-            <div className="relative flex items-center">
+          <div className="flex lg:absolute lg:left-1/2 lg:-translate-x-1/2  flex gap-2 mr-2">
+
+            <div className="block lg:hidden flex items-center">
+              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
+                <Button
+                  variant="ghost"
+                  styles="p-2"
+                  icon={{ left: <LuSearch strokeWidth={3.0} className="text-foreground-300" size={16} /> }}
+                  onClick={() => setIsCommandPaletteOpen(true)}
+                />
+              </Tooltip>
+            </div>
+
+            <div className="hidden lg:block relative flex items-center">
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Input
                   placeholder="Search..."
-                  prefixIcon={<FaMagnifyingGlass className="-translate-y-px" size={13} />}
-                  styles="text-xs w-80 md:w-90 py-1.5 pr-1 pl-9 bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                  prefixIcon={<LuSearch strokeWidth={3.0} className="-translate-y-px" size={16} />}
+                  styles="text-xs w-60 py-1.5 pr-1 pl-9  font-medium bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                   onClick={() => setIsCommandPaletteOpen(true)}
                   readOnly
                 />
@@ -177,7 +189,7 @@ export default function Header({
                   size="sm"
 
                 >
-                  <FaCodeBranch size={14} />
+                  <FaCodeBranch className="text-foreground-300 mr-1" size={16} />
                   Source
                 </Button>
               </a>
@@ -189,7 +201,7 @@ export default function Header({
             <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
               <button
                 onClick={() => setIsMobileMenuOpen((v) => !v)}
-                className="lg:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
+                className="md:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {isMobileMenuOpen ? <HiX size={20} /> : <FaBars size={20} />}
