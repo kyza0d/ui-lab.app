@@ -6,7 +6,7 @@ import {
 } from "react-icons/fa6";
 import type { ComponentType } from "react";
 
-export interface NavigationItem {
+interface NavigationItem {
   name: string;
   label: string;
   icon?: ComponentType;

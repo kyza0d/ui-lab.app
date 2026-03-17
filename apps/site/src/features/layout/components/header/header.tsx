@@ -88,7 +88,7 @@ export default function Header({
         <div className={cn("relative h-full max-w-(--page-width) border-x border-background-700/40 flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
           <div className=" flex items-center flex-1 min-w-0">
 
-            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0">
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0">
               <div className="scale-100">
                 <Logo />
               </div>
@@ -170,7 +170,7 @@ export default function Header({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="hidden lg:flex items-center gap-2">
               <Button icon={{ left: <FaMessage className="text-foreground-300" /> }} variant="ghost" size="sm">
                 Feedback

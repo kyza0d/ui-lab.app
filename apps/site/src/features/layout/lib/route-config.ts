@@ -1,8 +1,8 @@
 import { FaBook, FaShapes, FaRegWindowMaximize, FaBox, FaCube, FaTableCells } from 'react-icons/fa6';
 
-export type DomainId = 'docs' | 'components' | 'packages' | 'sections' | 'patterns';
+type DomainId = 'docs' | 'components' | 'packages' | 'sections' | 'patterns';
 
-export interface DomainConfig {
+interface DomainConfig {
   id: DomainId;
   label: string;
   icon: React.ComponentType;
@@ -10,7 +10,7 @@ export interface DomainConfig {
   headerHeight?: string;
 }
 
-export const DOMAINS: Record<DomainId, DomainConfig> = {
+const DOMAINS: Record<DomainId, DomainConfig> = {
   docs: {
     id: 'docs',
     label: 'Documentation',
@@ -51,17 +51,17 @@ export interface TabConfig {
   isPlaceholder?: boolean;
 }
 
-export interface TabGroup {
+interface TabGroup {
   id: string;
   tabs: TabConfig[];
 }
 
-export interface RouteTabGroupConfig {
+interface RouteTabGroupConfig {
   path: string;
   tabGroupId: string;
 }
 
-export const TAB_GROUPS: Record<string, TabGroup> = {
+const TAB_GROUPS: Record<string, TabGroup> = {
   documentation: {
     id: 'documentation',
     tabs: [
@@ -72,7 +72,7 @@ export const TAB_GROUPS: Record<string, TabGroup> = {
   },
 };
 
-export const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
+const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
   { path: '/docs', tabGroupId: 'documentation' },
   { path: '/components', tabGroupId: 'documentation' },
   { path: '/design-system', tabGroupId: 'documentation' },
@@ -84,12 +84,12 @@ export const ROUTE_TAB_GROUPS: RouteTabGroupConfig[] = [
   { path: '/changelog', tabGroupId: 'documentation' },
 ];
 
-export interface RouteConfig {
+interface RouteConfig {
   path: string;
   domainId: DomainId;
 }
 
-export const ROUTES: Record<string, RouteConfig> = {
+const ROUTES: Record<string, RouteConfig> = {
   docs: {
     path: '/docs',
     domainId: 'docs',
@@ -130,15 +130,9 @@ export const ROUTES: Record<string, RouteConfig> = {
 
 const ROUTES_ARRAY = Object.values(ROUTES);
 
-export const getDomainForPathname = (pathname: string): DomainId | undefined => {
+const getDomainForPathname = (pathname: string): DomainId | undefined => {
   const route = ROUTES_ARRAY.find((r) => pathname.startsWith(r.path));
   return route?.domainId;
-};
-
-export const shouldShowHeaderTabs = (pathname: string): boolean => {
-  const domainId = getDomainForPathname(pathname);
-  const domain = domainId ? DOMAINS[domainId] : undefined;
-  return domain?.headerType === 'tabs' || false;
 };
 
 export const shouldApplyRevealCollapse = (pathname: string): boolean => {
@@ -146,27 +140,6 @@ export const shouldApplyRevealCollapse = (pathname: string): boolean => {
   if (!domainId) return false;
   const domain = DOMAINS[domainId];
   return domain?.headerType === 'tabs' || domainId === 'packages' || domainId === 'sections' || domainId === 'patterns';
-};
-
-export const getActiveTabValue = (pathname: string): string | undefined => {
-  const domainId = getDomainForPathname(pathname);
-  return domainId;
-};
-
-export const getDomainsWithTabs = (): DomainConfig[] => {
-  return Object.values(DOMAINS).filter((domain) => domain.headerType === 'tabs');
-};
-
-export const shouldShowHeaderSearch = (pathname: string): boolean => {
-  const domainId = getDomainForPathname(pathname);
-  const domain = domainId ? DOMAINS[domainId] : undefined;
-  return domain?.headerType === 'search' || false;
-};
-
-export const getHeaderHeight = (pathname: string): string => {
-  const domainId = getDomainForPathname(pathname);
-  if (!domainId) return '3.50rem';
-  return DOMAINS[domainId]?.headerHeight || '3.50rem';
 };
 
 export const getTabGroupForPathname = (pathname: string): TabGroup | undefined => {
@@ -197,8 +170,4 @@ export const getActiveTabForPathname = (pathname: string): string | undefined =>
   const sortedTabs = [...tabGroup.tabs].sort((a, b) => b.path.length - a.path.length);
   const activeTab = sortedTabs.find((tab) => pathname.startsWith(tab.path));
   return activeTab?.id;
-};
-
-export const shouldShowTabsForPathname = (pathname: string): boolean => {
-  return getTabGroupForPathname(pathname) !== undefined;
 };

@@ -118,6 +118,11 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
         )}
         style={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none" }}
         onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') onClose();
+        }}
+        role="button"
+        tabIndex={0}
       />
       {isOpen && (
         <div

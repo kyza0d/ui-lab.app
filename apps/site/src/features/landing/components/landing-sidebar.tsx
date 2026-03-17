@@ -79,7 +79,17 @@ export function LandingSidebar() {
 
   return (
     <>
-      {isOpen && <div className="fixed inset-0 bg-black/50 z-50 lg:hidden" onClick={closeSidebar} />}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 lg:hidden"
+          onClick={closeSidebar}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') closeSidebar();
+          }}
+          role="button"
+          tabIndex={0}
+        />
+      )}
 
       <aside className={cn(
         'w-64 flex flex-col lg:-mt-4',
