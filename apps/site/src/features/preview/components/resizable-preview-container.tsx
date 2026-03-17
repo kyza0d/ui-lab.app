@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, ReactNode } from "react";
 import { Group, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
 import { FaMobile, FaDesktop, FaTablet, FaFile } from "react-icons/fa6";
 
-export type PreviewDeviceVariant = "mobile" | "tablet" | "desktop";
+type PreviewDeviceVariant = "mobile" | "tablet" | "desktop";
 
 interface ResizablePreviewContainerProps {
   children: ReactNode;
@@ -100,7 +100,7 @@ export function PreviewContainer({
     };
   }, [maxWidth, onWidthChange]);
 
-  const startDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+  const startDrag = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     isDragging.current = true;
     const parentRect = wrapperRef.current?.parentElement?.getBoundingClientRect();
@@ -120,18 +120,20 @@ export function PreviewContainer({
         >
           <div className="w-full h-full">{children}</div>
         </div>
-        <div
+        <button
+          type="button"
           onMouseDown={startDrag}
           className="absolute right-0 top-1/2 w-6 h-12 bg-background-700 border border-background-600 rounded-sm flex items-center justify-center cursor-ew-resize hover:bg-background-600 hover:border-background-500 transition-colors z-20"
           style={{ transform: "translate(50%, -50%)" }}
           title="Drag to resize"
+          aria-label="Drag to resize preview"
         >
           <div className="flex flex-col gap-0.5">
             <div className="w-1 h-1 bg-background-400 rounded-sm" />
             <div className="w-1 h-1 bg-background-400 rounded-sm" />
             <div className="w-1 h-1 bg-background-400 rounded-sm" />
           </div>
-        </div>
+        </button>
       </div>
       {showWidthLabel && <div className="text-xs text-foreground-400 font-mono mt-3">{Math.round(width)}px</div>}
     </div>
@@ -139,7 +141,7 @@ export function PreviewContainer({
 
   return (
     <div className={`px-[12px] pt-[18px] flex flex-col h-full overflow-hidden ${className}`}>
-      <div className="flex items-end justify-between flex-shrink-0">
+      <div className="flex items-end justify-between shrink-0">
         <div className="flex items-center gap-3 px-5">
           {leftContent}
           {prompt && (
