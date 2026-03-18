@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/shared";
 import { Scroll } from "ui-lab-components";
 
@@ -14,20 +15,47 @@ interface TableOfContentsProps {
   items: TableOfContentsItem[];
 }
 
+function getCurrentPageItems(initialItems: TableOfContentsItem[]): TableOfContentsItem[] {
+  const pageTocNode = document.querySelector('[data-docs-page-toc]');
+
+  if (!(pageTocNode instanceof HTMLScriptElement)) {
+    return initialItems;
+  }
+
+  try {
+    const parsedItems = JSON.parse(pageTocNode.textContent ?? '[]');
+    if (!Array.isArray(parsedItems)) {
+      return initialItems;
+    }
+
+    return parsedItems
+      .filter((item): item is TableOfContentsItem => (
+        typeof item?.id === 'string' &&
+        typeof item?.title === 'string' &&
+        typeof item?.level === 'number'
+      ));
+  } catch {
+    return initialItems;
+  }
+}
+
 export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
+  const pathname = usePathname();
   const [activeId, setActiveId] = useState<string>("");
   const [visibleItems, setVisibleItems] = useState<TableOfContentsItem[]>(initialItems);
   const isClickScrolling = useRef(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const observerRef = useRef<MutationObserver | null>(null);
-  const filterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const filterVisibleHeadings = useCallback(() => {
-    const registryIds = new Set(initialItems.map(item => item.id));
+    const sourceItems = getCurrentPageItems(initialItems);
+    const registryIds = new Set(sourceItems.map(item => item.id));
     const visible: TableOfContentsItem[] = [];
+    const headingRoot = document.getElementById('doc-content')
+      ?? document.querySelector('#docs main')
+      ?? document.body;
 
-    for (const item of initialItems) {
+    for (const item of sourceItems) {
       const element = document.getElementById(item.id);
       if (element && (element as HTMLElement).offsetParent !== null) {
         visible.push(item);
@@ -35,7 +63,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     }
 
     const domHeadings = new Set<string>();
-    document.querySelectorAll('h2[id], h3[id], h4[id], h5[id], h6[id]').forEach(heading => {
+    headingRoot.querySelectorAll('h2[id], h3[id], h4[id], h5[id], h6[id]').forEach(heading => {
       const id = heading.getAttribute('id')!;
       const htmlElement = heading as HTMLElement;
       if (htmlElement.offsetParent === null) return;
@@ -54,35 +82,20 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     setVisibleItems(visible);
   }, [initialItems]);
 
-  const debouncedFilter = useCallback(() => {
-    if (filterTimeoutRef.current) {
-      clearTimeout(filterTimeoutRef.current);
-    }
-    filterTimeoutRef.current = setTimeout(() => {
-      filterVisibleHeadings();
-    }, 50);
-  }, [filterVisibleHeadings]);
-
   useEffect(() => {
-    filterVisibleHeadings();
-
-    const container = document.documentElement;
-    observerRef.current = new MutationObserver(() => {
-      debouncedFilter();
+    const frameId = requestAnimationFrame(() => {
+      filterVisibleHeadings();
     });
-
-    observerRef.current.observe(container, {
-      childList: true,
-      subtree: true,
-    });
+    const timeoutIds = [
+      window.setTimeout(filterVisibleHeadings, 100),
+      window.setTimeout(filterVisibleHeadings, 300),
+    ];
 
     return () => {
-      observerRef.current?.disconnect();
-      if (filterTimeoutRef.current) {
-        clearTimeout(filterTimeoutRef.current);
-      }
+      cancelAnimationFrame(frameId);
+      timeoutIds.forEach(window.clearTimeout);
     };
-  }, [filterVisibleHeadings, debouncedFilter]);
+  }, [filterVisibleHeadings, pathname]);
 
   const findActiveHeading = useCallback(() => {
     if (visibleItems.length === 0) return;
