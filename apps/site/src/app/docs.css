@@ -61,3 +61,12 @@
   @apply m-0 mb-2;
 } 
 
+@media (min-width: 1024px) {
+  .docs-layout-root[data-chat-open="true"] .docs-layout-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-layout-root[data-chat-open="true"] .docs-toc-rail {
+    display: none;
+  }
+}
