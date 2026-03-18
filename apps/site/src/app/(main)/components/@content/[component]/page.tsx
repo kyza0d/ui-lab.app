@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ component
 
 export default async function ComponentDetailPage({ params }: { params: Promise<{ component: string; }>; }) {
   const { component: componentId } = await params;
+  const component = componentRegistry[componentId as keyof typeof componentRegistry];
   return (
     <ComponentClient
       componentId={componentId}
@@ -39,6 +40,9 @@ export default async function ComponentDetailPage({ params }: { params: Promise<
       styles={generatedStyles[componentId] ?? null}
       reactAriaUrl={reactAriaUrls[componentId] ?? null}
       sourceUrl={sourceUrls[componentId] ?? null}
+      name={component?.name ?? ""}
+      description={component?.description ?? ""}
+      experimental={component?.experimental ?? false}
     />
   );
 }

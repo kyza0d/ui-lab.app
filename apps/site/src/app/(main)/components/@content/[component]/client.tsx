@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentConfigurator } from "@/features/component-docs";
-import { getComponentById, getComponentMetadata } from "@/features/component-docs";
+import { useComponentExamples } from "@/features/component-docs/lib/component-preview-registry";
 import { TableOfContents, Table, type Column } from "@/features/docs";
 import { CopyComponentPage } from "@/features/docs";
 import { OpenPage } from "@/features/docs";
@@ -28,25 +28,27 @@ const ReactAriaSvg = () => (
   </svg>
 );
 
-export function ComponentClient({ componentId, api, styles, reactAriaUrl, sourceUrl }: {
+export function ComponentClient({ componentId, api, styles, reactAriaUrl, sourceUrl, name, description, experimental }: {
   componentId: string;
   api: ComponentAPI | null;
   styles: StyleInfo | null;
   reactAriaUrl: string | null;
   sourceUrl: string | null;
+  name: string;
+  description: string;
+  experimental: boolean;
 }) {
   const { isOpen: isChatOpen } = useChat();
-  const component = useMemo(() => getComponentById(componentId), [componentId]);
-  const metadata = useMemo(() => getComponentMetadata(componentId), [componentId]);
+  const examples = useComponentExamples(componentId);
 
   const [activeTab, setActiveTab] = useState("examples");
   const [visitedTabs, setVisitedTabs] = useState<Set<string>>(new Set(["examples"]));
 
-  const firstExample = useMemo(() => component?.examples[0], [component]);
-  const remainingExamples = useMemo(() => component?.examples.slice(1) ?? [], [component]);
+  const firstExample = examples[0];
+  const remainingExamples = examples.slice(1);
 
   const tocItems = useMemo(() => {
-    if (!component) return [];
+    if (!name) return [];
     if (activeTab === "examples") {
       return remainingExamples.map((example) => ({
         id: example.id,
@@ -81,9 +83,9 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
     }
 
     return [];
-  }, [activeTab, api, styles, remainingExamples, component]);
+  }, [activeTab, api, styles, remainingExamples, name]);
 
-  if (!component) {
+  if (!name) {
     return (
       <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
         <div className={cn("flex flex-col justify-center mt-(--header-height)")}>
@@ -107,15 +109,15 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
           <div className="pt-12 pb-12">
             <div className="space-y-2 min-h-32">
               <div className="h-25 flex flex-col mb-12 relative">
-                {metadata?.experimental && (
+                {experimental && (
                   <Tooltip content="Experimental" position="left" showArrow>
                     <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
                       <FaFlask size={14} />
                     </span>
                   </Tooltip>
                 )}
-                <h3 className="font-bold text-foreground-50">{component.name}</h3>
-                <p className="text-md text-foreground-400 max-w-[66ch]">{component.description}</p>
+                <h3 className="font-bold text-foreground-50">{name}</h3>
+                <p className="text-md text-foreground-400 max-w-[66ch]">{description}</p>
               </div>
               <div className="h-10 flex gap-3 flex-row mb-4 mt-4">
                 {sourceUrl && (
