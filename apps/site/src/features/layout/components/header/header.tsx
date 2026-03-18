@@ -92,15 +92,15 @@ export default function Header({
               <div className="scale-100">
                 <Logo />
               </div>
-
-              <button
-                onClick={handleToggleSidebar}
-                className="lg:hidden flex items-center justify-center rounded-md p-0.5 text-foreground-300 hover:bg-background-800 min-w-[44px] min-h-[44px]"
-                aria-label="Toggle sidebar"
-              >
-                <PanelRight strokeWidth={2.4} size={20} />
-              </button>
             </Link>
+
+            <button
+              onClick={handleToggleSidebar}
+              className="lg:hidden flex items-center justify-center rounded-md p-0.5 text-foreground-300 hover:bg-background-800 min-w-[44px] min-h-[44px]"
+              aria-label="Toggle sidebar"
+            >
+              <PanelRight strokeWidth={2.4} size={20} />
+            </button>
 
 
             {pathname === "/" && homeNavTabs && (
