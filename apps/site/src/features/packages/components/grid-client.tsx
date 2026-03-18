@@ -10,7 +10,6 @@ import { getPackageById } from 'ui-lab-registry';
 interface ElementsGridClientProps {
   elements: ElementMetadata[];
   packageId?: string;
-  isPremium?: boolean;
 }
 
 function buildPreviews(elements: ElementMetadata[]) {
@@ -30,13 +29,13 @@ function buildLayoutConfigs(elements: ElementMetadata[]) {
   return result;
 }
 
-function PremiumElementsGrid({ elements, packageId, isPremium }: ElementsGridClientProps) {
+function PremiumElementsGrid({ elements, packageId }: ElementsGridClientProps) {
   const basePath = `/packages/${packageId}`;
   const modalContext = usePurchaseModal();
   const previews = buildPreviews(elements);
   const layoutConfigs = buildLayoutConfigs(elements);
 
-  const handleElementClick = (element: ElementMetadata) => {
+  const handleElementClick = () => {
     const pkg = getPackageById(packageId!);
     if (pkg) {
       modalContext.openModal(pkg);
@@ -69,9 +68,6 @@ function FreeElementsGrid({ elements, packageId }: ElementsGridClientProps) {
   );
 }
 
-export function ElementsGridClient({ elements, packageId, isPremium = false }: ElementsGridClientProps) {
-  if (isPremium && packageId) {
-    return <PremiumElementsGrid elements={elements} packageId={packageId} isPremium={isPremium} />;
-  }
-  return <FreeElementsGrid elements={elements} packageId={packageId} isPremium={isPremium} />;
+export function ElementsGridClient({ elements, packageId }: ElementsGridClientProps) {
+  return <FreeElementsGrid elements={elements} packageId={packageId} />;
 }

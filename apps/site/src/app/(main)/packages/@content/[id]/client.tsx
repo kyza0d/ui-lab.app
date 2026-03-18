@@ -147,7 +147,7 @@ export default function PackageElementsClient({
           />
         </div>
       </div>
-      <ElementsGridClient elements={filteredElements} packageId={packageId} isPremium={isPremium} />
+      <ElementsGridClient elements={filteredElements} packageId={packageId} />
     </div>
   );
 }
