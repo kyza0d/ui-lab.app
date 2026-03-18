@@ -4,7 +4,7 @@ import {
   getComponentsGroupedByCategory,
   getComponentsInCategoryOrder,
 } from '@/features/component-docs';
-import { getSectionsForDomain } from './sidebar-registry-resolver';
+import { getSectionsForDomain, type DocsNavigationData } from './sidebar-registry-resolver';
 import { MainNavItem } from '@/app/lib/sidebar-config';
 
 interface SidebarSection {
@@ -67,17 +67,17 @@ function getComponentSections(): SidebarSection[] {
     }));
 }
 
-export function getSectionsForNav(nav: MainNavItem): SidebarSection[] {
+export function getSectionsForNav(nav: MainNavItem, docsNavigationData: DocsNavigationData): SidebarSection[] {
   let sections: SidebarSection[] = [];
 
   switch (nav) {
     case 'overview':
-      sections = getSectionsForDomain('docs');
+      sections = getSectionsForDomain(docsNavigationData, 'docs');
       break;
     case 'components-core':
       return getComponentSections();
     case 'design-system':
-      sections = getSectionsForDomain('design-system');
+      sections = getSectionsForDomain(docsNavigationData, 'design-system');
       break;
     default:
       return getComponentSections();

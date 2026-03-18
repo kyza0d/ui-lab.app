@@ -9,7 +9,8 @@ import {
   FaSun,
 } from "react-icons/fa6";
 import { componentRegistry, getCategoryIcon } from "@/features/component-docs";
-import { SIDEBAR_REGISTRY } from "@/features/navigation/lib/generated-sidebar-registry";
+import { useDocsNavigationData } from "@/features/navigation/lib/docs-navigation-context";
+import { getPagesForDomain } from "@/features/navigation/lib/sidebar-registry-resolver";
 import { toolsItems } from "@/features/layout/components/header/data";
 import type { CommandItem } from "ui-lab-components";
 
@@ -23,41 +24,35 @@ export function useCommands({
   setCurrentThemeMode,
 }: UseCommandsParams) {
   const router = useRouter();
+  const docsNavigationData = useDocsNavigationData();
 
   return useMemo(() => {
     const cmds: CommandItem[] = [];
 
 
-
-
-
-
-
-
-
-    Object.entries(SIDEBAR_REGISTRY).forEach(([domain, domainRegistry]) => {
-      Object.values(domainRegistry.fileMap).forEach((file) => {
-        const categoryPrefix =
-          domain === "docs"
-            ? "Docs"
-            : domain === "design-system"
-              ? "Design System"
-              : "";
-        const category = categoryPrefix ? `${categoryPrefix} - ${file.category}` : file.category;
+    (["docs", "design-system"] as const).forEach((domain) => {
+      getPagesForDomain(docsNavigationData, domain).forEach((page) => {
+        const categoryPrefix = domain === "docs" ? "Docs" : "Design System";
+        const category = page.isIndex
+          ? categoryPrefix
+          : page.section
+            ? `${categoryPrefix} - ${page.section}`
+            : categoryPrefix;
 
         cmds.push({
-          id: `${domain}-${file.slug}`,
-          label: file.title,
-          description: file.description,
-          category: category || categoryPrefix,
+          id: `${domain}-${page.slug}`,
+          label: page.title,
+          description: page.description ?? undefined,
+          category,
           icon: <FaBook className="w-4 h-4" />,
           keywords: [
             domain,
-            file.slug,
-            file.title.toLowerCase(),
-            ...(file.category ? [file.category.toLowerCase()] : []),
+            page.slug,
+            page.title.toLowerCase(),
+            ...(page.section ? [page.section.toLowerCase()] : []),
+            ...page.tags,
           ],
-          action: () => router.push(`/${domain}/${file.slug}`),
+          action: () => router.push(page.url),
         });
       });
     });
@@ -115,5 +110,5 @@ export function useCommands({
     });
 
     return cmds;
-  }, [router, currentThemeMode, setCurrentThemeMode]);
+  }, [router, currentThemeMode, docsNavigationData, setCurrentThemeMode]);
 }

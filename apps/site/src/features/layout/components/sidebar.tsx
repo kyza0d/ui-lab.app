@@ -12,6 +12,7 @@ import {
   getMainNavItemsForDomain,
 } from '@/app/lib/sidebar-config';
 import { getSectionsForNav, getHrefForNavItem, isNavItemActive } from '@/features/navigation/lib/sidebar-sections';
+import { useDocsNavigationData } from '@/features/navigation/lib/docs-navigation-context';
 import { getActiveElementsNavFromPathname } from '@/features/packages/lib/sidebar-sections';
 import { ElementsList } from '@/features/packages/components/sidebar-content';
 
@@ -56,6 +57,7 @@ const SidebarItemLink = memo(function SidebarItemLink({
 
 export function Sidebar() {
   const { isOpen, closeSidebar } = useSidebarToggle();
+  const docsNavigationData = useDocsNavigationData();
   const pathname = usePathname();
   const activeDomain = getActiveDomainForPathname(pathname);
   const activeNavItem = getActiveNavItemForDomain(activeDomain);
@@ -64,8 +66,8 @@ export function Sidebar() {
     if (activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns') {
       return [];
     }
-    return getSectionsForNav(activeNavItem);
-  }, [activeDomain, activeNavItem]);
+    return getSectionsForNav(activeNavItem, docsNavigationData);
+  }, [activeDomain, activeNavItem, docsNavigationData]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const isElementsOrSectionsOrStarters = activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns';

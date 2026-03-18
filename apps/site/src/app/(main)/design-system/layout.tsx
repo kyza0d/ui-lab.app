@@ -1,5 +1,4 @@
 import { DocsLayout } from "@/features/docs";
-import { getTocItemsForSection } from "@/features/docs/lib/get-toc-items";
 import { generateMetadata } from "@/shared";
 
 export const metadata = generateMetadata({ pathname: '/design-system' });
@@ -9,8 +8,6 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const tocItems = getTocItemsForSection('design-system');
-
   return (
     <DocsLayout
       banner={
@@ -18,7 +15,7 @@ export default async function Layout({
           <div className="w-full h-full rounded-md bg-background-900 border border-background-700"></div>
         </div>
       }
-      tocItems={tocItems}>
+    >
       {children}
     </DocsLayout>
   );

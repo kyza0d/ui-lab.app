@@ -1,15 +1,12 @@
-export const metadata: Metadata = {
-  title: "Documentation",
-  description: "Comprehensive guide to UI Lab components, installation, and usage.",
-};
-
-import { getDocBySlug } from "@/features/docs";
-import { DocsMDX } from "@/features/docs/components/docs-mdx";
+import { DocPage } from "@/features/docs/components/doc-page";
+import { getDocRoutePage, generateDocRouteMetadata } from "@/features/docs/lib/doc-routes";
 import { Logo } from "@/shared";
 import { RequirementsSection } from "./requirements-section";
-import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 import { SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
-import { Metadata } from "next";
+
+export async function generateMetadata() {
+  return generateDocRouteMetadata('docs');
+}
 
 const ReactAriaSvg = () => (
   <svg viewBox="200 206 800 790" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
@@ -18,40 +15,19 @@ const ReactAriaSvg = () => (
 );
 
 export default async function DocsPage() {
-  'use cache'
-  const doc = await getDocBySlug('index');
-  if (!doc) {
-    return (
-      <div className="w-full text-foreground-100">
-        <div className="flex flex-col lg:flex-row justify-between gap-0">
-          <main>
-            <div className="text-red-500">Documentation not found</div>
-          </main>
-        </div>
-      </div>
-    )
-  }
+  const page = await getDocRoutePage('docs')
 
   return (
-    <div className="w-full text-foreground-100">
-      <div className="flex flex-col lg:flex-row justify-between gap-0">
-        <main className="w-full mx-auto max-w-3xl pb-16 lg:w-48rem">
-          <DocumentationHeader
-            title={doc.metadata.title}
-            description={doc.metadata.description}
-          />
-
-
-          <div className="h-50 border border-background-700 rounded-sm mb-12  relative overflow-hidden">
-            <Logo className="absolute text-foreground-200 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-90" />
-            {/* <div className="grid-paper z-0" /> */}
-          </div>
-
-          <div id="doc-content">
-            <DocsMDX source={doc.content} />
-          </div>
-
-          {/* Requirements section */}
+    <DocPage
+      page={page}
+      className="w-full pb-16"
+      beforeBody={
+        <div className="h-50 border border-background-700 rounded-sm mb-12 relative overflow-hidden">
+          <Logo className="absolute text-foreground-200 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-90" />
+        </div>
+      }
+      afterBody={
+        <>
           <section id="requirements" className="my-12">
             <h2 className="text-md pb-8 font-semibold text-foreground-50">Dependencies & compatibility</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -66,7 +42,7 @@ export default async function DocsPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative flex  justify-end flex-col gap-4 px-3 py-2 h-28 rounded-sm border border-background-700 bg-background-800/50 transition-all hover:bg-background-800 cursor-pointer"
+                  className="relative flex justify-end flex-col gap-4 px-3 py-2 h-28 rounded-sm border border-background-700 bg-background-800/50 transition-all hover:bg-background-800 cursor-pointer"
                 >
                   <div className="absolute top-4 left-3">
                     <Icon className="w-6 h-6 text-foreground-400" />
@@ -80,12 +56,9 @@ export default async function DocsPage() {
             </div>
           </section>
 
-          {/* Requirements table */}
           <RequirementsSection />
-        </main>
-        <div className="w-full lg:w-auto">
-        </div>
-      </div>
-    </div>
-  );
+        </>
+      }
+    />
+  )
 }
