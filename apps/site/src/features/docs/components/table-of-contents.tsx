@@ -172,7 +172,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
 
   return (
     <>
-      <aside className="pr-4 w-[18rem] top-(--header-height) sticky hidden lg:block self-start">
+      <aside className="pr-4 w-[20rem] top-(--header-height) sticky hidden lg:block self-start">
         <nav className="space-y-6 px-4 py-5">
           <div>
             <span className="text-md font-semibold text-foreground-50">
