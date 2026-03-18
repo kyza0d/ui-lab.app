@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { codeToHtml } from "shiki";
-import { transformerRenderIndentGuides } from "@shikijs/transformers";
 import { generateThemePalettes, type OklchColor } from "@/features/theme/lib/color-utils";
 import { generateShikiTheme, type ShikiTheme } from "@/features/theme/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/features/theme/lib/themes/syntax-colors";
@@ -32,7 +30,7 @@ interface CodeProps {
 }
 
 const MAX_HEIGHT_LINES = 20;
-type CodeToHtmlOptions = Parameters<typeof codeToHtml>[1];
+type CodeToHtmlOptions = any;
 
 export function Code({
   children,
@@ -115,6 +113,9 @@ export function Code({
 
     const highlight = async () => {
       try {
+        const { codeToHtml } = await import("shiki");
+        const { transformerRenderIndentGuides } = await import("@shikijs/transformers");
+        
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(children, {
           lang: language as CodeToHtmlOptions["lang"],

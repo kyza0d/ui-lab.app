@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState, useRef } from "react";
-import { codeToHtml } from "shiki";
 import { generateThemePalettes } from "@/features/theme/lib/color-utils";
 import { generateShikiTheme, type ShikiTheme } from "@/features/theme/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/features/theme/lib/themes/syntax-colors";
@@ -12,8 +11,6 @@ interface InlineCodeHighlightProps {
   language?: string;
   className?: string;
 }
-
-type CodeToHtmlOptions = Parameters<typeof codeToHtml>[1];
 
 export function InlineCodeHighlight({
   code,
@@ -55,9 +52,10 @@ export function InlineCodeHighlight({
   useEffect(() => {
     const highlight = async () => {
       try {
+        const { codeToHtml } = await import("shiki");
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(code, {
-          lang: language as CodeToHtmlOptions["lang"],
+          lang: language,
           theme,
         });
         const codeMatch = html.match(/<code[^>]*>([\s\S]*?)<\/code>/);

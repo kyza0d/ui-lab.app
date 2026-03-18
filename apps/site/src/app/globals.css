@@ -16,23 +16,9 @@
   --radius-full: 9999px;
 }
 
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Ioskeley Mono";
-  src: url("/assets/fonts/monospace/IoskeleyMono-MediumItalic.ttf") format("truetype");
-  font-weight: 500;
-  font-style: italic;
-}
-
 @theme {
   --font-sans: "Karla", system-ui, sans-serif;
-  --font-mono: "Ioskeley Mono", monospace;
+  --font-mono: var(--font-ioskeley-mono), monospace;
 
   /* Body text sizes (controlled by body scale sliders) */
   --text-xs: 0.875rem;

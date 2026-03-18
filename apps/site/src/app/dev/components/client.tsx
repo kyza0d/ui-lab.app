@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Grid, Flex, Input } from "ui-lab-components";
+import { Flex, Input } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import {
   componentRegistry,

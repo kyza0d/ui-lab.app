@@ -35,7 +35,7 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
   const remainingExamples = component.examples.slice(1);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Toaster />
       <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm border-b border-background-700">
         <div className="max-w-4xl mx-auto px-8 py-3">
@@ -59,7 +59,7 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-8 py-12">
+      <div className="max-w-4xl mx-auto px-8 py-12 ">
         <div className="space-y-2 mb-8">
           <Flex align="center" gap="sm">
             <h1 className="text-3xl font-bold text-foreground-50">{component.name}</h1>

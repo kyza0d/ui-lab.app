@@ -30,7 +30,7 @@ const DESIGN_SYSTEM_DIR = path.join(process.cwd(), 'content/design-system')
 
 async function getAllDocsFromDir(dir: string): Promise<DocMetadata[]> {
   'use cache'
-  cacheLife('hours')
+  cacheLife('days')
   cacheTag('docs')
 
   try {
@@ -69,7 +69,7 @@ async function getAllDocsFromDir(dir: string): Promise<DocMetadata[]> {
 
 async function getDocBySlugFromDir(slug: string, dir: string): Promise<DocContent | null> {
   'use cache'
-  cacheLife('hours')
+  cacheLife('days')
   cacheTag('docs', `doc-${slug}`)
 
   try {

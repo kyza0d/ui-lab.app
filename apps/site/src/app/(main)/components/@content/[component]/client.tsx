@@ -101,12 +101,12 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
 
   return (
     <div className={cn("px-4 grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
-      <div className={cn("flex flex-col max-w-3xl mx-auto w-full justify-center mt-(--header-height)")}>
+      <div className="flex flex-col max-w-4xl mx-auto w-full justify-center mt-(--header-height)">
         <Toaster />
-        <div className="flex items-center">
-          <div className="w-full pt-12 pb-12">
+        <div>
+          <div className="pt-12 pb-12">
             <div className="space-y-2 min-h-32">
-              <div className="flex flex-col mb-12 relative">
+              <div className="h-25 flex flex-col mb-12 relative">
                 {metadata?.experimental && (
                   <Tooltip content="Experimental" position="left" showArrow>
                     <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
@@ -117,7 +117,7 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
                 <h3 className="font-bold text-foreground-50">{component.name}</h3>
                 <p className="text-md text-foreground-400 max-w-[66ch]">{component.description}</p>
               </div>
-              <div className="flex gap-3 flex-row mb-4 mt-4">
+              <div className="h-10 flex gap-3 flex-row mb-4 mt-4">
                 {sourceUrl && (
                   <Button variant="outline" onClick={() => window.open(sourceUrl, '_blank')}>
                     <FaGithub size={19} className="mr-4 text-foreground-400" /> Source

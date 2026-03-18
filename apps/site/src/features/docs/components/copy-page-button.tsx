@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Button, Divider, Group } from 'ui-lab-components';
-import TurndownService from 'turndown';
 import { FaCheck, FaFileLines } from 'react-icons/fa6';
 
 export function CopyPage() {
@@ -17,6 +16,7 @@ export function CopyPage() {
       }
 
       const html = docContent.innerHTML;
+      const { default: TurndownService } = await import('turndown');
       const turndownService = new TurndownService({
         headingStyle: 'atx',
         codeBlockStyle: 'fenced',

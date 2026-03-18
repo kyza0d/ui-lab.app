@@ -342,6 +342,7 @@ function AIIntegrationContent() {
   );
 }
 
-export default function AIIntegrationPage() {
+export default async function AIIntegrationPage() {
+  'use cache'
   return <AIIntegrationContent />;
 }

@@ -365,6 +365,7 @@ function AccessibilityContent() {
   );
 }
 
-export default function AccessibilityPage() {
+export default async function AccessibilityPage() {
+  'use cache'
   return <AccessibilityContent />;
 }

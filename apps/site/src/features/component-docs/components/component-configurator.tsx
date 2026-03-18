@@ -54,7 +54,6 @@ interface ComponentConfiguratorProps {
   renderPreview?: (props: Record<string, unknown>) => React.ReactNode;
   customRenderer?: (context: RenderContext) => React.ReactNode;
   hidePreviewToggle?: boolean;
-  fullWidth?: boolean;
   previewHeight?: string;
   previewLayout?: "center" | "start";
 }
@@ -73,7 +72,6 @@ export function ComponentConfigurator({
   renderPreview,
   customRenderer,
   hidePreviewToggle = false,
-  fullWidth = false,
   previewHeight,
   previewLayout = "center",
 }: ComponentConfiguratorProps) {
@@ -114,176 +112,174 @@ export function ComponentConfigurator({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-4">
-        {/* Header */}
-        {title && (
-          <div className="border-b space-y-2 border-background-700 py-8">
-            <h4 className="text-foreground-50">{title}</h4>
-            {description && (
-              <p className="text-sm text-foreground-400">{description}</p>
-            )}
-          </div>
-        )
-        }
-
-        <div className={cn("border border-background-700 rounded-sm overflow-hidden", fullWidth && "w-full")}>
-          {!hidePreviewToggle && (
-            <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
-              <TabsList className="rounded-none border-b border-background-700">
-                <TabsTrigger value="preview">Preview</TabsTrigger>
-                <TabsTrigger value="code">Code</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="preview" className="overflow-hidden mt-0">
-                <div
-                  className={cn("px-10 py-20 min-h-100 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
-                  style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
-                >
-                  {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="code" className="mt-0 p-0">
-                {allTabs.length > 1 && (
-                  <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
-                    {allTabs.map((tab, index) => (
-                      <Button
-                        key={`${tab.label}-${tab.code}`}
-                        size="sm"
-                        onClick={() => setActiveTab(index)}
-                        className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
-                      >
-                        {tab.label}
-                      </Button>
-                    ))}
-                  </div>
-                )}
-                <div className="p-0">
-                  <Code className="border-0" language={language}>{currentCode}</Code>
-                </div>
-              </TabsContent>
-            </Tabs>
+    <div>
+      {/* Header */}
+      {title && (
+        <div className="border-b space-y-2 border-background-700 py-8">
+          <h4 className="text-foreground-50">{title}</h4>
+          {description && (
+            <p className="text-sm text-foreground-400">{description}</p>
           )}
+        </div>
+      )
+      }
 
-          {hidePreviewToggle && (
-            <div className="overflow-hidden">
+      <div className="flex-1 border border-background-700 rounded-sm overflow-hidden">
+        {!hidePreviewToggle && (
+          <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
+            <TabsList className="rounded-none border-b border-background-700">
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+              <TabsTrigger value="code">Code</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="preview" className="overflow-hidden mt-0">
               <div
-                className={cn("p-10", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                className={cn("px-10 py-20 min-h-100 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                 style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
               >
                 {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
               </div>
-            </div>
-          )}
-        </div>
+            </TabsContent>
 
-        {/* Controls Section */}
-        {controls.length > 0 && (
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {controls.map((control) => {
-                // Skip rendering easing control here - it will be handled separately
-                if (control.name === "easing") return null;
-
-                return (
-                  <div key={control.name} className="space-y-2">
-                    <label className="text-xs font-medium text-foreground-400">
-                      {control.label}
-                    </label>
-                    {control.type === "select" && (
-                      <Select
-                        selectedKey={String(controlValues[control.name] ?? "")}
-                        defaultValue={control.options?.find(opt => opt.value === controlValues[control.name])?.label ?? control.options?.[0]?.label ?? ""}
-                        onSelectionChange={(key) =>
-                          handleControlChange(control.name, key)
-                        }
-                      >
-                        <Select.Trigger>
-                          <Select.Value />
-                        </Select.Trigger>
-                        <Select.Content>
-                          <Select.List>
-                            {control.options?.map((option) => (
-                              <Select.Item key={String(option.value)} value={String(option.value)}>
-                                {option.label}
-                              </Select.Item>
-                            ))}
-                          </Select.List>
-                        </Select.Content>
-                      </Select>
-                    )}
-                    {control.type === "toggle" && (
-                      <button
-                        onClick={() =>
-                          handleControlChange(
-                            control.name,
-                            !controlValues[control.name]
-                          )
-                        }
-                        className={cn(
-                          "w-full px-3 py-1.5 text-xs font-medium rounded-sm",
-                          controlValues[control.name]
-                            ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
-                            : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
-                        )}
-                      >
-                        {controlValues[control.name]
-                          ? control.label
-                          : `${control.label} (Off)`}
-                      </button>
-                    )}
-                    {control.type === "text" && (
-                      <input
-                        type="text"
-                        value={String(controlValues[control.name] ?? "")}
-                        onChange={(e) =>
-                          handleControlChange(control.name, e.target.value)
-                        }
-                        className="w-full px-3 py-2 text-xs bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
-                      />
-                    )}
-                  </div>
-                );
-              })}
-              {/* Easing Selector - only show if easing control is defined */}
-              {controls.some((c) => c.name === "easing") && (
-                <div className="space-y-2">
-                  <label className="text-sm text-foreground-400" htmlFor="interaction-ease-select">
-                    Interaction Ease
-                  </label>
-                  <Select
-                    selectedKey={selectedEasing}
-                    defaultValue={EASING_FUNCTIONS[selectedEasing]?.name || ""}
-                    onSelectionChange={(key) =>
-                      setSelectedEasing(key as EasingKey)
-                    }
-                  >
-                    <Select.Trigger>
-                      <div className="flex items-center gap-2">
-                        <EasingPreview easing={selectedEasing} size="sm" className="text-accent-500" />
-                        <span>{EASING_FUNCTIONS[selectedEasing].name}</span>
-                      </div>
-                    </Select.Trigger>
-                    <Select.Content>
-                      <Select.List>
-                        {EASING_KEYS.map((easing: EasingKey) => (
-                          <Select.Item key={easing} value={easing}>
-                            <div className="flex items-center gap-2">
-                              <EasingPreview easing={easing} size="sm" className="text-accent-500" />
-                              <span>{EASING_FUNCTIONS[easing].name}</span>
-                            </div>
-                          </Select.Item>
-                        ))}
-                      </Select.List>
-                    </Select.Content>
-                  </Select>
+            <TabsContent value="code" className="mt-0 p-0">
+              {allTabs.length > 1 && (
+                <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
+                  {allTabs.map((tab, index) => (
+                    <Button
+                      key={`${tab.label}-${tab.code}`}
+                      size="sm"
+                      onClick={() => setActiveTab(index)}
+                      className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
+                    >
+                      {tab.label}
+                    </Button>
+                  ))}
                 </div>
               )}
+              <div className="p-0">
+                <Code className="border-0" language={language}>{currentCode}</Code>
+              </div>
+            </TabsContent>
+          </Tabs>
+        )}
+
+        {hidePreviewToggle && (
+          <div className="overflow-hidden">
+            <div
+              className={cn("p-10", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+              style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
+            >
+              {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
             </div>
           </div>
         )}
       </div>
+
+      {/* Controls Section */}
+      {controls.length > 0 && (
+        <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {controls.map((control) => {
+              // Skip rendering easing control here - it will be handled separately
+              if (control.name === "easing") return null;
+
+              return (
+                <div key={control.name} className="space-y-2">
+                  <label className="text-xs font-medium text-foreground-400">
+                    {control.label}
+                  </label>
+                  {control.type === "select" && (
+                    <Select
+                      selectedKey={String(controlValues[control.name] ?? "")}
+                      defaultValue={control.options?.find(opt => opt.value === controlValues[control.name])?.label ?? control.options?.[0]?.label ?? ""}
+                      onSelectionChange={(key) =>
+                        handleControlChange(control.name, key)
+                      }
+                    >
+                      <Select.Trigger>
+                        <Select.Value />
+                      </Select.Trigger>
+                      <Select.Content>
+                        <Select.List>
+                          {control.options?.map((option) => (
+                            <Select.Item key={String(option.value)} value={String(option.value)}>
+                              {option.label}
+                            </Select.Item>
+                          ))}
+                        </Select.List>
+                      </Select.Content>
+                    </Select>
+                  )}
+                  {control.type === "toggle" && (
+                    <button
+                      onClick={() =>
+                        handleControlChange(
+                          control.name,
+                          !controlValues[control.name]
+                        )
+                      }
+                      className={cn(
+                        "w-full px-3 py-1.5 text-xs font-medium rounded-sm",
+                        controlValues[control.name]
+                          ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
+                          : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
+                      )}
+                    >
+                      {controlValues[control.name]
+                        ? control.label
+                        : `${control.label} (Off)`}
+                    </button>
+                  )}
+                  {control.type === "text" && (
+                    <input
+                      type="text"
+                      value={String(controlValues[control.name] ?? "")}
+                      onChange={(e) =>
+                        handleControlChange(control.name, e.target.value)
+                      }
+                      className="w-full px-3 py-2 text-xs bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                    />
+                  )}
+                </div>
+              );
+            })}
+            {/* Easing Selector - only show if easing control is defined */}
+            {controls.some((c) => c.name === "easing") && (
+              <div className="space-y-2">
+                <label className="text-sm text-foreground-400" htmlFor="interaction-ease-select">
+                  Interaction Ease
+                </label>
+                <Select
+                  selectedKey={selectedEasing}
+                  defaultValue={EASING_FUNCTIONS[selectedEasing]?.name || ""}
+                  onSelectionChange={(key) =>
+                    setSelectedEasing(key as EasingKey)
+                  }
+                >
+                  <Select.Trigger>
+                    <div className="flex items-center gap-2">
+                      <EasingPreview easing={selectedEasing} size="sm" className="text-accent-500" />
+                      <span>{EASING_FUNCTIONS[selectedEasing].name}</span>
+                    </div>
+                  </Select.Trigger>
+                  <Select.Content>
+                    <Select.List>
+                      {EASING_KEYS.map((easing: EasingKey) => (
+                        <Select.Item key={easing} value={easing}>
+                          <div className="flex items-center gap-2">
+                            <EasingPreview easing={easing} size="sm" className="text-accent-500" />
+                            <span>{EASING_FUNCTIONS[easing].name}</span>
+                          </div>
+                        </Select.Item>
+                      ))}
+                    </Select.List>
+                  </Select.Content>
+                </Select>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

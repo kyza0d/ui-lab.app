@@ -407,6 +407,7 @@ function CustomizationContent() {
   );
 }
 
-export default function CustomizationPage() {
+export default async function CustomizationPage() {
+  'use cache'
   return <CustomizationContent />;
 }

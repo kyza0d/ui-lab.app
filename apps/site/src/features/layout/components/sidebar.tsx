@@ -166,7 +166,7 @@ export function Sidebar() {
               <div className="py-4 px-5 space-y-8">
                 {sections.map((section) => (
                   <div key={section.label}>
-                    <p className="text-body-xs font-body-semibold text-foreground-300">{section.label}</p>
+                    <p className="text-body-xs font-body-semibold text-foreground-400/80">{section.label}</p>
                     <div className="relative mt-2.5">
                       <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                       <div className="pl-3">
