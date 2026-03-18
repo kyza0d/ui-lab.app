@@ -100,7 +100,7 @@ export function GenericContentGrid<T extends ContentItem>({
   if (!getCategory) {
     return (
       <div className="flex flex-col gap-12">
-        <Gallery columns={galleryColumns} gap="sm" className='p-1'>
+        <Gallery columns={{ sm: "1", md: "2", lg: "3" }} gap="sm" className='p-1'>
           {items.map(renderItem)}
         </Gallery>
       </div>

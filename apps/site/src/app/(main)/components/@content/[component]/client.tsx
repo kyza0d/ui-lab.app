@@ -100,7 +100,7 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
   }
 
   return (
-    <div className={cn("px-4 grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
+    <div className={cn(" px-2 md:px-6 lg:px-12 grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
       <div className="flex flex-col max-w-4xl mx-auto w-full justify-center mt-(--header-height)">
         <Toaster />
         <div>
