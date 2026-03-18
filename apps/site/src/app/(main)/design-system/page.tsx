@@ -1,8 +1,6 @@
-import { MDXRemote } from 'next-mdx-remote-client/rsc'
-
 import { getDesignSystemDocBySlug } from '@/features/docs'
-import { mdxComponents, mdxOptions } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { DocsMDX } from '@/features/docs/components/docs-mdx'
 import { Metadata } from 'next'
 import { generateMetadata as buildMetadata } from '@/shared/lib/metadata'
 
@@ -38,11 +36,7 @@ export default async function DesignSystemPage() {
           <div className="h-px bg-background-800 my-12"></div>
 
           <div id="doc-content">
-            <MDXRemote
-              source={doc.content}
-              components={mdxComponents}
-              options={mdxOptions}
-            />
+            <DocsMDX source={doc.content} />
           </div>
         </main>
 

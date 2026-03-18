@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote-client/rsc'
 
 import { getDocBySlug, getAllDocs } from '@/features/docs'
-import { mdxComponents, mdxOptions } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
+import { DocsMDX } from '@/features/docs/components/docs-mdx'
 import { generateMetadata as generateSiteMetadata } from '@/shared'
 import { extractDocMetadata } from '@/shared/lib/metadata-extractors'
 
@@ -29,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function DocPage({ params }: { params: Promise<{ slug: string }> }) {
+  'use cache'
   const { slug } = await params
   const doc = await getDocBySlug(slug)
 
@@ -47,11 +47,7 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
         <div className="h-px bg-background-800 my-12"></div>
 
         <div id="doc-content">
-          <MDXRemote
-            source={doc.content}
-            components={mdxComponents}
-            options={mdxOptions}
-          />
+          <DocsMDX source={doc.content} />
         </div>
       </main>
     </div>

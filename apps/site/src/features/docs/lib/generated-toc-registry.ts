@@ -345,26 +345,6 @@ export const tocRegistry: TocRegistry = {
       "level": 2
     },
     {
-      "id": "foundation",
-      "title": "Foundation",
-      "level": 3
-    },
-    {
-      "id": "tokens",
-      "title": "Tokens",
-      "level": 3
-    },
-    {
-      "id": "components",
-      "title": "Components",
-      "level": 3
-    },
-    {
-      "id": "guidelines",
-      "title": "Guidelines",
-      "level": 3
-    },
-    {
       "id": "design-philosophy",
       "title": "Design Philosophy",
       "level": 2
@@ -1275,26 +1255,6 @@ export const tocRegistry: TocRegistry = {
       "id": "core-pillars",
       "title": "Core Pillars",
       "level": 2
-    },
-    {
-      "id": "foundation",
-      "title": "Foundation",
-      "level": 3
-    },
-    {
-      "id": "tokens",
-      "title": "Tokens",
-      "level": 3
-    },
-    {
-      "id": "components",
-      "title": "Components",
-      "level": 3
-    },
-    {
-      "id": "guidelines",
-      "title": "Guidelines",
-      "level": 3
     },
     {
       "id": "design-philosophy",

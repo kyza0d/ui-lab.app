@@ -1,16 +1,15 @@
-import { MDXRemote } from 'next-mdx-remote-client/rsc'
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "Documentation",
   description: "Comprehensive guide to UI Lab components, installation, and usage.",
 };
 
 import { getDocBySlug } from "@/features/docs";
-import { mdxComponents, mdxOptions } from '@/features/docs'
+import { DocsMDX } from "@/features/docs/components/docs-mdx";
 import { Logo } from "@/shared";
 import { RequirementsSection } from "./requirements-section";
 import { DocumentationHeader } from "@/features/docs/components/documentation-header";
 import { SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
+import { Metadata } from "next";
 
 const ReactAriaSvg = () => (
   <svg viewBox="200 206 800 790" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
@@ -19,8 +18,8 @@ const ReactAriaSvg = () => (
 );
 
 export default async function DocsPage() {
+  'use cache'
   const doc = await getDocBySlug('index');
-
   if (!doc) {
     return (
       <div className="w-full text-foreground-100">
@@ -49,11 +48,7 @@ export default async function DocsPage() {
           </div>
 
           <div id="doc-content">
-            <MDXRemote
-              source={doc.content}
-              components={mdxComponents}
-              options={mdxOptions}
-            />
+            <DocsMDX source={doc.content} />
           </div>
 
           {/* Requirements section */}
