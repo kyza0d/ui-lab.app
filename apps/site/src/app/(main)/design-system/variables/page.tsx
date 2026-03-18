@@ -1,20 +1,14 @@
-import { MDXRemote } from 'next-mdx-remote-client/rsc'
+import { Metadata } from 'next'
 
 import { getDesignSystemDocBySlug } from '@/features/docs'
-import { mdxComponents, mdxOptions } from '@/features/docs'
 import { DocumentationHeader } from '@/features/docs/components/documentation-header'
-import { generateMetadata as generateSiteMetadata } from '@/shared'
+import { generateMetadata as buildMetadata } from '@/shared/lib/metadata'
+import { DocsMDX } from '@/features/docs/components/docs-mdx'
 
-export async function generateMetadata() {
-  const doc = await getDesignSystemDocBySlug('variables')
-  if (!doc) {
-    return generateSiteMetadata({ title: 'Variables' })
-  }
-  return generateSiteMetadata({
-    title: doc.metadata.title,
-    description: doc.metadata.description,
-  })
-}
+export const metadata: Metadata = buildMetadata({
+  pathname: '/design-system/variables',
+  description: 'Complete reference for CSS custom properties implementing design tokens',
+})
 
 export default async function VariablesPage() {
   const doc = await getDesignSystemDocBySlug('variables')
@@ -43,11 +37,7 @@ export default async function VariablesPage() {
           <div className="h-px bg-background-800 my-12"></div>
 
           <div id="doc-content">
-            <MDXRemote
-              source={doc.content}
-              components={mdxComponents}
-              options={mdxOptions}
-            />
+            <DocsMDX source={doc.content} />
           </div>
         </main>
 

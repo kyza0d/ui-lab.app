@@ -14,38 +14,6 @@ UI Lab is built on a semantic token system backed by OKLCH — a perceptually-un
 
 ## How the token pipeline works
 
-<MermaidDiagram chart={`graph TB
-    OKLCH["OKLCH Color Space"]
-
-    subgraph Families["Color Families"]
-        BG["Background 500-950"]
-        FG["Foreground 50-400"]
-        ACC["Accent 50-600"]
-        SEM["Semantic: Success, Danger, Warning, Info"]
-    end
-
-    subgraph Tokens["CSS Custom Properties"]
-        BGVAR["--background-N"]
-        FGVAR["--foreground-N"]
-        ACCVAR["--accent-N"]
-        SEMVAR["--success-N, --danger-N, --warning-N"]
-    end
-
-    subgraph Usage["Authoring Layer"]
-        TW["Tailwind: bg-accent-600, text-foreground-300"]
-        CSSV["CSS: var(--accent-600)"]
-        DM["Dark Mode: shades auto-invert"]
-    end
-
-    OKLCH --> BG & FG & ACC & SEM
-    BG --> BGVAR
-    FG --> FGVAR
-    ACC --> ACCVAR
-    SEM --> SEMVAR
-    BGVAR & FGVAR & ACCVAR & SEMVAR --> TW & CSSV
-    TW & CSSV --> DM
-`} />
-
 ---
 
 ## Color families

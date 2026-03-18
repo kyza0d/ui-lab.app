@@ -1,0 +1,88 @@
+import { transformerRenderIndentGuides } from '@shikijs/transformers'
+import { generateThemePalettes } from '@/features/theme/lib/color-utils'
+import { generateShikiTheme } from '@/features/theme/lib/themes/shiki/generator'
+import { generateSyntaxPalettes } from '@/features/theme/lib/themes/syntax-colors'
+import { themes, DEFAULT_THEME_NAME } from '@/features/theme/constants/themes'
+import { ensureSemanticColorIntegrity } from '@/features/theme/lib/color/semantic'
+
+// Shiki theme object type is complex to import directly from Shiki 3.x
+type ShikiTheme = any
+
+// Cache the precomputed themes globally/module-level.
+let precomputedThemes: Record<'light' | 'dark', ShikiTheme> | null = null
+
+function getPrecomputedThemes() {
+  if (precomputedThemes) return precomputedThemes
+
+  const modes: ('light' | 'dark')[] = ['light', 'dark']
+  const result = {} as Record<'light' | 'dark', ShikiTheme>
+
+  for (const mode of modes) {
+    const preset = themes[DEFAULT_THEME_NAME][mode]
+    const colors = {
+      ...preset,
+      semantic: preset.semantic ? ensureSemanticColorIntegrity(preset.semantic) : undefined,
+    }
+
+    const palettes = generateThemePalettes(
+      colors.background,
+      colors.foreground,
+      colors.accent,
+      mode,
+      0,
+      colors.semantic,
+      colors.accentChromaLimit ?? 0.30,
+      colors.accentEasing,
+      colors.accentChromaScaling
+    )
+
+    const syntaxPalettes = generateSyntaxPalettes(
+      colors.background,
+      colors.accent,
+      mode,
+      colors.syntaxVariation ?? 0
+    )
+
+    result[mode] = generateShikiTheme(
+      { ...palettes, ...syntaxPalettes },
+      mode,
+      `server-${mode}`
+    )
+  }
+
+  precomputedThemes = result
+  return precomputedThemes
+}
+
+export async function highlightCode(code: string, lang: string) {
+  'use cache'
+  const { codeToHtml } = await import('shiki')
+  const modes: ('light' | 'dark')[] = ['light', 'dark']
+  const results: Record<string, string> = {}
+
+  const currentThemes = getPrecomputedThemes()
+
+  await Promise.all(modes.map(async (mode) => {
+    const shikiTheme = currentThemes[mode]
+
+    try {
+      const html = await codeToHtml(code, {
+        lang,
+        theme: shikiTheme,
+        transformers: [transformerRenderIndentGuides()],
+      })
+
+      let styledHtml = html.replace(
+        /<code>/,
+        '<code style="display: block; padding: 1rem;">'
+      )
+      styledHtml = styledHtml.replace(/background-color:\s*[^;]+;?/g, '')
+      results[mode] = styledHtml
+    } catch (error) {
+      console.error(`Failed to highlight code for ${mode}:`, error)
+      results[mode] = ''
+    }
+  }))
+
+  return results
+}
