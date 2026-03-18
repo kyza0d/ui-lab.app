@@ -1,0 +1,10 @@
+{
+  "title": "Guidelines",
+  "pages": [
+    "accessibility",
+    {
+      "name": "components-guidelines",
+      "title": "Components"
+    }
+  ]
+}
