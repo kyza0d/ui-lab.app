@@ -120,7 +120,7 @@
   --border-width-8: 8px;
 
   --header-height: 3.50rem;
-  --page-width: 1350px;
+  --page-width: 1400px;
   --logo-width: 250px;
   --banner-height: 52px;      /* adjust to match your banner content */
   /* --indent-offset: 3px; */
@@ -485,8 +485,6 @@ pre.shiki .indent::before {
 }
 
 body {
-  border-left: var(--border-width-base) solid color-mix(in srgb, var(--background-700) 40%, transparent);
-  border-right: var(--border-width-base) solid color-mix(in srgb, var(--background-700) 40%, transparent);
   max-width: var(--page-width);
   margin: 0 auto;
 }

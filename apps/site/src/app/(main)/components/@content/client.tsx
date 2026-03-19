@@ -44,14 +44,14 @@ export default function ComponentsPageClient() {
                         <div key={component.id}>
                           <Gallery.Item
                             href={href}
-                            className='group h-80 rounded-sm bg-background-950 hover:bg-background-900/50'
+                            className='group h-70 rounded-sm bg-background-950 hover:bg-background-900/50'
                             orientation='vertical'
                             onClick={() => router.push(href)}
                           >
                             <Gallery.View
-                              className="w-full h-45 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 shrink-0"
+                              className="w-full h-40 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 shrink-0"
                             >
-                              <div className='w-80 px-4 gap-2 flex items-center justify-center'>
+                              <div className='w-65 px-4 gap-2 flex items-center justify-center'>
                                 {previews[component.id] || <div />}
                               </div>
                               <div className='absolute top-0 left-0 w-full h-full'>

@@ -185,7 +185,7 @@ export function Sidebar() {
                                 'hover:duration-0',
                                 active
                                   ? 'text-foreground-50 bg-background-800'
-                                  : cn('text-foreground-200', 'hover:text-foreground-200 hover:bg-background-800/50')
+                                  : cn('text-foreground-300', 'hover:text-foreground-200 hover:bg-background-800/50')
                               )}
                             >
                               {item.label}

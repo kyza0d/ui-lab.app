@@ -1,21 +1,13 @@
 "use client";
 
 import React from "react";
-import {
-  Divider,
-  Mask,
-} from "ui-lab-components";
+import { Divider } from "ui-lab-components";
 import { CardAnimation } from "./timelines/card.animation";
 import { DividerAnimation } from "./timelines/divider.animation";
 import { ExpandAnimation } from "./timelines/expand.animation";
 import { GridAnimation } from "./timelines/grid.animation";
 import { FlexAnimation } from "./timelines/flex.animation";
 import { GroupAnimation } from "./timelines/group.animation";
-import {
-  FaInfo,
-  FaChevronDown,
-  FaMagnifyingGlass,
-} from "react-icons/fa6";
 import { GalleryAnimation } from "./timelines/gallery.animation";
 import { PopoverAnimation } from "./timelines/popover.animation";
 import { ListAnimation } from "./timelines/list.animation";
@@ -46,44 +38,37 @@ import { AnchorAnimation } from "./timelines/anchor.animation";
 
 export const previews: Record<string, React.ReactNode> = {
   anchor: <AnchorAnimation />,
-
   badge: <BadgeAnimation />,
-
   banner: <BannerAnimation />,
-
   path: <PathAnimation />,
-
   button: <ButtonAnimation />,
   card: <CardAnimation />,
-
   checkbox: <CheckboxAnimation />,
   color: <ColorAnimation />,
-
   command: <CommandAnimation />,
-
   confirm: <ConfirmAnimation />,
-
   date: <DateAnimation />,
-
   divider: <DividerAnimation />,
-
+  panel: <PanelAnimation />,
   flex: <FlexAnimation />,
-
   expand: <ExpandAnimation />,
-
-  frame: (
-    <div className="w-[120px] h-[40px] flex bg-background-900 items-center justify-center border border-background-700 rounded-md"></div>
-  ),
-
   gallery: <GalleryAnimation />,
   grid: <GridAnimation />,
   group: <GroupAnimation />,
   input: <InputAnimation />,
-
   label: <LabelAnimation />,
-
+  select: <SelectAnimation />,
+  slider: <SliderAnimation />,
+  menu: <MenuAnimation />,
+  tabs: <TabsAnimation />,
+  textarea: <TextareaAnimation />,
+  toast: <ToastAnimation />,
+  tooltip: <TooltipAnimation />,
+  switch: <SwitchAnimation />,
   list: <ListAnimation />,
-
+  popover: <PopoverAnimation />,
+  progress: <ProgressAnimation />,
+  radio: <RadioAnimation />,
   mask: (
     <div className="w-[80%] aspect-square max-w-[120px] flex items-center justify-center relative overflow-hidden">
       {/* The Divider Line */}
@@ -96,21 +81,16 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
-
-  menu: <MenuAnimation />,
-
   modal: (
     <div className="w-[70%] rounded-[3px] overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
       <div className="mb-2 border-b border-background-700 flex items-center p-1 gap-1">
         <div className="ml-auto bg-background-900 w-3 h-3 rounded-[2px]"></div>
       </div>
-
       <div className="pl-2">
         <div className="w-[60%] h-3 opacity-20 rounded-md mb-2 bg-background-500"></div>
         <div className="w-[70%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
         <div className="w-[40%] h-1 opacity-20 rounded-md bg-background-500"></div>
       </div>
-
       <div className="mt-4 border-t border-background-700 flex items-center p-1 gap-1">
         <div className="w-[40%] h-2 opacity-10 rounded-md bg-background-500"></div>
         <div className="w-[35%] h-3 ml-auto flex items-center rounded-xs pl-1 bg-background-800"></div>
@@ -118,11 +98,6 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  popover: <PopoverAnimation />,
-
-  progress: <ProgressAnimation />,
-
-  radio: <RadioAnimation />,
   scroll: (
     <div className="w-[70%] rounded-[3px] flex gap-2">
       <div className="w-full pr-4">
@@ -145,12 +120,6 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
-  select: <SelectAnimation />,
-
-  slider: <SliderAnimation />,
-
-  switch: <SwitchAnimation />,
-
   table: (
     <div className="w-[80%]">
       <div className="w-[60%] flex py-1 px-1 mb-2 rounded-[3px] overflow-hidden border border-background-700 flex-col">
@@ -210,15 +179,6 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
-
-  tabs: <TabsAnimation />,
-
-  textarea: <TextareaAnimation />,
-
-  toast: <ToastAnimation />,
-
-  tooltip: <TooltipAnimation />,
-
   page: (
     <div className="w-40 flex flex-col border border-background-700 rounded overflow-hidden">
       <div className="h-6 bg-background-900 border-b border-background-700 flex items-center px-2">
@@ -258,6 +218,5 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
-
-  panel: <PanelAnimation />,
+  frame: <div className="w-[120px] h-[40px] flex bg-background-900 items-center justify-center border border-background-700 rounded-md"></div>,
 };

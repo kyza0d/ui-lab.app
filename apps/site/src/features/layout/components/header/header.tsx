@@ -15,7 +15,6 @@ import { useApp } from "@/features/theme";
 import { useChat } from "@/features/chat";
 import { cn } from "@/shared";
 import {
-  FaMagnifyingGlass,
   FaCodeBranch,
   FaBars,
 } from "react-icons/fa6";
@@ -85,9 +84,10 @@ export default function Header({
   return (
     <>
       <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700/40 bg-background-950 h-[58px]">
-        <div className={cn("relative h-full max-w-(--page-width) border-x border-background-700/40 flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
-          <div className=" flex items-center flex-1 min-w-0">
+        <div className={cn("relative h-full max-w-(--page-width) flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
 
+          {/* LEFT SECTION: Logo & Tabs - Added shrink-0 to prevent it being crushed */}
+          <div className="flex items-center shrink-0">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0">
               <div className="scale-100">
                 <Logo />
@@ -101,7 +101,6 @@ export default function Header({
             >
               <PanelRight strokeWidth={2.4} size={20} />
             </button>
-
 
             {pathname === "/" && homeNavTabs && (
               <Tabs className="hidden ml-8 lg:block" value={activeHomeTab || ""} variant="underline">
@@ -124,55 +123,46 @@ export default function Header({
             )}
           </div>
 
-          <div className="flex lg:absolute lg:left-1/2 lg:-translate-x-1/2  flex gap-2 mr-2">
-
-            <div className="block lg:hidden flex items-center">
-              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
-                <Button
-                  variant="ghost"
-                  styles="p-2"
-                  icon={{ left: <LuSearch strokeWidth={3.0} className="text-foreground-300" size={16} /> }}
-                  onClick={() => setIsCommandPaletteOpen(true)}
-                />
-              </Tooltip>
-            </div>
-
-            <div className="hidden lg:block relative flex items-center">
-              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
+          <div className="flex-1 flex justify-center md:pr-6 pl-4 lg:pr-0 lg:pr-12  max-w-sm">
+            <div className="hidden lg:block relative w-full flex items-center">
+              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k" className="w-full">
                 <Input
                   placeholder="Search..."
-                  prefixIcon={<LuSearch strokeWidth={3.0} className="-translate-y-px" size={16} />}
-                  styles="text-xs w-60 py-1.5 pr-1 pl-9  font-medium bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
+                  prefixIcon={<LuSearch strokeWidth={3.0} className="text-background-500 -translate-y-px" size={16} />}
+                  styles="text-xs w-full py-1.5 pb-2 pr-1 pl-10! font-medium bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                   onClick={() => setIsCommandPaletteOpen(true)}
                   readOnly
                 />
               </Tooltip>
             </div>
 
-            {/* This comes later */}
-            <div className="hidden">
+            {/* AI Chat: This comes later */}
+            <div className="hidden ml-2">
               <Tooltip showArrow content="Open Chat Panel" position="bottom" hint="ctrl-i">
                 <Button
                   variant="ghost"
-                  className="px-2 flex items-center justify-center min-w-[30px] min-h-[30px]"
+                  className="p-2"
+                  styles={[isChatOpen ? "text-accent-500" : "text-foreground-300"]}
+                  icon={{ left: <HiMiniSparkles size={15} /> }}
                   onClick={toggleChat}
                   aria-label="Toggle AI chat"
-                >
-                  <HiMiniSparkles
-                    size={15}
-                    className={cn(
-                      "transition-colors",
-                      isChatOpen
-                        ? "text-accent-500"
-                        : "text-foreground-300"
-                    )}
-                  />
-                </Button>
+                />
               </Tooltip>
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            <div className="block lg:hidden flex items-center justify-end">
+              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
+                <Button
+                  variant="ghost"
+                  styles="p-2"
+                  icon={{ left: <LuSearch strokeWidth={3.0} className="text-background-500" size={16} /> }}
+                  onClick={() => setIsCommandPaletteOpen(true)}
+                />
+              </Tooltip>
+            </div>
+
             <div className="hidden lg:flex items-center gap-2">
               <Button variant="ghost" size="sm">
                 Feedback
@@ -187,7 +177,6 @@ export default function Header({
                   aria-label="GitHub Repository"
                   className="p-2"
                   size="sm"
-
                 >
                   <FaCodeBranch className="text-foreground-300 mr-1" size={16} />
                   Source
@@ -201,7 +190,7 @@ export default function Header({
             <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
               <button
                 onClick={() => setIsMobileMenuOpen((v) => !v)}
-                className="md:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-[30px] min-h-[30px]"
+                className="md:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-30px min-h-[30px]"
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               >
                 {isMobileMenuOpen ? <HiX size={20} /> : <FaBars size={20} />}

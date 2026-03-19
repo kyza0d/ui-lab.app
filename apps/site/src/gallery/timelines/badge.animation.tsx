@@ -47,11 +47,11 @@ export function BadgeAnimation() {
   const centerX = 200;
   const centerY = 150;
 
-  const badgeW = 100;
+  const badgeW = 120;
   const badgeH = 38;
   const badgeX = centerX - badgeW / 2;
   const badgeY = centerY - badgeH / 2;
-  const badgeRx = 4;
+  const badgeRx = 6;
 
   const iconSize = 12;
   const iconX = badgeX + 12;
