@@ -1,5 +1,3 @@
-import 'server-only';
-
 import {
   DOCS_MANIFEST,
   type DocsDomain,

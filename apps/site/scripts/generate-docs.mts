@@ -172,30 +172,30 @@ function parseFolderMeta(metaPath: string): FolderMeta | null {
   const title = typeof parsed.title === 'string' && parsed.title.length > 0 ? parsed.title : undefined;
   const pages = Array.isArray(parsed.pages)
     ? parsed.pages.flatMap((entry) => {
-        if (typeof entry === 'string' && entry.length > 0) {
-          return [{ name: entry } satisfies FolderMetaPageEntry];
-        }
+      if (typeof entry === 'string' && entry.length > 0) {
+        return [{ name: entry } satisfies FolderMetaPageEntry];
+      }
 
-        if (
-          typeof entry === 'object' &&
-          entry !== null &&
-          'name' in entry &&
-          typeof entry.name === 'string' &&
-          entry.name.length > 0
-        ) {
-          return [
-            {
-              name: entry.name,
-              title:
-                'title' in entry && typeof entry.title === 'string' && entry.title.length > 0
-                  ? entry.title
-                  : undefined,
-            } satisfies FolderMetaPageEntry,
-          ];
-        }
+      if (
+        typeof entry === 'object' &&
+        entry !== null &&
+        'name' in entry &&
+        typeof entry.name === 'string' &&
+        entry.name.length > 0
+      ) {
+        return [
+          {
+            name: entry.name,
+            title:
+              'title' in entry && typeof entry.title === 'string' && entry.title.length > 0
+                ? entry.title
+                : undefined,
+          } satisfies FolderMetaPageEntry,
+        ];
+      }
 
-        return [];
-      })
+      return [];
+    })
     : undefined;
 
   return {
@@ -496,8 +496,7 @@ function readDomainContent(domain: DocsDomain): { pages: GeneratedDocsPageManife
 }
 
 function generateManifestModule(manifest: GeneratedDocsManifest): string {
-  return `import 'server-only';
-
+  return `
 export type DocsDomain = 'docs' | 'design-system';
 
 export interface GeneratedDocsTocItem {
@@ -549,8 +548,7 @@ export const DOCS_MANIFEST: GeneratedDocsManifest = ${JSON.stringify(manifest, n
 }
 
 function generateBodiesModule(bodies: GeneratedDocsBodies): string {
-  return `import 'server-only';
-
+  return `
 import type { DocsDomain } from './generated-docs-manifest';
 
 export type GeneratedDocsBodies = Record<DocsDomain, Record<string, string>>;
