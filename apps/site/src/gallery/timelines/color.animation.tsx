@@ -153,7 +153,9 @@ export function ColorAnimation() {
               <stop offset="100%" stopColor="white" stopOpacity="0" />
             </radialGradient>
             <mask id="color-grid-mask">
-              <rect width="400" height="300" fill="url(#color-grid-fade)" />
+              <rect
+
+                width="400" height="300" fill="url(#color-grid-fade)" />
             </mask>
             <clipPath id="picker-clip">
               <path
@@ -206,7 +208,10 @@ export function ColorAnimation() {
                     tl: rx - 4, tr: rx - 4, bl: 4, br: 4
                   })}
                   fill={currentColor}
-                  style={{ transition: "fill 1s cubic-bezier(0.25, 0, 0.25, 1)" }}
+                  style={{
+                    opacity: stage === "idle" ? 0.4 : 1,
+                    transition: "fill 0.5s cubic-bezier(0.25, 0, 0.25, 1), opacity 0.5s cubic-bezier(0.25, 0, 0.25, 1)",
+                  }}
                 />
 
                 {/* Canvas Highlight / Selection Ring */}

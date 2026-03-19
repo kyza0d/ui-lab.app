@@ -30,18 +30,7 @@ export function generateTypeScaleFromRatio(
   const globalMinFontSizeRem = pxToRem(
     options.globalMinFontSizePx ?? DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
   );
-  const names = [
-    "xs",
-    "sm",
-    "md",
-    "base",
-    "lg",
-    "xl",
-    "2xl",
-    "3xl",
-    "4xl",
-    "5xl",
-  ] as const;
+  const names = ["xs", "sm", "md", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl"] as const;
   const baseIndex = 3;
 
   names.forEach((name, i) => {
@@ -138,18 +127,6 @@ export function applyDynamicFontSizeScalesWithRatio(
 }
 
 /**
- * Applies dynamic font size scales to the DOM (base scales only, without type scale ratio)
- * Updates all --text-* CSS variables based on the scale factor
- * - Small sizes (xs through base): Static rem values
- * - Large sizes (lg through 5xl): Fluid clamp() values
- *
- * @param fontSizeScale - Font size scale factor (0.85 - 1.15)
- */
-function applyDynamicFontSizeScales(fontSizeScale: number): void {
-  applyDynamicFontSizeScalesWithRatio(1.125, fontSizeScale);
-}
-
-/**
  * Applies dynamic header font size scales to the DOM
  * Updates all --header-text-* CSS variables based on header ratio and font size scale
  * @param headerTypeSizeRatio - Header type scale ratio (1.067 - 1.2)
@@ -194,7 +171,7 @@ export function generateLetterSpacingCSS(
   headerLetterSpacingScale: number = 1,
 ): Record<string, string> {
   const vars: Record<string, string> = {};
-  const baseLetterSpacingFactor = 0.015;
+  const baseLetterSpacingFactor = 0.020;
   const textNames = ["xs", "sm", "md", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl"] as const;
   const baseIndex = 3;
 
