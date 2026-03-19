@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/shared";
-import { Scroll } from "ui-lab-components";
+import { Divider, Scroll } from "ui-lab-components";
+import { DOCS_MANIFEST } from "../lib/generated-docs-manifest";
 
 export interface TableOfContentsItem {
   id: string;
@@ -13,6 +14,17 @@ export interface TableOfContentsItem {
 
 interface TableOfContentsProps {
   items: TableOfContentsItem[];
+  mode?: "dynamic" | "static";
+}
+
+function getRouteTocItems(pathname: string | null): TableOfContentsItem[] | null {
+  if (!pathname || (!pathname.startsWith("/docs") && !pathname.startsWith("/design-system"))) {
+    return null;
+  }
+
+  const domain = pathname.startsWith("/design-system") ? "design-system" : "docs";
+  const page = DOCS_MANIFEST[domain].pages.find((entry) => entry.url === pathname);
+  return page?.toc ?? null;
 }
 
 function getCurrentPageItems(initialItems: TableOfContentsItem[]): TableOfContentsItem[] {
@@ -39,63 +51,125 @@ function getCurrentPageItems(initialItems: TableOfContentsItem[]): TableOfConten
   }
 }
 
-export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
+function getHeadingRoot() {
+  return document.getElementById("doc-content")
+    ?? document.querySelector("#docs main")
+    ?? document.body;
+}
+
+export function TableOfContents({ items: initialItems, mode = "dynamic" }: TableOfContentsProps) {
   const pathname = usePathname();
+  const routeItems = useMemo(
+    () => getRouteTocItems(pathname) ?? initialItems,
+    [initialItems, pathname]
+  );
   const [activeId, setActiveId] = useState<string>("");
-  const [visibleItems, setVisibleItems] = useState<TableOfContentsItem[]>(initialItems);
+  const [visibleState, setVisibleState] = useState<{
+    pathname: string | null;
+    items: TableOfContentsItem[];
+  }>({
+    pathname,
+    items: routeItems,
+  });
   const isClickScrolling = useRef(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const visibleItems = mode === "static"
+    ? routeItems
+    : visibleState.pathname === pathname
+      ? visibleState.items
+      : routeItems;
 
   const filterVisibleHeadings = useCallback(() => {
-    const sourceItems = getCurrentPageItems(initialItems);
+    const sourceItems = getCurrentPageItems(routeItems);
     const registryIds = new Set(sourceItems.map(item => item.id));
+    const seenIds = new Set<string>();
     const visible: TableOfContentsItem[] = [];
-    const headingRoot = document.getElementById('doc-content')
-      ?? document.querySelector('#docs main')
-      ?? document.body;
+    const headingRoot = getHeadingRoot();
 
     for (const item of sourceItems) {
       const element = document.getElementById(item.id);
       if (element && (element as HTMLElement).offsetParent !== null) {
+        seenIds.add(item.id);
         visible.push(item);
       }
     }
 
-    const domHeadings = new Set<string>();
-    headingRoot.querySelectorAll('h2[id], h3[id], h4[id], h5[id], h6[id]').forEach(heading => {
-      const id = heading.getAttribute('id')!;
+    headingRoot.querySelectorAll("h2[id], h3[id], h4[id], h5[id], h6[id]").forEach((heading) => {
+      const id = heading.getAttribute("id");
+      if (!id || seenIds.has(id)) return;
+
       const htmlElement = heading as HTMLElement;
       if (htmlElement.offsetParent === null) return;
 
-      domHeadings.add(id);
       if (!registryIds.has(id)) {
         const level = parseInt(heading.tagName[1], 10);
+        seenIds.add(id);
         visible.push({
           id,
-          title: heading.textContent || '',
+          title: heading.textContent || "",
           level
         });
       }
     });
 
-    setVisibleItems(visible);
-  }, [initialItems]);
+    setVisibleState({
+      pathname,
+      items: visible,
+    });
+  }, [pathname, routeItems]);
 
   useEffect(() => {
-    const frameId = requestAnimationFrame(() => {
-      filterVisibleHeadings();
-    });
-    const timeoutIds = [
-      window.setTimeout(filterVisibleHeadings, 100),
-      window.setTimeout(filterVisibleHeadings, 300),
-    ];
+    if (mode === "static") return;
+
+    let frameId: number | null = null;
+    let observer: MutationObserver | null = null;
+
+    const scheduleFilter = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+
+      frameId = requestAnimationFrame(() => {
+        frameId = null;
+        filterVisibleHeadings();
+      });
+    };
+
+    const observeRoot = () => {
+      observer?.disconnect();
+
+      observer = new MutationObserver(() => {
+        scheduleFilter();
+
+        const nextRoot = getHeadingRoot();
+        if (nextRoot !== observedRoot) {
+          observeRoot();
+        }
+      });
+
+      observedRoot = getHeadingRoot();
+      observer.observe(observedRoot, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: ["class", "style", "hidden", "id"],
+      });
+    };
+
+    let observedRoot = getHeadingRoot();
+    observeRoot();
+    scheduleFilter();
+    window.addEventListener("resize", scheduleFilter);
 
     return () => {
-      cancelAnimationFrame(frameId);
-      timeoutIds.forEach(window.clearTimeout);
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+      observer?.disconnect();
+      window.removeEventListener("resize", scheduleFilter);
     };
-  }, [filterVisibleHeadings, pathname]);
+  }, [filterVisibleHeadings, mode]);
 
   const findActiveHeading = useCallback(() => {
     if (visibleItems.length === 0) return;
@@ -138,7 +212,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [findActiveHeading]);
+  }, [findActiveHeading, visibleItems.length]);
 
   useEffect(() => {
     if (!activeId || !scrollRef.current) return;
@@ -191,6 +265,7 @@ export function TableOfContents({ items: initialItems }: TableOfContentsProps) {
             <span className="text-md font-semibold text-foreground-50">
               On this page
             </span>
+            <Divider variant="dashed" spacing="lg" />
             <div className="mt-2 h-140">
               <Scroll fadeY ref={scrollRef} maxHeight="100%">
                 <div className="flex flex-col space-y-0">
