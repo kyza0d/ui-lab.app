@@ -88,7 +88,6 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
               language="typescript"
               controls={firstExample.controls}
               renderPreview={firstExample.renderPreview}
-              previewHeight={firstExample.previewHeight}
               previewLayout={firstExample.previewLayout}
             >
               {firstExample.preview}
@@ -108,7 +107,6 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
                   language="typescript"
                   controls={example.controls}
                   renderPreview={example.renderPreview}
-                  previewHeight={example.previewHeight}
                   previewLayout={example.previewLayout}
                 >
                   {example.preview}

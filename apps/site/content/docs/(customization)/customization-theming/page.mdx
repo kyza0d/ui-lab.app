@@ -10,6 +10,16 @@ tags: ["theming", "tokens", "colors", "dark-mode", "css-variables"]
 
 UI Lab is built on a semantic token system backed by OKLCH — a perceptually-uniform color space. Every color decision routes through CSS custom properties, so swapping themes or customizing the accent is a one-line change.
 
+Consumers usually own the token layer in their app's `theme.css`. With Tailwind v4, the normal setup is:
+
+```css
+@import "tailwindcss";
+@import "./theme.css";
+@import "ui-lab-components/styles.css";
+```
+
+`theme.css` defines your app tokens and mode rules. `ui-lab-components/styles.css` consumes those active `--color-*` tokens. You do not need a `tailwind.config.ts` content extension step for this integration.
+
 ---
 
 ## How the token pipeline works
@@ -57,6 +67,20 @@ There is no `dark:` prefix in UI Lab. Shades invert automatically when the theme
 
 ## Applying tokens
 
+To make Tailwind utilities point at your live token values, map them in `@theme inline` inside your app-owned `theme.css`:
+
+```css
+:root {
+  --background-700: oklch(21% 0.005 51.4);
+  --foreground-300: oklch(73% 0.02 51.4);
+}
+
+@theme inline {
+  --color-background-700: var(--background-700);
+  --color-foreground-300: var(--foreground-300);
+}
+```
+
 ### Tailwind classes
 
 ```tsx
@@ -102,10 +126,9 @@ There is no `dark:` prefix in UI Lab. Shades invert automatically when the theme
 
 ## Customizing the accent color
 
-The accent family is designed for dynamic customization. Override it in your CSS:
+The accent family is designed for dynamic customization. Override it in your app-owned `theme.css`:
 
 ```css
-/* globals.css */
 :root {
   --accent-50:  oklch(97% 0.012 262);
   --accent-100: oklch(93% 0.030 262);

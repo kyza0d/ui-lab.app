@@ -96,10 +96,6 @@ export function generateThemeSetupFiles(
   const maxWidthUtilitiesCSS = generateMaxWidthScaleCSS(maxWidthScale ?? 1);
   const lightColorVariables = generateColorPaletteVariables(colors, "light");
   const darkColorVariables = generateColorPaletteVariables(colors, "dark");
-  const defaultColorVariables = mode === "dark" ? darkColorVariables : lightColorVariables;
-  const alternateMode = mode === "dark" ? "light" : "dark";
-  const alternateColorVariables = alternateMode === "dark" ? darkColorVariables : lightColorVariables;
-
   const tokenNames = Array.from(
     new Set(
       [...Object.keys(lightColorVariables), ...Object.keys(darkColorVariables)]
@@ -111,18 +107,34 @@ export function generateThemeSetupFiles(
     .map((tokenName) => `  --color-${tokenName}: var(--${tokenName});`)
     .join("\n");
 
-  const themeCss = `/* Default mode tokens live on :root. */
+  const themeCss = `/* Your app owns this token layer. UI Lab does not need to ship a theme.css for you. */
+/* Generated from a ${mode} preview, but both light and dark tokens are included here. */
 :root {
-  color-scheme: ${mode};
+  color-scheme: light;
 
-${renderCssVariables(defaultColorVariables)}
+${renderCssVariables(lightColorVariables)}
 }
 
-/* Alternate mode tokens are activated by html[data-theme]. */
-:root[data-theme='${alternateMode}'] {
-  color-scheme: ${alternateMode};
+/* Leave system mode unstamped so prefers-color-scheme handles first paint. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
 
-${renderCssVariables(alternateColorVariables)}
+${renderCssVariables(darkColorVariables)}
+  }
+}
+
+/* Explicit overrides come from the server-stamped html[data-theme]. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+${renderCssVariables(lightColorVariables)}
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+${renderCssVariables(darkColorVariables)}
 }
 
 /* Tailwind color utilities always point at the active tokens. */
@@ -161,7 +173,8 @@ ${maxWidthUtilitiesCSS}
 }`;
 
   const layoutTsx = `import type { Metadata } from "next";
-import { generateColorModeScript } from "ui-lab-components/theme-script";
+import { cookies } from "next/headers";
+import { parseThemeCookie, resolveThemeRootState } from "ui-lab-components/theme-server";
 
 import "./globals.css";
 
@@ -170,17 +183,23 @@ export const metadata: Metadata = {
   description: "My app description",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const theme = parseThemeCookie(cookieStore.get("ui-lab-theme")?.value);
+  const rootTheme = resolveThemeRootState(theme);
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Must run from initial head markup to apply the saved theme before first paint. */}
-        <script>{generateColorModeScript()}</script>
-      </head>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={rootTheme.className}
+      data-theme={rootTheme.dataTheme}
+      style={rootTheme.colorScheme ? { colorScheme: rootTheme.colorScheme } : undefined}
+    >
       <body>{children}</body>
     </html>
   );
@@ -256,21 +275,7 @@ export default function ThemeToggle() {
 }`;
 
   const fullBundle = `/* === app/theme.css === */
-:root {
-  color-scheme: ${mode};
-
-${renderCssVariables(defaultColorVariables)}
-}
-
-:root[data-theme='${alternateMode}'] {
-  color-scheme: ${alternateMode};
-
-${renderCssVariables(alternateColorVariables)}
-}
-
-@theme inline {
-${themeInlineMapping}
-}
+${themeCss}
 
 /* === app/globals.css === */
 ${globalsCss}

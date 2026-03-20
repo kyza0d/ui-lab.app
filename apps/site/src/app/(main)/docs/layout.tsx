@@ -1,4 +1,5 @@
 import { DocsLayout } from "@/features/docs";
+import { YouTubeBanner } from "@/features/docs/components/youtube-banner";
 import { generateMetadata } from "@/shared";
 import { Metadata } from "next";
 
@@ -9,10 +10,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
   return (
     <DocsLayout
-      banner={
-        <div className="hidden h-90 border-b border-background-700/40 bg-background-800 w-full text-sm font-medium">
-        </div>
-      }
+    // Disabled for now
+    // banner={<YouTubeBanner videoId="VSYQLmGf3To" title="UI Lab YouTube video" />}
     >
       {children}
     </DocsLayout>

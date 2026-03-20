@@ -128,7 +128,7 @@ export default function Header({
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k" className="w-full">
                 <Input
                   placeholder="Search..."
-                  prefixIcon={<LuSearch strokeWidth={3.0} className="text-background-500 -translate-y-px" size={16} />}
+                  prefixIcon={<LuSearch strokeWidth={3.0} className="text-foreground-400 -translate-y-px" size={16} />}
                   styles="text-xs w-full py-1.5 pb-2 pr-1 pl-10! font-medium bg-background-800/40 border-background-700 focus:ring-1 focus:ring-accent-500/50"
                   onClick={() => setIsCommandPaletteOpen(true)}
                   readOnly
@@ -156,8 +156,9 @@ export default function Header({
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Button
                   variant="ghost"
+                  className="text-foreground-400 hover:text-foreground-300 transition-colors"
                   styles="p-2"
-                  icon={{ left: <LuSearch strokeWidth={3.0} className="text-background-500" size={16} /> }}
+                  icon={{ left: <LuSearch strokeWidth={3.0} size={16} /> }}
                   onClick={() => setIsCommandPaletteOpen(true)}
                 />
               </Tooltip>
@@ -175,10 +176,10 @@ export default function Header({
                 <Button
                   variant="ghost"
                   aria-label="GitHub Repository"
-                  className="p-2"
+                  className="hover:text-foreground-300 transition-colors text-foreground-400 p-2"
                   size="sm"
                 >
-                  <FaCodeBranch className="text-foreground-300 mr-1" size={16} />
+                  <FaCodeBranch className="mr-1" size={16} />
                   Source
                 </Button>
               </a>
@@ -188,13 +189,14 @@ export default function Header({
             <ThemeToggle />
 
             <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
-              <button
+              <Button
                 onClick={() => setIsMobileMenuOpen((v) => !v)}
-                className="md:hidden flex items-center justify-center rounded-md p-2 text-foreground-300 hover:bg-background-800 min-w-30px min-h-[30px]"
+                variant="ghost"
+                className="text-foreground-400 md:hidden flex items-center justify-center p-2"
                 aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               >
-                {isMobileMenuOpen ? <HiX size={20} /> : <FaBars size={20} />}
-              </button>
+                {isMobileMenuOpen ? <HiX size={16} /> : <FaBars size={16} />}
+              </Button>
             </Tooltip>
           </div>
         </div>

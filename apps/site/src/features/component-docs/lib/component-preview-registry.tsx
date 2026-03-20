@@ -45,10 +45,15 @@ const detailLoaders: Record<string, () => Promise<SiteComponentExample[]>> = {
   frame:    () => import("ui-lab-registry/components/Frame").then(m => m.frameDetail.examples),
 };
 
-export function useComponentExamples(componentId: string): SiteComponentExample[] {
+export function useComponentExamples(componentId: string): { examples: SiteComponentExample[]; isLoading: boolean } {
   const [examples, setExamples] = useState<SiteComponentExample[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    detailLoaders[componentId]?.().then(setExamples);
+    setIsLoading(true);
+    detailLoaders[componentId]?.().then((result) => {
+      setExamples(result);
+      setIsLoading(false);
+    });
   }, [componentId]);
-  return examples;
+  return { examples, isLoading };
 }

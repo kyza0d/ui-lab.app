@@ -22,6 +22,7 @@ export type {
 // Generated data (auto-populated by scripts)
 export { generatedAPI, generatedSourceCode, reactAriaUrls, generatedComponentDependencies, generatedCoreNpmDependencies, packageMetadata } from './generated-data.js';
 export { generatedStyles } from './generated-styles.js';
+export { generatedControls } from './generated-controls.js';
 
 const BASE = "https://github.com/kyza0d/ui-lab.app/tree/master/packages/%40ui/src/components";
 

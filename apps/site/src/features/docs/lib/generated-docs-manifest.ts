@@ -143,18 +143,23 @@ export const DOCS_MANIFEST: GeneratedDocsManifest = {
             "level": 2
           },
           {
-            "id": "install",
-            "title": "Install",
+            "id": "install-the-package",
+            "title": "Install the package",
             "level": 2
           },
           {
-            "id": "import-styles",
-            "title": "Import styles",
+            "id": "import-styles-in-the-right-order",
+            "title": "Import styles in the right order",
             "level": 2
           },
           {
-            "id": "use-components",
-            "title": "Use components",
+            "id": "optional-wire-up-theme-switching",
+            "title": "Optional: wire up theme switching",
+            "level": 2
+          },
+          {
+            "id": "render-a-component",
+            "title": "Render a component",
             "level": 2
           },
           {
@@ -271,7 +276,7 @@ export const DOCS_MANIFEST: GeneratedDocsManifest = {
         "url": "/docs/guides-theme-switching",
         "title": "Theme Switching",
         "label": "Theme Switching",
-        "description": "Set up light/dark mode with UI Lab using the same CSS-first contract as factory-gen.site: app/theme.css, generateColorModeScript(), and useColorMode().",
+        "description": "Set up light/dark mode with UI Lab using an app-owned theme.css, cookie persistence, and a server-stamped Next.js layout.",
         "section": "Guides",
         "toc": [
           {
@@ -280,28 +285,28 @@ export const DOCS_MANIFEST: GeneratedDocsManifest = {
             "level": 2
           },
           {
-            "id": "1-import-tailwind-your-theme-and-ui-lab-styles",
-            "title": "1. Import Tailwind, your theme, and UI Lab styles",
+            "id": "1-import-your-theme-before-ui-lab-styles",
+            "title": "1. Import your theme before UI Lab styles",
             "level": 2
           },
           {
-            "id": "2-add-the-pre-hydration-theme-script-in-applayouttsx",
-            "title": "2. Add the pre-hydration theme script in `app/layout.tsx`",
+            "id": "2-keep-token-definitions-in-app-owned-themecss",
+            "title": "2. Keep token definitions in app-owned `theme.css`",
             "level": 2
           },
           {
-            "id": "3-toggle-the-theme-from-a-client-component",
-            "title": "3. Toggle the theme from a client component",
+            "id": "3-stamp-from-the-server-layout",
+            "title": "3. Stamp `` from the server layout",
             "level": 2
           },
           {
-            "id": "4-structure-appthemecss-like-factory-gensite",
-            "title": "4. Structure `app/theme.css` like `factory-gen.site`",
+            "id": "4-toggle-the-theme-from-a-client-component",
+            "title": "4. Toggle the theme from a client component",
             "level": 2
           },
           {
-            "id": "when-to-use-themeprovider",
-            "title": "When to use `ThemeProvider`",
+            "id": "fallback-theme-script",
+            "title": "Fallback: `theme-script`",
             "level": 2
           },
           {

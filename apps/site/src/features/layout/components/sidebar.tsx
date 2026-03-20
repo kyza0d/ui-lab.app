@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useRef, useMemo, memo } from 'react';
-import { Scroll } from 'ui-lab-components';
+import { useEffect, useRef, useMemo, memo, useState, type ReactNode } from 'react';
+import { Scroll, Select } from 'ui-lab-components';
+import { SiAstro, SiReact, SiSvelte } from 'react-icons/si';
 import { cn, usePrefetchOnHover } from '@/shared';
 import { useSidebarToggle } from '@/features/layout/hooks/sidebar-context';
 import {
@@ -15,6 +16,33 @@ import { getSectionsForNav, getHrefForNavItem, isNavItemActive } from '@/feature
 import { useDocsNavigationData } from '@/features/navigation/lib/docs-navigation-context';
 import { getActiveElementsNavFromPathname } from '@/features/packages/lib/sidebar-sections';
 import { ElementsList } from '@/features/packages/components/sidebar-content';
+import { RiExpandUpDownFill } from "react-icons/ri";
+import { FaArrowsUpDown } from 'react-icons/fa6';
+
+type FrameworkOption = {
+  value: 'react' | 'svelte' | 'astro';
+  label: string;
+  icon: ReactNode;
+};
+
+const FRAMEWORK_STORAGE_KEY = 'ui-lab-selected-framework';
+const FRAMEWORK_OPTIONS: FrameworkOption[] = [
+  {
+    value: 'react',
+    label: 'React',
+    icon: <SiReact className="aspect-square min-w-4.5 h-4.5 text-foreground-300" />,
+  },
+  {
+    value: 'svelte',
+    label: 'Svelte',
+    icon: <SiSvelte className="aspect-square min-w-4.5 h-4.5 text-foreground-300" />,
+  },
+  {
+    value: 'astro',
+    label: 'Astro',
+    icon: <SiAstro className="aspect-square min-w-4.5 h-4.5 text-foreground-300" />,
+  },
+];
 
 const SidebarItemLink = memo(function SidebarItemLink({
   href,
@@ -59,6 +87,7 @@ export function Sidebar() {
   const { isOpen, closeSidebar } = useSidebarToggle();
   const docsNavigationData = useDocsNavigationData();
   const pathname = usePathname();
+  const [selectedFramework, setSelectedFramework] = useState<FrameworkOption['value']>('react');
   const activeDomain = getActiveDomainForPathname(pathname);
   const activeNavItem = getActiveNavItemForDomain(activeDomain);
   const mainNavItems = useMemo(() => getMainNavItemsForDomain(activeDomain), [activeDomain]);
@@ -72,6 +101,20 @@ export function Sidebar() {
 
   const isElementsOrSectionsOrStarters = activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns';
   const activeElementsNav = useMemo(() => (isElementsOrSectionsOrStarters ? getActiveElementsNavFromPathname(pathname) : 'packages'), [isElementsOrSectionsOrStarters, pathname]);
+  const selectedFrameworkOption = useMemo(
+    () => FRAMEWORK_OPTIONS.find((option) => option.value === selectedFramework) ?? FRAMEWORK_OPTIONS[0],
+    [selectedFramework]
+  );
+
+  useEffect(() => {
+    const storedFramework = window.localStorage.getItem(FRAMEWORK_STORAGE_KEY);
+    if (!storedFramework) return;
+
+    const matchingFramework = FRAMEWORK_OPTIONS.find((option) => option.value === storedFramework);
+    if (matchingFramework) {
+      setSelectedFramework(matchingFramework.value);
+    }
+  }, []);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -90,6 +133,14 @@ export function Sidebar() {
     container.addEventListener('scroll', handleScroll, { passive: true });
     return () => container.removeEventListener('scroll', handleScroll);
   }, [activeNavItem, activeElementsNav, isElementsOrSectionsOrStarters]);
+
+  const handleFrameworkChange = (key: string | number | null) => {
+    if (key === null) return;
+
+    const value = String(key) as FrameworkOption['value'];
+    setSelectedFramework(value);
+    window.localStorage.setItem(FRAMEWORK_STORAGE_KEY, value);
+  };
 
   const sidebarWidth = isElementsOrSectionsOrStarters ? 'w-80 md:w-64 lg:w-54 xl:w-64' : 'w-80 md:w-64 lg:w-50 xl:w-64';
 
@@ -116,6 +167,40 @@ export function Sidebar() {
         isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       )}>
         <div className="flex border-r bg-background-950 border-background-700/40 flex-col h-screen lg:h-[calc(100vh-var(--header-height))] sticky top-0 lg:top-[var(--header-height)]">
+          {false && <div className="px-2 pt-4">
+            <Select
+              selectedKey={selectedFramework}
+              valueLabel={selectedFrameworkOption.label}
+              onSelectionChange={handleFrameworkChange}
+            >
+              <Select.Trigger
+                chevron={<RiExpandUpDownFill />}
+                className="h-11">
+                <Select.Value
+                  placeholder="Choose a framework"
+                  styles={{ root: "pl-1", icon: "w-5 h-5 mr-2" }}
+                  icon={selectedFrameworkOption.icon}
+                />
+              </Select.Trigger>
+              <Select.Content >
+                <Select.List >
+                  {FRAMEWORK_OPTIONS.map((option) => (
+                    <Select.Item
+                      key={option.value}
+                      value={option.value}
+                      textValue={option.label}
+                      icon={option.icon}
+                      styles={{ iconWrapper: "w-6 h-6" }}
+                    >
+                      {option.label}
+                    </Select.Item>
+                  ))}
+                </Select.List>
+              </Select.Content>
+            </Select>
+          </div>
+          }
+
           {mainNavItems.length > 0 && (
             <div className="z-10">
               <nav className="py-3 px-2 space-y-1">

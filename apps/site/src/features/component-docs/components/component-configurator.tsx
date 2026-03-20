@@ -54,7 +54,6 @@ interface ComponentConfiguratorProps {
   renderPreview?: (props: Record<string, unknown>) => React.ReactNode;
   customRenderer?: (context: RenderContext) => React.ReactNode;
   hidePreviewToggle?: boolean;
-  previewHeight?: string;
   previewLayout?: "center" | "start";
 }
 
@@ -72,7 +71,6 @@ export function ComponentConfigurator({
   renderPreview,
   customRenderer,
   hidePreviewToggle = false,
-  previewHeight,
   previewLayout = "center",
 }: ComponentConfiguratorProps) {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -98,8 +96,11 @@ export function ComponentConfigurator({
     }));
   };
 
+  const PreviewRenderer = renderPreview;
+  const CustomRenderer = customRenderer;
+
   // If custom renderer is provided, use it instead of default layout
-  if (customRenderer) {
+  if (CustomRenderer) {
     const renderContext: RenderContext = {
       showCode,
       activeTab,
@@ -108,7 +109,7 @@ export function ComponentConfigurator({
       selectedEasing,
       setSelectedEasing,
     };
-    return customRenderer(renderContext);
+    return <CustomRenderer {...renderContext} />;
   }
 
   return (
@@ -134,10 +135,10 @@ export function ComponentConfigurator({
 
             <TabsContent value="preview" className="overflow-hidden mt-0">
               <div
-                className={cn("px-10 py-20 min-h-100 mx-auto w-fit min-w-xs", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                className={cn("px-10 py-20  h-100 mx-auto w-fit min-w-xs", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                 style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
               >
-                {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
+                {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
               </div>
             </TabsContent>
 
@@ -166,10 +167,10 @@ export function ComponentConfigurator({
         {hidePreviewToggle && (
           <div className="overflow-hidden">
             <div
-              className={cn("p-10", previewHeight, previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+              className={cn("p-10", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
               style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
             >
-              {renderPreview ? renderPreview({ ...controlValues, handleControlChange }) : children}
+              {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
             </div>
           </div>
         )}

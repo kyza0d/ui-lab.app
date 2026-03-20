@@ -39,7 +39,7 @@ export const LandingThemeToggle = () => {
       <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
         <Button
           variant="ghost"
-          className="p-2 text-foreground-300"
+          className="p-2 hover:text-foreground-300 transition-colors text-foreground-400"
           onClick={toggleTheme}
           aria-label="Toggle theme"
         >

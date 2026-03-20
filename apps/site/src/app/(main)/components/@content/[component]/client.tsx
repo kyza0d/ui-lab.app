@@ -1,8 +1,8 @@
 "use client";
 
 import { ComponentConfigurator } from "@/features/component-docs";
-import { useComponentExamples } from "@/features/component-docs/lib/component-preview-registry";
-import { TableOfContents, Table, type Column } from "@/features/docs";
+import { getComponentById } from "@/features/component-docs";
+import { TableOfContents, Table, TableExpandedDetails, type Column, type TableExpandedDetail } from "@/features/docs";
 import { CopyComponentPage } from "@/features/docs";
 import { OpenPage } from "@/features/docs";
 import { cn } from "@/shared";
@@ -28,10 +28,11 @@ const ReactAriaSvg = () => (
   </svg>
 );
 
-export function ComponentClient({ componentId, api, styles, reactAriaUrl, sourceUrl, name, description, experimental }: {
+export function ComponentClient({ componentId, api, styles, controls, reactAriaUrl, sourceUrl, name, description, experimental }: {
   componentId: string;
   api: ComponentAPI | null;
   styles: StyleInfo | null;
+  controls: any[];
   reactAriaUrl: string | null;
   sourceUrl: string | null;
   name: string;
@@ -39,7 +40,8 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
   experimental: boolean;
 }) {
   const { isOpen: isChatOpen } = useChat();
-  const examples = useComponentExamples(componentId);
+  const component = useMemo(() => getComponentById(componentId), [componentId]);
+  const examples = component?.examples ?? [];
 
   const [activeTab, setActiveTab] = useState("examples");
   const [visitedTabs, setVisitedTabs] = useState<Set<string>>(new Set(["examples"]));
@@ -133,15 +135,15 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
                 )}
               </div>
             </div>
-            {firstExample && (
-              <div className="space-y-4 mb-12">
-                <ComponentConfigurator title="" description="" code={firstExample.code} language="typescript"
-                  controls={firstExample.controls} renderPreview={firstExample.renderPreview}
-                  previewHeight={firstExample.previewHeight} previewLayout={firstExample.previewLayout}>
-                  {firstExample.preview}
-                </ComponentConfigurator>
-              </div>
-            )}
+            <div className="space-y-4 mb-12">
+              <ComponentConfigurator title="" description="" code={firstExample?.code ?? ""} language="typescript"
+                controls={controls} renderPreview={firstExample?.renderPreview}
+                previewLayout={firstExample?.previewLayout}>
+                {!firstExample
+                  ? <div className="h-10 w-32 bg-background-800 rounded animate-pulse" />
+                  : firstExample.preview}
+              </ComponentConfigurator>
+            </div>
             <Tabs variant="underline" value={activeTab} onValueChange={(tab) => { setActiveTab(tab); setVisitedTabs((prev) => new Set(prev).add(tab)); }} className="min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
                 <TabsList className="grid w-fit grid-cols-3">
@@ -157,7 +159,7 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
                       <div key={example.id} id={example.id}>
                         <ComponentConfigurator title={example.title} description={example.description}
                           code={example.code} language="typescript" controls={example.controls}
-                          renderPreview={example.renderPreview} previewHeight={example.previewHeight}
+                          renderPreview={example.renderPreview}
                           previewLayout={example.previewLayout}>
                           {example.preview}
                         </ComponentConfigurator>
@@ -179,7 +181,7 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
       </div>
       {!isChatOpen && (
         <div className="sticky top-(--header-height) flex  flex-col justify-between h-[calc(100vh-var(--header-height))]">
-          <TableOfContents items={tocItems} />
+          <TableOfContents items={tocItems} mode="static" />
           <div className="space-y-3 px-4 pb-4">
             <OpenPage componentId={componentId} />
             <CopyComponentPage componentId={componentId} />
@@ -214,7 +216,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
       label: "Name",
       render: (value: any, row: any) => (
         <span className="font-mono text-xs text-foreground-50">
-          {value}{row.required && <span className="ml-1 text-background-500">*</span>}
+          {value}{row.required && <span className="ml-1 text-background-500">?</span>}
         </span>
       ),
     },
@@ -245,7 +247,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
       label: "Name",
       render: (value: any, row: any) => (
         <span className="font-mono text-xs text-foreground-50">
-          {value}{row.required && <span className="ml-1 text-foreground-400">*</span>}
+          {value}{row.required && <span className="ml-1 text-foreground-400">?</span>}
         </span>
       ),
     },
@@ -262,6 +264,18 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
     },
   ];
 
+  const createExpandedDetails = (
+    details: Array<TableExpandedDetail | null>
+  ) => {
+    const filteredDetails = details.filter(
+      (detail): detail is TableExpandedDetail => detail !== null
+    );
+
+    if (filteredDetails.length === 0) return null;
+
+    return <TableExpandedDetails details={filteredDetails} />;
+  };
+
   return (
     <div className="space-y-8">
       {api.props && api.props.length > 0 && (
@@ -271,43 +285,47 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
             columns={propsColumns}
             expandRender={(row) => {
               if (row.name === "styles" && styleableParts && styleableParts.length > 0) {
-                return (
-                  <div className="flex flex-col gap-3 p-2">
-                    {row.description && (
-                      <div className="flex flex-col gap-1">
-                        <span className="text-foreground-500 text-xs font-medium">Description</span>
-                        <p className="text-foreground-400 text-xs">{row.description}</p>
-                      </div>
-                    )}
-                    <div className="mt-1">
-                      <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-foreground-400 text-sm mt-1">
+                return createExpandedDetails([
+                  row.description
+                    ? {
+                      key: "description",
+                      label: "Description",
+                      value: <p className="text-foreground-400 text-xs">{row.description}</p>,
+                    }
+                    : null,
+                  {
+                    key: "styleable-parts",
+                    label: "Styleable parts",
+                    value: (
+                      <ul className="grid grid-cols-1 gap-x-4 gap-y-1 text-sm text-foreground-400 sm:grid-cols-2">
                         {styleableParts.map((part) => (
                           <li key={part.name}>
                             <InlineCodeHighlight code={`'${part.name}'`} language="typescript" />
                           </li>
                         ))}
                       </ul>
-                    </div>
-                  </div>
-                );
+                    ),
+                  },
+                ]);
               }
-              if (!row.description && !row.defaultValue) return null;
-              return (
-                <div className="flex flex-col gap-3 p-2">
-                  {row.description && (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-foreground-500 text-xs font-medium">Description</span>
-                      <p className="text-foreground-400 text-xs">{row.description}</p>
-                    </div>
-                  )}
-                  {row.defaultValue && (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-foreground-500 text-xs font-medium">Default</span>
+              return createExpandedDetails([
+                row.description
+                  ? {
+                    key: "description",
+                    label: "Description",
+                    value: <p className="text-foreground-400 text-xs">{row.description}</p>,
+                  }
+                  : null,
+                row.defaultValue
+                  ? {
+                    key: "default",
+                    label: "Default",
+                    value: (
                       <InlineCodeHighlight code={row.defaultValue} language="typescript" />
-                    </div>
-                  )}
-                </div>
-              );
+                    ),
+                  }
+                  : null,
+              ]);
             }}
           />
         </div>
@@ -331,12 +349,17 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                   <Table<SubPropData>
                     data={subProps.props}
                     columns={subPropsColumns}
-                    expandRender={(row) => row.description ? (
-                      <div className="flex flex-col gap-1 p-2">
-                        <span className="text-foreground-500 text-xs font-medium">Description</span>
-                        <p className="text-foreground-400 text-xs">{row.description}</p>
-                      </div>
-                    ) : null}
+                    expandRender={(row) =>
+                      createExpandedDetails([
+                        row.description
+                          ? {
+                            key: "description",
+                            label: "Description",
+                            value: <p className="text-foreground-400 text-xs">{row.description}</p>,
+                          }
+                          : null,
+                      ])
+                    }
                   />
                 ) : (
                   <p className="text-foreground-400 text-sm">No props</p>
