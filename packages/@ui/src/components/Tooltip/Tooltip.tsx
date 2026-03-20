@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useRef, useLayoutEffect, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 
 import { createPortal } from "react-dom";
 import { useTooltipTrigger, useTooltip, mergeProps } from "react-aria";
 import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 import { cn } from "@/lib/utils";
 import { useTooltipTriggerState } from "react-stately";
+import { asElementProps } from "@/lib/react-aria";
 import { Frame } from "../Frame";
 import { Badge } from "../Badge";
 import css from "./Tooltip.module.css";
@@ -165,6 +166,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
 
     const { refs, floatingStyles, placement } = useFloating({
       placement: position,
+      // Tooltips are commonly used in fixed headers; fixed positioning avoids scroll drift.
+      strategy: "fixed",
       whileElementsMounted: autoUpdate,
       middleware: [
         offset(TOOLTIP_GAP + ARROW_POSITIONING_SIZE),
@@ -232,8 +235,14 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       }
     }, [shouldRender, state.isOpen, isPositioned, isInstant]);
 
-    useLayoutEffect(() => {
-      refs.setReference(triggerRef.current);
+    const mergedTriggerRef = useCallback((el: HTMLDivElement | null) => {
+      (triggerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+      refs.setReference(el);
+    }, [refs]);
+
+    const mergedFloatingRef = useCallback((el: HTMLDivElement | null) => {
+      (tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+      refs.setFloating(el);
     }, [refs]);
 
     const trigger = triggerRef.current;
@@ -242,8 +251,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     return (
       <>
         <div
-          ref={triggerRef}
-          {...mergeProps(triggerProps)}
+          ref={mergedTriggerRef}
+          {...asElementProps<"div">(mergeProps(triggerProps))}
           className={cn(css.trigger, className, resolved.trigger)}
         >
           {children}
@@ -252,11 +261,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         {shouldRender &&
           createPortal(
             <div
-              ref={(el) => {
-                (tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-                refs.setFloating(el);
-              }}
-              {...mergeProps(tooltipProps, ariaTooltipProps)}
+              ref={mergedFloatingRef}
+              {...asElementProps<"div">(mergeProps(tooltipProps, ariaTooltipProps))}
               className={cn(css.root, resolved.root)}
               style={{
                 ...floatingStyles,

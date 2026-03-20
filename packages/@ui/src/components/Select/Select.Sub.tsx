@@ -7,6 +7,7 @@ import { useSelectContext, SelectContext, type SelectContextValue } from "./Sele
 import type { Key } from "@react-types/shared"
 import styles from "./Select.module.css"
 import { cn } from "@/lib/utils"
+import { asElementProps } from "@/lib/react-aria"
 import { useListNavigation, handleListKeyDown } from "./Select.shared"
 import type { ItemData } from "./Select.shared"
 import { Scroll } from "../Scroll"
@@ -236,7 +237,7 @@ const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>
         data-disabled={disabled || undefined}
         data-state={submenuContext?.isOpen ? "open" : "closed"}
         onClick={() => handleSelectRef.current?.()}
-        {...hoverProps}
+        {...asElementProps<"div">(hoverProps)}
       >
         {children}
         <ChevronRight className={styles["sub-trigger-chevron"]} />
@@ -253,12 +254,15 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
     const submenuContext = useSelectSubmenuContext()
     const contentRef = React.useRef<HTMLDivElement>(null)
     const [mounted, setMounted] = React.useState(false)
-    const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null)
+    const [contentElement, setContentElement] = React.useState<HTMLDivElement | null>(null)
+    const floatingRootRef = React.useRef<HTMLDivElement | null>(null)
     const [needsScroll, setNeedsScroll] = React.useState(false)
     const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
     const { refs, floatingStyles, x, y, placement } = useFloating({
       placement: "right-start",
+      // Keep nested panels aligned when the parent menu lives inside fixed/sticky layout chrome.
+      strategy: "fixed",
       whileElementsMounted: autoUpdate,
       middleware: [
         offset({ mainAxis: sideOffset, crossAxis: alignOffset }),
@@ -308,16 +312,16 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
     }, [])
 
     React.useEffect(() => {
-      if (submenuContext?.isOpen && floatingElement) {
+      if (submenuContext?.isOpen && contentElement) {
         if (submenuContext.items.length > 0) {
           const firstEnabled = submenuContext.items.find(i => !i.isDisabled)
           if (firstEnabled) {
             submenuContext.setFocusedKey(firstEnabled.key)
           }
         }
-        floatingElement.focus({ preventScroll: true })
+        contentElement.focus({ preventScroll: true })
       }
-    }, [submenuContext?.isOpen, floatingElement])
+    }, [submenuContext?.isOpen, contentElement])
 
     React.useEffect(() => {
       if (!submenuContext?.isOpen) return
@@ -342,10 +346,10 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
     }, [submenuContext?.isOpen])
 
     React.useEffect(() => {
-      if (!submenuContext?.isOpen || !floatingElement) return
+      if (!submenuContext?.isOpen || !contentElement) return
       const maxHeightPx = 384
       const measure = () => {
-        const listElement = floatingElement.querySelector('[role="list"]') as HTMLElement | null
+        const listElement = contentElement.querySelector('[role="list"]') as HTMLElement | null
         if (!listElement) return
         const scrollContainer = listElement.parentElement?.parentElement as HTMLElement | null
         if (!scrollContainer) return
@@ -353,9 +357,9 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
       }
       measure()
       const observer = new ResizeObserver(measure)
-      observer.observe(floatingElement)
+      observer.observe(contentElement)
       return () => observer.disconnect()
-    }, [submenuContext?.isOpen, floatingElement])
+    }, [submenuContext?.isOpen, contentElement])
 
     const submenuContextRef = React.useRef(submenuContext)
     submenuContextRef.current = submenuContext
@@ -370,15 +374,19 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
       submenuContextRef.current?.unregisterItem(key)
     }, [])
 
-    const mergedRef = React.useCallback((el: HTMLDivElement | null) => {
-      refs.setFloating(el)
-      setFloatingElement(el)
+    const mergedContentRef = React.useCallback((el: HTMLDivElement | null) => {
+      setContentElement(el)
       contentRef.current = el
       if (submenuContextRef.current) submenuContextRef.current.contentRef.current = el
       const fRef = forwardedRefRef.current
       if (typeof fRef === "function") fRef(el)
       else if (fRef) fRef.current = el
-    }, [refs.setFloating])
+    }, [])
+
+    const mergedFloatingRef = React.useCallback((el: HTMLDivElement | null) => {
+      floatingRootRef.current = el
+      refs.setFloating(el)
+    }, [refs])
 
     const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
       if (!submenuContext) return
@@ -444,37 +452,44 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
       <>
         {showContent && (
           <div
-            ref={mergedRef}
-            role="listbox"
-            tabIndex={-1}
-            className={cn('select', 'sub-content', styles["sub-content"], className)}
-            data-state={showContent ? "open" : "closed"}
-            data-placement={placement.split("-")[0]}
-            data-select-submenu-content="true"
-            onKeyDown={handleKeyDown}
+            ref={mergedFloatingRef}
+            className={cn(styles["sub-content-root"])}
             style={{
               ...floatingStyles,
               zIndex: 50001 + (submenuContext.submenuLevel ?? 0),
               visibility: isPositioned ? "visible" : "hidden",
-              outline: "none",
             }}
-            {...hoverProps}
           >
-            <Scroll
-              className={styles.list}
-              direction="vertical"
-              fadeY
-              enabled={needsScroll}
-              hide={false}
+            <div
+              ref={mergedContentRef}
+              role="listbox"
+              tabIndex={-1}
+              className={cn('select', 'sub-content', styles["sub-content"], className)}
+              data-state={showContent ? "open" : "closed"}
+              data-placement={placement.split("-")[0]}
+              data-select-submenu-content="true"
+              onKeyDown={handleKeyDown}
+              style={{
+                outline: "none",
+              }}
+              {...asElementProps<"div">(hoverProps)}
             >
-              <div style={{ padding: "0.25rem" }}>
-                <SelectContext.Provider value={overriddenContextValue}>
-                  <List items={submenuContext.items}>
-                    {children}
-                  </List>
-                </SelectContext.Provider>
-              </div>
-            </Scroll>
+              <Scroll
+                className={styles.list}
+                direction="vertical"
+                fadeY
+                enabled={needsScroll}
+                hide={false}
+              >
+                <div style={{ padding: "0.25rem" }}>
+                  <SelectContext.Provider value={overriddenContextValue}>
+                    <List items={submenuContext.items}>
+                      {children}
+                    </List>
+                  </SelectContext.Provider>
+                </div>
+              </Scroll>
+            </div>
           </div>
         )}
       </>,

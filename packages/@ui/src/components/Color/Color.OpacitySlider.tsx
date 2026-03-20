@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "@react-aria/focus";
+import { asElementProps } from "@/lib/react-aria";
 import styles from "./Color.module.css";
 
 export interface ColorOpacitySliderProps {
@@ -65,7 +66,7 @@ export const ColorOpacitySlider = React.forwardRef<
       data-size={size}
       data-disabled={disabled || undefined}
       data-focus-visible={isFocusVisible || undefined}
-      {...focusProps}
+      {...asElementProps<"div">(focusProps)}
       tabIndex={disabled ? -1 : 0}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}

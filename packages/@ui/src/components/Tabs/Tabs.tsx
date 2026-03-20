@@ -4,6 +4,7 @@ import * as React from "react"
 import { useFocusRing } from "react-aria"
 import { cn } from "@/lib/utils"
 import { StyleValue } from "@/lib/utils"
+import { asElementProps } from "@/lib/react-aria"
 import { StylesProp, createStylesResolver } from "@/lib/styles"
 import css from "./Tabs.module.css"
 
@@ -470,7 +471,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
 
     return (
       <button
-        {...focusProps}
+        {...asElementProps<"button">(focusProps)}
         ref={mergedRef}
         id={`${value}-trigger`}
         role="tab"

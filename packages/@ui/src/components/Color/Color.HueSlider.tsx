@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "@react-aria/focus";
+import { asElementProps } from "@/lib/react-aria";
 import styles from "./Color.module.css";
 
 export interface ColorHueSliderProps {
@@ -60,7 +61,7 @@ export const ColorHueSlider = React.forwardRef<
       data-size={size}
       data-disabled={disabled || undefined}
       data-focus-visible={isFocusVisible || undefined}
-      {...focusProps}
+      {...asElementProps<"div">(focusProps)}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}

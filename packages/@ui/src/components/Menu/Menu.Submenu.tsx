@@ -23,6 +23,7 @@ import css from "./Menu.module.css"
 
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import { asElementProps } from "@/lib/react-aria"
 import { useListNavigation, useMergedRef, handleListKeyDown, scrollItemIntoView } from "../../utils/list-navigation"
 
 import type { MenuItemExtras } from "./menu.types"
@@ -203,7 +204,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         data-inset={inset || undefined}
         data-state={submenuContext?.isOpen ? "open" : "closed"}
         onClick={() => handleSelectRef.current?.()}
-        {...hoverProps}
+        {...asElementProps<"div">(hoverProps)}
       >
         {children}
         <ChevronRight className={cn(css['sub-trigger-chevron'], resolved.chevron)} />
@@ -393,7 +394,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
               visibility: isPositioned ? "visible" : "hidden",
               outline: "none",
             }}
-            {...hoverProps}
+            {...asElementProps<"div">(hoverProps)}
           >
             <Scroll
               className={css.list}

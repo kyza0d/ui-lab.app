@@ -9,6 +9,7 @@ import { useRadioGroup, useRadio } from "@react-aria/radio";
 
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import { asElementProps } from "@/lib/react-aria";
 import styles from "./Radio.module.css";
 
 export interface RadioStyleSlots {
@@ -217,7 +218,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
               )}
             </div>
             <input
-              {...mergeProps(inputProps, focusProps)}
+              {...asElementProps<"input">(mergeProps(inputProps, focusProps))}
               ref={ref || inputRef}
               type="radio"
               id={radioId}
@@ -353,7 +354,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
               )}
             </div>
             <input
-              {...focusProps}
+              {...asElementProps<"input">(focusProps)}
               ref={inputRef}
               type="radio"
               id={radioId}

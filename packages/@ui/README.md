@@ -84,38 +84,42 @@ This approach lets PostCSS resolve the full path to `ui-lab-components/styles.cs
 
 ### Option 3: Official Light/Dark Mode Setup
 
-Use `ui-lab-components/theme.css` when you want adaptive light/dark tokens without writing `dark:*` overrides for component surfaces.
+Keep your app-owned `theme.css` as the token syntax layer and import `ui-lab-components/styles.css` after it.
 
 ```css
 @import "tailwindcss";
-@import "ui-lab-components/theme.css";
+@import "./theme.css";
 @import "ui-lab-components/styles.css";
 ```
 
-`theme.css` defines the `--color-*` tokens that `ui-lab-components/styles.css` already consumes. The active palette is selected by:
+`ui-lab-components/styles.css` consumes the active `--color-*` tokens. Your app-level `theme.css` can stay responsible for defining those tokens, including any `prefers-color-scheme` logic or `data-theme` overrides.
 
-- the user’s device preference by default
-- `document.documentElement.dataset.theme = "light" | "dark"` for manual overrides
-- `.light` / `.dark` classes on `<html>` if you prefer class-based control
-
-In a Next.js layout, add the script before hydration to avoid a flash of the wrong mode:
+In Next.js, the cleanest setup is to persist explicit overrides in a cookie and let the server stamp `<html>` accordingly. That avoids the old bootstrap script entirely.
 
 ```tsx
-import { generateColorModeScript } from "ui-lab-components/theme-script";
+import { cookies } from "next/headers";
+import { parseThemeCookie, resolveThemeRootState } from "ui-lab-components/theme-server";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const theme = parseThemeCookie(cookieStore.get("ui-lab-theme")?.value);
+  const rootTheme = resolveThemeRootState(theme);
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{ __html: generateColorModeScript() }}
-        />
-      </head>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={rootTheme.className}
+      data-theme={rootTheme.dataTheme}
+      style={rootTheme.colorScheme ? { colorScheme: rootTheme.colorScheme } : undefined}
+    >
       <body>{children}</body>
     </html>
   );
 }
 ```
+
+If you still need a pre-hydration script for a non-cookie setup, `ui-lab-components/theme-script` remains available as a fallback.
 
 To persist a user-selected mode without a React hook:
 

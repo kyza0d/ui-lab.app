@@ -14,6 +14,7 @@ declare const styles: {
   "value-icon": string;
   "value-text": string;
   "value-chevron": string;
+  "content-root": string;
   content: string;
   viewport: string;
   list: string;
@@ -32,6 +33,7 @@ declare const styles: {
   "icon-prefix": string;
   "sub-trigger": string;
   "sub-trigger-chevron": string;
+  "sub-content-root": string;
   "sub-content": string;
 };
 

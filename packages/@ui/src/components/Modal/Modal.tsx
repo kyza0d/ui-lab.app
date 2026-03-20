@@ -6,6 +6,7 @@ import { useDialog } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import { asElementProps } from "@/lib/react-aria";
 import { X } from "lucide-react";
 import css from "./Modal.module.css";
 
@@ -163,7 +164,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
 
         {/* Modal content */}
         <div
-          {...dialogProps}
+          {...asElementProps<"div">(dialogProps)}
           aria-modal="true"
           ref={modalRef}
           className={cn(
@@ -180,7 +181,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
           {(title || close) && (
             <div className={cn(css.header, resolved.header)}>
               {title && (
-                <h4 {...titleProps} className={cn(css.title, resolved.title)}>
+                <h4 {...asElementProps<"h4">(titleProps)} className={cn(css.title, resolved.title)}>
                   {title}
                 </h4>
               )}

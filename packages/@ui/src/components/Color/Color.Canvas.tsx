@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "@react-aria/focus";
+import { asElementProps } from "@/lib/react-aria";
 import { hsvToRgb } from "./color-utils";
 import styles from "./Color.module.css";
 
@@ -93,7 +94,7 @@ export const ColorCanvas = React.forwardRef<
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
-        {...focusProps}
+        {...asElementProps<"div">(focusProps)}
         tabIndex={disabled ? -1 : 0}
         role="slider"
         aria-label="Color saturation and brightness"

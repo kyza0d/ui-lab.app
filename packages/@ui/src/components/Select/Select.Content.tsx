@@ -69,7 +69,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     } = useSelectContext()
     const groupContext = React.useContext(GroupContext)
     const [mounted, setMounted] = React.useState(false)
-    const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null)
+    const [contentElement, setContentElement] = React.useState<HTMLDivElement | null>(null)
+    const floatingRootRef = React.useRef<HTMLDivElement | null>(null)
     const [needsScroll, setNeedsScroll] = React.useState(false)
     const inputRef = React.useRef<HTMLInputElement>(null)
     const isKeyboardNavRef = React.useRef(false)
@@ -80,6 +81,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     const { refs, floatingStyles, x, y, placement } = useFloating({
       placement: 'bottom-start',
+      // Keep the panel anchored to viewport-fixed/sticky triggers without scroll lag.
+      strategy: 'fixed',
       whileElementsMounted: autoUpdate,
       middleware: [
         offset({
@@ -93,14 +96,14 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     })
 
     React.useLayoutEffect(() => {
-      if (floatingElement && isOpen && wrapperRef.current) {
+      if (contentElement && isOpen && wrapperRef.current) {
         const referenceWidth = wrapperRef.current.offsetWidth
-        const contentWidth = floatingElement.scrollWidth
+        const contentWidth = contentElement.scrollWidth
         const width = Math.max(referenceWidth, contentWidth)
-        floatingElement.style.width = `${width}px`
-        floatingElement.style.minWidth = `${referenceWidth}px`
+        contentElement.style.width = `${width}px`
+        contentElement.style.minWidth = `${referenceWidth}px`
       }
-    }, [floatingElement, isOpen, wrapperRef])
+    }, [contentElement, isOpen, wrapperRef])
 
     const isPositioned = x !== null && y !== null
 
@@ -141,9 +144,9 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
         })
       }
 
-      if (isOpen && !searchable && floatingElement && !shouldKeepTriggerFocus) {
+      if (isOpen && !searchable && contentElement && !shouldKeepTriggerFocus) {
         focusFrameRef.current = requestAnimationFrame(() => {
-          floatingElement?.focus({ preventScroll: true })
+          contentElement?.focus({ preventScroll: true })
         })
       }
       return () => {
@@ -152,7 +155,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
           focusFrameRef.current = null
         }
       }
-    }, [isOpen, searchable, floatingElement, triggerRef, triggerType])
+    }, [isOpen, searchable, contentElement, triggerRef, triggerType])
 
     React.useEffect(() => {
       if (!isOpen) return
@@ -182,11 +185,11 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     }, [isOpen])
 
     React.useEffect(() => {
-      if (!isOpen || focusedKey === null || !floatingElement) return
+      if (!isOpen || focusedKey === null || !contentElement) return
 
       if (justOpenedRef.current) {
         justOpenedRef.current = false
-        const el = floatingElement.querySelector('[data-highlighted="true"]') as HTMLElement
+        const el = contentElement.querySelector('[data-highlighted="true"]') as HTMLElement
         if (el) scrollItemIntoView(el, 'instant')
         return
       }
@@ -194,19 +197,19 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       const shouldScroll = !mouseMoveDetectedRef.current
       if (!shouldScroll) return
       isKeyboardNavRef.current = false
-      const el = floatingElement.querySelector('[data-highlighted="true"]') as HTMLElement
+      const el = contentElement.querySelector('[data-highlighted="true"]') as HTMLElement
       if (el) scrollItemIntoView(el)
-    }, [focusedKey, isOpen, floatingElement, mouseMoveDetectedRef])
+    }, [focusedKey, isOpen, contentElement, mouseMoveDetectedRef])
 
     // Measure actual content height to determine if scrolling is needed.
     // This is more reliable than item count (e.g. items with descriptions exceed maxHeight even when count ≤ maxItems)
     React.useEffect(() => {
-      if (!isOpen || !floatingElement) return
+      if (!isOpen || !contentElement) return
 
       const maxHeightPx = maxItems * 36 + 8
       const measure = () => {
         // The List element has role="list", find it and walk up to the scrollable container
-        const listElement = floatingElement.querySelector('[role="list"]') as HTMLElement | null
+        const listElement = contentElement.querySelector('[role="list"]') as HTMLElement | null
         if (!listElement) return
 
         // Walk up 2 levels: List -> padding div -> Scroll content div
@@ -219,11 +222,15 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
       measure()
       const observer = new ResizeObserver(measure)
-      observer.observe(floatingElement)
+      observer.observe(contentElement)
       return () => observer.disconnect()
-    }, [isOpen, floatingElement, maxItems])
+    }, [isOpen, contentElement, maxItems])
 
-    const mergedRef = useMergedRef<HTMLDivElement>(refs.setFloating, setFloatingElement, contentRef, ref)
+    const mergedContentRef = useMergedRef<HTMLDivElement>(setContentElement, contentRef, ref)
+    const mergedFloatingRef = React.useCallback((el: HTMLDivElement | null) => {
+      floatingRootRef.current = el
+      refs.setFloating(el)
+    }, [refs])
 
     const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
       switch (e.key) {
@@ -290,8 +297,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
       const handlePointerDown = (e: MouseEvent) => {
         const target = e.target as HTMLElement
-        const isClickInside = wrapperRef.current?.contains(target) ||
-                             floatingElement?.contains(target) ||
+          const isClickInside = wrapperRef.current?.contains(target) ||
+                             floatingRootRef.current?.contains(target) ||
                              Array.from(document.querySelectorAll('[data-select-submenu-content]')).some(el => el.contains(target))
 
         if (!isClickInside) {
@@ -301,7 +308,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
       document.addEventListener('mousedown', handlePointerDown)
       return () => document.removeEventListener('mousedown', handlePointerDown)
-    }, [isOpen, triggerMode, floatingElement, wrapperRef, setIsOpen])
+    }, [isOpen, triggerMode, wrapperRef, setIsOpen])
 
     const showContent = isOpen && isPositioned
 
@@ -312,57 +319,64 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     return createPortal(
       <>
         <div
-          ref={mergedRef}
-          id={contentId}
-          role="listbox"
-          className={cn('select', 'content', styles.content, className, resolved.root)}
-          data-state={showContent ? "open" : "closed"}
-          data-placement={placement.split('-')[0]}
-          tabIndex={-1}
-          onKeyDown={handleKeyDown}
+          ref={mergedFloatingRef}
+          className={cn(styles['content-root'], resolved.overlay)}
           style={{
             ...floatingStyles,
             zIndex: 50000,
             visibility: showContent ? 'visible' : 'hidden',
             display: isOpen ? 'block' : 'none',
-            outline: 'none',
           }}
         >
-          {searchable && (
-            <div className={cn(styles['search-wrapper'], resolved.searchWrapper)}>
-              <Input
-                ref={inputRef}
-                type="text"
-                role="combobox"
-                aria-haspopup="listbox"
-                aria-expanded={isOpen}
-                aria-autocomplete="list"
-                value={searchValue}
-                onChange={(e) => {
-                  setSearchValue(e.target.value)
-                  onSearch?.(e.target.value)
-                }}
-                onKeyDown={handleInputKeyDown}
-                placeholder={searchPlaceholder}
-                variant="ghost"
-                className={styles['search-content-input']}
-              />
-            </div>
-          )}
-          <Scroll
-            className="viewport"
-            maxHeight={`calc(${maxItems} * 36px + 8px)`}
-            direction="vertical"
-            fadeY={!searchable}
-            enabled={needsScroll}
-            hide={false}
+          <div
+            ref={mergedContentRef}
+            id={contentId}
+            role="listbox"
+            className={cn('select', 'content', styles.content, className, resolved.root)}
+            data-state={showContent ? "open" : "closed"}
+            data-placement={placement.split('-')[0]}
+            tabIndex={-1}
+            onKeyDown={handleKeyDown}
+            style={{
+              outline: 'none',
+            }}
           >
-            <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
-              <List items={filteredItems}>
-                {children}
-              </List>
-            </div>
-          </Scroll>
+            {searchable && (
+              <div className={cn(styles['search-wrapper'], resolved.searchWrapper)}>
+                <Input
+                  ref={inputRef}
+                  type="text"
+                  role="combobox"
+                  aria-haspopup="listbox"
+                  aria-expanded={isOpen}
+                  aria-autocomplete="list"
+                  value={searchValue}
+                  onChange={(e) => {
+                    setSearchValue(e.target.value)
+                    onSearch?.(e.target.value)
+                  }}
+                  onKeyDown={handleInputKeyDown}
+                  placeholder={searchPlaceholder}
+                  variant="ghost"
+                  className={styles['search-content-input']}
+                />
+              </div>
+            )}
+            <Scroll
+              className="viewport"
+              maxHeight={`calc(${maxItems} * 36px + 8px)`}
+              direction="vertical"
+              fadeY={!searchable}
+              enabled={needsScroll}
+              hide={false}
+            >
+              <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
+                <List items={filteredItems}>
+                  {children}
+                </List>
+              </div>
+            </Scroll>
+          </div>
         </div>
       </>,
       document.body

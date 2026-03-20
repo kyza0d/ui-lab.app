@@ -23,11 +23,6 @@
     pointer-events: auto;
   }
 
-  .content[data-instant],
-  [data-scrolling] .content {
-    transition: none;
-  }
-
   .frame {
     @apply flex items-center gap-1.5 px-2 py-1;
     color: var(--foreground);

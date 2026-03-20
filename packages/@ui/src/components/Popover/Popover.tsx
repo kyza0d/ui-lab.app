@@ -7,6 +7,7 @@ import { useOverlayTriggerState } from "react-stately";
 import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
 import { cn } from "@/lib/utils";
 import { type StyleValue } from "@/lib/utils";
+import { asElementProps } from "@/lib/react-aria";
 import { Frame } from "../Frame";
 import css from "./Popover.module.css";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
@@ -222,7 +223,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
           createPortal(
             <div
               ref={mergedContentRef}
-              {...mergeProps(overlayProps, dialogProps)}
+              {...asElementProps<"div">(mergeProps(overlayProps, dialogProps))}
               className={cn(css.root)}
               style={{
                 ...floatingStyles,

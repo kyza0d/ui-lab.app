@@ -6,6 +6,7 @@ import { useFocusRing } from '@react-aria/focus';
 
 import { cn, type StyleValue } from '@/lib/utils';
 import { type StylesProp, createStylesResolver } from '@/lib/styles';
+import { asElementProps } from '@/lib/react-aria';
 
 import css from "./Slider.module.css";
 
@@ -190,7 +191,7 @@ function SliderThumbInternal({
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
       onKeyDown={handleKeyDown}
-      {...focusProps}
+      {...asElementProps<"div">(focusProps)}
     />
   );
 }
