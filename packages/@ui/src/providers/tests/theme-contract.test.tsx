@@ -195,7 +195,8 @@ describe('theme-contract', () => {
     const expectedDark = getSitePresetThemeBatch('Vitesse', 'dark')
 
     expect(generated.themeCss).toContain(':root[data-theme=\'light\']')
-    expect(generated.themeCss).not.toContain(':root[data-theme=\'dark\']')
+    expect(generated.themeCss).toContain(':root[data-theme=\'dark\']')
+    expect(generated.themeCss).toContain('@media (prefers-color-scheme: dark)')
     expect(generated.themeCss).toContain(`--background-950: ${expectedDark['--background-950']};`)
     expect(generated.themeCss).toContain(`--background-950: ${expectedLight['--background-950']};`)
     expect(generated.themeCss).toContain('--color-background-950: var(--background-950);')
