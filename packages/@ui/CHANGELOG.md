@@ -1,5 +1,11 @@
 # ui-lab-components
 
+## 0.3.1
+
+### Patch Changes
+
+- Fixed floating positioning in Select, Tooltip, and Popover components. Added cookie-based server-side theme support and updated the color mode API for easier theme integration.
+
 ## 0.3.0
 
 ### Minor Changes
