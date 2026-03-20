@@ -13,8 +13,10 @@ import { Button } from "ui-lab-components";
 function HeroSection() {
   return (
     <>
-      <div className="z-10 mt-12 sm:mt-0 overflow-hidden">
-        <div className="grid-paper relative h-full flex flex-col justify-between md:justify-center">
+      <div className="z-10 mt-12 sm:mt-0 overflow-hidden border-l ">
+        <div
+          className="grid-paper relative h-full flex flex-col justify-between md:justify-center">
+
           <div className="flex items-center text-center flex-col pt-8 md:pt-0">
             <h1 className="isolate mb-2 text-xl max-w-[25ch] sm:max-w-[38ch] text-foreground-200">
               Beautiful Software Built for Everyone.
@@ -27,9 +29,10 @@ function HeroSection() {
               <Button
                 size="sm"
                 variant="primary"
-              // icon={{ left: <FaBrain />, right: <FaPaintbrush /> }}
-              // className={cn("flex gap-4", 'mb-40')}
-              // styles={{ root: ["border-2 border-gray-500", 'my-2 mx-18'], icon: { left: "bg-red-500", right: "bg-blue-500" } }}
+                // icon={{ left: <FaBrain />, right: <FaPaintbrush /> }}
+                // className={cn("flex gap-4", 'mb-40')}
+                // styles={{ root: ["border-2 border-gray-500", 'my-2 mx-18'], icon: { left: "bg-red-500", right: "bg-blue-500" } }}
+                href="/docs"
               >
                 Documentation
               </Button>
@@ -69,6 +72,11 @@ function HeroSection() {
               "User Interface" (UI) is the space where interactions between humans and machines occur.
             </p>
           </div>
+
+          <div
+            className="-z-1 pointer-events-none absolute inset-x-0 top-0 h-50"
+            style={{ boxShadow: "inset 0 50px 50px 20px var(--color-background-950)" }}
+          />
         </div>
       </div>
     </>

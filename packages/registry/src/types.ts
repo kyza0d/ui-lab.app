@@ -272,7 +272,6 @@ export interface SiteComponentExample {
   preview: React.ReactNode;
   controls?: ControlDef[];
   renderPreview?: (props: Record<string, any>) => React.ReactNode;
-  previewHeight?: string;
   previewLayout?: 'center' | 'start';
 }
 

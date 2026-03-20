@@ -1,6 +1,6 @@
 ---
 title: "Theme Switching"
-description: "Set up light/dark mode with UI Lab using the same CSS-first contract as factory-gen.site: app/theme.css, generateColorModeScript(), and useColorMode()."
+description: "Set up light/dark mode with UI Lab using an app-owned theme.css, cookie persistence, and a server-stamped Next.js layout."
 category: "Guides"
 publishedOn: "2026-03-12"
 order: 1
@@ -9,13 +9,17 @@ tags: ["theme-switching", "dark-mode", "css", "tailwind", "next-js"]
 
 # Theme Switching
 
-UI Lab theme switching is the same setup used in `factory-gen.site`:
+The primary UI Lab integration path is now script-free:
 
-1. Define both mode token sets in `app/theme.css`.
-2. Inject `generateColorModeScript()` in `app/layout.tsx` so the correct mode is applied before hydration.
-3. Toggle modes from client components with `useColorMode()`.
+1. Keep your token definitions in your app's own `theme.css`.
+2. Import `ui-lab-components/styles.css` after that local theme file.
+3. Persist explicit `"light"` or `"dark"` overrides in a cookie.
+4. In Next.js, read that cookie in the server `app/layout.tsx` and stamp `<html>` with the server-safe helpers from `ui-lab-components/theme-server`.
+5. Leave system mode unstamped so `prefers-color-scheme` handles first paint without an inline bootstrap script.
 
-The JavaScript does not derive theme tokens at runtime. It only sets `data-theme` and `color-scheme`. Your CSS decides which token values are active.
+`ui-lab-components/theme-script` still exists, but it is now the fallback path for setups that cannot use a server layout plus cookie persistence.
+
+The important contract stays the same: UI Lab does not calculate colors at runtime. Your CSS owns the tokens, and the active mode only changes which CSS block applies.
 
 ---
 
@@ -23,16 +27,21 @@ The JavaScript does not derive theme tokens at runtime. It only sets `data-theme
 
 For normal app theming:
 
-- Author `app/theme.css` with a default token set on `:root`
-- Add the alternate mode overrides under `:root[data-theme="light"]` or `:root[data-theme="dark"]`
-- Map the active tokens into Tailwind with `@theme inline`
+- Own the token layer in `app/theme.css` or equivalent
+- Import that file before `ui-lab-components/styles.css`
+- Let system mode come from CSS via `prefers-color-scheme`
+- Stamp explicit light/dark overrides onto `<html>` from the server
 - Use `useColorMode()` for user-facing toggles
 
-Use `ThemeProvider` only when you need runtime token batches, a theme editor, or custom theme persistence beyond a simple light/dark mode choice.
+`@ui` does not need to ship a `theme.css` for consumers. Most apps already own that syntax layer, and UI Lab is designed to consume the active `--color-*` tokens you expose there.
+
+Use `ThemeProvider` only when you need runtime token batches, a theme editor, or custom theme persistence beyond a normal light/dark mode choice.
 
 ---
 
-## 1. Import Tailwind, your theme, and UI Lab styles
+## 1. Import your theme before UI Lab styles
+
+In your app stylesheet:
 
 ```css
 @import "tailwindcss";
@@ -43,16 +52,104 @@ Use `ThemeProvider` only when you need runtime token batches, a theme editor, or
 The order matters:
 
 - `tailwindcss` establishes the layers
-- `theme.css` defines the active design tokens for both modes
-- `ui-lab-components/styles.css` consumes those tokens
+- `theme.css` defines your app's tokens and mode rules
+- `ui-lab-components/styles.css` consumes the active tokens
 
 ---
 
-## 2. Add the pre-hydration theme script in `app/layout.tsx`
+## 2. Keep token definitions in app-owned `theme.css`
+
+A concise pattern looks like this:
+
+```css
+:root {
+  color-scheme: light;
+
+  --background-500: oklch(60.0% 0.008 51.4);
+  --background-900: oklch(96.0% 0.005 51.4);
+  --background-950: oklch(98.0% 0.004 51.4);
+
+  --foreground-50: oklch(16.0% 0.010 51.4);
+  --foreground-200: oklch(31.0% 0.016 51.4);
+  --foreground-400: oklch(55.0% 0.023 51.4);
+
+  --accent-100: oklch(97.0% 0.000 0.0);
+  --accent-500: oklch(32.0% 0.000 0.0);
+  --accent-600: oklch(28.0% 0.000 0.0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --background-500: oklch(50.0% 0.008 51.4);
+    --background-900: oklch(21.0% 0.005 51.4);
+    --background-950: oklch(18.0% 0.004 51.4);
+
+    --foreground-50: oklch(98.0% 0.010 51.4);
+    --foreground-200: oklch(90.0% 0.016 51.4);
+    --foreground-400: oklch(65.0% 0.023 51.4);
+
+    --accent-100: oklch(20.0% 0.000 0.0);
+    --accent-500: oklch(72.0% 0.000 0.0);
+    --accent-600: oklch(91.0% 0.000 0.0);
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background-500: oklch(50.0% 0.008 51.4);
+  --background-900: oklch(21.0% 0.005 51.4);
+  --background-950: oklch(18.0% 0.004 51.4);
+
+  --foreground-50: oklch(98.0% 0.010 51.4);
+  --foreground-200: oklch(90.0% 0.016 51.4);
+  --foreground-400: oklch(65.0% 0.023 51.4);
+
+  --accent-100: oklch(20.0% 0.000 0.0);
+  --accent-500: oklch(72.0% 0.000 0.0);
+  --accent-600: oklch(91.0% 0.000 0.0);
+}
+
+@theme inline {
+  --color-background-500: var(--background-500);
+  --color-background-900: var(--background-900);
+  --color-background-950: var(--background-950);
+
+  --color-foreground-50: var(--foreground-50);
+  --color-foreground-200: var(--foreground-200);
+  --color-foreground-400: var(--foreground-400);
+
+  --color-accent-100: var(--accent-100);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+}
+```
+
+Important details:
+
+- Your app owns this file. UI Lab only consumes the active tokens.
+- `:root:not([data-theme])` is the system path. No cookie override means CSS decides first paint.
+- `:root[data-theme="light"]` and `:root[data-theme="dark"]` are explicit overrides.
+- `@theme inline` keeps Tailwind utilities stable by mapping `--color-*` tokens to your active variables.
+
+This is why markup like `bg-background-950` can stay unchanged while the token values switch underneath it.
+
+---
+
+## 3. Stamp `<html>` from the server layout
+
+In Next.js, read the cookie in `app/layout.tsx` and apply the resolved root state:
 
 ```tsx
 import type { Metadata } from "next";
-import { generateColorModeScript } from "ui-lab-components/theme-script";
+import { cookies } from "next/headers";
+import { parseThemeCookie, resolveThemeRootState } from "ui-lab-components/theme-server";
 
 import "./globals.css";
 
@@ -61,45 +158,40 @@ export const metadata: Metadata = {
   description: "My app description",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const theme = parseThemeCookie(cookieStore.get("ui-lab-theme")?.value);
+  const rootTheme = resolveThemeRootState(theme);
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: generateColorModeScript() }} />
-      </head>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={rootTheme.className}
+      data-theme={rootTheme.dataTheme}
+      style={rootTheme.colorScheme ? { colorScheme: rootTheme.colorScheme } : undefined}
+    >
       <body>{children}</body>
     </html>
   );
 }
 ```
 
-This is the same layout pattern used in `factory-gen.site`.
+`parseThemeCookie()` accepts the cookie value and returns `"light"`, `"dark"`, `"system"`, or `null`. `resolveThemeRootState()` only stamps explicit light/dark overrides:
 
-The script runs before hydration and keeps these in sync on `<html>`:
+- `"light"` sets `className`, `data-theme`, and `style.colorScheme` to `"light"`
+- `"dark"` sets `className`, `data-theme`, and `style.colorScheme` to `"dark"`
+- `"system"` or no cookie returns `{}`, which leaves `<html>` unstamped
 
-- `data-theme="light" | "dark"`
-- `style.colorScheme`
-
-It also restores the saved mode from `localStorage`.
-
-`generateColorModeScript()` accepts:
-
-```ts
-generateColorModeScript({
-  storageKey: "my-theme-state", // default: "ui-lab-theme-complete"
-  defaultMode: "dark",          // "light" | "dark" | "system", default: "system"
-})
-```
-
-If you do not need custom options, you can also render `<ThemeScriptInjector />` from `ui-lab-components` instead of calling the script directly.
+That unstamped system state is the reason this path avoids FOUC without an inline script.
 
 ---
 
-## 3. Toggle the theme from a client component
+## 4. Toggle the theme from a client component
 
 ```tsx
 "use client";
@@ -120,89 +212,23 @@ export function ThemeToggle() {
 }
 ```
 
-`useColorMode()` returns:
+`useColorMode()` updates the DOM, persists the explicit mode in storage, and writes the `ui-lab-theme` cookie used by the server layout on the next request.
 
-```ts
-const { themeMode, setThemeMode, toggleThemeMode } = useColorMode()
-```
-
-`themeMode` is always the resolved mode, `"light"` or `"dark"`.
-
-By default, if there is no saved override, the initial mode follows `prefers-color-scheme`. Once the user calls `setThemeMode()` or `toggleThemeMode()`, UI Lab persists that selection under the configured storage key.
+`themeMode` is always the resolved mode, `"light"` or `"dark"`. If there is no explicit override, the initial mode follows `prefers-color-scheme`.
 
 ---
 
-## 4. Structure `app/theme.css` like `factory-gen.site`
+## Fallback: `theme-script`
 
-`factory-gen.site` ships its own `app/theme.css`. The file contains the actual light and dark token values, and mode switching happens by changing `data-theme`.
+If you cannot use a cookie-backed server layout, `ui-lab-components/theme-script` is still available as a fallback for non-server or non-cookie setups.
 
-A shortened version of that pattern looks like this:
+That path is no longer the primary recommendation for Next.js apps. Prefer:
 
-```css
-:root {
-  color-scheme: dark;
-
-  --background-500: oklch(50.0% 0.008 51.4);
-  --background-900: oklch(21.0% 0.005 51.4);
-  --background-950: oklch(18.0% 0.004 51.4);
-
-  --foreground-50: oklch(98.0% 0.010 51.4);
-  --foreground-200: oklch(90.0% 0.016 51.4);
-  --foreground-400: oklch(65.0% 0.023 51.4);
-
-  --accent-100: oklch(20.0% 0.000 0.0);
-  --accent-500: oklch(72.0% 0.000 0.0);
-  --accent-600: oklch(91.0% 0.000 0.0);
-}
-
-:root[data-theme="light"] {
-  color-scheme: light;
-
-  --background-500: oklch(60.0% 0.008 51.4);
-  --background-900: oklch(96.0% 0.005 51.4);
-  --background-950: oklch(98.0% 0.004 51.4);
-
-  --foreground-50: oklch(16.0% 0.010 51.4);
-  --foreground-200: oklch(31.0% 0.016 51.4);
-  --foreground-400: oklch(55.0% 0.023 51.4);
-
-  --accent-100: oklch(97.0% 0.000 0.0);
-  --accent-500: oklch(32.0% 0.000 0.0);
-  --accent-600: oklch(28.0% 0.000 0.0);
-}
-
-@theme inline {
-  --color-background-500: var(--background-500);
-  --color-background-900: var(--background-900);
-  --color-background-950: var(--background-950);
-
-  --color-foreground-50: var(--foreground-50);
-  --color-foreground-200: var(--foreground-200);
-  --color-foreground-400: var(--foreground-400);
-
-  --color-accent-100: var(--accent-100);
-  --color-accent-500: var(--accent-500);
-  --color-accent-600: var(--accent-600);
-}
-```
-
-Important details:
-
-- In a real theme file, define the full scale you plan to use. `factory-gen.site` defines background, foreground, accent, and semantic roles across its working range.
-- `:root` holds the default mode.
-- `:root[data-theme="light"]` or `:root[data-theme="dark"]` holds the alternate mode.
-- `@theme inline` keeps Tailwind utilities stable by pointing `--color-*` tokens at the active `--*` variables.
-- `generateColorModeScript()` and `useColorMode()` do not calculate colors. They only change which CSS block is active.
-
-This is why markup like `bg-background-950` can stay unchanged while the underlying token values switch.
-
----
-
-## When to use `ThemeProvider`
-
-`ThemeProvider` is still valid, but it is the advanced path. Use it when you need to pass explicit token objects at runtime, generate themes in-app, or persist a larger theme payload than a simple mode choice.
-
-For the normal consumer setup shown in `factory-gen.site`, you do not need it.
+- app-owned `theme.css`
+- `@import "./theme.css";`
+- `@import "ui-lab-components/styles.css";`
+- cookie persistence for explicit overrides
+- server-stamped `<html>` via `parseThemeCookie()` and `resolveThemeRootState()`
 
 ---
 
@@ -210,12 +236,11 @@ For the normal consumer setup shown in `factory-gen.site`, you do not need it.
 
 If you have older notes or examples, update these assumptions:
 
-- Do not import `ui-lab-components/theme.css`. The supported consumer setup is to own `app/theme.css` yourself.
-- Do not manually persist a plain `"light" | "dark" | "system"` string under `ui-lab-color-mode`. The current default storage key is `ui-lab-theme-complete`, and the package stores the selected mode there.
-- Do not hand-roll DOM mutation logic unless you are integrating outside React. In React apps, use `useColorMode()`.
-- Do not assume the script adds `.light` or `.dark` classes. Write custom CSS against `[data-theme="light"]` and `[data-theme="dark"]`.
-- Do not add `ThemeProvider` just to get a basic light/dark toggle. Use the script plus `useColorMode()` first.
-- Do not mix semantic surface tokens with `dark:` overrides unless you intentionally want to bypass the UI Lab token contract.
+- Do not treat `generateColorModeScript()` in `app/layout.tsx` as the default Next.js setup. The cookie plus server-layout path is now preferred.
+- Do not import `ui-lab-components/theme.css`. Consumers usually already own the token layer in their app's `theme.css`.
+- Do not stamp system mode onto `<html>`. Leave it unset so `prefers-color-scheme` handles first paint.
+- Do not assume UI Lab ships your token definitions. UI Lab only consumes the active token contract.
+- Do not add `ThemeProvider` just to get a basic light/dark toggle.
 
 ---
 

@@ -127,7 +127,7 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
       {isOpen && (
         <div
           className={cn(
-            "fixed top-15 left-0 right-0 z-50 pt-7 border-b border-background-700/60 md:hidden",
+            "fixed top-0 left-0 right-0 z-50 pt-7 border-b border-background-700/60 md:hidden",
             "overflow-y-auto max-h-[calc(100vh-3.75rem)] bg-background-950 animate-in slide-in-from-top-2"
           )}
         >

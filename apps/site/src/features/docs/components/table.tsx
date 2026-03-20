@@ -5,6 +5,12 @@ import { cn } from "@/shared";
 import { InlineCodeHighlight } from "@/features/docs";
 import { Expand } from "ui-lab-components";
 
+export interface TableExpandedDetail {
+  key: string;
+  label: string;
+  value: React.ReactNode;
+}
+
 export interface Column<T> {
   key: keyof T;
   label: string;
@@ -24,6 +30,36 @@ interface TableProps<T> {
   onFilterChange?: (filters: Record<string, string>) => void;
   expandRender?: (row: T) => React.ReactNode;
   getRowKey?: (row: T) => React.Key;
+}
+
+interface TableExpandedDetailsProps {
+  details: TableExpandedDetail[];
+  className?: string;
+}
+
+export function TableExpandedDetails({
+  details,
+  className,
+}: TableExpandedDetailsProps) {
+  if (details.length === 0) return null;
+
+  return (
+    <dl
+      className={cn(
+        "grid grid-cols-1 gap-x-6 gap-y-3 p-2 sm:grid-cols-[minmax(110px,160px)_1fr]",
+        className
+      )}
+    >
+      {details.map((detail) => (
+        <Fragment key={detail.key}>
+          <dt className="text-xs font-medium text-foreground-500 sm:pt-1">
+            {detail.label}:
+          </dt>
+          <dd className="min-w-0 text-xs text-foreground-300">{detail.value}</dd>
+        </Fragment>
+      ))}
+    </dl>
+  );
 }
 
 export function Table<T extends object>({

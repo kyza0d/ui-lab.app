@@ -599,7 +599,7 @@ export const componentRegistry: ComponentRegistry = {
     id: "panel",
     name: "Panel",
     description: "A flexible region coordinator that manages header, footer, and content areas with responsive stacking behavior.",
-    category: "composition",
+    category: "layout",
     experimental: true,
     source: {
   "packageName": "ui-lab-components",

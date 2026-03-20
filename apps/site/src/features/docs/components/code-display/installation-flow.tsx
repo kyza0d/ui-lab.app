@@ -187,52 +187,62 @@ export function InstallationFlow() {
 
           <div>
             <h4
-              id="extend-tailwind-paths"
+              id="define-theme-tokens"
               className="text-foreground-200 font-medium mb-3 scroll-mt-20"
             >
-              2. Extend Tailwind content paths
+              2. Define your app theme
             </h4>
-            <Code language="typescript" heading="tailwind.config.ts">
-              {`export default {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/ui-lab-components/**/*.{js,ts,jsx,tsx}",
-  ],
-  // ...existing config
+            <Code language="css" heading="app/theme.css">
+              {`:root {
+  color-scheme: light;
+
+  --background-500: oklch(60% 0.008 51.4);
+  --background-900: oklch(96% 0.005 51.4);
+  --background-950: oklch(98% 0.004 51.4);
+
+  --foreground-50: oklch(16% 0.01 51.4);
+  --foreground-200: oklch(31% 0.016 51.4);
+  --foreground-400: oklch(55% 0.023 51.4);
+
+  --accent-100: oklch(97% 0 0);
+  --accent-500: oklch(32% 0 0);
+  --accent-600: oklch(28% 0 0);
+}
+
+@theme inline {
+  --color-background-500: var(--background-500);
+  --color-background-900: var(--background-900);
+  --color-background-950: var(--background-950);
+  --color-foreground-50: var(--foreground-50);
+  --color-foreground-200: var(--foreground-200);
+  --color-foreground-400: var(--foreground-400);
+  --color-accent-100: var(--accent-100);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
 }`}
             </Code>
           </div>
 
           <div>
             <h4
-              id="add-root-theme"
+              id="import-styles"
               className="text-foreground-200 font-medium mb-3 scroll-mt-20"
             >
-              3. Add root theme (globals.css or equivalent)
+              3. Import styles in your app stylesheet
             </h4>
             <Code language="css" heading="app/globals.css">
-              {`@import "ui-lab-components/styles/base.css";
-
-@theme {
-  --background-50:  oklch(99%  0.001 240);
-  --background-100: oklch(97%  0.002 240);
-  /* ...950 */
-  --background-surface: var(--background-100);
-  --background-contrast: var(--background-950);
-
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-}`}
+              {`@import "tailwindcss";
+@import "./theme.css";
+@import "ui-lab-components/styles.css";`}
             </Code>
           </div>
 
           <div>
             <h4
-              id="import-stylesheet"
+              id="load-stylesheet"
               className="text-foreground-200 font-medium mb-3 scroll-mt-20"
             >
-              4. Import stylesheet in root layout/entry
+              4. Load that stylesheet from your root entry
             </h4>
             <Code language="typescript">
               {`import "./globals.css";`}
@@ -259,8 +269,9 @@ export default function Home() {
 }`}
         </Code>
         <p className="text-sm text-foreground-400">
-          No runtime errors and correct styling confirms successful
-          installation.
+          Tailwind v4 does not need `tailwind.config.ts` for this setup. If the
+          component renders with the expected tokens and spacing, the install is
+          working.
         </p>
       </section>
     </div>

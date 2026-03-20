@@ -6,14 +6,14 @@ import type { ComponentCategory } from './types.js';
  * Simply move a component to a different position in the array to change its order.
  */
 export const componentOrder: Record<ComponentCategory, string[]> = {
-  layout: ['grid', 'flex', 'gallery', 'divider', 'expand', 'card'],
-  composition: ['group', 'list', 'panel',],
+  layout: ['grid', 'flex', 'gallery', 'divider', 'expand', 'panel'],
+  composition: ['group', 'list'],
   action: ['button', 'confirm', 'command'],
   input: ['date', 'checkbox', 'color', 'input', 'radio', 'select', 'slider', 'switch', 'textarea'],
   information: ['banner', 'badge', 'label', 'tooltip'],
   feedback: ['popover', 'progress', 'toast'],
   navigation: ['path', 'menu', 'tabs', 'anchor'],
-  container: ['page', 'modal', 'scroll', 'mask', 'frame'],
+  container: ['page', 'card', 'modal', 'scroll', 'mask', 'frame'],
   display: ['table', 'code'],
 };
 

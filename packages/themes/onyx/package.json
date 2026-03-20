@@ -19,7 +19,6 @@
     "styles.css"
   ],
   "scripts": {
-    "build": "postcss src/onyx.css -o styles.css",
     "clean": "rm -f styles.css"
   },
   "devDependencies": {

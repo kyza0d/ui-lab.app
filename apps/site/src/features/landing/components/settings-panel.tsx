@@ -21,10 +21,10 @@ export const SettingsPanel = () => {
         <Button
           ref={buttonRef}
           variant="ghost"
-          className="p-2 text-foreground-300 hover:bg-theme-border/30"
+          className="hover:text-foreground-300 transition-colors text-foreground-400 p-2 hover:bg-theme-border/30"
           onClick={() => setIsSettingsPanelOpen(!isSettingsPanelOpen)}
         >
-          <FaPaintRoller size={14} className="text-foreground-300" />
+          <FaPaintRoller size={14} />
         </Button>
       </Tooltip>
       <Suspense fallback={null}>
