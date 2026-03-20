@@ -34,6 +34,10 @@
       "import": "./dist/theme-script.es.js",
       "types": "./dist/providers/themeScript.d.ts"
     },
+    "./theme-server": {
+      "import": "./dist/theme-server.es.js",
+      "types": "./dist/theme-server.d.ts"
+    },
     "./styles.css": {
       "style": "./dist/styles.css",
       "default": "./dist/styles.css"

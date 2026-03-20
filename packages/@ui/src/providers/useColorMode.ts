@@ -1,20 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useInsertionEffect, useSyncExternalStore } from 'react'
 import type { ThemeMode } from './theme-contract'
 import {
-  applyThemeMode,
+  applyThemePreference,
+  clearThemeMode,
+  DEFAULT_THEME_COOKIE_KEY,
   DEFAULT_THEME_STORAGE_KEY,
   getSystemThemeMode,
+  parseStoredThemeMode,
+  persistThemePreferenceCookie,
   persistThemeMode,
   readStoredThemeMode,
-  resolveThemeMode,
   THEME_CHANGE_EVENT,
   type ThemePreference,
 } from './theme-mode'
 
 export interface UseColorModeOptions {
   storageKey?: string
+  cookieKey?: string
   defaultMode?: ThemePreference
 }
 
@@ -24,55 +28,85 @@ export interface UseColorModeReturn {
   toggleThemeMode: () => void
 }
 
-function getInitialThemeMode(defaultMode: ThemePreference, storageKey: string): ThemeMode {
-  if (typeof window === 'undefined') {
-    return defaultMode === 'dark' ? 'dark' : 'light'
+function getRootThemeMode(): ThemeMode | null {
+  if (typeof document === 'undefined') return null
+
+  return parseStoredThemeMode(document.documentElement.dataset.theme)
+}
+
+function getSnapshot(defaultMode: ThemePreference, storageKey: string): ThemeMode {
+  const rootMode = getRootThemeMode()
+  if (rootMode) return rootMode
+
+  const storedMode = readStoredThemeMode(storageKey)
+  if (storedMode) return storedMode
+
+  if (defaultMode === 'light' || defaultMode === 'dark') {
+    return defaultMode
   }
 
-  return resolveThemeMode(storageKey, defaultMode)
+  return getSystemThemeMode()
+}
+
+function subscribe(onStoreChange: () => void, storageKey: string): () => void {
+  if (typeof window === 'undefined') return () => {}
+
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+  const handleSystemChange = () => {
+    if (readStoredThemeMode(storageKey) !== null || getRootThemeMode() !== null) return
+    onStoreChange()
+  }
+
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key !== storageKey) return
+    onStoreChange()
+  }
+
+  mediaQuery.addEventListener('change', handleSystemChange)
+  window.addEventListener('storage', handleStorage)
+  window.addEventListener(THEME_CHANGE_EVENT, onStoreChange)
+
+  return () => {
+    mediaQuery.removeEventListener('change', handleSystemChange)
+    window.removeEventListener('storage', handleStorage)
+    window.removeEventListener(THEME_CHANGE_EVENT, onStoreChange)
+  }
 }
 
 export function useColorMode(options: UseColorModeOptions = {}): UseColorModeReturn {
   const storageKey = options.storageKey ?? DEFAULT_THEME_STORAGE_KEY
+  const cookieKey = options.cookieKey ?? DEFAULT_THEME_COOKIE_KEY
   const defaultMode = options.defaultMode ?? 'system'
 
-  const [themeMode, setThemeModeState] = useState<ThemeMode>(() => getInitialThemeMode(defaultMode, storageKey))
+  const themeMode = useSyncExternalStore(
+    (onStoreChange) => subscribe(onStoreChange, storageKey),
+    () => getSnapshot(defaultMode, storageKey),
+    () => (defaultMode === 'dark' ? 'dark' : 'light'),
+  )
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  useInsertionEffect(() => {
+    const storedMode = readStoredThemeMode(storageKey)
 
-    const sync = () => {
-      const nextMode = resolveThemeMode(storageKey, defaultMode)
-      applyThemeMode(nextMode)
-      setThemeModeState(nextMode)
+    if (storedMode) {
+      applyThemePreference(storedMode)
+      return
     }
 
-    const handleSystemChange = () => {
-      if (readStoredThemeMode(storageKey) !== null) return
-      sync()
+    if (defaultMode === 'light' || defaultMode === 'dark') {
+      applyThemePreference(defaultMode)
+      return
     }
 
-    const handleStorage = (event: StorageEvent) => {
-      if (event.key !== storageKey) return
-      sync()
+    if (getRootThemeMode() === null) {
+      clearThemeMode()
     }
-
-    sync()
-    mediaQuery.addEventListener('change', handleSystemChange)
-    window.addEventListener('storage', handleStorage)
-    window.addEventListener(THEME_CHANGE_EVENT, sync)
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleSystemChange)
-      window.removeEventListener('storage', handleStorage)
-      window.removeEventListener(THEME_CHANGE_EVENT, sync)
-    }
-  }, [defaultMode, storageKey])
+  }, [defaultMode, storageKey, themeMode])
 
   const setThemeMode = (mode: ThemeMode) => {
-    applyThemeMode(mode)
+    applyThemePreference(mode)
     persistThemeMode(mode, storageKey)
-    setThemeModeState(mode)
+    persistThemePreferenceCookie(mode, cookieKey)
     window.dispatchEvent(new Event(THEME_CHANGE_EVENT))
   }
 

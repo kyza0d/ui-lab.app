@@ -5,6 +5,7 @@ import React from 'react'
 import { ThemeProvider } from '../ThemeProvider'
 import { useThemeMode } from '../useTheme'
 import { generateColorModeScript } from '../themeScript'
+import { parseThemeCookie, resolveThemeRootState } from '../theme-server'
 import {
   applyThemeTokens,
   createThemeStylesheet,
@@ -141,6 +142,7 @@ describe('theme-contract', () => {
     document.documentElement.className = ''
     document.documentElement.removeAttribute('style')
     localStorage.clear()
+    document.cookie = 'ui-lab-theme=; Path=/; Max-Age=0'
   })
 
   it('normalizes token keys to CSS variable names', () => {
@@ -197,6 +199,18 @@ describe('theme-contract', () => {
     expect(generated.themeCss).toContain(`--background-950: ${expectedDark['--background-950']};`)
     expect(generated.themeCss).toContain(`--background-950: ${expectedLight['--background-950']};`)
     expect(generated.themeCss).toContain('--color-background-950: var(--background-950);')
+  })
+
+  it('resolves server-side root state from explicit theme preferences', () => {
+    expect(parseThemeCookie('dark')).toBe('dark')
+    expect(parseThemeCookie('system')).toBe('system')
+    expect(parseThemeCookie('bogus')).toBeNull()
+    expect(resolveThemeRootState('system')).toEqual({})
+    expect(resolveThemeRootState('dark')).toEqual({
+      className: 'dark',
+      colorScheme: 'dark',
+      dataTheme: 'dark',
+    })
   })
 })
 
@@ -277,7 +291,7 @@ describe('useColorMode', () => {
     }))
   })
 
-  it('applies the system mode on mount without mutating existing CSS variables', async () => {
+  it('resolves the system mode without stamping an explicit override', async () => {
     document.documentElement.style.setProperty('--background-950', 'from-stylesheet')
 
     render(<ColorModeProbe />)
@@ -286,8 +300,8 @@ describe('useColorMode', () => {
       expect(screen.getByTestId('color-mode')).toHaveTextContent('dark')
     })
 
-    expect(document.documentElement.dataset.theme).toBe('dark')
-    expect(document.documentElement.style.colorScheme).toBe('dark')
+    expect(document.documentElement.dataset.theme).toBeUndefined()
+    expect(document.documentElement.style.colorScheme).toBe('')
     expect(document.documentElement.style.getPropertyValue('--background-950')).toBe('from-stylesheet')
   })
 
