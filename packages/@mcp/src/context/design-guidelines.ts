@@ -4,7 +4,7 @@
  * agents ALWAYS use UI Lab design tokens and never fall back to other color systems
  */
 
-export const DESIGN_GUIDELINES = {
+const DESIGN_GUIDELINES = {
   colorFamilies: {
     accent: "Primary actions, CTAs, brand elements",
     success: "Success states, confirmations, approved",

@@ -7,7 +7,7 @@ import { sectionsAdapter } from './adapters/sections-adapter.js';
 import { searchInspirations, getVariationCode } from './adapters/inspiration-adapter.js';
 import { formatDesignGuidelines } from './context/design-guidelines.js';
 
-export const searchComponentsTool: Tool = {
+const searchComponentsTool: Tool = {
   name: 'search_components',
   description:
     'Search for UI Lab components using natural language queries. Understands multi-word searches and semantic meaning (e.g., "input form field text" finds Input component). Returns up to 10 matching components ranked by relevance.',
@@ -24,7 +24,7 @@ export const searchComponentsTool: Tool = {
   },
 };
 
-export const getComponentTool: Tool = {
+const getComponentTool: Tool = {
   name: 'get_component',
   description:
     'Get complete metadata for a component by ID, including its API, examples, and design guidance. Use after search_components to get detailed information about a specific component.',
@@ -47,7 +47,7 @@ export const getComponentTool: Tool = {
   },
 };
 
-export async function handleSearchComponents(input: { query: string }): Promise<any> {
+async function handleSearchComponents(input: { query: string }): Promise<any> {
   const results = registryAdapter.search(input.query, undefined, 10);
   return {
     success: true,
@@ -60,7 +60,7 @@ export async function handleSearchComponents(input: { query: string }): Promise<
   };
 }
 
-export async function handleGetComponent(input: { id: string; detail?: 'api' | 'examples' | 'full' }): Promise<any> {
+async function handleGetComponent(input: { id: string; detail?: 'api' | 'examples' | 'full' }): Promise<any> {
   const component = registryAdapter.getComponentById(input.id);
   if (!component) {
     throw new Error(`Component not found: ${input.id}`);
@@ -100,7 +100,7 @@ export async function handleGetComponent(input: { id: string; detail?: 'api' | '
   };
 }
 
-export const getSemanticColorTool: Tool = {
+const getSemanticColorTool: Tool = {
   name: 'get_semantic_color',
   description:
     'Get the recommended semantic color for a component with a specific intent. Returns ONE choice (not options) with full color pairing info (background, text, border, hover, active, disabled) and WCAG compliance details. Use before generating component code to determine correct colors.',
@@ -121,7 +121,7 @@ export const getSemanticColorTool: Tool = {
   },
 };
 
-export async function handleGetSemanticColor(input: {
+async function handleGetSemanticColor(input: {
   component: string;
   semantic_intent: string;
 }): Promise<any> {
@@ -132,7 +132,7 @@ export async function handleGetSemanticColor(input: {
   };
 }
 
-export const getThemeSetupTool: Tool = {
+const getThemeSetupTool: Tool = {
   name: 'get_theme_setup',
   description:
     'Get complete setup instructions and code for UI Lab theme system with light/dark mode. Returns provider setup, toggle component code, and integration guide. Includes automatic FOUC prevention, localStorage persistence, and device preference detection.',
@@ -148,7 +148,7 @@ export const getThemeSetupTool: Tool = {
   },
 };
 
-export async function handleGetThemeSetup(input: { include_fouc_script?: boolean }): Promise<any> {
+async function handleGetThemeSetup(input: { include_fouc_script?: boolean }): Promise<any> {
   const themeProvider = registryAdapter.getProviderById('theme');
   if (!themeProvider) {
     throw new Error('Theme provider not found in registry');
@@ -262,7 +262,7 @@ export function ThemeToggle() {
   };
 }
 
-export const searchPatternsTool: Tool = {
+const searchPatternsTool: Tool = {
   name: 'search_patterns',
   description:
     'Search for UI Lab design patterns by use case or intent. Returns patterns with working code examples that use correct design tokens and compound components. Use this before building from scratch to find an existing pattern foundation.',
@@ -279,7 +279,7 @@ export const searchPatternsTool: Tool = {
   },
 };
 
-export const getPatternTool: Tool = {
+const getPatternTool: Tool = {
   name: 'get_pattern',
   description:
     'Get a specific design pattern by ID, including its working TSX code and design notes explaining why each token and component choice was made. Use after search_patterns to get the full pattern implementation.',
@@ -296,7 +296,7 @@ export const getPatternTool: Tool = {
   },
 };
 
-export async function handleSearchPatterns(input: { query: string }): Promise<any> {
+async function handleSearchPatterns(input: { query: string }): Promise<any> {
   const results = patternsAdapter.search(input.query);
   return {
     success: true,
@@ -317,7 +317,7 @@ export async function handleSearchPatterns(input: { query: string }): Promise<an
   };
 }
 
-export async function handleGetPattern(input: { id: string }): Promise<any> {
+async function handleGetPattern(input: { id: string }): Promise<any> {
   const pattern = patternsAdapter.getById(input.id);
   if (!pattern) {
     throw new Error(`Pattern not found: "${input.id}". Use search_patterns to find valid IDs.`);
@@ -329,7 +329,7 @@ export async function handleGetPattern(input: { id: string }): Promise<any> {
   };
 }
 
-export const searchElementsTool: Tool = {
+const searchElementsTool: Tool = {
   name: 'search_elements',
   description:
     'Search for UI Lab elements by use case or intent. Elements are pre-built, multi-component UI blocks (e.g., Chat interface, AIChatInput, TOC, Sidebar). Use before building complex UI to find a ready-made element foundation.',
@@ -346,7 +346,7 @@ export const searchElementsTool: Tool = {
   },
 };
 
-export const getElementTool: Tool = {
+const getElementTool: Tool = {
   name: 'get_element',
   description:
     'Get a specific UI Lab element by ID, including its variations, files, and design notes. Use after search_elements to get the full element structure.',
@@ -362,7 +362,7 @@ export const getElementTool: Tool = {
   },
 };
 
-export async function handleSearchElements(input: { query: string }): Promise<any> {
+async function handleSearchElements(input: { query: string }): Promise<any> {
   const results = packagesAdapter.search(input.query, 10);
   return {
     success: true,
@@ -382,7 +382,7 @@ export async function handleSearchElements(input: { query: string }): Promise<an
   };
 }
 
-export async function handleGetElement(input: { id: string }): Promise<any> {
+async function handleGetElement(input: { id: string }): Promise<any> {
   const element = packagesAdapter.getById(input.id);
   if (!element) {
     throw new Error(`Element not found: "${input.id}". Use search_elements to find valid IDs.`);
@@ -393,7 +393,7 @@ export async function handleGetElement(input: { id: string }): Promise<any> {
   };
 }
 
-export const searchSectionsTool: Tool = {
+const searchSectionsTool: Tool = {
   name: 'search_sections',
   description:
     'Search for UI Lab page sections by intent. Sections are full-width landing page blocks (Hero, Features, CTA, Pricing, Testimonials). Use when building marketing pages or landing pages.',
@@ -410,7 +410,7 @@ export const searchSectionsTool: Tool = {
   },
 };
 
-export const getSectionTool: Tool = {
+const getSectionTool: Tool = {
   name: 'get_section',
   description:
     'Get a specific UI Lab section by ID, including its variations and design notes.',
@@ -426,7 +426,7 @@ export const getSectionTool: Tool = {
   },
 };
 
-export async function handleSearchSections(input: { query: string }): Promise<any> {
+async function handleSearchSections(input: { query: string }): Promise<any> {
   const results = sectionsAdapter.search(input.query, 10);
   return {
     success: true,
@@ -445,7 +445,7 @@ export async function handleSearchSections(input: { query: string }): Promise<an
   };
 }
 
-export async function handleGetSection(input: { id: string }): Promise<any> {
+async function handleGetSection(input: { id: string }): Promise<any> {
   const section = sectionsAdapter.getById(input.id);
   if (!section) {
     throw new Error(`Section not found: "${input.id}". Use search_sections to find valid IDs.`);
@@ -456,7 +456,7 @@ export async function handleGetSection(input: { id: string }): Promise<any> {
   };
 }
 
-export const getInspirationTool: Tool = {
+const getInspirationTool: Tool = {
   name: 'get_inspiration',
   description:
     'Discover relevant Elements, Sections, and Patterns from the UI Lab registry. Returns lightweight metadata (purpose, tags, structure hints) for design reasoning—no full source code. Use during ideation to find existing patterns that match your design needs.',
@@ -485,7 +485,7 @@ export const getInspirationTool: Tool = {
   },
 };
 
-export async function handleGetInspiration(input: {
+async function handleGetInspiration(input: {
   query: string;
   category?: 'elements' | 'sections' | 'patterns' | 'all';
   limit?: number;
@@ -501,7 +501,7 @@ export async function handleGetInspiration(input: {
   };
 }
 
-export const getVariationCodeTool: Tool = {
+const getVariationCodeTool: Tool = {
   name: 'get_variation_code',
   description:
     'Fetch the source code for a specific variation of an Element, Section, or Pattern discovered via get_inspiration. Returns only the requested variation—no other variations, no full metadata. Use this to drill into a specific implementation without polluting context.',
@@ -527,7 +527,7 @@ export const getVariationCodeTool: Tool = {
   },
 };
 
-export async function handleGetVariationCode(input: {
+async function handleGetVariationCode(input: {
   type: 'element' | 'section' | 'pattern';
   id: string;
   variation?: string;

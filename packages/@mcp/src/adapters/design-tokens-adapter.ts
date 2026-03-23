@@ -15,7 +15,7 @@ import { getColorRecommendation } from 'ui-lab-registry';
  * Returns a SINGLE recommended color choice with complete pairing info
  * instead of offering options for the agent to choose from.
  */
-export function getSemanticColor(componentId: string, semanticIntent: string) {
+function getSemanticColor(componentId: string, semanticIntent: string) {
   const recommendation = getColorRecommendation(componentId, semanticIntent);
 
   if (!recommendation) {

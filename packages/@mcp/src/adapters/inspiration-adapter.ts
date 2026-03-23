@@ -7,14 +7,14 @@ import {
   getPatternById,
 } from 'ui-lab-registry';
 
-export interface VariationSummary {
+interface VariationSummary {
   index: number;      // 1-based, matches "01-basic" convention
   name: string;
   id?: string;        // patterns only (e.g. "media-object-sm")
   demoPath?: string;  // elements/sections only (e.g. "chat-basic")
 }
 
-export interface Inspiration {
+interface Inspiration {
   id: string;
   type: 'element' | 'section' | 'pattern';
   category: string;
@@ -26,19 +26,19 @@ export interface Inspiration {
   variationsSummary: VariationSummary[];
 }
 
-export interface InspirationSearchResult {
+interface InspirationSearchResult {
   matches: Inspiration[];
   query: string;
   totalMatches: number;
 }
 
-export interface VariationFile {
+interface VariationFile {
   filename: string;
   code: string;
   isEntryPoint?: boolean;
 }
 
-export interface VariationCodeResult {
+interface VariationCodeResult {
   type: 'element' | 'section' | 'pattern';
   id: string;
   variationName: string;
@@ -203,7 +203,7 @@ function buildCache(): Inspiration[] {
   return result;
 }
 
-export function loadInspirationsCache(): void {
+function loadInspirationsCache(): void {
   if (!cache) {
     cache = buildCache();
   }

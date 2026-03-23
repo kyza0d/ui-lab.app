@@ -25,7 +25,7 @@ import { sectionsAdapter } from './adapters/sections-adapter.js';
 /**
  * Create and configure the MCP server
  */
-export async function createServer(): Promise<Server> {
+async function createServer(): Promise<Server> {
   const server = new Server(
     {
       name: 'ui-lab-mcp',

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignore": [
+    "packages/@ui/src/postcss-ui-lab.ts",
+    "packages/@ui/src/styles.css",
+    "packages/@ui/src/theme-server.ts",
+    "scripts/write-changeset.ts"
+  ],
+  "tags": [
+    "-lintignore"
+  ],
+  "workspaces": {
+    ".": {
+      "ignoreBinaries": ["only-allow"]
+    },
+    "apps/site": {
+      "entry": ["content/**/*.mdx"]
+    },
+    "packages/@ui": {},
+    "packages/@mcp": {},
+    "packages/registry": {},
+    "packages/themes/onyx": {}
+  }
+}
