@@ -9,13 +9,13 @@ import css from "./Anchor.module.css";
 type Orientation = "horizontal" | "vertical";
 type Size = "sm" | "md" | "lg";
 
-export interface AnchorStyleSlots {
+interface AnchorStyleSlots {
   root?: StyleValue;
   underline?: StyleValue;
   preview?: StyleValue;
 }
 
-export type AnchorStylesProp = StylesProp<AnchorStyleSlots>;
+type AnchorStylesProp = StylesProp<AnchorStyleSlots>;
 
 const resolveAnchorBaseStyles = createStylesResolver(['root', 'underline', 'preview'] as const);
 
@@ -64,7 +64,7 @@ const AnchorPreview = React.forwardRef<HTMLSpanElement, AnchorPreviewProps>(
 );
 AnchorPreview.displayName = "Anchor.Preview";
 
-export interface AnchorUnderlineProps extends React.HTMLAttributes<HTMLDivElement> {
+interface AnchorUnderlineProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Controls the line style of the underline */
   variant?: "solid" | "dashed" | "dotted";
 }

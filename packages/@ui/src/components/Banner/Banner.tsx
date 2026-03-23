@@ -9,14 +9,14 @@ import { Info, CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
 
 type BannerSize = "sm" | "md" | "lg";
 
-export interface BannerStyleSlots {
+interface BannerStyleSlots {
   root?: StyleValue;
   "icon-container"?: StyleValue;
   content?: StyleValue;
   dismiss?: StyleValue;
 }
 
-export type BannerStylesProp = StylesProp<BannerStyleSlots>;
+type BannerStylesProp = StylesProp<BannerStyleSlots>;
 
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Variant class appended to the root element. Accepts any string. */
@@ -31,12 +31,12 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   styles?: BannerStylesProp;
 }
 
-export interface BannerTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+interface BannerTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: StyleValue;
 }
 
-export interface BannerBodyProps extends React.HTMLAttributes<HTMLParagraphElement> {
+interface BannerBodyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: StyleValue;
 }
@@ -176,4 +176,4 @@ const Banner = Object.assign(BannerRoot, {
   Body: BannerBody,
 }) as BannerComponent;
 
-export { Banner, BannerRoot, BannerTitle, BannerBody };
+export { Banner };

@@ -4,10 +4,7 @@ export interface Styles {
   content: string;
   inner: string;
   search: string;
-  "search-container": string;
-  "search-icon": string;
-  "search-input": string;
-  "search-clear": string;
+  input: string;
   list: string;
   item: string;
   "item-content": string;

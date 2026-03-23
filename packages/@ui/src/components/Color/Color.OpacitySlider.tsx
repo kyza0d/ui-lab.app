@@ -5,7 +5,7 @@ import { useFocusRing } from "@react-aria/focus";
 import { asElementProps } from "@/lib/react-aria";
 import styles from "./Color.module.css";
 
-export interface ColorOpacitySliderProps {
+interface ColorOpacitySliderProps {
   /** Current opacity value (0–1) */
   value: number;
   /** Base RGB color string used to render the transparency gradient on the slider track */

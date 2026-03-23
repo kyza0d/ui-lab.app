@@ -8,7 +8,7 @@ import { Grid } from "../Grid"
 import styles from "./Gallery.module.css"
 
 // Types
-type GridColumns = "1" | "2" | "3" | "4" | "5" | "6"
+type GridColumns = number
 type GridGap = "xs" | "sm" | "md" | "lg" | "xl"
 type ResponsiveColumns = {
   sm?: GridColumns
@@ -19,13 +19,13 @@ type ResponsiveColumns = {
 
 interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of columns in the gallery grid */
-  columns?: GridColumns | number | ResponsiveColumns
+  columns?: GridColumns | ResponsiveColumns
   /** Gap between gallery items */
   gap?: GridGap | number | string
   /** Number of rows in the gallery grid */
   rows?: "1" | "2" | "3" | "4" | "5" | "6" | "auto"
   /** Whether to enable container-query-based responsive columns */
-  containerQueryResponsive?: boolean
+  responsive?: boolean
   /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
   styles?: GalleryStylesProp
 }
@@ -52,23 +52,19 @@ interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-export interface GalleryStyleSlots {
+interface GalleryStyleSlots {
   root?: StyleValue;
 }
 
-export type GalleryStylesProp = StylesProp<GalleryStyleSlots>;
+type GalleryStylesProp = StylesProp<GalleryStyleSlots>;
 
 const resolveGalleryBaseStyles = createStylesResolver(['root'] as const);
 
 // Helper to map numeric columns to Grid's column values
-const mapColumnsToGrid = (columns?: GridColumns | number | ResponsiveColumns): GridColumns | ResponsiveColumns => {
-  if (!columns) return "3"
-  if (typeof columns === "string") return columns
-  if (typeof columns === "object") {
-    return columns as ResponsiveColumns
-  }
-  if (columns >= 1 && columns <= 6) return columns.toString() as GridColumns
-  return "3" // default fallback
+const mapColumnsToGrid = (columns?: GridColumns | ResponsiveColumns): GridColumns | ResponsiveColumns => {
+  if (!columns) return 3
+  if (typeof columns === "object") return columns as ResponsiveColumns
+  return columns
 }
 
 // Helper to map gap values to Grid's gap values
@@ -90,7 +86,7 @@ const mapGapToGrid = (gap?: GridGap | number | string): GridGap => {
 
 // Gallery Root Component
 const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
-  ({ columns = 3, gap = "md", rows, containerQueryResponsive, className, styles: stylesProp, children, ...props }, ref) => {
+  ({ columns = 3, gap = "md", rows, responsive, className, styles: stylesProp, children, ...props }, ref) => {
     const gridColumns = mapColumnsToGrid(columns)
     const gridGap = mapGapToGrid(gap)
     const resolved = resolveGalleryBaseStyles(stylesProp);
@@ -101,7 +97,7 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
         columns={gridColumns as GridColumns | ResponsiveColumns}
         gap={gridGap}
         rows={rows}
-        containerQueryResponsive={containerQueryResponsive}
+        responsive={responsive}
         className={cn(className, resolved.root)}
         {...props}
       >

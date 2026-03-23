@@ -19,13 +19,13 @@ export interface PathItemProps {
   className?: string;
 }
 
-export interface PathStyleSlots {
+interface PathStyleSlots {
   root?: StyleValue;
   list?: StyleValue;
   separator?: StyleValue;
 }
 
-export type PathStylesProp = StylesProp<PathStyleSlots>;
+type PathStylesProp = StylesProp<PathStyleSlots>;
 
 export interface PathProps {
   children: ReactNode;

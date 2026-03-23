@@ -16,7 +16,7 @@ import dateModuleStyles from "./Date.module.css"
 // Alias global Date to avoid shadowing by component name
 const NativeDate = globalThis.Date;
 
-export interface DateStyleSlots {
+interface DateStyleSlots {
   root?: StyleValue;
   header?: StyleValue;
   "day-headers"?: StyleValue;
@@ -24,7 +24,7 @@ export interface DateStyleSlots {
   "day-cell"?: StyleValue; // individual date button
 }
 
-export type DateStylesProp = StylesProp<DateStyleSlots>;
+type DateStylesProp = StylesProp<DateStyleSlots>;
 
 const dateStyleSlotKeys = ['root', 'header', 'day-headers', 'grid', 'day-cell'] as const;
 const resolveDateBaseStyles = createStylesResolver(dateStyleSlotKeys);
@@ -60,7 +60,7 @@ export interface DateContextValue {
 
 const DateContext = React.createContext<DateContextValue | null>(null)
 
-export function useDateContext() {
+function useDateContext() {
   const context = React.useContext(DateContext)
   if (!context) {
     throw new Error("Date component must be used within Date root")
@@ -553,4 +553,4 @@ const DateDay = React.forwardRef<HTMLButtonElement, DateDayProps>(
 
 DateDay.displayName = "Date.Day"
 
-export { Date, DateDayHeaders, DateHeader, DateGrid, DateDay }
+export { Date, DateHeader, DateGrid, DateDay }

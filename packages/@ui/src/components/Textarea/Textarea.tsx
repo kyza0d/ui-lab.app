@@ -13,12 +13,12 @@ import css from "./Textarea.module.css";
 type Size = "sm" | "md" | "lg";
 type ResizeAxis = "both" | "x" | "y" | "none";
 
-export interface TextAreaStyleSlots {
+interface TextAreaStyleSlots {
   root?: StyleValue;
   characterCount?: StyleValue;
 }
 
-export type TextAreaStylesProp = StylesProp<TextAreaStyleSlots>;
+type TextAreaStylesProp = StylesProp<TextAreaStyleSlots>;
 
 const resolveTextAreaBaseStyles = createStylesResolver(['root', 'characterCount'] as const);
 

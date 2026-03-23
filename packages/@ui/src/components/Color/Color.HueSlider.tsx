@@ -5,7 +5,7 @@ import { useFocusRing } from "@react-aria/focus";
 import { asElementProps } from "@/lib/react-aria";
 import styles from "./Color.module.css";
 
-export interface ColorHueSliderProps {
+interface ColorHueSliderProps {
   /** Current hue value (0–360) */
   value: number;
   /** Called when the user drags the hue slider with the new hue value */

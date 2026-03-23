@@ -6,11 +6,11 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Frame.module.css";
 
-export interface FrameStyleSlots {
+interface FrameStyleSlots {
   root?: StyleValue;
 }
 
-export type FrameStylesProp = StylesProp<FrameStyleSlots>;
+type FrameStylesProp = StylesProp<FrameStyleSlots>;
 
 const resolveFrameBaseStyles = createStylesResolver(['root'] as const);
 

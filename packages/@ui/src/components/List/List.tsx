@@ -199,5 +199,4 @@ const List = Object.assign(Container, {
   Footer,
 });
 
-export { List, Container, Header, ActionGroup, Divider, Footer };
-export type { ListRef };
+export { Container, Header, ActionGroup, Divider, Footer };

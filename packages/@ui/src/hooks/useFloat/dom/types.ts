@@ -24,9 +24,9 @@ type Prettify<T> = {
 
 type Promisable<T> = T | Promise<T>;
 
-export type Derivable<T> = (state: MiddlewareState) => T;
+type Derivable<T> = (state: MiddlewareState) => T;
 
-export type OffsetValue =
+type OffsetValue =
   | number
   | {
       /**
@@ -56,7 +56,7 @@ export type OffsetValue =
     };
 // `OffsetOptions` in the core library were originally already `Derivable`. For
 // backwards-compatibility, re-define it here to use the DOM Derivable type.
-export type OffsetOptions = OffsetValue | Derivable<OffsetValue>;
+type OffsetOptions = OffsetValue | Derivable<OffsetValue>;
 
 export interface Platform {
   // Required
@@ -101,7 +101,7 @@ export interface NodeScroll {
  */
 export type Boundary = 'clippingAncestors' | Element | Array<Element> | Rect;
 
-export type DetectOverflowOptions = Prettify<
+type DetectOverflowOptions = Prettify<
   Omit<CoreDetectOverflowOptions, 'boundary'> & {
     boundary?: Boundary;
   }
@@ -147,7 +147,7 @@ export type MiddlewareState = Prettify<
 /**
  * @deprecated use `MiddlewareState` instead.
  */
-export type MiddlewareArguments = MiddlewareState;
+type MiddlewareArguments = MiddlewareState;
 
 export type Middleware = Prettify<
   Omit<CoreMiddleware, 'fn'> & {
@@ -155,7 +155,7 @@ export type Middleware = Prettify<
   }
 >;
 
-export type SizeOptions = Prettify<
+type SizeOptions = Prettify<
   Omit<CoreSizeOptions, 'apply' | 'boundary'> &
     DetectOverflowOptions & {
       /**
@@ -171,21 +171,20 @@ export type SizeOptions = Prettify<
       ): Promisable<void>;
     }
 >;
-export type ArrowOptions = Prettify<
+type ArrowOptions = Prettify<
   Omit<CoreArrowOptions, 'element'> & {
     element: Element;
   }
 >;
-export type AutoPlacementOptions = Prettify<
+type AutoPlacementOptions = Prettify<
   Omit<CoreAutoPlacementOptions, 'boundary'> & DetectOverflowOptions
 >;
-export type ShiftOptions = Prettify<
+type ShiftOptions = Prettify<
   Omit<CoreShiftOptions, 'boundary'> & DetectOverflowOptions
 >;
-export type FlipOptions = Prettify<
+type FlipOptions = Prettify<
   Omit<CoreFlipOptions, 'boundary'> & DetectOverflowOptions
 >;
-export type HideOptions = Prettify<
+type HideOptions = Prettify<
   Omit<CoreHideOptions, 'boundary'> & DetectOverflowOptions
 >;
-export type {AutoUpdateOptions} from './autoUpdate';

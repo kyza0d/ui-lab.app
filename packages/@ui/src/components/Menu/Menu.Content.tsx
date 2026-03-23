@@ -1,6 +1,9 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
-import { useFloating, flip, offset as offsetMiddleware, autoUpdate } from "@floating-ui/react-dom"
+import { useFloating } from "../../hooks/useFloat/react/useFloating"
+import { flip } from "../../hooks/useFloat/core/middleware/flip"
+import { offset as offsetMiddleware } from "../../hooks/useFloat/core/middleware/offset"
+import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import css from "./Menu.module.css"
@@ -37,8 +40,8 @@ const MenuTrigger = React.forwardRef<HTMLDivElement, MenuTriggerProps>(
       <div
         ref={mergedRef}
         onContextMenu={handleContextMenu}
-        onClick={handleClick}
-        className={cn(css.trigger, className)}
+        onClickCapture={handleClick}
+        className={cn('menu', 'trigger', css.trigger, className)}
         data-active={isOpen || undefined}
         data-type={type}
       >
@@ -209,7 +212,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
             ref={mergedRef}
             role="menu"
             tabIndex={-1}
-            className={cn(css.content, className, resolved.root)}
+            className={cn('menu', 'content', css.content, className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
             onKeyDown={handleKeyDown}
@@ -223,7 +226,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
             <Scroll
               className={css.list}
               direction="vertical"
-              fadeY
+              fade-y
               enabled={needsScroll}
               hide={false}
             >

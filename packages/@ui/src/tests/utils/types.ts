@@ -25,7 +25,7 @@ export interface InteractionOptions {
 /**
  * Keyboard navigation configuration
  */
-export interface KeyboardNavConfig {
+interface KeyboardNavConfig {
   /**
    * Whether to test arrow key navigation
    */
@@ -59,7 +59,7 @@ export interface KeyboardNavConfig {
 /**
  * Focus ring state information
  */
-export interface FocusRingState {
+interface FocusRingState {
   isFocusVisible: boolean
   isKeyboardFocus: boolean
   isMouseFocus: boolean
@@ -68,7 +68,7 @@ export interface FocusRingState {
 /**
  * Selection state for list items
  */
-export interface SelectionState {
+interface SelectionState {
   key: string | number
   isSelected: boolean
 }
@@ -76,14 +76,14 @@ export interface SelectionState {
 /**
  * Common matcher options
  */
-export interface MatcherOptions {
+interface MatcherOptions {
   timeout?: number
 }
 
 /**
  * Context test options
  */
-export interface ContextTestOptions {
+interface ContextTestOptions {
   waitForAsync?: boolean
   timeout?: number
 }

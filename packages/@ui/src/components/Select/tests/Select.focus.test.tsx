@@ -106,7 +106,7 @@ describe('Select.focus', () => {
       const items = createMockSelectItems(3)
       const container = renderSelectWithChildren(
         <>
-          <Searchable.Trigger placeholder="Search items..." />
+          <Searchable.Input placeholder="Search items..." />
           <Select.Content>
             {items.map((item) => (
               <Select.Item key={item.key} value={item.key} textValue={item.label}>

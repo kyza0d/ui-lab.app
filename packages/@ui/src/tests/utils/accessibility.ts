@@ -13,14 +13,14 @@ export function setupAccessibilityMatchers() {
 /**
  * Expect an element to have a specific ARIA role
  */
-export function expectAriaRole(element: HTMLElement, role: string) {
+function expectAriaRole(element: HTMLElement, role: string) {
   expect(element).toHaveAttribute('role', role)
 }
 
 /**
  * Expect an element to be ARIA-disabled
  */
-export function expectAriaDisabled(
+function expectAriaDisabled(
   element: HTMLElement,
   isDisabled: boolean = true
 ) {
@@ -31,7 +31,7 @@ export function expectAriaDisabled(
 /**
  * Expect an element to have specific ARIA attributes
  */
-export function expectAriaAttributes(
+function expectAriaAttributes(
   element: HTMLElement,
   attributes: Record<string, string | boolean>
 ) {
@@ -77,7 +77,7 @@ export async function testButtonA11y(
 /**
  * Test menu accessibility
  */
-export async function testMenuA11y(menu: HTMLElement) {
+async function testMenuA11y(menu: HTMLElement) {
   // Menu should have role="menu"
   expectAriaRole(menu, 'menu')
 
@@ -96,7 +96,7 @@ export async function testMenuA11y(menu: HTMLElement) {
 /**
  * Test listbox accessibility
  */
-export async function testListboxA11y(listbox: HTMLElement) {
+async function testListboxA11y(listbox: HTMLElement) {
   // Should have role="listbox"
   expectAriaRole(listbox, 'listbox')
 
@@ -115,7 +115,7 @@ export async function testListboxA11y(listbox: HTMLElement) {
 /**
  * Test combobox accessibility
  */
-export async function testComboboxA11y(
+async function testComboboxA11y(
   combobox: HTMLElement,
   listbox: HTMLElement
 ) {
@@ -134,7 +134,7 @@ export async function testComboboxA11y(
 /**
  * Test switch/toggle accessibility
  */
-export async function testSwitchA11y(switchElement: HTMLElement) {
+async function testSwitchA11y(switchElement: HTMLElement) {
   // Should have role="switch"
   expectAriaRole(switchElement, 'switch')
 
@@ -149,7 +149,7 @@ export async function testSwitchA11y(switchElement: HTMLElement) {
 /**
  * Test checkbox accessibility
  */
-export async function testCheckboxA11y(checkbox: HTMLElement) {
+async function testCheckboxA11y(checkbox: HTMLElement) {
   // Should have checkbox role
   const role = checkbox.getAttribute('role') || checkbox.tagName.toLowerCase()
   expect(['checkbox', 'checkbox']).toContain(role)
@@ -165,7 +165,7 @@ export async function testCheckboxA11y(checkbox: HTMLElement) {
 /**
  * Test radio button accessibility
  */
-export async function testRadioA11y(radio: HTMLElement) {
+async function testRadioA11y(radio: HTMLElement) {
   // Should have role="radio"
   expectAriaRole(radio, 'radio')
 
@@ -180,7 +180,7 @@ export async function testRadioA11y(radio: HTMLElement) {
 /**
  * Test dialog/modal accessibility
  */
-export async function testDialogA11y(dialog: HTMLElement) {
+async function testDialogA11y(dialog: HTMLElement) {
   // Should have role="dialog" or "alertdialog"
   const role = dialog.getAttribute('role')
   expect(['dialog', 'alertdialog']).toContain(role)
@@ -217,7 +217,7 @@ export async function auditA11y(
 /**
  * Check for common accessibility issues
  */
-export function checkA11yBasics(element: HTMLElement) {
+function checkA11yBasics(element: HTMLElement) {
   const issues: string[] = []
 
   // Check for images without alt

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
-import { Input } from "../Input"
+import { Input, type InputProps } from "../Input"
 import { ChevronDown } from "lucide-react"
 import styles from "./Select.module.css"
 import { useSelectContext } from "./Select"
@@ -16,16 +16,16 @@ interface SelectTriggerIconStyles {
   chevron?: StyleValue;
 }
 
-export interface SelectTriggerStyleSlots {
+interface SelectTriggerStyleSlots {
   root?: StyleValue;
   valueSection?: StyleValue;
   icon?: StyleValue | SelectTriggerIconStyles; // Compound slot
   iconSection?: StyleValue;
 }
 
-export type SelectTriggerStylesProp = StylesProp<SelectTriggerStyleSlots>;
+type SelectTriggerStylesProp = StylesProp<SelectTriggerStyleSlots>;
 
-interface SelectTriggerProps extends React.PropsWithChildren {
+export interface SelectTriggerProps extends React.PropsWithChildren {
   /** Additional CSS class names */
   className?: string
   /** Custom chevron icon displayed on the right side of the trigger; defaults to ChevronDown */
@@ -124,17 +124,13 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
 )
 SelectTrigger.displayName = "SelectTrigger"
 
-export interface SearchableTriggerStyleSlots {
+interface SearchableTriggerStyleSlots {
   root?: StyleValue;
 }
 
-export type SearchableTriggerStylesProp = StylesProp<SearchableTriggerStyleSlots>;
+type SearchableTriggerStylesProp = StylesProp<SearchableTriggerStyleSlots>;
 
-interface SearchableTriggerProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
-  /** Additional CSS class names */
-  className?: string
-  /** Placeholder text shown when the input is empty */
-  placeholder?: string
+export interface SearchableTriggerProps extends Omit<InputProps, 'value' | 'onChange' | 'styles'> {
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: SearchableTriggerStylesProp;
 }
@@ -259,11 +255,11 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
             placeholder={placeholder}
             disabled={isDisabled}
             variant="ghost"
-            className={styles['search-trigger-input']}
+            className={cn('select', 'trigger', 'input', styles['input'])}
             {...props}
           />
         </div>
-        <div className={cn(styles['icon-section'], styles['search-icon-section'])}>
+        <div className={styles['search-icon-section']}>
           <div className={styles.icon}>
             <ChevronDown size={14} />
           </div>
@@ -275,4 +271,3 @@ const SearchableTrigger = React.forwardRef<HTMLInputElement, SearchableTriggerPr
 SearchableTrigger.displayName = "SearchableTrigger"
 
 export { SelectTrigger, SearchableTrigger }
-export type { SelectTriggerProps, SearchableTriggerProps }

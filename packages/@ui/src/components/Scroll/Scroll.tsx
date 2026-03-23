@@ -5,7 +5,7 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Scroll.module.css";
 
-export interface ScrollStyleSlots {
+interface ScrollStyleSlots {
   root?: StyleValue;
   content?: StyleValue;
   track?: StyleValue;
@@ -14,7 +14,7 @@ export interface ScrollStyleSlots {
   vertical?: StyleValue;
 }
 
-export type ScrollStylesProp = StylesProp<ScrollStyleSlots>;
+type ScrollStylesProp = StylesProp<ScrollStyleSlots>;
 
 export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Content to render inside the scroll container */
@@ -28,7 +28,7 @@ export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Padding on the top and bottom of the scrollbar track in pixels */
   paddingY?: string | number;
   /** Whether to apply a fade mask at the top and bottom scroll edges */
-  fadeY?: boolean;
+  "fade-y"?: boolean;
   /** Pixels scrolled before the fade mask begins to appear */
   fadeDistance?: number;
   /** Percentage of container height used for the fade gradient */
@@ -37,6 +37,8 @@ export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   enabled?: boolean;
   /** Whether to hide the scrollbar when not actively scrolling */
   hide?: boolean;
+  /** When true, the scrollbar sits inline displacing content; when false (default), it overlays the content */
+  inset?: boolean;
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: ScrollStylesProp;
 }
@@ -59,11 +61,12 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
       maxWidth = "100%",
       direction = "vertical",
       paddingY = 4,
-      fadeY = false,
+      "fade-y": fadeY = false,
       fadeDistance = 5,
       fadeSize = 4,
       enabled = true,
       hide = true,
+      inset = false,
       styles, // Destructure the new styles prop
       ...props
     },
@@ -455,6 +458,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           onMouseMove={handleContainerMouseMove}
           onMouseLeave={handleContainerMouseLeave}
           data-dragging={isDragging ? "true" : "false"}
+          data-inset={inset ? "true" : "false"}
           {...restProps}
         >
           <div
@@ -507,6 +511,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         onMouseMove={handleContainerMouseMove}
         onMouseLeave={handleContainerMouseLeave}
         data-dragging={isDragging ? "true" : "false"}
+        data-inset={inset ? "true" : "false"}
         {...restProps}
       >
         <div

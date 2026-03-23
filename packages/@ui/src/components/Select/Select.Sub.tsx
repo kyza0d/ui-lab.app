@@ -1,6 +1,9 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
-import { useFloating, flip, offset, autoUpdate } from "@floating-ui/react-dom"
+import { useFloating } from "../../hooks/useFloat/react/useFloating"
+import { flip } from "../../hooks/useFloat/core/middleware/flip"
+import { offset } from "../../hooks/useFloat/core/middleware/offset"
+import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate"
 import { useHover } from "@react-aria/interactions"
 import { ChevronRight } from "lucide-react"
 import { useSelectContext, SelectContext, type SelectContextValue } from "./Select"
@@ -38,11 +41,11 @@ interface SelectSubmenuContextValue {
 
 const SelectSubmenuContext = React.createContext<SelectSubmenuContextValue | null>(null)
 
-export function useSelectSubmenuContext() {
+function useSelectSubmenuContext() {
   return React.useContext(SelectSubmenuContext)
 }
 
-interface SelectSubProps extends React.PropsWithChildren {
+export interface SelectSubProps extends React.PropsWithChildren {
   /** Controlled open state of the submenu */
   open?: boolean
   /** Initial open state for uncontrolled usage */
@@ -477,7 +480,7 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
               <Scroll
                 className={styles.list}
                 direction="vertical"
-                fadeY
+                fade-y
                 enabled={needsScroll}
                 hide={false}
               >
@@ -500,4 +503,3 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
 SelectSubContent.displayName = "SelectSubContent"
 
 export { SelectSub, SelectSubTrigger, SelectSubContent }
-export type { SelectSubProps, SelectSubmenuContextValue }

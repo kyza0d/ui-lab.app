@@ -11,7 +11,7 @@ import {
 import type {DetectOverflowOptions} from '../detectOverflow';
 import type {Derivable, Middleware} from '../types';
 
-export function getPlacementList(
+function getPlacementList(
   alignment: Alignment | null,
   autoAlignment: boolean,
   allowedPlacements: Array<Placement>,
@@ -73,7 +73,7 @@ export interface AutoPlacementOptions extends DetectOverflowOptions {
  * preferred placement. Alternative to `flip`.
  * @see https://floating-ui.com/docs/autoPlacement
  */
-export const autoPlacement = (
+const autoPlacement = (
   options: AutoPlacementOptions | Derivable<AutoPlacementOptions> = {},
 ): Middleware => ({
   name: 'autoPlacement',

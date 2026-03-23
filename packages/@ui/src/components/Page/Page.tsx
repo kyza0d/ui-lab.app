@@ -7,11 +7,11 @@ import { PageContext } from './page.context';
 import { PageProps, PageContextValue, PagePadding } from './page.types';
 import css from './Page.module.css';
 
-export interface PageStyleSlots {
+interface PageStyleSlots {
   root?: StyleValue;
 }
 
-export type PageStylesProp = StylesProp<PageStyleSlots>;
+type PageStylesProp = StylesProp<PageStyleSlots>;
 
 const resolvePageBaseStyles = createStylesResolver(['root'] as const);
 

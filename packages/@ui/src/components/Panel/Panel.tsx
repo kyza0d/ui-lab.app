@@ -384,15 +384,6 @@ export const Panel = Object.assign(PanelRoot, {
 })
 
 export {
-  PanelRoot,
-  PanelHeader,
-  PanelContent,
-  PanelFooter,
-  PanelSidebar,
-  PanelToggle,
-  PanelGroup,
-  PanelResize,
   PanelContext,
   PanelGroupContext,
 }
-export type { PanelContextValue } from './panel.types'

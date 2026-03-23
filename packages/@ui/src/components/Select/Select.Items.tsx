@@ -6,14 +6,14 @@ import styles from "./Select.module.css"
 import { useSelectContext, type SelectItemData } from "./Select"
 import { List } from "../List"
 
-export interface SelectGroupStyleSlots {
+interface SelectGroupStyleSlots {
   root?: StyleValue;
   title?: StyleValue;
 }
 
-export type SelectGroupStylesProp = StylesProp<SelectGroupStyleSlots>;
+type SelectGroupStylesProp = StylesProp<SelectGroupStyleSlots>;
 
-interface SelectGroupProps extends React.PropsWithChildren {
+export interface SelectGroupProps extends React.PropsWithChildren {
   key?: string
   /** Label displayed above the group of items */
   title?: string
@@ -39,15 +39,15 @@ const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
 )
 SelectGroup.displayName = "SelectGroup"
 
-export interface SelectValueStyleSlots {
+interface SelectValueStyleSlots {
   root?: StyleValue;
   icon?: StyleValue;
   text?: StyleValue;
 }
 
-export type SelectValueStylesProp = StylesProp<SelectValueStyleSlots>;
+type SelectValueStylesProp = StylesProp<SelectValueStyleSlots>;
 
-interface SelectValueProps {
+export interface SelectValueProps {
   /** Text shown in the trigger when no item is selected */
   placeholder?: string
   /** Additional CSS class names */
@@ -98,7 +98,7 @@ const SelectValue = React.forwardRef<HTMLDivElement, SelectValueProps>(
 )
 SelectValue.displayName = "SelectValue"
 
-export interface SelectItemStyleSlots {
+interface SelectItemStyleSlots {
   root?: StyleValue;
   iconWrapper?: StyleValue;
   contentWrapper?: StyleValue; // When there's a description
@@ -106,9 +106,9 @@ export interface SelectItemStyleSlots {
   description?: StyleValue; // When there's a description
 }
 
-export type SelectItemStylesProp = StylesProp<SelectItemStyleSlots>;
+type SelectItemStylesProp = StylesProp<SelectItemStyleSlots>;
 
-interface SelectItemProps extends React.PropsWithChildren {
+export interface SelectItemProps extends React.PropsWithChildren {
   /** Unique key used to identify this item in the selection state */
   value: Key
   /** Accessible text value used for search filtering and selection display; defaults to children string */
@@ -200,13 +200,13 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
 )
 SelectItem.displayName = "SelectItem"
 
-export interface SelectListStyleSlots {
+interface SelectListStyleSlots {
   root?: StyleValue;
 }
 
-export type SelectListStylesProp = StylesProp<SelectListStyleSlots>;
+type SelectListStylesProp = StylesProp<SelectListStyleSlots>;
 
-interface SelectListProps extends React.PropsWithChildren {
+export interface SelectListProps extends React.PropsWithChildren {
   /** Additional CSS class names */
   className?: string
   /** Custom filter predicate applied to the items array */
@@ -231,4 +231,3 @@ const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
 SelectList.displayName = "SelectList"
 
 export { SelectGroup, SelectValue, SelectItem, SelectList }
-export type { SelectGroupProps, SelectValueProps, SelectItemProps, SelectListProps }

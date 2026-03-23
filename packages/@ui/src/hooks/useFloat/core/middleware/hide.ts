@@ -29,7 +29,7 @@ export interface HideOptions extends DetectOverflowOptions {
  * when it is not in the same clipping context as the reference element.
  * @see https://floating-ui.com/docs/hide
  */
-export const hide = (
+const hide = (
   options: HideOptions | Derivable<HideOptions> = {},
 ): Middleware => ({
   name: 'hide',

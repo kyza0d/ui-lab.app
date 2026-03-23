@@ -15,7 +15,7 @@ export type Alignment = 'start' | 'end';
 export type Side = 'top' | 'right' | 'bottom' | 'left';
 export type AlignedPlacement = `${Side}-${Alignment}`;
 export type Placement = Prettify<Side | AlignedPlacement>;
-export type Strategy = 'absolute' | 'fixed';
+type Strategy = 'absolute' | 'fixed';
 export type Axis = 'x' | 'y';
 export type Coords = {[key in Axis]: number};
 export type Length = 'width' | 'height';
@@ -23,9 +23,9 @@ export type Dimensions = {[key in Length]: number};
 export type SideObject = {[key in Side]: number};
 export type Rect = Prettify<Coords & Dimensions>;
 export type Padding = number | Prettify<Partial<SideObject>>;
-export type ClientRectObject = Prettify<Rect & SideObject>;
+type ClientRectObject = Prettify<Rect & SideObject>;
 
-export interface ElementRects {
+interface ElementRects {
   reference: Rect;
   floating: Rect;
 }
@@ -34,7 +34,7 @@ export interface ElementRects {
  * Custom positioning reference element.
  * @see https://floating-ui.com/docs/virtual-elements
  */
-export interface VirtualElement {
+interface VirtualElement {
   getBoundingClientRect(): ClientRectObject;
   getClientRects?(): Array<ClientRectObject>;
   contextElement?: any;
@@ -45,7 +45,7 @@ export interface VirtualElement {
 // ============================================================================
 
 export const sides: Side[] = ['top', 'right', 'bottom', 'left'];
-export const alignments: Alignment[] = ['start', 'end'];
+const alignments: Alignment[] = ['start', 'end'];
 export const placements: Placement[] = sides.reduce(
   (acc: Placement[], side) =>
     acc.concat(side, `${side}-${alignments[0]}`, `${side}-${alignments[1]}`),
@@ -58,10 +58,10 @@ export const placements: Placement[] = sides.reduce(
 
 export const min = Math.min;
 export const max = Math.max;
-export const round = Math.round;
-export const floor = Math.floor;
+const round = Math.round;
+const floor = Math.floor;
 
-export function createCoords(v: number): Coords {
+function createCoords(v: number): Coords {
   return {x: v, y: v};
 }
 
@@ -93,7 +93,7 @@ export function getPaddingObject(padding: Padding): SideObject {
     : {top: padding, right: padding, bottom: padding, left: padding};
 }
 
-export function rectToClientRect(rect: Rect): ClientRectObject {
+function rectToClientRect(rect: Rect): ClientRectObject {
   const {x, y, width, height} = rect;
   return {
     width,

@@ -6,7 +6,7 @@ import {getBoundingClientRect} from './utils/getBoundingClientRect';
 import {unwrapElement} from './utils/unwrapElement';
 import {rectsAreEqual} from './utils/rectsAreEqual';
 
-export interface AutoUpdateOptions {
+interface AutoUpdateOptions {
   /**
    * Whether to update the position when an overflow ancestor is scrolled.
    * @default true

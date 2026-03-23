@@ -7,5 +7,4 @@ export interface Styles {
   "padding-xl": string;
 }
 
-export const styles: Styles;
 export default styles;

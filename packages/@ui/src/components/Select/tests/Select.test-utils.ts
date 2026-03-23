@@ -130,7 +130,7 @@ export async function closeSelect(trigger: HTMLElement): Promise<void> {
 /**
  * Type in search field (for searchable variant)
  */
-export async function typeInSearch(text: string): Promise<void> {
+async function typeInSearch(text: string): Promise<void> {
   const input = document.querySelector('input[type="text"]')
   if (!input) throw new Error('Search input not found')
   await typeText(input as HTMLElement, text)

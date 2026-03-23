@@ -20,17 +20,6 @@ const List = Object.assign(ListRoot, {
 });
 
 export { List };
-export { 
-  Item as ListItem, 
-  Checkbox as ListCheckbox, 
-  CheckboxIndicator as ListCheckboxIndicator,
-  Switch as ListSwitch,
-  Input as ListInput,
-  Select as ListSelect,
-  Media as ListMedia, 
-  Desc as ListDesc 
-};
-export { ListHeader, ListActionGroup, ListDivider, ListFooter };
 export type { ListActionDef } from './list.types';
 export type {
   ListRef,
@@ -39,15 +28,9 @@ export type {
   ListHeaderProps,
   ListItemProps,
   ListCheckboxProps,
-  ListCheckboxIndicatorProps,
-  ListSwitchProps,
-  ListInputProps,
-  ListSelectProps,
   ListMediaProps,
   ListDescProps,
-  ActionGroupComponentProps,
   ListActionGroupProps,
   ListDividerProps,
-  FooterComponentProps,
   ListFooterProps,
 } from './list.types';

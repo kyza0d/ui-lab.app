@@ -12,7 +12,7 @@ type Orientation = "horizontal" | "vertical"
 type Spacing = "none" | "xs" | "sm"
 type Variant = "primary" | "secondary" | "outline" | "ghost"
 
-interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Controls the axis that children are arranged along */
   orientation?: Orientation
   /** Controls the gap between group items */
@@ -21,6 +21,10 @@ interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: Variant
   /** Whether all items in the group are non-interactive */
   isDisabled?: boolean
+  /** The currently active button value for toggle group behavior */
+  value?: string
+  /** Called when a button with a value prop is pressed */
+  onChange?: (value: string) => void
 }
 
 interface GroupContextValue {
@@ -29,6 +33,8 @@ interface GroupContextValue {
   groupOrientation: Orientation
   groupSpacing: Spacing
   groupIsDisabled: boolean
+  groupValue?: string
+  groupOnChange?: (value: string) => void
 }
 
 // Context
@@ -79,6 +85,8 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
       variant = "primary",
       children,
       isDisabled = false,
+      value,
+      onChange,
       ...props
     },
     ref
@@ -95,6 +103,8 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
       groupOrientation: orientation,
       groupSpacing: spacing,
       groupIsDisabled: isDisabled,
+      groupValue: value,
+      groupOnChange: onChange,
     }
 
     return (
@@ -153,23 +163,53 @@ GroupRoot.displayName = "Group"
 interface GroupButtonProps extends ButtonProps {
   /** Whether this button is in an active/pressed state */
   active?: boolean
+  /** Identifier used for toggle group behavior when Group has value/onChange */
+  value?: string
+}
+
+type GroupButtonIconSlots = {
+  left?: React.ReactNode
+  right?: React.ReactNode
+}
+
+function isGroupButtonIconSlots(icon: ButtonProps["icon"]): icon is GroupButtonIconSlots {
+  return typeof icon === "object" && icon !== null && !React.isValidElement(icon) && ('left' in icon || 'right' in icon)
+}
+
+function resolveGroupButtonIcon(icon: ButtonProps["icon"]): GroupButtonIconSlots | undefined {
+  if (!icon) return undefined
+  if (isGroupButtonIconSlots(icon)) {
+    return icon
+  }
+
+  return { left: icon as React.ReactNode, right: undefined }
 }
 
 /** Button styled to merge seamlessly with adjacent group items */
 const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
-  ({ active, variant, className, ...restProps }, ref) => {
+  ({ active, value, variant, className, onPress, ...restProps }, ref) => {
     const context = useGroupContext()
     const isInSelectTrigger = React.useContext(SelectTriggerContext)
 
     // Merge disabled state from group context
     const isDisabled = restProps.isDisabled ?? context.groupIsDisabled
 
+    // Derive active and onPress from toggle group context when value is provided
+    const isActive = value !== undefined && context.groupValue !== undefined
+      ? value === context.groupValue
+      : active
+    const handlePress = value !== undefined && context.groupOnChange !== undefined
+      ? () => context.groupOnChange!(value)
+      : onPress
+
     if (isInSelectTrigger) {
+      const icon = resolveGroupButtonIcon(restProps.icon)
+
       return (
         <span className={cn(styles['group-item'], className)}>
-          {restProps.icon?.left}
+          {icon?.left}
           {restProps.children}
-          {restProps.icon?.right}
+          {icon?.right}
         </span>
       )
     }
@@ -177,7 +217,7 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
     let buttonVariant = variant
     if (variant === undefined) {
       if (context.groupVariant === "ghost") {
-        buttonVariant = active ? "default" : "ghost"
+        buttonVariant = isActive ? "default" : "ghost"
       } else {
         buttonVariant = "ghost"
       }
@@ -185,11 +225,12 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
 
     const buttonProps = {
       ...restProps,
+      onPress: handlePress,
       variant: buttonVariant,
       isDisabled,
       className: cn(
         styles['group-item'],
-        active && styles.active,
+        isActive && styles.active,
         className
       ),
     }
@@ -280,5 +321,4 @@ const Group = Object.assign(GroupRoot, {
   Select: GroupSelect,
 })
 
-export { Group, GroupContext, GroupRoot, GroupButton, GroupInput, GroupInputWrapper, GroupSelect }
-export type { GroupProps, GroupContextValue, GroupButtonProps }
+export { Group, GroupContext }

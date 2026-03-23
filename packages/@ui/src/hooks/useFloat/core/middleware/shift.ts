@@ -118,7 +118,7 @@ type LimitShiftOffset =
       crossAxis?: number;
     };
 
-export interface LimitShiftOptions {
+interface LimitShiftOptions {
   /**
    * Offset when limiting starts. `0` will limit when the opposite edges of the
    * reference and floating elements are aligned.
@@ -140,7 +140,7 @@ export interface LimitShiftOptions {
 /**
  * Built-in `limiter` that will stop `shift()` at a certain point.
  */
-export const limitShift = (
+const limitShift = (
   options: LimitShiftOptions | Derivable<LimitShiftOptions> = {},
 ): {
   options: any;

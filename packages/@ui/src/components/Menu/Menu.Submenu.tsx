@@ -198,7 +198,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         aria-expanded={submenuContext?.isOpen}
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
-        className={cn(css['sub-trigger'], className, resolved.root)}
+        className={cn('menu', 'sub-trigger', css['sub-trigger'], className, resolved.root)}
         data-highlighted={isHighlighted || isHovered || undefined}
         data-disabled={disabled || undefined}
         data-inset={inset || undefined}
@@ -384,7 +384,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
             ref={mergedRef}
             role="menu"
             tabIndex={-1}
-            className={cn(css['sub-content'], className, resolved.root)}
+            className={cn('menu', 'sub-content', css['sub-content'], className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split("-")[0]}
             onKeyDown={handleKeyDown}
@@ -399,7 +399,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
             <Scroll
               className={css.list}
               direction="vertical"
-              fadeY
+              fade-y
               enabled={needsScroll}
               hide={false}
             >

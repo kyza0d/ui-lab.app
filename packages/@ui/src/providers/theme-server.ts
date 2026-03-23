@@ -1,7 +1,7 @@
 import type { ThemeMode } from './theme-contract'
 import { isThemePreference, type ThemePreference } from './theme-mode'
 
-export interface ThemeRootState {
+interface ThemeRootState {
   className?: ThemeMode
   colorScheme?: ThemeMode
   dataTheme?: ThemeMode

@@ -30,7 +30,7 @@ export interface ArrowOptions {
  * appears centered to the reference element.
  * @see https://floating-ui.com/docs/arrow
  */
-export const arrow = (
+const arrow = (
   options: ArrowOptions | Derivable<ArrowOptions>,
 ): Middleware => ({
   name: 'arrow',

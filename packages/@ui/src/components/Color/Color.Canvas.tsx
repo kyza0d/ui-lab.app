@@ -6,7 +6,7 @@ import { asElementProps } from "@/lib/react-aria";
 import { hsvToRgb } from "./color-utils";
 import styles from "./Color.module.css";
 
-export interface ColorCanvasProps {
+interface ColorCanvasProps {
   /** Current hue value (0–360) used to tint the canvas gradient */
   hue: number;
   /** Current saturation value (0–100) determining the horizontal position of the pointer */

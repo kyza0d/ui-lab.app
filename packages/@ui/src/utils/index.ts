@@ -34,7 +34,7 @@ export interface ElementRects {
  * Custom positioning reference element.
  * @see https://floating-ui.com/docs/virtual-elements
  */
-export interface VirtualElement {
+interface VirtualElement {
   getBoundingClientRect(): ClientRectObject;
   getClientRects?(): Array<ClientRectObject>;
   contextElement?: any;
@@ -44,9 +44,9 @@ export interface VirtualElement {
 // Constants
 // ============================================================================
 
-export const sides: Side[] = ['top', 'right', 'bottom', 'left'];
-export const alignments: Alignment[] = ['start', 'end'];
-export const placements: Placement[] = sides.reduce(
+const sides: Side[] = ['top', 'right', 'bottom', 'left'];
+const alignments: Alignment[] = ['start', 'end'];
+const placements: Placement[] = sides.reduce(
   (acc: Placement[], side) =>
     acc.concat(side, `${side}-${alignments[0]}`, `${side}-${alignments[1]}`),
   [],
@@ -65,7 +65,7 @@ export function createCoords(v: number): Coords {
   return {x: v, y: v};
 }
 
-export function clamp(start: number, value: number, end: number): number {
+function clamp(start: number, value: number, end: number): number {
   return max(start, min(value, end));
 }
 
@@ -131,7 +131,7 @@ export function getAlignment(placement: Placement): Alignment | undefined {
   return placement.split('-')[1] as Alignment | undefined;
 }
 
-export function getOppositeAxis(axis: Axis): Axis {
+function getOppositeAxis(axis: Axis): Axis {
   return axis === 'x' ? 'y' : 'x';
 }
 
@@ -149,7 +149,7 @@ export function getAlignmentAxis(placement: Placement): Axis {
   return getOppositeAxis(getSideAxis(placement));
 }
 
-export function getAlignmentSides(
+function getAlignmentSides(
   placement: Placement,
   rects: ElementRects,
   rtl = false,
@@ -174,7 +174,7 @@ export function getAlignmentSides(
   return [mainAlignmentSide, getOppositePlacement(mainAlignmentSide)];
 }
 
-export function getExpandedPlacements(placement: Placement): Array<Placement> {
+function getExpandedPlacements(placement: Placement): Array<Placement> {
   const oppositePlacement = getOppositePlacement(placement);
 
   return [
@@ -184,7 +184,7 @@ export function getExpandedPlacements(placement: Placement): Array<Placement> {
   ];
 }
 
-export function getOppositeAlignmentPlacement<T extends string>(
+function getOppositeAlignmentPlacement<T extends string>(
   placement: T,
 ): T {
   return placement.replace(
@@ -212,7 +212,7 @@ function getSideList(side: Side, isStart: boolean, rtl?: boolean): Placement[] {
   }
 }
 
-export function getOppositeAxisPlacements(
+function getOppositeAxisPlacements(
   placement: Placement,
   flipAlignment: boolean,
   direction: 'none' | Alignment,
@@ -232,7 +232,7 @@ export function getOppositeAxisPlacements(
   return list;
 }
 
-export function getOppositePlacement<T extends string>(placement: T): T {
+function getOppositePlacement<T extends string>(placement: T): T {
   return placement.replace(
     /left|right|bottom|top/g,
     (side) => oppositeSideMap[side as Side],

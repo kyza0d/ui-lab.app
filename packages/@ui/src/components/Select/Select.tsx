@@ -16,11 +16,11 @@ export type SelectItemData = ItemData
 export type SelectTriggerMode = "click" | "hover"
 export type SelectMode = "single" | "multiple"
 
-export interface SelectStyleSlots {
+interface SelectStyleSlots {
   root?: StyleValue;
 }
 
-export type SelectStylesProp = StylesProp<SelectStyleSlots>;
+type SelectStylesProp = StylesProp<SelectStyleSlots>;
 
 export interface SelectContextValue {
   isOpen: boolean

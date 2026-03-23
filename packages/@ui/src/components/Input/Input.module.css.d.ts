@@ -4,6 +4,11 @@ declare const styles: {
   "prefix-icon": string;
   "suffix-icon": string;
   container: string;
+  "start-adornments": string;
+  "end-adornments": string;
+  actions: string;
+  hint: string;
+  action: string;
   "number-controls": string;
   disabled: string;
   "spin-button": string;

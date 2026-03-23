@@ -21,12 +21,12 @@ import { ColorOpacitySlider } from "./Color.OpacitySlider";
 import { ColorRecentColors } from "./Color.RecentColors";
 import { ColorInput } from "./Color.Input";
 
-export interface ColorStyleSlots {
+interface ColorStyleSlots {
   root?: StyleValue;
   controls?: StyleValue;
 }
 
-export type ColorStylesProp = StylesProp<ColorStyleSlots>;
+type ColorStylesProp = StylesProp<ColorStyleSlots>;
 
 const resolveColorBaseStyles = createStylesResolver(['root', 'controls'] as const);
 

@@ -3,7 +3,7 @@ import type { RenderResult } from '@testing-library/react'
 import { render as utilRender, getAllElementsByRole } from '@/tests/utils'
 import { List } from '../'
 
-export interface MockListItem {
+interface MockListItem {
   key: string
   label: string
   value: string
@@ -14,7 +14,7 @@ export interface MockListItem {
 /**
  * Create an array of mock list items
  */
-export function createMockListItems(count: number = 3): MockListItem[] {
+function createMockListItems(count: number = 3): MockListItem[] {
   return Array.from({ length: count }, (_, i) => ({
     key: `item-${i}`,
     label: `Item ${i + 1}`,

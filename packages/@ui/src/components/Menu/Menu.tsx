@@ -10,7 +10,7 @@ import type {
   MenuItemExtras,
 } from "./menu.types"
 
-export const MenuContext = React.createContext<MenuContextValue | null>(null)
+const MenuContext = React.createContext<MenuContextValue | null>(null)
 
 export function useMenuContext() {
   const context = React.useContext(MenuContext)
@@ -188,13 +188,6 @@ const Menu = ({
 Menu.displayName = "Menu"
 
 export { Menu, MenuPortal }
-export type {
-  SelectionMode,
-  MenuContextValue,
-  MenuSubmenuContextValue,
-  RadioGroupContextValue,
-  MenuItemExtras,
-} from "./menu.types"
 export type {
   MenuProps,
   MenuTriggerProps,

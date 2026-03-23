@@ -34,7 +34,7 @@ const useModalKeyboard = (
   }, [isOpen, isDismissable, isKeyboardDismissDisabled, onClose]);
 };
 
-export interface ModalStyleSlots {
+interface ModalStyleSlots {
   root?: StyleValue;
   overlay?: StyleValue;
   backdrop?: StyleValue;
@@ -47,7 +47,7 @@ export interface ModalStyleSlots {
   footer?: StyleValue;
 }
 
-export type ModalStylesProp = StylesProp<ModalStyleSlots>;
+type ModalStylesProp = StylesProp<ModalStyleSlots>;
 
 const resolveModalBaseStyles = createStylesResolver([
   'root', 'overlay', 'backdrop', 'header', 'title', 'spacer', 'close', 'closeIcon', 'content', 'footer'

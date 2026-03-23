@@ -15,13 +15,13 @@ import { X } from "lucide-react";
 
 type BadgeSize = "sm" | "md" | "lg";
 
-export interface BadgeStyleSlots {
+interface BadgeStyleSlots {
   root?: StyleValue;
   icon?: StyleValue;
   dismiss?: StyleValue;
 }
 
-export type BadgeStylesProp = StylesProp<BadgeStyleSlots>;
+type BadgeStylesProp = StylesProp<BadgeStyleSlots>;
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual color style of the badge */

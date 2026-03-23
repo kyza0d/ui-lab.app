@@ -20,46 +20,12 @@ export const computePosition = (
   });
 };
 
-export { autoUpdate } from './autoUpdate';
-export type { AutoUpdateOptions } from './autoUpdate';
 
-export { platform } from './platform';
-export type { Platform } from './types';
 
-export {
-  detectOverflow,
-  offset,
-  autoPlacement,
-  shift,
-  flip,
-  size,
-  hide,
-  arrow,
-  inline,
-  limitShift,
-} from './middleware';
 
 export type {
-  Derivable,
-  OffsetValue,
-  OffsetOptions,
-  NodeScroll,
-  Boundary,
-  DetectOverflowOptions,
   ComputePositionConfig,
   VirtualElement,
-  ReferenceElement,
-  FloatingElement,
-  Elements,
-  MiddlewareState,
-  MiddlewareArguments,
-  Middleware,
-  SizeOptions,
-  ArrowOptions,
-  AutoPlacementOptions,
-  ShiftOptions,
-  FlipOptions,
-  HideOptions,
 } from './types';
 
 export type { ComputePositionReturn } from '../core';

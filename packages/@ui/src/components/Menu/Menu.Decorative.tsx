@@ -57,7 +57,7 @@ const MenuLabel = React.forwardRef<HTMLDivElement, MenuLabelProps>(
   ({ children, inset, className }, ref) => (
     <div
       ref={ref}
-      className={cn(styles.label, className)}
+      className={cn('menu', 'label', styles.label, className)}
       data-inset={inset || undefined}
     >
       {children}
@@ -76,7 +76,7 @@ const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
     <div
       ref={ref}
       role="separator"
-      className={cn(styles.separator, className)}
+      className={cn('menu', 'separator', styles.separator, className)}
     />
   )
 )
@@ -89,7 +89,7 @@ MenuSeparator.displayName = "MenuSeparator"
 /** Keyboard shortcut hint aligned to the right side of a menu item */
 const MenuShortcut = ({ className, ...props }: MenuShortcutProps) => {
   return (
-    <span className={cn(styles.shortcut, className)} {...props} />
+    <span className={cn('menu', 'shortcut', styles.shortcut, className)} {...props} />
   )
 }
 MenuShortcut.displayName = "MenuShortcut"

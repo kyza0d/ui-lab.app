@@ -17,6 +17,7 @@ import { useScrollLock } from "../../hooks/useScrollLock";
 import { Card } from "../Card";
 import { Scroll } from "../Scroll";
 import { Badge } from "../Badge";
+import { Input, type InputProps } from "../Input";
 
 import type { Key } from "react-aria";
 import styles from "./Command.module.css";
@@ -347,60 +348,42 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
 
 Command.displayName = "Command";
 
-interface CommandSearchInputProps {
-  /** Controlled search text value */
-  value?: string;
-  /** Called when the search text changes */
-  onChange?: (value: string) => void;
-  /** Placeholder text for the search input */
-  placeholder?: string;
-  /** Additional CSS class for the search input */
-  className?: string;
-}
+interface CommandInputProps extends InputProps {}
 
-const CommandSearchInput = React.forwardRef<
-  HTMLInputElement,
-  CommandSearchInputProps
->(({ value: externalValue, onChange: externalOnChange, placeholder = "Search..." }, ref) => {
-  const { searchInputRef, searchValue, setSearchValue } = useCommandContext();
+const CommandInput = React.forwardRef<HTMLInputElement, CommandInputProps>(
+  ({ value: externalValue, onChange: externalOnChange, icon, actions, placeholder = "Search...", ...props }, ref) => {
+    const { searchInputRef, searchValue, setSearchValue } = useCommandContext();
 
-  // Use external value/onChange if provided, otherwise use internal context state
-  const value = externalValue !== undefined ? externalValue : searchValue;
-  const onChange = externalOnChange || setSearchValue;
+    const value = externalValue !== undefined ? externalValue : searchValue;
 
-  // Use internal Command ref for auto-focus, or user-provided ref
-  const inputRef = (ref || searchInputRef) as React.RefObject<HTMLInputElement>;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(e.target.value);
+      externalOnChange?.(e);
+    };
 
-  return (
-    <Card.Header className={styles["search"]}>
-      <div className={styles["search-container"]}>
-        <div className={styles["search-icon"]}>
-          <Search className="w-4 h-4" />
-        </div>
-        <input
+    const inputRef = (ref ?? searchInputRef) as React.RefObject<HTMLInputElement>;
+
+    const resolvedActions = actions ?? (value ? [{ icon: <>✕</>, title: "Clear search", onClick: () => { setSearchValue(""); } }] : []);
+
+    return (
+      <Card.Header className={styles["search"]}>
+        <Input
           ref={inputRef}
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={value as string}
+          onChange={handleChange}
+          icon={icon ?? <Search className="w-4 h-4" />}
+          actions={resolvedActions}
           placeholder={placeholder}
-          className={styles["search-input"]}
           aria-label="Search commands"
+          styles={{ root: styles["input"] }}
+          {...props}
         />
-        {value && (
-          <button
-            aria-label="Clear search"
-            onClick={() => onChange("")}
-            className={styles["search-clear"]}
-          >
-            ✕
-          </button>
-        )}
-      </div>
-    </Card.Header>
-  );
-});
+      </Card.Header>
+    );
+  }
+);
 
-CommandSearchInput.displayName = "Command.SearchInput";
+CommandInput.displayName = "Command.Input";
 
 interface CommandListProps {
   /** Child elements rendered inside the list */
@@ -433,7 +416,7 @@ const CommandListComponent = React.forwardRef<
         }}
         className={styles["list"]}
         maxHeight="44dvh"
-        fadeY={true}
+        fade-y
       >
         <div role="listbox" aria-label="Commands">
           {!children ? (
@@ -466,7 +449,7 @@ interface CommandItemProps {
 
 const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
   ({ value, textValue, action, children, className, hint }, ref) => {
-    const { focusedKey, registerItem, unregisterItem, actionRef } =
+    const { focusedKey, registerItem, unregisterItem, actionRef, close } =
       useCommandContext();
 
     React.useEffect(() => {
@@ -486,7 +469,7 @@ const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
         data-highlighted={isHighlighted}
         role="option"
         aria-selected={isHighlighted}
-        onClick={() => action()}
+        onClick={() => { action(); close(); }}
         className={cn("item", styles["item"], className)}
       >
         <div className={styles["item-content"]}>{children}</div>
@@ -581,7 +564,7 @@ interface CommandComponent
   extends React.ForwardRefExoticComponent<
     CommandProps & React.RefAttributes<HTMLDivElement>
   > {
-  SearchInput: typeof CommandSearchInput;
+  Input: typeof CommandInput;
   List: typeof CommandListComponent;
   Item: typeof CommandItem;
   Category: typeof CommandCategory;
@@ -590,7 +573,7 @@ interface CommandComponent
 }
 
 const CommandWithSubcomponents = Object.assign(Command, {
-  SearchInput: CommandSearchInput,
+  Input: CommandInput,
   List: CommandListComponent,
   Item: CommandItem,
   Category: CommandCategory,
@@ -599,10 +582,5 @@ const CommandWithSubcomponents = Object.assign(Command, {
 }) as CommandComponent;
 
 export { CommandWithSubcomponents as Command };
-export { CommandSearchInput as CommandInput };
-export { CommandListComponent as CommandListComponent };
-export { CommandCategory };
-export { CommandFooter };
-export { CommandGroups };
 export { scoreCommandRelevance };
 export { useCommandContext };

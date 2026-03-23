@@ -46,14 +46,14 @@ export function render(
 /**
  * Get the rendered component's root element
  */
-export function getRootElement(renderResult: ReturnType<typeof render>) {
+function getRootElement(renderResult: ReturnType<typeof render>) {
   return renderResult.container.firstChild as HTMLElement | null
 }
 
 /**
  * Rerender a component with new props
  */
-export async function rerenderComponent(
+async function rerenderComponent(
   renderResult: ReturnType<typeof render>,
   ui: ReactElement
 ) {

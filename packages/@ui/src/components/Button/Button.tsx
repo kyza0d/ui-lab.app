@@ -11,7 +11,11 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Button.module.css";
 
-type ButtonSize = "sm" | "md" | "lg";
+type ButtonSize = "sm" | "md" | "lg" | (string & {});
+type ButtonIconSlots = {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+};
 
 interface ButtonIconStyles {
   left?: StyleValue;
@@ -50,17 +54,14 @@ function resolveButtonStyles(styles: ButtonStylesProp | undefined) {
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "href" | "target"> {
   /** Variant class appended to the root element. Accepts any string. */
   variant?: string;
-  /** Size of the button */
+  /** Size class appended to the root element. Accepts any string. */
   size?: ButtonSize;
   /** Disables interaction and applies disabled styling */
   isDisabled?: boolean;
   /** React Aria press handler — preferred over onClick for accessibility */
   onPress?: (e: { target: EventTarget | null }) => void;
   /** Icon slots rendered before (left) or after (right) the button label */
-  icon?: {
-    left?: React.ReactNode;
-    right?: React.ReactNode;
-  };
+  icon?: React.ReactNode | ButtonIconSlots;
   /** Renders the button as an anchor element when provided */
   href?: string;
   /** Browsing context for the anchor variant (e.g. "_blank") */
@@ -69,11 +70,29 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   styles?: ButtonStylesProp;
 }
 
-const sizeMap = {
-  sm: css["sm"],
-  md: css["md"],
-  lg: css["lg"],
-} as const;
+function isButtonIconSlots(icon: ButtonProps["icon"]): icon is ButtonIconSlots {
+  return typeof icon === "object" && icon !== null && !React.isValidElement(icon) && ('left' in icon || 'right' in icon);
+}
+
+function resolveButtonIcon(icon: ButtonProps["icon"]) {
+  if (!icon) {
+    return undefined;
+  }
+
+  if (isButtonIconSlots(icon)) {
+    return icon;
+  }
+
+  return { left: icon };
+}
+
+function resolveButtonIconSizeClass(size: ButtonSize | undefined) {
+  if (!size) {
+    return undefined;
+  }
+
+  return (css as unknown as Record<string, string | undefined>)[`icon-${size}`];
+}
 
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ className, styles, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, href, target, rel, ...props }, ref) => {
@@ -114,7 +133,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     const { hoverProps, isHovered } = useHover({ isDisabled: isButtonDisabled });
 
     const resolved = resolveButtonStyles(styles);
-    const buttonClassName = cn("button", variant, size, css.button, sizeMap[size], className, resolved.root);
+    const resolvedIcon = resolveButtonIcon(icon);
+    const iconSizeClassName = resolveButtonIconSizeClass(size);
+    const buttonClassName = cn("button", variant, size, css.button, className, resolved.root);
 
     if (isAnchor) {
       return (
@@ -134,9 +155,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           data-focused={isFocused ? "true" : "false"}
           data-focus-visible={isFocusVisible ? "true" : "false"}
         >
-          {icon?.left && <span className={cn((css as any)[`icon-${size}`], resolved.iconLeft)}>{icon.left}</span>}
+          {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
           {children}
-          {icon?.right && <span className={cn((css as any)[`icon-${size}`], resolved.iconRight)}>{icon.right}</span>}
+          {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
         </a>
       );
     }
@@ -155,9 +176,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         data-focused={isFocused ? "true" : "false"}
         data-focus-visible={isFocusVisible ? "true" : "false"}
       >
-        {icon?.left && <span className={cn((css as any)[`icon-${size}`], resolved.iconLeft)}>{icon.left}</span>}
+        {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
         {children}
-        {icon?.right && <span className={cn((css as any)[`icon-${size}`], resolved.iconRight)}>{icon.right}</span>}
+        {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
       </button>
     );
   }

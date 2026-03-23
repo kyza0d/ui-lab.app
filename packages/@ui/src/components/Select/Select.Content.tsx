@@ -1,6 +1,9 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
-import { useFloating, flip, offset, autoUpdate } from '@floating-ui/react-dom'
+import { useFloating } from "../../hooks/useFloat/react/useFloating"
+import { flip } from "../../hooks/useFloat/core/middleware/flip"
+import { offset } from "../../hooks/useFloat/core/middleware/offset"
+import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import styles from "./Select.module.css"
@@ -18,7 +21,7 @@ export interface SelectContentStyleSlots {
   listPaddingWrapper?: StyleValue;
 }
 
-export type SelectContentStylesProp = StylesProp<SelectContentStyleSlots>;
+type SelectContentStylesProp = StylesProp<SelectContentStyleSlots>;
 
 export interface SelectContentProps extends React.PropsWithChildren {
   /** Additional CSS class names */
@@ -297,9 +300,9 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
       const handlePointerDown = (e: MouseEvent) => {
         const target = e.target as HTMLElement
-          const isClickInside = wrapperRef.current?.contains(target) ||
-                             floatingRootRef.current?.contains(target) ||
-                             Array.from(document.querySelectorAll('[data-select-submenu-content]')).some(el => el.contains(target))
+        const isClickInside = wrapperRef.current?.contains(target) ||
+          floatingRootRef.current?.contains(target) ||
+          Array.from(document.querySelectorAll('[data-select-submenu-content]')).some(el => el.contains(target))
 
         if (!isClickInside) {
           setIsOpen(false)
@@ -366,7 +369,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
               className="viewport"
               maxHeight={`calc(${maxItems} * 36px + 8px)`}
               direction="vertical"
-              fadeY={!searchable}
+              fade-y={!searchable}
               enabled={needsScroll}
               hide={false}
             >
@@ -385,7 +388,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 )
 SelectContent.displayName = "SelectContent"
 
-export type SearchableContentProps = Omit<SelectContentProps, 'searchable'>
+type SearchableContentProps = Omit<SelectContentProps, 'searchable'>
 
 /** Dropdown panel with a built-in search input for filtering the option list */
 const SearchableContent = React.forwardRef<HTMLDivElement, SearchableContentProps>(

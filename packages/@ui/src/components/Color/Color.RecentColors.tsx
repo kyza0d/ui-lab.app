@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getRecentColors } from "./color-utils";
 import styles from "./Color.module.css";
 
-export interface ColorRecentColorsProps {
+interface ColorRecentColorsProps {
   /** Called when the user clicks a recent color swatch */
   onSelect?: (color: string) => void;
   /** Disables all swatch buttons */

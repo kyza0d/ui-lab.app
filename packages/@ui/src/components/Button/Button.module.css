@@ -13,15 +13,13 @@
     font-size: var(--text-sm, 0.875rem);
     line-height: var(--leading-tight, 1.25);
 
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
     &:hover:not(:disabled) {
       background-color: var(--hover-background);
       border-color: var(--hover-border);
     }
 
     &:active:not(:disabled) {
-      filter: brightness(1.1);
+      filter: brightness(0.8);
     }
 
     &:focus-visible {
@@ -35,8 +33,4 @@
       filter: grayscale(0.5);
     }
   }
-
-  .button.sm { @apply px-3 py-1.5; font-size: var(--text-xs); }
-  .button.md { @apply px-5 py-2;   font-size: var(--text-sm); }
-  .button.lg { @apply px-7 py-1.5; font-size: var(--text-sm); }
 }

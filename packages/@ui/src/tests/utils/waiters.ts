@@ -4,7 +4,7 @@ import type { WaitOptions } from './types'
 /**
  * Helper to run async function with timeout using waitFor
  */
-export async function runWithTimeout(
+async function runWithTimeout(
   fn: () => void | Promise<void>,
   options?: WaitOptions
 ) {
@@ -84,7 +84,7 @@ export async function waitForFocus(
 /**
  * Wait for an element to be selected (aria-selected="true")
  */
-export async function waitForSelection(
+async function waitForSelection(
   getElement: () => HTMLElement,
   options?: WaitOptions
 ) {
@@ -104,7 +104,7 @@ export async function waitForSelection(
 /**
  * Wait for text to appear on the page
  */
-export async function waitForText(
+async function waitForText(
   text: string | RegExp,
   options?: WaitOptions
 ) {
@@ -121,7 +121,7 @@ export async function waitForText(
 /**
  * Wait for an element by role
  */
-export async function waitForRole(
+async function waitForRole(
   role: string,
   options?: WaitOptions & { name?: string }
 ) {
@@ -138,7 +138,7 @@ export async function waitForRole(
 /**
  * Wait for attribute change
  */
-export async function waitForAttribute(
+async function waitForAttribute(
   element: HTMLElement,
   attributeName: string,
   expectedValue?: string,
@@ -163,7 +163,7 @@ export async function waitForAttribute(
 /**
  * Wait for class name to be added or removed
  */
-export async function waitForClass(
+async function waitForClass(
   element: HTMLElement,
   className: string,
   shouldExist: boolean = true,
@@ -187,7 +187,7 @@ export async function waitForClass(
 /**
  * Wait for element count to match
  */
-export async function waitForElementCount(
+async function waitForElementCount(
   getElements: () => HTMLElement[],
   expectedCount: number,
   options?: WaitOptions
@@ -228,7 +228,7 @@ export async function waitForCondition(
 /**
  * Wait for animation frame
  */
-export async function waitForAnimationFrame() {
+async function waitForAnimationFrame() {
   return new Promise((resolve) => {
     requestAnimationFrame(resolve)
   })
@@ -237,7 +237,7 @@ export async function waitForAnimationFrame() {
 /**
  * Wait for multiple animation frames
  */
-export async function waitForAnimationFrames(count: number = 1) {
+async function waitForAnimationFrames(count: number = 1) {
   for (let i = 0; i < count; i++) {
     await waitForAnimationFrame()
   }
@@ -246,7 +246,7 @@ export async function waitForAnimationFrames(count: number = 1) {
 /**
  * Wait for debounced/throttled function to be called
  */
-export async function waitForDebouncedChange(
+async function waitForDebouncedChange(
   callback: () => boolean,
   options?: WaitOptions
 ) {
@@ -258,14 +258,14 @@ export async function waitForDebouncedChange(
 /**
  * Wait for timeout
  */
-export async function waitForTimeout(ms: number) {
+async function waitForTimeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /**
  * Wait for microtask queue to flush (Promise.then)
  */
-export async function waitForMicrotask() {
+async function waitForMicrotask() {
   return new Promise((resolve) => {
     Promise.resolve().then(resolve)
   })
@@ -274,7 +274,7 @@ export async function waitForMicrotask() {
 /**
  * Wait for multiple condition checks
  */
-export async function waitForMultiple(
+async function waitForMultiple(
   conditions: Array<() => boolean>,
   options?: WaitOptions
 ) {

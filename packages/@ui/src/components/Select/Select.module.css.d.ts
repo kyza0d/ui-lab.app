@@ -1,9 +1,9 @@
 declare const styles: {
   select: string;
   trigger: string;
+  input: string;
   "search-trigger": string;
   "search-value-section": string;
-  "search-trigger-input": string;
   "search-content-input": string;
   "search-icon-section": string;
   "search-wrapper": string;

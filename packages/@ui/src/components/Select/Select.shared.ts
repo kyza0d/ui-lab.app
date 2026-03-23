@@ -7,5 +7,4 @@ export {
 
 export type {
   ItemData,
-  UseListNavigationOptions,
 } from "../../utils/list-navigation"

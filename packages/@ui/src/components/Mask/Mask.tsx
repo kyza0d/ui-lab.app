@@ -79,7 +79,7 @@ const MaskRoot = React.forwardRef<HTMLDivElement, MaskProps>(
 
 MaskRoot.displayName = "Mask";
 
-export interface MaskGradientProps extends React.HTMLAttributes<HTMLDivElement> {
+interface MaskGradientProps extends React.HTMLAttributes<HTMLDivElement> {
   /** CSS gradient string applied as the mask image */
   gradient: string;
 }
@@ -106,7 +106,7 @@ const MaskGradient = React.forwardRef<HTMLDivElement, MaskGradientProps>(
 
 MaskGradient.displayName = "MaskGradient";
 
-export interface MaskFadeProps {
+interface MaskFadeProps {
   /** Edge of the container where the fade starts */
   direction?: "top" | "bottom" | "left" | "right";
   /** Controls the size of the fade — higher values produce a longer fade */
@@ -130,7 +130,7 @@ function generateFadeMask(direction: string = "bottom", intensity: number = 1, f
 }
 
 
-export interface MaskClipProps {
+interface MaskClipProps {
   /** CSS clip-path value applied to the container (e.g. polygon, circle) */
   shape: string;
 }

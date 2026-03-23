@@ -7,13 +7,13 @@ import css from "./Checkbox.module.css";
 
 type Size = "sm" | "md" | "lg";
 
-export interface CheckboxStyleSlots {
+interface CheckboxStyleSlots {
   root?: StyleValue;
   label?: StyleValue;
   helperText?: StyleValue;
 }
 
-export type CheckboxStylesProp = StylesProp<CheckboxStyleSlots>;
+type CheckboxStylesProp = StylesProp<CheckboxStyleSlots>;
 
 const resolveCheckboxBaseStyles = createStylesResolver(['root', 'label', 'helperText'] as const);
 

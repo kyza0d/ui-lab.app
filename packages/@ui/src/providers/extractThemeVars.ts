@@ -4,7 +4,7 @@ export interface OklchColor {
   h: number
 }
 
-export interface ThemeConfig {
+interface ThemeConfig {
   background: string | OklchColor
   foreground: string | OklchColor
   accent: string | OklchColor
@@ -14,13 +14,13 @@ export interface ThemeConfig {
   info?: string | OklchColor
 }
 
-export type ColorShade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950
-export type ColorPalette = Partial<Record<ColorShade, OklchColor>>
-export type ThemePalettes = Record<string, ColorPalette>
-export type ThemeCssVariableBatch = Record<string, string>
-export type ThemeMode = 'light' | 'dark'
+type ColorShade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950
+type ColorPalette = Partial<Record<ColorShade, OklchColor>>
+type ThemePalettes = Record<string, ColorPalette>
+type ThemeCssVariableBatch = Record<string, string>
+type ThemeMode = 'light' | 'dark'
 
-export type ColorRole = 'background' | 'foreground' | 'accent' | 'success' | 'danger' | 'warning' | 'info'
+type ColorRole = 'background' | 'foreground' | 'accent' | 'success' | 'danger' | 'warning' | 'info'
 type SemanticColorRole = Extract<ColorRole, 'success' | 'danger' | 'warning' | 'info'>
 
 interface ExtractedThemeVars {
@@ -41,12 +41,12 @@ interface ThemeGenerationHints {
   semanticChromaLimits?: Partial<Record<SemanticColorRole, Partial<Record<ThemeMode, number>>>>
 }
 
-export interface GlobalColorAdjustments {
+interface GlobalColorAdjustments {
   lightnessShift: number
   chromaBoost: number
 }
 
-export interface ThemePaletteOptions {
+interface ThemePaletteOptions {
   mode?: ThemeMode
   shift?: number
   accLimit?: number
@@ -125,7 +125,7 @@ const CHROMA_BOUNDARIES: Record<ColorRole, { min: number; max: number }> = {
 const clamp = (n: number, min = 0, max = 1) => Math.min(max, Math.max(min, n))
 const rnd = (n: number, precision = 1000) => Math.round(n * precision) / precision
 
-export function applyEasingToScale(
+function applyEasingToScale(
   scale: Partial<Record<ColorShade, number>>,
   shades: ColorShade[],
   ease?: (t: number) => number,
@@ -234,7 +234,7 @@ function getShadesForRole(role: ColorRole): ColorShade[] {
   return SHADES.filter((shade) => shade >= range.min && shade <= range.max)
 }
 
-export function applyGlobalAdjustments(
+function applyGlobalAdjustments(
   color: OklchColor,
   role: ColorRole,
   global: GlobalColorAdjustments,
@@ -425,7 +425,7 @@ function detectSourceModeFromComputed(computed: CSSStyleDeclaration, fallbackSou
   return fallbackSourceMode
 }
 
-export function extractBaseThemeColorsFromCss(): Partial<Record<ColorRole, OklchColor>> {
+function extractBaseThemeColorsFromCss(): Partial<Record<ColorRole, OklchColor>> {
   if (typeof document === 'undefined') return {}
   return extractBaseThemeColorsFromVariables(extractPaletteFromComputed(getComputedStyle(document.documentElement)))
 }
@@ -465,7 +465,7 @@ export function generateThemeCssVariablesFromBaseColors(
   return vars
 }
 
-export function generateThemeBatchesFromCssSource(
+function generateThemeBatchesFromCssSource(
   fallbackSourceMode: ThemeMode = 'dark',
 ): GeneratedThemeBatchesFromCssSource {
   if (typeof document === 'undefined') {
@@ -482,7 +482,7 @@ export function generateThemeBatchesFromCssSource(
   }
 }
 
-export function generateThemeBatchesFromCss(): Partial<Record<ThemeMode, ThemeCssVariableBatch>> {
+function generateThemeBatchesFromCss(): Partial<Record<ThemeMode, ThemeCssVariableBatch>> {
   return generateThemeBatchesFromCssSource().generatedThemes
 }
 

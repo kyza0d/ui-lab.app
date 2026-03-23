@@ -1,5 +1,9 @@
 @reference "tailwindcss";
 
+:global(.command) :global(.input) {
+  --background: var(--background-input);
+}
+
 @layer components {
   /* Overlay Container */
   .overlay {
@@ -29,54 +33,21 @@
 
   /* Search Section */
   .search {
-    @apply border-none flex p-0;
+    @apply border-none flex p-1.5;
+    --input-active-border-color: transparent;
+    --input-active-box-shadow: none;
   }
 
-  .search-container {
-    @apply relative w-full p-1.5 pl-12;
-  }
+  .input {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
 
-  .search-icon {
-    @apply absolute flex h-4 w-4 items-center;
-    left: 1.0rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-muted);
-    pointer-events: none;
-  }
-
-  .search-input {
-    @apply w-full;
-    background-color: var(--background-input);
-    border: none;
-    color: var(--color-default);
-    padding-block: 0.5rem;
-    font-size: var(--text-xs);
-    font-family: inherit;
-  }
-
-  .search-input::placeholder {
-    font-family: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-muted);
-  }
-
-  .search-input:focus {
-    outline: none;
-  }
-
-  .search-clear {
-    @apply absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer p-1;
-    border-radius: var(--radius-md);
-    background-color: transparent;
-    color: var(--color-muted);
-    border: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .search-clear:hover {
-    background-color: var(--background-hover);
-    color: var(--color-icon);
+    &[data-active],
+    &[data-focus-visible] {
+      border-color: transparent;
+      box-shadow: none;
+    }
   }
 
   /* List Section */

@@ -19,7 +19,7 @@ const Select = Object.assign(SelectRoot, {
 })
 
 const Searchable = Object.assign(() => null, {
-  Trigger: SearchableTrigger,
+  Input: SearchableTrigger,
   Content: SearchableContent,
 })
 
@@ -30,19 +30,32 @@ const Multi = Object.assign(SelectRoot, {
   Item: SelectItem,
 })
 
+export type { SelectProps } from "./Select"
+export type {
+  SelectContentProps,
+  SelectContentStyleSlots,
+} from "./Select.Content"
+export type {
+  SelectTriggerProps,
+  SearchableTriggerProps,
+} from "./Select.Trigger"
+export type { SelectSeparatorProps } from "./Select.Decorative"
+export type {
+  SelectSubProps,
+  SelectSubTriggerProps,
+  SelectSubContentProps,
+} from "./Select.Sub"
+export type {
+  SelectGroupProps,
+  SelectValueProps,
+  SelectItemProps,
+  SelectListProps,
+} from "./Select.Items"
+
 export {
   Select,
   Searchable,
   Multi,
-  SelectContext,
   useSelectContext,
 }
 
-export type { SelectProps, SelectContextValue, SelectItemData, SelectTriggerMode } from "./Select"
-export type { SelectMode }
-export type { SelectTriggerProps, SearchableTriggerProps } from "./Select.Trigger"
-export type { SelectContentProps, SearchableContentProps } from "./Select.Content"
-export type { SelectGroupProps, SelectValueProps, SelectItemProps, SelectListProps } from "./Select.Items"
-export type { SelectSeparatorProps } from "./Select.Decorative"
-export type { SelectSubProps, SelectSubTriggerProps, SelectSubContentProps, SelectSubmenuContextValue } from "./Select.Sub"
-export { useSelectSubmenuContext } from "./Select.Sub"

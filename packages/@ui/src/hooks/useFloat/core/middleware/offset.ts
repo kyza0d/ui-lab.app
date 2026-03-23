@@ -40,9 +40,9 @@ type OffsetValue =
 
 // For type backwards-compatibility, the `OffsetOptions` type was also
 // Derivable.
-export type OffsetOptions = OffsetValue | Derivable<OffsetValue>;
+type OffsetOptions = OffsetValue | Derivable<OffsetValue>;
 
-export async function convertValueToCoords(
+async function convertValueToCoords(
   state: MiddlewareState,
   options: OffsetOptions,
 ): Promise<Coords> {

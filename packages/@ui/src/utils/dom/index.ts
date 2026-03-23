@@ -3,7 +3,7 @@
  * Extracted from @floating-ui/utils/dom.ts
  */
 
-export { round, max, min, createCoords, floor } from '../index';
+export { round, max, createCoords } from '../index';
 
 function hasWindow() {
   return typeof window !== 'undefined';
@@ -26,7 +26,7 @@ export function getDocumentElement(node: Node | Window): HTMLElement {
   )?.documentElement;
 }
 
-export function isNode(value: unknown): value is Node {
+function isNode(value: unknown): value is Node {
   if (!hasWindow()) {
     return false;
   }
@@ -53,7 +53,7 @@ export function isHTMLElement(value: unknown): value is HTMLElement {
   );
 }
 
-export function isShadowRoot(value: unknown): value is ShadowRoot {
+function isShadowRoot(value: unknown): value is ShadowRoot {
   if (!hasWindow() || typeof ShadowRoot === 'undefined') {
     return false;
   }
@@ -194,7 +194,7 @@ export function getParentNode(node: Node): Node {
   return isShadowRoot(result) ? result.host : result;
 }
 
-export function getNearestOverflowAncestor(node: Node): HTMLElement {
+function getNearestOverflowAncestor(node: Node): HTMLElement {
   const parentNode = getParentNode(node);
 
   if (isLastTraversableNode(parentNode)) {

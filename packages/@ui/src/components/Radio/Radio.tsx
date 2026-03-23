@@ -12,14 +12,14 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { asElementProps } from "@/lib/react-aria";
 import styles from "./Radio.module.css";
 
-export interface RadioStyleSlots {
+interface RadioStyleSlots {
   root?: StyleValue;
   label?: StyleValue;
   description?: StyleValue;
   helperText?: StyleValue;
 }
 
-export type RadioStylesProp = StylesProp<RadioStyleSlots>;
+type RadioStylesProp = StylesProp<RadioStyleSlots>;
 
 const resolveRadioBaseStyles = createStylesResolver(['root', 'label', 'description', 'helperText'] as const);
 

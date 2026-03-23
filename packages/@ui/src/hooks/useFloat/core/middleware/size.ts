@@ -30,7 +30,7 @@ export interface SizeOptions extends DetectOverflowOptions {
  * width of the reference element.
  * @see https://floating-ui.com/docs/size
  */
-export const size = (
+const size = (
   options: SizeOptions | Derivable<SizeOptions> = {},
 ): Middleware => ({
   name: 'size',

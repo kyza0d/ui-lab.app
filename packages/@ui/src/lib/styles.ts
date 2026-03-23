@@ -2,7 +2,7 @@ import { cn, type StyleValue } from './utils';
 
 export type StylesProp<S extends object> = StyleValue | S;
 
-export function resolveStyles<K extends string>(
+function resolveStyles<K extends string>(
   slotKeys: readonly K[],
   styles: StyleValue | Partial<Record<K, StyleValue>> | undefined
 ): Record<K, string> {

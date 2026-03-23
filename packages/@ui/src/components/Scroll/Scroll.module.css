@@ -20,17 +20,23 @@
   .vertical .content {
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 16px;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .vertical[data-inset="true"] .content {
+    padding-right: 16px;
   }
 
   .horizontal .content {
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: 16px;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .horizontal[data-inset="true"] .content {
+    padding-bottom: 16px;
   }
 
   .vertical .content::-webkit-scrollbar,

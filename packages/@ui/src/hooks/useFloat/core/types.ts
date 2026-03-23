@@ -164,7 +164,7 @@ export interface MiddlewareState extends Coords {
 /**
  * @deprecated use `MiddlewareState` instead.
  */
-export type MiddlewareArguments = MiddlewareState;
+type MiddlewareArguments = MiddlewareState;
 
 export type Boundary = any;
 export type RootBoundary = 'viewport' | 'document' | Rect;

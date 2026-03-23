@@ -39,7 +39,7 @@ export function parseStoredThemeMode(value: unknown): ThemeMode | null {
   return null
 }
 
-export function parseThemePreference(value: unknown): ThemePreference | null {
+function parseThemePreference(value: unknown): ThemePreference | null {
   if (isThemePreference(value)) return value
 
   if (value && typeof value === 'object' && 'themeMode' in value) {
@@ -63,7 +63,7 @@ export function readStoredThemeMode(storageKey: string = DEFAULT_THEME_STORAGE_K
   }
 }
 
-export function resolveThemeMode(
+function resolveThemeMode(
   storageKey: string = DEFAULT_THEME_STORAGE_KEY,
   defaultMode: ThemePreference = 'system',
 ): ThemeMode {
@@ -90,7 +90,7 @@ export function persistThemeMode(
   }
 }
 
-export function applyThemeMode(mode: ThemeMode): void {
+function applyThemeMode(mode: ThemeMode): void {
   if (typeof document === 'undefined') return
 
   const root = document.documentElement

@@ -12,16 +12,17 @@
 
   .trigger {
     &[data-type="pop-over"][data-active] {
-      opacity: 1 !important;
-      background-color: var(--background-700);
+      opacity: 1;
+      background-color: var(--trigger-active-background);
+      border-radius: var(--radius-sm, 0.375rem);
     }
   }
 
   .content {
     @apply absolute min-w-40 max-w-80 overflow-hidden;
     z-index: 50000;
-    background-color: var(--background-900);
-    border: var(--border-width-base, 1px) solid var(--background-700);
+    background-color: var(--content-background);
+    border: var(--border-width-base, 1px) solid var(--content-border);
     border-radius: var(--radius);
 
     &[data-state="open"] {
@@ -50,9 +51,9 @@
     cursor: default;
     user-select: none;
     outline: none;
-    color: var(--foreground-300);
+    color: var(--item-foreground);
     &[data-highlighted] {
-      background-color: mix(var(--background-700) 50%, transparent);
+      background-color: var(--item-highlighted-background);
     }
 
     &[data-disabled] {
@@ -70,7 +71,7 @@
 
   .item-indicator {
     @apply ml-auto flex h-4 w-4 shrink-0 items-center justify-center;
-    color: var(--accent-300);
+    color: var(--item-indicator-color);
   }
 
   .sub-trigger {
@@ -79,16 +80,16 @@
     border-radius: var(--inner-radius);
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
-    color: var(--foreground-300);
+    color: var(--item-foreground);
     cursor: default;
     user-select: none;
     outline: none;
     &[data-highlighted] {
-      background-color: mix(var(--background-700) 50%, transparent);
+      background-color: var(--item-highlighted-background);
     }
 
     &[data-state="open"]:not([data-highlighted]) {
-      background-color: mix(var(--background-700) 50%, transparent);
+      background-color: var(--item-highlighted-background);
     }
 
     &[data-disabled] {
@@ -104,8 +105,8 @@
   .sub-content {
     @apply absolute min-w-40 max-w-80 overflow-hidden;
     z-index: 50000;
-    background-color: var(--background-900);
-    border: var(--border-width-base, 1px) solid var(--background-700);
+    background-color: var(--content-background);
+    border: var(--border-width-base, 1px) solid var(--content-border);
     border-radius: var(--radius);
 
     &[data-state="open"] {
@@ -121,7 +122,7 @@
     padding: var(--padding);
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
-    color: var(--foreground-400);
+    color: var(--label-foreground);
 
     &[data-inset] {
       padding-left: calc(var(--padding) * 2.67);
@@ -130,14 +131,14 @@
 
   .separator {
     @apply -mx-1 my-1 h-px;
-    background-color: var(--background-700);
+    background-color: var(--separator-background);
   }
 
   .shortcut {
     margin-left: auto;
     font-size: var(--text-xs);
     letter-spacing: 0.1em;
-    color: var(--foreground-400);
+    color: var(--shortcut-foreground);
   }
 
   @keyframes slide-in-from-top { from { opacity: 0; translate: 0 -2px; } to { opacity: 1; translate: 0 0; } }

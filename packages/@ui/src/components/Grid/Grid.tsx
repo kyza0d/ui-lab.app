@@ -5,15 +5,15 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Grid.module.css";
 
-export interface GridStyleSlots {
+interface GridStyleSlots {
   root?: StyleValue;
 }
 
-export type GridStylesProp = StylesProp<GridStyleSlots>;
+type GridStylesProp = StylesProp<GridStyleSlots>;
 
 const resolveGridBaseStyles = createStylesResolver(['root'] as const);
 
-type GridColumns = "1" | "2" | "3" | "4" | "5" | "6" | "auto-fit" | "auto-fill";
+type GridColumns = number | "auto-fit" | "auto-fill";
 type GridRows = "1" | "2" | "3" | "4" | "5" | "6" | "auto" | "masonry";
 type GridGap = "xs" | "sm" | "md" | "lg" | "xl";
 type GridJustifyItems = "start" | "end" | "center" | "stretch";
@@ -47,7 +47,7 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Direction items are auto-placed when no explicit placement is set */
   autoFlow?: GridAutoFlow;
   /** Wraps the grid in a container query parent for breakpoint-aware responsiveness */
-  containerQueryResponsive?: boolean;
+  responsive?: boolean;
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: GridStylesProp;
 }
@@ -58,9 +58,7 @@ const isResponsive = <T,>(v: unknown): v is ResponsiveValue<T> =>
 const colsToTpl = (c: GridTemplateColumns): string => {
   if (c === "auto-fit") return "repeat(auto-fit, minmax(200px, 1fr))";
   if (c === "auto-fill") return "repeat(auto-fill, minmax(200px, 1fr))";
-  if (c === "1" || c === "2" || c === "3" || c === "4" || c === "5" || c === "6") {
-    return `repeat(${c}, 1fr)`;
-  }
+  if (typeof c === "number") return `repeat(${c}, 1fr)`;
   return c;
 };
 
@@ -89,7 +87,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     {
       className,
       style,
-      columns = "3",
+      columns = 3,
       rows = "auto",
       gap = "md",
       rowGap,
@@ -99,7 +97,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
       justifyContent = "start",
       alignContent = "start",
       autoFlow = "row",
-      containerQueryResponsive = false,
+      responsive = false,
       styles,
       children,
       ...props
@@ -110,7 +108,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     const responsiveCols = isResponsive<GridTemplateColumns>(columns);
     const responsiveRows = isResponsive<GridRows>(rows);
     const responsiveGap = isResponsive<GridGap>(gap);
-    const needsContainer = responsiveCols || responsiveRows || responsiveGap || containerQueryResponsive;
+    const needsContainer = responsiveCols || responsiveRows || responsiveGap || responsive;
 
     const vars: Record<string, string> = {};
 
@@ -193,4 +191,3 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 Grid.displayName = "Grid";
 
 export { Grid };
-export type { GridColumns, GridRows, GridGap, GridAutoFlow, GridTemplateColumns, ResponsiveValue };

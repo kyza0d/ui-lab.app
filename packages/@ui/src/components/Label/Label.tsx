@@ -2,13 +2,13 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Label.module.css";
 
-export interface LabelStyleSlots {
+interface LabelStyleSlots {
   root?: StyleValue;
   requiredIndicator?: StyleValue;
   helperText?: StyleValue;
 }
 
-export type LabelStylesProp = StylesProp<LabelStyleSlots>;
+type LabelStylesProp = StylesProp<LabelStyleSlots>;
 
 const resolveLabelBaseStyles = createStylesResolver(['root', 'requiredIndicator', 'helperText'] as const);
 

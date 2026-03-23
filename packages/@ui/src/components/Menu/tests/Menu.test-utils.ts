@@ -131,14 +131,14 @@ export function getMenuTrigger(container: RenderResult | HTMLElement): HTMLEleme
 /**
  * Get the menu content
  */
-export function getMenuContent(): HTMLElement | null {
+function getMenuContent(): HTMLElement | null {
   return document.querySelector('[role="menu"]')
 }
 
 /**
  * Get all menu items
  */
-export function getMenuItems(): HTMLElement[] {
+function getMenuItems(): HTMLElement[] {
   const items = getAllElementsByRole('menuitem', { hidden: true })
   const checkboxItems = getAllElementsByRole('menuitemcheckbox', { hidden: true })
   const radioItems = getAllElementsByRole('menuitemradio', { hidden: true })

@@ -102,6 +102,17 @@ describe('Button - Styling', () => {
 })
 
 describe('Button - Component Specific', () => {
+  it('accepts a React node shorthand for a left icon', () => {
+    render(
+      <Button icon={<svg data-testid="shorthand-icon" />}>
+        Hello
+      </Button>
+    )
+
+    expect(screen.getByTestId('shorthand-icon')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Hello' })).toBeInTheDocument()
+  })
+
   it('renders an anchor target when href is provided', () => {
     render(
       <Button href="https://example.com" target="_blank">
@@ -168,5 +179,10 @@ describe('Button - Component Specific', () => {
   it('renders a custom variant string as a root class', () => {
     render(<Button variant="my-custom-variant">Custom</Button>)
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass('my-custom-variant')
+  })
+
+  it('renders a custom size string as a root class', () => {
+    render(<Button size="compact">Custom</Button>)
+    expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass('compact')
   })
 })

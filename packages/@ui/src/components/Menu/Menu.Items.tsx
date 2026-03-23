@@ -54,7 +54,7 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
         role="menuitem"
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled || undefined}
-        className={cn(styles.item, className, resolved.root)}
+        className={cn('menu', 'item', styles.item, className, resolved.root)}
         data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-inset={inset || undefined}
@@ -111,7 +111,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
         tabIndex={disabled ? -1 : 0}
         aria-checked={checked}
         aria-disabled={disabled || undefined}
-        className={cn(styles['checkbox-item'], className, resolved.root)}
+        className={cn('menu', 'checkbox-item', styles['checkbox-item'], className, resolved.root)}
         data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-state={checked ? "checked" : "unchecked"}
@@ -123,7 +123,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
         }}
         onClick={() => handleSelectRef.current?.()}
       >
-        <span className={cn(styles['item-indicator'], resolved.indicator)}>
+        <span className={cn('menu', 'item-indicator', styles['item-indicator'], resolved.indicator)}>
           {checked && <Check className="h-3 w-3" />}
         </span>
         {children}
@@ -173,7 +173,7 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
         tabIndex={disabled ? -1 : 0}
         aria-checked={isSelected}
         aria-disabled={disabled || undefined}
-        className={cn(styles['radio-item'], className, resolved.root)}
+        className={cn('menu', 'radio-item', styles['radio-item'], className, resolved.root)}
         data-highlighted={isHighlighted || undefined}
         data-disabled={disabled || undefined}
         data-state={isSelected ? "checked" : "unchecked"}
@@ -185,7 +185,7 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
         }}
         onClick={() => handleSelectRef.current?.()}
       >
-        <span className={cn(styles['item-indicator'], resolved.indicator)}>
+        <span className={cn('menu', 'item-indicator', styles['item-indicator'], resolved.indicator)}>
           {isSelected && <Circle className="h-2 w-2 fill-current" />}
         </span>
         {children}

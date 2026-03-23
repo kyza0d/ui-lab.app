@@ -3,14 +3,14 @@ import { screen, within } from '@testing-library/react'
 /**
  * Get the currently focused element
  */
-export function getFocusedElement(): HTMLElement | null {
+function getFocusedElement(): HTMLElement | null {
   return document.activeElement as HTMLElement | null
 }
 
 /**
  * Get all disabled elements in a container
  */
-export function getDisabledElements(
+function getDisabledElements(
   container?: HTMLElement
 ): HTMLElement[] {
   const root = container || document.documentElement
@@ -62,7 +62,7 @@ export function getAllElementsByRole(
 /**
  * Get element by test id
  */
-export function getElementByTestId(testId: string) {
+function getElementByTestId(testId: string) {
   try {
     return screen.getByTestId(testId)
   } catch {
@@ -73,7 +73,7 @@ export function getElementByTestId(testId: string) {
 /**
  * Get element by label text
  */
-export function getElementByLabelText(labelText: string | RegExp) {
+function getElementByLabelText(labelText: string | RegExp) {
   try {
     return screen.getByLabelText(labelText)
   } catch {
@@ -84,7 +84,7 @@ export function getElementByLabelText(labelText: string | RegExp) {
 /**
  * Get element by placeholder text
  */
-export function getElementByPlaceholderText(placeholder: string | RegExp) {
+function getElementByPlaceholderText(placeholder: string | RegExp) {
   try {
     return screen.getByPlaceholderText(placeholder)
   } catch {
@@ -95,7 +95,7 @@ export function getElementByPlaceholderText(placeholder: string | RegExp) {
 /**
  * Get element by text content
  */
-export function getElementByText(text: string | RegExp) {
+function getElementByText(text: string | RegExp) {
   try {
     return screen.getByText(text)
   } catch {
@@ -106,7 +106,7 @@ export function getElementByText(text: string | RegExp) {
 /**
  * Get all selected items in a listbox or similar
  */
-export function getSelectedItems(container: HTMLElement): HTMLElement[] {
+function getSelectedItems(container: HTMLElement): HTMLElement[] {
   return Array.from(
     container.querySelectorAll('[aria-selected="true"]')
   )
@@ -167,7 +167,7 @@ export function getListItems(container: HTMLElement): HTMLElement[] {
 /**
  * Create a scoped query function that works within a container
  */
-export function createScopedQueries(container: HTMLElement) {
+function createScopedQueries(container: HTMLElement) {
   const scopedWithin = within(container)
 
   return {

@@ -4,50 +4,25 @@
   .input {
     --disabled-opacity: 0.5;
 
-    @apply block w-full px-3 py-2;
+    flex: 1;
+    min-width: 0;
+    @apply py-2 px-3;
     font-family: inherit;
     font-size: var(--text-xs);
     line-height: var(--leading-snug);
     color: var(--foreground);
-    background-color: var(--background);
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    background-color: transparent;
+    border: none;
     outline: none;
     box-sizing: border-box;
-    transition: transform 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop), box-shadow 150ms var(--ease-snappy-pop), background-color 150ms var(--ease-snappy-pop);
 
     &::placeholder {
       color: var(--placeholder);
     }
 
-    &[data-active] {
-      border-color: var(--ring-color);
-      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
-    }
-
-    &[data-focus-visible] {
-      @apply ring-0;
-      border-color: var(--ring-color);
-      /* box-shadow: 0 0 0 3px mix(var(--ring-color) 20%, transparent); */
-    }
-
     &[data-disabled] {
-      background-color: var(--disabled-background);
       color: var(--disabled-foreground);
       cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    &[data-error] {
-      &[data-active] {
-        border-color: var(--ring-color);
-        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
-      }
-
-      &[data-focus-visible] {
-        border-color: var(--ring-color);
-        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
-      }
     }
 
     /* Hide default browser spinners for number inputs */
@@ -67,21 +42,100 @@
   }
 
   .icon-wrapper {
-    @apply absolute top-1/2 z-10 flex -translate-y-1/2 items-center;
+    @apply z-10 flex items-center;
     color: var(--icon-color);
     pointer-events: none;
   }
 
-  .prefix-icon { left: 0.60rem; }
+  .prefix-icon {
+    @apply relative;
+  }
 
-  .suffix-icon { right: 1.00rem; }
+  .suffix-icon {
+    @apply relative;
+  }
 
   .container {
-    @apply relative w-full;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--input-border-color, var(--border));
+    border-radius: var(--input-border-radius, var(--radius-sm));
+    box-sizing: border-box;
+    overflow: hidden;
+
+    &[data-active] {
+      border-color: var(--input-active-border-color, var(--ring-color));
+      box-shadow: var(--input-active-box-shadow, 0 0 0 1px mix(var(--ring-color) 20%, transparent));
+    }
+
+    &[data-focus-visible] {
+      @apply ring-0;
+      border-color: var(--input-active-border-color, var(--ring-color));
+    }
+
+    &[data-disabled] {
+      background-color: var(--disabled-background);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    &[data-error] {
+      &[data-active] {
+        border-color: var(--ring-color);
+        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+      }
+
+      &[data-focus-visible] {
+        border-color: var(--ring-color);
+        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+      }
+    }
+
+    &[data-variant="ghost"] {
+      background-color: transparent;
+      border-color: transparent;
+      &[data-active], &[data-focus-visible] {
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .start-adornments,
+  .end-adornments {
+    @apply flex items-center gap-1;
+    flex-shrink: 0;
+    pointer-events: none;
+  }
+
+  .start-adornments {
+    @apply pl-2;
+  }
+
+  .end-adornments {
+    @apply pr-2;
+  }
+
+  .actions {
+    @apply flex items-center gap-1;
+    pointer-events: auto;
+  }
+
+  .action {
+    @apply flex items-center justify-center p-2;
+    border-radius: 0.25rem;
+    color: var(--action-color);
+  }
+
+  .action:hover {
+    background-color: var(--background-hover);
+    color: var(--action-hover-color);
   }
 
   .number-controls {
-    @apply absolute inset-y-0 right-0 z-10 flex w-6 flex-col;
+    @apply flex w-6 flex-col;
     pointer-events: auto;
   }
 

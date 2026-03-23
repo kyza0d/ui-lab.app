@@ -4,7 +4,11 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { useOverlayTrigger, useDialog, mergeProps } from "react-aria";
 import { useOverlayTriggerState } from "react-stately";
-import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react-dom';
+import { useFloating } from "../../hooks/useFloat/react/useFloating";
+import { flip } from "../../hooks/useFloat/core/middleware/flip";
+import { offset } from "../../hooks/useFloat/core/middleware/offset";
+import { shift } from "../../hooks/useFloat/core/middleware/shift";
+import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate";
 import { cn } from "@/lib/utils";
 import { type StyleValue } from "@/lib/utils";
 import { asElementProps } from "@/lib/react-aria";
@@ -52,13 +56,13 @@ const getInitialTransform = (placement: string): string => {
   }
 };
 
-export interface PopoverStyleSlots {
+interface PopoverStyleSlots {
   root?: StyleValue;
   content?: StyleValue;
   trigger?: StyleValue;
 }
 
-export type PopoverStylesProp = StylesProp<PopoverStyleSlots>;
+type PopoverStylesProp = StylesProp<PopoverStyleSlots>;
 
 export interface PopoverProps {
   children: React.ReactNode;

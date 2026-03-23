@@ -117,4 +117,3 @@ export function useColorMode(options: UseColorModeOptions = {}): UseColorModeRet
   return { themeMode, setThemeMode, toggleThemeMode }
 }
 
-export { getSystemThemeMode }

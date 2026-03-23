@@ -24,6 +24,7 @@ export default defineConfig({
   ],
   build: {
     sourcemap: false,
+    emptyOutDir: false,
     lib: {
       entry: {
         'ui-lab-ui': path.resolve(__dirname, 'src/index.ts'),
@@ -33,7 +34,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'shiki', /^shiki\/.*/],
+      external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom', 'react-dom/client', 'shiki', /^shiki\/.*/],
       output: {
         entryFileNames: '[name].es.js',
         banner: (chunk) => chunk.name === 'ui-lab-ui' ? '"use client";' : '',

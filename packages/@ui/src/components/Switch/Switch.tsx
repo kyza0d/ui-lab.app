@@ -15,13 +15,13 @@ import styles from "./Switch.module.css";
 
 
 
-export interface SwitchStyleSlots {
+interface SwitchStyleSlots {
   root?: StyleValue;
   track?: StyleValue;
   thumb?: StyleValue;
 }
 
-export type SwitchStylesProp = StylesProp<SwitchStyleSlots>;
+type SwitchStylesProp = StylesProp<SwitchStyleSlots>;
 
 const resolveSwitchBaseStyles = createStylesResolver(['root', 'track', 'thumb'] as const);
 

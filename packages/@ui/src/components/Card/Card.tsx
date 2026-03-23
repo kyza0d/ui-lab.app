@@ -15,14 +15,14 @@ interface CardBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-export interface CardStyleSlots {
+interface CardStyleSlots {
   root?: StyleValue;
   header?: StyleValue;
   body?: StyleValue;
   footer?: StyleValue;
 }
 
-export type CardStylesProp = StylesProp<CardStyleSlots>;
+type CardStylesProp = StylesProp<CardStyleSlots>;
 
 const resolveCardBaseStyles = createStylesResolver(['root', 'header', 'body', 'footer'] as const);
 

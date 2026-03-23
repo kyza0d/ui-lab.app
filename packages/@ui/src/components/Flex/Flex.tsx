@@ -22,11 +22,11 @@ type FlexAlign =
   | "baseline";
 type FlexGap = "xs" | "sm" | "md" | "lg" | "xl";
 
-export interface FlexStyleSlots {
+interface FlexStyleSlots {
   root?: StyleValue;
 }
 
-export type FlexStylesProp = StylesProp<FlexStyleSlots>;
+type FlexStylesProp = StylesProp<FlexStyleSlots>;
 
 const resolveFlexBaseStyles = createStylesResolver(['root'] as const);
 

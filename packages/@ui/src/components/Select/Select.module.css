@@ -85,10 +85,10 @@
 
   .icon {
     @apply flex items-center justify-center w-4 h-4 opacity-70;
-    transition: transform 0.2s ease;
   }
 
-  .select[aria-expanded="true"] .icon {
+  .trigger[aria-expanded="true"] .icon,
+  .trigger[data-open="true"] .icon {
     transform: rotate(180deg);
   }
 
@@ -202,16 +202,12 @@
   .select[data-mode="multiple"] .item { gap: 0.5rem; }
 
   .search-trigger {
-    @apply flex items-stretch relative bg-transparent cursor-text;
+    @apply flex items-stretch relative bg-transparent cursor-text overflow-hidden;
     border-radius: var(--inner-radius);
     transition: box-shadow 150ms var(--ease-snappy-pop), border-color 150ms var(--ease-snappy-pop);
 
-    @media (hover: hover) {
-      &:not([data-disabled]):hover .search-icon-section,
-      &:not([data-disabled]):hover .search-value-section {
-        background-color: transparent;
-      }
-    }
+    --input-active-border-color: transparent;
+    --input-active-box-shadow: none;
 
     &:focus-within {
       @apply outline-none;
@@ -225,8 +221,9 @@
     border-radius: var(--inner-radius) 0 0 var(--inner-radius);
   }
 
-  .search-trigger-input {
+  .input {
     padding: var(--padding-y) calc(var(--padding-x) * 1.50);
+    padding-right: calc(var(--padding-x) * 2 + 1rem);
     @apply border-none rounded-none shadow-none bg-transparent;
 
     &[data-active], &[data-focus-visible] {
@@ -240,17 +237,10 @@
   }
 
   .search-icon-section {
-    @apply relative px-0 bg-transparent;
-    padding-block: var(--padding-y);
+    @apply absolute right-0 top-0 bottom-0 flex items-center justify-center bg-transparent pointer-events-none;
+    padding-inline: var(--padding-x);
   }
 
-  .search-trigger[data-placement="top"] .search-icon-section {
-    border-top: none;
-  }
-
-  .search-trigger:focus-within .search-icon-section {
-    border-color: var(--search-focus-ring);
-  }
 
   .search-wrapper {
     @apply overflow-hidden;

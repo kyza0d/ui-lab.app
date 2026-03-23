@@ -4,7 +4,7 @@ import type { MockCallbackSpy, StateTracker } from './types'
 /**
  * Create a mock select item object
  */
-export function createMockSelectItem(overrides?: Partial<{
+function createMockSelectItem(overrides?: Partial<{
   key: string | number
   label: string
   value: string
@@ -41,7 +41,7 @@ export function createMockSelectItems(
 /**
  * Create a mock menu item object
  */
-export function createMockMenuItem(overrides?: Partial<{
+function createMockMenuItem(overrides?: Partial<{
   key: string | number
   label: string
   icon?: React.ReactNode
@@ -119,7 +119,7 @@ export function createSelectionCallback(): {
 /**
  * Create a state tracker to monitor state changes over time
  */
-export function createStateTracker<T>(initialValue: T): StateTracker<T> {
+function createStateTracker<T>(initialValue: T): StateTracker<T> {
   let current = initialValue
   let previous: T | null = null
   const history: T[] = [initialValue]
@@ -156,7 +156,7 @@ export function createStateTracker<T>(initialValue: T): StateTracker<T> {
 /**
  * Mock scrollIntoView for testing scroll behavior
  */
-export function mockScrollIntoView() {
+function mockScrollIntoView() {
   const originalScrollIntoView = Element.prototype.scrollIntoView
   const scrollIntoViewCalls: Element[] = []
 
@@ -181,7 +181,7 @@ export function mockScrollIntoView() {
 /**
  * Mock ResizeObserver for testing responsive behavior
  */
-export function mockResizeObserver() {
+function mockResizeObserver() {
   const observedElements: Element[] = []
   let callback: ResizeObserverCallback | null = null
 
@@ -228,7 +228,7 @@ export function mockResizeObserver() {
 /**
  * Create mock callback functions for tracking interactions
  */
-export function createMockCallbacks(names: string[]) {
+function createMockCallbacks(names: string[]) {
   const callbacks: Record<string, any> = {}
 
   names.forEach((name) => {
@@ -241,7 +241,7 @@ export function createMockCallbacks(names: string[]) {
 /**
  * Create a mock data structure for testing
  */
-export function createMockData<T>(
+function createMockData<T>(
   factory: (index: number) => T,
   count: number = 5
 ): T[] {

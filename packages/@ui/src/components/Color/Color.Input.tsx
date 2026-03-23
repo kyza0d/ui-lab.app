@@ -6,7 +6,7 @@ import { Select } from "../Select";
 import styles from "./Color.module.css";
 import { formatColorHex, formatColorRgb, isValidColor } from "./color-utils";
 
-export interface ColorInputProps {
+interface ColorInputProps {
   /** Current color value string displayed in the text input */
   value: string;
   /** Active color format controlling the input placeholder and value representation */

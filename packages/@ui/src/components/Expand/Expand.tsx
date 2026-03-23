@@ -9,13 +9,13 @@ import { Divider, DividerProps } from "@/components/Divider";
 import styles from "./Expand.module.css";
 import { ChevronDown } from "lucide-react";
 
-export interface ExpandStyleSlots {
+interface ExpandStyleSlots {
   root?: StyleValue;
   trigger?: StyleValue;
   content?: StyleValue;
 }
 
-export type ExpandStylesProp = StylesProp<ExpandStyleSlots>;
+type ExpandStylesProp = StylesProp<ExpandStyleSlots>;
 
 const resolveExpandBaseStyles = createStylesResolver(['root', 'trigger', 'content'] as const);
 
@@ -62,7 +62,7 @@ const ExpandIcon = React.forwardRef<HTMLSpanElement, ExpandIconProps>(
 );
 ExpandIcon.displayName = "Expand.Icon";
 
-export interface ExpandTriggerProps
+interface ExpandTriggerProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "title"> {
   /** Label or content of the trigger button */
   children?: React.ReactNode;
@@ -134,7 +134,7 @@ const ExpandTrigger = React.forwardRef<HTMLButtonElement, ExpandTriggerProps>(
 );
 ExpandTrigger.displayName = "Expand.Trigger";
 
-export interface ExpandContentProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ExpandContentProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Content shown when the expand is open */
   children: React.ReactNode;
   /** Direction the content reveals from the trigger */
@@ -300,4 +300,4 @@ Expand.Content = ExpandContent;
 Expand.Divider = ExpandDivider;
 Expand.Icon = ExpandIcon;
 
-export { Expand, ExpandRoot, ExpandIcon, ExpandTrigger, ExpandContent, ExpandDivider };
+export { Expand };

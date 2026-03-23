@@ -1,7 +1,7 @@
 import type { ThemeMode } from './theme-contract'
 import { DEFAULT_THEME_STORAGE_KEY, type ThemePreference } from './theme-mode'
 
-export interface ColorModeScriptOptions {
+interface ColorModeScriptOptions {
   storageKey?: string
   defaultMode?: ThemePreference
 }
@@ -49,11 +49,10 @@ export function generateThemeScript(options: ColorModeScriptOptions = {}): strin
   })();`
 }
 
-export const THEME_SCRIPT = generateThemeScript()
-export const COLOR_MODE_SCRIPT = generateThemeScript()
+const THEME_SCRIPT = generateThemeScript()
+const COLOR_MODE_SCRIPT = generateThemeScript()
 
 export function generateColorModeScript(options: ColorModeScriptOptions = {}): string {
   return generateThemeScript(options)
 }
 
-export type { ThemeMode }

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export interface ListContextValue {
+interface ListContextValue {
   highlightedIndex: number | null;
   isKeyboardMode: boolean;
   focusItem: (index: number) => void;

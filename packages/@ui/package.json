@@ -82,11 +82,9 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/ui": "^1.6.0",
-    "esbuild": "^0.21.5",
     "jest-axe": "^8.0.0",
     "jsdom": "^27.3.0",
     "postcss-cli": "^11.0.0",
-    "postcss-load-config": "^6.0.1",
     "shiki": "^3.17.1",
     "tailwindcss": "^4.1.11",
     "typescript": "^5",
@@ -95,7 +93,6 @@
     "vitest": "^1.6.1"
   },
   "dependencies": {
-    "@floating-ui/react-dom": "^2.1.6",
     "@gsap/react": "^2.1.2",
     "@react-aria/button": "^3.14.4",
     "@react-aria/dialog": "^3.5.14",
@@ -113,6 +110,7 @@
     "@react-stately/slider": "^3.7.2",
     "@react-stately/toggle": "^3.9.2",
     "@react-types/shared": "^3.33.0",
+    "@vitest/coverage-v8": "^4.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "gsap": "^3.12.2",

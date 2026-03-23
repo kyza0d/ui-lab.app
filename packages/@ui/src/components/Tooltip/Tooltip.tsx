@@ -4,7 +4,11 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 
 import { createPortal } from "react-dom";
 import { useTooltipTrigger, useTooltip, mergeProps } from "react-aria";
-import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
+import { useFloating } from "../../hooks/useFloat/react/useFloating";
+import { flip } from "../../hooks/useFloat/core/middleware/flip";
+import { offset } from "../../hooks/useFloat/core/middleware/offset";
+import { shift } from "../../hooks/useFloat/core/middleware/shift";
+import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate";
 import { cn } from "@/lib/utils";
 import { useTooltipTriggerState } from "react-stately";
 import { asElementProps } from "@/lib/react-aria";
@@ -73,7 +77,7 @@ const getInitialTransform = (placement: string): string => {
   }
 };
 
-export interface TooltipStyleSlots {
+interface TooltipStyleSlots {
   root?: StyleValue;
   trigger?: StyleValue;
   content?: StyleValue;
@@ -81,7 +85,7 @@ export interface TooltipStyleSlots {
   hintBadge?: StyleValue;
 }
 
-export type TooltipStylesProp = StylesProp<TooltipStyleSlots>;
+type TooltipStylesProp = StylesProp<TooltipStyleSlots>;
 
 const resolveTooltipStyles = createStylesResolver([
   'root',

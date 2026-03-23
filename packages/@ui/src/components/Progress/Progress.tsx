@@ -7,7 +7,7 @@ import css from "./Progress.module.css";
 
 type ProgressSize = "sm" | "md" | "lg";
 
-export interface ProgressStyleSlots {
+interface ProgressStyleSlots {
   root?: StyleValue;
   ['label-row']?: StyleValue;
   label?: StyleValue;
@@ -16,7 +16,7 @@ export interface ProgressStyleSlots {
   fill?: StyleValue;
 }
 
-export type ProgressStylesProp = StylesProp<ProgressStyleSlots>;
+type ProgressStylesProp = StylesProp<ProgressStyleSlots>;
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Current progress value */

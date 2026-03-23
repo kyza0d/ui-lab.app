@@ -93,7 +93,7 @@ export function handleListKeyDown(e: React.KeyboardEvent, a: ListKeyboardActions
   }
 }
 
-export interface UseListNavigationOptions {
+interface UseListNavigationOptions {
   isOpen: boolean
   externalItems?: ItemData[]
   filter?: (item: ItemData) => boolean

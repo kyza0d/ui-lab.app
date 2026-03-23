@@ -7,5 +7,4 @@ export interface Styles {
   "path-item-link": string;
 }
 
-export const styles: Styles;
 export default styles;

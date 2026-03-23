@@ -124,7 +124,7 @@ export async function pressSpace(element: HTMLElement) {
 /**
  * Press Tab key to move focus to next element
  */
-export async function pressTab(
+async function pressTab(
   options?: InteractionOptions & { shiftKey?: boolean }
 ) {
   const user = userEvent.setup()
@@ -135,7 +135,7 @@ export async function pressTab(
 /**
  * Select an item from a dropdown by text
  */
-export async function selectFromDropdown(
+async function selectFromDropdown(
   triggerElement: HTMLElement,
   itemText: string
 ) {
@@ -164,7 +164,7 @@ export async function selectFromDropdown(
 /**
  * Toggle a checkbox or switch
  */
-export async function toggleCheckbox(element: HTMLElement) {
+async function toggleCheckbox(element: HTMLElement) {
   const user = userEvent.setup()
   await user.click(element)
 }
@@ -172,7 +172,7 @@ export async function toggleCheckbox(element: HTMLElement) {
 /**
  * Fill a form with provided data
  */
-export async function fillForm(
+async function fillForm(
   formElement: HTMLElement,
   data: Record<string, string>
 ) {
@@ -196,7 +196,7 @@ export async function fillForm(
 /**
  * Navigate through list items with arrow keys
  */
-export async function navigateWithArrows(
+async function navigateWithArrows(
   direction: 'down' | 'up',
   steps: number = 1
 ) {
@@ -211,7 +211,7 @@ export async function navigateWithArrows(
 /**
  * Type to search in a searchable list
  */
-export async function typeToSearch(
+async function typeToSearch(
   container: HTMLElement,
   searchText: string
 ) {
@@ -223,7 +223,7 @@ export async function typeToSearch(
 /**
  * Focus element with pointer
  */
-export async function focusWithPointer(element: HTMLElement) {
+async function focusWithPointer(element: HTMLElement) {
   const user = userEvent.setup()
   await user.pointer({ keys: '[MouseLeft>]', target: element })
   await user.pointer({ keys: '[MouseLeft]', target: element })
