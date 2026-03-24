@@ -1,7 +1,7 @@
 {
   "id": "path",
   "name": "Path",
-  "description": "Navigation component showing page hierarchy with links to parent pages.",
+  "description": "Breadcrumb navigation showing page hierarchy.",
   "category": "navigation",
   "source": {
     "packageName": "ui-lab-components",

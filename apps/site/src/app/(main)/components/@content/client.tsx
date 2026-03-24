@@ -38,14 +38,14 @@ export default function ComponentsPageClient() {
                         <h3 className="mb-2 font-semibold text-foreground-50 flex items-center">
                           {categoryMap[category].label}
                         </h3>
-                        <p className="text-sm w-full md:w-[47ch] text-foreground-400 flex items-start">
+                        <p className="w-full md:w-[47ch] text-foreground-400 flex items-start">
                           {categoryMap[category].description}
                         </p>
                       </div>
                     </Flex>
                     <Divider variant="dashed" size="sm" className="mb-8 mt-10" />
                     {/* Components Grid */}
-                    <Gallery responsive styles="w-full" columns={{ sm: 1, md: 2, lg: 3 }} gap="md">
+                    <Gallery responsive columns={{ sm: 1, md: 2, lg: 3 }} gap="sm">
                       {componentsInCategory.map((component) => {
                         const href = `/components/${component.id}`;
                         return (
@@ -57,9 +57,9 @@ export default function ComponentsPageClient() {
                               onClick={() => router.push(href)}
                             >
                               <Gallery.View
-                                className="w-full flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 shrink-0"
+                                className="w-full h-40 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 shrink-0"
                               >
-                                <div className='max-w-65 px-4 gap-2 flex items-center justify-center'>
+                                <div className='max-w-60 px-4 gap-2 flex items-center justify-center'>
                                   {previews[component.id] || <div />}
                                 </div>
                                 <div className='absolute top-0 left-0 w-full h-full'>
@@ -72,7 +72,7 @@ export default function ComponentsPageClient() {
                                   <h4>{component.name}</h4>
                                   {component.experimental && (
                                     <div className='ml-auto'>
-                                      <Tooltip content="🚧 Experimental" position="top" showArrow>
+                                      <Tooltip content="Experimental" position="top" showArrow>
                                         <span className="ml-auto inline-block px-2 py-1 text-sm font-semibold bg-accent-500/20 text-accent-300 rounded-md">
                                           <Icon IconComponent={Icons.Flask} size={14} />
                                         </span>

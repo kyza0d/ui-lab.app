@@ -12,7 +12,7 @@ function MediaObjectLg({ icon, title, description }: { icon: React.ReactNode; ti
     <div className="flex items-start gap-4">
       <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-background-800 text-foreground-300 flex-shrink-0">{icon}</div>
       <div className="min-w-0 pt-1">
-        <p className="text-base font-semibold text-foreground-100">{title}</p>
+        <p className="font-semibold text-foreground-100">{title}</p>
         <p className="text-sm text-foreground-400 mt-1">{description}</p>
       </div>
     </div>

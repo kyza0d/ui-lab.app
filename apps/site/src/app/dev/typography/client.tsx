@@ -343,7 +343,7 @@ export default function TypographyDevPage() {
                 Mono — {selectedMonoFont}
               </div>
               <pre
-                className="overflow-x-auto rounded border border-background-700 bg-background-800 p-4 font-mono text-base text-foreground-100"
+                className="overflow-x-auto rounded border border-background-700 bg-background-800 p-4 font-mono text-foreground-100"
                 style={{ fontFamily: monoFontConfig?.family ?? defaultMonoFont.family }}
               >
                 {`const greeting = "Hello, World!";

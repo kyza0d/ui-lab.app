@@ -19,9 +19,9 @@ export function DocumentationHeader({
         </div>
       )}
       <div className="mb-10">
-        <h4 className="text-md font-semibold text-foreground-50">{title}</h4>
+        <h4 className="text-lg font-semibold text-foreground-50">{title}</h4>
         {description && (
-          <p className="text-sm mt-1 text-foreground-300">
+          <p className="text-md mt-1 text-foreground-300">
             {description}
           </p>
         )}

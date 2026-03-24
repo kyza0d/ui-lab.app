@@ -26,7 +26,7 @@
       "id": "media-object-lg",
       "name": "Large",
       "description": "Larger icon area (w-14 h-14) for feature cards and marketing contexts.",
-      "code": "function MediaObjectLg({ icon, title, description }) {\n  return (\n    <div className=\"flex items-start gap-4\">\n      <div className=\"w-14 h-14 flex items-center justify-center rounded-xl bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0 pt-1\">\n        <p className=\"text-base font-semibold text-foreground-100\">{title}</p>\n        <p className=\"text-sm text-foreground-400 mt-1\">{description}</p>\n      </div>\n    </div>\n  )\n}"
+      "code": "function MediaObjectLg({ icon, title, description }) {\n  return (\n    <div className=\"flex items-start gap-4\">\n      <div className=\"w-14 h-14 flex items-center justify-center rounded-xl bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0 pt-1\">\n        <p className=\"font-semibold text-foreground-100\">{title}</p>\n        <p className=\"text-sm text-foreground-400 mt-1\">{description}</p>\n      </div>\n    </div>\n  )\n}"
     }
   ]
 }

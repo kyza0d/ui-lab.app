@@ -11,8 +11,8 @@ interface FloatingSettingsDialogProps {
   triggerRef?: React.RefObject<HTMLElement | null>;
 }
 
-const DIALOG_WIDTH = 350;
-const DIALOG_HEIGHT = 472;
+const DIALOG_WIDTH = 400;
+const DIALOG_HEIGHT = 500;
 const GAP = 12;
 const EDGE_PADDING = 16;
 
@@ -55,7 +55,7 @@ export const SettingsDialog = ({
   triggerRef,
 }: FloatingSettingsDialogProps) => {
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
@@ -212,7 +212,7 @@ export const SettingsDialog = ({
           opacity: isReady ? 1 : 0,
           pointerEvents: isReady ? "auto" : "none",
         }}
-        className="fixed z-[9999] rounded-[16px] border border-background-600 bg-background-900/95 backdrop-blur-md flex flex-col overflow-hidden"
+        className="fixed z-[9999] rounded-[16px] border border-background-600 bg-background-950 backdrop-blur-md flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') onOpenChange(false);
@@ -220,7 +220,7 @@ export const SettingsDialog = ({
       >
         <div
           data-drag-handle
-          className="h-10 shrink-0 bg-background-800 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center justify-between pl-4 pr-2 select-none hover:bg-background-800/70 transition-colors"
+          className="h-10 shrink-0 bg-background-900 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center justify-between pl-4 pr-2 select-none hover:bg-background-800/70 transition-colors"
         >
           <span className="text-sm font-semibold text-foreground-400 pointer-events-none">
             Theme Settings

@@ -141,12 +141,12 @@ function CountrySelectPreview() {
           <Select.Trigger>
             <Select.Value
               placeholder="Choose a country..."
-              icon={selected && <span className="text-base">{selected.flag}</span>}
+              icon={selected && <span className="text-sm">{selected.flag}</span>}
             />
           </Select.Trigger>
           <Searchable.Content searchPlaceholder="Search countries...">
             {countries.map((c) => (
-              <Select.Item key={c.value} value={c.value} textValue={c.label} icon={<span className="text-base">{c.flag}</span>}>
+              <Select.Item key={c.value} value={c.value} textValue={c.label} icon={<span className="text-md">{c.flag}</span>}>
                 <div className="flex items-center justify-between w-full">
                   <span>{c.label}</span>
                   <span className="ml-2 text-sm text-foreground-400">{c.code}</span>

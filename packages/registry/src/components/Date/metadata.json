@@ -1,7 +1,7 @@
 {
   "id": "date",
   "name": "Date",
-  "description": "Calendar date picker with keyboard navigation and accessibility.",
+  "description": "Date picker with calendar and keyboard navigation.",
   "category": "input",
   "source": {
     "packageName": "ui-lab-components",

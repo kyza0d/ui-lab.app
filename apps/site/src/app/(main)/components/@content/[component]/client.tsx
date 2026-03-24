@@ -105,9 +105,9 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
 
   return (
     <div className={cn("grid grid-cols-1", isChatOpen ? "md:grid-cols-1" : "md:grid-cols-[4fr_1fr]")}>
-      <div className="flex flex-col max-w-4xl mx-auto w-full justify-center mt-(--header-height)">
+      <div className="py-12 px-4 md:px-6 mx-auto max-w-(--content-width) w-full min-w-0">
         <Toaster />
-        <div className="px-2 md:px-6 lg:px-12">
+        <div>
           <div className="pt-12 pb-12">
             <div className="space-y-2 min-h-32">
               <div className="h-25 flex flex-col mb-12 relative">

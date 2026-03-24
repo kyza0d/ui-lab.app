@@ -1,7 +1,7 @@
 {
   "id": "grid",
   "name": "Grid",
-  "description": "Grid layout component with container query support for responsive designs.",
+  "description": "Responsive grid layout with container query support.",
   "category": "layout",
   "source": {
     "packageName": "ui-lab-components",

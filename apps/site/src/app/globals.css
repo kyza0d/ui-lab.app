@@ -120,8 +120,8 @@
   --border-width-8: 8px;
 
   --header-height: 3.50rem;
-  --page-width: 1350px;
-  --content-width: 900px;
+  --page-width: 1400px;
+  --content-width: 800px;
   --logo-width: 250px;
   --banner-height: 52px;      /* adjust to match your banner content */
   /* --indent-offset: 3px; */
@@ -373,13 +373,13 @@ html.theme-transition *::after {
 /* Code and Pre Styles */
 pre {
   font-family: var(--font-mono);
-  font-size: calc(var(--text-sm) * 1.04);
   font-weight: 500;
   letter-spacing: 0.006em;
 }
 
 code {
   font-family: var(--font-mono);
+  font-size: calc(var(--text-sm) * 0.94);
   font-weight: 500;
   letter-spacing: 0.006em;
 }
@@ -408,7 +408,6 @@ pre.shiki .indent::before {
   .text-sm { font-size: var(--text-sm) }
   .text-sm { font-size: var(--text-sm) }
   .text-md { font-size: var(--text-md) }
-  .text-base { font-size: var(--text-md) }
   .text-lg { font-size: var(--text-lg) }
   .text-xl { font-size: var(--text-xl) }
   .text-2xl { font-size: var(--text-2xl) }

@@ -83,7 +83,7 @@ export const SliderControl = memo(
             {label}
           </label>
           <span
-            className={`${VALUE_LABEL} border border-background-700 rounded-[8px] bg-background-800 px-1.5 py-0.5 text-foreground-300`}
+            className={`${VALUE_LABEL} border border-background-700 rounded-[8px] bg-background-900 px-1.5 py-0.5 text-foreground-300`}
           >
             {safeValue.toFixed(unit ? 2 : 3)}
             {unit}
@@ -392,12 +392,12 @@ export const GlobalAdjustmentsPanel = memo(
   }) => {
     const formatLightness = useCallback((v: number) =>
       `${v >= 0 ? "+" : ""}${(v * 100).toFixed(1)}%`
-    , []);
+      , []);
 
     const formatChroma = useCallback((v: number) => `×${v.toFixed(2)}`, []);
 
     return (
-      <div className="mx-[6px] mb-2 p-3 bg-background-800/40 rounded-[12px] border border-background-700">
+      <div className="mx-[6px] mb-2 p-3 bg-background-900/40 rounded-[12px] border border-background-700">
         <div className={`${MICRO_LABEL} mb-3 flex items-center gap-2`}>
           <FaSun size={12} className="text-foreground-400" />
           Global Adjustments

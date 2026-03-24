@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ComponentClient } from "./client";
 import { generateMetadata as generateSiteMetadata } from "@/shared";
 import { extractComponentMetadata } from "@/shared/lib/metadata-extractors";
@@ -15,7 +16,7 @@ export function generateStaticParams() {
   return componentIds.map((id) => ({ component: id }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ component: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ component: string }> }): Promise<Metadata> {
   const { component: componentId } = await params;
   const component = componentRegistry[componentId as keyof typeof componentRegistry];
 

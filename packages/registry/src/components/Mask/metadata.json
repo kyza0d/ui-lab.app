@@ -1,7 +1,7 @@
 {
   "id": "mask",
   "name": "Mask",
-  "description": "Container component that creates fading edge effects on content.",
+  "description": "Container with fading edge effects on content.",
   "category": "container",
   "experimental": true,
   "source": {

@@ -296,7 +296,7 @@ export const SettingsContent = () => {
 
 
   return (
-    <div className="w-full h-full select-none flex flex-col bg-background-900/90 text-foreground">
+    <div className="w-full h-full select-none flex flex-col bg-background-950 text-foreground">
       <div className="pr-[8px] flex items-center justify-between border-b border-background-700 shrink-0">
         <Tabs
           variant="underline"
@@ -328,62 +328,62 @@ export const SettingsContent = () => {
 
       <div className="border-b border-background-700 flex-1 overflow-hidden">
         <Scroll>
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value as ConfigTab)}
-        >
-          <Tabs.Content value="colors" className="py-[8px]">
-            <ColorsPanel
-              localColors={localColors}
-              expandedColor={expandedColor}
-              localGlobalAdjustments={localGlobalAdjustments}
-              onExpandedColorChange={setExpandedColor}
-              onColorChange={handleColorChange}
-              onChromaLimitChange={handleChromaLimitChange}
-              onGlobalAdjustmentChange={handleGlobalAdjustmentChange}
-            />
-          </Tabs.Content>
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) => setActiveTab(value as ConfigTab)}
+          >
+            <Tabs.Content value="colors" className="py-[8px]">
+              <ColorsPanel
+                localColors={localColors}
+                expandedColor={expandedColor}
+                localGlobalAdjustments={localGlobalAdjustments}
+                onExpandedColorChange={setExpandedColor}
+                onColorChange={handleColorChange}
+                onChromaLimitChange={handleChromaLimitChange}
+                onGlobalAdjustmentChange={handleGlobalAdjustmentChange}
+              />
+            </Tabs.Content>
 
-          <Tabs.Content value="fonts" className="py-[8px]">
-            <TypographyPanel
-              selectedSansFont={selectedSansFont}
-              selectedMonoFont={selectedMonoFont}
-              typography={currentTypography}
-              onSansFontChange={handleSansFontChange}
-              onMonoFontChange={handleMonoFontChange}
-              onTypographyChange={updateTypography}
-            />
-          </Tabs.Content>
+            <Tabs.Content value="fonts" className="py-[8px]">
+              <TypographyPanel
+                selectedSansFont={selectedSansFont}
+                selectedMonoFont={selectedMonoFont}
+                typography={currentTypography}
+                onSansFontChange={handleSansFontChange}
+                onMonoFontChange={handleMonoFontChange}
+                onTypographyChange={updateTypography}
+              />
+            </Tabs.Content>
 
-          <Tabs.Content value="layout" className="py-[8px]">
-            <LayoutPanel
-              radius={radius}
-              borderWidth={borderWidth}
-              spacingScale={spacingScale}
-              onRadiusChange={(value) =>
-                applyAndPersistLayout({
-                  radius: value,
-                  borderWidth,
-                  spacingScale,
-                })
-              }
-              onBorderWidthChange={(value) =>
-                applyAndPersistLayout({
-                  radius,
-                  borderWidth: value,
-                  spacingScale,
-                })
-              }
-              onSpacingScaleChange={(value) =>
-                applyAndPersistLayout({
-                  radius,
-                  borderWidth,
-                  spacingScale: value,
-                })
-              }
-            />
-          </Tabs.Content>
-        </Tabs>
+            <Tabs.Content value="layout" className="py-[8px]">
+              <LayoutPanel
+                radius={radius}
+                borderWidth={borderWidth}
+                spacingScale={spacingScale}
+                onRadiusChange={(value) =>
+                  applyAndPersistLayout({
+                    radius: value,
+                    borderWidth,
+                    spacingScale,
+                  })
+                }
+                onBorderWidthChange={(value) =>
+                  applyAndPersistLayout({
+                    radius,
+                    borderWidth: value,
+                    spacingScale,
+                  })
+                }
+                onSpacingScaleChange={(value) =>
+                  applyAndPersistLayout({
+                    radius,
+                    borderWidth,
+                    spacingScale: value,
+                  })
+                }
+              />
+            </Tabs.Content>
+          </Tabs>
         </Scroll>
       </div>
 

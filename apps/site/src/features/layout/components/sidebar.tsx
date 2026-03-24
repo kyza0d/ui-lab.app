@@ -220,8 +220,8 @@ export function Sidebar() {
                     >
                       <div
                         className={cn(
-                          'w-10 h-10 bg-background-800 border border-background-700 rounded-sm flex items-center justify-center',
-                          isActive ? 'bg-transparent text-foreground-50' : 'text-foreground-300'
+                          'w-10 h-10 rounded-sm flex items-center justify-center',
+                          isActive ? 'bg-transparent text-foreground-100' : 'text-foreground-300'
                         )}
                       >
                         <Icon className="w-5 h-5" />

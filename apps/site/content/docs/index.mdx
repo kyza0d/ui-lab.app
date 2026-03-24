@@ -102,8 +102,6 @@ The `/design` skill routes to four sub-agents based on intent:
 
 - **design-ideator** — structured design brief process for new UI
 - **design-auditor** — detects violations: wrong shade ranges, arbitrary colors, incorrect sub-component usage
-- **design-refactorer** — mechanical substitution of violations for correct tokens using live MCP data
-- **pattern-explorer** — discovers existing patterns before building new ones
 
 The auditor enforces hard rules. `bg-white` → `bg-background-950`. `text-gray-900` → `text-foreground-300`. `shadow-md` → removed. Violations are corrected in the tool response, not flagged for a human to fix later.
 

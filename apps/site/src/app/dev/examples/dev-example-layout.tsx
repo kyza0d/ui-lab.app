@@ -45,7 +45,7 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
           {examples.map((example) => (
             <div key={example.id} id={example.id} className="scroll-mt-20 space-y-2">
               <div className="mb-8">
-                <h2 className="text-base font-semibold text-foreground-100">{example.title}</h2>
+                <h2 className="text-md font-semibold text-foreground-100">{example.title}</h2>
                 <p className="text-sm text-foreground-400">{example.description}</p>
               </div>
               <div className="w-full border border-background-700 rounded-sm">

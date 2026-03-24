@@ -73,7 +73,7 @@ const components = {
   code: ({ children, className }: any) => {
     const isInline = !className
     return isInline ? (
-      <code className="bg-background-800 text-sm px-2 py-1 rounded-sm font-mono text-foreground-200">
+      <code className="bg-background-800 px-2 py-1 rounded-sm font-mono text-foreground-200">
         {children}
       </code>
     ) : (

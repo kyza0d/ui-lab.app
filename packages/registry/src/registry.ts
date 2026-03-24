@@ -4,7 +4,7 @@ export const componentRegistry: ComponentRegistry = {
   anchor: {
     id: "anchor",
     name: "Anchor",
-    description: "Styled link with animated underline and hover popover preview.",
+    description: "Link with animated underline and popover preview.",
     category: "information",
     source: {
   "packageName": "ui-lab-components",
@@ -157,7 +157,7 @@ export const componentRegistry: ComponentRegistry = {
   color: {
     id: "color",
     name: "Color",
-    description: "Custom color picker with 2D canvas, hue slider, and format selection.",
+    description: "Color picker with hue slider and format selection.",
     category: "input",
     experimental: true,
     source: {
@@ -230,7 +230,7 @@ export const componentRegistry: ComponentRegistry = {
   date: {
     id: "date",
     name: "Date",
-    description: "Calendar date picker with keyboard navigation and accessibility.",
+    description: "Date picker with calendar and keyboard navigation.",
     category: "input",
     source: {
   "packageName": "ui-lab-components",
@@ -278,7 +278,7 @@ export const componentRegistry: ComponentRegistry = {
   expand: {
     id: "expand",
     name: "Expand",
-    description: "Collapsible disclosure component for expanding and collapsing sections.",
+    description: "Collapsible component for expanding hidden sections.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -322,7 +322,7 @@ export const componentRegistry: ComponentRegistry = {
   frame: {
     id: "frame",
     name: "Frame",
-    description: "Decorative border/frame component with advanced SVG path support.",
+    description: "Decorative border with advanced SVG path support.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",
@@ -354,7 +354,7 @@ export const componentRegistry: ComponentRegistry = {
   gallery: {
     id: "gallery",
     name: "Gallery",
-    description: "Responsive grid layout for displaying images and media items.",
+    description: "Responsive grid for displaying images and media.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -376,7 +376,7 @@ export const componentRegistry: ComponentRegistry = {
   grid: {
     id: "grid",
     name: "Grid",
-    description: "Grid layout component with container query support for responsive designs.",
+    description: "Responsive grid layout with container query support.",
     category: "layout",
     source: {
   "packageName": "ui-lab-components",
@@ -493,7 +493,7 @@ export const componentRegistry: ComponentRegistry = {
   mask: {
     id: "mask",
     name: "Mask",
-    description: "Container component that creates fading edge effects on content.",
+    description: "Container with fading edge effects on content.",
     category: "container",
     experimental: true,
     source: {
@@ -576,7 +576,7 @@ export const componentRegistry: ComponentRegistry = {
   page: {
     id: "page",
     name: "Page",
-    description: "Top-level page container with constraints and semantic structure.",
+    description: "Top-level page container with layout constraints.",
     category: "container",
     experimental: true,
     source: {
@@ -610,7 +610,7 @@ export const componentRegistry: ComponentRegistry = {
   path: {
     id: "path",
     name: "Path",
-    description: "Navigation component showing page hierarchy with links to parent pages.",
+    description: "Breadcrumb navigation showing page hierarchy.",
     category: "navigation",
     source: {
   "packageName": "ui-lab-components",
@@ -703,7 +703,7 @@ export const componentRegistry: ComponentRegistry = {
   scroll: {
     id: "scroll",
     name: "Scroll",
-    description: "Scroll area component with custom scrollbars for overflowing content.",
+    description: "Scroll area with custom scrollbars for overflow.",
     category: "container",
     source: {
   "packageName": "ui-lab-components",

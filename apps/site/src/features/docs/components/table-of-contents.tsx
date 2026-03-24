@@ -265,7 +265,7 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
             <span className="text-md font-semibold text-foreground-50">
               On this page
             </span>
-            <Divider size="sm" variant="dashed" spacing="lg" />
+            <Divider variant="dashed" spacing="lg" />
             <div className="mt-2 h-140">
               <Scroll inset fade-y ref={scrollRef} maxHeight="100%">
                 <div className="flex flex-col space-y-0">

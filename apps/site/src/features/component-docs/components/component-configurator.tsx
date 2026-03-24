@@ -110,7 +110,7 @@ export function ComponentConfigurator({
   }
 
   return (
-    <div>
+    <div className="space-y-8">
       {/* Header */}
       {title && (
         <div className="border-b space-y-2 border-background-700 py-8">

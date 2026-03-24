@@ -29,7 +29,7 @@ export function ContentHeader({ title, description, pricing, children, purchaseU
           <div className="flex flex-col sm:flex-row items-start justify-start gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground-50 flex-1">{title}</h1>
-              <p className="text-foreground-400 text-sm sm:text-base leading-relaxed flex-1">{description}</p>
+              <p className="text-foreground-400 text-sm leading-relaxed flex-1">{description}</p>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">

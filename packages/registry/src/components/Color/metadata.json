@@ -1,7 +1,7 @@
 {
   "id": "color",
   "name": "Color",
-  "description": "Custom color picker with 2D canvas, hue slider, and format selection.",
+  "description": "Color picker with hue slider and format selection.",
   "category": "input",
   "experimental": true,
   "source": {
