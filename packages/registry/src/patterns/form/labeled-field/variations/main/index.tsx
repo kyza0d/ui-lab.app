@@ -6,7 +6,7 @@ function LabeledField({ id, label, placeholder, hint }: { id: string; label: str
     <div className="flex flex-col gap-1.5">
       <Label htmlFor={id}>{label}</Label>
       <Input id={id} placeholder={placeholder} />
-      {hint && <p className="text-xs text-foreground-400">{hint}</p>}
+      {hint && <p className="text-sm text-foreground-400">{hint}</p>}
     </div>
   );
 }

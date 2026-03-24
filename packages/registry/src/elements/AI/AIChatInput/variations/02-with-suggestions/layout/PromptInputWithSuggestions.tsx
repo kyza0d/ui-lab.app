@@ -54,7 +54,7 @@ export function PromptInputWithSuggestions({
         >
           Send
         </button>
-        <button className="px-2 py-1 text-foreground-400 hover:text-foreground-200 text-xs rounded border border-background-700 hover:border-background-600 transition-colors">
+        <button className="px-2 py-1 text-foreground-400 hover:text-foreground-200 text-sm rounded border border-background-700 hover:border-background-600 transition-colors">
           ⌘K
         </button>
       </div>

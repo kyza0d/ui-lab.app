@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui-lab-components';
+import { Tabs } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-tabs.js';
 import Example2, { metadata as metadata2 } from './examples/02-vertical-tabs.js';
@@ -37,12 +37,12 @@ const tabsBasicCode = `import { Tabs } from "ui-lab-components";
 export function Example() {
   return (
     <Tabs defaultValue="tab1">
-      <TabsList>
-        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-      </TabsList>
-      <TabsContent value="tab1">Content 1</TabsContent>
-      <TabsContent value="tab2">Content 2</TabsContent>
+      <Tabs.List>
+        <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+        <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="tab1">Content 1</Tabs.Content>
+      <Tabs.Content value="tab2">Content 2</Tabs.Content>
     </Tabs>
   );
 }`;
@@ -70,39 +70,39 @@ export const tabsDetail: ComponentDetail = {
       code: tabsBasicCode,
       preview: (
         <Tabs defaultValue="tab1">
-          <TabsList>
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">
+          <Tabs.List>
+            <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+            <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+            <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="tab1">
             <p className="text-foreground-300">Content for Tab 1</p>
-          </TabsContent>
-          <TabsContent value="tab2">
+          </Tabs.Content>
+          <Tabs.Content value="tab2">
             <p className="text-foreground-300">Content for Tab 2</p>
-          </TabsContent>
-          <TabsContent value="tab3">
+          </Tabs.Content>
+          <Tabs.Content value="tab3">
             <p className="text-foreground-300">Content for Tab 3</p>
-          </TabsContent>
+          </Tabs.Content>
         </Tabs>
       ),
       controls: tabsControls,
       renderPreview: (props: any) => (
         <Tabs defaultValue="tab1" variant={props.variant}>
-          <TabsList>
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2" disabled={props.disabled}>Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">
+          <Tabs.List>
+            <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+            <Tabs.Trigger value="tab2" disabled={props.disabled}>Tab 2</Tabs.Trigger>
+            <Tabs.Trigger value="tab3">Tab 3</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="tab1">
             <p className="text-foreground-300">Content for Tab 1</p>
-          </TabsContent>
-          <TabsContent value="tab2">
+          </Tabs.Content>
+          <Tabs.Content value="tab2">
             <p className="text-foreground-300">Content for Tab 2</p>
-          </TabsContent>
-          <TabsContent value="tab3">
+          </Tabs.Content>
+          <Tabs.Content value="tab3">
             <p className="text-foreground-300">Content for Tab 3</p>
-          </TabsContent>
+          </Tabs.Content>
         </Tabs>
       ),
     },
@@ -117,16 +117,16 @@ export const tabsDetail: ComponentDetail = {
       code: tabsBasicCode,
       preview: (
         <Tabs defaultValue="tab1">
-          <TabsList>
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1">
+          <Tabs.List>
+            <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+            <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="tab1">
             <p className="text-foreground-300">Content 1</p>
-          </TabsContent>
-          <TabsContent value="tab2">
+          </Tabs.Content>
+          <Tabs.Content value="tab2">
             <p className="text-foreground-300">Content 2</p>
-          </TabsContent>
+          </Tabs.Content>
         </Tabs>
       ),
     },
@@ -137,16 +137,16 @@ export const tabsDetail: ComponentDetail = {
       code: `<Tabs variant="underline">...</Tabs>`,
       preview: (
         <Tabs defaultValue="tab1" variant="underline">
-          <TabsList>
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tab1" className="mt-6">
+          <Tabs.List>
+            <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+            <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="tab1" className="mt-6">
             <p className="text-foreground-300">Content 1</p>
-          </TabsContent>
-          <TabsContent value="tab2" className="mt-6">
+          </Tabs.Content>
+          <Tabs.Content value="tab2" className="mt-6">
             <p className="text-foreground-300">Content 2</p>
-          </TabsContent>
+          </Tabs.Content>
         </Tabs>
       ),
     },

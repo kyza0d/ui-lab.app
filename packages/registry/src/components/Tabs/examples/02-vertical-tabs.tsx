@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, TabsList, TabsTrigger, TabsContent, Card } from 'ui-lab-components';
+import { Tabs, Card } from 'ui-lab-components';
 import { User, Settings, Bell, Shield } from 'lucide-react';
 
 export const metadata = {
@@ -13,27 +13,27 @@ export default function Example() {
       <Card className="w-full max-w-2xl">
         <Tabs defaultValue="profile" className="flex flex-row">
           {/* Vertical tab list - styled as sidebar */}
-          <TabsList
+          <Tabs.List
             aria-label="Settings sections"
             className="flex-col items-stretch justify-start h-auto w-48 border-r border-background-700 rounded-none bg-transparent p-2"
           >
-            <TabsTrigger value="profile" icon={<User className="w-4 h-4" />} className="justify-start">
+            <Tabs.Trigger value="profile" icon={<User className="w-4 h-4" />} className="justify-start">
               Profile
-            </TabsTrigger>
-            <TabsTrigger value="notifications" icon={<Bell className="w-4 h-4" />} className="justify-start">
+            </Tabs.Trigger>
+            <Tabs.Trigger value="notifications" icon={<Bell className="w-4 h-4" />} className="justify-start">
               Notifications
-            </TabsTrigger>
-            <TabsTrigger value="security" icon={<Shield className="w-4 h-4" />} className="justify-start">
+            </Tabs.Trigger>
+            <Tabs.Trigger value="security" icon={<Shield className="w-4 h-4" />} className="justify-start">
               Security
-            </TabsTrigger>
-            <TabsTrigger value="preferences" icon={<Settings className="w-4 h-4" />} className="justify-start">
+            </Tabs.Trigger>
+            <Tabs.Trigger value="preferences" icon={<Settings className="w-4 h-4" />} className="justify-start">
               Preferences
-            </TabsTrigger>
-          </TabsList>
+            </Tabs.Trigger>
+          </Tabs.List>
 
           {/* Content panels */}
           <div className="flex-1 p-6">
-            <TabsContent value="profile" className="mt-0">
+            <Tabs.Content value="profile" className="mt-0">
               <h3 className="text-lg font-semibold text-foreground-100 mb-2">Profile Settings</h3>
               <p className="text-foreground-400 text-sm mb-4">
                 Manage your personal information and how others see you on the platform.
@@ -43,9 +43,9 @@ export default function Example() {
                 <div className="h-10 w-full bg-background-800 rounded border border-background-700" />
                 <div className="h-10 w-2/3 bg-background-800 rounded border border-background-700" />
               </div>
-            </TabsContent>
+            </Tabs.Content>
 
-            <TabsContent value="notifications" className="mt-0">
+            <Tabs.Content value="notifications" className="mt-0">
               <h3 className="text-lg font-semibold text-foreground-100 mb-2">Notification Preferences</h3>
               <p className="text-foreground-400 text-sm mb-4">
                 Control how and when you receive alerts and updates.
@@ -64,9 +64,9 @@ export default function Example() {
                   <div className="h-4 w-28 bg-background-800 rounded" />
                 </div>
               </div>
-            </TabsContent>
+            </Tabs.Content>
 
-            <TabsContent value="security" className="mt-0">
+            <Tabs.Content value="security" className="mt-0">
               <h3 className="text-lg font-semibold text-foreground-100 mb-2">Security Settings</h3>
               <p className="text-foreground-400 text-sm mb-4">
                 Protect your account with passwords, two-factor authentication, and more.
@@ -81,9 +81,9 @@ export default function Example() {
                   <div className="h-3 w-40 bg-background-700/50 rounded" />
                 </div>
               </div>
-            </TabsContent>
+            </Tabs.Content>
 
-            <TabsContent value="preferences" className="mt-0">
+            <Tabs.Content value="preferences" className="mt-0">
               <h3 className="text-lg font-semibold text-foreground-100 mb-2">General Preferences</h3>
               <p className="text-foreground-400 text-sm mb-4">
                 Customize your experience with theme, language, and display options.
@@ -94,7 +94,7 @@ export default function Example() {
                 <div className="h-20 bg-background-800 rounded border border-background-700" />
                 <div className="h-20 bg-background-800 rounded border border-background-700" />
               </div>
-            </TabsContent>
+            </Tabs.Content>
           </div>
         </Tabs>
       </Card>

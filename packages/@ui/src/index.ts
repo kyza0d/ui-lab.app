@@ -51,6 +51,21 @@ export {
   Multi,
   useSelectContext,
 } from "./components/Select";
+export type {
+  SelectProps,
+  SelectContentProps,
+  SelectContentStyleSlots,
+  SelectTriggerProps,
+  SearchableTriggerProps,
+  SelectSeparatorProps,
+  SelectSubProps,
+  SelectSubTriggerProps,
+  SelectSubContentProps,
+  SelectGroupProps,
+  SelectValueProps,
+  SelectItemProps,
+  SelectListProps,
+} from "./components/Select";
 
 export { Input } from "./components/Input";
 export type { InputProps } from "./components/Input";
@@ -81,7 +96,7 @@ export type { ModalProps } from "./components/Modal";
 export { Mask } from "./components/Mask";
 export type { MaskProps } from "./components/Mask";
 
-export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/Tabs";
+export { Tabs } from "./components/Tabs";
 export type { TabsProps, TabsListProps, TabsTriggerProps, TabsContentProps } from "./components/Tabs";
 
 export { Menu } from "./components/Menu";

@@ -22,7 +22,7 @@ function SelectRowWithIcon({ id, label, description, icon, defaultValue }: {
       <div className="w-8 h-8 flex items-center justify-center rounded-md bg-background-800 text-foreground-400 flex-shrink-0">{icon}</div>
       <div className="flex-1 min-w-0">
         <Label htmlFor={id} className="text-sm font-medium text-foreground-200">{label}</Label>
-        {description && <p className="text-xs text-foreground-400 mt-0.5">{description}</p>}
+        {description && <p className="text-sm text-foreground-400 mt-0.5">{description}</p>}
       </div>
       <Select defaultSelectedKey={defaultValue}>
         <Select.Trigger><Select.Value /></Select.Trigger>

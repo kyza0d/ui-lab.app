@@ -15,6 +15,10 @@
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
+    &:hover .underline {
+      background: var(--underline-background-hover);
+    }
+
     &:focus-visible {
       outline: 2px solid var(--focus-ring);
       outline-offset: 2px;

@@ -17,6 +17,9 @@ const useModalKeyboard = (
   isKeyboardDismissDisabled: boolean,
   onClose: () => void
 ) => {
+  const onCloseRef = React.useRef(onClose);
+  onCloseRef.current = onClose;
+
   React.useEffect(() => {
     if (!isOpen || !ref.current) return;
 
@@ -25,13 +28,13 @@ const useModalKeyboard = (
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isDismissable && !isKeyboardDismissDisabled) {
         e.preventDefault();
-        onClose();
+        onCloseRef.current();
       }
     };
 
     ref.current.addEventListener("keydown", handleKeyDown);
     return () => ref.current?.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, isDismissable, isKeyboardDismissDisabled, onClose]);
+  }, [isOpen, isDismissable, isKeyboardDismissDisabled]);
 };
 
 interface ModalStyleSlots {

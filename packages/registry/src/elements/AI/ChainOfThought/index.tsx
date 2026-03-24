@@ -29,7 +29,7 @@ const elementMetadata: ElementMetadata = {
 export function getPreview(): React.ReactNode {
   return (
     <div className="flex flex-col gap-2 w-full h-full p-3 bg-background-900 rounded-sm border border-background-700">
-      <div className="space-y-2 text-xs">
+      <div className="space-y-2 text-sm">
         <div className="flex items-start gap-2">
           <span className="text-accent-500 font-bold">1.</span>
           <div className="text-foreground-400">Analyzing the problem</div>

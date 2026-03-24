@@ -5,7 +5,7 @@ function StatBlock({ value, label, trend }: { value: string; label: string; tren
     <div className="flex flex-col gap-1">
       <p className="text-3xl font-bold text-foreground-100 tabular-nums">{value}</p>
       <p className="text-sm text-foreground-400">{label}</p>
-      {trend && <p className="text-xs text-accent-400">{trend}</p>}
+      {trend && <p className="text-sm text-accent-400">{trend}</p>}
     </div>
   );
 }

@@ -56,7 +56,7 @@ export function AIChatInputWithSuggestions() {
 
           {selectedSuggestion && (
             <div className="p-4 bg-background-800 border border-accent-500/30 rounded-md">
-              <p className="text-xs text-foreground-400 mb-1">Using suggestion:</p>
+              <p className="text-sm text-foreground-400 mb-1">Using suggestion:</p>
               <p className="text-foreground-50">{selectedSuggestion}</p>
             </div>
           )}

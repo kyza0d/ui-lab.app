@@ -20,7 +20,7 @@
       "id": "media-object-sm",
       "name": "Small",
       "description": "Reduced icon size (w-8 h-8) and tighter gap for dense lists.",
-      "code": "function MediaObjectSm({ icon, title, description }) {\n  return (\n    <div className=\"flex items-center gap-2\">\n      <div className=\"w-8 h-8 flex items-center justify-center rounded-md bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0\">\n        <p className=\"text-xs font-medium text-foreground-200 truncate\">{title}</p>\n        <p className=\"text-xs text-foreground-400 truncate\">{description}</p>\n      </div>\n    </div>\n  )\n}"
+      "code": "function MediaObjectSm({ icon, title, description }) {\n  return (\n    <div className=\"flex items-center gap-2\">\n      <div className=\"w-8 h-8 flex items-center justify-center rounded-md bg-background-800 text-foreground-300 flex-shrink-0\">\n        {icon}\n      </div>\n      <div className=\"min-w-0\">\n        <p className=\"text-sm font-medium text-foreground-200 truncate\">{title}</p>\n        <p className=\"text-sm text-foreground-400 truncate\">{description}</p>\n      </div>\n    </div>\n  )\n}"
     },
     {
       "id": "media-object-lg",

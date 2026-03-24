@@ -12,8 +12,8 @@ function MediaObjectSm({ icon, title, description }: { icon: React.ReactNode; ti
     <div className="flex items-center gap-2">
       <div className="w-8 h-8 flex items-center justify-center rounded-md bg-background-800 text-foreground-300 flex-shrink-0">{icon}</div>
       <div className="min-w-0">
-        <p className="text-xs font-medium text-foreground-200 truncate">{title}</p>
-        <p className="text-xs text-foreground-400 truncate">{description}</p>
+        <p className="text-sm font-medium text-foreground-200 truncate">{title}</p>
+        <p className="text-sm text-foreground-400 truncate">{description}</p>
       </div>
     </div>
   );

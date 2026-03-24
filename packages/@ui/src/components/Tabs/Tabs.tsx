@@ -67,7 +67,7 @@ interface TabsProps {
 
 const resolveTabsBaseStyles = createStylesResolver(['root'] as const)
 
-const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
+const TabsRoot = React.forwardRef<HTMLDivElement, TabsProps>(
   (
     {
       variant,
@@ -148,7 +148,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     )
   }
 )
-Tabs.displayName = "Tabs"
+TabsRoot.displayName = "Tabs"
 
 interface TabsListStyleSlots {
   root?: StyleValue
@@ -536,5 +536,11 @@ const TabsContent = React.forwardRef<HTMLDivElement, TabsContentProps>(
 )
 TabsContent.displayName = "TabsContent"
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+const Tabs = Object.assign(TabsRoot, {
+  List: TabsList,
+  Trigger: TabsTrigger,
+  Content: TabsContent,
+})
+
+export { Tabs }
 export type { TabsProps, TabsListProps, TabsTriggerProps, TabsContentProps }

@@ -6,8 +6,8 @@ function ProgressMetricStacked({ label, value, max = 100 }: { label: string; val
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-foreground-300">{label}</span>
-        <span className="text-xs text-foreground-400 tabular-nums">{pct}%</span>
+        <span className="text-sm font-medium text-foreground-300">{label}</span>
+        <span className="text-sm text-foreground-400 tabular-nums">{pct}%</span>
       </div>
       <Progress value={value} max={max} />
     </div>

@@ -65,7 +65,7 @@
   }
 
   .desc {
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--desc-color);
     @apply truncate;
   }

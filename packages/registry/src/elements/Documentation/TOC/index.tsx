@@ -29,14 +29,14 @@ const elementMetadata: ElementMetadata = {
 export function getPreview(): React.ReactNode {
   return (
     <div className="flex flex-col gap-2 w-full h-full p-3 bg-background-900 rounded-sm border border-background-700">
-      <div className="space-y-2 text-xs">
+      <div className="space-y-2 text-sm">
         <div className="font-semibold text-foreground-200 mb-2">Contents</div>
         <div className="text-foreground-400">• Introduction</div>
-        <div className="ml-3 text-foreground-400 text-xs">◦ Overview</div>
-        <div className="ml-3 text-foreground-400 text-xs">◦ Getting Started</div>
+        <div className="ml-3 text-foreground-400 text-sm">◦ Overview</div>
+        <div className="ml-3 text-foreground-400 text-sm">◦ Getting Started</div>
         <div className="text-foreground-400">• Installation</div>
         <div className="text-foreground-400">• Usage</div>
-        <div className="ml-3 text-foreground-400 text-xs">◦ Basic</div>
+        <div className="ml-3 text-foreground-400 text-sm">◦ Basic</div>
       </div>
     </div>
   );

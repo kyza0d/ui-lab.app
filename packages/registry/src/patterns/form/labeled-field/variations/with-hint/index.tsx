@@ -6,7 +6,7 @@ function LabeledFieldWithHint({ id, label, placeholder }: { id: string; label: s
     <div className="flex flex-col gap-1.5">
       <Label htmlFor={id}>{label}</Label>
       <Input id={id} placeholder={placeholder} />
-      <p className="text-xs text-foreground-400">Shown publicly on your profile.</p>
+      <p className="text-sm text-foreground-400">Shown publicly on your profile.</p>
     </div>
   );
 }

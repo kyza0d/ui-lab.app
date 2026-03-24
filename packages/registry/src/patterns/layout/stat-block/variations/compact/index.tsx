@@ -4,7 +4,7 @@ function StatBlockCompact({ value, label }: { value: string; label: string }) {
   return (
     <div className="flex items-baseline gap-2">
       <span className="text-xl font-bold text-foreground-100 tabular-nums">{value}</span>
-      <span className="text-xs text-foreground-400">{label}</span>
+      <span className="text-sm text-foreground-400">{label}</span>
     </div>
   );
 }

@@ -72,7 +72,7 @@ export function PricingComparison() {
                     {plan.price ? (
                       <div className="text-lg font-bold text-accent-500">
                         ${plan.price}
-                        <span className="text-xs text-foreground-400">/mo</span>
+                        <span className="text-sm text-foreground-400">/mo</span>
                       </div>
                     ) : (
                       <div className="text-sm text-foreground-400">Custom</div>
