@@ -6,7 +6,7 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { GroupContext } from "../Group/Group";
 
 type Orientation = "horizontal" | "vertical";
-type Size = "sm" | "md" | "lg";
+type Size = "sm" | "md" | "lg" | "auto";
 
 const DASHED_DIMENSIONS = {
   sm: { thickness: 1, dashLength: 8, gapLength: 4 },
@@ -21,7 +21,7 @@ const DOTTED_DIMENSIONS = {
 } as const;
 
 function getDashedMaskSvg(orientation: Orientation, size: Size): string {
-  const { thickness, dashLength, gapLength } = DASHED_DIMENSIONS[size];
+  const { thickness, dashLength, gapLength } = DASHED_DIMENSIONS[size === "auto" ? "md" : size];
   const totalLength = dashLength + gapLength;
 
   if (orientation === "horizontal") {
@@ -31,7 +31,7 @@ function getDashedMaskSvg(orientation: Orientation, size: Size): string {
 }
 
 function getDottedMaskSvg(orientation: Orientation, size: Size): string {
-  const { thickness, radius, spacing } = DOTTED_DIMENSIONS[size];
+  const { thickness, radius, spacing } = DOTTED_DIMENSIONS[size === "auto" ? "md" : size];
 
   if (orientation === "horizontal") {
     return `%3Csvg width='${spacing}' height='${thickness}' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='${radius}' cy='${radius}' r='${radius}' fill='%23ffffff'/%3E%3C/svg%3E`;
@@ -45,7 +45,7 @@ const dividerVariants = cva("shrink-0", {
   variants: {
     variant: { solid: "", dashed: "", dotted: "" },
     orientation: { horizontal: "w-full", vertical: "self-stretch" },
-    size: { sm: "", md: "", lg: "" },
+    size: { sm: "", md: "", lg: "", auto: "" },
     spacing: { none: "", sm: "", md: "", lg: "" },
   },
   compoundVariants: [
@@ -68,7 +68,7 @@ const dividerVariants = cva("shrink-0", {
   defaultVariants: {
     variant: "solid",
     orientation: "horizontal",
-    size: "md",
+    size: "auto",
     spacing: "md",
   },
 });
@@ -89,7 +89,7 @@ export interface DividerProps
   /** Controls the axis the divider spans */
   orientation?: "horizontal" | "vertical";
   /** Size of the divider thickness */
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "auto";
   /** Controls the margin around the divider */
   spacing?: "none" | "sm" | "md" | "lg";
   /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
@@ -97,7 +97,7 @@ export interface DividerProps
 }
 
 const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
-  ({ className, styles, variant = "solid", orientation, size = "md", spacing, style, ...props }, ref) => {
+  ({ className, styles, variant = "solid", orientation, size = "auto", spacing, style, ...props }, ref) => {
     const groupContext = React.useContext(GroupContext);
 
     const resolvedOrientation = (() => {
@@ -132,6 +132,13 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       } as React.CSSProperties;
     };
 
+    const getAutoSizeStyle = (): React.CSSProperties => {
+      if (size !== "auto") return {};
+      return resolvedOrientation === "horizontal"
+        ? { height: "var(--border-width-base, 1px)" }
+        : { width: "var(--border-width-base, 1px)" };
+    };
+
     const resolved = resolveDividerStyles(styles);
 
     return (
@@ -141,7 +148,7 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
           dividerVariants({ variant, orientation: resolvedOrientation, size, spacing: resolvedSpacing }),
           'divider', className, resolved.root,
         )}
-        style={{ ...getMaskStyles(), ...style }}
+        style={{ ...getMaskStyles(), ...getAutoSizeStyle(), ...style }}
         role="separator"
         aria-orientation={resolvedOrientation}
         {...props}

@@ -194,7 +194,7 @@
 /* Checkbox Styles */
 
 .checkbox {
-  --background: var(--background-700);
+  --background: var(--background-900);
   --border: var(--background-600);
   --ring-color: var(--accent-500);
   --hover-background: color-mix(in srgb, var(--background-500) 60%, transparent);
