@@ -33,14 +33,24 @@ Prefer the manual path if you need a minimal setup or want to wire things in you
 ## Install the package
 
 ```bash
-pnpm add ui-lab-components
+pnpm add ui-lab-components ui-lab-theme-onyx
 ```
+
+## Important: Components are unstyled by default
+
+UI Lab components provide **semantic structure and accessibility** but no visual styles out of the box. You must pair them with a theme package to render them visually.
+
+The easiest way is to use `ui-lab-theme-onyx`, which provides:
+- Complete color palette (8 colors × 9 shades each)
+- Typography scale
+- Spacing and radius tokens
+- Light/dark mode support
 
 ## Import styles in the right order
 
 ```css
 @import "tailwindcss";
-@import "./theme.css";
+@import "ui-lab-theme-onyx/styles.css";
 @import "ui-lab-components/styles.css";
 ```
 
@@ -49,10 +59,25 @@ Add this to your app stylesheet (`app/globals.css` in Next.js, `src/index.css` o
 The order matters:
 
 1. `tailwindcss` establishes the layers.
-2. Your app-owned `theme.css` defines the active tokens.
-3. `ui-lab-components/styles.css` consumes those tokens.
+2. `ui-lab-theme-onyx/styles.css` defines the design tokens (colors, typography, spacing).
+3. `ui-lab-components/styles.css` consumes those tokens to render components.
 
-UI Lab does not need to ship a `theme.css` for consumers. In most apps, you already own that token layer.
+### Using a custom theme instead
+
+If you prefer to define your own token layer instead of using `ui-lab-theme-onyx`:
+
+```css
+@import "tailwindcss";
+@import "./my-theme.css";           /* Your custom token definitions */
+@import "ui-lab-components/styles.css";
+```
+
+Your `my-theme.css` must define all required tokens:
+- `--accent-{50,100,200,...,900}`, `--background-*`, `--foreground-*`, `--success-*`, `--danger-*`, `--warning-*`, `--info-*`
+- `--text-sm`, `--text-md`, `--text-lg`, `--text-xl`
+- `--radius-sm`, `--radius-md`, `--radius-lg`
+
+See [ui-lab-theme-onyx](https://github.com/kyza0d/ui-lab/tree/main/packages/@theme-onyx) for the complete token structure.
 
 ## Optional: wire up theme switching
 
@@ -117,9 +142,26 @@ export default function Home() {
 }
 ```
 
+If styles don't appear, verify that you've imported a theme package (e.g., `ui-lab-theme-onyx/styles.css`) before `ui-lab-components/styles.css` in your stylesheet.
+
 ## Troubleshooting
 
-### Styles look wrong or missing
+### Components have no visual styles
+
+**This is expected if you haven't installed a theme.** UI Lab components are unstyled by default.
+
+Install `ui-lab-theme-onyx`:
+```bash
+pnpm add ui-lab-theme-onyx
+```
+
+Then import it in your stylesheet before `ui-lab-components/styles.css`:
+```css
+@import "ui-lab-theme-onyx/styles.css";
+@import "ui-lab-components/styles.css";
+```
+
+### Styles look wrong or partially applied
 
 Verify Tailwind v4:
 ```bash
@@ -141,9 +183,16 @@ Restart dev server after changes.
 
 ### Styles still not applying
 
-1. Clear cache: `rm -rf node_modules/.cache && npm run dev`
-2. Verify your stylesheet imports `./theme.css` before `ui-lab-components/styles.css`
-3. Verify your app actually defines the `--color-*` tokens UI Lab consumes
+1. **Check your stylesheet import order** — theme package must come before `ui-lab-components`:
+   ```css
+   @import "tailwindcss";
+   @import "ui-lab-theme-onyx/styles.css";
+   @import "ui-lab-components/styles.css";
+   ```
+
+2. **Verify a theme is installed** — Run `npm ls ui-lab-theme-onyx` (or check your custom theme package)
+
+3. Clear cache and restart: `rm -rf node_modules/.cache && npm run dev`
 
 ### Still stuck?
 

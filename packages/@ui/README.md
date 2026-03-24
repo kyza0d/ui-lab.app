@@ -1,73 +1,41 @@
 # @ui-lab/components
 
-A comprehensive collection of accessible, customizable React components built with [React Aria](https://react-spectrum.adobe.com/react-aria/), [Tailwind CSS](https://tailwindcss.com/), and CSS Modules. Designed for rapid UI development with a focus on accessibility (WCAG AA) and semantic design patterns.
+A collection of 39 accessible, customizable React components built with [React Aria](https://react-spectrum.adobe.com/react-aria/) and CSS Modules. Components are **unstyled by default**—you must pair them with a theme package like `ui-lab-theme-onyx` to provide colors and visual design.
 
 ## Features
 
-- **27+ Production-Ready Components** - From simple buttons to complex modals and command palettes
-- **Accessibility First** - Built with React Aria for proper keyboard navigation and screen reader support
-- **CSS Modules + CSS Variables** - Type-safe styling with semantic design tokens
-- **Tailwind CSS Integration** - Leverage Tailwind utilities for layout and spacing
-- **TypeScript** - Full type safety across all components
-- **Themeable** - Customize colors and design tokens via CSS variables
+- **39 Production-Ready Components** - Layout, input, feedback, navigation, and container components with compound component patterns
+- **Accessibility First** - Built with React Aria for keyboard navigation, focus management, and screen reader support
+- **Decoupled Styling** - CSS Modules + CSS variables enable complete theming flexibility
+- **Theme System** - Use `ui-lab-theme-onyx` (included) or create custom themes with color tokens
+- **TypeScript** - Full type safety across all components and exports
 - **ESM & CJS** - Works in any JavaScript environment
-- **Zero Dependencies (Runtime)** - Only React and small peer dependencies
+- **Zero Runtime Dependencies** - Only React peer dependency (plus React Aria for accessibility)
 
 ## Installation
 
 ```bash
-npm install ui-lab-components
+npm install ui-lab-components ui-lab-theme-onyx
 # or
-pnpm add ui-lab-components
-# or
-yarn add ui-lab-components
+pnpm add ui-lab-components ui-lab-theme-onyx
 ```
 
-### Peer Dependencies
+### Requirements
 
-This package requires React 19+:
+- **React 19+** — Components are built for React 19 with hooks
+- **A theme package** — Styles are decoupled; you must install a theme to render styled components. Use `ui-lab-theme-onyx` or create a custom theme
 
+Peer dependencies:
 ```bash
 npm install react react-dom
 ```
 
 ## Quick Start
 
-### Option 1: Direct CSS Import (Simplest)
+### Basic Setup (with ui-lab-theme-onyx)
 
 ```tsx
-import { Button, Input, Card } from 'ui-lab-components';
-import 'ui-lab-components/styles.css';
-
-export default function App() {
-  return (
-    <Card>
-      <Input placeholder="Enter your name" />
-      <Button>Submit</Button>
-    </Card>
-  );
-}
-```
-
-### Option 2: PostCSS Import (For CSS Files)
-
-If you have a CSS file in your project and want to avoid JavaScript imports, you can directly import UILab styles via PostCSS:
-
-**Step 1: In your main CSS file:**
-
-```css
-@import "tailwindcss";
-@import "ui-lab-components/styles.css";
-
-/* Your global styles */
-body {
-  /* ... */
-}
-```
-
-**Step 2: Import the components in your JavaScript:**
-
-```tsx
+import 'ui-lab-theme-onyx/styles.css';
 import { Button, Input, Card } from 'ui-lab-components';
 
 export default function App() {
@@ -80,126 +48,129 @@ export default function App() {
 }
 ```
 
-This approach lets PostCSS resolve the full path to `ui-lab-components/styles.css` through the package.json exports, keeping all your styles centralized in CSS files rather than scattered across JavaScript imports.
+The `ui-lab-theme-onyx` theme package provides:
+- Color tokens (CSS variables like `--accent-500`, `--background-700`)
+- Typography scale
+- Spacing, radius, and border tokens
+- Light/dark mode support
 
-### Option 3: Official Light/Dark Mode Setup
+### Custom Theme Setup
 
-Keep your app-owned `theme.css` as the token syntax layer and import `ui-lab-components/styles.css` after it.
+If you want to create a custom theme, define CSS variables that the components expect:
 
 ```css
-@import "tailwindcss";
-@import "./theme.css";
+:root {
+  /* Color tokens (required) */
+  --accent-50: #f0f9ff;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  /* ... rest of color scale 50-950 for accent, background, foreground, success, danger, warning, info */
+
+  /* Typography (optional) */
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+
+  /* Spacing & radius (optional) */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+
 @import "ui-lab-components/styles.css";
 ```
 
-`ui-lab-components/styles.css` consumes the active `--color-*` tokens. Your app-level `theme.css` can stay responsible for defining those tokens, including any `prefers-color-scheme` logic or `data-theme` overrides.
-
-In Next.js, the cleanest setup is to persist explicit overrides in a cookie and let the server stamp `<html>` accordingly. That avoids the old bootstrap script entirely.
+Then import your CSS before your app:
 
 ```tsx
-import { cookies } from "next/headers";
-import { parseThemeCookie, resolveThemeRootState } from "ui-lab-components/theme-server";
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const cookieStore = await cookies();
-  const theme = parseThemeCookie(cookieStore.get("ui-lab-theme")?.value);
-  const rootTheme = resolveThemeRootState(theme);
-
-  return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={rootTheme.className}
-      data-theme={rootTheme.dataTheme}
-      style={rootTheme.colorScheme ? { colorScheme: rootTheme.colorScheme } : undefined}
-    >
-      <body>{children}</body>
-    </html>
-  );
-}
+import './theme.css';
+import { Button } from 'ui-lab-components';
 ```
 
-If you still need a pre-hydration script for a non-cookie setup, `ui-lab-components/theme-script` remains available as a fallback.
-
-To persist a user-selected mode without a React hook:
-
-```ts
-export function setColorMode(mode: "light" | "dark" | "system") {
-  localStorage.setItem("ui-lab-color-mode", mode);
-
-  const resolved =
-    mode === "system"
-      ? window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-      : mode;
-
-  document.documentElement.dataset.theme = resolved;
-  document.documentElement.style.colorScheme = resolved;
-  document.documentElement.classList.toggle("dark", resolved === "dark");
-  document.documentElement.classList.toggle("light", resolved === "light");
-}
-```
-
-This is the recommended integration path for applications that just need standard light/dark mode. Use `ThemeProvider` only when you need runtime theme generation, palette editing, or custom token persistence.
+For the complete token list and design system reference, see the [root README](../../README.md#design-system) or the documentation site.
 
 ## Components
 
-### Layout Components
-- **Flex** - Flexbox layout with semantic props
-- **Grid** - Grid layout system
-- **Group** - Horizontal grouping of elements
-- **Fold** - Vertical stacking with spacing presets
-- **Card** - Container with header, body, and footer slots
-- **Divider** - Visual separator line with variants
+All components use React Aria for accessibility and accept a `className` prop for custom styling.
 
-### Input Components
-- **Button** - Primary action trigger with variants
-- **Input** - Text input field with validation support
+### Layout (7 components)
+- **Grid** - Grid layout system with configurable columns
+- **Flex** - Flexbox container with alignment and gap props
+- **Expand** - Collapsible container with animated transitions
+- **Frame** - Responsive aspect-ratio container
+- **Page** - Full-page layout with context for padding management
+- **Panel** - Resizable panel layout with sidebar support
+- **Gallery** - Image gallery with lightbox
+
+### Composition (2 components)
+- **Group** - Horizontal grouping of form/button elements
+- **List** - Selectable list with keyboard navigation, checkboxes, media slots
+
+### Input (9 components)
+- **Button** - Action trigger with variants and states
+- **Input** - Text input with validation support
 - **TextArea** - Multi-line text input
+- **Select** - Dropdown list with search, multi-select, and submenus
 - **Checkbox** - Single toggle selection
 - **Radio** - Mutually exclusive selection within groups
 - **Switch** - Boolean toggle control
-- **Select** - Dropdown selection with search support
-- **Label** - Associated text label for inputs
+- **Slider** - Range input with visual track
+- **Date** - Date picker with calendar
 
-### Feedback Components
-- **Badge** - Status and category indicators
-- **Progress** - Linear progress indicator
-- **Toast** - Temporary notifications with variants
+### Information (4 components)
+- **Badge** - Status and category indicators with variants
+- **Banner** - Alert banner for important messages
+- **Label** - Text label for form inputs
 - **Tooltip** - Contextual help text on hover
 
-### Modal Components
-- **Modal** - Centered dialog with overlay
+### Feedback (3 components)
 - **Popover** - Anchored floating panel
-- **Menu** - Contextual dropdown with submenus
+- **Progress** - Linear progress indicator
+- **Toast** - Temporary notifications with position and variant control
+
+### Navigation (4 components)
+- **Menu** - Dropdown menu with submenus and groups
+- **Tabs** - Tabbed interface with keyboard navigation
+- **Path** - Breadcrumb navigation trail
+- **Anchor** - Link with optional preview tooltip
+
+### Container (4 components)
+- **Modal** - Centered dialog with overlay and slots
+- **Card** - Container with optional header, body, footer
+- **Mask** - Modal overlay for focus
+- **Scroll** - Scrollable container with custom scrollbar
+
+### Display (2 components)
+- **Table** - Data table with columns and sorting
+- **Code** - Code block with syntax highlighting
+
+### Action (2 components)
+- **Command** - Searchable command menu (Cmd+K style)
 - **Confirm** - Alert dialog for destructive actions
 
-### Complex Components
-- **Tabs** - Tabbed interface navigation
-- **Slider** - Range input with visual track
-- **Form** - Composable form component with validation
-- **CommandPalette** - Searchable command menu (Cmd+K)
-- **Breadcrumbs** - Navigation path indicator
+### Theme (1 component)
+- **Color** - Color picker input
 
 ## Architecture
 
-### CSS Module Pattern
+### CSS Modules + CSS Variables
 
-All components follow a strict CSS Module pattern with semantic CSS variables:
+Components are styled with **unstyled-by-default** CSS Modules that rely on CSS custom properties (variables). This enables complete theming flexibility without needing Tailwind in your application.
 
 ```tsx
 import styles from './Button.module.css';
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', ...props }, ref) => {
+    const { buttonProps } = useButton({ isDisabled: props.disabled }, ref);
+
     return (
       <button
-        ref={ref}
+        {...buttonProps}
         className={cn(
           styles.button,
-          styles[`button.${variant}`],
-          styles[`button.${size}`],
+          styles[`button__${variant}`],
+          styles[`button--${size}`],
           className
         )}
         {...props}
@@ -212,94 +183,79 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 CSS modules use semantic variables and data attributes for state:
 
 ```css
-@reference "tailwindcss";
+.button {
+  --_bg: var(--accent-500);
+  --_fg: var(--accent-50);
 
-@layer components {
-  .button {
-    --background: var(--accent-500);
-    --foreground: var(--accent-50);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-md);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  cursor: pointer;
+}
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-md);
-    @apply px-3 py-1.5 rounded-md;
+.button[data-hovered]:not([data-disabled]) {
+  --_bg: var(--accent-600);
+}
 
-    background-color: var(--background);
-    color: var(--foreground);
-    cursor: pointer;
-  }
-
-  .button[data-hovered]:not([data-disabled]) {
-    --background: var(--accent-600);
-  }
-
-  .button[data-disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+.button[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 ```
 
-### React Aria Integration
+### React Aria for Accessibility
 
-Components use React Aria hooks for accessibility:
-
-```tsx
-import { mergeProps, } from "@react-aria/utils";
-import { useHover } from "@react-aria/interactions";
-import { useFocusRing } from "@react-aria/focus"
-import { useButton } from "@react-aria/button";
-
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ isDisabled, ...props }, ref) => {
-    const { buttonProps, isPressed } = useButton({ isDisabled }, ref);
-    const { focusProps, isFocusVisible } = useFocusRing();
-    const { hoverProps, isHovered } = useHover({ isDisabled });
-
-    return (
-      <button
-        {...mergeProps(buttonProps, focusProps, hoverProps)}
-        ref={ref}
-        data-pressed={isPressed || undefined}
-        data-hovered={isHovered || undefined}
-        data-focus-visible={isFocusVisible || undefined}
-        data-disabled={isDisabled || undefined}
-        className={styles.button}
-        {...props}
-      />
-    );
-  }
-);
-```
+All components use React Aria hooks for:
+- Keyboard navigation (arrow keys, Enter, Escape)
+- Focus management and focus rings
+- Screen reader announcements
+- ARIA attributes and roles
+- Interaction states (hovered, pressed, focused, disabled)
 
 ### Design Tokens
 
-Components use CSS variables for theming. The default design system includes:
+The component system expects these CSS variable families. Provided by theme packages like `ui-lab-theme-onyx`:
 
-- **Colors**: `--accent-*`, `--background-*`, `--foreground-*` (semantic levels from 50-950)
-- **Typography**: `--text-sm`, `--text-md`, `--text-lg` (font sizes)
-- **Spacing**: Standard Tailwind spacing scale via `@apply` utilities
-- **Radius**: `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-full`
-- **Borders**: `--border-width-base` (default border width)
+**Color families** (8 colors × 9 shades each):
+- `--accent-{50,100,200,...,900}`
+- `--background-{50,...,900}`
+- `--foreground-{50,...,900}`
+- `--success-{50,...,900}`
+- `--danger-{50,...,900}`
+- `--warning-{50,...,900}`
+- `--info-{50,...,900}`
+
+**Typography**:
+- `--text-sm`, `--text-md`, `--text-lg`, `--text-xl`
+
+**Spacing & radius**:
+- `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-full`
+
+See [theme-onyx](https://github.com/kyza0d/ui-lab/tree/main/packages/@theme-onyx) for complete token definitions.
 
 ## Development
 
 ### Project Structure
 
 ```
-packages/components/
+packages/@ui/
 ├── src/
-│   ├── components/          # Component implementations
-│   │   ├── button/
+│   ├── components/          # 39 component implementations
+│   │   ├── Button/
 │   │   │   ├── Button.tsx
-│   │   │   ├── Button.module.css
-│   │   │   └── Button.module.css.d.ts
-│   │   ├── checkbox/
-│   │   └── ... (27+ more)
-│   ├── lib/                 # Utilities (cn, mergeProps, etc.)
+│   │   │   └── Button.module.css
+│   │   ├── Select/
+│   │   │   ├── Select.tsx
+│   │   │   └── Select.module.css
+│   │   └── ... (37 more)
+│   ├── providers/           # ThemeProvider, hooks
+│   ├── hooks/               # useFilter, useAnimatedWidth, etc.
+│   ├── lib/                 # Utilities (cn, classnames)
 │   ├── index.ts             # Public exports
-│   └── styles.css           # Global styles
+│   └── styles.css           # Base component styles
 ├── dist/                    # Build output (UMD + ESM)
 ├── package.json
 ├── vite.config.ts
@@ -326,31 +282,34 @@ pnpm clean              # Remove dist/ folder
 5. Export in `src/index.ts`
 6. (Optional) Add demo to `@ui-lab/site`
 
-## Styling Approach
+## Customization
 
-### CSS Variables
+### Override Colors
 
-Override component colors by setting CSS variables at any scope:
+Components style themselves using CSS variables, so customization is just defining those variables:
 
 ```css
 :root {
   --accent-500: #3b82f6;
   --accent-600: #2563eb;
-  --background-700: #374151;
-  --text-md: 1rem;
+  --background-50: #f8fafc;
+  --background-900: #0f172a;
+  /* ... etc for all color families */
 }
 ```
 
-### Tailwind Integration
+The full list of required tokens is shown in [Architecture → Design Tokens](#design-tokens) above.
 
-Use `@apply` for spacing and layout only:
+### Using a Custom Theme
 
-```css
-.button {
-  @apply px-4 py-2 rounded-md;  /* ✅ Spacing & layout */
-  font-size: var(--text-md);     /* ✅ Use variables for colors/fonts */
-}
+Instead of manually defining all tokens, use a theme package:
+
+```tsx
+import 'path/to/custom-theme.css';
+import { Button } from 'ui-lab-components';
 ```
+
+Create your own theme by extending `ui-lab-theme-onyx` or starting from scratch with the token structure.
 
 ## Accessibility
 
@@ -374,8 +333,10 @@ All components meet WCAG AA standards:
 
 This package is part of the UI Lab monorepo:
 
-- **@ui-lab/components** - This package (component library)
+- **@ui-lab/components** - This package (component library, unstyled)
+- **@theme-onyx** - Default theme package with color tokens and typography
 - **@ui-lab/registry** - Component metadata and documentation
+- **@ui-lab/@mcp** - MCP server for AI-assisted development
 - **@ui-lab/site** - Demo and documentation site (Next.js)
 
 See the [root README](../../README.md) for monorepo overview and development setup.
