@@ -46,7 +46,7 @@
     @apply flex min-w-0 items-center gap-2;
     padding: var(--padding);
     border-radius: var(--inner-radius);
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     cursor: default;
     user-select: none;
@@ -78,7 +78,7 @@
     @apply flex min-w-0 items-center gap-2;
     padding: var(--padding);
     border-radius: var(--inner-radius);
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     color: var(--item-foreground);
     cursor: default;
@@ -120,7 +120,7 @@
 
   .label {
     padding: var(--padding);
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     color: var(--label-foreground);
 
@@ -136,7 +136,7 @@
 
   .shortcut {
     margin-left: auto;
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     letter-spacing: 0.1em;
     color: var(--shortcut-foreground);
   }

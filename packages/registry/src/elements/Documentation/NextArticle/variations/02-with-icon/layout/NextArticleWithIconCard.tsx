@@ -20,7 +20,7 @@ export function NextArticleWithIconCard({
     >
       <div className="text-3xl flex-shrink-0 mt-1">{icon}</div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs text-accent-400 font-medium mb-1">{category}</div>
+        <div className="text-sm text-accent-400 font-medium mb-1">{category}</div>
         <h3 className="text-lg font-semibold text-foreground-50 mb-1 group-hover:text-accent-400 transition-colors">
           {title}
         </h3>

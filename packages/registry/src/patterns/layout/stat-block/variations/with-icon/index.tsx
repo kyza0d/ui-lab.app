@@ -14,7 +14,7 @@ function StatBlockWithIcon({ icon, value, label, trend }: { icon: React.ReactNod
       <div className="flex flex-col gap-0.5">
         <p className="text-2xl font-bold text-foreground-100 tabular-nums">{value}</p>
         <p className="text-sm text-foreground-400">{label}</p>
-        {trend && <p className="text-xs text-accent-400">{trend}</p>}
+        {trend && <p className="text-sm text-accent-400">{trend}</p>}
       </div>
     </div>
   );

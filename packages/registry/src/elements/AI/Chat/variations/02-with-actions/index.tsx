@@ -57,19 +57,19 @@ export function ChatWithActions() {
             <div className="flex gap-2 mb-3 flex-wrap">
               <button
                 onClick={() => handleAction('Copy code')}
-                className="px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-xs transition-colors"
+                className="px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-sm transition-colors"
               >
                 📋 Copy
               </button>
               <button
                 onClick={() => handleAction('Explain')}
-                className="px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-xs transition-colors"
+                className="px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-sm transition-colors"
               >
                 💡 Explain
               </button>
               <button
                 onClick={() => handleAction('Refactor')}
-                className="px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-xs transition-colors"
+                className="px-2 py-1 bg-background-700 hover:bg-background-600 text-foreground-400 hover:text-foreground-300 rounded text-sm transition-colors"
               >
                 ✨ Refactor
               </button>

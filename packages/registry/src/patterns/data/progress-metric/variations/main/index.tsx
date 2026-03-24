@@ -5,9 +5,9 @@ function ProgressMetric({ label, value, max = 100 }: { label: string; value: num
   const pct = Math.round((value / max) * 100);
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-foreground-400 w-32 flex-shrink-0 truncate">{label}</span>
+      <span className="text-sm text-foreground-400 w-32 flex-shrink-0 truncate">{label}</span>
       <Progress value={value} max={max} className="flex-1" />
-      <span className="text-xs text-foreground-400 w-8 text-right flex-shrink-0 tabular-nums">{pct}%</span>
+      <span className="text-sm text-foreground-400 w-8 text-right flex-shrink-0 tabular-nums">{pct}%</span>
     </div>
   );
 }

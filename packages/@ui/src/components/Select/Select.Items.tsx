@@ -31,7 +31,7 @@ const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
     const resolved = resolveSelectGroupBaseStyles(stylesProp);
     return (
       <div ref={ref} className={cn(className, resolved.root)}>
-        {title && <div className={cn("px-2 py-1 text-xs font-medium text-foreground-400", resolved.title)}>{title}</div>}
+        {title && <div className={cn("px-2 py-1 text-sm font-medium text-foreground-400", resolved.title)}>{title}</div>}
         {children}
       </div>
     );

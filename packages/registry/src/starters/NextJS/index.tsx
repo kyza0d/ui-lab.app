@@ -118,10 +118,10 @@ export function getPreview(): React.ReactNode {
         </svg>
         <div>
           <div className="text-sm font-semibold text-foreground-50">Next.js</div>
-          <div className="text-xs text-foreground-400">App Router + TypeScript</div>
+          <div className="text-sm text-foreground-400">App Router + TypeScript</div>
         </div>
       </div>
-      <div className="flex-1 border border-background-700 rounded bg-background-900/50 p-2 text-xs font-mono">
+      <div className="flex-1 border border-background-700 rounded bg-background-900/50 p-2 text-sm font-mono">
         <div className="text-foreground-300 mb-1">📁 Project Structure</div>
         <div className="pl-2 text-foreground-400 space-y-0.5">
           <div>📄 package.json</div>

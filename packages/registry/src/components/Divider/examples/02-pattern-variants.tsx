@@ -9,15 +9,15 @@ export default function Example() {
   return (
     <div className="space-y-6 w-full">
       <div className="space-y-2">
-        <span className="text-xs text-foreground-400">Solid</span>
+        <span className="text-sm text-foreground-400">Solid</span>
         <Divider variant="solid" />
       </div>
       <div className="space-y-2">
-        <span className="text-xs text-foreground-400">Dashed</span>
+        <span className="text-sm text-foreground-400">Dashed</span>
         <Divider variant="dashed" />
       </div>
       <div className="space-y-2">
-        <span className="text-xs text-foreground-400">Dotted</span>
+        <span className="text-sm text-foreground-400">Dotted</span>
         <Divider variant="dotted" />
       </div>
     </div>

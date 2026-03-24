@@ -7,8 +7,8 @@ function ProgressMetricColored({ label, value, max = 100 }: { label: string; val
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-foreground-300">{label}</span>
-        <span className={`text-xs tabular-nums ${isHigh ? 'text-foreground-200' : 'text-foreground-400'}`}>{pct}%</span>
+        <span className="text-sm font-medium text-foreground-300">{label}</span>
+        <span className={`text-sm tabular-nums ${isHigh ? 'text-foreground-200' : 'text-foreground-400'}`}>{pct}%</span>
       </div>
       <Progress value={value} max={max} className={isHigh ? 'text-foreground-300' : undefined} />
     </div>

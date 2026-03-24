@@ -12,7 +12,7 @@ export function NextArticleCard({ title, description, href }: NextArticleCardPro
     >
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <div className="text-xs text-foreground-400 mb-1">Next Article</div>
+          <div className="text-sm text-foreground-400 mb-1">Next Article</div>
           <h3 className="text-lg font-semibold text-foreground-50 mb-2 group-hover:text-accent-400 transition-colors">
             {title}
           </h3>

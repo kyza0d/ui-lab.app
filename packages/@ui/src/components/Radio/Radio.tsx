@@ -259,7 +259,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
         {helperText && (
           <p
             className={cn(
-              "text-xs mt-2 ml-8 transition-colors",
+              "text-sm mt-2 ml-8 transition-colors",
               helperTextError ? "text-danger-600" : "text-foreground-400",
               resolved.helperText
             )}
@@ -399,7 +399,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
         {helperText && (
           <p
             className={cn(
-              "text-xs mt-2 ml-8 transition-colors",
+              "text-sm mt-2 ml-8 transition-colors",
               helperTextError ? "text-danger-600" : "text-foreground-400",
               resolved.helperText
             )}

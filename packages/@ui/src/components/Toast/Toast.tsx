@@ -111,10 +111,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
     if (!innerRef.current) return;
 
     const spawnDir = toast.spawnDirection || 'bottom';
-    const fromY = spawnDir === 'top' ? (isTop ? 20 : -20) : (isTop ? -20 : 20);
+    const fromY = spawnDir === 'top' ? (isTop ? 25 : -25) : (isTop ? -25 : 25);
 
     gsap.from(innerRef.current, {
-      opacity: 0,
+      opacity: 1,
       y: fromY,
       duration: 0.35,
       ease: "power3.out",

@@ -9,9 +9,9 @@
   --hover-border: color-mix(in srgb, var(--background-600) 75%, var(--background-950));
 }
 
-.button.icon { @apply aspect-square px-2 py-1; font-size: var(--text-xs); }
-.button.sm { @apply px-2 py-1.5; font-size: var(--text-xs); }
-.button.md { @apply px-3 py-2;   font-size: var(--text-xs); }
+.button.icon { @apply aspect-square px-2 py-1; font-size: var(--text-sm); }
+.button.sm { @apply px-2 py-1.5; font-size: var(--text-sm); }
+.button.md { @apply px-3 py-2;   font-size: var(--text-sm); }
 .button.lg { @apply px-7 py-1.5; font-size: var(--text-sm); }
 
 .button.primary {
@@ -717,6 +717,7 @@
 .anchor.trigger {
   --foreground: var(--foreground-200);
   --underline-background: var(--background-600);
+  --underline-background-hover: var(--foreground-400);
   --focus-ring: var(--color-background-600);
 }
 
@@ -729,6 +730,7 @@
   --modal-text-color: var(--foreground-300);
   --modal-close-color: var(--foreground-400);
   --modal-close-hover: var(--foreground-200);
+  --modal-focus-ring: var(--accent-500);
   --footer-background: var(--background-900);
 }
 

@@ -83,7 +83,7 @@ export function PricingCards() {
             >
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="rounded-full bg-accent-500 px-4 py-1 text-xs font-semibold text-white">
+                  <span className="rounded-full bg-accent-500 px-4 py-1 text-sm font-semibold text-white">
                     Most Popular
                   </span>
                 </div>

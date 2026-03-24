@@ -29,7 +29,7 @@ const elementMetadata: ElementMetadata = {
 export function getPreview(): React.ReactNode {
   return (
     <div className="flex items-center justify-center w-full h-full p-3 bg-background-900 rounded-sm border border-background-700">
-      <button className="px-3 py-2 bg-accent-500 text-foreground-50 text-xs font-medium rounded hover:bg-accent-600 transition-colors flex items-center gap-2">
+      <button className="px-3 py-2 bg-accent-500 text-foreground-50 text-sm font-medium rounded hover:bg-accent-600 transition-colors flex items-center gap-2">
         <span>📋</span>
         Copy
       </button>

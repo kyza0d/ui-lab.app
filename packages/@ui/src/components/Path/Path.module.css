@@ -47,7 +47,7 @@
     @apply relative cursor-pointer rounded-sm px-2 py-1;
     color: var(--foreground);
     text-decoration: none;
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

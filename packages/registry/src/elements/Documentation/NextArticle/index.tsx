@@ -30,7 +30,7 @@ export function getPreview(): React.ReactNode {
   return (
     <div className="flex items-center justify-between w-full h-full p-4 bg-background-900 rounded-sm border border-background-700 cursor-pointer hover:bg-background-800 transition-colors">
       <div className="flex-1">
-        <div className="text-xs text-foreground-400 mb-1">Next Article</div>
+        <div className="text-sm text-foreground-400 mb-1">Next Article</div>
         <div className="text-sm font-medium text-foreground-200">Advanced Setup Guide</div>
       </div>
       <div className="text-foreground-400">→</div>

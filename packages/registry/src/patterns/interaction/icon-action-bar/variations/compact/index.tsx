@@ -28,7 +28,7 @@ export function IconActionBarCompactDemo() {
     <div className="p-6 flex flex-col gap-0 max-w-md w-full">
       {['api-deploy-prod', 'run-tests', 'seed-db'].map((label) => (
         <div key={label} className="flex items-center justify-between px-2 py-1.5 border-b border-background-800">
-          <span className="text-xs font-mono text-foreground-300">{label}</span>
+          <span className="text-sm font-mono text-foreground-300">{label}</span>
           <IconActionBarCompact onEdit={() => {}} onCopy={() => {}} onDelete={() => {}} />
         </div>
       ))}

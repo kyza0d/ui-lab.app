@@ -12,7 +12,7 @@ function LabeledFieldWithError({ id, label, placeholder, error }: { id: string; 
         aria-describedby={error ? `${id}-error` : undefined}
       />
       {error && (
-        <p id={`${id}-error`} className="text-xs text-foreground-300 flex items-center gap-1">
+        <p id={`${id}-error`} className="text-sm text-foreground-300 flex items-center gap-1">
           <span className="text-foreground-100">&#9679;</span> {error}
         </p>
       )}

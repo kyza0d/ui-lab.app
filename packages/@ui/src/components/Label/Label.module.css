@@ -8,7 +8,7 @@
     color: var(--foreground);
     transition: color 150ms ease;
 
-    &[data-size="sm"] { font-size: var(--text-xs); }
+    &[data-size="sm"] { font-size: var(--text-sm); }
     &[data-size="lg"] { font-size: var(--text-md); }
 
     &[data-disabled] {
@@ -29,7 +29,7 @@
 
   .helper-text {
     display: block;
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     margin-top: 0.25rem;
     transition: color 150ms ease;
     color: var(--helper-color);

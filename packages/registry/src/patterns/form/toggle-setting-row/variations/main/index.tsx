@@ -6,7 +6,7 @@ function ToggleSettingRow({ id, label, description, defaultSelected = false }: {
     <div className="flex items-start justify-between gap-4 py-3 border-b border-background-800">
       <div className="flex-1 min-w-0">
         <Label htmlFor={id} className="text-sm font-medium text-foreground-200 cursor-pointer">{label}</Label>
-        {description && <p className="text-xs text-foreground-400 mt-0.5">{description}</p>}
+        {description && <p className="text-sm text-foreground-400 mt-0.5">{description}</p>}
       </div>
       <Switch id={id} defaultSelected={defaultSelected} />
     </div>

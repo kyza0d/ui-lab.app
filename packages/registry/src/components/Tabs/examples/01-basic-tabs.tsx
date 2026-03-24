@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from 'ui-lab-components';
+import { Tabs } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Tabs',
@@ -9,20 +9,20 @@ export const metadata = {
 export default function Example() {
   return (
     <Tabs defaultValue="overview">
-      <TabsList aria-label="Content sections">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="details">Details</TabsTrigger>
-        <TabsTrigger value="settings">Settings</TabsTrigger>
-      </TabsList>
-      <TabsContent value="overview">
+      <Tabs.List aria-label="Content sections">
+        <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+        <Tabs.Trigger value="details">Details</Tabs.Trigger>
+        <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="overview">
         <p>Overview content goes here.</p>
-      </TabsContent>
-      <TabsContent value="details">
+      </Tabs.Content>
+      <Tabs.Content value="details">
         <p>Details content goes here.</p>
-      </TabsContent>
-      <TabsContent value="settings">
+      </Tabs.Content>
+      <Tabs.Content value="settings">
         <p>Settings content goes here.</p>
-      </TabsContent>
+      </Tabs.Content>
     </Tabs>
   );
 }

@@ -8,10 +8,10 @@ function DataTableRow({ primary, secondary, status, timestamp }: { primary: stri
     <div className="flex items-center gap-4 px-4 py-3 border-b border-background-800 hover:bg-background-900 transition-colors">
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-foreground-200 truncate">{primary}</p>
-        <p className="text-xs text-foreground-400 truncate">{secondary}</p>
+        <p className="text-sm text-foreground-400 truncate">{secondary}</p>
       </div>
       <div className="flex items-center gap-2 flex-shrink-0">
-        <span className="text-xs text-foreground-400">{timestamp}</span>
+        <span className="text-sm text-foreground-400">{timestamp}</span>
         <Badge size="sm" variant={statusVariant[status] ?? 'default'}>{status}</Badge>
       </div>
     </div>

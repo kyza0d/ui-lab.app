@@ -31,23 +31,23 @@ export function getPreview(): React.ReactNode {
     <div className="flex flex-col h-full w-full bg-background-900 rounded-sm border border-background-700 overflow-hidden">
       <div className="flex-1 overflow-y-auto space-y-3 p-3">
         <div className="flex justify-start">
-          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-xs text-foreground-400">
+          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-sm text-foreground-400">
             Hello, how can I help?
           </div>
         </div>
         <div className="flex justify-end">
-          <div className="bg-accent-500 rounded px-3 py-2 max-w-xs text-xs text-foreground-50">
+          <div className="bg-accent-500 rounded px-3 py-2 max-w-xs text-sm text-foreground-50">
             I need some assistance
           </div>
         </div>
         <div className="flex justify-start">
-          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-xs text-foreground-400">
+          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-sm text-foreground-400">
             I'm here to help!
           </div>
         </div>
       </div>
       <div className="border-t border-background-700 p-2 bg-background-800">
-        <div className="h-6 bg-background-700 rounded text-xs flex items-center px-2 text-foreground-400">
+        <div className="h-6 bg-background-700 rounded text-sm flex items-center px-2 text-foreground-400">
           Type a message...
         </div>
       </div>

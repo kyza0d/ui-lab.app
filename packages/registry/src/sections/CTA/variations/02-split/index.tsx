@@ -69,7 +69,7 @@ export function SplitCTA() {
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="rounded bg-background-700 p-3 text-center">
                         <div className="text-lg font-bold text-accent-500">42K</div>
-                        <div className="text-xs text-foreground-400">Active Users</div>
+                        <div className="text-sm text-foreground-400">Active Users</div>
                       </div>
                     ))}
                   </div>

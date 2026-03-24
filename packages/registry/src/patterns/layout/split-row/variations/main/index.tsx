@@ -7,10 +7,10 @@ function SplitRow({ title, description, timestamp, status }: { title: string; de
     <div className="flex items-center gap-4 py-3 border-b border-background-800 hover:bg-background-900 transition-colors px-2 -mx-2 rounded">
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-foreground-200 truncate">{title}</p>
-        <p className="text-xs text-foreground-400 truncate">{description}</p>
+        <p className="text-sm text-foreground-400 truncate">{description}</p>
       </div>
       <div className="flex items-center gap-3 flex-shrink-0">
-        <span className="text-xs text-foreground-400">{timestamp}</span>
+        <span className="text-sm text-foreground-400">{timestamp}</span>
         <Badge size="sm" variant={variant as 'success' | 'warning' | 'default'}>{status}</Badge>
       </div>
     </div>
