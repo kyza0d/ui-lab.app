@@ -14,7 +14,7 @@ const PackagePreview: React.FC<{ data: ElementPackageMetadata }> = ({ data }) =>
           {data.tags.map((tag) => (
             <span
               key={tag}
-              className="px-2 py-1 text-xs rounded-md bg-background-800 text-foreground-300"
+              className="px-2 py-1 text-sm rounded-md bg-background-800 text-foreground-300"
             >
               {tag}
             </span>

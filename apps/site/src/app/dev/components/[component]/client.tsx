@@ -64,7 +64,7 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
           <Flex align="center" gap="sm">
             <h1 className="text-3xl font-bold text-foreground-50">{component.name}</h1>
             {(metadata as any)?.experimental && (
-              <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-accent-500/20 text-accent-300 rounded">
+              <span className="inline-flex items-center gap-1 px-2 py-1 text-sm font-medium bg-accent-500/20 text-accent-300 rounded">
                 <FaFlask className="w-3 h-3" /> Experimental
               </span>
             )}
@@ -127,7 +127,7 @@ export function DevComponentClient({ componentId }: { componentId: string }) {
                   </div>
                   <div className="p-4 border-t border-background-700">
                     <h3 className="font-medium text-foreground-100">{variant.name}</h3>
-                    <p className="text-xs text-foreground-400 mt-1">{variant.description}</p>
+                    <p className="text-sm text-foreground-400 mt-1">{variant.description}</p>
                   </div>
                 </div>
               ))}

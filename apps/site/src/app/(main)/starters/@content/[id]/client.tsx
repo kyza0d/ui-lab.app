@@ -261,7 +261,7 @@ function StarterDetailContent({ starterId }: StarterDetailClientProps) {
                       <h3 className="text-sm font-semibold text-foreground-200">
                         {currentFile.filename}
                       </h3>
-                      <span className="text-xs text-foreground-400 uppercase">
+                      <span className="text-sm text-foreground-400 uppercase">
                         {currentFile.language}
                       </span>
                     </div>

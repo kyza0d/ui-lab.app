@@ -883,7 +883,7 @@ export function PerfOverlay() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-[1000] w-[min(32rem,calc(100vw-2rem))] rounded-lg border border-background-700 bg-background-950/95 text-xs text-foreground-300 shadow-2xl backdrop-blur-sm">
+    <div className="fixed bottom-4 right-4 z-[1000] w-[min(32rem,calc(100vw-2rem))] rounded-lg border border-background-700 bg-background-950/95 text-sm text-foreground-300 shadow-2xl backdrop-blur-sm">
       <div className="flex items-center gap-2 border-b border-background-800 px-3 py-2">
         <span className="font-semibold text-foreground-50">Perf</span>
         <button

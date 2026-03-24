@@ -62,14 +62,14 @@ function HeroSection() {
                 <div className="flex p-1.5 text-foreground-400 rounded-[5px] border-background-700">
                   <FaRocket size={13} />
                 </div>
-                <span className="text-xs font-semibold">UI Lab Launches!</span>
-                <span className="bg-background-800/50 flex items-center gap-3 border-l border-background-700 h-full text-xs font-smeibold px-3">
+                <span className="text-sm font-semibold">UI Lab Launches!</span>
+                <span className="bg-background-800/50 flex items-center gap-3 border-l border-background-700 h-full text-sm font-smeibold px-3">
                   View Details <FaArrowRightLong className="text-foreground-400" />
                 </span>
               </span>
             </div>
 
-            <p className="ml-auto text-xs max-w-[41ch] text-foreground-400 md:mb-[14px]">
+            <p className="ml-auto text-sm max-w-[41ch] text-foreground-400 md:mb-[14px]">
               "User Interface" (UI) is the space where interactions between humans and machines occur.
             </p>
           </div>

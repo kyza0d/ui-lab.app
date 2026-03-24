@@ -48,14 +48,14 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
 
   toc: () => (
     <div className="flex flex-col gap-2 w-full h-full p-3 bg-background-900 rounded-sm border border-background-700">
-      <div className="space-y-2 text-xs">
+      <div className="space-y-2 text-sm">
         <div className="font-semibold text-foreground-200 mb-2">Contents</div>
         <div className="text-foreground-400">• Introduction</div>
-        <div className="ml-3 text-foreground-400 text-xs">◦ Overview</div>
-        <div className="ml-3 text-foreground-400 text-xs">◦ Getting Started</div>
+        <div className="ml-3 text-foreground-400 text-sm">◦ Overview</div>
+        <div className="ml-3 text-foreground-400 text-sm">◦ Getting Started</div>
         <div className="text-foreground-400">• Installation</div>
         <div className="text-foreground-400">• Usage</div>
-        <div className="ml-3 text-foreground-400 text-xs">◦ Basic</div>
+        <div className="ml-3 text-foreground-400 text-sm">◦ Basic</div>
       </div>
     </div>
   ),
@@ -63,7 +63,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
   nextarticle: () => (
     <div className="flex items-center justify-between w-full h-full p-4 bg-background-900 rounded-sm border border-background-700 cursor-pointer hover:bg-background-800 transition-colors">
       <div className="flex-1">
-        <div className="text-xs text-foreground-400 mb-1">Next Article</div>
+        <div className="text-sm text-foreground-400 mb-1">Next Article</div>
         <div className="text-sm font-medium text-foreground-200">Advanced Setup Guide</div>
       </div>
       <div className="text-foreground-400">→</div>
@@ -72,7 +72,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
 
   copypage: () => (
     <div className="flex items-center justify-center w-full h-full p-3 bg-background-900 rounded-sm border border-background-700">
-      <button className="px-3 py-2 bg-accent-500 text-foreground-50 text-xs font-medium rounded hover:bg-accent-600 transition-colors flex items-center gap-2">
+      <button className="px-3 py-2 bg-accent-500 text-foreground-50 text-sm font-medium rounded hover:bg-accent-600 transition-colors flex items-center gap-2">
         <span>📋</span>
         Copy
       </button>
@@ -116,10 +116,10 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
       <input
         type="text"
         placeholder="Ask AI..."
-        className="flex-1 bg-background-800 border border-background-700 rounded px-2 py-1 text-xs text-foreground-400 placeholder-foreground-400"
+        className="flex-1 bg-background-800 border border-background-700 rounded px-2 py-1 text-sm text-foreground-400 placeholder-foreground-400"
         readOnly
       />
-      <button className="px-2 py-1 bg-accent-500 text-foreground-50 rounded text-xs font-medium hover:bg-accent-600">
+      <button className="px-2 py-1 bg-accent-500 text-foreground-50 rounded text-sm font-medium hover:bg-accent-600">
         →
       </button>
     </div>
@@ -127,7 +127,7 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
 
   chainofthought: () => (
     <div className="flex flex-col gap-2 w-full h-full p-3 bg-background-900 rounded-sm border border-background-700">
-      <div className="space-y-2 text-xs">
+      <div className="space-y-2 text-sm">
         <div className="flex items-start gap-2">
           <span className="text-accent-500 font-bold">1.</span>
           <div className="text-foreground-400">Analyzing the problem</div>
@@ -148,23 +148,23 @@ export const elementPreviews: Record<string, React.ComponentType<object>> = {
     <div className="flex flex-col h-full w-full bg-background-900 rounded-sm border border-background-700 overflow-hidden">
       <div className="flex-1 overflow-y-auto space-y-3 p-3">
         <div className="flex justify-start">
-          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-xs text-foreground-400">
+          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-sm text-foreground-400">
             Hello, how can I help?
           </div>
         </div>
         <div className="flex justify-end">
-          <div className="bg-accent-500 rounded px-3 py-2 max-w-xs text-xs text-foreground-50">
+          <div className="bg-accent-500 rounded px-3 py-2 max-w-xs text-sm text-foreground-50">
             I need some assistance
           </div>
         </div>
         <div className="flex justify-start">
-          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-xs text-foreground-400">
+          <div className="bg-background-700 rounded px-3 py-2 max-w-xs text-sm text-foreground-400">
             I'm here to help!
           </div>
         </div>
       </div>
       <div className="border-t border-background-700 p-2 bg-background-800">
-        <div className="h-6 bg-background-700 rounded text-xs flex items-center px-2 text-foreground-400">
+        <div className="h-6 bg-background-700 rounded text-sm flex items-center px-2 text-foreground-400">
           Type a message...
         </div>
       </div>

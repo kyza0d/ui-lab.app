@@ -44,7 +44,7 @@ export function CopyPage() {
           if (e.key === 'Enter' || e.key === ' ') handleCopy();
         }}
         title="Copy rendered content as Markdown"
-        className="flex text-xs font-medium p-1.5 pl-4 w-55 items-center justify-start"
+        className="flex text-sm font-medium p-1.5 pl-4 w-55 items-center justify-start"
         role="button"
         tabIndex={0}
       >

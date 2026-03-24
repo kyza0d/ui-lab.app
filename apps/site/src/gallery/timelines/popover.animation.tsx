@@ -66,7 +66,7 @@ export function PopoverAnimation() {
   const groupShift = isOpen ? "translateY(0)" : "translateY(-34px)";
 
   return (
-    <div ref={containerRef} className="relative w-full h-full">
+    <div ref={containerRef} className="w-full h-full">
       <div className="bg-background-950 flex flex-col items-center justify-center w-full h-full">
 
         {/* Group wrapper — shifts to keep view centered during transition */}

@@ -52,10 +52,10 @@ export function TableExpandedDetails({
     >
       {details.map((detail) => (
         <Fragment key={detail.key}>
-          <dt className="text-xs font-medium text-foreground-500 sm:pt-1">
+          <dt className="text-sm font-medium text-foreground-500 sm:pt-1">
             {detail.label}:
           </dt>
-          <dd className="min-w-0 text-xs text-foreground-300">{detail.value}</dd>
+          <dd className="min-w-0 text-sm text-foreground-300">{detail.value}</dd>
         </Fragment>
       ))}
     </dl>
@@ -116,7 +116,7 @@ export function Table<T extends object>({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filterableColumns.map((col) => (
               <div key={String(col.key)}>
-                <label className="block text-xs font-medium text-foreground-300 mb-2">
+                <label className="block text-sm font-medium text-foreground-300 mb-2">
                   {col.label}
                 </label>
                 <input
@@ -135,7 +135,7 @@ export function Table<T extends object>({
       )}
 
       <div className="overflow-x-auto border border-background-800 rounded-sm">
-        <table className="min-w-full text-xs">
+        <table className="min-w-full text-sm">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">
               {columns.map((col) => (

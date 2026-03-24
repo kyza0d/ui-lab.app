@@ -259,7 +259,7 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
 
   return (
     <>
-      <aside className="w-full max-w-70 top-(--header-height) sticky lg:block self-start">
+      <aside className="ml-auto w-70 top-(--header-height) sticky md:block self-start">
         <nav className="space-y-6 px-4 py-5">
           <div>
             <span className="text-md font-semibold text-foreground-50">
@@ -275,7 +275,7 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
                       data-toc-id={item.id}
                       onClick={() => handleClick(item.id)}
                       className={cn(
-                        "block w-full my-0.25 text-left font-medium text-xs px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
+                        "block w-full my-0.25 text-left font-medium text-sm px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
                         "transition-colors duration-450 ease-out",
                         "hover:duration-0",
 

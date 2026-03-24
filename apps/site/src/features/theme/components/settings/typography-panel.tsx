@@ -51,7 +51,7 @@ export const TypographyPanel = memo(
       <div className="m-0 space-y-2">
         <div className="mx-[6px] mb-4 p-3 bg-background-800/40 rounded-[12px] border border-background-700 space-y-3">
           <div className="space-y-2">
-            <label className="text-xs font-medium text-foreground-400 block" htmlFor="sans-font-select">
+            <label className="text-sm font-medium text-foreground-400 block" htmlFor="sans-font-select">
               Sans Font
             </label>
             <Select
@@ -73,7 +73,7 @@ export const TypographyPanel = memo(
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-foreground-400 block" htmlFor="mono-font-select">
+            <label className="text-sm font-medium text-foreground-400 block" htmlFor="mono-font-select">
               Mono Font
             </label>
             <Select
@@ -111,7 +111,7 @@ export const TypographyPanel = memo(
           <div className="bg-background-800 border border-background-700 rounded-[12px] p-4">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
-                <h4 className="text-xs mb-0">H1</h4>
+                <h4 className="text-sm mb-0">H1</h4>
               </div>
               <h3 className="text-sm font-semibold text-foreground-100">Header</h3>
             </div>
@@ -167,7 +167,7 @@ export const TypographyPanel = memo(
           <div className="bg-background-800 border border-background-700 rounded-[12px] p-4">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
-                <p className="text-xs font-semibold mb-0">Aa</p>
+                <p className="text-sm font-semibold mb-0">Aa</p>
               </div>
               <h3 className="text-sm font-semibold text-foreground-100">Body</h3>
             </div>

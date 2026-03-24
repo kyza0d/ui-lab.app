@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from 'ui-lab-components';
+import { Tabs } from 'ui-lab-components';
 import { FaNpm, FaYarn, FaBox } from 'react-icons/fa6';
 
 type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';
@@ -20,18 +20,18 @@ const packageManagers = [
 export function PackageManagerTabs({ value, onValueChange }: PackageManagerTabsProps) {
   return (
     <Tabs value={value} variant="underline" onValueChange={onValueChange as any}>
-      <TabsList className="mr-auto rounded-none px-0">
+      <Tabs.List className="mr-auto rounded-none px-0">
         {packageManagers.map((pm) => (
-          <TabsTrigger
+          <Tabs.Trigger
             key={pm.id}
             value={pm.id}
             icon={pm.icon}
             className="rounded-none"
           >
             {pm.label}
-          </TabsTrigger>
+          </Tabs.Trigger>
         ))}
-      </TabsList>
+      </Tabs.List>
     </Tabs>
   );
 }

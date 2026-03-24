@@ -97,8 +97,8 @@ export function SessionConfigPanel() {
       <div className="flex items-center gap-5 px-4 pt-3.5 pb-3 border-b border-background-700">
         <SiGnubash size={26} />
         <div>
-          <div className="text-xs font-semibold text-foreground-100">New Session</div>
-          <div className="text-xs text-foreground-500 mt-0.5">Configure your environment.</div>
+          <div className="text-sm font-semibold text-foreground-100">New Session</div>
+          <div className="text-sm text-foreground-500 mt-0.5">Configure your environment.</div>
         </div>
       </div>
 
@@ -110,8 +110,8 @@ export function SessionConfigPanel() {
                 {row.icon}
               </div>
               <div>
-                <div className="text-xs text-foreground-100">{row.label}</div>
-                <div className="text-xs text-foreground-500">{row.desc}</div>
+                <div className="text-sm text-foreground-100">{row.label}</div>
+                <div className="text-sm text-foreground-500">{row.desc}</div>
               </div>
             </div>
             <Stepper
@@ -128,7 +128,7 @@ export function SessionConfigPanel() {
 
       <div className="px-4 py-3.5 border-t border-background-700 flex items-center justify-between">
         <div>
-          <div className="text-xs text-foreground-500">{duration}h session</div>
+          <div className="text-sm text-foreground-500">{duration}h session</div>
           <div className="text-base font-semibold text-foreground-100">${cost}</div>
         </div>
         <Button variant="outline" icon={{ left: <FaBoltLightning /> }}>Start</Button>

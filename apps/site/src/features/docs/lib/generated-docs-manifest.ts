@@ -35,12 +35,12 @@ export interface GeneratedDocsPageTreeSection {
   items: GeneratedDocsPageTreeItem[];
 }
 
-export interface GeneratedDocsDomainManifest {
+interface GeneratedDocsDomainManifest {
   pages: GeneratedDocsPageManifest[];
   pageTree: GeneratedDocsPageTreeSection[];
 }
 
-export interface GeneratedDocsManifest {
+interface GeneratedDocsManifest {
   docs: GeneratedDocsDomainManifest;
   'design-system': GeneratedDocsDomainManifest;
 }

@@ -86,8 +86,8 @@ export function MemberRolePanel() {
       <div className="px-4 pt-3.5 pb-3 border-b border-background-700 flex justify-between">
         <div className="flex items-center gap-2">
           <FaUsers size={20} className="mr-2" />
-          <span className="text-xs font-semibold text-foreground-100">Team Members</span>
-          <span className="text-xs text-foreground-500">{members.length} members</span>
+          <span className="text-sm font-semibold text-foreground-100">Team Members</span>
+          <span className="text-sm text-foreground-500">{members.length} members</span>
         </div>
       </div>
 
@@ -134,7 +134,7 @@ export function MemberRolePanel() {
               <List.Item value={member.email} className="px-4 py-3">
                 <List.Media>
                   <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-foreground-300 bg-background-800 shrink-0"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold text-foreground-300 bg-background-800 shrink-0"
                   >
                     {member.initials}
                   </div>
@@ -142,7 +142,7 @@ export function MemberRolePanel() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-medium text-foreground-100 truncate">{member.name}</span>
+                    <span className="text-sm font-medium text-foreground-100 truncate">{member.name}</span>
                   </div>
                   <List.Desc>{member.email}</List.Desc>
                 </div>
@@ -178,7 +178,7 @@ export function MemberRolePanel() {
             </div>
           </List.Media>
           <div className="flex-1 min-w-0">
-            <span className="text-xs text-foreground-400 truncate block">{PENDING_INVITE.email}</span>
+            <span className="text-sm text-foreground-400 truncate block">{PENDING_INVITE.email}</span>
             <List.Desc>Invite sent {PENDING_INVITE.sentAt}</List.Desc>
           </div>
           <Badge size="sm" variant="default">Pending</Badge>

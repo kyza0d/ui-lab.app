@@ -96,7 +96,7 @@ export function CopyComponentPage({ componentId, component }: { componentId: str
               if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
             }}
             title="Copy component context as Markdown"
-            className="flex text-xs font-medium p-1.5 pl-4 w-55 items-center justify-start"
+            className="flex text-sm font-medium p-1.5 pl-4 w-55 items-center justify-start"
             role="button"
             tabIndex={0}
           >
@@ -111,7 +111,7 @@ export function CopyComponentPage({ componentId, component }: { componentId: str
             <button
               key={source}
               onClick={() => handleCopy(source)}
-              className="flex items-center rounded-sm text-xs text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700 text-left"
+              className="flex items-center rounded-sm text-sm text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700 text-left"
             >
               <span className="flex-1 py-2 px-3">{label}</span>
             </button>

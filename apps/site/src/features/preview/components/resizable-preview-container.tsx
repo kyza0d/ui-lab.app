@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { Group, Tabs, TabsList, TabsTrigger } from "ui-lab-components";
+import { Group, Tabs } from "ui-lab-components";
 import { FaMobile, FaDesktop, FaTablet, FaFile } from "react-icons/fa6";
 
 type PreviewDeviceVariant = "mobile" | "tablet" | "desktop";
@@ -135,7 +135,7 @@ export function PreviewContainer({
           </div>
         </button>
       </div>
-      {showWidthLabel && <div className="text-xs text-foreground-400 font-mono mt-3">{Math.round(width)}px</div>}
+      {showWidthLabel && <div className="text-sm text-foreground-400 font-mono mt-3">{Math.round(width)}px</div>}
     </div>
   );
 
@@ -154,10 +154,10 @@ export function PreviewContainer({
             </button>
           )}
           <Tabs variant="underline" value={activeTab} onValueChange={(value) => onTabChange(value as "preview" | "code")}>
-            <TabsList>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
-            </TabsList>
+            <Tabs.List>
+              <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
+              <Tabs.Trigger value="code">Code</Tabs.Trigger>
+            </Tabs.List>
           </Tabs>
         </div>
 

@@ -38,10 +38,10 @@ const components = {
   tbody: ({ children }: any) => <tbody>{children}</tbody>,
   tr: ({ children }: any) => <tr className="border-background-800 not-last:border-b">{children}</tr>,
   th: ({ children }: any) => <th className="px-4 py-3 text-left font-semibold text-foreground-200">{children}</th>,
-  td: ({ children }: any) => <td className="px-4 text-xs py-3 text-foreground-300">{children}</td>,
+  td: ({ children }: any) => <td className="px-4 text-sm py-3 text-foreground-300">{children}</td>,
   table: ({ children }: any) => (
     <div className="overflow-x-auto my-6 border border-background-800 rounded-sm">
-      <table className="w-full text-xs">{children}</table>
+      <table className="w-full text-sm">{children}</table>
     </div>
   ),
   blockquote: ({ children }: any) => (
@@ -73,7 +73,7 @@ const components = {
   code: ({ children, className }: any) => {
     const isInline = !className
     return isInline ? (
-      <code className="bg-background-800 text-xs px-2 py-1 rounded-sm font-mono text-foreground-200">
+      <code className="bg-background-800 text-sm px-2 py-1 rounded-sm font-mono text-foreground-200">
         {children}
       </code>
     ) : (

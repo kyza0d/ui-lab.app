@@ -42,8 +42,8 @@ export function AnchorAnimation() {
 
   const cursorFrames = {
     idle: { target: { x: 265, y: 195 }, opacity: 0 },
-    hovering: { target: { x: 201, y: 152 }, opacity: 1 },
-    open: { target: { x: 201, y: 152 }, opacity: 1 },
+    hovering: { target: { x: 186, y: 142 }, opacity: 1 },
+    open: { target: { x: 186, y: 142 }, opacity: 1 },
   } satisfies Record<Stage, CursorFrame>;
 
   return (
@@ -83,12 +83,9 @@ export function AnchorAnimation() {
               }}
             >
               {/* URL row */}
-              <div
-                className="flex items-center gap-1.5 px-2 py-[5px] border-b"
-                style={{ borderColor: "color-mix(in srgb, var(--color-background-700) 50%, transparent)" }}
-              >
+              <div className="flex items-center gap-1.5 px-2 py-[5px]">
                 <div
-                  className="w-[7px] h-[7px] rounded-full shrink-0"
+                  className="w-[6px] h-[6px] rounded-full shrink-0"
                   style={{
                     backgroundColor: "var(--color-accent-500)",
                     opacity: isOpen ? 0.55 : 0,
@@ -97,40 +94,12 @@ export function AnchorAnimation() {
                   }}
                 />
                 <div
-                  className="h-[5px] flex-1 rounded-sm"
+                  className="h-[4px] flex-1 rounded-sm"
                   style={{
                     backgroundColor: "var(--color-accent-500)",
                     opacity: isOpen ? 0.3 : 0,
                     transition: T,
                     transitionDelay: isOpen ? "0.22s" : "0s",
-                  }}
-                />
-                <div
-                  className="h-[5px] w-[20px] rounded-sm bg-background-500"
-                  style={{
-                    opacity: isOpen ? 0.2 : 0,
-                    transition: T,
-                    transitionDelay: isOpen ? "0.24s" : "0s",
-                  }}
-                />
-              </div>
-
-              {/* Content lines */}
-              <div className="px-2 py-[6px] flex flex-col gap-[5px]">
-                <div
-                  className="h-[5px] w-[65%] rounded-sm bg-background-500"
-                  style={{
-                    opacity: isOpen ? 0.45 : 0,
-                    transition: T,
-                    transitionDelay: isOpen ? "0.28s" : "0s",
-                  }}
-                />
-                <div
-                  className="h-[5px] w-[80%] rounded-sm bg-background-500"
-                  style={{
-                    opacity: isOpen ? 0.2 : 0,
-                    transition: T,
-                    transitionDelay: isOpen ? "0.34s" : "0s",
                   }}
                 />
               </div>
@@ -140,9 +109,9 @@ export function AnchorAnimation() {
           {/* Line 1 — anchor inline */}
           <div className="flex gap-1 items-center">
             <div className="h-[5px] w-[28px] rounded-sm bg-background-500 opacity-20" />
-            <div className="flex flex-col gap-[2px]">
+            <div className="relative h-[5px] w-[38px]">
               <div
-                className="h-[5px] w-[38px] rounded-sm"
+                className="h-[5px] w-full rounded-sm"
                 style={{
                   backgroundColor: isActive
                     ? "var(--color-accent-500)"
@@ -152,10 +121,13 @@ export function AnchorAnimation() {
                 }}
               />
               <div
-                className="h-px w-[38px] rounded-full"
+                className="absolute left-0 w-full h-px rounded-full"
                 style={{
-                  backgroundColor: "var(--color-accent-500)",
-                  opacity: isActive ? 0.45 : 0,
+                  bottom: "-3px",
+                  backgroundColor: isActive
+                    ? "var(--color-accent-500)"
+                    : "var(--color-background-500)",
+                  opacity: isActive ? 0.6 : 0.3,
                   transition: T,
                 }}
               />

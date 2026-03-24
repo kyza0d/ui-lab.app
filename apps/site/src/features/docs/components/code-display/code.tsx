@@ -167,7 +167,7 @@ export function Code({
   return (
     <div className={cn("max-h-210 rounded-sm border border-background-700 flex flex-col overflow-hidden w-full min-w-0", className)}>
       {(filename || heading) && (
-        <div className="flex-none bg-background-900/90 flex text-xs font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
+        <div className="flex-none bg-background-900/90 flex text-sm font-semibold items-center justify-between border-b border-background-700 px-3 py-1.5 text-foreground-400">
           <span>{heading || filename}</span>
           {!heading && <span className="text-foreground-400">{language}</span>}
         </div>

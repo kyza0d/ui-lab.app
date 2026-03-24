@@ -35,7 +35,7 @@ export function ColorScale({ family }: ColorScaleProps) {
       </div>
 
       <div className="overflow-x-auto my-6 border border-background-800 rounded-sm">
-        <table className="w-full text-xs">
+        <table className="w-full text-sm">
           <thead className="bg-background-900 border-b border-background-800">
             <tr className="border-b border-background-800 last:border-b-0">
               <th className="px-4 py-3 text-left font-semibold text-foreground-200 w-[60px]"></th>
@@ -48,21 +48,21 @@ export function ColorScale({ family }: ColorScaleProps) {
           <tbody>
             {colorRows.map(({ shade, color }) => (
               <tr key={shade} className="border-b border-background-800 last:border-b-0">
-                <td className="px-4 text-xs py-3 text-foreground-300">
+                <td className="px-4 text-sm py-3 text-foreground-300">
                   <div className="flex justify-center">
                     <ColorPreviewCell oklch={color!} family={family} shade={shade.toString()} />
                   </div>
                 </td>
-                <td className="px-4 text-xs py-3 text-foreground-300">
+                <td className="px-4 text-sm py-3 text-foreground-300">
                   <span className="font-semibold text-foreground-200">{shade}</span>
                 </td>
-                <td className="px-4 text-xs py-3 text-foreground-300">
+                <td className="px-4 text-sm py-3 text-foreground-300">
                   <CopyableCell value={oklchToHex(color!)} label="hex" />
                 </td>
-                <td className="px-4 text-xs py-3 text-foreground-300">
+                <td className="px-4 text-sm py-3 text-foreground-300">
                   <CopyableCell value={`--${family}-${shade}`} label="var" />
                 </td>
-                <td className="px-4 text-xs py-3 text-foreground-300">
+                <td className="px-4 text-sm py-3 text-foreground-300">
                   <CopyableCell value={oklchToCss(color!)} label="oklch" />
                 </td>
               </tr>

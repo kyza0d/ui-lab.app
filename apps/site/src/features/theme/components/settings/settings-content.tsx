@@ -19,9 +19,6 @@ import { getFontConfig } from "../../constants/font-config";
 import { type TypographyConfig } from "../../lib/typography-config";
 import {
   Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
   Button,
   Scroll,
 } from "ui-lab-components";
@@ -306,26 +303,26 @@ export const SettingsContent = () => {
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
         >
-          <TabsList className="h-[28px] mt-[10px] border-none">
-            <TabsTrigger
-              className="text-xs pb-[9px] mb-[6px] w-[80px]"
+          <Tabs.List className="h-[28px] mt-[10px] border-none">
+            <Tabs.Trigger
+              className="text-sm pb-[9px] mb-[6px] w-[80px]"
               value="colors"
             >
               Theme
-            </TabsTrigger>
-            <TabsTrigger
-              className="text-xs pb-[9px] mb-[6px] w-[80px]"
+            </Tabs.Trigger>
+            <Tabs.Trigger
+              className="text-sm pb-[9px] mb-[6px] w-[80px]"
               value="fonts"
             >
               Fonts
-            </TabsTrigger>
-            <TabsTrigger
-              className="text-xs pb-[9px] mb-[6px] w-[80px]"
+            </Tabs.Trigger>
+            <Tabs.Trigger
+              className="text-sm pb-[9px] mb-[6px] w-[80px]"
               value="layout"
             >
               Layout
-            </TabsTrigger>
-          </TabsList>
+            </Tabs.Trigger>
+          </Tabs.List>
         </Tabs>
       </div>
 
@@ -335,7 +332,7 @@ export const SettingsContent = () => {
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as ConfigTab)}
         >
-          <TabsContent value="colors" className="py-[8px]">
+          <Tabs.Content value="colors" className="py-[8px]">
             <ColorsPanel
               localColors={localColors}
               expandedColor={expandedColor}
@@ -345,9 +342,9 @@ export const SettingsContent = () => {
               onChromaLimitChange={handleChromaLimitChange}
               onGlobalAdjustmentChange={handleGlobalAdjustmentChange}
             />
-          </TabsContent>
+          </Tabs.Content>
 
-          <TabsContent value="fonts" className="py-[8px]">
+          <Tabs.Content value="fonts" className="py-[8px]">
             <TypographyPanel
               selectedSansFont={selectedSansFont}
               selectedMonoFont={selectedMonoFont}
@@ -356,9 +353,9 @@ export const SettingsContent = () => {
               onMonoFontChange={handleMonoFontChange}
               onTypographyChange={updateTypography}
             />
-          </TabsContent>
+          </Tabs.Content>
 
-          <TabsContent value="layout" className="py-[8px]">
+          <Tabs.Content value="layout" className="py-[8px]">
             <LayoutPanel
               radius={radius}
               borderWidth={borderWidth}
@@ -385,7 +382,7 @@ export const SettingsContent = () => {
                 })
               }
             />
-          </TabsContent>
+          </Tabs.Content>
         </Tabs>
         </Scroll>
       </div>

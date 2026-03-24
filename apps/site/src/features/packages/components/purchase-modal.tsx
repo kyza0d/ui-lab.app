@@ -84,7 +84,7 @@ function PurchaseModal({ isOpen, item, type, onClose, gumroadBaseUrl }: Purchase
                 {elementNames.map((name) => (
                   <span
                     key={name}
-                    className="px-3 py-1 bg-background-800 text-foreground-300 text-xs rounded-full border border-background-700"
+                    className="px-3 py-1 bg-background-800 text-foreground-300 text-sm rounded-full border border-background-700"
                   >
                     {name}
                   </span>

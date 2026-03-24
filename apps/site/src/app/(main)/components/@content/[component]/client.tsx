@@ -7,7 +7,7 @@ import { CopyComponentPage } from "@/features/docs";
 import { OpenPage } from "@/features/docs";
 import { cn } from "@/shared";
 import { Code, InlineCodeHighlight } from "@/features/docs";
-import { Toaster, Tabs, TabsList, TabsTrigger, TabsContent, Button, Flex, Tooltip } from "ui-lab-components";
+import { Toaster, Tabs, Button, Flex, Tooltip } from "ui-lab-components";
 import { useState, useMemo } from "react";
 import type { ComponentAPI } from "ui-lab-registry";
 import { FaFlask, FaGithub } from "react-icons/fa6";
@@ -113,7 +113,7 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
               <div className="h-25 flex flex-col mb-12 relative">
                 {experimental && (
                   <Tooltip content="Experimental" position="left" showArrow>
-                    <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
+                    <span className="absolute right-0 ml-auto inline-block px-2 py-1 text-sm font-semibold bg-accent-500/20 text-accent-300 rounded-md">
                       <FaFlask size={14} />
                     </span>
                   </Tooltip>
@@ -146,13 +146,13 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
             </div>
             <Tabs variant="underline" value={activeTab} onValueChange={(tab) => { setActiveTab(tab); setVisitedTabs((prev) => new Set(prev).add(tab)); }} className="min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
-                <TabsList className="grid w-fit grid-cols-3">
-                  <TabsTrigger className="pb-3" value="examples">Examples</TabsTrigger>
-                  <TabsTrigger className="pb-3" value="api">API</TabsTrigger>
-                  <TabsTrigger className="pb-3" value="styles">Styles</TabsTrigger>
-                </TabsList>
+                <Tabs.List className="grid w-fit grid-cols-3">
+                  <Tabs.Trigger className="pb-3" value="examples">Examples</Tabs.Trigger>
+                  <Tabs.Trigger className="pb-3" value="api">API</Tabs.Trigger>
+                  <Tabs.Trigger className="pb-3" value="styles">Styles</Tabs.Trigger>
+                </Tabs.List>
               </Flex>
-              <TabsContent value="examples" className="mt-6">
+              <Tabs.Content value="examples" className="mt-6">
                 <section className="scroll-mt-20">
                   <div className="space-y-4">
                     {remainingExamples.map((example) => (
@@ -167,13 +167,13 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
                     ))}
                   </div>
                 </section>
-              </TabsContent>
-              <TabsContent value="api" className="mt-6">
+              </Tabs.Content>
+              <Tabs.Content value="api" className="mt-6">
                 {visitedTabs.has("api") && <APIDocumentation componentId={componentId} api={api} styleableParts={styles?.styleableParts || []} />}
-              </TabsContent>
-              <TabsContent value="styles" className="mt-6">
+              </Tabs.Content>
+              <Tabs.Content value="styles" className="mt-6">
                 {visitedTabs.has("styles") && <StylesDocumentation componentId={componentId} styles={styles} />}
-              </TabsContent>
+              </Tabs.Content>
             </Tabs>
           </div>
         </div>
@@ -215,7 +215,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
       key: "name",
       label: "Name",
       render: (value: any, row: any) => (
-        <span className="font-mono text-xs text-foreground-50">
+        <span className="font-mono text-sm text-foreground-50">
           {value}{row.required && <span className="ml-1 text-background-500">?</span>}
         </span>
       ),
@@ -246,7 +246,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
       key: "name",
       label: "Name",
       render: (value: any, row: any) => (
-        <span className="font-mono text-xs text-foreground-50">
+        <span className="font-mono text-sm text-foreground-50">
           {value}{row.required && <span className="ml-1 text-foreground-400">?</span>}
         </span>
       ),
@@ -290,7 +290,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                     ? {
                       key: "description",
                       label: "Description",
-                      value: <p className="text-foreground-400 text-xs">{row.description}</p>,
+                      value: <p className="text-foreground-400 text-sm">{row.description}</p>,
                     }
                     : null,
                   {
@@ -313,7 +313,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                   ? {
                     key: "description",
                     label: "Description",
-                    value: <p className="text-foreground-400 text-xs">{row.description}</p>,
+                    value: <p className="text-foreground-400 text-sm">{row.description}</p>,
                   }
                   : null,
                 row.defaultValue
@@ -355,7 +355,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                           ? {
                             key: "description",
                             label: "Description",
-                            value: <p className="text-foreground-400 text-xs">{row.description}</p>,
+                            value: <p className="text-foreground-400 text-sm">{row.description}</p>,
                           }
                           : null,
                       ])
@@ -459,7 +459,7 @@ function StylesDocumentation({ componentId, styles }: { componentId: string; sty
           <div className="space-y-10">
             {Object.entries(groupedVariables).map(([variant, variables]) => (
               <div key={variant}>
-                <h4 className="text-xs font-semibold text-foreground-400 ml-2 mb-4">
+                <h4 className="text-sm font-semibold text-foreground-400 ml-2 mb-4">
                   <span className="h-px w-4 bg-background-700" />
                   {variant}
                 </h4>

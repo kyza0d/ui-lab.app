@@ -20,9 +20,6 @@ import {
   Table,
   Progress,
   Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
   Expand,
   Scroll,
 } from "ui-lab-components";
@@ -248,39 +245,39 @@ function ExportSection({
       </p>
 
       <Tabs defaultValue="theme">
-        <TabsList>
-          <TabsTrigger value="theme">theme.css</TabsTrigger>
-          <TabsTrigger value="globals">globals.css</TabsTrigger>
-          <TabsTrigger value="layout">layout.tsx</TabsTrigger>
-          <TabsTrigger value="toggle">theme-toggle.tsx</TabsTrigger>
-          <TabsTrigger value="toggle-css">theme-toggle.module.css</TabsTrigger>
-        </TabsList>
+        <Tabs.List>
+          <Tabs.Trigger value="theme">theme.css</Tabs.Trigger>
+          <Tabs.Trigger value="globals">globals.css</Tabs.Trigger>
+          <Tabs.Trigger value="layout">layout.tsx</Tabs.Trigger>
+          <Tabs.Trigger value="toggle">theme-toggle.tsx</Tabs.Trigger>
+          <Tabs.Trigger value="toggle-css">theme-toggle.module.css</Tabs.Trigger>
+        </Tabs.List>
 
-        <TabsContent value="theme">
+        <Tabs.Content value="theme">
           <Code language="css" filename="theme.css">
             {themeCss}
           </Code>
-        </TabsContent>
-        <TabsContent value="globals">
+        </Tabs.Content>
+        <Tabs.Content value="globals">
           <Code language="css" filename="globals.css">
             {globalsCss}
           </Code>
-        </TabsContent>
-        <TabsContent value="layout">
+        </Tabs.Content>
+        <Tabs.Content value="layout">
           <Code language="tsx" filename="app/layout.tsx">
             {layoutTsx}
           </Code>
-        </TabsContent>
-        <TabsContent value="toggle">
+        </Tabs.Content>
+        <Tabs.Content value="toggle">
           <Code language="tsx" filename="components/theme-toggle/index.tsx">
             {themeToggleTsx}
           </Code>
-        </TabsContent>
-        <TabsContent value="toggle-css">
+        </Tabs.Content>
+        <Tabs.Content value="toggle-css">
           <Code language="css" filename="components/theme-toggle/theme-toggle.module.css">
             {themeToggleModuleCss}
           </Code>
-        </TabsContent>
+        </Tabs.Content>
       </Tabs>
 
       <Expand title="Setup Instructions" defaultExpanded={false}>

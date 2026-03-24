@@ -38,7 +38,7 @@ export function CopyableCell({ value, label }: CopyableCellProps) {
   return (
     <button
       onClick={handleCopy}
-      className="w-full text-left font-mono text-xs hover:text-foreground-100 transition-colors"
+      className="w-full text-left font-mono text-sm hover:text-foreground-100 transition-colors"
       title={value}
     >
       {copied ? (

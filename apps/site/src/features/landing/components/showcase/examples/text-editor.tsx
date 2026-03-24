@@ -81,7 +81,7 @@ export function TextEditor() {
       <textarea
         rows={5}
         placeholder="Start writing..."
-        className="w-full bg-transparent px-4 py-3 text-xs text-foreground-100 placeholder:text-foreground-500 resize-none outline-none"
+        className="w-full bg-transparent px-4 py-3 text-sm text-foreground-100 placeholder:text-foreground-500 resize-none outline-none"
         style={{
           fontStyle: state.italic ? "italic" : "normal",
           fontWeight: state.bold ? "bold" : "normal",
@@ -91,7 +91,7 @@ export function TextEditor() {
       />
 
       <div className="px-3 py-2 border-t border-background-700 flex items-center justify-between">
-        <span className="text-xs text-foreground-500">Markdown enabled</span>
+        <span className="text-sm text-foreground-500">Markdown enabled</span>
         <Group spacing="sm">
           <Group.Button variant="ghost" size="sm">Discard</Group.Button>
           <Group.Button variant="default" size="sm">Publish</Group.Button>

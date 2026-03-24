@@ -10,7 +10,7 @@ export function RequirementsSection() {
     <section className="text-sm">
       <div className="mb-6 font-semibold text-foreground-50">Runtime requirements</div>
       <div className="overflow-x-auto rounded-sm border border-background-800">
-        <table className="min-w-full text-xs">
+        <table className="min-w-full text-sm">
           <thead>
             <tr className="border-b border-background-800 bg-background-900">
               <th className="px-4 py-3 text-left font-semibold text-foreground-200">Category</th>

@@ -79,7 +79,7 @@ export function InlineCodeHighlight({
   return (
     <code
       ref={htmlRef}
-      className={`font-mono text-xs ${className}`}
+      className={`font-mono text-sm ${className}`}
     />
   );
 }

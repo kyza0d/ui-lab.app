@@ -7,9 +7,6 @@ import { Button } from "ui-lab-components";
 import {
   Select,
   Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
 } from "ui-lab-components";
 import { EasingPreview } from "./easing-preview";
 import { EASING_FUNCTIONS, EASING_KEYS, type EasingKey } from "../lib/easing";
@@ -128,21 +125,21 @@ export function ComponentConfigurator({
       <div className="flex-1 border border-background-700 rounded-sm overflow-hidden">
         {!hidePreviewToggle && (
           <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
-            <TabsList className="rounded-none border-b border-background-700">
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
-            </TabsList>
+            <Tabs.List className="rounded-none border-b border-background-700">
+              <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
+              <Tabs.Trigger value="code">Code</Tabs.Trigger>
+            </Tabs.List>
 
-            <TabsContent value="preview" className="overflow-hidden mt-0">
+            <Tabs.Content value="preview" className="overflow-hidden mt-0">
               <div
                 className={cn("px-10 py-20  h-100 mx-auto w-fit min-w-xs", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
                 style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
               >
                 {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
               </div>
-            </TabsContent>
+            </Tabs.Content>
 
-            <TabsContent value="code" className="mt-0 p-0">
+            <Tabs.Content value="code" className="mt-0 p-0">
               {allTabs.length > 1 && (
                 <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
                   {allTabs.map((tab, index) => (
@@ -160,7 +157,7 @@ export function ComponentConfigurator({
               <div className="p-0">
                 <Code className="border-0" language={language}>{currentCode}</Code>
               </div>
-            </TabsContent>
+            </Tabs.Content>
           </Tabs>
         )}
 
@@ -186,7 +183,7 @@ export function ComponentConfigurator({
 
               return (
                 <div key={control.name} className="space-y-2">
-                  <label className="text-xs font-medium text-foreground-400">
+                  <label className="text-sm font-medium text-foreground-400">
                     {control.label}
                   </label>
                   {control.type === "select" && (
@@ -220,7 +217,7 @@ export function ComponentConfigurator({
                         )
                       }
                       className={cn(
-                        "w-full px-3 py-1.5 text-xs font-medium rounded-sm",
+                        "w-full px-3 py-1.5 text-sm font-medium rounded-sm",
                         controlValues[control.name]
                           ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
                           : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
@@ -238,7 +235,7 @@ export function ComponentConfigurator({
                       onChange={(e) =>
                         handleControlChange(control.name, e.target.value)
                       }
-                      className="w-full px-3 py-2 text-xs bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                      className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
                     />
                   )}
                 </div>

@@ -28,7 +28,7 @@ function CommandPaletteContent({ itemCount }: { itemCount: number }) {
       <Command.List emptyMessage="No commands found.">
         <Command.Groups renderCategory={(category) => category && (
           <>
-            <Command.Category className="text-xs not-first:mt-12">{category}</Command.Category>
+            <Command.Category className="text-sm not-first:mt-12">{category}</Command.Category>
             <Divider variant="dashed" size="sm" />
           </>
         )}
@@ -44,8 +44,8 @@ function CommandPaletteContent({ itemCount }: { itemCount: number }) {
               >
                 <div className="w-16 h-10 self-start pt-2">{cmd.icon && cmd.icon}</div>
                 <div className="w-180">
-                  <h3 className="text-xs mb-1.5">{cmd.label}</h3>
-                  <p className="w-full text-xs">{cmd.description && cmd.description}</p>
+                  <h3 className="text-sm mb-1.5">{cmd.label}</h3>
+                  <p className="w-full text-sm">{cmd.description && cmd.description}</p>
                 </div>
               </Command.Item>
             </>

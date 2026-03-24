@@ -179,7 +179,7 @@ export function ElementsFilterPopover({
         <FaSliders className="w-4 h-4" />
         <span className="text-sm font-medium">Filters</span>
         {activeFilterCount > 0 && (
-          <span className="ml-1 px-1.5 py-0.5 rounded-full bg-background-800 text-foreground-50 text-xs font-bold">
+          <span className="ml-1 px-1.5 py-0.5 rounded-full bg-background-800 text-foreground-50 text-sm font-bold">
             {activeFilterCount}
           </span>
         )}

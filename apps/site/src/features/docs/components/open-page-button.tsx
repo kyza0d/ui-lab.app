@@ -38,7 +38,7 @@ export function OpenPage({ componentId }: { componentId?: string }) {
               if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
             }}
             title="Open this page in another app"
-            className="flex text-xs font-medium p-1.5 pl-4 w-55 items-center justify-start"
+            className="flex text-sm font-medium p-1.5 pl-4 w-55 items-center justify-start"
             role="button"
             tabIndex={0}
           >
@@ -55,7 +55,7 @@ export function OpenPage({ componentId }: { componentId?: string }) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex rounded-sm items-center text-xs text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700"
+              className="flex rounded-sm items-center text-sm text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700"
             >
               <span className="flex items-center justify-center mr-2 px-3 py-2 text-sm">
                 <Icon className='w-5 h-5' />

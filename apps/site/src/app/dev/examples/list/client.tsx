@@ -46,7 +46,7 @@ function TeamMembersPreview() {
             >
               <List.Media>
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-semibold shrink-0"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-semibold shrink-0"
                   style={{ backgroundColor: member.color }}
                 >
                   {member.initials}

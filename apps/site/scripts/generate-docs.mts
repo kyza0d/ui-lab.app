@@ -533,12 +533,12 @@ export interface GeneratedDocsPageTreeSection {
   items: GeneratedDocsPageTreeItem[];
 }
 
-export interface GeneratedDocsDomainManifest {
+interface GeneratedDocsDomainManifest {
   pages: GeneratedDocsPageManifest[];
   pageTree: GeneratedDocsPageTreeSection[];
 }
 
-export interface GeneratedDocsManifest {
+interface GeneratedDocsManifest {
   docs: GeneratedDocsDomainManifest;
   'design-system': GeneratedDocsDomainManifest;
 }
@@ -551,7 +551,7 @@ function generateBodiesModule(bodies: GeneratedDocsBodies): string {
   return `
 import type { DocsDomain } from './generated-docs-manifest';
 
-export type GeneratedDocsBodies = Record<DocsDomain, Record<string, string>>;
+type GeneratedDocsBodies = Record<DocsDomain, Record<string, string>>;
 
 export const DOCS_BODIES: GeneratedDocsBodies = ${JSON.stringify(bodies, null, 2)};
 `;

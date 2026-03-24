@@ -1,6 +1,6 @@
 "use client";
 
-import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder } from "@/features/component-docs";
+import { categoryMap, getCategoriesInOrder, getComponentsInCategoryOrder, comingSoonComponents } from "@/features/component-docs";
 import { TableOfContents, type TableOfContentsItem } from "@/features/docs/components/table-of-contents";
 import { previews } from "@/gallery";
 import Icon from "@/shared/components/Icon";
@@ -25,7 +25,8 @@ export default function ComponentsPageClient() {
             <div className="space-y-32">
               {getCategoriesInOrder().map((category) => {
                 const componentsInCategory = getComponentsInCategoryOrder(category);
-                if (componentsInCategory.length === 0) return null;
+                const comingSoonInCategory = comingSoonComponents.filter((c) => c.category === category);
+                if (componentsInCategory.length === 0 && comingSoonInCategory.length === 0) return null;
                 return (
                   <div key={category} id={category} className="space-y-4">
                     <Flex styles="gap-4">
@@ -72,14 +73,14 @@ export default function ComponentsPageClient() {
                                   {component.experimental && (
                                     <div className='ml-auto'>
                                       <Tooltip content="🚧 Experimental" position="top" showArrow>
-                                        <span className="ml-auto inline-block px-2 py-1 text-xs font-semibold bg-accent-500/20 text-accent-300 rounded-md">
+                                        <span className="ml-auto inline-block px-2 py-1 text-sm font-semibold bg-accent-500/20 text-accent-300 rounded-md">
                                           <Icon IconComponent={Icons.Flask} size={14} />
                                         </span>
                                       </Tooltip>
                                     </div>
                                   )}
                                 </div>
-                                <p className="text-foreground-400 text-xs">
+                                <p className="text-foreground-400 text-sm">
                                   {component.description}
                                 </p>
                               </Gallery.Body>
@@ -87,6 +88,36 @@ export default function ComponentsPageClient() {
                           </div>
                         );
                       })}
+                      {comingSoonInCategory.map((component) => (
+                        <div key={component.id} className="opacity-40 pointer-events-none select-none">
+                          <Gallery.Item
+                            className='group h-full rounded-sm bg-background-950'
+                            orientation='vertical'
+                          >
+                            <Gallery.View
+                              className="w-full flex items-center justify-center relative bg-background-950 border-b border-background-700 shrink-0"
+                            >
+                              <div className='max-w-65 px-4 gap-2 flex items-center justify-center'>
+                                {previews[component.id] || <div />}
+                              </div>
+                            </Gallery.View>
+
+                            <Gallery.Body>
+                              <div className="relative flex items-center gap-1 w-full">
+                                <h4>{component.name}</h4>
+                                <div className='ml-auto'>
+                                  <span className="inline-block px-2 py-1 text-sm font-semibold bg-background-700/40 text-foreground-400 rounded-md">
+                                    Soon
+                                  </span>
+                                </div>
+                              </div>
+                              <p className="text-foreground-400 text-sm">
+                                {component.description}
+                              </p>
+                            </Gallery.Body>
+                          </Gallery.Item>
+                        </div>
+                      ))}
                     </Gallery>
                   </div>
                 );
@@ -95,7 +126,7 @@ export default function ComponentsPageClient() {
           </main>
         </div>
       </div>
-      <div className="docs-toc-rail sticky top-(--header-height) flex flex-col justify-between h-[calc(100vh-var(--header-height))]">
+      <div className="docs-toc-rail  sticky top-(--header-height) flex flex-col justify-between h-[calc(100vh-var(--header-height))]">
         <TableOfContents items={tocItems} mode="static" />
       </div>
     </div>

@@ -103,7 +103,7 @@ function SourceControlPreview() {
         </Select>
       </div>
       {selected && (
-        <p className="text-xs text-foreground-400">{selected.description}</p>
+        <p className="text-sm text-foreground-400">{selected.description}</p>
       )}
     </div>
   );
@@ -149,7 +149,7 @@ function CountrySelectPreview() {
               <Select.Item key={c.value} value={c.value} textValue={c.label} icon={<span className="text-base">{c.flag}</span>}>
                 <div className="flex items-center justify-between w-full">
                   <span>{c.label}</span>
-                  <span className="ml-2 text-xs text-foreground-400">{c.code}</span>
+                  <span className="ml-2 text-sm text-foreground-400">{c.code}</span>
                 </div>
               </Select.Item>
             ))}
@@ -227,7 +227,7 @@ function SearchTriggerTemplatePreview() {
             <Icon className="h-4 w-4 text-foreground-300" />
             <span>{selected.label}</span>
           </div>
-          <p className="mt-1 text-xs text-foreground-400">{selected.description}</p>
+          <p className="mt-1 text-sm text-foreground-400">{selected.description}</p>
         </div>
       )}
     </div>

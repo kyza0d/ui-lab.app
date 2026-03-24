@@ -9,7 +9,7 @@ const CommandPalette = dynamic(
   { ssr: false, loading: () => null }
 );
 import { Logo } from "@/shared";
-import { Input, Divider, Tabs, TabsList, TabsTrigger, Button, Tooltip } from "ui-lab-components";
+import { Input, Divider, Tabs, Button, Tooltip } from "ui-lab-components";
 import { useApp } from "@/features/theme";
 import { useChat } from "@/features/chat";
 import { cn } from "@/shared";
@@ -30,13 +30,13 @@ import { useLandingSidebarToggle } from "@/features/layout/hooks/landing-sidebar
 const TabItem = memo(({ tab }: { tab: TabConfig }) => {
   return (
     <Link href={tab.path}>
-      <TabsTrigger
+      <Tabs.Trigger
         value={tab.id}
         disabled={tab.isPlaceholder}
-        className="text-xs pb-[15px] pt-[17px]"
+        className="text-sm pb-[15px] pt-[17px]"
       >
         {tab.label}
-      </TabsTrigger>
+      </Tabs.Trigger>
     </Link>
   );
 });
@@ -103,21 +103,21 @@ export default function Header({
 
             {pathname === "/" && homeNavTabs && (
               <Tabs className="hidden ml-8 lg:block" value={activeHomeTab || ""} variant="underline">
-                <TabsList>
+                <Tabs.List>
                   {homeNavTabs.map((tab) => (
                     <TabItem key={tab.id} tab={tab} />
                   ))}
-                </TabsList>
+                </Tabs.List>
               </Tabs>
             )}
 
             {hasRevealCollapse && tabGroup && activeTabId && (
               <Tabs className="w-fit ml-8 hidden md:block" value={activeTabId} variant="underline">
-                <TabsList>
+                <Tabs.List>
                   {tabGroup.tabs.map((tab) => (
                     <TabItem key={tab.id} tab={tab} />
                   ))}
-                </TabsList>
+                </Tabs.List>
               </Tabs>
             )}
           </div>

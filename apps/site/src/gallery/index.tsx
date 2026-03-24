@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Divider } from "ui-lab-components";
 import { CardAnimation } from "./timelines/card.animation";
 import { DividerAnimation } from "./timelines/divider.animation";
 import { ExpandAnimation } from "./timelines/expand.animation";
@@ -34,6 +33,14 @@ import { PathAnimation } from "./timelines/path.animation";
 import { MenuAnimation } from "./timelines/menu.animation";
 import { TabsAnimation } from "./timelines/tabs.animation";
 import { AnchorAnimation } from "./timelines/anchor.animation";
+import { ScrollAnimation } from "./timelines/scroll.animation";
+import { ToolbarAnimation } from "./timelines/toolbar.animation";
+import { CarouselAnimation } from "./timelines/Carousel.animation";
+import { TimelineAnimation } from "./timelines/Timeline.animation";
+import { SkeletonAnimation } from "./timelines/Skeleton.animation";
+import { LoadingAnimation } from "./timelines/Loading.animation";
+import { ModalAnimation } from "./timelines/modal.animation";
+import { AlertAnimation } from "./timelines/Alert.animation";
 
 
 export const previews: Record<string, React.ReactNode> = {
@@ -81,45 +88,9 @@ export const previews: Record<string, React.ReactNode> = {
       </div>
     </div>
   ),
-  modal: (
-    <div className="w-[70%] rounded-[3px] overflow-hidden border border-background-700 flex flex-col gap-2 max-w-sm">
-      <div className="mb-2 border-b border-background-700 flex items-center p-1 gap-1">
-        <div className="ml-auto bg-background-900 w-3 h-3 rounded-[2px]"></div>
-      </div>
-      <div className="pl-2">
-        <div className="w-[60%] h-3 opacity-20 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-[70%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-        <div className="w-[40%] h-1 opacity-20 rounded-md bg-background-500"></div>
-      </div>
-      <div className="mt-4 border-t border-background-700 flex items-center p-1 gap-1">
-        <div className="w-[40%] h-2 opacity-10 rounded-md bg-background-500"></div>
-        <div className="w-[35%] h-3 ml-auto flex items-center rounded-xs pl-1 bg-background-800"></div>
-      </div>
-    </div>
-  ),
+  modal: <ModalAnimation />,
 
-  scroll: (
-    <div className="w-[70%] rounded-[3px] flex gap-2">
-      <div className="w-full pr-4">
-        <div className="pt-3">
-          <div className="w-[60%] h-2 opacity-20 rounded-md mb-2 bg-background-500"></div>
-          <div className="w-[70%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-          <div className="w-[40%] h-1 opacity-20 rounded-md bg-background-500"></div>
-        </div>
-
-        <Divider size="sm" />
-        <div className="pt-3">
-          <div className="w-[62%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-          <div className="w-[33%] h-1 opacity-20 rounded-md mb-2 bg-background-500"></div>
-          <div className="w-[50%] h-1 opacity-20 rounded-md bg-background-500"></div>
-        </div>
-      </div>
-
-      <div className="w-[9px] h-[120px] relative rounded-md flex items-center bg-background-900">
-        <div className="w-[5px] h-[60px] absolute rounded-md bg-background-700 left-[1.5px] top-[2px]"></div>
-      </div>
-    </div>
-  ),
+  scroll: <ScrollAnimation />,
   table: (
     <div className="w-[80%]">
       <div className="w-[60%] flex py-1 px-1 mb-2 rounded-[3px] overflow-hidden border border-background-700 flex-col">
@@ -219,4 +190,10 @@ export const previews: Record<string, React.ReactNode> = {
     </div>
   ),
   frame: <div className="w-[120px] h-[40px] flex bg-background-900 items-center justify-center border border-background-700 rounded-md"></div>,
+  toolbar: <ToolbarAnimation />,
+  carousel: <CarouselAnimation />,
+  timeline: <TimelineAnimation />,
+  skeleton: <SkeletonAnimation />,
+  loading: <LoadingAnimation />,
+  alert: <AlertAnimation />,
 };

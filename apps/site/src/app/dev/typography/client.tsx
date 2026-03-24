@@ -136,7 +136,7 @@ function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) 
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }}
-      className="rounded border border-background-600 bg-background-800 px-3 py-1.5 text-xs text-foreground-300 transition-colors hover:bg-background-700"
+      className="rounded border border-background-600 bg-background-800 px-3 py-1.5 text-sm text-foreground-300 transition-colors hover:bg-background-700"
     >
       {copied ? "Copied!" : label}
     </button>
@@ -309,12 +309,12 @@ export default function TypographyDevPage() {
                   <div className="text-sm font-medium text-foreground-400">
                     Sans — {selectedSansFont}
                   </div>
-                  <p className="mt-1 text-xs text-foreground-500">
+                  <p className="mt-1 text-sm text-foreground-500">
                     Type specimen keeps the Karla ghost overlay.
                   </p>
                 </div>
                 {!isKarlaSelected && (
-                  <div className="flex items-center gap-4 text-xs text-foreground-500">
+                  <div className="flex items-center gap-4 text-sm text-foreground-500">
                     <span className="flex items-center gap-1.5">
                       <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground-300 opacity-20" />
                       Karla default
@@ -406,12 +406,12 @@ function example() {
                 <div className="text-sm font-medium text-foreground-400">Font Config Export</div>
                 <CopyButton text={configSnippet} label="Copy to font-config.ts" />
               </div>
-              <p className="text-xs text-foreground-500">
+              <p className="text-sm text-foreground-500">
                 Paste into <code className="text-foreground-300">SANS_FONTS</code> in{" "}
                 <code className="text-foreground-300">font-config.ts</code>. Optional fields
                 omitted at defaults.
               </p>
-              <pre className="overflow-x-auto rounded border border-background-700 bg-background-800 p-4 text-xs text-foreground-100">
+              <pre className="overflow-x-auto rounded border border-background-700 bg-background-800 p-4 text-sm text-foreground-100">
                 {configSnippet}
               </pre>
             </div>

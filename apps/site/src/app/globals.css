@@ -21,7 +21,7 @@
   --font-mono: var(--font-ioskeley-mono), monospace;
 
   /* Body text sizes (controlled by body scale sliders) */
-  --text-xs: 0.875rem;
+  --text-sm: 0.875rem;
   --text-sm: 1.000rem;
   --text-md: 1.000rem;
   --text-lg: clamp(1.125rem, 2.16vw, 1.380rem);
@@ -32,7 +32,7 @@
   --text-5xl: clamp(2.538rem, 5.37vw, 3.434rem);
 
   /* Header text sizes (controlled by header scale sliders) */
-  --header-text-xs: 0.875rem;
+  --header-text-sm: 0.875rem;
   --header-text-sm: 1.000rem;
   --header-text-md: 1.000rem;
   --header-text-lg: clamp(1.125rem, 2.16vw, 1.380rem);
@@ -373,7 +373,7 @@ html.theme-transition *::after {
 /* Code and Pre Styles */
 pre {
   font-family: var(--font-mono);
-  font-size: calc(var(--text-xs) * 1.04);
+  font-size: calc(var(--text-sm) * 1.04);
   font-weight: 500;
   letter-spacing: 0.006em;
 }
@@ -405,7 +405,7 @@ pre.shiki .indent::before {
 }
 
 @layer utilities {
-  .text-xs { font-size: var(--text-xs) }
+  .text-sm { font-size: var(--text-sm) }
   .text-sm { font-size: var(--text-sm) }
   .text-md { font-size: var(--text-md) }
   .text-base { font-size: var(--text-md) }
@@ -420,7 +420,7 @@ pre.shiki .indent::before {
   .text-8xl { font-size: var(--text-5xl) }
   .text-9xl { font-size: var(--text-5xl) }
 
-  .text-header-xs { font-size: var(--header-text-xs) }
+  .text-header-xs { font-size: var(--header-text-sm) }
   .text-header-sm { font-size: var(--header-text-sm) }
   .text-header-md { font-size: var(--header-text-md) }
   .text-header-lg { font-size: var(--header-text-lg) }
@@ -430,7 +430,7 @@ pre.shiki .indent::before {
   .text-header-4xl { font-size: var(--header-text-4xl) }
   .text-header-5xl { font-size: var(--header-text-5xl) }
 
-  .text-body-xs { font-size: var(--text-xs) }
+  .text-body-xs { font-size: var(--text-sm) }
   .text-body-sm { font-size: var(--text-sm) }
   .text-body-md { font-size: var(--text-md) }
   .text-body-lg { font-size: var(--text-lg) }

@@ -91,8 +91,8 @@ export function FileBrowser() {
   return (
     <div className="w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden flex flex-col">
       <div className="px-4 pt-3.5 pb-3 border-b border-background-700 flex items-center justify-between">
-        <span className="text-xs font-semibold text-foreground-100">Media</span>
-        <span className="text-xs text-foreground-500">{filteredFiles.length} files</span>
+        <span className="text-sm font-semibold text-foreground-100">Media</span>
+        <span className="text-sm text-foreground-500">{filteredFiles.length} files</span>
       </div>
 
       <div className="border-b border-background-700 flex items-center gap-2">
@@ -132,7 +132,7 @@ export function FileBrowser() {
 
       {selectedCount > 0 && (
         <div className="px-3 py-2 border-b border-background-700 bg-background-300 flex items-center justify-between">
-          <span className="text-xs text-foreground-300">{selectedCount} file{selectedCount !== 1 ? 's' : ''} selected</span>
+          <span className="text-sm text-foreground-300">{selectedCount} file{selectedCount !== 1 ? 's' : ''} selected</span>
           <Group variant="ghost" spacing="none">
             <Group.Button onClick={() => { }} aria-label="Delete selected">
               <FaTrash size={12} />
@@ -149,7 +149,7 @@ export function FileBrowser() {
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <div className="text-3xl text-foreground-500 mb-2">○</div>
-              <span className="text-xs text-foreground-500">
+              <span className="text-sm text-foreground-500">
                 {state.search ? "No files match your search" : "No files found"}
               </span>
             </div>
@@ -163,9 +163,9 @@ export function FileBrowser() {
                 isIndeterminate={isSomeSelected}
                 onChange={toggleSelectAll}
               />
-              <span className="text-xs text-foreground-500 flex-1">File</span>
-              <span className="text-xs text-foreground-500 shrink-0">Size</span>
-              <span className="text-xs text-foreground-500 shrink-0 w-16 text-right">Modified</span>
+              <span className="text-sm text-foreground-500 flex-1">File</span>
+              <span className="text-sm text-foreground-500 shrink-0">Size</span>
+              <span className="text-sm text-foreground-500 shrink-0 w-16 text-right">Modified</span>
             </div>
             {filteredFiles.map((file, i) => (
               <div key={file.name} className="group">
@@ -175,9 +175,9 @@ export function FileBrowser() {
                     checked={state.selected.has(file.name)}
                     onChange={() => toggleSelect(file.name)}
                   />
-                  <span className="text-xs text-foreground-100 flex-1 truncate">{file.name}</span>
-                  <span className="text-xs text-foreground-500 shrink-0">{file.size}</span>
-                  <span className="text-xs text-foreground-500 shrink-0 w-16 text-right">{file.modified}</span>
+                  <span className="text-sm text-foreground-100 flex-1 truncate">{file.name}</span>
+                  <span className="text-sm text-foreground-500 shrink-0">{file.size}</span>
+                  <span className="text-sm text-foreground-500 shrink-0 w-16 text-right">{file.modified}</span>
                   <button className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-foreground-500 hover:text-foreground-100">
                     <FaEllipsis size={12} />
                   </button>
@@ -200,8 +200,8 @@ export function FileBrowser() {
                     onChange={() => toggleSelect(file.name)}
                   />
                 </div>
-                <span className="text-xs text-foreground-300 truncate w-full text-center">{file.name.split(".")[0]}</span>
-                <span className="text-xs text-foreground-500">{file.size}</span>
+                <span className="text-sm text-foreground-300 truncate w-full text-center">{file.name.split(".")[0]}</span>
+                <span className="text-sm text-foreground-500">{file.size}</span>
                 <button className="absolute bottom-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity p-1 text-foreground-500 hover:text-foreground-100">
                   <FaEllipsis size={11} />
                 </button>
@@ -212,7 +212,7 @@ export function FileBrowser() {
       </div>
 
       <div className="px-3 py-2 border-t border-background-700 flex items-center justify-between">
-        <span className="text-xs text-foreground-500">Page {state.page} of {TOTAL_PAGES}</span>
+        <span className="text-sm text-foreground-500">Page {state.page} of {TOTAL_PAGES}</span>
         <Group variant="ghost" spacing="none">
           <Group.Button isDisabled={state.page === 1} onClick={() => dispatch({ type: 'SET_PAGE', payload: Math.max(1, state.page - 1) })} aria-label="Previous">
             <FaChevronLeft size={11} />

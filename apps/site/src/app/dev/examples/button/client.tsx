@@ -116,7 +116,7 @@ function CopyInviteLinkPreview() {
 
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-xs font-medium text-foreground-300">Invite Link</span>
+      <span className="text-sm font-medium text-foreground-300">Invite Link</span>
       <Input
         readOnly
         value={inviteLink}

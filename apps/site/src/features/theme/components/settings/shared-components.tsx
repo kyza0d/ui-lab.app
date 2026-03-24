@@ -18,8 +18,8 @@ import {
 } from "ui-lab-components";
 import { useApp } from "../../lib/app-context";
 
-const MICRO_LABEL = "text-xs font-semibold text-foreground-400";
-const VALUE_LABEL = "text-xs text-foreground-300";
+const MICRO_LABEL = "text-sm font-semibold text-foreground-400";
+const VALUE_LABEL = "text-sm text-foreground-300";
 
 interface SliderControlProps {
   label: string;
@@ -79,7 +79,7 @@ export const SliderControl = memo(
     return (
       <div className="space-y-2 group">
         <div className="flex justify-between items-end">
-          <label className="text-xs font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
+          <label className="text-sm font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
             {label}
           </label>
           <span
@@ -118,11 +118,11 @@ const GlobalSlider = memo(
     return (
       <div className="space-y-1.5 group">
         <div className="flex justify-between items-center">
-          <label className="text-xs font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
+          <label className="text-sm font-medium text-foreground-400 group-hover:text-foreground-300 transition-colors">
             {label}
           </label>
           <span
-            className={`text-xs px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-400" : "text-accent-400 bg-accent-600/30"}`}
+            className={`text-sm px-1.5 py-0.5 rounded-[4px] ${isNeutral ? "text-foreground-400" : "text-accent-400 bg-accent-600/30"}`}
           >
             {formatValue(value)}
           </span>
@@ -207,7 +207,7 @@ export const ColorRow = memo(
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <div className="text-xs font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
+              <div className="text-sm font-semibold text-foreground-100 capitalize leading-tight group-hover:text-foreground-100 transition-colors">
                 {type}
               </div>
             </div>
@@ -249,11 +249,11 @@ const TypeScaleSlider = memo(
     return (
       <div className="bg-background-800/30 rounded-[12px] border border-background-700 space-y-3 mx-[6px] mt-2">
         <div className="flex justify-between items-start px-4 pt-2">
-          <label className="text-xs font-medium text-foreground-400" htmlFor="type-scale-slider">
+          <label className="text-sm font-medium text-foreground-400" htmlFor="type-scale-slider">
             Type Scale
           </label>
           <div className="flex flex-col items-end text-right">
-            <span className="text-xs font-semibold text-foreground-100">
+            <span className="text-sm font-semibold text-foreground-100">
               {scaleName}
             </span>
             <span className={`${VALUE_LABEL} text-foreground-400`}>

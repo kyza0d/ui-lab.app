@@ -222,7 +222,7 @@ export const SettingsDialog = ({
           data-drag-handle
           className="h-10 shrink-0 bg-background-800 border-b border-background-700 cursor-grab active:cursor-grabbing flex items-center justify-between pl-4 pr-2 select-none hover:bg-background-800/70 transition-colors"
         >
-          <span className="text-xs font-semibold text-foreground-400 pointer-events-none">
+          <span className="text-sm font-semibold text-foreground-400 pointer-events-none">
             Theme Settings
           </span>
           <button
