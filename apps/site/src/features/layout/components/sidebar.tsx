@@ -241,7 +241,7 @@ export function Sidebar() {
             fade-y
           >
             {isElementsOrSectionsOrStarters ? (
-              <div className="px-4">
+              <div className="px-4 opacity-20 pointer-events-none">
                 <ElementsList
                   activeNav={activeElementsNav}
                   pathname={pathname}

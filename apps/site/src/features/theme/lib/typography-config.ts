@@ -1,6 +1,6 @@
 const ROOT_FONT_SIZE_PX = 16;
 
-export const DEFAULT_GLOBAL_MIN_FONT_SIZE_PX = 14;
+export const DEFAULT_GLOBAL_MIN_FONT_SIZE_PX = 13.25;
 export const MIN_GLOBAL_MIN_FONT_SIZE_PX = 10;
 export const MAX_GLOBAL_MIN_FONT_SIZE_PX = 18;
 
@@ -34,7 +34,7 @@ export const DEFAULT_TYPOGRAPHY_CONFIG: TypographyConfig = {
   headerLetterSpacingScale: 1,
   headerLineHeight: DEFAULT_HEADER_LINE_HEIGHT,
   bodyTypeSizeRatio: 1.2,
-  bodyFontSizeScale: 1,
+  bodyFontSizeScale: 0.960,
   bodyFontWeightScale: 1,
   bodyLetterSpacingScale: 1,
   bodyLineHeight: DEFAULT_BODY_LINE_HEIGHT,
