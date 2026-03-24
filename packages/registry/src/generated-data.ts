@@ -4560,5 +4560,5 @@ export const generatedCorePeerDependencies = [
 ];
 
 export const packageMetadata: PackageMetadata = {
-  "version": "0.3.2"
+  "version": "0.3.3"
 };

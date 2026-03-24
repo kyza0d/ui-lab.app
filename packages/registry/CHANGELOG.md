@@ -1,5 +1,13 @@
 # ui-lab-registry
 
+## 0.3.3
+
+### Patch Changes
+
+- Added Onyx theme package to the release pipeline.
+- Updated dependencies
+  - ui-lab-components@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

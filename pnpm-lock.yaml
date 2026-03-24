@@ -112,11 +112,11 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2
       ui-lab-components:
-        specifier: 0.3.2
-        version: 0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1)
+        specifier: 0.3.3
+        version: 0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1)
       ui-lab-registry:
-        specifier: 0.3.2
-        version: 0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1)
+        specifier: 0.3.3
+        version: 0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1)
       ui-lab-theme-onyx:
         specifier: workspace:*
         version: link:../../packages/themes/onyx
@@ -155,8 +155,8 @@ importers:
         specifier: ^1.0.4
         version: 1.25.1(hono@4.11.3)(zod@4.3.2)
       ui-lab-registry:
-        specifier: 0.3.2
-        version: 0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)
+        specifier: 0.3.3
+        version: 0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)
     devDependencies:
       '@types/node':
         specifier: ^22.10.2
@@ -319,8 +319,8 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.1)
       ui-lab-components:
-        specifier: 0.3.2
-        version: 0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.1))(react@19.2.1)(shiki@3.20.0)(vitest@1.6.1)
+        specifier: 0.3.3
+        version: 0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.1))(react@19.2.1)(shiki@3.20.0)(vitest@1.6.1)
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.11
@@ -5732,16 +5732,16 @@ packages:
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
-  ui-lab-components@0.3.2:
-    resolution: {integrity: sha512-nQCuTfRJWwVWsZ/WB0QwVZNiPWq7UR0jBxDf9ODOZ06M5KuZ3ZegZC/KjbgaR0Lb42UVAaX5GxGoA8/9+XR7wA==}
+  ui-lab-components@0.3.3:
+    resolution: {integrity: sha512-C8EAYZlUAryObPvIIHJrJBrnxl7dXX5kB9q0tV8j+CTUJjkk1MISUKwFiaz0LD6j28uFcS4NtwXu8mMwlajzCg==}
     peerDependencies:
       '@shikijs/transformers': ^3.20.0
       react: ^19.0.0
       react-dom: ^19.0.0
       shiki: ^3.17.1
 
-  ui-lab-registry@0.3.2:
-    resolution: {integrity: sha512-1hIGfdCH+5BHYieJzOYnOrEwh2IiWVo+cmsiMHaYZyHSWk4N/IeOSBVctCtXQ1J4z6FivRhku+Wq+ELnFqLzcQ==}
+  ui-lab-registry@0.3.3:
+    resolution: {integrity: sha512-WXn+ze/nGHXnEIICZ3Yo9BAVeSoDAYetFDbOsq+Y0OxYulY9t4aLWx+J09evnZROjgVP2f3+FmCR9hhzlvzahA==}
 
   unbash@2.2.0:
     resolution: {integrity: sha512-X2wH19RAPZE3+ldGicOkoj/SIA83OIxcJ6Cuaw23hf8Xc6fQpvZXY0SftE2JgS0QhYLUG4uwodSI3R53keyh7w==}
@@ -14809,7 +14809,7 @@ snapshots:
 
   ufo@1.6.1: {}
 
-  ui-lab-components@0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.1))(react@19.2.1)(shiki@3.20.0)(vitest@1.6.1):
+  ui-lab-components@0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.1))(react@19.2.1)(shiki@3.20.0)(vitest@1.6.1):
     dependencies:
       '@gsap/react': 2.1.2(gsap@3.14.2)(react@19.2.1)
       '@react-aria/button': 3.14.4(react-dom@19.2.4(react@19.2.1))(react@19.2.1)
@@ -14844,7 +14844,7 @@ snapshots:
       - '@vitest/browser'
       - vitest
 
-  ui-lab-components@0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0):
+  ui-lab-components@0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0):
     dependencies:
       '@gsap/react': 2.1.2(gsap@3.14.2)(react@19.2.4)
       '@react-aria/button': 3.14.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -14879,7 +14879,7 @@ snapshots:
       - '@vitest/browser'
       - vitest
 
-  ui-lab-components@0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1):
+  ui-lab-components@0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1):
     dependencies:
       '@gsap/react': 2.1.2(gsap@3.14.2)(react@19.2.4)
       '@react-aria/button': 3.14.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -14914,11 +14914,11 @@ snapshots:
       - '@vitest/browser'
       - vitest
 
-  ui-lab-registry@0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0):
+  ui-lab-registry@0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0):
     dependencies:
       lucide-react: 0.562.0(react@19.2.4)
       react-icons: 5.5.0(react@19.2.4)
-      ui-lab-components: 0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)
+      ui-lab-components: 0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)
     transitivePeerDependencies:
       - '@shikijs/transformers'
       - '@vitest/browser'
@@ -14927,11 +14927,11 @@ snapshots:
       - shiki
       - vitest
 
-  ui-lab-registry@0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1):
+  ui-lab-registry@0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1):
     dependencies:
       lucide-react: 0.562.0(react@19.2.4)
       react-icons: 5.5.0(react@19.2.4)
-      ui-lab-components: 0.3.2(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1)
+      ui-lab-components: 0.3.3(@shikijs/transformers@3.20.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(shiki@3.20.0)(vitest@1.6.1)
     transitivePeerDependencies:
       - '@shikijs/transformers'
       - '@vitest/browser'

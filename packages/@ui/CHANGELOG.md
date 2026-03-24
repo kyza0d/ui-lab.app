@@ -1,5 +1,11 @@
 # ui-lab-components
 
+## 0.3.3
+
+### Patch Changes
+
+- Added Onyx theme package to the release pipeline.
+
 ## 0.3.2
 
 ### Patch Changes

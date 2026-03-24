@@ -28,6 +28,7 @@ const filename = path.join(rootDir, '.changeset', `${id}.md`)
 const content = `---
 "ui-lab-components": ${type}
 "ui-lab-registry": ${type}
+"ui-lab-theme-onyx": ${type}
 ---
 
 ${summary}
