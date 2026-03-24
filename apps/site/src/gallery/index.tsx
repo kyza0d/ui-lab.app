@@ -77,9 +77,9 @@ export const previews: Record<string, React.ReactNode> = {
   progress: <ProgressAnimation />,
   radio: <RadioAnimation />,
   mask: (
-    <div className="w-[80%] aspect-square max-w-[120px] flex items-center justify-center relative overflow-hidden">
+    <div className="w-80 aspect-square max-w-[120px] flex items-center justify-center relative overflow-hidden">
       {/* The Divider Line */}
-      <div className="absolute inset-y-0 left-1/2 -ml-px w-px border-l border-dashed border-background-700 z-10"></div>
+      <div className="absolute my-4 inset-y-0 left-1/2 -ml-px w-px border-l border-dashed border-background-700 z-10"></div>
 
       {/* The Element being 'Masked' (Gradient Circle) */}
       <div className="flex border rounded-full overflow-hidden border-background-700">

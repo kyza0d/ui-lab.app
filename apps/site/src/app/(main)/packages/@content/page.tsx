@@ -49,9 +49,9 @@ export default function ElementsPage() {
   }
 
   return (
-    <div className='mt-20 pt-(header-height)'>
+    <div className='mt-20 pt-(header-height) pointer-events-none'>
       <div className="w-full bg-background-950 px-4 mx-auto pb-12">
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden h-screen">
           <div className="space-y-6">
             <GenericContentGrid
               items={serializablePackages}
@@ -60,10 +60,10 @@ export default function ElementsPage() {
               previews={previews}
             />
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-[200px]  pointer-events-none bg-gradient-to-b from-transparent from-0% via-background-950 via-70% to-background-950 to-100%" />
-        </div>
-        <div className="-mt-60 relative z-10 px-6 py-16">
-          <GridCTA contentType="packages" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background-950/60 from-0% via-background-950/90 via-40% to-background-950 pointer-events-none z-20" />
+          <div className="absolute left-0 right-0 top-1/3 -translate-y-1/2 flex justify-center z-30 pointer-events-auto px-6 py-16">
+            <GridCTA contentType="packages" />
+          </div>
         </div>
       </div>
     </div>

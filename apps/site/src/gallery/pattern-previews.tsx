@@ -25,7 +25,7 @@ export const patternPreviews: Record<string, React.ComponentType<object>> = {
             <div style={{ height: 6, width: `${[68, 80, 55][n]}%` }} className="bg-background-700 rounded" />
             <div style={{ height: 4, width: "45%" }} className="bg-background-800 rounded" />
           </div>
-          <div style={{ width: 44, height: 18 }} className="bg-accent-900 border border-accent-700 rounded-full shrink-0" />
+          <div style={{ width: 44, height: 18 }} className="bg-accent-900 border border-background-700 rounded-full shrink-0" />
         </div>
       ))}
     </div>
@@ -111,7 +111,7 @@ export const patternPreviews: Record<string, React.ComponentType<object>> = {
         ))}
       </div>
       <div className="flex flex-wrap gap-1.5">
-        {[[44, "bg-accent-900 border-accent-700"], [60, "bg-background-800 border-background-700"], [40, "bg-background-800 border-background-700"], [52, "bg-background-700 border-background-600"]].map(([w, cls]) => (
+        {[[44, "bg-accent-900 border-background-700"], [60, "bg-background-800 border-background-700"], [40, "bg-background-800 border-background-700"], [52, "bg-background-700 border-background-600"]].map(([w, cls]) => (
           <div key={`badge-${w}`} style={{ width: w as number, height: 20 }} className={`${cls} border rounded-full`} />
         ))}
       </div>
