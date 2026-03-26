@@ -3,9 +3,23 @@
 
 import { useEffect, useReducer, useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
-import { Button, Group, Divider, Select, Searchable, Tooltip, useAnimatedWidth, Badge, Input, Flex, Menu } from "ui-lab-components";
+import {
+  Button,
+  Group,
+  Divider,
+  Select,
+  Searchable,
+  Tooltip,
+  useAnimatedWidth,
+  Badge,
+  Input,
+  Flex,
+  Menu,
+  Label,
+} from "ui-lab-components";
 
-import { FaList, FaGrip, FaTable, FaBold, FaItalic, FaUnderline, FaChevronLeft, FaChevronRight, FaChevronUp, FaChevronDown, FaAnglesLeft, FaAnglesRight, FaEllipsis, FaStrikethrough, FaListUl, FaLink, FaImage, FaQuoteLeft, FaRocket, FaCheck, FaRotateRight, FaSpinner, FaStop, FaTerminal, FaGear, FaBug, FaPlay, FaClock, FaCopy, FaMagnifyingGlass, FaShare, FaPlus, FaShareNodes, FaEllipsisVertical, FaWandMagicSparkles, FaHashtag, FaLock } from "react-icons/fa6";
+import { FaList, FaGrip, FaTable, FaRocket, FaCheck, FaRotateRight, FaSpinner, FaCopy, FaPlus, FaShareNodes, FaEllipsisVertical, FaHashtag, FaLock, } from "react-icons/fa6";
+
 import { LuSearch } from "react-icons/lu";
 
 type DeployStage = "idle" | "queued" | "deploying" | "succeeded" | "failed";
@@ -25,61 +39,24 @@ function deployReducer(state: DeployStage, action: DeployAction): DeployStage {
   }
 }
 
-function DeployPipelineButton() {
-  const [stage, dispatch] = useReducer(deployReducer, "idle");
-  const wrapperRef = useAnimatedWidth({ duration: 200, easing: "cubic-bezier(0.25, 0, 0.25, 1)", trigger: stage });
-
-  useEffect(() => {
-    if (stage === "queued") {
-      const t = setTimeout(() => dispatch({ type: "NEXT" }), 1200);
-      return () => clearTimeout(t);
-    }
-    if (stage === "deploying") {
-      const t = setTimeout(() => {
-        dispatch({ type: "COMPLETE", success: Math.random() > 0.25 });
-      }, 3000);
-      return () => clearTimeout(t);
-    }
-  }, [stage]);
-
-  const stageConfig: Record<DeployStage, { label: string; icon: React.ReactNode; variant: "ghost" | "default" | "outline" | "danger"; disabled: boolean }> = {
-    idle: { label: "Deploy to Production", icon: <FaRocket />, variant: "ghost", disabled: false },
-    queued: { label: "Queued…", icon: <FaSpinner className="animate-spin" />, variant: "outline", disabled: true },
-    deploying: { label: "Deploying…", icon: <FaSpinner className="animate-spin" />, variant: "outline", disabled: true },
-    succeeded: { label: "Deployed", icon: <FaCheck />, variant: "outline", disabled: false },
-    failed: { label: "Failed — Retry", icon: <FaRotateRight />, variant: "danger", disabled: false },
-  };
-
-  const cfg = stageConfig[stage];
-
-  return (
-    <div className="flex flex-col gap-3">
-      <div
-        ref={wrapperRef}
-      >
-        <Button
-          variant={cfg.variant}
-          icon={{ left: cfg.icon }}
-          isDisabled={cfg.disabled}
-          onPress={() => dispatch({ type: "START" })}
-        >
-          {cfg.label}
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 function JoinedTogglePreview() {
   const [viewMode, setViewMode] = useState("list");
   return (
-    <Group orientation="horizontal" value={viewMode} onChange={setViewMode}>
-      <Group.Button value="list"><FaList className="mr-1.5 text-foreground-400" /> List</Group.Button>
-      <Divider orientation="vertical" />
-      <Group.Button value="grid"><FaGrip className="mr-1.5 text-foreground-400" /> Grid</Group.Button>
-      <Divider orientation="vertical" />
-      <Group.Button value="table"><FaTable className="mr-1.5 text-foreground-400" /> Table</Group.Button>
-    </Group>
+    <Flex className="w-110" gap="xs" align="center">
+      <Input
+        placeholder="Search items..."
+        icon={<LuSearch />}
+        className="w-full"
+      />
+      <Group orientation="horizontal" value={viewMode} onChange={setViewMode}>
+        <Group.Button size="icon" value="list"><FaList /></Group.Button>
+        <Divider orientation="vertical" />
+        <Group.Button size="icon" value="grid"><FaGrip /></Group.Button>
+        <Divider orientation="vertical" />
+        <Group.Button size="icon" value="table"><FaTable /></Group.Button>
+      </Group>
+      <Button size="sm" icon={{ left: <FaPlus /> }} >New</Button>
+    </Flex>
   );
 }
 
@@ -104,37 +81,6 @@ const publishActions: Record<PublishAction, { label: string; variant: "ghost" | 
   schedule: { label: "Schedule for Later", variant: "outline" },
 };
 
-function CopyInviteLinkPreview() {
-  const [copied, setCopied] = useState(false);
-  const inviteLink = "https://app.acme.io/invite/tk_8xN2mP4qRv";
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(inviteLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <span className="text-sm font-medium text-foreground-300">Invite Link</span>
-      <Input
-        readOnly
-        value={inviteLink}
-        actions={[
-          <Button
-            key="copy"
-            size="sm"
-            variant="ghost"
-            className="p-1"
-            icon={{ left: copied ? <FaCheck /> : <FaCopy /> }}
-            onPress={handleCopy}
-          />,
-        ]}
-      />
-    </div>
-  );
-}
-
 function SplitActionButtonPreview() {
   const [action, setAction] = useState<PublishAction>("publish");
   const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
@@ -154,7 +100,7 @@ function SplitActionButtonPreview() {
   const label = status === "loading" ? "Saving..." : status === "done" ? "Done!" : cfg.label;
 
   return (
-    <Flex gap="xs" align="center">
+    <Flex gap="xs" className="w-110" align="center">
       <Select
         selectedKey={channel}
         valueLabel={selectedChannel ? `#${selectedChannel.label}` : undefined}
@@ -162,7 +108,7 @@ function SplitActionButtonPreview() {
         className="flex h-10"
         isDisabled={status !== "idle"}
       >
-        <Searchable.Input icon={<FaHashtag />} placeholder="Select channel..." />
+        <Searchable.Input className="w-50" icon={<FaHashtag />} placeholder="Select channel..." />
         <Select.Content>
           <Select.List>
             {channels.map((c) => (
@@ -179,12 +125,12 @@ function SplitActionButtonPreview() {
           </Select.List>
         </Select.Content>
       </Select>
-      <Divider orientation="vertical" />
       <Select className="flex h-10" selectedKey={action} onSelectionChange={(key) => setAction(key as PublishAction)} isDisabled={status !== "idle"}>
         <Button
           onPress={handleExecute}
           variant="ghost"
-          className=" px-2 py-0 h-full"
+          size="sm"
+          className="w-full"
           isDisabled={status !== "idle"}
           icon={leftIcon}
         >
@@ -215,23 +161,39 @@ function SplitActionButtonPreview() {
 function MultipleActions() {
   const [viewMode, setViewMode] = useState("list");
   return (
-    <Flex gap="xs">
-      <Group orientation="horizontal" spacing="xs" value={viewMode} onChange={setViewMode}>
-        <Group.Button size="icon" value="list"><FaList className="text-foreground-400" /></Group.Button>
-        <Group.Button size="icon" value="grid"><FaGrip className="text-foreground-400" /></Group.Button>
+    <Flex gap="xs" className="w-110 *:not-last:flex-1">
+      <Button size="sm" variant="primary" >Subscribe</Button>
+      <Button size="sm" >Message</Button>
+      <Button size="icon" variant="outline" icon={<FaEllipsisVertical />} />
+    </Flex>
+  );
+}
+
+function SubStackActions() {
+  const [viewMode, setViewMode] = useState("list");
+  return (
+    <Flex gap="xs" className="w-110">
+      <Group orientation="horizontal" spacing="sm" value={viewMode} onChange={setViewMode}>
+        <Group.Button size="icon" value="list"><FaList /></Group.Button>
+        <Group.Button size="icon" value="grid"><FaGrip /></Group.Button>
       </Group>
       <Input
         placeholder="Search..."
         icon={<LuSearch />}
         hint={<Badge size="sm" variant="secondary" >Ctrl+K</Badge>}
       />
-      <Button styles="p-1" variant="outline" icon={<FaShareNodes />} />
-      <Button icon={{ right: <FaPlus /> }} >Upload</Button>
+      <Button size="sm" icon={{ right: <FaPlus /> }} >Upload</Button>
     </Flex>
   );
 }
 
 const examples: DevExample[] = [
+  {
+    id: "multi-actions",
+    title: "Actions",
+    description: "A primary action button joined with a Select dropdown that changes what the button does — useful for publish workflows with multiple delivery options.",
+    preview: <MultipleActions />,
+  },
   {
     id: "joined-toggle",
     title: "Joined Toggle Buttons",
@@ -239,22 +201,16 @@ const examples: DevExample[] = [
     preview: <JoinedTogglePreview />,
   },
   {
-    id: "copy-invite-link",
-    title: "Copy Invite Link",
-    description: "Inline copy-to-clipboard button with transient confirmation state — common in share dialogs and settings pages.",
-    preview: <CopyInviteLinkPreview />,
+    id: "sub-stack-actions",
+    title: "Actions",
+    description: "A primary action button joined with a Select dropdown that changes what the button does — useful for publish workflows with multiple delivery options.",
+    preview: <SubStackActions />,
   },
   {
     id: "split-action-button",
     title: "Split Action Button",
     description: "A primary action button joined with a Select dropdown that changes what the button does — useful for publish workflows with multiple delivery options.",
     preview: <SplitActionButtonPreview />,
-  },
-  {
-    id: "multi-actions",
-    title: "Actions",
-    description: "A primary action button joined with a Select dropdown that changes what the button does — useful for publish workflows with multiple delivery options.",
-    preview: <MultipleActions />,
   },
 ];
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Expand, Group, Divider } from 'ui-lab-components';
-import { FaCheck, FaFileLines } from 'react-icons/fa6';
+import { FaCheck, FaClipboard, FaFileLines, FaRegClipboard } from 'react-icons/fa6';
 import { generatedAPI, generatedStyles } from 'ui-lab-registry';
 import type { ComponentDetail } from '@/types/component';
 
@@ -85,18 +85,17 @@ export function CopyComponentPage({ componentId, component }: { componentId: str
   return (
     <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className='w-65'>
       <Expand.Trigger>
-        <Group>
-          <div className="w-13 flex justify-center items-center px-3 text-foreground-400 text-sm font-medium">
-            {copied ? <FaCheck size={12} className="text-foreground-400" /> : <FaFileLines />}
+        <Group className='w-full'>
+          <div className="flex justify-center items-center pl-3 text-foreground-400 text-sm font-medium">
+            {copied ? <FaCheck size={12} className="text-foreground-400" /> : <FaRegClipboard />}
           </div>
-          <Divider />
           <div
             onClick={() => setIsOpen(o => !o)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
             }}
             title="Copy component context as Markdown"
-            className="flex text-sm font-medium p-1.5 pl-4 w-55 items-center justify-start"
+            className="flex text-foreground-300 text-xs font-medium pl-4 h-10 w-55 items-center justify-start"
             role="button"
             tabIndex={0}
           >
@@ -106,12 +105,12 @@ export function CopyComponentPage({ componentId, component }: { componentId: str
         </Group>
       </Expand.Trigger>
       <Expand.Content from="below" className='w-[calc(100%-var(--radius-md))] mx-auto -mt-(--border-width-base)'>
-        <div className="flex flex-col pt-2 overflow-hidden rounded-b-sm">
+        <div className="text-xs flex flex-col pt-2 overflow-hidden rounded-b-sm">
           {copyOptions.map(({ label, source }) => (
             <button
               key={source}
               onClick={() => handleCopy(source)}
-              className="flex items-center rounded-sm text-sm text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700 text-left"
+              className="flex items-center rounded-sm text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700 text-left"
             >
               <span className="flex-1 py-2 px-3">{label}</span>
             </button>

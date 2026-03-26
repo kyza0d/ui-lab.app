@@ -33,7 +33,7 @@ const TabItem = memo(({ tab }: { tab: TabConfig }) => {
       <Tabs.Trigger
         value={tab.id}
         disabled={tab.isPlaceholder}
-        className="text-sm pb-[15px] pt-[17px]"
+        className="text-xs pb-[15px] pt-[17px]"
       >
         {tab.label}
       </Tabs.Trigger>
@@ -181,7 +181,7 @@ export default function Header({
                   Source
                 </Button>
               </a>
-              <Divider size='sm' className="-my-3" orientation="vertical" />
+              <Divider size='auto' orientation="vertical" />
             </div>
             <SettingsPanel />
             <ThemeToggle />

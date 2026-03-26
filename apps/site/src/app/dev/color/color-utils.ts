@@ -293,15 +293,16 @@ export function formatColorRgb(
  */
 const RECENT_COLORS_KEY = "ui-lab-recent-colors";
 const MAX_RECENT_COLORS = 10;
+const EMPTY_COLORS: string[] = [];
 
 export function getRecentColors(): string[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY_COLORS;
 
   try {
     const stored = localStorage.getItem(RECENT_COLORS_KEY);
-    return stored ? JSON.parse(stored) : [];
+    return stored ? JSON.parse(stored) : EMPTY_COLORS;
   } catch {
-    return [];
+    return EMPTY_COLORS;
   }
 }
 

@@ -114,14 +114,14 @@ export function PanelAnimation() {
               width={sidebarWidth}
               height={180}
               rx={config.blockRx}
-              className={isHovered ? config.highlight.hoverClass : config.dim.class}
+              className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
               fill="currentColor"
               stroke="currentColor"
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: isHovered ? 0.05 : config.dim.fillOpacity,
-                strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.dim.strokeOpacity,
+                fillOpacity: isHovered ? 0.05 : config.highlight.idleFillOpacity,
+                strokeOpacity: isHovered ? config.highlight.hoverStrokeOpacity : config.highlight.idleStrokeOpacity,
               }}
             />
             {/* Sidebar Icon Placeholder (visible when collapsed) */}
@@ -133,7 +133,7 @@ export function PanelAnimation() {
               rx={2}
               fill="currentColor"
               className={isHovered ? config.highlight.hoverClass : config.highlight.idleClass}
-              style={{ transition: config.transition, opacity: isHovered ? 0 : 0.4 }}
+              style={{ transition: config.transition, opacity: isHovered ? 0 : config.bar.primaryOpacity }}
             />
             {/* Sidebar List Items (Visible only when expanded) */}
             {[0, 1, 2, 3].map((n, i) => (
@@ -173,14 +173,14 @@ export function PanelAnimation() {
               width={contentWidth}
               height={mainContentHeight}
               rx={config.blockRx}
-              className={!isHovered ? config.highlight.idleClass : config.dim.class}
+              className={config.dim.class}
               fill="currentColor"
               stroke="currentColor"
               strokeWidth={config.strokeWidth}
               style={{
                 transition: config.transition,
-                fillOpacity: !isHovered ? config.highlight.idleFillOpacity : config.dim.fillOpacity,
-                strokeOpacity: !isHovered ? config.highlight.idleStrokeOpacity : config.dim.strokeOpacity,
+                fillOpacity: config.dim.fillOpacity,
+                strokeOpacity: config.dim.strokeOpacity,
               }}
             />
             {/* Content Details */}
@@ -191,10 +191,10 @@ export function PanelAnimation() {
               height={8}
               rx={config.barRx}
               fill="currentColor"
-              className={config.highlight.idleClass}
+              className={config.dim.class}
               style={{
                 transition: config.transition,
-                opacity: !isHovered ? config.bar.primaryOpacity : 0,
+                opacity: 0,
               }}
             />
           </g>

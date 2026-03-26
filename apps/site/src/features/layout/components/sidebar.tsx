@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useRef, useMemo, memo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, memo, useState, type ReactNode } from 'react';
 import { Scroll, Select } from 'ui-lab-components';
 import { SiAstro, SiFlutter, SiReact, SiSvelte } from 'react-icons/si';
 import { cn, usePrefetchOnHover } from '@/shared';
@@ -96,10 +96,13 @@ export function Sidebar() {
     }
     return getSectionsForNav(activeNavItem, docsNavigationData);
   }, [activeDomain, activeNavItem, docsNavigationData]);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const isElementsOrSectionsOrStarters = activeDomain === 'packages' || activeDomain === 'sections' || activeDomain === 'starters' || activeDomain === 'patterns';
   const activeElementsNav = useMemo(() => (isElementsOrSectionsOrStarters ? getActiveElementsNavFromPathname(pathname) : 'packages'), [isElementsOrSectionsOrStarters, pathname]);
+  const scrollStorageKey = useMemo(
+    () => (isElementsOrSectionsOrStarters ? `sidebar-scroll-${activeElementsNav}` : `sidebar-scroll-${activeNavItem}`),
+    [activeElementsNav, activeNavItem, isElementsOrSectionsOrStarters]
+  );
   const selectedFrameworkOption = useMemo(
     () => FRAMEWORK_OPTIONS.find((option) => option.value === selectedFramework) ?? FRAMEWORK_OPTIONS[0],
     [selectedFramework]
@@ -114,24 +117,6 @@ export function Sidebar() {
       setSelectedFramework(matchingFramework.value);
     }
   }, []);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const storageKey = isElementsOrSectionsOrStarters ? `sidebar-scroll-${activeElementsNav}` : `sidebar-scroll-${activeNavItem}`;
-    const savedPosition = sessionStorage.getItem(storageKey);
-    if (savedPosition) {
-      container.scrollTop = parseInt(savedPosition, 10);
-    }
-
-    const handleScroll = () => {
-      sessionStorage.setItem(storageKey, container.scrollTop.toString());
-    };
-
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [activeNavItem, activeElementsNav, isElementsOrSectionsOrStarters]);
 
   const handleFrameworkChange = (key: string | number | null) => {
     if (key === null) return;
@@ -212,7 +197,7 @@ export function Sidebar() {
                       key={navItem.id}
                       href={navItem.href}
                       className={cn(
-                        'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-sm rounded-sm',
+                        'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs rounded-sm',
                         isActive
                           ? 'border-background-700 text-foreground-50 bg-background-800'
                           : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
@@ -226,7 +211,7 @@ export function Sidebar() {
                       >
                         <Icon className="w-5 h-5" />
                       </div>
-                      <span className='font-body-medium'>{navItem.label}</span>
+                      <span className='text-xs font-body-medium'>{navItem.label}</span>
                     </Link>
                   );
                 })}
@@ -235,10 +220,10 @@ export function Sidebar() {
           )}
 
           <Scroll
-            ref={scrollContainerRef}
             className="flex-1"
             maxHeight="100%"
             fade-y
+            storageKey={scrollStorageKey}
           >
             {isElementsOrSectionsOrStarters ? (
               <div className="px-4 opacity-20 pointer-events-none">
@@ -252,7 +237,7 @@ export function Sidebar() {
               <div className="py-4 px-5 space-y-8">
                 {sections.map((section) => (
                   <div key={section.label}>
-                    <p className="text-body-xs font-body-semibold text-foreground-400/80">{section.label}</p>
+                    <p className="text-xs font-body-semibold text-foreground-400/80">{section.label}</p>
                     <div className="relative mt-2.5">
                       <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
                       <div className="pl-3">
@@ -264,7 +249,7 @@ export function Sidebar() {
                               key={item.id}
                               href={href}
                               className={cn(
-                                'block leading-body text-body-xs font-body-medium px-3 py-2 rounded-sm cursor-pointer',
+                                'block leading-body text-xs font-body-medium px-3 py-2 rounded-sm cursor-pointer',
                                 'transition-colors duration-300 ease-out',
                                 'hover:duration-0',
                                 active

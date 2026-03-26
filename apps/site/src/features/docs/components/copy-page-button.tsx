@@ -33,18 +33,17 @@ export function CopyPage() {
   };
 
   return (
-    <Group className='w-65 h-12'>
-      <div className="w-13 flex justify-center items-center px-3 text-foreground-400 text-sm font-medium">
+    <Group className='w-full cursor-pointer'>
+      <div className="flex justify-center items-center pl-3 text-foreground-400 text-sm font-medium">
         <FaFileLines />
       </div>
-      <Divider />
       <div
         onClick={handleCopy}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') handleCopy();
         }}
         title="Copy rendered content as Markdown"
-        className="flex text-sm font-medium p-1.5 pl-4 w-55 items-center justify-start"
+        className="flex text-foreground-300 text-xs font-medium pl-4 h-10 w-55 items-center justify-start"
         role="button"
         tabIndex={0}
       >

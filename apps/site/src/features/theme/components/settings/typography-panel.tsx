@@ -48,29 +48,8 @@ export const TypographyPanel = memo(
       globalMinFontSizePx,
     } = typography;
     return (
-      <div className="m-0 space-y-2">
+      <div className="m-0 space-y-2 p-4">
         <div className="mx-[6px] mb-4 p-3 bg-background-900/40 rounded-[12px] border border-background-700 space-y-3">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground-400 block" htmlFor="sans-font-select">
-              Sans Font
-            </label>
-            <Select
-              selectedKey={selectedSansFont}
-              defaultValue={selectedSansFont}
-              onSelectionChange={(key) => onSansFontChange(key as string)}
-            >
-              <Select.Trigger className="w-full">
-                <Select.Value placeholder="Select sans font" />
-              </Select.Trigger>
-              <Select.Content>
-                {SANS_FONTS.map((font) => (
-                  <Select.Item key={font.name} value={font.name} textValue={font.name}>
-                    {font.isDefault ? `${font.name} (default)` : font.name}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select>
-          </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground-400 block" htmlFor="mono-font-select">
@@ -99,7 +78,7 @@ export const TypographyPanel = memo(
             value={globalMinFontSizePx}
             min={MIN_GLOBAL_MIN_FONT_SIZE_PX}
             max={MAX_GLOBAL_MIN_FONT_SIZE_PX}
-            step={0.25}
+            step={0.05}
             unit="px"
             onChange={(size) => onTypographyChange({ globalMinFontSizePx: size })}
           />
@@ -164,14 +143,35 @@ export const TypographyPanel = memo(
             </div>
           </div>
 
-          <div className="bg-background-900 border border-background-700 rounded-[12px] p-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
-                <p className="text-sm font-semibold mb-0">Aa</p>
+          <div className="bg-background-900 border border-background-700 rounded-[12px]">
+            <div className="justify-between flex items-center gap-2 p-2">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-background-700 border border-background-600">
+                  <p className="text-sm font-semibold mb-0">Aa</p>
+                </div>
+                <h3 className="text-sm font-semibold text-foreground-100">Body</h3>
               </div>
-              <h3 className="text-sm font-semibold text-foreground-100">Body</h3>
+              <div className="space-y-2">
+                <Select
+                  selectedKey={selectedSansFont}
+                  defaultValue={selectedSansFont}
+                  onSelectionChange={(key) => onSansFontChange(key as string)}
+                >
+                  <Select.Trigger className="w-60">
+                    <Select.Value placeholder="Select sans font" />
+                  </Select.Trigger>
+                  <Select.Content>
+                    {SANS_FONTS.map((font) => (
+                      <Select.Item key={font.name} value={font.name} textValue={font.name}>
+                        {font.isDefault ? `${font.name} (default)` : font.name}
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select>
+              </div>
             </div>
-            <div className="space-y-3">
+            <Divider />
+            <div className="space-y-3 p-3">
               <SliderControl
                 label="Type Scale Ratio"
                 value={bodyTypeSizeRatio}

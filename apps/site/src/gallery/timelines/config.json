@@ -1,7 +1,7 @@
 {
   "blockRx": 10,
   "barRx": 4,
-  "strokeWidth": 2,
+  "strokeWidth": 4,
   "transition": "all 0.4s cubic-bezier(0.25, 0, 0.25, 1)",
   "highlight": {
     "idleClass": "text-background-500",
@@ -12,7 +12,7 @@
     "hoverStrokeOpacity": 0.6
   },
   "dim": {
-    "class": "text-background-400",
+    "class": "text-background-500",
     "strokeClass": "text-background-500",
     "fillOpacity": 0.05,
     "strokeOpacity": 0.2
@@ -22,8 +22,8 @@
     "secondaryOpacity": 0.5
   },
   "skeleton": {
-    "mediaIdleOpacity": 0.2,
-    "mediaDimOpacity": 0.5,
+    "mediaIdleOpacity": 0.1,
+    "mediaDimOpacity": 0.1,
     "textLine1IdleOpacity": 0.5,
     "textLine1DimOpacity": 0.5,
     "textLine2IdleOpacity": 0.3,
@@ -31,7 +31,7 @@
   },
   "activeContent": {
     "mediaIdleOpacity": 0.2,
-    "mediaActiveOpacity": 0.25,
+    "mediaActiveOpacity": 0.2,
     "labelIdleOpacity": 0.5,
     "labelActiveOpacity": 0.9,
     "subtextIdleOpacity": 0.3,

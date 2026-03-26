@@ -48,10 +48,8 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
                 <h2 className="text-md font-semibold text-foreground-100">{example.title}</h2>
                 <p className="text-sm text-foreground-400">{example.description}</p>
               </div>
-              <div className="w-full border border-background-700 rounded-sm">
-                <div className="flex justify-start mx-auto w-fit relative p-24">
-                  {example.preview}
-                </div>
+              <div className="min-h-40 flex items-center justify-center w-full border border-background-700 rounded-sm">
+                {example.preview}
               </div>
             </div>
           ))}

@@ -96,7 +96,7 @@ export function IntegrationsPanel() {
                   </List.Media>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-foreground-100">{item.name}</div>
-                    <List.Desc>{item.desc}</List.Desc>
+                    <List.Desc className="text-xs">{item.desc}</List.Desc>
                   </div>
                   <Button
                     size="sm"

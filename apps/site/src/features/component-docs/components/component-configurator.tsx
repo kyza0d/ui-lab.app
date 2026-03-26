@@ -116,48 +116,50 @@ export function ComponentConfigurator({
         <div className="border-b space-y-2 border-background-700 py-8">
           <h4 className="text-foreground-50">{title}</h4>
           {description && (
-            <p className="text-sm text-foreground-400">{description}</p>
+            <p className="text-xs text-foreground-400">{description}</p>
           )}
         </div>
       )
       }
 
-      <div className="flex-1 border border-background-700 rounded-sm overflow-hidden">
+      <div className="flex-1 rounded-sm overflow-hidden">
         {!hidePreviewToggle && (
-          <Tabs defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
-            <Tabs.List className="rounded-none border-b border-background-700">
+          <Tabs variant="underline" defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
+            <Tabs.List className="rounded-none px-[calc(var(--radius-sm)*1.2)]">
               <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
               <Tabs.Trigger value="code">Code</Tabs.Trigger>
             </Tabs.List>
 
-            <Tabs.Content value="preview" className="overflow-hidden mt-0">
-              <div
-                className={cn("px-10 py-20  h-100 mx-auto w-fit min-w-xs", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
-                style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
-              >
-                {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
-              </div>
-            </Tabs.Content>
-
-            <Tabs.Content value="code" className="mt-0 p-0">
-              {allTabs.length > 1 && (
-                <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
-                  {allTabs.map((tab, index) => (
-                    <Button
-                      key={`${tab.label}-${tab.code}`}
-                      size="sm"
-                      onClick={() => setActiveTab(index)}
-                      className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
-                    >
-                      {tab.label}
-                    </Button>
-                  ))}
+            <div className="border border-background-700 rounded-sm">
+              <Tabs.Content value="preview" className="overflow-hidden mt-0">
+                <div
+                  className={cn("px-10 py-20 mx-auto w-fit min-w-xs", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
+                  style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
+                >
+                  {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
                 </div>
-              )}
-              <div className="p-0">
-                <Code className="border-0" language={language}>{currentCode}</Code>
-              </div>
-            </Tabs.Content>
+              </Tabs.Content>
+
+              <Tabs.Content value="code" className="mt-0 p-0">
+                {allTabs.length > 1 && (
+                  <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
+                    {allTabs.map((tab, index) => (
+                      <Button
+                        key={`${tab.label}-${tab.code}`}
+                        size="sm"
+                        onClick={() => setActiveTab(index)}
+                        className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
+                      >
+                        {tab.label}
+                      </Button>
+                    ))}
+                  </div>
+                )}
+                <div className="p-0">
+                  <Code className="border-0" language={language}>{currentCode}</Code>
+                </div>
+              </Tabs.Content>
+            </div>
           </Tabs>
         )}
 
@@ -183,7 +185,7 @@ export function ComponentConfigurator({
 
               return (
                 <div key={control.name} className="space-y-2">
-                  <label className="text-sm font-medium text-foreground-400">
+                  <label className="text-xs font-medium text-foreground-400">
                     {control.label}
                   </label>
                   {control.type === "select" && (
@@ -217,7 +219,7 @@ export function ComponentConfigurator({
                         )
                       }
                       className={cn(
-                        "w-full px-3 py-1.5 text-sm font-medium rounded-sm",
+                        "w-full px-3 py-1.5 text-xs font-medium rounded-sm",
                         controlValues[control.name]
                           ? "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700"
                           : "bg-background-800 text-foreground-300 hover:bg-background-700 border border-background-700 opacity-50"
@@ -235,7 +237,7 @@ export function ComponentConfigurator({
                       onChange={(e) =>
                         handleControlChange(control.name, e.target.value)
                       }
-                      className="w-full px-3 py-2 text-sm bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                      className="w-full px-3 py-2 text-xs bg-background-800/50 border border-background-700 rounded-sm text-foreground-50 placeholder-foreground-400 hover:border-background-600 focus:outline-none focus:ring-2 focus:ring-accent-500"
                     />
                   )}
                 </div>
@@ -244,7 +246,7 @@ export function ComponentConfigurator({
             {/* Easing Selector - only show if easing control is defined */}
             {controls.some((c) => c.name === "easing") && (
               <div className="space-y-2">
-                <label className="text-sm text-foreground-400" htmlFor="interaction-ease-select">
+                <label className="text-xs text-foreground-400" htmlFor="interaction-ease-select">
                   Interaction Ease
                 </label>
                 <Select

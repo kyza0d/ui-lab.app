@@ -25,20 +25,11 @@ function HeroSection() {
               Accessible, production-ready React components with intelligent
               metadata that enable AI to generate perfectly consistent interfaces.
             </p>
-            <div className="flex gap-3 mt-8 mb-6 md:mt-10 md:mb-0">
-              <Button
-                size="sm"
-                variant="primary"
-                styles="px-8!"
-                // icon={{ left: <FaBrain />, right: <FaPaintbrush /> }}
-                // className={cn("flex gap-4", 'mb-40')}
-                // styles={{ root: ["border-2 border-gray-500", 'my-2 mx-18'], icon: { left: "bg-red-500", right: "bg-blue-500" } }}
-                href="/docs"
-              >
+            <div className="w-90 *:flex-1 flex gap-2 mt-6 mb-6 md:mt-8 md:mb-0">
+              <Button size="sm" variant="primary" href="/docs" >
                 Documentation
               </Button>
               <Button
-                icon={{ left: <FaCube className="text-foreground-300 mr-1 mb-px" /> }}
                 variant="secondary" size="sm" className="font-semibold" href="/components">
                 View Components
               </Button>

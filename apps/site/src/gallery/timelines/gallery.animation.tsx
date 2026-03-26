@@ -161,8 +161,8 @@ const Row = ({
   const getOpacity = () => {
     if (opacity !== undefined) return opacity;
     if (isDim) return 0.5;
-    if (isIdle) return 0.8;
-    return 1;
+    if (isIdle) return 0.5;
+    return 1.0;
   };
 
   const startX = 60;
@@ -173,21 +173,32 @@ const Row = ({
   return (
     <g style={{ transform: `translateY(${y}px)`, opacity: getOpacity(), transition: config.transition }}>
       {type === "featured" ? (
+        /* TOP ROW (2 items) */
         <>
+          {/* Cell 1 (Top Left): The ONLY featured box */}
           <g transform={`translate(${startX}, 0)`}>
             <Item width={180} height={itemHeight} state={state} isLarge={true} />
           </g>
+
+          {/* Cell 2 (Top Right): Now explicitly NOT featured */}
           <g transform={`translate(${startX + 180 + gap}, 0)`}>
-            <Item width={itemWidth} height={itemHeight} state={isDim ? "dim" : "idle"} />
+            <Item
+              width={itemWidth}
+              height={itemHeight}
+              state={state === "active" ? "active" : state}
+              isLarge={false} // Ensure this is standard
+            />
           </g>
         </>
       ) : (
+        /* BOTTOM ROW (3 items) */
         [0, 1, 2].map((n) => (
           <g key={n} transform={`translate(${startX + n * (itemWidth + gap)}, 0)`}>
             <Item
               width={itemWidth}
               height={itemHeight}
               state={state === "active" ? "active" : state}
+              isLarge={false} // All bottom row items are standard
             />
           </g>
         ))

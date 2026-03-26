@@ -22,8 +22,8 @@ export default async function DocsPage() {
       page={page}
       className="w-full pb-16"
       beforeBody={
-        <div className="h-50 border border-background-700 rounded-sm mb-12 relative overflow-hidden">
-          <Logo className="absolute text-foreground-200 opacity-10 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-100" />
+        <div className="h-70 border border-background-700 rounded-sm mb-12 relative overflow-hidden">
+          <Logo className="absolute text-background-800 top-1/2 left-0 -translate-y-40 -translate-x-10 w-70 h-100" />
         </div>
       }
       afterBody={

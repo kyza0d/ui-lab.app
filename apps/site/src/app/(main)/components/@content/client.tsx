@@ -20,7 +20,7 @@ export default function ComponentsPageClient() {
     <div className="docs-layout-inner grid grid-cols-1 min-w-0 lg:grid-cols-[4fr_1fr]">
       <div className="flex flex-col justify-center min-w-0 mt-(--header-height)">
         <div className="flex items-center w-full min-w-0">
-          <main className="py-12 px-4 md:px-6 mx-auto max-w-(--content-width) w-full min-w-0">
+          <main className="py-12 px-4 md:px-6 mx-auto w-full min-w-0">
             {/* Organized Components by Category */}
             <div className="space-y-32">
               {getCategoriesInOrder().map((category) => {
@@ -35,10 +35,10 @@ export default function ComponentsPageClient() {
                         <Icon color="var(--foreground-400)" IconComponent={CategoryIcons[category as keyof typeof CategoryIcons] || CategoryIcons.default} size={18} />
                       </Flex>
                       <div>
-                        <h3 className="mb-2 font-semibold text-foreground-50 flex items-center">
+                        <h3 className="mb-2 text-sm font-semibold text-foreground-50 flex items-center">
                           {categoryMap[category].label}
                         </h3>
-                        <p className="w-full md:w-[47ch] text-foreground-400 flex items-start">
+                        <p className="w-full text-xs md:w-[47ch] text-foreground-400 flex items-start">
                           {categoryMap[category].description}
                         </p>
                       </div>
@@ -80,7 +80,7 @@ export default function ComponentsPageClient() {
                                     </div>
                                   )}
                                 </div>
-                                <p className="text-foreground-400 text-sm">
+                                <p className="text-foreground-400 text-xs">
                                   {component.description}
                                 </p>
                               </Gallery.Body>

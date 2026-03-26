@@ -10,7 +10,7 @@
 
 #docs {
   li {
-    font-size: var(--text-md);
+    font-size: var(--text-xs);
   }
 }
 
@@ -28,7 +28,7 @@
 
 
 #docs h3, #docs strong {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 600;
   margin: 3.2rem 0 0.2rem 0;
 }
@@ -37,6 +37,9 @@
   color: var(--foreground-400);
   max-width: 74ch;
   margin: 0.6rem 0 1.4rem 0;
+}
+#docs a {
+  font-size: var(--text-xs);
 }
 
 #docs ul {
@@ -48,7 +51,7 @@
 }
 
 #docs .banner p {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 #docs .banner .content {
@@ -57,6 +60,14 @@
 
 #docs .banner .title {
   @apply m-0
+}
+
+#docs a {
+  font-size: calc(var(--text-sm)*1.025);
+}
+
+#docs .banner a {
+  font-size: var(--text-xs)
 }
 
 #docs .content p, #docs .trigger p {

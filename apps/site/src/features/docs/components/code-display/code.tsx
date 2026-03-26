@@ -115,7 +115,7 @@ export function Code({
       try {
         const { codeToHtml } = await import("shiki");
         const { transformerRenderIndentGuides } = await import("@shikijs/transformers");
-        
+
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(children, {
           lang: language as CodeToHtmlOptions["lang"],

@@ -6,12 +6,18 @@ publishedOn: "2026-01-15"
 tags: ["getting-started", "setup", "basics"]
 ---
 
+<Banner>
+  <Banner.Title>Early Development Stage</Banner.Title>
+  <Banner.Body>
+    UI Lab is currently in early development. Features and APIs may change. If you encounter any issues or have feedback, please let us know by creating an issue in our [repository](https://github.com/kyza0d/ui-lab.app).
+  </Banner.Body>
+</Banner>
 
 ## What is UI Lab?
 
 UI Lab is a React component library where design quality is enforced, not hoped for. Components are built on React Aria and Tailwind v4, with a token system that makes correct usage the path of least resistance.
 
-The AI-native angle: an MCP server lets agents query live component APIs, semantic color recommendations, and curated patterns — so AI-generated UI code is design-system-compliant by default, not by accident.
+The AI-native angle: an MCP server lets agents query live component APIs, semantic color recommendations, and curated patterns — so AI-generated UI code is design-system-compliant by default.
 
 ## The problem it solves
 
@@ -70,10 +76,10 @@ Seven semantic color families with enforced shade ranges:
 
 ```tsx
 // Correct — works in light and dark mode automatically
-<div className="bg-background-800 text-foreground-100 border border-background-700">
+<div className="background-800 foreground-100 border-700">
 
 // Wrong — breaks dark mode and design system
-<div className="bg-white text-gray-900 border-gray-200">
+<div className="flex bg-slate-900 text-gray-100 border border-slate-800">
 ```
 
 See the [Colors reference](/design-system/colors) for the full token documentation.
@@ -113,9 +119,9 @@ Components are built to combine. Compound sub-components share state through con
 
 ```tsx
 <Panel>
-  <Panel.Sidebar defaultOpen side="left">
+  <Panel.Left expanded>
     <Panel.Toggle />
-  </Panel.Sidebar>
+  </Panel.Left>
   <Panel.Content>
     <List>
       {items.map(item => (

@@ -215,7 +215,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
       key: "name",
       label: "Name",
       render: (value: any, row: any) => (
-        <span className="font-mono text-sm text-foreground-50">
+        <span className="font-mono text-xs text-foreground-50">
           {value}{row.required && <span className="ml-1 text-background-500">?</span>}
         </span>
       ),
@@ -246,7 +246,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
       key: "name",
       label: "Name",
       render: (value: any, row: any) => (
-        <span className="font-mono text-sm text-foreground-50">
+        <span className="font-mono text-xs text-foreground-50">
           {value}{row.required && <span className="ml-1 text-foreground-400">?</span>}
         </span>
       ),
@@ -290,14 +290,14 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                     ? {
                       key: "description",
                       label: "Description",
-                      value: <p className="text-foreground-400 text-sm">{row.description}</p>,
+                      value: <p className="text-foreground-400 text-xs">{row.description}</p>,
                     }
                     : null,
                   {
                     key: "styleable-parts",
                     label: "Styleable parts",
                     value: (
-                      <ul className="grid grid-cols-1 gap-x-4 gap-y-1 text-sm text-foreground-400 sm:grid-cols-2">
+                      <ul className="grid grid-cols-1 gap-x-4 gap-y-1 text-xs text-foreground-400 sm:grid-cols-2">
                         {styleableParts.map((part) => (
                           <li key={part.name}>
                             <InlineCodeHighlight code={`'${part.name}'`} language="typescript" />
@@ -313,7 +313,7 @@ function APIDocumentation({ api, styleableParts }: { componentId: string; api: a
                   ? {
                     key: "description",
                     label: "Description",
-                    value: <p className="text-foreground-400 text-sm">{row.description}</p>,
+                    value: <p className="text-foreground-400 text-xs">{row.description}</p>,
                   }
                   : null,
                 row.defaultValue

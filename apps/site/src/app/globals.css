@@ -120,8 +120,8 @@
   --border-width-8: 8px;
 
   --header-height: 3.50rem;
-  --page-width: 1400px;
-  --content-width: 800px;
+  --page-width: 1450px;
+  --content-width: 755px;
   --logo-width: 250px;
   --banner-height: 52px;      /* adjust to match your banner content */
   /* --indent-offset: 3px; */
@@ -183,12 +183,17 @@
   }
 
   p {
-    font-size: var(--text-md);
+    font-size: calc(var(--text-sm)*1.025);
     letter-spacing: var(--letter-spacing-md);
     line-height: var(--leading-body);
     font-weight: var(--font-weight-body-medium);
-    max-width: 80ch;
+    text-wrap: pretty;
     margin: 0 0 0.4rem 0;
+  }
+
+  a {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-body-medium);
   }
 
   .rounded {
@@ -379,7 +384,8 @@ pre {
 
 code {
   font-family: var(--font-mono);
-  font-size: calc(var(--text-sm) * 0.94);
+  font-size: var(--text-xs);
+  color: var(--accent-500);
   font-weight: 500;
   letter-spacing: 0.006em;
 }

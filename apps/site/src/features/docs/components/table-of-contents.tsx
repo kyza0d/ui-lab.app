@@ -267,7 +267,7 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
             </span>
             <Divider variant="dashed" spacing="lg" />
             <div className="mt-2 h-140">
-              <Scroll inset fade-y ref={scrollRef} maxHeight="100%">
+              <Scroll inline fade-y ref={scrollRef} maxHeight="100%">
                 <div className="flex flex-col space-y-0">
                   {visibleItems.map((item) => (
                     <button
@@ -275,7 +275,7 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
                       data-toc-id={item.id}
                       onClick={() => handleClick(item.id)}
                       className={cn(
-                        "block w-full my-0.25 text-left font-medium text-sm px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
+                        "block w-full my-0.25 text-left font-medium px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
                         "transition-colors duration-450 ease-out",
                         "hover:duration-0",
 
@@ -288,7 +288,7 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
                           : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50"
                       )}
                     >
-                      <span className="whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
+                      <span className="text-xs whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
                         {item.title}
                       </span>
                     </button>

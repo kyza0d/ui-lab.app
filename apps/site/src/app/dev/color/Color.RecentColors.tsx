@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useSyncExternalStore } from "react";
+import React, { useSyncExternalStore, useCallback } from "react";
 import { getRecentColors } from "./color-utils";
 import styles from "./Color.module.css";
 
@@ -14,10 +14,11 @@ export const ColorRecentColors = React.forwardRef<
   HTMLDivElement,
   ColorRecentColorsProps
 >(({ onSelect, disabled, size = "md" }, ref) => {
+  const serverSnapshot = useCallback(() => [], []);
   const recentColors = useSyncExternalStore(
     () => () => {},
     getRecentColors,
-    () => [],
+    serverSnapshot,
   );
 
   if (recentColors.length === 0) {

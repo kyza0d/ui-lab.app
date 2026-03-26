@@ -1,15 +1,15 @@
 const ROOT_FONT_SIZE_PX = 16;
 
-export const DEFAULT_GLOBAL_MIN_FONT_SIZE_PX = 13.25;
-export const MIN_GLOBAL_MIN_FONT_SIZE_PX = 10;
-export const MAX_GLOBAL_MIN_FONT_SIZE_PX = 18;
+export const DEFAULT_GLOBAL_MIN_FONT_SIZE_PX = 14.75;
+export const MIN_GLOBAL_MIN_FONT_SIZE_PX = 10.0;
+export const MAX_GLOBAL_MIN_FONT_SIZE_PX = 18.0;
 
 export const TYPOGRAPHY_TYPE_SIZE_RATIO_MIN = 1.067;
 export const TYPOGRAPHY_TYPE_SIZE_RATIO_MAX = 1.333;
 export const TYPOGRAPHY_FONT_SIZE_SCALE_MIN = 0.8;
 export const TYPOGRAPHY_FONT_SIZE_SCALE_MAX = 1.2;
-export const TYPOGRAPHY_LINE_HEIGHT_MIN = 1;
-export const TYPOGRAPHY_LINE_HEIGHT_MAX = 2;
+export const TYPOGRAPHY_LINE_HEIGHT_MIN = 1.0;
+export const TYPOGRAPHY_LINE_HEIGHT_MAX = 2.0;
 export const DEFAULT_HEADER_LINE_HEIGHT = 1.5;
 export const DEFAULT_BODY_LINE_HEIGHT = 1.5;
 
@@ -34,7 +34,7 @@ export const DEFAULT_TYPOGRAPHY_CONFIG: TypographyConfig = {
   headerLetterSpacingScale: 1,
   headerLineHeight: DEFAULT_HEADER_LINE_HEIGHT,
   bodyTypeSizeRatio: 1.2,
-  bodyFontSizeScale: 0.960,
+  bodyFontSizeScale: 1.0,
   bodyFontWeightScale: 1,
   bodyLetterSpacingScale: 1,
   bodyLineHeight: DEFAULT_BODY_LINE_HEIGHT,

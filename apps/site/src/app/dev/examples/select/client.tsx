@@ -53,12 +53,6 @@ function LanguageSelectPreview() {
           </Searchable.Content>
         </Select>
       </div>
-      {selected && Icon && (
-        <div className="flex items-center gap-2 text-sm text-foreground-400">
-          <Icon style={{ color: selected.color }} className="w-4 h-4" />
-          <span>Selected: <span className="text-foreground-200">{selected.label}</span></span>
-        </div>
-      )}
     </div>
   );
 }
@@ -102,9 +96,6 @@ function SourceControlPreview() {
           </Select.Content>
         </Select>
       </div>
-      {selected && (
-        <p className="text-sm text-foreground-400">{selected.description}</p>
-      )}
     </div>
   );
 }
@@ -156,13 +147,6 @@ function CountrySelectPreview() {
           </Searchable.Content>
         </Select>
       </div>
-      {selected && (
-        <div className="flex items-center gap-2 text-sm text-foreground-400">
-          <span className="text-lg">{selected.flag}</span>
-          <span>{selected.label}</span>
-          <span className="text-foreground-400">({selected.code})</span>
-        </div>
-      )}
     </div>
   );
 }
@@ -188,7 +172,6 @@ const starterTemplates = [
 function SearchTriggerTemplatePreview() {
   const [template, setTemplate] = useState<string | number | null>(null);
   const selected = starterTemplates.find((item) => item.value === template);
-  const Icon = selected?.icon;
 
   return (
     <div className="space-y-4">
@@ -221,15 +204,6 @@ function SearchTriggerTemplatePreview() {
           </Select.Content>
         </Select>
       </div>
-      {selected && Icon && (
-        <div className="rounded-sm border border-background-700 bg-background-800 p-3">
-          <div className="flex items-center gap-2 text-sm text-foreground-200">
-            <Icon className="h-4 w-4 text-foreground-300" />
-            <span>{selected.label}</span>
-          </div>
-          <p className="mt-1 text-sm text-foreground-400">{selected.description}</p>
-        </div>
-      )}
     </div>
   );
 }
@@ -293,11 +267,6 @@ function MultiSelectPreview() {
 function SubmenuSelectPreview() {
   const [selected, setSelected] = useState<string | number | null>(null);
 
-  const labelMap: Record<string, string> = {
-    h1: "Heading 1", h2: "Heading 2", paragraph: "Paragraph", code: "Code Block",
-    image: "Image", video: "Video", columns: "Columns", rows: "Rows", sidebar: "Sidebar",
-  };
-
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -345,11 +314,6 @@ function SubmenuSelectPreview() {
           </Select.Content>
         </Select>
       </div>
-      {selected && (
-        <p className="text-sm text-foreground-400">
-          Selected: <span className="text-foreground-200">{labelMap[selected as string] ?? selected}</span>
-        </p>
-      )}
     </div>
   );
 }
