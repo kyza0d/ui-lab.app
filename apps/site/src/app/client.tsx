@@ -8,7 +8,7 @@ import {
   themes,
 } from "@/features/theme";
 import { ChatProvider, useChat } from "@/features/chat";
-import { PERF_OVERLAY_TOGGLE_EVENT, PerfOverlay } from "@/features/dev/components/perf-overlay";
+// import { PERF_OVERLAY_TOGGLE_EVENT, PerfOverlay } from "@/features/dev/components/perf-overlay";
 
 function KeyboardShortcuts() {
   const { toggleChat } = useChat();
@@ -57,11 +57,11 @@ function KeyboardShortcuts() {
         return;
       }
 
-      if (e.ctrlKey && (e.key === "d" || e.key === "D")) {
-        e.preventDefault();
-        window.dispatchEvent(new Event(PERF_OVERLAY_TOGGLE_EVENT));
-        return;
-      }
+      // if (e.ctrlKey && (e.key === "d" || e.key === "D")) {
+      //   e.preventDefault();
+      //   window.dispatchEvent(new Event(PERF_OVERLAY_TOGGLE_EVENT));
+      //   return;
+      // }
 
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         if (e.key === "d" || e.key === "D") {
@@ -87,7 +87,7 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
     <AppProvider>
       <ChatProvider>
         <KeyboardShortcuts />
-        <PerfOverlay />
+        {/* <PerfOverlay /> */}
         {children}
       </ChatProvider>
     </AppProvider>

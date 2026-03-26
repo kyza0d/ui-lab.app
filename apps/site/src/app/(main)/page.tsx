@@ -17,6 +17,7 @@ export default function Home() {
         <Toaster />
         <LandingSidebar />
         <main className="flex-1 h-full border-r border-background-700/40 w-full flex flex-col items-center md:overflow-x-hidden">
+          {/* <div className="bg-slate-900 text-gray-100 border border-slate-800 w-20 h-20">HI</div> */}
 
           <section className="w-full border-t-0 relative isolate after:content-[''] bg-background-950 ml-auto">
             <div className="grid mt-[-2px] grid-cols-[1fr] grid-rows-[424px]">
