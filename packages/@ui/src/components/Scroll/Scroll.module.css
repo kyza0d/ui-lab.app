@@ -24,7 +24,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .vertical[data-inset="true"] .content {
+  .vertical[data-inline="true"] .content {
     padding-right: 16px;
   }
 
@@ -35,7 +35,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .horizontal[data-inset="true"] .content {
+  .horizontal[data-inline="true"] .content {
     padding-bottom: 16px;
   }
 

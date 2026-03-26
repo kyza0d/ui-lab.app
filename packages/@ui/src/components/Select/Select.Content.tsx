@@ -370,6 +370,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
               maxHeight={`calc(${maxItems} * 36px + 8px)`}
               direction="vertical"
               fade-y={!searchable}
+              inline={!searchable}
               enabled={needsScroll}
               hide={false}
             >

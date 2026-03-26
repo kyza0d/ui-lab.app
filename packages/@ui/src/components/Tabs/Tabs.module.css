@@ -52,7 +52,6 @@
     @apply relative z-[1] flex shrink-0 items-center justify-center gap-2 rounded-sm px-2 py-1.5 cursor-pointer select-none;
     background-color: transparent;
     border: none;
-    font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     color: var(--trigger-color);
     outline: none;
@@ -149,8 +148,6 @@
 
     .trigger {
       @apply px-1 py-1;
-      font-size: var(--text-sm);
-
       .list[data-variant="underline"] & {
         margin: 0.5rem 0.75rem;
       }

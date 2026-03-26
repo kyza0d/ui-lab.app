@@ -6,6 +6,7 @@
     --padding: var(--radius-basis);
     --radius: var(--radius-sm, 0.375rem);
     --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));
+    color: var(--foreground);
 
     @apply flex overflow-hidden;
     width: fit-content;
@@ -295,6 +296,8 @@
 
   .group-item.active {
     @apply relative;
+    background-color: var(--active-background);
+    color: var(--active-foreground);
   }
 
   .group.ghost .group-item.active {
@@ -303,6 +306,7 @@
 
   .group:not(.ghost) .group-item.active {
     background-color: var(--active-background);
+    color: var(--active-foreground);
     font-weight: 500;
   }
 }

@@ -37,10 +37,6 @@
       box-shadow: 0 0 0 3px var(--ring-color);
     }
 
-    &[data-pressed="true"] {
-      transform: scale(0.92);
-    }
-
     &[data-selected="true"] {
       background-color: var(--background);
       border-color: var(--border);

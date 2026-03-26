@@ -3,10 +3,10 @@
 @layer components {
   .input {
     --disabled-opacity: 0.5;
-
+    height: fit-content;
     flex: 1;
     min-width: 0;
-    @apply py-2 px-3;
+    @apply py-1.5 px-3;
     font-family: inherit;
     font-size: var(--text-sm);
     line-height: var(--leading-snug);
@@ -111,11 +111,11 @@
   }
 
   .start-adornments {
-    @apply pl-2;
+    @apply pl-2.5;
   }
 
   .end-adornments {
-    @apply pr-2;
+    @apply pr-1.5;
   }
 
   .actions {

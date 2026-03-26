@@ -38,6 +38,10 @@
       "import": "./dist/theme-server.es.js",
       "types": "./dist/theme-server.d.ts"
     },
+    "./scroll-script": {
+      "import": "./dist/scroll-script.es.js",
+      "types": "./dist/scroll-script.d.ts"
+    },
     "./styles.css": {
       "style": "./dist/styles.css",
       "default": "./dist/styles.css"

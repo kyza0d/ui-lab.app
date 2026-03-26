@@ -30,6 +30,7 @@ export default defineConfig({
         'ui-lab-ui': path.resolve(__dirname, 'src/index.ts'),
         'theme-script': path.resolve(__dirname, 'src/providers/themeScript.ts'),
         'theme-server': path.resolve(__dirname, 'src/theme-server.ts'),
+        'scroll-script': path.resolve(__dirname, 'src/scroll-script.ts'),
       },
       formats: ['es'],
     },

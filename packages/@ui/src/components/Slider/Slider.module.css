@@ -51,7 +51,6 @@
     @apply absolute block;
     background-color: var(--slider-thumb-background-default);
     border-radius: 9999px;
-    cursor: grab;
     outline: none;
     top: 50%;
     transform: translate(-50%, -50%);

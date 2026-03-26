@@ -88,6 +88,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
           ref={mergedRef}
           role="button"
           className={cn(
+            'select',
             'trigger',
             styles.trigger,
             groupContext ? (groupStyles as Record<string, string>).trigger : undefined,
