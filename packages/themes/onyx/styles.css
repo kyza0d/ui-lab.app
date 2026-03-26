@@ -9,10 +9,14 @@
   --hover-border: color-mix(in srgb, var(--background-600) 75%, var(--background-950));
 }
 
-.button.icon { @apply aspect-square px-2 py-1; font-size: var(--text-sm); }
-.button.sm { @apply px-2 py-1.5; font-size: var(--text-sm); }
-.button.md { @apply px-3 py-2;   font-size: var(--text-sm); }
-.button.lg { @apply px-7 py-1.5; font-size: var(--text-sm); }
+.button {
+  font-size: var(--text-sm);
+}
+
+.button.icon { @apply p-2 h-auto aspect-square }
+.button.sm { @apply px-2 py-1.5 text-xs font-semibold }
+.button.md { @apply px-3 py-1.5 }
+.button.lg { @apply px-5 py-2.5 }
 
 .button.primary {
   --background: var(--foreground-200);
@@ -48,6 +52,7 @@
 
 .button.ghost {
   --background: transparent;
+  --foreground: var(--foreground-300);
   --background-border: transparent;
   --hover-background: transparent;
   --hover-border: transparent;
@@ -111,9 +116,11 @@
 
 .group {
   --background: var(--background-950);
+  /* --foreground: red; */
   --border: var(--background-700);
   --focus-ring-color: var(--accent-500);
   --active-background: var(--background-800);
+  --active-foreground: var(--foreground-100);
 }
 
 .group.ghost {
@@ -121,7 +128,6 @@
 }
 
 /* Command Styles */
-
 .command {
   --background-default: var(--background-900);
   --background-input: var(--background-900);
@@ -195,29 +201,33 @@
 
 .checkbox {
   --background: var(--background-900);
-  --border: var(--background-600);
+  --border: var(--background-700);
   --ring-color: var(--accent-500);
-  --hover-background: color-mix(in srgb, var(--background-500) 60%, transparent);
-  --hover-border: transparent;
+  --hover-background: color-mix(in srgb, var(--background-500) 10%, transparent);
+  --hover-border: var(--background-600);
 }
 
 .checkbox[data-selected="true"] {
-  --background: var(--background-600);
-  --border: transparent;
+  --background: var(--accent-500);
+  --hover-background: var(--accent-600);
+  --border: var(--accent-500);
+  --hover-border: var(--accent-400);
 }
 
 .checkbox[data-indeterminate="true"] {
-  --background: var(--background-600);
-  --border: transparent;
+  --background: var(--accent-600);
+  --hover-background: var(--accent-500);
+  --border: var(--accent-600);
+  --hover-border: var(--accent-400);
 }
 
 .checkbox-root.checkbox-checkmark,
 .checkbox-root.checkbox-indeterminate {
-  --checkmark-color: var(--foreground-50);
+  --checkmark-color: white
 }
 
 .checkbox-root.helper-text-error {
-  --error-color: var(--danger-600);
+  --error-color: white;
 }
 
 /* Color Styles */
@@ -265,6 +275,8 @@
   --ring-color: var(--accent-500);
   --disabled-background: var(--background-900);
   --disabled-foreground: var(--foreground-400);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium)
 }
 
 .input[data-error] {
@@ -357,6 +369,7 @@
   --focus-ring-background: var(--background-950);
   --hover-background: color-mix(in srgb, var(--background-700) 50%, transparent);
   --pressed-background: color-mix(in srgb, var(--background-600) 50%, transparent);
+  --font-size: var(--text-xs)
 }
 
 .select.ghost {
@@ -516,6 +529,8 @@
   --dismiss-color: var(--foreground-400);
   --dismiss-hover-background: color-mix(in srgb, var(--background-700) 80%, var(--background-900));
   --dismiss-pressed-background: var(--background-700);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-xs)
 }
 
 .badge.default {
@@ -706,6 +721,7 @@
   --trigger-selected-background: color-mix(in srgb, var(--background-700) 50%, transparent);
   --trigger-underline-color: var(--accent-500);
   --trigger-focus-background: var(--background-800);
+  font-size: var(--text-xs)
 }
 
 .tabs.content {

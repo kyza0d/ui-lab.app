@@ -5,7 +5,7 @@ import variationsData from './variations.json' with { type: 'json' };
 
 const baseMetadata = {
   id: 'cta',
-  name: 'CTA',
+  name: 'Call to Action',
   description: 'Call-to-action sections designed to drive user engagement and conversions',
   category: 'cta' as const,
   tags: ['cta', 'conversion', 'action', 'engagement'],
