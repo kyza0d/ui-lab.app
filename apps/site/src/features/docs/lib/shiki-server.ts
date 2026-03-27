@@ -6,10 +6,48 @@ import { themes, DEFAULT_THEME_NAME } from '@/features/theme/constants/themes'
 import { ensureSemanticColorIntegrity } from '@/features/theme/lib/color/semantic'
 
 // Shiki theme object type is complex to import directly from Shiki 3.x
-type ShikiTheme = any
+type ShikiTheme = unknown
 
 // Cache the precomputed themes globally/module-level.
 let precomputedThemes: Record<'light' | 'dark', ShikiTheme> | null = null
+
+function addCodePadding(html: string): string {
+  return html.replace(/<code([^>]*)>/, (match, attrs: string) => {
+    if (!attrs.includes('style=')) {
+      return `<code${attrs} style="display: block; padding: 1rem;">`
+    }
+
+    return match.replace(/style="([^"]*)"/, (_, style: string) => {
+      const normalized = style.trim()
+      const suffix = normalized && !normalized.endsWith(';') ? ';' : ''
+      return `style="${normalized}${suffix} display: block; padding: 1rem;"`
+    })
+  })
+}
+
+function removePreBackgroundOnly(html: string): string {
+  return html.replace(/<pre([^>]*)style="([^"]*)"([^>]*)>/, (_, before: string, style: string, after: string) => {
+    const cleanedStyle = style
+      .split(';')
+      .map((declaration) => declaration.trim())
+      .filter(Boolean)
+      .filter((declaration) => {
+        const property = declaration.split(':')[0]?.trim().toLowerCase()
+        return property !== 'background' && property !== 'background-color'
+      })
+      .join('; ')
+
+    const styleAttr = cleanedStyle
+      ? ` style="${cleanedStyle}${cleanedStyle.endsWith(';') ? '' : ';'}"`
+      : ''
+
+    return `<pre${before}${styleAttr}${after}>`
+  })
+}
+
+function normalizeShikiHtml(html: string): string {
+  return removePreBackgroundOnly(addCodePadding(html))
+}
 
 function getPrecomputedThemes() {
   if (precomputedThemes) return precomputedThemes
@@ -72,12 +110,7 @@ export async function highlightCode(code: string, lang: string) {
         transformers: [transformerRenderIndentGuides()],
       })
 
-      let styledHtml = html.replace(
-        /<code>/,
-        '<code style="display: block; padding: 1rem;">'
-      )
-      styledHtml = styledHtml.replace(/background-color:\s*[^;]+;?/g, '')
-      results[mode] = styledHtml
+      results[mode] = normalizeShikiHtml(html)
     } catch (error) {
       console.error(`Failed to highlight code for ${mode}:`, error)
       results[mode] = ''

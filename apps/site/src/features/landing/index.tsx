@@ -60,7 +60,7 @@ function HeroSection() {
               </span>
             </div>
 
-            <p className="ml-auto text-sm max-w-[41ch] text-foreground-400 md:mb-[14px]">
+            <p className="ml-auto text-xs max-w-[41ch] text-foreground-400 md:mb-[14px]">
               "User Interface" (UI) is the space where interactions between humans and machines occur.
             </p>
           </div>

@@ -11,10 +11,15 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Scroll.module.css";
 import {
   SCROLL_RESTORE_AXIS_ATTR,
+  SCROLL_RESTORE_DEBUG_ID_KEY,
   SCROLL_RESTORE_FLAG,
   SCROLL_RESTORE_STORAGE_KEY_ATTR,
+  getBootstrapRestoredNode,
+  getScrollRestoreDebugId,
+  getScrollRestoreMetrics,
   getScrollPositionProperty,
-} from "./scrollRestore";
+  recordScrollRestoreTrace,
+} from "./scripts/restore-scroll.constants";
 
 interface ScrollStyleSlots {
   root?: StyleValue;
@@ -194,11 +199,70 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
 
     const restoreStoredScrollPosition = useCallback(() => {
       if (!storageKey || !contentRef.current) return;
-      if (hasPreHydrationScrollRestore(contentRef.current)) return;
+
+      const contentNode = contentRef.current;
+      const bootstrapNode = getBootstrapRestoredNode(storageKey);
+      const sameNodeAsBootstrap = Boolean(bootstrapNode) && bootstrapNode === contentNode;
+      const currentNodeId = getScrollRestoreDebugId(contentNode);
+      const bootstrapNodeId = getScrollRestoreDebugId(bootstrapNode);
+      const beforeMetrics = getScrollRestoreMetrics(contentNode, direction);
+      const hasPreHydrationRestore = hasPreHydrationScrollRestore(contentNode);
+
+      recordScrollRestoreTrace("client:layout-effect", {
+        storageKey,
+        hasPreHydrationRestore,
+        sameNodeAsBootstrap,
+        nodeReplaced: Boolean(bootstrapNode) && bootstrapNode !== contentNode,
+        currentNodeId,
+        bootstrapNodeId,
+        clientSize: beforeMetrics.clientSize,
+        scrollSize: beforeMetrics.scrollSize,
+        maxScroll: beforeMetrics.maxScroll,
+        scrollOffset: beforeMetrics.scrollOffset,
+      });
+
+      if (hasPreHydrationRestore) {
+        recordScrollRestoreTrace("client:skip-prehydrated", {
+          storageKey,
+          sameNodeAsBootstrap,
+          nodeReplaced: Boolean(bootstrapNode) && bootstrapNode !== contentNode,
+          currentNodeId,
+          bootstrapNodeId,
+        });
+        return;
+      }
 
       const savedOffset = readStoredScrollOffset(storageKey);
-      contentRef.current[scrollPosKey] = savedOffset ?? 0;
-    }, [storageKey, scrollPosKey]);
+      if (savedOffset === null) {
+        recordScrollRestoreTrace("client:no-stored-offset", {
+          storageKey,
+          sameNodeAsBootstrap,
+          nodeReplaced: Boolean(bootstrapNode) && bootstrapNode !== contentNode,
+          currentNodeId,
+          bootstrapNodeId,
+        });
+        return;
+      }
+
+      contentNode[scrollPosKey] = savedOffset;
+
+      const afterMetrics = getScrollRestoreMetrics(contentNode, direction);
+      recordScrollRestoreTrace("client:fallback-restore", {
+        storageKey,
+        storedOffset: savedOffset,
+        sameNodeAsBootstrap,
+        nodeReplaced: Boolean(bootstrapNode) && bootstrapNode !== contentNode,
+        currentNodeId,
+        bootstrapNodeId,
+        beforeScrollOffset: beforeMetrics.scrollOffset,
+        afterScrollOffset: afterMetrics.scrollOffset,
+        clientSize: afterMetrics.clientSize,
+        scrollSize: afterMetrics.scrollSize,
+        maxScroll: afterMetrics.maxScroll,
+        clamped: savedOffset !== afterMetrics.scrollOffset,
+        clampedToZero: savedOffset > 0 && afterMetrics.scrollOffset === 0,
+      });
+    }, [direction, scrollPosKey, storageKey]);
 
     const connectObservers = useCallback(() => {
       cleanupObservers();
@@ -226,9 +290,17 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           cleanupScrollTimeout();
           return;
         }
+
+        recordScrollRestoreTrace("client:content-ref", {
+          storageKey: storageKey ?? null,
+          currentNodeId: getScrollRestoreDebugId(node),
+          preHydrationFlag: hasPreHydrationScrollRestore(node),
+          bootstrapDebugId: storageKey ? getScrollRestoreDebugId(getBootstrapRestoredNode(storageKey)) : null,
+          debugIdPropertyKey: SCROLL_RESTORE_DEBUG_ID_KEY,
+        });
         connectObservers();
       },
-      [cleanupDragListeners, cleanupObservers, cleanupScrollTimeout, connectObservers]
+      [cleanupDragListeners, cleanupObservers, cleanupScrollTimeout, connectObservers, storageKey]
     );
 
     const handleScroll = useCallback(() => {
@@ -406,9 +478,9 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           style={{ [isHoriz ? "maxWidth" : "maxHeight"]: "inherit" }}
           {...(storageKey
             ? {
-                [SCROLL_RESTORE_STORAGE_KEY_ATTR]: storageKey,
-                [SCROLL_RESTORE_AXIS_ATTR]: direction,
-              }
+              [SCROLL_RESTORE_STORAGE_KEY_ATTR]: storageKey,
+              [SCROLL_RESTORE_AXIS_ATTR]: direction,
+            }
             : {})}
         >
           {children}

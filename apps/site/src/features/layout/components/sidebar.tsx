@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useMemo, memo, useState, type ReactNode } from 'react';
-import { Scroll, Select } from 'ui-lab-components';
+import { Divider, Scroll, Select } from 'ui-lab-components';
 import { SiAstro, SiFlutter, SiReact, SiSvelte } from 'react-icons/si';
 import { cn, usePrefetchOnHover } from '@/shared';
 import { useSidebarToggle } from '@/features/layout/hooks/sidebar-context';
@@ -197,20 +197,21 @@ export function Sidebar() {
                       key={navItem.id}
                       href={navItem.href}
                       className={cn(
-                        'flex border items-center gap-3 pl-0.5 pr-2 py-0.5 text-xs rounded-sm',
+                        'flex border items-center py-2.5 px-4 gap-3 text-xs rounded-sm',
                         isActive
                           ? 'border-background-700 text-foreground-50 bg-background-800'
                           : 'border-transparent text-foreground-400 hover:text-foreground-200 hover:bg-background-800/60'
                       )}
                     >
-                      <div
+                      {Icon && <div
                         className={cn(
-                          'w-10 h-10 rounded-sm flex items-center justify-center',
-                          isActive ? 'bg-transparent text-foreground-100' : 'text-foreground-300'
+                          '-ml-4 w-10 rounded-sm flex items-center justify-center',
+                          isActive ? 'bg-transparent text-foreground-100' : 'text-foreground-400'
                         )}
                       >
                         <Icon className="w-5 h-5" />
                       </div>
+                      }
                       <span className='text-xs font-body-medium'>{navItem.label}</span>
                     </Link>
                   );
@@ -237,9 +238,9 @@ export function Sidebar() {
               <div className="py-4 px-5 space-y-8">
                 {sections.map((section) => (
                   <div key={section.label}>
-                    <p className="text-xs font-body-semibold text-foreground-400/80">{section.label}</p>
+                    <p className="text-xs font-body-semibold text-foreground-300">{section.label}</p>
                     <div className="relative mt-2.5">
-                      <div className="absolute left-0.5 top-0 bottom-0 w-px bg-background-600"></div>
+                      <Divider orientation='vertical' size="sm" variant='dashed' spacing='none' className="absolute left-0.5 top-0 bottom-0 bg-foreground-400" />
                       <div className="pl-3">
                         {section.items.map((item) => {
                           const active = isNavItemActive(item.id, pathname, activeNavItem);
@@ -249,12 +250,12 @@ export function Sidebar() {
                               key={item.id}
                               href={href}
                               className={cn(
-                                'block leading-body text-xs font-body-medium px-3 py-2 rounded-sm cursor-pointer',
+                                'block relative leading-body text-xs px-3 py-2 rounded-sm cursor-pointer',
                                 'transition-colors duration-300 ease-out',
-                                'hover:duration-0',
+                                'hover:duration-0  hover:bg-background-800/50',
                                 active
-                                  ? 'text-foreground-50 bg-background-800'
-                                  : cn('text-foreground-300', 'hover:text-foreground-200 hover:bg-background-800/50')
+                                  ? 'text-foreground-100 font-medium after:content-[""] after:absolute after:-left-2.5 after:top-0 after:bg-foreground-400 after:w-0.5 after:h-full'
+                                  : cn('text-foreground-400', 'hover:text-foreground-200')
                               )}
                             >
                               {item.label}

@@ -3,41 +3,11 @@
 
 import { useEffect, useReducer, useState } from "react";
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
-import {
-  Button,
-  Group,
-  Divider,
-  Select,
-  Searchable,
-  Tooltip,
-  useAnimatedWidth,
-  Badge,
-  Input,
-  Flex,
-  Menu,
-  Label,
-} from "ui-lab-components";
+import { Button, Group, Divider, Select, Searchable, Badge, Input, Flex, Menu } from "ui-lab-components";
 
 import { FaList, FaGrip, FaTable, FaRocket, FaCheck, FaRotateRight, FaSpinner, FaCopy, FaPlus, FaShareNodes, FaEllipsisVertical, FaHashtag, FaLock, } from "react-icons/fa6";
 
 import { LuSearch } from "react-icons/lu";
-
-type DeployStage = "idle" | "queued" | "deploying" | "succeeded" | "failed";
-
-type DeployAction = { type: "START" } | { type: "NEXT" } | { type: "COMPLETE"; success: boolean };
-
-function deployReducer(state: DeployStage, action: DeployAction): DeployStage {
-  switch (action.type) {
-    case "START":
-      return (state === "idle" || state === "succeeded" || state === "failed") ? "queued" : state;
-    case "NEXT":
-      return state === "queued" ? "deploying" : state;
-    case "COMPLETE":
-      return state === "deploying" ? (action.success ? "succeeded" : "failed") : state;
-    default:
-      return state;
-  }
-}
 
 function JoinedTogglePreview() {
   const [viewMode, setViewMode] = useState("list");
@@ -55,7 +25,7 @@ function JoinedTogglePreview() {
         <Divider orientation="vertical" />
         <Group.Button size="icon" value="table"><FaTable /></Group.Button>
       </Group>
-      <Button size="sm" icon={{ left: <FaPlus /> }} >New</Button>
+      <Button size="sm" icon={{ left: <FaPlus size={12} /> }} >New</Button>
     </Flex>
   );
 }
@@ -172,8 +142,8 @@ function MultipleActions() {
 function SubStackActions() {
   const [viewMode, setViewMode] = useState("list");
   return (
-    <Flex gap="xs" className="w-110">
-      <Group orientation="horizontal" spacing="sm" value={viewMode} onChange={setViewMode}>
+    <Flex align="center" gap="xs" className="w-110">
+      <Group orientation="horizontal" spacing="xs" value={viewMode} onChange={setViewMode}>
         <Group.Button size="icon" value="list"><FaList /></Group.Button>
         <Group.Button size="icon" value="grid"><FaGrip /></Group.Button>
       </Group>
@@ -182,7 +152,7 @@ function SubStackActions() {
         icon={<LuSearch />}
         hint={<Badge size="sm" variant="secondary" >Ctrl+K</Badge>}
       />
-      <Button size="sm" icon={{ right: <FaPlus /> }} >Upload</Button>
+      <Button size="sm" icon={{ right: <FaPlus size={12} /> }} >Upload</Button>
     </Flex>
   );
 }

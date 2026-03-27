@@ -150,11 +150,12 @@ export default function Header({
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <div className="block lg:hidden flex items-center justify-end">
+            <div className="lg:hidden flex items-center justify-end">
               <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Button
                   variant="ghost"
                   className="text-foreground-300 hover:text-foreground-300 transition-colors"
+                  aria-label="Command palette"
                   styles="p-2"
                   icon={{ left: <LuSearch strokeWidth={3.0} size={16} /> }}
                   onClick={() => setIsCommandPaletteOpen(true)}
@@ -163,7 +164,7 @@ export default function Header({
             </div>
 
             <div className="hidden lg:flex items-center gap-2">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" aria-label="Feedback">
                 Feedback
               </Button>
               <a
@@ -173,7 +174,7 @@ export default function Header({
               >
                 <Button
                   variant="ghost"
-                  aria-label="GitHub Repository"
+                  aria-label="GitHub repository"
                   className="hover:text-foreground-300 transition-colors text-foreground-300 p-2"
                   size="sm"
                 >
@@ -183,6 +184,7 @@ export default function Header({
               </a>
               <Divider size='auto' orientation="vertical" />
             </div>
+
             <SettingsPanel />
             <ThemeToggle />
 

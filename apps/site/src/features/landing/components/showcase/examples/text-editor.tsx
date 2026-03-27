@@ -48,7 +48,7 @@ export function TextEditor() {
   return (
     <div className="w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden">
       <div className="border-b border-background-700">
-        <Group variant="ghost" orientation="horizontal" spacing="sm">
+        <Group variant="ghost" spacing="xs" className="justify-between w-full">
           <Group.Select selectedKey={state.textStyle} onSelectionChange={(v) => dispatch({ type: 'SET_TEXT_STYLE', payload: v })} className="w-40">
             <Select.Trigger>
               <Select.Value placeholder="Paragraph" />
@@ -66,9 +66,21 @@ export function TextEditor() {
 
           <Divider orientation="vertical" />
 
-          <Tooltip content="Bold"><Group.Button active={state.bold} onClick={() => dispatch({ type: 'SET_BOLD', payload: !state.bold })}><FaBold size={13} /></Group.Button></Tooltip>
-          <Tooltip content="Italic"><Group.Button active={state.italic} onClick={() => dispatch({ type: 'SET_ITALIC', payload: !state.italic })}><FaItalic size={13} /></Group.Button></Tooltip>
-          <Tooltip content="Underline"><Group.Button active={state.underline} onClick={() => dispatch({ type: 'SET_UNDERLINE', payload: !state.underline })}><FaUnderline size={13} /></Group.Button></Tooltip>
+          <Tooltip content="Bold">
+            <Group.Button size="icon" active={state.bold} onClick={() => dispatch({ type: 'SET_BOLD', payload: !state.bold })}><FaBold size={13} /></Group.Button>
+          </Tooltip>
+
+          <Tooltip content="Italic">
+            <Group.Button size="icon" active={state.italic} onClick={() => dispatch({ type: 'SET_ITALIC', payload: !state.italic })}>
+              <FaItalic size={13} />
+            </Group.Button>
+          </Tooltip>
+
+          <Tooltip content="Underline">
+            <Group.Button active={state.underline} onClick={() => dispatch({ type: 'SET_UNDERLINE', payload: !state.underline })}>
+              <FaUnderline size={13} />
+            </Group.Button>
+          </Tooltip>
 
           <Divider orientation="vertical" />
 

@@ -105,8 +105,7 @@ export function FileBrowser() {
             icon={<FaMagnifyingGlass size={12} className="text-foreground-500" />}
           />
           <Divider orientation="vertical" />
-          <Group.Select
-            selectedKey={state.sort} onSelectionChange={(v) => dispatch({ type: 'SET_SORT', payload: v })} className="w-28">
+          <Group.Select selectedKey={state.sort} onSelectionChange={(v) => dispatch({ type: 'SET_SORT', payload: v })} className="w-28">
             <Select.Trigger>
               <Select.Value placeholder="Sort" />
             </Select.Trigger>

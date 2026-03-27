@@ -54,7 +54,7 @@ export function IntegrationsPanel() {
   return (
     <div className="w-full bg-background-200 border border-background-700 rounded-sm overflow-hidden">
       <div className="px-3 py-2.5 border-b border-background-700">
-        <Group >
+        <Group spacing="sm">
           <Group.Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -62,7 +62,7 @@ export function IntegrationsPanel() {
             icon={<FaMagnifyingGlass />}
             className="flex-1"
           />
-          <Divider />
+          <Divider orientation="vertical" />
           <Group.Select selectedKey={filter} onSelectionChange={setFilter} className="w-36">
             <Select.Trigger>
               <Select.Value placeholder="All" />

@@ -17,6 +17,7 @@ export const SettingsPanel = () => {
         <Button
           ref={buttonRef}
           variant="ghost"
+          aria-label="Settings panel"
           className="hover:text-foreground-300 transition-colors text-foreground-300 p-2 hover:bg-theme-border/30"
           onClick={() => setIsSettingsPanelOpen(!isSettingsPanelOpen)}
         >

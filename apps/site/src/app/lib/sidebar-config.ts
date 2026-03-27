@@ -30,7 +30,7 @@ interface MainNavItemConfig {
   id: MainNavItem;
   label: string;
   href: string;
-  icon: any;
+  icon?: any;
   domain: SidebarDomain;
 }
 
@@ -60,28 +60,28 @@ const MAIN_NAV_ITEMS: MainNavItemConfig[] = [
     id: 'packages',
     label: 'Elements',
     href: '/packages',
-    icon: FaLayerGroup,
+    // icon: FaLayerGroup,
     domain: 'packages',
   },
   {
     id: 'sections',
     label: 'Sections',
     href: '/sections',
-    icon: FaRegWindowMaximize,
+    // icon: FaRegWindowMaximize,
     domain: 'sections',
   },
   {
     id: 'patterns',
     label: 'Patterns',
     href: '/patterns',
-    icon: FaPuzzlePiece,
+    // icon: FaPuzzlePiece,
     domain: 'patterns',
   },
   {
     id: 'starters',
     label: 'Starters',
     href: '/starters',
-    icon: FaSeedling,
+    // icon: FaSeedling,
     domain: 'starters',
   },
 ];

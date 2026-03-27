@@ -35,17 +35,17 @@ export default function ComponentsPageClient() {
                         <Icon color="var(--foreground-400)" IconComponent={CategoryIcons[category as keyof typeof CategoryIcons] || CategoryIcons.default} size={18} />
                       </Flex>
                       <div>
-                        <h3 className="mb-2 text-sm font-semibold text-foreground-50 flex items-center">
+                        <h3 className="mb-1 font-semibold text-foreground-50 flex items-center">
                           {categoryMap[category].label}
                         </h3>
-                        <p className="w-full text-xs md:w-[47ch] text-foreground-400 flex items-start">
+                        <p className="w-full md:w-[47ch] text-foreground-400 flex items-start">
                           {categoryMap[category].description}
                         </p>
                       </div>
                     </Flex>
                     <Divider variant="dashed" size="sm" className="mb-8 mt-10" />
                     {/* Components Grid */}
-                    <Gallery responsive columns={{ sm: 1, md: 2, lg: 3 }} gap="sm">
+                    <Gallery responsive columns={{ sm: 1, md: 2, lg: 3 }} gap="lg">
                       {componentsInCategory.map((component) => {
                         const href = `/components/${component.id}`;
                         return (

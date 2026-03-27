@@ -31,6 +31,7 @@ export default defineConfig({
         'theme-script': path.resolve(__dirname, 'src/providers/themeScript.ts'),
         'theme-server': path.resolve(__dirname, 'src/theme-server.ts'),
         'scroll-script': path.resolve(__dirname, 'src/scroll-script.ts'),
+        'scripts': path.resolve(__dirname, 'src/scripts.ts'),
       },
       formats: ['es'],
     },

@@ -23,7 +23,7 @@ interface ElementsSidebarContentProps {
   activeCategory?: ElementCategoryId | SectionCategoryId | null;
 }
 
-const NAV_LINK_BASE = 'block px-3 py-1.5 text-sm font-medium rounded-sm cursor-pointer transition-colors duration-300 ease-out hover:duration-0';
+const NAV_LINK_BASE = 'block px-3 py-1.5 text-xs font-medium rounded-sm cursor-pointer transition-colors duration-300 ease-out hover:duration-0';
 const LINK_ACTIVE = 'text-foreground-50 bg-background-800 font-medium';
 const LINK_INACTIVE = 'text-foreground-200 hover:text-foreground-200 hover:bg-background-800/50';
 
@@ -46,7 +46,7 @@ function ExpandGroup({
 }) {
   return (
     <Expand isExpanded={isExpanded} onExpandedChange={onToggle} className="rounded-sm">
-      <Expand.Trigger className="text-sm" title={<span className={triggerBold ? 'font-medium' : undefined}>{name}</span>} />
+      <Expand.Trigger className="text-xs" title={<span className={triggerBold ? 'font-medium' : undefined}>{name}</span>} />
       <Expand.Content className="pl-3">
         <div className="space-y-0.5 mt-1">{children}</div>
       </Expand.Content>
@@ -155,7 +155,7 @@ function ElementsListContent({
                     key={element.id}
                     href={`/packages/${pkg.id}/${element.id}`}
                     className={cn(
-                      'block last:mb-6 px-2 py-2 font-medium text-sm rounded-sm cursor-pointer transition-colors',
+                      'block last:mb-6 px-2 py-2 font-medium text-xs rounded-sm cursor-pointer transition-colors',
                       currentElementId === element.id
                         ? 'text-foreground-50 bg-background-800 font-medium'
                         : 'text-foreground-300 hover:text-foreground-300 hover:bg-background-800/50'
@@ -176,7 +176,7 @@ function ElementsListContent({
     if (packageElements.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
-          <p className="text-foreground-400 text-sm">No elements in this package yet.</p>
+          <p className="text-foreground-400 text-xs">No elements in this package yet.</p>
         </div>
       );
     }
@@ -206,7 +206,7 @@ function ElementsListContent({
                     key={`${element.id}-${variantId}`}
                     href={`${href}?variant=${variantId}`}
                     className={cn(
-                      'block py-2 text-sm rounded-sm cursor-pointer transition-colors',
+                      'block py-2 text-xs rounded-sm cursor-pointer transition-colors',
                       isVariantActive
                         ? 'text-foreground-200 bg-background-800 font-medium'
                         : 'text-foreground-300 hover:text-foreground-200 hover:bg-background-800/50'
@@ -227,7 +227,7 @@ function ElementsListContent({
     if (sortedStarters.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
-          <p className="text-foreground-400 text-sm">No starters available yet.</p>
+          <p className="text-foreground-400 text-xs">No starters available yet.</p>
         </div>
       );
     }
@@ -252,7 +252,7 @@ function ElementsListContent({
           const patterns = getPatternsByCategory(category);
           return (
             <div key={category} className='not-first:mt-8'>
-              <p className="mb-1 text-sm font-semibold text-foreground-200 capitalize">{category}</p>
+              <p className="mb-1 text-xs font-semibold text-foreground-200 capitalize">{category}</p>
               <div className="space-y-0.5">
                 {patterns.map((pattern) => {
                   const href = `/patterns/${pattern.id}`;
@@ -276,7 +276,7 @@ function ElementsListContent({
                         <SidebarItemLink
                           key={`${pattern.id}-${variation.name}`}
                           href={href}
-                          className="block last:mb-6 px-2 py-2 text-sm rounded-sm cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
+                          className="block last:mb-6 px-2 py-2 text-xs rounded-sm cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
                         >
                           {variation.name}
                         </SidebarItemLink>
@@ -296,7 +296,7 @@ function ElementsListContent({
     if (sortedSections.length === 0) {
       return (
         <div className="flex items-center justify-center h-full px-6 text-center">
-          <p className="text-foreground-400 text-sm">No sections in this category yet.</p>
+          <p className="text-foreground-400 text-xs">No sections in this category yet.</p>
         </div>
       );
     }
@@ -321,7 +321,7 @@ function ElementsListContent({
                 <SidebarItemLink
                   key={`${section.id}-${variant.demoPath ?? variant.name}`}
                   href={href}
-                  className="block last:mb-6 px-2 py-2 text-sm rounded-sm cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
+                  className="block last:mb-6 px-2 py-2 text-xs rounded-sm cursor-pointer transition-colors text-foreground-200 hover:text-foreground-300 hover:bg-background-800/50"
                 >
                   {variant.name}
                 </SidebarItemLink>

@@ -15,6 +15,12 @@ function generateFallbackHtml(code: string): string {
   return `<pre><code style="display: block; padding: 1rem">${escapeHtml(code)}</code></pre>`;
 }
 
+function stripSyntaxColorStyles(html: string): string {
+  return html
+    .replace(/background-color:\s*[^;"]+;?/g, "")
+    .replace(/(?<!-)color:\s*[^;"]+;?/g, "");
+}
+
 interface CodeProps {
   children: string;
   language?: string;
@@ -41,7 +47,7 @@ export function Code({
   preHighlightedLight,
   preHighlightedDark
 }: CodeProps) {
-  const { currentThemeMode, currentThemeColors } = useApp();
+  const { currentThemeMode, currentThemeColors, isThemeInitialized } = useApp();
 
   // Refs
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -81,8 +87,12 @@ export function Code({
   const [dimensions, setDimensions] = useState({ contentScrollWidth: 0, viewportWidth: 0 });
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const fallbackHtml = useMemo(() => generateFallbackHtml(children), [children]);
   const totalCodeLines = children.split('\n').length;
   const preferredHighlighted = currentThemeMode === "light" ? preHighlightedLight : preHighlightedDark;
+  const themedHtml = preferredHighlighted ?? highlightedCode;
+  const hasResolvedSyntax = isThemeInitialized && themedHtml !== fallbackHtml;
+  const displayHtml = hasResolvedSyntax ? themedHtml : stripSyntaxColorStyles(themedHtml);
 
   const handleScrollTrack = useCallback(() => {
     if (viewportRef.current && scrollTrackRef.current) {
@@ -139,12 +149,6 @@ export function Code({
   }, [children, language, currentThemeMode, preferredHighlighted, shikiTheme]);
 
   useEffect(() => {
-    if (viewportRef.current) {
-      viewportRef.current.innerHTML = preferredHighlighted ?? highlightedCode;
-    }
-  }, [preferredHighlighted, highlightedCode]);
-
-  useEffect(() => {
     const measure = () => {
       if (viewportRef.current) {
         setDimensions({
@@ -157,7 +161,7 @@ export function Code({
     const observer = new ResizeObserver(measure);
     if (viewportRef.current) observer.observe(viewportRef.current);
     return () => observer.disconnect();
-  }, [highlightedCode]);
+  }, [displayHtml]);
 
   const hasHorizontalOverflow = dimensions.contentScrollWidth > dimensions.viewportWidth;
   const hiddenCodeLines = totalCodeLines - MAX_HEIGHT_LINES;
@@ -179,18 +183,19 @@ export function Code({
           ref={viewportRef}
           onScroll={handleScrollViewport}
           onWheel={handleWheel}
-          className={`
-            overflow-y-auto overflow-x-hidden
-            [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:w-fit
-            [&_code]:text-foreground-300 [&_code]:whitespace-pre
+          dangerouslySetInnerHTML={{ __html: displayHtml }}
+          className={cn(`
+              overflow-y-auto overflow-x-hidden
+              [&_pre]:bg-transparent [&_pre]:p-0 [&_pre]:m-0 [&_pre]:w-fit
+              [&_code]:text-foreground-400 [&_code]:whitespace-pre
 
-            /* Custom Vertical Scrollbar Styling */
-            [&::-webkit-scrollbar]:w-2
-            [&::-webkit-scrollbar-track]:bg-transparent
-            [&::-webkit-scrollbar-thumb]:bg-background-700
-            [&::-webkit-scrollbar-thumb]:rounded-full
-            [&::-webkit-scrollbar-thumb:hover]:bg-background-600
-          `}
+              /* Custom Vertical Scrollbar Styling */
+              [&::-webkit-scrollbar]:w-2
+              [&::-webkit-scrollbar-track]:bg-transparent
+              [&::-webkit-scrollbar-thumb]:bg-background-700
+              [&::-webkit-scrollbar-thumb]:rounded-full
+              [&::-webkit-scrollbar-thumb:hover]:bg-background-600
+            `, !hasResolvedSyntax && "[&_pre]:text-foreground-400 [&_span]:!text-inherit")}
           style={{
             overflowY: expanded ? 'auto' : 'hidden',
             maskImage: !expanded && shouldShowExpandButton ? 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)' : 'none',

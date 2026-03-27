@@ -7,14 +7,12 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/work-sans";
 import "@fontsource-variable/jetbrains-mono";
 import localFont from "next/font/local";
-import Script from "next/script";
-
 import { Metadata } from "next";
 
 import { RootLayoutClient } from "./client";
 import { generateMetadata } from "@/shared/lib/metadata";
 import { getInitialThemeScript } from "@/features/theme/lib/initial-theme-script";
-import { generateScrollRestoreScript } from "ui-lab-components/scroll-script";
+import { generateScrollRestoreScript } from "ui-lab-components/scripts";
 
 const ioskeleyMono = localFont({
   src: [
@@ -44,12 +42,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script>{getInitialThemeScript()}</script>
-        <Script
-          id="ui-lab-scroll-restore"
-          strategy="beforeInteractive"
-        >
-          {generateScrollRestoreScript()}
-        </Script>
+        <script>{generateScrollRestoreScript()}</script>
       </head>
       <body className={`antialiased ${ioskeleyMono.variable}`}>
         <RootLayoutClient>{children}</RootLayoutClient>

@@ -8,12 +8,6 @@
   margin: 0 0 0.6rem 0 ;
 }
 
-#docs {
-  li {
-    font-size: var(--text-xs);
-  }
-}
-
 #docs h1 {
   font-size: var(--text-md);
   font-weight: 600;
@@ -28,7 +22,7 @@
 
 
 #docs h3, #docs strong {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: 600;
   margin: 3.2rem 0 0.2rem 0;
 }
@@ -37,9 +31,6 @@
   color: var(--foreground-400);
   max-width: 74ch;
   margin: 0.6rem 0 1.4rem 0;
-}
-#docs a {
-  font-size: var(--text-xs);
 }
 
 #docs ul {
