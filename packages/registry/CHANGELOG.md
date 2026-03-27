@@ -1,5 +1,13 @@
 # ui-lab-registry
 
+## 0.3.4
+
+### Patch Changes
+
+- Enhanced component examples and metadata in the registry, improved component styling system with better typography and layout support, and fixed styling issues in Divider and Checkbox components.
+- Updated dependencies
+  - ui-lab-components@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes

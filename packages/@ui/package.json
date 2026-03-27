@@ -1,6 +1,6 @@
 {
   "name": "ui-lab-components",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A collection of beautiful, accessible React components built with React Aria and Tailwind CSS",
   "type": "module",
   "license": "MIT",

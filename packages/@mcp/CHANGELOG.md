@@ -1,5 +1,12 @@
 # ui-lab-mcp
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies
+  - ui-lab-registry@0.3.4
+
 ## 0.1.5
 
 ### Patch Changes
