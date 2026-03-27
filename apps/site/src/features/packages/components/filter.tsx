@@ -132,7 +132,7 @@ export function ElementsFilterPopover({
       isOpen={isOpen}
       onOpenChange={setIsOpen}
       position="bottom"
-      contentClassName="w-72 max-h-96 overflow-y-auto"
+      styles={{ content: "w-72 max-h-96 overflow-y-auto" }}
       content={
         <div className="space-y-4">
           <div className="flex items-center justify-between">
