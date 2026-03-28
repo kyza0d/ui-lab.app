@@ -1,5 +1,11 @@
 # ui-lab-mcp
 
+## 0.1.61
+
+### Patch Changes
+
+- Anchor, Mask, Scroll, and Tooltip are now SSR-compatible and no longer require a client boundary. Anchor previews now use Tooltip with an arrow indicator, and a new preview prop makes it easier to add hover previews in server components.
+
 ## 0.1.6
 
 ### Patch Changes

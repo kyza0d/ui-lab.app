@@ -1,31 +1,7 @@
 // This file is auto-generated. Do not edit.
 export const generatedStyles: Record<string, { rawCss: string; styleableParts: Array<{ name: string }>; cssVariables: Array<{ name: string; value: string; defaultValue?: string; referencedVars: string[]; variant?: string | null }> }> = {
-  "toast": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .toast {\n    @apply flex w-full max-w-[28rem] items-start gap-3 px-4 py-2.5 select-none;\n    background: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n    box-shadow: var(--shadow);\n    font-family: inherit;\n    font-size: var(--text-sm);\n    line-height: var(--leading-normal);\n    touch-action: pan-y;\n  }\n\n  .icon {\n    @apply mr-4 mt-2 h-5 w-5 shrink-0;\n    color: var(--icon-color);\n  }\n\n  .content {\n    @apply min-w-0 flex-1;\n  }\n\n  .title {\n    @apply m-0;\n    font-weight: var(--font-weight-semibold);\n    font-size: var(--text-sm);\n    line-height: var(--leading-tight);\n    color: var(--title-color);\n  }\n\n  .description {\n    @apply mt-1 mb-0;\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-sm);\n    line-height: var(--leading-normal);\n    color: var(--description-color);\n  }\n\n  .close {\n    @apply flex shrink-0 items-center justify-center p-2 cursor-pointer;\n    background: transparent;\n    border: none;\n    border-radius: var(--radius-sm);\n    color: var(--close-color);\n    opacity: 0.6;\n    transition: opacity 0.15s ease-out;\n\n    &:focus-visible {\n      outline: 2px solid currentColor;\n      outline-offset: 2px;\n    }\n\n    @media (hover: hover) {\n      &:hover {\n        opacity: 1;\n        background: var(--close-hover-background);\n      }\n    }\n  }\n}\n",
-    "styleableParts": [
-      {
-        "name": "root"
-      },
-      {
-        "name": "content"
-      },
-      {
-        "name": "title"
-      },
-      {
-        "name": "description"
-      },
-      {
-        "name": "close"
-      },
-      {
-        "name": "icon"
-      }
-    ],
-    "cssVariables": []
-  },
   "tooltip": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .trigger {\n    @apply inline-block;\n  }\n\n  .root {\n    @apply absolute;\n    pointer-events: none;\n    z-index: 50;\n  }\n\n  .content {\n    --frame-fill: var(--tooltip-fill);\n    --frame-stroke-color: var(--tooltip-border-color);\n    opacity: 0;\n    transition: opacity 0.15s ease-out, transform 0.15s ease-out;\n  }\n\n  .content[data-visible=\"true\"] {\n    opacity: 1;\n    pointer-events: auto;\n  }\n\n  .frame {\n    @apply flex items-center gap-1.5 px-2 py-1 whitespace-nowrap;;\n    color: var(--foreground);\n  }\n\n  .frame[data-hint] {\n    @apply pr-1;\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .trigger {\n    display: contents;\n  }\n\n  .root {\n    @apply absolute;\n    pointer-events: none;\n    z-index: 50;\n  }\n\n  .content {\n    --frame-fill: var(--tooltip-fill);\n    --frame-stroke-color: var(--tooltip-border-color);\n    opacity: 0;\n    transition: opacity 0.15s ease-out, transform 0.15s ease-out;\n  }\n\n  .content[data-visible=\"true\"] {\n    opacity: 1;\n    pointer-events: auto;\n  }\n\n  .frame {\n    @apply flex items-center gap-1.5 px-2 py-1 whitespace-nowrap;;\n    color: var(--foreground);\n  }\n\n  .frame[data-hint] {\n    @apply pr-1;\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -63,6 +39,30 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
         "variant": ".content"
       }
     ]
+  },
+  "toast": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .toast {\n    @apply flex w-full max-w-[28rem] items-start gap-3 px-4 py-2.5 select-none;\n    background: var(--background);\n    color: var(--foreground);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n    box-shadow: var(--shadow);\n    font-family: inherit;\n    font-size: var(--text-sm);\n    line-height: var(--leading-normal);\n    touch-action: pan-y;\n  }\n\n  .icon {\n    @apply mr-4 mt-2 h-5 w-5 shrink-0;\n    color: var(--icon-color);\n  }\n\n  .content {\n    @apply min-w-0 flex-1;\n  }\n\n  .title {\n    @apply m-0;\n    font-weight: var(--font-weight-semibold);\n    font-size: var(--text-sm);\n    line-height: var(--leading-tight);\n    color: var(--title-color);\n  }\n\n  .description {\n    @apply mt-1 mb-0;\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-sm);\n    line-height: var(--leading-normal);\n    color: var(--description-color);\n  }\n\n  .close {\n    @apply flex shrink-0 items-center justify-center p-2 cursor-pointer;\n    background: transparent;\n    border: none;\n    border-radius: var(--radius-sm);\n    color: var(--close-color);\n    opacity: 0.6;\n    transition: opacity 0.15s ease-out;\n\n    &:focus-visible {\n      outline: 2px solid currentColor;\n      outline-offset: 2px;\n    }\n\n    @media (hover: hover) {\n      &:hover {\n        opacity: 1;\n        background: var(--close-hover-background);\n      }\n    }\n  }\n}\n",
+    "styleableParts": [
+      {
+        "name": "root"
+      },
+      {
+        "name": "content"
+      },
+      {
+        "name": "title"
+      },
+      {
+        "name": "description"
+      },
+      {
+        "name": "close"
+      },
+      {
+        "name": "icon"
+      }
+    ],
+    "cssVariables": []
   },
   "textarea": {
     "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .textarea {\n    --textarea-padding-x: 0.75rem;\n    --textarea-padding-y: 0.5rem;\n    --disabled-opacity: 0.6;\n\n    @apply block w-full px-3 py-2;\n    font-family: inherit;\n    font-size: var(--text-sm);\n    line-height: var(--leading-snug);\n    color: var(--foreground);\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n    box-sizing: border-box;\n    resize: none;\n    outline: none;\n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    &::placeholder {\n      color: var(--placeholder);\n    }\n\n    &[data-active] {\n      border-color: var(--ring-color);\n      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);\n    }\n\n    &[data-focus-visible] {\n      outline: none;\n      border-color: var(--ring-color);\n      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);\n    }\n\n    &[data-disabled] {\n      background-color: var(--disabled-background);\n      color: var(--disabled-foreground);\n      cursor: not-allowed;\n      opacity: var(--disabled-opacity);\n    }\n\n    &[data-error] {\n      border-color: var(--border);\n\n      &[data-active] {\n        border-color: var(--ring-color);\n        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);\n      }\n    }\n\n    &[data-resize-axis=\"x\"],\n    &[data-resize-axis=\"both\"] {\n      padding-inline-end: calc(var(--textarea-padding-x) + 1rem);\n    }\n\n    &[data-resize-axis=\"y\"],\n    &[data-resize-axis=\"both\"] {\n      padding-block-end: calc(var(--textarea-padding-y) + 1rem);\n    }\n\n    &[data-scroll=\"true\"] {\n      overflow: hidden;\n      resize: none;\n      background: transparent;\n      border: none;\n      border-radius: 0;\n      box-shadow: none;\n\n      &[data-active],\n      &[data-focus-visible] {\n        border-color: transparent;\n        box-shadow: none;\n      }\n\n      &[data-disabled] {\n        background-color: transparent;\n        opacity: 1;\n      }\n\n      &[data-error] {\n        border-color: transparent;\n\n        &[data-active] {\n          border-color: transparent;\n          box-shadow: none;\n        }\n      }\n    }\n  }\n\n  .surface {\n    @apply relative w-full;\n  }\n\n  .resize-handle {\n    position: absolute;\n    z-index: 1;\n    touch-action: none;\n    user-select: none;\n\n    &::before {\n      content: \"\";\n      position: absolute;\n      border-radius: var(--radius-full);\n      background-color: var(--resize-handle-color);\n      transition: background-color 150ms;\n    }\n\n    &::after {\n      content: \"\";\n      position: absolute;\n      border-radius: var(--radius-full);\n      background-color: var(--resize-handle-color);\n      transition: background-color 150ms;\n    }\n\n    &:hover::before,\n    &:hover::after {\n      background-color: var(--resize-handle-color-hover);\n    }\n\n    &[data-axis=\"both\"] {\n      right: 3px;\n      bottom: 3px;\n      width: 1.5rem;\n      height: 1.5rem;\n      cursor: nwse-resize;\n\n      &::before {\n        bottom: 0.35rem;\n        right: 0.15rem;\n        width: 0.5rem;\n        height: 0.125rem;\n        transform: rotate(-45deg);\n        transform-origin: center;\n      }\n\n      &::after {\n        bottom: 0.6rem;\n        right: 0.2rem;\n        width: 1.0rem;\n        height: 0.125rem;\n        transform: rotate(-45deg);\n        transform-origin: center;\n      }\n    }\n\n    &[data-axis=\"x\"] {\n      top: 50%;\n      right: 0;\n      width: 0.75rem;\n      height: 2rem;\n      cursor: ew-resize;\n      transform: translateY(-50%);\n\n      &::before {\n        top: 50%;\n        left: 50%;\n        width: 0.125rem;\n        height: 1.5rem;\n        transform: translate(-50%, -50%);\n      }\n    }\n\n    &[data-axis=\"y\"] {\n      left: 50%;\n      bottom: 0;\n      width: 2rem;\n      height: 0.75rem;\n      cursor: ns-resize;\n      transform: translateX(-50%);\n\n      &::before {\n        top: 50%;\n        left: 50%;\n        width: 1.5rem;\n        height: 0.125rem;\n        transform: translate(-50%, -50%);\n      }\n    }\n  }\n\n  .scroll-wrapper {\n    --disabled-opacity: 0.6;\n\n    @apply w-full overflow-hidden;\n    background-color: var(--background);\n    border: var(--border-width-base) solid var(--border);\n    border-radius: var(--radius-sm);\n\n    &[data-active] {\n      border-color: var(--ring-color);\n      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);\n    }\n\n    &[data-focus-visible] {\n      outline: none;\n      border-color: var(--ring-color);\n      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);\n    }\n\n    &[data-disabled] {\n      background-color: var(--disabled-background);\n      opacity: var(--disabled-opacity);\n    }\n\n    &[data-error] {\n      border-color: var(--border);\n\n      &[data-active] {\n        border-color: var(--ring-color);\n        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);\n      }\n    }\n  }\n\n  .textarea[data-size=\"sm\"] {\n    min-height: 5rem;\n    --textarea-padding-x: 0.5rem;\n    --textarea-padding-y: 0.25rem;\n    font-size: var(--text-sm);\n    @apply px-2 py-1;\n  }\n\n  .textarea[data-size=\"md\"] {\n    min-height: 6rem;\n    --textarea-padding-x: 0.75rem;\n    --textarea-padding-y: 0.5rem;\n    font-size: var(--text-sm);\n    @apply px-3 py-2;\n  }\n\n  .textarea[data-size=\"lg\"] {\n    min-height: 8rem;\n    --textarea-padding-x: 1rem;\n    --textarea-padding-y: 0.75rem;\n    font-size: var(--text-md);\n    @apply px-4 py-3;\n  }\n\n  .container {\n    @apply w-full;\n  }\n\n  .character-count {\n    font-size: var(--text-sm);\n    color: var(--character-count-color);\n    @apply mt-1;\n    transition: color 0.15s var(--ease-snappy-pop);\n  }\n\n  .character-count[data-over-limit] {\n    color: var(--character-count-over-limit-color);\n  }\n}\n",
@@ -148,7 +148,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     ]
   },
   "tabs": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .tabs {\n    @apply flex w-full flex-col;\n\n    &[data-orientation=\"vertical\"] {\n      flex-direction: row;\n    }\n  }\n\n  .list {\n    @apply relative flex w-full flex-row items-center gap-3 py-1;\n    border-radius: var(--radius-sm);\n\n    &[data-orientation=\"vertical\"] {\n      flex-direction: column;\n      width: auto;\n      min-width: 120px;\n      height: 100%;\n    }\n\n    &[data-variant=\"underline\"] {\n      background-color: transparent;\n      border-radius: 0;\n      padding: 0;\n    }\n\n    &[data-variant=\"underline\"][data-orientation=\"vertical\"] {\n      border-bottom: none;\n      border-left: var(--border-width-base) solid var(--list-border-color);\n      align-items: stretch;\n    }\n  }\n\n  .indicator {\n    @apply absolute;\n    background-color: var(--indicator-background);\n    box-sizing: border-box;\n    border-radius: var(--radius-xs);\n    z-index: 0;\n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    pointer-events: none;\n  }\n\n  .indicator-fallback {\n    z-index: -1;\n  }\n\n  .indicator-underline {\n    border-radius: 0;\n  }\n\n  .trigger {\n    @apply relative z-[1] flex shrink-0 items-center justify-center gap-2 rounded-sm px-2 py-1.5 cursor-pointer select-none;\n    background-color: transparent;\n    border: none;\n    font-weight: var(--font-weight-medium);\n    color: var(--trigger-color);\n    outline: none;\n    transition: color 0.15s ease, background-color 0.15s ease;\n\n\n    &:not([data-disabled]) {\n      &:hover {\n        color: var(--trigger-hover-color);\n      }\n\n      &:active {\n        color: var(--trigger-active-color);\n      }\n    }\n\n    &[data-selected=\"true\"] {\n      color: var(--trigger-selected-color);\n    }\n\n    &[data-selected=\"true\"]:not([data-indicator-ready=\"true\"]):not([data-indicator-fallback=\"true\"]) {\n      .list & {\n        background-color: var(--trigger-selected-background);\n      }\n\n      .list[data-variant=\"underline\"] & {\n        background-color: transparent;\n        border-bottom-color: var(--trigger-underline-color);\n      }\n\n      .list[data-variant=\"underline\"][data-orientation=\"vertical\"] & {\n        border-bottom-color: transparent;\n        border-left-color: var(--trigger-underline-color);\n      }\n    }\n\n    &[data-focus-visible] {\n      background: var(--trigger-focus-background);\n      outline: none;\n    }\n\n    &[data-disabled=\"true\"] {\n      --disabled-opacity: 0.5;\n      opacity: var(--disabled-opacity);\n      cursor: not-allowed;\n      pointer-events: none;\n    }\n\n    .list[data-variant=\"underline\"] & {\n      background-color: transparent;\n      border-radius: 0;\n      border-bottom: 2px solid transparent;\n    }\n\n    .list[data-variant=\"underline\"][data-orientation=\"vertical\"] & {\n      border-bottom: none;\n      border-left: 2px solid transparent;\n    }\n\n    .list[data-variant=\"underline\"][data-orientation=\"vertical\"] &[data-selected=\"true\"]:not([data-indicator-ready=\"true\"]):not([data-indicator-fallback=\"true\"]) {\n      border-left-color: var(--trigger-underline-color);\n      border-bottom: none;\n    }\n  }\n\n  .trigger-icon {\n    @apply flex h-4 w-4 shrink-0 items-center justify-center;\n  }\n\n  .content {\n    @apply w-full p-0 outline-none;\n    flex: 1;\n    padding-top: 1rem;\n\n    &[data-orientation=\"vertical\"] {\n      flex: 1;\n      width: 100%;\n    }\n\n    &:focus-visible {\n      outline: 2px solid var(--content-outline-color);\n      outline-offset: 2px;\n    }\n  }\n\n  @media (max-width: 640px) {\n    .list {\n      padding: 0.125rem;\n\n      &[data-variant=\"underline\"] {\n        padding: 0;\n      }\n    }\n\n    .trigger {\n      @apply px-1 py-1;\n      .list[data-variant=\"underline\"] & {\n        margin: 0.5rem 0.75rem;\n      }\n    }\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .tabs {\n    @apply flex w-full flex-col;\n\n    &[data-orientation=\"vertical\"] {\n      flex-direction: row;\n    }\n  }\n\n  .list {\n    @apply relative flex w-full flex-row items-center gap-3 py-1;\n    border-radius: var(--radius-sm);\n\n    &[data-orientation=\"vertical\"] {\n      flex-direction: column;\n      width: auto;\n      min-width: 120px;\n      height: 100%;\n    }\n\n    &[data-variant=\"underline\"] {\n      background-color: transparent;\n      border-radius: 0;\n      padding: 0;\n    }\n\n    &[data-variant=\"underline\"][data-orientation=\"vertical\"] {\n      border-bottom: none;\n      border-left: var(--border-width-base) solid var(--list-border-color);\n      align-items: stretch;\n    }\n  }\n\n  .indicator {\n    @apply absolute;\n    background-color: var(--indicator-background);\n    box-sizing: border-box;\n    border-radius: var(--radius-xs);\n    z-index: 0;\n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    pointer-events: none;\n  }\n\n  .indicator-fallback {\n    z-index: -1;\n  }\n\n  .indicator-underline {\n    border-radius: 0;\n  }\n\n  .trigger {\n    @apply relative z-[1] flex shrink-0 items-center justify-center gap-2 rounded-sm px-2 py-1.5 cursor-pointer select-none;\n    height: 100%;\n    background-color: transparent;\n    border: none;\n    color: var(--trigger-color);\n    outline: none;\n    transition: color 0.15s ease, background-color 0.15s ease;\n\n\n    &:not([data-disabled]) {\n      &:hover {\n        color: var(--trigger-hover-color);\n      }\n\n      &:active {\n        color: var(--trigger-active-color);\n      }\n    }\n\n    &[data-selected=\"true\"] {\n      color: var(--trigger-selected-color);\n    }\n\n    &[data-selected=\"true\"]:not([data-indicator-ready=\"true\"]):not([data-indicator-fallback=\"true\"]) {\n      .list & {\n        background-color: var(--trigger-selected-background);\n      }\n\n      .list[data-variant=\"underline\"] & {\n        background-color: transparent;\n        border-bottom-color: var(--trigger-underline-color);\n      }\n\n      .list[data-variant=\"underline\"][data-orientation=\"vertical\"] & {\n        border-bottom-color: transparent;\n        border-left-color: var(--trigger-underline-color);\n      }\n    }\n\n    &[data-focus-visible] {\n      background: var(--trigger-focus-background);\n      outline: none;\n    }\n\n    &[data-disabled=\"true\"] {\n      --disabled-opacity: 0.5;\n      opacity: var(--disabled-opacity);\n      cursor: not-allowed;\n      pointer-events: none;\n    }\n\n    .list[data-variant=\"underline\"] & {\n      background-color: transparent;\n      border-radius: 0;\n      border-bottom: 2px solid transparent;\n    }\n\n    .list[data-variant=\"underline\"][data-orientation=\"vertical\"] & {\n      border-bottom: none;\n      border-left: 2px solid transparent;\n    }\n\n    .list[data-variant=\"underline\"][data-orientation=\"vertical\"] &[data-selected=\"true\"]:not([data-indicator-ready=\"true\"]):not([data-indicator-fallback=\"true\"]) {\n      border-left-color: var(--trigger-underline-color);\n      border-bottom: none;\n    }\n  }\n\n  .trigger-icon {\n    @apply flex h-4 w-4 shrink-0 items-center justify-center;\n  }\n\n  .content {\n    @apply w-full p-0 outline-none;\n    flex: 1;\n    padding-top: 1rem;\n\n    &[data-orientation=\"vertical\"] {\n      flex: 1;\n      width: 100%;\n    }\n\n    &:focus-visible {\n      outline: 2px solid var(--content-outline-color);\n      outline-offset: 2px;\n    }\n  }\n\n  @media (max-width: 640px) {\n    .list {\n      padding: 0.125rem;\n\n      &[data-variant=\"underline\"] {\n        padding: 0;\n      }\n    }\n\n    .trigger {\n      @apply px-1 py-1;\n      .list[data-variant=\"underline\"] & {\n        margin: 0.5rem 0.75rem;\n      }\n    }\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"
@@ -673,40 +673,6 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     ],
     "cssVariables": []
   },
-  "popover": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .trigger {\n    @apply inline-block;\n  }\n\n  .root {\n    @apply absolute;\n    pointer-events: none;\n    z-index: 50;\n  }\n\n  .content {\n    --frame-fill: var(--popover-fill);\n    --frame-stroke-color: var(--popover-border-color);\n    opacity: 0;\n    transform: scale(0.95);\n    transition: opacity 0.2s ease-out, transform 0.2s ease-out;\n    pointer-events: none;\n    min-width: 200px;\n    max-width: 400px;\n    padding: 0.75rem;\n  }\n\n  .content[data-visible=\"true\"] {\n    opacity: 1;\n    transform: scale(1);\n    pointer-events: auto;\n  }\n\n  .content[data-instant] {\n    transition: none;\n  }\n\n  .frame {\n    @apply flex items-center gap-1.5 px-2 py-1;\n    color: var(--foreground);\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-sm);\n    @apply whitespace-nowrap;\n  }\n}\n",
-    "styleableParts": [
-      {
-        "name": "root"
-      },
-      {
-        "name": "content"
-      },
-      {
-        "name": "trigger"
-      }
-    ],
-    "cssVariables": [
-      {
-        "name": "--frame-fill",
-        "value": "var(--popover-fill)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--popover-fill"
-        ],
-        "variant": ".content"
-      },
-      {
-        "name": "--frame-stroke-color",
-        "value": "var(--popover-border-color)",
-        "defaultValue": null,
-        "referencedVars": [
-          "--popover-border-color"
-        ],
-        "variant": ".content"
-      }
-    ]
-  },
   "path": {
     "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .path {\n    --foreground: var(--foreground-primary);\n    --foreground-muted: var(--foreground-secondary);\n    --separator-color: var(--border-secondary);\n    --focus-ring-color: var(--accent-500);\n    --disabled-opacity: 0.6;\n\n    @apply block;\n  }\n\n  .path-list {\n    list-style: none;\n    @apply m-0 flex flex-wrap items-center gap-2 p-0;\n    flex-wrap: wrap;\n  }\n\n  .path-list.with-custom-separator .path-item:not(:last-child)::after {\n    content: none;\n  }\n\n  .path-item {\n    @apply m-0 flex items-center gap-2 p-0;\n  }\n\n  /* Separator after each item except the last */\n  .path-item:not(:last-child)::after {\n    content: '/';\n    color: var(--separator-color);\n    margin-left: 0.5rem;\n    user-select: none;\n    pointer-events: none;\n  }\n\n  /* Custom separator element */\n  .separator {\n    list-style: none;\n    @apply m-0 flex items-center p-0;\n    color: var(--separator-color);\n    user-select: none;\n    pointer-events: none;\n  }\n\n  .path-item-link {\n    @apply relative cursor-pointer rounded-sm px-2 py-1;\n    color: var(--foreground);\n    text-decoration: none;\n    font-size: var(--text-sm);\n    font-weight: var(--font-weight-medium);\n    line-height: 1.5;\n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n\n    &:hover:not([data-disabled='true']) {\n      background-color: var(--background-hover, rgba(0, 0, 0, 0.04));\n      color: var(--accent-600);\n    }\n\n    &:active:not([data-disabled='true']) {\n      background-color: var(--background-active, rgba(0, 0, 0, 0.08));\n    }\n\n    &:focus-visible {\n      outline: 2px solid var(--focus-ring-color);\n      outline-offset: 2px;\n    }\n\n    &[data-current='true'] {\n      color: var(--foreground-muted);\n      cursor: default;\n      font-weight: var(--font-weight-medium);\n\n      &:hover {\n        background-color: transparent;\n      }\n    }\n\n    &[data-disabled='true'] {\n      color: var(--foreground-muted);\n      cursor: not-allowed;\n      opacity: var(--disabled-opacity);\n\n      &:hover {\n        background-color: transparent;\n      }\n    }\n  }\n}\n",
     "styleableParts": [
@@ -763,6 +729,40 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
         "defaultValue": null,
         "referencedVars": [],
         "variant": ".path"
+      }
+    ]
+  },
+  "popover": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .trigger {\n    @apply inline-block;\n  }\n\n  .root {\n    @apply absolute;\n    pointer-events: none;\n    z-index: 50;\n  }\n\n  .content {\n    --frame-fill: var(--popover-fill);\n    --frame-stroke-color: var(--popover-border-color);\n    opacity: 0;\n    transform: scale(0.95);\n    transition: opacity 0.2s ease-out, transform 0.2s ease-out;\n    pointer-events: none;\n    min-width: 200px;\n    max-width: 400px;\n    padding: 0.75rem;\n  }\n\n  .content[data-visible=\"true\"] {\n    opacity: 1;\n    transform: scale(1);\n    pointer-events: auto;\n  }\n\n  .content[data-instant] {\n    transition: none;\n  }\n\n  .frame {\n    @apply flex items-center gap-1.5 px-2 py-1;\n    color: var(--foreground);\n    font-weight: var(--font-weight-medium);\n    font-size: var(--text-sm);\n    @apply whitespace-nowrap;\n  }\n}\n",
+    "styleableParts": [
+      {
+        "name": "root"
+      },
+      {
+        "name": "content"
+      },
+      {
+        "name": "trigger"
+      }
+    ],
+    "cssVariables": [
+      {
+        "name": "--frame-fill",
+        "value": "var(--popover-fill)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--popover-fill"
+        ],
+        "variant": ".content"
+      },
+      {
+        "name": "--frame-stroke-color",
+        "value": "var(--popover-border-color)",
+        "defaultValue": null,
+        "referencedVars": [
+          "--popover-border-color"
+        ],
+        "variant": ".content"
       }
     ]
   },
@@ -891,6 +891,15 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "styleableParts": [],
     "cssVariables": []
   },
+  "list": {
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .container {\n    @apply mx-auto;\n    max-width: 28rem;\n    font-family: var(--font-sans, system-ui, -apple-system, sans-serif);\n    color: var(--foreground);\n  }\n\n  .header {\n    @apply flex items-center justify-between;\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n    padding-top: 1rem;\n    padding-bottom: 1rem;\n    backdrop-filter: blur(12px);\n    z-index: 10;\n  }\n\n  .header.sticky { position: sticky; top: 0; }\n\n  .container[data-spacing=\"sm\"] .header {\n    padding-left: 0.75rem;\n    padding-right: 0.75rem;\n    padding-top: 0.25rem;\n    padding-bottom: 0.25rem;\n  }\n\n  .header > :first-child {\n    font-weight: var(--font-weight-semibold);\n    font-size: 1.125rem;\n    color: var(--header-title-color);\n  }\n\n  .header > :last-child { color: var(--header-subtitle-color); }\n\n  .item {\n    @apply flex flex-row items-center gap-3 px-2 py-1 cursor-pointer;\n  }\n\n  .container .item:hover {\n    background-color: var(--background-hover);\n  }\n\n  .container[data-keyboard-mode=\"true\"] .item[data-highlighted=\"true\"] {\n    background-color: var(--background-highlighted);\n  }\n\n  .container[data-spacing=\"sm\"] .item {\n    padding: 0.5rem 0.75rem;\n    gap: 0.375rem;\n  }\n\n  .checkbox,\n  .control,\n  .media {\n    @apply flex items-center justify-center flex-shrink-0;\n  }\n\n  .control { margin-left: auto; }\n\n  .media {\n    @apply h-8 w-8;\n  }\n\n  .desc {\n    font-size: var(--text-sm);\n    color: var(--desc-color);\n    @apply truncate;\n  }\n\n  .action-group {\n    @apply flex items-center;\n    padding-left: 0.25rem;\n    padding-right: 0.25rem;\n  }\n\n  .action-group[data-justify=\"space-between\"] { justify-content: space-between; }\n  .action-group[data-justify=\"flex-start\"] { justify-content: flex-start; }\n  .action-group[data-justify=\"flex-end\"] { justify-content: flex-end; }\n\n  .actions {\n    align-items: center;\n    gap: 0.25rem;\n    margin-left: auto;\n    flex-shrink: 0;\n    @apply p-1.5 hidden group-hover:flex;\n  }\n\n  .action {\n    @apply flex items-center justify-center;\n    border-radius: 0.25rem;\n    color: var(--action-color);\n    @apply p-2;\n  }\n\n  .action:hover {\n    background-color: var(--background-hover);\n    color: var(--action-hover-color);\n  }\n\n  .footer {\n    @apply flex p-6 pb-12;\n  }\n\n  .footer[data-align=\"center\"] { justify-content: center; }\n  .footer[data-align=\"flex-start\"] { justify-content: flex-start; }\n  .footer[data-align=\"flex-end\"] { justify-content: flex-end; }\n\n  .container[data-spacing=\"sm\"] .footer {\n    padding: 0.375rem 0.75rem;\n    padding-bottom: 0.375rem;\n  }\n}\n",
+    "styleableParts": [
+      {
+        "name": "root"
+      }
+    ],
+    "cssVariables": []
+  },
   "label": {
     "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .label {\n    display: block;\n    font-family: inherit;\n    font-size: var(--text-sm);\n    color: var(--foreground);\n    transition: color 150ms ease;\n\n    &[data-size=\"sm\"] { font-size: var(--text-sm); }\n    &[data-size=\"lg\"] { font-size: var(--text-md); }\n\n    &[data-disabled] {\n      color: var(--disabled-foreground);\n      opacity: 0.6;\n      cursor: not-allowed;\n    }\n\n    &[data-error] {\n      color: var(--error-foreground);\n    }\n  }\n\n  .required-indicator {\n    margin-left: 0.25rem;\n    color: var(--required-color);\n  }\n\n  .helper-text {\n    display: block;\n    font-size: var(--text-sm);\n    margin-top: 0.25rem;\n    transition: color 150ms ease;\n    color: var(--helper-color);\n\n    &[data-error] {\n      color: var(--helper-error-color);\n    }\n  }\n}\n",
     "styleableParts": [
@@ -902,15 +911,6 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
       },
       {
         "name": "helperText"
-      }
-    ],
-    "cssVariables": []
-  },
-  "list": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .container {\n    @apply mx-auto;\n    max-width: 28rem;\n    font-family: var(--font-sans, system-ui, -apple-system, sans-serif);\n    color: var(--foreground);\n  }\n\n  .header {\n    @apply flex items-center justify-between;\n    padding-left: 1.25rem;\n    padding-right: 1.25rem;\n    padding-top: 1rem;\n    padding-bottom: 1rem;\n    backdrop-filter: blur(12px);\n    z-index: 10;\n  }\n\n  .header.sticky { position: sticky; top: 0; }\n\n  .container[data-spacing=\"sm\"] .header {\n    padding-left: 0.75rem;\n    padding-right: 0.75rem;\n    padding-top: 0.25rem;\n    padding-bottom: 0.25rem;\n  }\n\n  .header > :first-child {\n    font-weight: var(--font-weight-semibold);\n    font-size: 1.125rem;\n    color: var(--header-title-color);\n  }\n\n  .header > :last-child { color: var(--header-subtitle-color); }\n\n  .item {\n    @apply flex flex-row items-center gap-3 px-2 py-1 cursor-pointer;\n  }\n\n  .container .item:hover {\n    background-color: var(--background-hover);\n  }\n\n  .container[data-keyboard-mode=\"true\"] .item[data-highlighted=\"true\"] {\n    background-color: var(--background-highlighted);\n  }\n\n  .container[data-spacing=\"sm\"] .item {\n    padding: 0.5rem 0.75rem;\n    gap: 0.375rem;\n  }\n\n  .checkbox,\n  .control,\n  .media {\n    @apply flex items-center justify-center flex-shrink-0;\n  }\n\n  .control { margin-left: auto; }\n\n  .media {\n    @apply h-8 w-8;\n  }\n\n  .desc {\n    font-size: var(--text-sm);\n    color: var(--desc-color);\n    @apply truncate;\n  }\n\n  .action-group {\n    @apply flex items-center;\n    padding-left: 0.25rem;\n    padding-right: 0.25rem;\n  }\n\n  .action-group[data-justify=\"space-between\"] { justify-content: space-between; }\n  .action-group[data-justify=\"flex-start\"] { justify-content: flex-start; }\n  .action-group[data-justify=\"flex-end\"] { justify-content: flex-end; }\n\n  .actions {\n    align-items: center;\n    gap: 0.25rem;\n    margin-left: auto;\n    flex-shrink: 0;\n    @apply p-1.5 hidden group-hover:flex;\n  }\n\n  .action {\n    @apply flex items-center justify-center;\n    border-radius: 0.25rem;\n    color: var(--action-color);\n    @apply p-2;\n  }\n\n  .action:hover {\n    background-color: var(--background-hover);\n    color: var(--action-hover-color);\n  }\n\n  .footer {\n    @apply flex p-6 pb-12;\n  }\n\n  .footer[data-align=\"center\"] { justify-content: center; }\n  .footer[data-align=\"flex-start\"] { justify-content: flex-start; }\n  .footer[data-align=\"flex-end\"] { justify-content: flex-end; }\n\n  .container[data-spacing=\"sm\"] .footer {\n    padding: 0.375rem 0.75rem;\n    padding-bottom: 0.375rem;\n  }\n}\n",
-    "styleableParts": [
-      {
-        "name": "root"
       }
     ],
     "cssVariables": []
@@ -1471,7 +1471,7 @@ export const generatedStyles: Record<string, { rawCss: string; styleableParts: A
     "cssVariables": []
   },
   "anchor": {
-    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .anchor {\n    @apply inline;\n  }\n\n  .preview {\n    @apply inline;\n  }\n\n  .trigger {\n    @apply inline-block relative cursor-pointer;\n    color: var(--foreground);\n    text-decoration: none;\n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n\n    &:hover .underline {\n      background: var(--underline-background-hover);\n    }\n\n    &:focus-visible {\n      outline: 2px solid var(--focus-ring);\n      outline-offset: 2px;\n      border-radius: 2px;\n    }\n  }\n\n  .underline {\n    @apply absolute left-0 right-0 bottom-0 h-px;\n    background: var(--underline-background);\n    transform-origin: right;\n    transform: scaleX(1);\n    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    pointer-events: none;\n  }\n}\n",
+    "rawCss": "@reference \"tailwindcss\";\n\n@layer components {\n  .preview, .anchor {\n    display: inline\n  }\n\n  .trigger {\n    @apply inline-block relative cursor-pointer;\n    color: var(--foreground);\n    text-decoration: none;\n    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n\n    &:hover .underline {\n      background: var(--underline-background-hover);\n    }\n\n    &:focus-visible {\n      outline: 2px solid var(--focus-ring);\n      outline-offset: 2px;\n      border-radius: 2px;\n    }\n  }\n\n  .underline {\n    @apply absolute left-0 right-0 bottom-0 h-px;\n    background: var(--underline-background);\n    transform-origin: right;\n    transform: scaleX(1);\n    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n    pointer-events: none;\n  }\n}\n",
     "styleableParts": [
       {
         "name": "root"

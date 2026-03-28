@@ -1,5 +1,11 @@
 # ui-lab-components
 
+## 0.3.41
+
+### Patch Changes
+
+- Anchor, Mask, Scroll, and Tooltip are now SSR-compatible and no longer require a client boundary. Anchor previews now use Tooltip with an arrow indicator, and a new preview prop makes it easier to add hover previews in server components.
+
 ## 0.3.4
 
 ### Patch Changes
