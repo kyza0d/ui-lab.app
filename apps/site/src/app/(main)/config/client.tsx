@@ -244,7 +244,7 @@ function ExportSection({
         a CSS module driven by <code>data-theme</code>.
       </p>
 
-      <Tabs defaultValue="theme">
+      <Tabs default="theme">
         <Tabs.List>
           <Tabs.Trigger value="theme">theme.css</Tabs.Trigger>
           <Tabs.Trigger value="globals">globals.css</Tabs.Trigger>

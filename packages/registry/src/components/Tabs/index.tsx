@@ -36,7 +36,7 @@ const tabsBasicCode = `import { Tabs } from "ui-lab-components";
 
 export function Example() {
   return (
-    <Tabs defaultValue="tab1">
+    <Tabs default="tab1">
       <Tabs.List>
         <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
         <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
@@ -69,7 +69,7 @@ export const tabsDetail: ComponentDetail = {
       description: "Adjust props to customize the component",
       code: tabsBasicCode,
       preview: (
-        <Tabs defaultValue="tab1">
+        <Tabs default="tab1">
           <Tabs.List>
             <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
             <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
@@ -88,7 +88,7 @@ export const tabsDetail: ComponentDetail = {
       ),
       controls: tabsControls,
       renderPreview: (props: any) => (
-        <Tabs defaultValue="tab1" variant={props.variant}>
+        <Tabs default="tab1" variant={props.variant}>
           <Tabs.List>
             <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
             <Tabs.Trigger value="tab2" disabled={props.disabled}>Tab 2</Tabs.Trigger>
@@ -116,7 +116,7 @@ export const tabsDetail: ComponentDetail = {
       description: "Standard boxed tabs with active state highlighting.",
       code: tabsBasicCode,
       preview: (
-        <Tabs defaultValue="tab1">
+        <Tabs default="tab1">
           <Tabs.List>
             <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
             <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
@@ -136,7 +136,7 @@ export const tabsDetail: ComponentDetail = {
       description: "Minimal underline tabs for a cleaner appearance.",
       code: `<Tabs variant="underline">...</Tabs>`,
       preview: (
-        <Tabs defaultValue="tab1" variant="underline">
+        <Tabs default="tab1" variant="underline">
           <Tabs.List>
             <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
             <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>

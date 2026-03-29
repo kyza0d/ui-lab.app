@@ -124,7 +124,7 @@ export function ComponentConfigurator({
 
       <div className="flex-1 rounded-sm overflow-hidden">
         {!hidePreviewToggle && (
-          <Tabs variant="underline" defaultValue="preview" onValueChange={(value) => setShowCode(value === "code")}>
+          <Tabs variant="underline" default="preview" onValueChange={(value) => setShowCode(value === "code")}>
             <Tabs.List className="rounded-none px-[calc(var(--radius-sm)*1.2)]">
               <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
               <Tabs.Trigger value="code">Code</Tabs.Trigger>

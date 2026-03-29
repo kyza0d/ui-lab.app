@@ -11,7 +11,7 @@ export default function Example() {
   return (
     <div className="flex items-center justify-center bg-background-950 p-4 min-h-[400px]">
       <Card className="w-full max-w-2xl">
-        <Tabs defaultValue="profile" className="flex flex-row">
+        <Tabs default="profile" className="flex flex-row">
           {/* Vertical tab list - styled as sidebar */}
           <Tabs.List
             aria-label="Settings sections"

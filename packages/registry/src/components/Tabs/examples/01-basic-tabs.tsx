@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function Example() {
   return (
-    <Tabs defaultValue="overview">
+    <Tabs default="overview">
       <Tabs.List aria-label="Content sections">
         <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
         <Tabs.Trigger value="details">Details</Tabs.Trigger>

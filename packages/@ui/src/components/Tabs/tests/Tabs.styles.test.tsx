@@ -18,7 +18,7 @@ function createRect(left: number, top: number, width: number, height: number): D
 
 function renderTestTabs() {
   return (
-    <Tabs defaultValue="portfolio">
+    <Tabs default="portfolio">
       <Tabs.List
         styles={{
           root: 'px-2 space-x-4',
@@ -56,7 +56,7 @@ describe('Tabs.styles', () => {
   it('renders the underline fallback flush with the trigger border box in SSR markup', () => {
     const { renderToString } = require('react-dom/server')
     const html = renderToString(
-      <Tabs defaultValue="portfolio" variant="underline">
+      <Tabs default="portfolio" variant="underline">
         <Tabs.List
           styles={{
             indicator: 'bg-red-500 border-4 border-background-700 rounded-sm',

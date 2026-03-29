@@ -79,7 +79,7 @@ interface TabsProps {
   /** Direction of the tab list layout */
   orientation?: TabsOrientation
   /** Initially selected tab value for uncontrolled usage */
-  defaultValue?: string
+  default?: string
   /** Controlled selected tab value */
   value?: string
   /** Called when the selected tab changes */
@@ -98,7 +98,7 @@ const TabsRoot = React.forwardRef<HTMLDivElement, TabsProps>(
     {
       variant,
       orientation = "horizontal",
-      defaultValue,
+      default: defaultTab,
       value: controlledValue,
       onValueChange,
       className,
@@ -109,7 +109,7 @@ const TabsRoot = React.forwardRef<HTMLDivElement, TabsProps>(
   ) => {
     const { root } = resolveTabsBaseStyles(stylesProp)
 
-    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue || "")
+    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultTab || "")
     const [disabledTabs, setDisabledTabs] = React.useState<Set<string>>(new Set())
 
     const selectedValue = controlledValue !== undefined ? controlledValue : uncontrolledValue
