@@ -93,7 +93,7 @@ export function MemberRolePanel() {
 
       {/* Search/filter toolbar */}
       <div className="px-2 gap-2 flex items-center justify-between py-2 w-full border-b border-background-700">
-        <Group>
+        <Group className="h-10.5">
           <Group.Input
             placeholder="Search members..."
             icon={<FaMagnifyingGlass />}
@@ -186,8 +186,8 @@ export function MemberRolePanel() {
       </List>
 
       {/* Invite footer */}
-      <div className="px-3 py-2.5 border-t border-background-700">
-        <Group>
+      <div className="p-2 border-t border-background-700">
+        <Group orientation="horizontal" className="h-12" spacing="sm">
           <Group.Input
             placeholder="Email address..."
             className="flex-1"
@@ -195,7 +195,7 @@ export function MemberRolePanel() {
             value={inviteEmail}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: 'SET_INVITE_EMAIL', value: e.target.value })}
           />
-          <Divider />
+          <Divider orientation="vertical" />
           <Group.Select
             selectedKey={inviteRole}
             onSelectionChange={(key) => dispatch({ type: 'SET_INVITE_ROLE', value: String(key) })}

@@ -12,7 +12,7 @@ import { LuSearch } from "react-icons/lu";
 function JoinedTogglePreview() {
   const [viewMode, setViewMode] = useState("list");
   return (
-    <Flex className="w-110" gap="xs" align="center">
+    <Flex className="w-120" gap="xs" align="center">
       <Input
         placeholder="Search items..."
         icon={<LuSearch />}
@@ -70,7 +70,7 @@ function SplitActionButtonPreview() {
   const label = status === "loading" ? "Saving..." : status === "done" ? "Done!" : cfg.label;
 
   return (
-    <Flex gap="xs" className="w-110" align="center">
+    <Flex gap="xs" className="w-120" align="center">
       <Select
         selectedKey={channel}
         valueLabel={selectedChannel ? `#${selectedChannel.label}` : undefined}
@@ -100,7 +100,7 @@ function SplitActionButtonPreview() {
           onPress={handleExecute}
           variant="ghost"
           size="sm"
-          className="w-full"
+          className="w-full rounded-none justify-start"
           isDisabled={status !== "idle"}
           icon={leftIcon}
         >
@@ -115,8 +115,8 @@ function SplitActionButtonPreview() {
         </Select.Content>
       </Select>
       <Menu type="pop-over">
-        <Menu.Trigger>
-          <Button size="icon" variant="outline" icon={<FaEllipsisVertical />} />
+        <Menu.Trigger className="aspect-square w-10 h-10">
+          <Button variant="outline" icon={<FaEllipsisVertical />} />
         </Menu.Trigger>
         <Menu.Content offset={8} side="bottom" align="end">
           <Menu.Item>Preview</Menu.Item>
@@ -131,7 +131,7 @@ function SplitActionButtonPreview() {
 function MultipleActions() {
   const [viewMode, setViewMode] = useState("list");
   return (
-    <Flex gap="xs" className="w-110 *:not-last:flex-1">
+    <Flex gap="xs" className="w-120 *:not-last:flex-1 *:last:w-10">
       <Button size="sm" variant="primary" >Subscribe</Button>
       <Button size="sm" >Message</Button>
       <Button size="icon" variant="outline" icon={<FaEllipsisVertical />} />
@@ -142,7 +142,7 @@ function MultipleActions() {
 function SubStackActions() {
   const [viewMode, setViewMode] = useState("list");
   return (
-    <Flex align="center" gap="xs" className="w-110">
+    <Flex align="center" gap="xs" className="w-120">
       <Group orientation="horizontal" spacing="xs" value={viewMode} onChange={setViewMode}>
         <Group.Button size="icon" value="list"><FaList /></Group.Button>
         <Group.Button size="icon" value="grid"><FaGrip /></Group.Button>

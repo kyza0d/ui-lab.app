@@ -6,7 +6,7 @@
 
 :root {
   /* Border Radius Scale */
-  --radius-xs: 0.05rem;
+  --radius-xs: 0.04rem;
   --radius-sm: 0.1rem;
   --radius-base: 0.2rem;
   --radius-md: 0.3rem;
@@ -443,6 +443,7 @@ pre.shiki .indent::before {
   .text-body-3xl { font-size: var(--text-3xl) }
   .text-body-4xl { font-size: var(--text-4xl) }
   .text-body-5xl { font-size: var(--text-5xl) }
+
 }
 
 @layer components {
@@ -498,4 +499,5 @@ body {
   background: color-mix(in srgb, var(--accent-600) 10%, transparent);
   color: var(--accent-600)
 }
+
 

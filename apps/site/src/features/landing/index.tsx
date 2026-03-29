@@ -8,7 +8,7 @@ import {
   FaArrowRightLong,
   FaCube,
 } from "react-icons/fa6";
-import { Button } from "ui-lab-components";
+import { Button, Input } from "ui-lab-components";
 
 function HeroSection() {
   return (
@@ -25,6 +25,7 @@ function HeroSection() {
               Accessible, production-ready React components with intelligent
               metadata that enable AI to generate perfectly consistent interfaces.
             </p>
+
             <div className="w-90 *:flex-1 flex gap-2 mt-6 mb-6 md:mt-8 md:mb-0">
               <Button size="sm" variant="primary" href="/docs" >
                 Documentation

@@ -40,7 +40,7 @@ function InputGroupPreview() {
         <Divider />
         <Group.Input placeholder="Search documentation..." className="w-64" />
         <Divider />
-        <Group.Button variant="secondary">Search</Group.Button>
+        <Group.Button className="w-full" variant="secondary">Search</Group.Button>
       </Group>
       <Group>
         <div className="bg-background-800 flex items-center px-3 text-foreground-400">
@@ -52,7 +52,7 @@ function InputGroupPreview() {
         <Group.Button variant="secondary">Subscribe</Group.Button>
       </Group>
       <Group>
-        <Group.Input defaultValue="npm install ui-lab" readOnly className="w-64 font-mono text-sm" />
+        <Group.Input defaultValue="npm install ui-lab" readOnly className="w-full font-mono text-sm" />
         <Divider />
         <Group.Button variant="outline" icon={{ left: <FaCopy className="mr-1.5 text-foreground-400" /> }} />
       </Group>

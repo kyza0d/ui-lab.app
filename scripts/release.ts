@@ -59,11 +59,14 @@ run('pnpm install');
 // 8. Update site lockfile
 run('pnpm install', path.join(rootDir, 'apps/site'));
 
-// 9. Commit: version bumps, CHANGELOG updates, ref sync, lockfiles
+// 9. Verify the site builds with the newly published versions
+run('pnpm --filter site run build');
+
+// 10. Commit: version bumps, CHANGELOG updates, ref sync, lockfiles
 run('git add -A');
 run('git commit -m "chore: release"');
 
-// 10. Push commits + the version tags created by changeset publish
+// 11. Push commits + the version tags created by changeset publish
 run('git push --follow-tags');
 
 console.log('\n✓ Release complete');
