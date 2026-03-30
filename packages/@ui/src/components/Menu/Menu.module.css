@@ -8,30 +8,30 @@
     --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));
     --menu-animation: none;
     --disabled-opacity: 0.5;
+
+    @apply absolute min-w-40 max-w-80 overflow-hidden;
+    z-index: 50000;
+    background-color: var(--background);
+    border: var(--border-width-base, 1px) solid var(--border-color);
+    border-radius: var(--radius);
   }
 
   .trigger {
     &[data-type="pop-over"][data-active] {
       opacity: 1;
-      background-color: var(--trigger-active-background);
+      background-color: var(--active-background);
       border-radius: var(--radius-sm, 0.375rem);
     }
   }
 
-  .content {
-    @apply absolute min-w-40 max-w-80 overflow-hidden;
-    z-index: 50000;
-    background-color: var(--content-background);
-    border: var(--border-width-base, 1px) solid var(--content-border);
-    border-radius: var(--radius);
+  .content[data-state="open"],
+  .sub-content[data-state="open"] {
+    animation: var(--menu-animation, slide-in-from-top 0.15s var(--ease-snappy-pop));
+  }
 
-    &[data-state="open"] {
-      animation: var(--menu-animation, slide-in-from-top 0.15s var(--ease-snappy-pop));
-    }
-
-    &[data-state="closed"] {
-      animation: var(--menu-animation, slide-out-to-top 0.15s var(--ease-snappy-pop));
-    }
+  .content[data-state="closed"],
+  .sub-content[data-state="closed"] {
+    animation: var(--menu-animation, slide-out-to-top 0.15s var(--ease-snappy-pop));
   }
 
   .list {
@@ -42,16 +42,18 @@
 
   .item,
   .checkbox-item,
-  .radio-item {
+  .radio-item,
+  .sub-trigger {
     @apply flex min-w-0 items-center gap-2;
     padding: var(--padding);
     border-radius: var(--inner-radius);
     cursor: default;
     user-select: none;
     outline: none;
-    color: var(--item-foreground);
+    color: var(--foreground);
+
     &[data-highlighted] {
-      background-color: var(--item-highlighted-background);
+      background-color: var(--highlight-background);
     }
 
     &[data-disabled] {
@@ -69,54 +71,20 @@
 
   .item-indicator {
     @apply ml-auto flex h-4 w-4 shrink-0 items-center justify-center;
-    color: var(--item-indicator-color);
+    color: var(--indicator-color);
   }
 
-  .sub-trigger {
-    @apply flex min-w-0 items-center gap-2;
-    padding: var(--padding);
-    border-radius: var(--inner-radius);
-    color: var(--item-foreground);
-    cursor: default;
-    user-select: none;
-    outline: none;
-    &[data-highlighted] {
-      background-color: var(--item-highlighted-background);
-    }
-
-    &[data-state="open"]:not([data-highlighted]) {
-      background-color: var(--item-highlighted-background);
-    }
-
-    &[data-disabled] {
-      opacity: var(--disabled-opacity);
-      pointer-events: none;
-    }
+  .sub-trigger[data-state="open"]:not([data-highlighted]) {
+    background-color: var(--highlight-background);
   }
 
   .sub-trigger-chevron {
     @apply ml-auto h-4 w-4 shrink-0;
   }
 
-  .sub-content {
-    @apply absolute min-w-40 max-w-80 overflow-hidden;
-    z-index: 50000;
-    background-color: var(--content-background);
-    border: var(--border-width-base, 1px) solid var(--content-border);
-    border-radius: var(--radius);
-
-    &[data-state="open"] {
-      animation: var(--menu-animation, slide-in-from-top 0.15s var(--ease-snappy-pop));
-    }
-
-    &[data-state="closed"] {
-      animation: var(--menu-animation, slide-out-to-top 0.15s var(--ease-snappy-pop));
-    }
-  }
-
   .label {
     padding: var(--padding);
-    color: var(--label-foreground);
+    color: var(--muted-foreground);
 
     &[data-inset] {
       padding-left: calc(var(--padding) * 2.67);
@@ -125,12 +93,12 @@
 
   .separator {
     @apply -mx-1 my-1 h-px;
-    background-color: var(--separator-background);
+    background-color: var(--border-color);
   }
 
   .shortcut {
     margin-left: auto;
-    color: var(--shortcut-foreground);
+    color: var(--muted-foreground);
   }
 
   @keyframes slide-in-from-top { from { opacity: 0; translate: 0 -2px; } to { opacity: 1; translate: 0 0; } }

@@ -13,10 +13,21 @@
   font-size: var(--text-sm);
 }
 
-.button.icon { @apply aspect-square }
-.button.sm { @apply px-2 py-1.5 text-xs font-semibold }
-.button.md { @apply px-3 py-1.5 }
-.button.lg { @apply px-5 py-2.5 }
+.button.icon {
+  @apply aspect-square
+}
+
+.button.sm {
+  @apply px-2 py-1.5 text-xs font-semibold
+}
+
+.button.md {
+  @apply px-3 py-1.5
+}
+
+.button.lg {
+  @apply px-5 py-2.5
+}
 
 .button.primary {
   --background: var(--foreground-200);
@@ -381,30 +392,26 @@
 
 .select.content,
 .select.sub-content {
-  --content-background: var(--background-900);
-  --content-border: var(--background-700);
+  --background: var(--background-900);
+  --border-color: var(--background-700);
 }
 
-.select.item {
-  --item-foreground: var(--foreground-300);
-  --item-description-color: var(--foreground-400);
-  --item-icon-color: var(--foreground-300);
-  --item-indicator-color: var(--accent-300);
-  --item-background-hover: color-mix(in srgb, var(--background-700) 50%, transparent);
+.select.item,
+.select.sub-trigger {
+  --foreground: var(--foreground-300);
+  --muted-foreground: var(--foreground-400);
+  --icon-color: var(--foreground-300);
+  --indicator-color: var(--accent-300);
+  --highlight-background: color-mix(in srgb, var(--background-700) 50%, transparent);
 }
 
 .select.placeholder {
-  --placeholder-color: var(--foreground-400);
+  --muted-foreground: var(--foreground-400);
 }
 
 .select.search-trigger {
   --search-divider-color: color-mix(in srgb, var(--border-color) 75%, transparent);
-  --search-focus-ring: var(--accent-500);
-}
-
-.select.sub-trigger {
-  --subtrigger-foreground: var(--foreground-300);
-  --subtrigger-background-hover: color-mix(in srgb, var(--background-700) 30%, transparent);
+  --focus-ring-color: var(--accent-500);
 }
 
 /* Slider Styles */
@@ -542,7 +549,8 @@
 .badge.secondary {
   --background: color-mix(in srgb, var(--background-600) 40%, transparent);
   --foreground: var(--foreground-300);
-  --background-border: color-mix(in srgb, var(--background-600) 40%, transparent);;
+  --background-border: color-mix(in srgb, var(--background-600) 40%, transparent);
+  ;
 }
 
 .badge.success {
@@ -604,10 +612,21 @@
   --foreground: var(--foreground-400);
 }
 
-.progress.fill.default { --fill-background: var(--accent-500); }
-.progress.fill.success { --fill-background: var(--success-500); }
-.progress.fill.warning { --fill-background: var(--warning-500); }
-.progress.fill.error { --fill-background: var(--danger-500); }
+.progress.fill.default {
+  --fill-background: var(--accent-500);
+}
+
+.progress.fill.success {
+  --fill-background: var(--success-500);
+}
+
+.progress.fill.warning {
+  --fill-background: var(--warning-500);
+}
+
+.progress.fill.error {
+  --fill-background: var(--danger-500);
+}
 
 /* Toast Styles */
 
@@ -669,43 +688,36 @@
 
 .menu.content,
 .menu.sub-content {
-  --content-background: var(--background-900);
-  --content-border: var(--background-700);
+  --background: var(--background-900);
+  --border-color: var(--background-700);
   font-size: var(--text-xs)
 }
 
 .menu.trigger {
-  --trigger-active-background: var(--background-700);
+  --active-background: var(--background-700);
 }
 
 .menu.item,
 .menu.checkbox-item,
 .menu.radio-item,
 .menu.sub-trigger {
-  --item-foreground: var(--foreground-300);
-  --item-highlighted-background: color-mix(in srgb, var(--background-700) 50%, transparent);
+  --foreground: var(--foreground-300);
+  --highlight-background: color-mix(in srgb, var(--background-700) 50%, transparent);
 }
 
 .menu.item-indicator {
-  --item-indicator-color: var(--accent-300);
+  --indicator-color: var(--accent-300);
 }
 
-.menu.label {
-  --label-foreground: var(--foreground-400);
-}
-
-.menu.separator {
-  --separator-background: var(--background-700);
-}
-
+.menu.label,
 .menu.shortcut {
-  --shortcut-foreground: var(--foreground-400);
+  --muted-foreground: var(--foreground-400);
 }
 
 /* Tabs Styles */
 
 .tabs.indicator {
-  --indicator-background: color-mix(in srgb, var(--background-700) 50%, transparent);;
+  --indicator-background: color-mix(in srgb, var(--background-700) 50%, transparent);
 }
 
 .tabs.indicator.underline {
@@ -765,4 +777,3 @@
   --thumb-hover-background: var(--background-600);
   --thumb-dragging-background: color-mix(in srgb, var(--background-500) 60%, var(--background-950));
 }
-
