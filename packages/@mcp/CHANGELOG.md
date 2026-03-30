@@ -1,5 +1,11 @@
 # ui-lab-mcp
 
+## 0.1.611
+
+### Patch Changes
+
+- Renamed the Tabs defaultValue prop to default. Fixed Group sizing, Menu trigger forwarding, and Select/Scroll scrollbar rendering.
+
 ## 0.1.61
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # ui-lab-theme-onyx
 
+## 0.3.411
+
+### Patch Changes
+
+- Renamed the Tabs defaultValue prop to default. Fixed Group sizing, Menu trigger forwarding, and Select/Scroll scrollbar rendering.
+
 ## 0.3.41
 
 ### Patch Changes
