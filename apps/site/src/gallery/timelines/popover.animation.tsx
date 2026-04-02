@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import React from "react";
 import { Frame } from "ui-lab-components";
 import config from "./config.json";
 import {
@@ -88,11 +89,10 @@ export function PopoverAnimation() {
             <Frame
               side="bottom"
               shapeMode="extend"
-              cornerRadius={4}
               path={TAIL_PATH}
               pathWidth={TAIL_WIDTH}
-              fill="var(--color-background-900)"
-              padding="small"
+              className="p-2"
+              style={{ "--frame-fill": "var(--color-background-900)", "--frame-radius": "4px" } as React.CSSProperties}
             >
               <div className="flex flex-col w-[132px]">
                 {/* Header */}

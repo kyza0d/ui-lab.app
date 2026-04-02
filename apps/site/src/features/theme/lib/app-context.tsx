@@ -271,6 +271,8 @@ function ThemeConfigurationApplier() {
     radius,
     borderWidth,
     spacingScale,
+    selectedSansFont,
+    selectedMonoFont,
   } = useApp();
 
   useThemeConfiguration({
@@ -288,6 +290,10 @@ function ThemeConfigurationApplier() {
       globalMinFontSizePx,
     },
     layout: { radius, borderWidth, spacingScale },
+    fonts: {
+      sansFont: selectedSansFont,
+      monoFont: selectedMonoFont,
+    },
     isEnabled: isThemeInitialized,
   });
 
@@ -316,8 +322,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           if (cache) {
             // Multi-tab synchronization:
             // Tab A changed theme → stored in localStorage → fires storage event in Tab B
-            // applyThemeCacheToDOM() applies ALL variables including typography
-            // (This is safe here because we're explicitly syncing from another tab's change)
+            // Runtime sync can apply the full cached token set because state updates
+            // immediately afterwards and React takes back ownership of live changes.
             applyThemeCacheToDOM(cache);
             dispatch({
               type: "merge",

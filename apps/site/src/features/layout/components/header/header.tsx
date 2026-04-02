@@ -123,8 +123,8 @@ export default function Header({
           </div>
 
           <div className="flex-1 flex justify-center md:pr-6 pl-4 lg:pr-0 lg:pr-12  max-w-sm">
-            <div className="hidden lg:block relative w-full flex items-center">
-              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k" className="w-full">
+            <div className="hidden lg:block relative flex-1 items-center">
+              <Tooltip showArrow content="Open Command Palette" position="bottom" hint="ctrl-k">
                 <Input
                   placeholder="Search..."
                   icon={<LuSearch strokeWidth={3.0} className="-translate-y-px" size={16} />}

@@ -3,8 +3,7 @@
 import { ComponentConfigurator } from "@/features/component-docs";
 import { getComponentById } from "@/features/component-docs";
 import { TableOfContents, Table, TableExpandedDetails, type Column, type TableExpandedDetail } from "@/features/docs";
-import { CopyComponentPage } from "@/features/docs";
-import { OpenPage } from "@/features/docs";
+import { CopyComponentPage, OpenPage } from "@/features/docs/page-actions";
 import { cn } from "@/shared";
 import { Code, InlineCodeHighlight } from "@/features/docs";
 import { Toaster, Tabs, Button, Flex, Tooltip, Divider } from "ui-lab-components";
@@ -123,12 +122,12 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
               </div>
               <div className="h-10 flex gap-3 flex-row mb-4 mt-4">
                 {sourceUrl && (
-                  <Button variant="outline" onClick={() => window.open(sourceUrl, '_blank')}>
+                  <Button size="sm" variant="outline" onClick={() => window.open(sourceUrl, '_blank')}>
                     <FaGithub size={19} className="mr-4 text-foreground-400" /> Source
                   </Button>
                 )}
                 {reactAriaUrl && (
-                  <Button variant="outline" onClick={() => window.open(reactAriaUrl, '_blank')}>
+                  <Button size="sm" variant="outline" onClick={() => window.open(reactAriaUrl, '_blank')}>
                     <div className="mr-4"><ReactAriaSvg /></div>
                     React Aria
                   </Button>
@@ -147,9 +146,9 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
             <Tabs variant="underline" value={activeTab} onValueChange={(tab) => { setActiveTab(tab); setVisitedTabs((prev) => new Set(prev).add(tab)); }} className="min-h-[calc(100vh-var(--header-height))]">
               <Flex direction="row" justify="space-between" className="border-b border-background-700">
                 <Tabs.List className="grid w-fit grid-cols-3">
-                  <Tabs.Trigger className="pb-3" value="examples">Examples</Tabs.Trigger>
-                  <Tabs.Trigger className="pb-3" value="api">API</Tabs.Trigger>
-                  <Tabs.Trigger className="pb-3" value="styles">Styles</Tabs.Trigger>
+                  <Tabs.Trigger value="examples">Examples</Tabs.Trigger>
+                  <Tabs.Trigger value="api">API</Tabs.Trigger>
+                  <Tabs.Trigger value="styles">Styles</Tabs.Trigger>
                 </Tabs.List>
               </Flex>
               <Tabs.Content value="examples" className="mt-6">
@@ -180,9 +179,9 @@ export function ComponentClient({ componentId, api, styles, controls, reactAriaU
         <Footer />
       </div>
       {!isChatOpen && (
-        <div className="sticky top-(--header-height) flex flex-col justify-between h-[calc(100vh-var(--header-height))]">
-          <TableOfContents items={tocItems} mode="static" />
-          <div className="w-fit mb-2 border border-background-700 rounded-sm">
+        <div className="sticky px-4 top-(--header-height) grid h-[calc(100vh-var(--header-height))] grid-rows-[minmax(0,1fr)_auto]">
+          <TableOfContents items={tocItems} mode="static" className="min-h-0" />
+          <div className="mb-4 ml-auto w-65 overflow-hidden rounded-sm border border-background-700">
             <OpenPage componentId={componentId} />
             <CopyComponentPage componentId={componentId} />
           </div>

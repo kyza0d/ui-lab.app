@@ -39,12 +39,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={ioskeleyMono.variable}>
       <head>
         <script>{getInitialThemeScript()}</script>
         <script>{generateScrollRestoreScript()}</script>
       </head>
-      <body className={`antialiased ${ioskeleyMono.variable}`}>
+      <body className="antialiased">
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>

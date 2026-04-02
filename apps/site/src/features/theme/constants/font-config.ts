@@ -77,7 +77,7 @@ export const SANS_FONTS: FontConfig[] = [
 export const MONO_FONTS: FontConfig[] = [
   {
     name: "Ioskeley Mono",
-    family: '"Ioskeley Mono", monospace',
+    family: "var(--font-ioskeley-mono), monospace",
     category: "mono",
     isDefault: true,
     metrics: {

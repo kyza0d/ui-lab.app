@@ -1,5 +1,7 @@
 import { DocPage } from "@/features/docs/components/doc-page";
 import { getDocRoutePage, generateDocRouteMetadata } from "@/features/docs/lib/doc-routes";
+import { docsSource } from "@/features/docs/lib/docs-source";
+import { DocsPagination } from "@/features/docs/components/docs-pagination";
 import { Logo } from "@/shared";
 import { RequirementsSection } from "./requirements-section";
 import { SiReact, SiTailwindcss, SiTypescript } from "react-icons/si";
@@ -16,6 +18,7 @@ const ReactAriaSvg = () => (
 
 export default async function DocsPage() {
   const page = await getDocRoutePage('docs')
+  const adjacent = docsSource.getAdjacentPages('docs')
 
   return (
     <DocPage
@@ -57,6 +60,7 @@ export default async function DocsPage() {
           </section>
 
           <RequirementsSection />
+          <DocsPagination adjacent={adjacent} />
         </>
       }
     />

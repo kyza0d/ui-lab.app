@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { ComponentConfigurator } from "@/features/component-docs";
 import { Toaster } from "ui-lab-components";
 import { FaArrowLeft } from "react-icons/fa6";
+
+type ConfiguratorProps = React.ComponentProps<typeof ComponentConfigurator>;
 
 export interface DevExample {
   id: string;
@@ -10,9 +13,11 @@ export interface DevExample {
   description: string;
   preview: React.ReactNode;
   code?: string;
-  controls?: unknown;
-  renderPreview?: unknown;
+  controls?: ConfiguratorProps["controls"];
+  renderPreview?: ConfiguratorProps["renderPreview"];
+  language?: ConfiguratorProps["language"];
   previewLayout?: "center" | "start" | "flex-start";
+  resizable?: boolean;
 }
 
 interface DevExampleLayoutProps {
@@ -42,17 +47,45 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
         </div>
 
         <div className="space-y-24">
-          {examples.map((example) => (
-            <div key={example.id} id={example.id} className="scroll-mt-20 space-y-2">
-              <div className="mb-8">
-                <h2 className="text-md font-semibold text-foreground-100">{example.title}</h2>
-                <p className="text-sm text-foreground-400">{example.description}</p>
+          {examples.map((example) => {
+            const usesConfigurator = Boolean(
+              example.code
+              || example.renderPreview
+              || (example.controls && example.controls.length > 0)
+            );
+            const previewLayout = example.previewLayout === "flex-start" ? "start" : example.previewLayout;
+
+            if (usesConfigurator) {
+              return (
+                <div key={example.id} id={example.id} className="scroll-mt-20">
+                  <ComponentConfigurator
+                    title={example.title}
+                    description={example.description}
+                    code={example.code}
+                    language={example.language ?? "tsx"}
+                    controls={example.controls}
+                    renderPreview={example.renderPreview}
+                    previewLayout={previewLayout}
+                    resizable={example.resizable}
+                  >
+                    {example.preview}
+                  </ComponentConfigurator>
+                </div>
+              );
+            }
+
+            return (
+              <div key={example.id} id={example.id} className="scroll-mt-20 space-y-2">
+                <div className="mb-8">
+                  <h2 className="text-md font-semibold text-foreground-100">{example.title}</h2>
+                  <p className="text-sm text-foreground-400">{example.description}</p>
+                </div>
+                <div className="min-h-40 flex items-center justify-center w-full border border-background-700 rounded-sm">
+                  {example.preview}
+                </div>
               </div>
-              <div className="min-h-40 flex items-center justify-center w-full border border-background-700 rounded-sm">
-                {example.preview}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

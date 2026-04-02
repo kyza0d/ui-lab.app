@@ -1,4 +1,4 @@
-import { CopyPage } from './copy-page-button';
+import { CopyPage } from '../page-actions';
 
 interface DocumentationHeaderProps {
   title: string;

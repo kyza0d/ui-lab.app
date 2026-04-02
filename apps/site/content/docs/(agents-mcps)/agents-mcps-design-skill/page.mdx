@@ -1,0 +1,398 @@
+---
+title: Design Skill
+description: Five-pillar design audit and holistic design critique system for validating UI quality and providing actionable feedback.
+category: Agents & MCPs
+---
+
+# Design Skill
+
+The design skill provides two complementary workflows: **design-audit** (validates against 5 core pillars) and **design-ideate** (holistic design critique). Both agents accept code, files, or descriptions and produce structured feedback.
+
+---
+
+## Core Concept
+
+The skill routes based on user intent:
+- **Audit**: "review", "audit", "what's wrong", "fix violations" → validates against 5 pillars, produces star-rated report
+- **Ideate**: "what should this have", "what am I missing", "is this the right design", "design critique" → produces design brief with gaps and suggestions
+
+---
+
+## Five Core Pillars
+
+Every design audit evaluates these five dimensions:
+
+### 1. Design System Adherence
+How thoroughly the UI utilizes UI Lab design tokens, components, and patterns vs. custom/raw HTML. **All UI elements must use UI Lab components—not native HTML.**
+- **Component sourcing (CRITICAL):** `<button>` → `<Button>`, `<a>` → `<Anchor>`, `<input>` → `<Input>`, `<div className="flex">` → `<Flex>`, etc.
+- Color tokens (no hex/rgba)
+- API conventions (React Aria props, compound sub-components)
+- Semantic color application for feedback states
+
+### 2. Layout & Spacing
+Visual alignment, padding consistency, whitespace distribution, and spatial relationships.
+- Padding consistency within component families
+- Margin relationships (logical grouping)
+- Alignment (text baselines, grid, edges)
+- Whitespace distribution reflecting hierarchy
+- Element proximity reflecting logical grouping
+
+### 3. Accessibility & Usability
+Keyboard navigation, ARIA compliance, interactive state clarity, and affordance distinctness.
+- ARIA labels/descriptions
+- Keyboard navigation (tabindex, focus, escape hatch)
+- Interactive states (hover, active, disabled, focus)
+- Error states with recovery paths
+- Loading states
+- Touch target sizes (min 44x44px)
+
+### 4. Cognitive Load
+Information density, progressive disclosure effectiveness, visual noise, and decision complexity.
+- Information density (critical vs. contextual)
+- Progressive disclosure (dropdowns, collapsibles)
+- Visual noise and clutter
+- Decision paralysis (too many options)
+- Scanning difficulty (weak hierarchy)
+- Modal complexity
+
+### 5. Visual Consistency
+Consistent application of typography, color semantics, visual weight, icons, and state feedback.
+- Typography hierarchy
+- Color semantics (success = green, danger = red, etc.)
+- Visual weight distribution
+- Icon consistency and meaning clarity
+- State feedback clarity (success, error, loading, disabled)
+- Border/divider consistency
+
+---
+
+## Star Rating System
+
+Each pillar is scored 0–5 stars:
+
+- **★★★★★ (5 stars)**: No violations. Pillar fully realized.
+- **★★★★☆ (4 stars)**: Minor violations only (suggestions, low-priority warnings).
+- **★★★☆☆ (3 stars)**: Moderate violations. Some important gaps, but core intent intact.
+- **★★☆☆☆ (2 stars)**: Significant violations. Pillar compromised. Fix soon.
+- **★☆☆☆☆ (1 star)**: Critical failures. Pillar fundamentally broken. Must fix.
+- **☆☆☆☆☆ (0 stars)**: Completely missing or unusable.
+
+---
+
+## Design-Audit Workflow
+
+### Input
+- TSX/JSX code
+- File path
+- Description
+
+### Process
+1. **Ingest** the provided code, imports, component structure, styling
+2. **Check for native HTML elements first** (highest priority) — any use of `<button>`, `<a>`, `<input>`, `<select>`, etc. instead of UI Lab components is a CRITICAL violation
+3. **Evaluate each pillar** independently against validation scope
+4. **Classify violations** by severity (CRITICAL, WARNING, SUGGESTION)
+5. **Assign star rating** for each pillar
+6. **Generate report** with star ratings and violations
+
+### Output Format
+
+```markdown
+## DESIGN AUDIT REPORT
+
+### 1. Design System Adherence
+★★★★★
+No violations.
+
+### 2. Layout & Spacing
+★★★★☆
+Minor violations only.
+
+- Filter controls: Inconsistent padding between input and dropdown triggers — use uniform 8px padding
+- Search icon + input: Icon and input have different vertical alignment — align to baseline
+
+### 3. Accessibility & Usability
+★★★☆☆
+Several issues to address.
+
+- Delete button: [CRITICAL] No hover state, disabled state indistinguishable from enabled — add hover feedback
+- Form validation: [WARNING] Error messages only appear on blur — provide inline feedback as user types
+- Modal: [SUGGESTION] No escape key handler — add onKeyDown logic to close on Escape
+
+### 4. Cognitive Load
+★★★★★
+No violations.
+
+### 5. Visual Consistency
+★★★★☆
+Minor violations only.
+
+- Save button: [SUGGESTION] Icon+label redundancy — remove icon or make it load-bearing
+
+---
+
+## Summary
+**Overall:** Generally good. Address accessibility issues and spacing inconsistencies.
+**Total violations:** 5 (1 critical, 1 warning, 3 suggestions)
+**Priority focus:** Hover states and form validation feedback
+```
+
+### Key Guidelines
+
+- **Pillar-by-pillar evaluation**: Each pillar assessed independently
+- **Star rating first**: Show rating before listing violations. If no violations: "No violations."
+- **Specific and actionable**: Reference elements and provide recommendations
+- **No code generation**: Reports issues only, does not propose fixes
+- **Component sourcing (CRITICAL)**: Native HTML elements (`<button>`, `<a>`, `<input>`, `<div className="flex">`, etc.) are always CRITICAL violations. Always check for these first.
+- **Design System Adherence deep dive**: References `design-system.md` for the complete **Component Mapping** table, color tokens, component APIs, React Aria conventions, and AI slop patterns
+
+---
+
+## Design-Ideate Workflow
+
+### Input
+- Code, file path, or description
+- (Optional) Screenshots or visual descriptions
+
+### Process
+1. **Domain context reasoning**: What domain does this serve? Who is the user? What workflow brought them here?
+2. **Element inventory**: List every element with role, load-bearing status, and value rating (HIGH/MEDIUM/LOW/REMOVE)
+3. **Gap identification**: Critical gaps (missing states, missing context), layout coherence gaps, progressive disclosure opportunities
+4. **Actionable brief**: Top 5 suggestions ranked by spatial coherence impact, then functional criticality
+
+### Output Format
+
+```markdown
+## DESIGN BRIEF
+
+### DOMAIN CONTEXT
+[2–4 sentences describing domain, user, workflow, emotional state]
+
+### ELEMENT INVENTORY
+[Name] | [Role] | [Load-bearing: YES/NO] | [Value: HIGH/MEDIUM/LOW/REMOVE]
+- Heading | Labels the page purpose | YES | HIGH
+- Filter dropdown | Narrows data | YES | HIGH
+- Sort toggle | Arranges data | NO | MEDIUM
+- Redundant "Apply" button | Duplicate action (already filter on change) | NO | REMOVE
+
+### GAPS
+
+**CRITICAL:**
+- Missing empty state: Users can't tell if results are loading or just empty
+
+**LAYOUT COHERENCE:**
+- Search and filters spatially isolated — should be grouped in toolbar
+- (→ Filter Toolbar variation shows unified control grouping)
+
+**PROGRESSIVE DISCLOSURE:**
+- Advanced options always visible — hide in dropdown until needed
+
+### TOP 5 SUGGESTIONS
+1. [Suggestion]: [Why this matters for spatial coherence and user need]
+2. ...
+
+### DOWNSTREAM ACTIONS
+- For design-audit: [What violation types to prioritize given this domain]
+```
+
+---
+
+## References
+
+The design skill references these core documents:
+
+### `references/core-pillars.md`
+Detailed definitions, validation scope, red flags, and scoring guidance for each pillar.
+
+### `references/design-system.md`
+Authoritative standards for:
+- Neutral palette and semantic color tokens
+- Component & API standards (imports, React Aria conventions, compound components)
+- Interactive states and affordance clarity
+- AI slop patterns (redundant labels, verbose copy, parasitic instructional text, etc.)
+
+Use `design-system.md` when auditing the **Adherence** pillar specifically.
+
+---
+
+## How to Trigger the Skill
+
+### Trigger design-audit
+
+```
+"Review this component for violations"
+"Audit this design"
+"What's wrong with this UI?"
+"Check for design system issues"
+```
+
+### Trigger design-ideate
+
+```
+"What should this component have?"
+"What am I missing in this design?"
+"Is this the right design approach?"
+"Design critique on this layout"
+"What would make this better?"
+```
+
+---
+
+## Example: Audit Report
+
+### Input
+```tsx
+<div className="bg-white p-4">
+  <h1 className="text-gray-900 text-2xl font-bold">Dashboard</h1>
+  <div className="mt-8 flex gap-2">
+    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      Filter
+    </button>
+    <button className="bg-gray-200 text-gray-900 px-4 py-2 rounded">
+      Export
+    </button>
+  </div>
+  <table className="w-full mt-4">
+    <thead className="bg-gray-100">
+      <tr>
+        <th className="text-left text-gray-800">Name</th>
+        <th className="text-left text-gray-800">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="text-gray-900">Item 1</td>
+        <td className="text-red-500">Error</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+### Output
+```markdown
+## DESIGN AUDIT REPORT
+
+### 1. Design System Adherence
+★☆☆☆☆
+Critical component sourcing violations. Native HTML elements detected; must use UI Lab components.
+
+- `<button>` elements: [CRITICAL] Using native HTML buttons instead of `<Button>` component — replace with `<Button>` from 'ui-lab-components'
+- `<div className="flex">`: [CRITICAL] Styled divs used for layout instead of `<Flex>` component — replace with `<Flex>`
+- `<div className="bg-white p-4">`: [CRITICAL] Root container using styled div instead of `<Card>` — replace with `<Card>`
+- `<table>`: [CRITICAL] Raw table elements instead of UI Lab table components — use `<Table>` component
+- `bg-white` → `bg-background-950`
+- `text-gray-900` → `text-foreground-300`
+- `bg-blue-500` (primary button) → semantic color via `get_semantic_color`
+- `text-red-500` (error state) → `text-danger-600`
+
+### 2. Layout & Spacing
+★★★★☆
+Minor violations only.
+
+- Button gap (gap-2) is too tight — increase to gap-3 or gap-4 for better visual separation
+- Table header background (bg-gray-100) → use bg-background-800 for hierarchy
+
+### 3. Accessibility & Usability
+★★★☆☆
+Several issues to address.
+
+- [CRITICAL] Export button has no hover state — add visual feedback
+- [WARNING] No focus indicators visible on buttons — ensure focus-ring or outline-offset
+- [SUGGESTION] Status cell could use an icon + semantic color for faster scanning
+
+### 4. Cognitive Load
+★★★★★
+No violations.
+
+### 5. Visual Consistency
+★★★☆☆
+Moderate violations.
+
+- Primary and secondary button have similar visual weight — make secondary lighter
+- Error state color (red-500) inconsistent with semantic intent — use danger-600
+- No loading state shown — add skeleton or spinner to table while data loads
+
+---
+
+## Summary
+**Overall:** Critical design system violations. Must replace all native HTML elements with UI Lab components before addressing other issues.
+**Total violations:** 12 (6 critical, 2 warnings, 4 suggestions)
+**Priority focus:** Replace native HTML (`<button>`, `<div>`, `<table>`) with UI Lab components (`<Button>`, `<Flex>`, `<Table>`). Then migrate Tailwind colors to design tokens.
+```
+
+---
+
+## Example: Design Brief
+
+### Input
+"Review this filter UI"
+
+```tsx
+<div>
+  <input placeholder="Search..." />
+  <Select>
+    <Select.Option>All</Select.Option>
+    <Select.Option>Active</Select.Option>
+    <Select.Option>Archived</Select.Option>
+  </Select>
+  <div>
+    <label>
+      <input type="checkbox" /> Show drafts
+    </label>
+  </div>
+</div>
+```
+
+**Note:** This example intentionally uses native HTML elements (`<input>`, `<label>`) to demonstrate what a design audit would flag as violations. A corrected version would use `<Input>`, `<Checkbox>`, and `<Label>` from 'ui-lab-components'.
+
+### Output
+```markdown
+## DESIGN BRIEF
+
+### DOMAIN CONTEXT
+This is a data filtering UI for power users in an admin dashboard. They're actively managing items and need to narrow the dataset quickly. They're likely in a task-focused mindset, expecting discoverable but minimal controls.
+
+### ELEMENT INVENTORY
+- Search input | Filters by text | YES | HIGH
+- Status select | Narrows to lifecycle state | YES | HIGH
+- Drafts checkbox | Toggles inclusion of work-in-progress | NO | MEDIUM
+- [ABSENT] Clear filters button | Resets state | NO | HIGH (should exist)
+- [ABSENT] Applied filters display | Shows active constraints | YES | HIGH (should exist)
+- [ABSENT] Save filter preset | Saves custom combos | NO | LOW (nice-to-have)
+
+### GAPS
+
+**CRITICAL — Design System Adherence:**
+- Native HTML `<input>` for search: Must use `<Input>` component from 'ui-lab-components'
+- Native HTML `<input type="checkbox">`: Must use `<Checkbox>` component
+- Unstyled `<div>` wrapper: Should use `<Group>` or layout component for control grouping
+
+**CRITICAL — UX:**
+- No clear filters button: Users can't easily reset back to "show all"
+- No applied filters display: Users can't see what constraints are active (especially when checkbox is offscreen)
+
+**LAYOUT COHERENCE:**
+- Search, select, and checkbox are vertically stacked — should be grouped horizontally in a toolbar
+- (→ Filter Toolbar variation shows unified control grouping with consistent spacing)
+- Checkbox is a poor affordance for this context — should be a button toggle
+
+**PROGRESSIVE DISCLOSURE:**
+- All controls visible at once is fine for power users, but "Save preset" and "Advanced filters" could hide in a menu if needed later
+
+### TOP 5 SUGGESTIONS
+1. **Replace native HTML elements with UI Lab components** — Use `<Input>` for search, `<Checkbox>` for drafts toggle, `<Label>` for text labels. This ensures design consistency and proper accessibility.
+2. **Group controls in a horizontal toolbar** — Search, Status filter, and Draft toggle should be adjacent, not stacked in a `<Group>` component. Improves visual scannability and shows they're related.
+3. **Add applied filters display above results** — Shows active constraints at a glance. "Status: Active, Drafts: Hidden" as removable chips.
+4. **Replace checkbox with button toggle** — "Drafts" should be a `<Button>` with active/inactive state, consistent with Status select affordance.
+5. **Add clear filters button** — Use `<Button>` component with reset action, reduces cognitive load of manually unsetting each control.
+
+### DOWNSTREAM ACTIONS
+- For design-audit: Fix component sourcing first (native HTML → UI Lab), then address accessibility (keyboard navigation, focus states) and layout coherence
+```
+
+---
+
+## Next steps
+
+- [MCP Workflows](/docs/agents-mcps-workflows) — how agents query components, patterns, and design tokens
+- [MCP Installation](/docs/agents-mcps-installation) — connect the server to Claude Desktop or Cursor

@@ -5,6 +5,7 @@ import { generateThemePalettes } from "@/features/theme/lib/color-utils";
 import { generateShikiTheme, type ShikiTheme } from "@/features/theme/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/features/theme/lib/themes/syntax-colors";
 import { useApp } from "@/features/theme/lib/app-context";
+import { resolveShikiLanguage } from "@/features/docs/lib/shiki-language";
 
 interface InlineCodeHighlightProps {
   code: string;
@@ -52,10 +53,10 @@ export function InlineCodeHighlight({
   useEffect(() => {
     const highlight = async () => {
       try {
-        const { codeToHtml } = await import("shiki");
+        const { bundledLanguages, bundledLanguagesAlias, codeToHtml } = await import("shiki");
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(code, {
-          lang: language,
+          lang: resolveShikiLanguage(language, bundledLanguages, bundledLanguagesAlias),
           theme,
         });
         const codeMatch = html.match(/<code[^>]*>([\s\S]*?)<\/code>/);

@@ -8,6 +8,10 @@
     {
       "name": "agents-mcps-workflows",
       "title": "Workflows"
+    },
+    {
+      "name": "agents-mcps-design-skill",
+      "title": "Design Skill"
     }
   ]
 }

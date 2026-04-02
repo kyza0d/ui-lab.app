@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Expand, Group, Divider } from 'ui-lab-components';
+import { Expand, Group } from 'ui-lab-components';
 import { FaGithub, FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { SiClaude, SiOpenai, SiGooglegemini } from 'react-icons/si';
 import { sourceUrls } from 'ui-lab-registry';
@@ -25,28 +25,28 @@ export function OpenPage({ componentId }: { componentId?: string }) {
   ];
 
   return (
-    <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className='w-65'>
-      <Expand.Trigger className='border-b border-background-700 rounded-none'>
-        <Group variant='ghost' className='w-full h-12'>
-          <div className="flex justify-center items-center pl-3 text-foreground-400 text-sm font-medium">
+    <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className="w-full min-w-65">
+      <Expand.Trigger className="rounded-none border-b border-background-700">
+        <Group variant="ghost" className="w-full h-12">
+          <div className="flex items-center justify-center pl-3 text-foreground-400 text-sm font-medium">
             <FaArrowUpRightFromSquare size={13} />
           </div>
           <div
-            onClick={() => setIsOpen(o => !o)}
+            onClick={() => setIsOpen((o) => !o)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
+              if (e.key === 'Enter' || e.key === ' ') setIsOpen((o) => !o);
             }}
             title="Open this page in another app"
-            className="flex text-foreground-300 text-xs font-medium pl-4 w-55 items-center justify-start"
+            className="flex w-full items-center justify-start pl-4 text-xs font-medium text-foreground-300"
             role="button"
             tabIndex={0}
           >
             Open Page
-            <Expand.Icon className='ml-auto text-foreground-400 bg-transparent' />
+            <Expand.Icon className="ml-auto bg-transparent text-foreground-400" />
           </div>
         </Group>
       </Expand.Trigger>
-      <Expand.Content from="below" className='mx-0 border-b border-background-700 -mt-(--border-width-base)'>
+      <Expand.Content from="below" className="-mt-(--border-width-base) mx-0 border-b border-background-700">
         <div className="flex flex-col overflow-hidden">
           {options.map(({ label, Icon, href }) => (
             <a
@@ -54,13 +54,13 @@ export function OpenPage({ componentId }: { componentId?: string }) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center text-xs text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700"
+              className="flex py-2.5 items-center text-xs text-foreground-400 hover:bg-background-800 hover:text-foreground-50 active:bg-background-700"
             >
-              <span className="flex items-center justify-center mr-2 px-3 py-2 text-sm">
-                <Icon className='w-5 h-5' />
+              <span className="flex items-center justify-center px-3 text-sm">
+                <Icon className="h-5 w-5" />
               </span>
-              <span className="flex-1 py-2">{label}</span>
-              <span className="px-3 py-2 opacity-60">
+              <span className="flex-1">{label}</span>
+              <span className="px-3 opacity-60">
                 <FaArrowUpRightFromSquare size={10} />
               </span>
             </a>

@@ -4,6 +4,7 @@ import { generateShikiTheme } from '@/features/theme/lib/themes/shiki/generator'
 import { generateSyntaxPalettes } from '@/features/theme/lib/themes/syntax-colors'
 import { themes, DEFAULT_THEME_NAME } from '@/features/theme/constants/themes'
 import { ensureSemanticColorIntegrity } from '@/features/theme/lib/color/semantic'
+import { resolveShikiLanguage } from '@/features/docs/lib/shiki-language'
 
 // Shiki theme object type is complex to import directly from Shiki 3.x
 type ShikiTheme = unknown
@@ -94,9 +95,10 @@ function getPrecomputedThemes() {
 
 export async function highlightCode(code: string, lang: string) {
   'use cache'
-  const { codeToHtml } = await import('shiki')
+  const { bundledLanguages, bundledLanguagesAlias, codeToHtml } = await import('shiki')
   const modes: ('light' | 'dark')[] = ['light', 'dark']
   const results: Record<string, string> = {}
+  const resolvedLanguage = resolveShikiLanguage(lang, bundledLanguages, bundledLanguagesAlias)
 
   const currentThemes = getPrecomputedThemes()
 
@@ -105,7 +107,7 @@ export async function highlightCode(code: string, lang: string) {
 
     try {
       const html = await codeToHtml(code, {
-        lang,
+        lang: resolvedLanguage,
         theme: shikiTheme as any,
         transformers: [transformerRenderIndentGuides()],
       })

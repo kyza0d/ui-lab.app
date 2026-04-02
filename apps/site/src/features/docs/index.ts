@@ -7,5 +7,4 @@ export {
 } from "./components/table";
 export { DocsLayout } from "./components/docs-layout";
 export { Code, InlineCodeHighlight } from "./components/code-display/index";
-export { CopyComponentPage } from "./components/copy-component-page";
-export { OpenPage } from "./components/open-page-button";
+export { CopyComponentPage, CopyPage, OpenPage } from "./page-actions";

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { cn } from "@/shared";
 import { Code } from "@/features/docs/components/code-display/code";
+import { DEVICE_PRESETS, PreviewContainer, calculateVariantFromWidth } from "@/features/preview";
 import { Button } from "ui-lab-components";
 import {
   Select,
@@ -26,6 +27,12 @@ interface ControlDef {
   defaultValue?: string | number | boolean;
 }
 
+type RenderPreviewProps = Record<string, unknown> & {
+  handleControlChange?: (name: string, value: ControlValue) => void;
+  previewWidth?: number;
+  setPreviewWidth?: (width: number) => void;
+};
+
 interface RenderContext {
   showCode: boolean;
   activeTab: number;
@@ -40,7 +47,7 @@ type ControlValue = string | number | boolean;
 interface ComponentConfiguratorProps {
   title: string;
   description?: string;
-  code: string;
+  code?: string;
   language?: string;
   children: React.ReactNode;
   tabs?: Array<{
@@ -48,10 +55,11 @@ interface ComponentConfiguratorProps {
     code: string;
   }>;
   controls?: ControlDef[];
-  renderPreview?: (props: Record<string, unknown>) => React.ReactNode;
+  renderPreview?: (props: RenderPreviewProps) => React.ReactNode;
   customRenderer?: (context: RenderContext) => React.ReactNode;
   hidePreviewToggle?: boolean;
   previewLayout?: "center" | "start";
+  resizable?: boolean;
 }
 
 const EMPTY_TABS: Array<{ label: string; code: string }> = [];
@@ -61,7 +69,7 @@ export function ComponentConfigurator({
   title,
   description,
   code,
-  language = "typescriptreact",
+  language = "tsx",
   children,
   tabs = EMPTY_TABS,
   controls = EMPTY_CONTROLS,
@@ -69,6 +77,7 @@ export function ComponentConfigurator({
   customRenderer,
   hidePreviewToggle = false,
   previewLayout = "center",
+  resizable = false,
 }: ComponentConfiguratorProps) {
   const [activeTab, setActiveTab] = useState<number>(0);
   const initialControlValues = useMemo(() => {
@@ -82,9 +91,16 @@ export function ComponentConfigurator({
   const [controlValues, setControlValues] = useState<Record<string, ControlValue>>(initialControlValues);
   const [showCode, setShowCode] = useState<boolean>(false);
   const [selectedEasing, setSelectedEasing] = useState<EasingKey>("snappyPop");
+  const [previewWidth, setPreviewWidth] = useState<number>(DEVICE_PRESETS.desktop);
+  const hasCode = Boolean(code || tabs.length > 0);
 
-  const allTabs = [{ label: "Usage", code }, ...tabs];
-  const currentCode = allTabs[activeTab]?.code || code;
+  const allTabs = hasCode
+    ? code
+      ? [{ label: "Usage", code }, ...tabs]
+      : tabs
+    : EMPTY_TABS;
+  const currentCode = allTabs[activeTab]?.code ?? code ?? "";
+  const previewVariant = calculateVariantFromWidth(previewWidth);
 
   const handleControlChange = (name: string, value: ControlValue) => {
     setControlValues((prev) => ({
@@ -95,6 +111,43 @@ export function ComponentConfigurator({
 
   const PreviewRenderer = renderPreview;
   const CustomRenderer = customRenderer;
+  const previewContent = (
+    <div
+      className={cn(
+        resizable ? "w-full p-10" : "mx-auto w-fit min-w-xs px-10 py-20",
+        previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col"
+      )}
+      style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
+    >
+      {PreviewRenderer ? (
+        <PreviewRenderer
+          {...controlValues}
+          handleControlChange={handleControlChange}
+          previewWidth={previewWidth}
+          setPreviewWidth={resizable ? setPreviewWidth : undefined}
+        />
+      ) : children}
+    </div>
+  );
+  const codeContent = hasCode ? (
+    <div className="p-0">
+      {allTabs.length > 1 && (
+        <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
+          {allTabs.map((tab, index) => (
+            <Button
+              key={`${tab.label}-${tab.code}`}
+              size="sm"
+              onClick={() => setActiveTab(index)}
+              className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
+            >
+              {tab.label}
+            </Button>
+          ))}
+        </div>
+      )}
+      <Code className="border-0" language={language}>{currentCode}</Code>
+    </div>
+  ) : null;
 
   // If custom renderer is provided, use it instead of default layout
   if (CustomRenderer) {
@@ -123,7 +176,23 @@ export function ComponentConfigurator({
       }
 
       <div className="flex-1 rounded-sm overflow-hidden">
-        {!hidePreviewToggle && (
+        {!hidePreviewToggle && resizable && (
+          <PreviewContainer
+            deviceVariant={previewVariant}
+            width={previewWidth}
+            onWidthChange={setPreviewWidth}
+            activeTab={hasCode && showCode ? "code" : "preview"}
+            onTabChange={(tab) => setShowCode(hasCode && tab === "code")}
+            onDeviceVariantChange={(device) => setPreviewWidth(DEVICE_PRESETS[device])}
+            previewClassName={previewLayout === "center" ? "min-h-[20rem]" : "min-h-[16rem]"}
+            showWidthLabel={!showCode || !hasCode}
+            showCodeTab={hasCode}
+          >
+            {hasCode && showCode ? codeContent : previewContent}
+          </PreviewContainer>
+        )}
+
+        {!hidePreviewToggle && !resizable && hasCode && (
           <Tabs variant="underline" default="preview" onValueChange={(value) => setShowCode(value === "code")}>
             <Tabs.List className="rounded-none px-[calc(var(--radius-sm)*1.2)]">
               <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
@@ -132,44 +201,26 @@ export function ComponentConfigurator({
 
             <div className="border border-background-700 rounded-sm">
               <Tabs.Content value="preview" className="overflow-hidden mt-0">
-                <div
-                  className={cn("px-10 py-20 mx-auto w-fit min-w-xs", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
-                  style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
-                >
-                  {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
-                </div>
+                {previewContent}
               </Tabs.Content>
 
               <Tabs.Content value="code" className="mt-0 p-0">
-                {allTabs.length > 1 && (
-                  <div className="flex gap-2 bg-background-950 px-4 pt-2 border-b border-background-700">
-                    {allTabs.map((tab, index) => (
-                      <Button
-                        key={`${tab.label}-${tab.code}`}
-                        size="sm"
-                        onClick={() => setActiveTab(index)}
-                        className={activeTab === index ? "text-accent-500" : "text-foreground-400"}
-                      >
-                        {tab.label}
-                      </Button>
-                    ))}
-                  </div>
-                )}
-                <div className="p-0">
-                  <Code className="border-0" language={language}>{currentCode}</Code>
-                </div>
+                {codeContent}
               </Tabs.Content>
             </div>
           </Tabs>
         )}
 
+        {!hidePreviewToggle && !resizable && !hasCode && (
+          <div className="border border-background-700 rounded-sm">
+            {previewContent}
+          </div>
+        )}
+
         {hidePreviewToggle && (
           <div className="overflow-hidden">
-            <div
-              className={cn("p-10", previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col")}
-              style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}
-            >
-              {PreviewRenderer ? <PreviewRenderer {...controlValues} handleControlChange={handleControlChange} /> : children}
+            <div className="p-10">
+              {previewContent}
             </div>
           </div>
         )}

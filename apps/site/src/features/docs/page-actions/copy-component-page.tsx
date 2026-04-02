@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Expand, Group, Divider } from 'ui-lab-components';
-import { FaCheck, FaClipboard, FaFileLines, FaRegClipboard } from 'react-icons/fa6';
+import { Expand, Group } from 'ui-lab-components';
+import { FaCheck, FaRegClipboard } from 'react-icons/fa6';
 import { generatedAPI, generatedStyles } from 'ui-lab-registry';
 import type { ComponentDetail } from '@/types/component';
 
@@ -83,37 +83,45 @@ export function CopyComponentPage({ componentId, component }: { componentId: str
   };
 
   return (
-    <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className='px-0 w-65 overflow-y-hidden'>
-      <Expand.Trigger className='flex py-1 flex-col border-b border-background-700 rounded-none'>
-        <Group variant='ghost' className='w-full'>
-          <div className="flex justify-center items-center pl-3 text-foreground-400 text-sm font-medium">
+    <Expand isExpanded={isOpen} onExpandedChange={setIsOpen} className="w-full min-w-65 overflow-y-hidden px-0">
+      <Expand.Trigger className="flex flex-col rounded-none border-b border-background-700">
+        <Group variant="ghost" className="h-12 w-full">
+          <div className="flex items-center justify-center pl-3 text-foreground-400 text-sm font-medium">
             {copied ? <FaCheck size={12} className="text-foreground-400" /> : <FaRegClipboard />}
           </div>
           <div
-            onClick={() => setIsOpen(o => !o)}
+            onClick={() => setIsOpen((o) => !o)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') setIsOpen(o => !o);
+              if (e.key === 'Enter' || e.key === ' ') setIsOpen((o) => !o);
             }}
             title="Copy component context as Markdown"
-            className="flex text-foreground-300 text-xs font-medium pl-4 h-10 w-55 items-center justify-start"
+            className="flex w-full items-center justify-start pl-4 text-xs font-medium text-foreground-300"
             role="button"
             tabIndex={0}
           >
-            {copied ? <>Copied {copied.lines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
-            {!copied && <Expand.Icon className='ml-auto text-foreground-400 bg-transparent' />}
+            {copied ? (
+              <>
+                Copied {copied.lines} lines!
+                <FaCheck size={12} className="ml-auto mr-3 text-foreground-400" />
+              </>
+            ) : (
+              <>Copy Markdown</>
+            )}
+            {!copied && <Expand.Icon className="ml-auto bg-transparent text-foreground-400" />}
           </div>
         </Group>
       </Expand.Trigger>
 
-      <Expand.Content from="below" className='-mt-(--border-width-base)'>
+      <Expand.Content from="below" className="-mt-(--border-width-base)">
         <div className="flex flex-col overflow-hidden">
           {copyOptions.map(({ label, source }) => (
             <button
               key={source}
+              type="button"
               onClick={() => handleCopy(source)}
-              className="flex text-xs font-medium cursor-pointer items-center text-foreground-400 hover:text-foreground-50 hover:bg-background-800 active:bg-background-700 text-left"
+              className="flex py-2.5 cursor-pointer items-center text-left text-xs font-medium text-foreground-400 hover:bg-background-800 hover:text-foreground-50 active:bg-background-700"
             >
-              <span className="flex-1 py-2 px-3">{label}</span>
+              <span className="flex-1 px-3">{label}</span>
             </button>
           ))}
         </div>

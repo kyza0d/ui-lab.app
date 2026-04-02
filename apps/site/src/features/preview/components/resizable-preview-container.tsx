@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { Group, Tabs } from "ui-lab-components";
+import { cn } from "@/shared";
+import { Badge, Group, Tabs } from "ui-lab-components";
 import { FaMobile, FaDesktop, FaTablet, FaFile } from "react-icons/fa6";
 
 type PreviewDeviceVariant = "mobile" | "tablet" | "desktop";
@@ -21,6 +22,7 @@ interface ResizablePreviewContainerProps {
   className?: string;
   showWidthLabel?: boolean;
   previewClassName?: string;
+  showCodeTab?: boolean;
 }
 
 export function PreviewContainer({
@@ -38,6 +40,7 @@ export function PreviewContainer({
   className = "",
   showWidthLabel = true,
   previewClassName = "",
+  showCodeTab = true,
 }: ResizablePreviewContainerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef<number>(0);
@@ -113,10 +116,23 @@ export function PreviewContainer({
   };
 
   const renderPreviewContent = () => (
-    <div className="flex flex-col items-center w-full">
-      <div ref={wrapperRef} className="relative max-w-full" style={{ width }}>
+    <div className="flex w-full flex-col items-center">
+      <div
+        ref={wrapperRef}
+        className="relative max-w-full shrink-0 border-x border-background-700/40"
+        style={{ width }}
+      >
+        {showWidthLabel && (
+          <Badge
+            size="sm"
+            variant="secondary"
+            className="pointer-events-none absolute top-3 right-3 z-10"
+          >
+            {Math.round(width)}px
+          </Badge>
+        )}
         <div
-          className={`relative overflow-auto ${previewClassName}`}
+          className={cn("relative w-full overflow-auto", previewClassName)}
         >
           <div className="w-full h-full">{children}</div>
         </div>
@@ -135,7 +151,6 @@ export function PreviewContainer({
           </div>
         </button>
       </div>
-      {showWidthLabel && <div className="text-sm text-foreground-400 font-mono mt-3">{Math.round(width)}px</div>}
     </div>
   );
 
@@ -153,16 +168,18 @@ export function PreviewContainer({
               Prompt
             </button>
           )}
-          <Tabs variant="underline" value={activeTab} onValueChange={(value) => onTabChange(value as "preview" | "code")}>
-            <Tabs.List>
-              <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
-              <Tabs.Trigger value="code">Code</Tabs.Trigger>
-            </Tabs.List>
-          </Tabs>
+          {showCodeTab && (
+            <Tabs variant="underline" value={activeTab} onValueChange={(value) => onTabChange(value as "preview" | "code")}>
+              <Tabs.List>
+                <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
+                <Tabs.Trigger value="code">Code</Tabs.Trigger>
+              </Tabs.List>
+            </Tabs>
+          )}
         </div>
 
         <div className="flex items-center gap-3 mb-2">
-          <Group variant="outline" spacing="sm">
+          <Group spacing="xs" className="w-28 *:w-10 [&_.button]:px-0">
             <Group.Button
               variant={deviceVariant === "mobile" ? "secondary" : "ghost"}
               onClick={() => onDeviceVariantChange("mobile")}

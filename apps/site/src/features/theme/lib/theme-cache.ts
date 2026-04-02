@@ -1,5 +1,11 @@
 import { type SimpleThemeColors } from "../constants/themes";
-import { type FontKey, SANS_FONTS, MONO_FONTS } from "../constants/font-config";
+import {
+  type FontKey,
+  SANS_FONTS,
+  MONO_FONTS,
+  getDefaultMonoFont,
+  getDefaultSansFont,
+} from "../constants/font-config";
 import { type TypographyConfig } from "./typography-config";
 import { getDefaultThemeSourceConfig } from "./default-theme-config";
 
@@ -20,7 +26,21 @@ interface CompleteThemeCache {
 }
 
 export const THEME_CACHE_KEY = "uilab_theme_complete";
-const REQUIRED_VARS = ["--background-500", "--text-md"];
+export const REQUIRED_COLOR_VARS = [
+  "--background-500",
+  "--foreground-100",
+  "--accent-400",
+] as const;
+export const COLOR_CSS_VARIABLE_PREFIXES = [
+  "--background-",
+  "--foreground-",
+  "--accent-",
+  "--success-",
+  "--danger-",
+  "--warning-",
+  "--info-",
+  "--ui-lab-meta-",
+] as const;
 
 function getDevicePreferredTheme(): "light" | "dark" {
   if (typeof window === "undefined") return "dark";
@@ -33,7 +53,7 @@ export function validateThemeCache(data: unknown): CompleteThemeCache | null {
   if (d.themeMode !== "light" && d.themeMode !== "dark") return null;
   if (!d.cssVariables || typeof d.cssVariables !== "object") return null;
   const vars = d.cssVariables as Record<string, unknown>;
-  for (const v of REQUIRED_VARS) {
+  for (const v of REQUIRED_COLOR_VARS) {
     if (!(v in vars) || typeof vars[v] !== "string") return null;
   }
   const themeMode = d.themeMode as "light" | "dark";
@@ -107,39 +127,20 @@ export function cacheCompleteTheme(
   }
 }
 
-/**
- * Extract typography CSS variables from a complete cache.
- * These are the values that can be safely applied during initial hydration.
- *
- * Includes:
- * - --text-* (xs through 5xl)
- * - --header-text-* (xs through 5xl)
- * - --leading-* (header/body line heights)
- * - --letter-spacing-* (xs through 5xl)
- * - --font-weight-* (header and body variants)
- * - Scale/ratio variables (--header-type-size-ratio, etc.)
- */
-function extractTypographyVariablesFromCache(
-  cssVariables: Record<string, string>
+export function extractColorVariablesFromCache(
+  cssVariables: Record<string, string>,
 ): Record<string, string> {
   return Object.fromEntries(
     Object.entries(cssVariables).filter(([key]) =>
-      key.startsWith("--text-") ||
-      key.startsWith("--header-text-") ||
-      key.startsWith("--leading-") ||
-      key.startsWith("--letter-spacing-") ||
-      key.startsWith("--font-weight-") ||
-      key.startsWith("--header-type-size-ratio") ||
-      key.startsWith("--header-font-size-scale") ||
-      key.startsWith("--body-type-size-ratio") ||
-      key.startsWith("--body-font-size-scale")
-    )
+      COLOR_CSS_VARIABLE_PREFIXES.some((prefix) => key.startsWith(prefix)),
+    ),
   );
 }
 
 export function applyThemeCacheToDOM(cache: CompleteThemeCache): void {
   const root = document.documentElement;
   root.setAttribute("data-theme", cache.themeMode);
+  root.style.colorScheme = cache.themeMode;
   Object.entries(cache.cssVariables).forEach(([varName, value]) => {
     root.style.setProperty(varName, value);
   });
@@ -156,5 +157,10 @@ export function applyThemeCacheToDOM(cache: CompleteThemeCache): void {
 function getFontFamilyString(fontName: FontKey, category: "sans" | "mono"): string {
   const fonts = category === "sans" ? SANS_FONTS : MONO_FONTS;
   const fontConfig = fonts.find((f) => f.name === fontName);
-  return fontConfig?.family || (category === "sans" ? '"Karla", system-ui, sans-serif' : '"Ioskeley Mono", monospace');
+  return (
+    fontConfig?.family ||
+    (category === "sans"
+      ? getDefaultSansFont().family
+      : getDefaultMonoFont().family)
+  );
 }

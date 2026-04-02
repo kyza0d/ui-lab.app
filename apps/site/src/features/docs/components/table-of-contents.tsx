@@ -15,6 +15,7 @@ export interface TableOfContentsItem {
 interface TableOfContentsProps {
   items: TableOfContentsItem[];
   mode?: "dynamic" | "static";
+  className?: string;
 }
 
 function getRouteTocItems(pathname: string | null): TableOfContentsItem[] | null {
@@ -57,7 +58,7 @@ function getHeadingRoot() {
     ?? document.body;
 }
 
-export function TableOfContents({ items: initialItems, mode = "dynamic" }: TableOfContentsProps) {
+export function TableOfContents({ items: initialItems, mode = "dynamic", className }: TableOfContentsProps) {
   const pathname = usePathname();
   const routeItems = useMemo(
     () => getRouteTocItems(pathname) ?? initialItems,
@@ -259,43 +260,41 @@ export function TableOfContents({ items: initialItems, mode = "dynamic" }: Table
 
   return (
     <>
-      <aside className="ml-auto w-70 top-(--header-height) sticky md:block self-start">
-        <nav className="space-y-6 px-4 py-5">
-          <div>
-            <span className="text-md font-semibold text-foreground-50">
-              On this page
-            </span>
-            <Divider variant="dashed" spacing="lg" />
-            <div className="mt-2 h-140">
-              <Scroll inline fade-y ref={scrollRef} maxHeight="100%">
-                <div className="flex flex-col space-y-0">
-                  {visibleItems.map((item) => (
-                    <button
-                      key={item.id}
-                      data-toc-id={item.id}
-                      onClick={() => handleClick(item.id)}
-                      className={cn(
-                        "block w-full my-0.25 text-left font-medium px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
-                        "transition-colors duration-450 ease-out",
-                        "hover:duration-0",
+      <aside className={cn("ml-auto w-65 top-(--header-height) sticky md:block self-start h-full min-h-0 overflow-hidden", className)}>
+        <nav className="flex h-full min-h-0 flex-col pt-12">
+          <span className="text-md font-semibold text-foreground-50">
+            On this page
+          </span>
+          <Divider variant="dashed" spacing="lg" />
+          <div className="mt-2 flex min-h-0 flex-1 overflow-hidden max-h-160">
+            <Scroll inline fade-y ref={scrollRef} className="w-full h-full min-h-0 max-h-160 overflow-auto">
+              <div className="flex flex-col space-y-0">
+                {visibleItems.map((item) => (
+                  <button
+                    key={item.id}
+                    data-toc-id={item.id}
+                    onClick={() => handleClick(item.id)}
+                    className={cn(
+                      "block w-full my-0.25 text-left font-medium px-2 py-1.5 rounded-sm cursor-pointer overflow-hidden",
+                      "transition-colors duration-450 ease-out",
+                      "hover:duration-0",
 
-                        item.level === 3 && "pl-6",
-                        item.level === 4 && "pl-10",
-                        item.level && item.level > 4 && "pl-14",
+                      item.level === 3 && "pl-6",
+                      item.level === 4 && "pl-10",
+                      item.level && item.level > 4 && "pl-14",
 
-                        activeId === item.id
-                          ? "text-foreground-50 bg-background-800"
-                          : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50"
-                      )}
-                    >
-                      <span className="text-xs whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
-                        {item.title}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </Scroll>
-            </div>
+                      activeId === item.id
+                        ? "text-foreground-50 bg-background-800"
+                        : "text-foreground-400 hover:text-foreground-300 hover:bg-background-800/50"
+                    )}
+                  >
+                    <span className="text-xs whitespace-nowrap block [-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,transparent_100%)]">
+                      {item.title}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </Scroll>
           </div>
         </nav>
       </aside>

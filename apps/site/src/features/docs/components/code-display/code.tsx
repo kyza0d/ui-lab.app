@@ -5,6 +5,7 @@ import { generateThemePalettes, type OklchColor } from "@/features/theme/lib/col
 import { generateShikiTheme, type ShikiTheme } from "@/features/theme/lib/themes/shiki/generator";
 import { generateSyntaxPalettes } from "@/features/theme/lib/themes/syntax-colors";
 import { useApp } from "@/features/theme/lib/app-context";
+import { resolveShikiLanguage } from "@/features/docs/lib/shiki-language";
 import { CopyButton } from "./copy-button";
 import { FaSort } from "react-icons/fa6";
 import { cn } from "@/shared";
@@ -123,12 +124,12 @@ export function Code({
 
     const highlight = async () => {
       try {
-        const { codeToHtml } = await import("shiki");
+        const { bundledLanguages, bundledLanguagesAlias, codeToHtml } = await import("shiki");
         const { transformerRenderIndentGuides } = await import("@shikijs/transformers");
 
         const theme = shikiTheme || (currentThemeMode === "light" ? "github-light" : "github-dark");
         const html = await codeToHtml(children, {
-          lang: language as CodeToHtmlOptions["lang"],
+          lang: resolveShikiLanguage(language, bundledLanguages, bundledLanguagesAlias) as CodeToHtmlOptions["lang"],
           theme,
           transformers: [transformerRenderIndentGuides()],
         });

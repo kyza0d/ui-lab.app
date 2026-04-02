@@ -1,7 +1,6 @@
 import { Sidebar } from "@/shared";
 import { TableOfContents, type TableOfContentsItem } from "./table-of-contents";
-import { CopyPage } from "./copy-page-button";
-import { OpenPage } from "./open-page-button";
+import { CopyPage, OpenPage } from "../page-actions";
 import { DocsLayoutChatSync } from "./docs-layout-chat-sync";
 import "../../../app/docs.css";
 import { Footer } from "@/features/layout";
@@ -26,7 +25,7 @@ export function DocsLayout({ children, tocItems = EMPTY_TOC_ITEMS, banner }: Doc
         <DocsLayoutChatSync rootId={ROOT_ID} />
         <Sidebar />
 
-        <div className="docs-layout-inner grid grid-cols-1 min-w-0 lg:grid-cols-[4fr_1fr]">
+        <div className="docs-layout-inner grid grid-cols-1 min-w-0 min-h-0 lg:grid-cols-[4fr_1fr]">
           {banner && (
             <div className="col-span-full mt-(--header-height)">
               {banner}
@@ -44,9 +43,9 @@ export function DocsLayout({ children, tocItems = EMPTY_TOC_ITEMS, banner }: Doc
             </div>
           </div>
 
-          <div className="docs-toc-rail sticky top-(--header-height) flex flex-col justify-between h-[calc(100vh-var(--header-height))]">
-            <TableOfContents items={tocItems} />
-            <div className="space-y-3 px-4 pb-4">
+          <div className="docs-toc sticky px-4 top-(--header-height) grid h-[calc(100vh-var(--header-height))] min-h-0 grid-rows-[minmax(0,1fr)_auto] overflow-visible">
+            <TableOfContents items={tocItems} className="min-h-0" />
+            <div className="mb-4 ml-auto w-65 shrink-0 overflow-hidden rounded-sm border border-background-700">
               <OpenPage />
               <CopyPage />
             </div>

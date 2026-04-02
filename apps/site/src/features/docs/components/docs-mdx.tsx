@@ -33,7 +33,7 @@ const components = {
   ul: ({ children }: any) => <ul className="list-disc list-inside space-y-2 my-4 text-foreground-300">{children}</ul>,
   ol: ({ children }: any) => <ol className="list-decimal list-inside space-y-2 my-4 text-foreground-300">{children}</ol>,
   li: ({ children }: any) => <li className="ml-4">{children}</li>,
-  hr: () => <Divider variant="dashed" size='sm' spacing="lg" />,
+  hr: () => <Divider variant="dashed" spacing="lg" />,
   thead: ({ children }: any) => <thead className="bg-background-900 border-b border-background-800">{children}</thead>,
   tbody: ({ children }: any) => <tbody>{children}</tbody>,
   tr: ({ children }: any) => <tr className="border-background-800 not-last:border-b">{children}</tr>,

@@ -126,7 +126,7 @@ export function Sidebar() {
     window.localStorage.setItem(FRAMEWORK_STORAGE_KEY, value);
   };
 
-  const sidebarWidth = isElementsOrSectionsOrStarters ? 'w-80 md:w-64 lg:w-54 xl:w-64' : 'w-80 md:w-64 lg:w-50 xl:w-64';
+  const sidebarWidth = isElementsOrSectionsOrStarters ? 'w-74 md:w-62 lg:w-48 xl:w-58' : 'w-74 md:w-58 lg:w-44 xl:w-58';
 
   return (
     <>
@@ -238,7 +238,7 @@ export function Sidebar() {
               <div className="py-4 px-5 space-y-8">
                 {sections.map((section) => (
                   <div key={section.label}>
-                    <p className="text-xs font-body-semibold text-foreground-300">{section.label}</p>
+                    <p className="text-xs font-body-semibold text-foreground-200">{section.label}</p>
                     <div className="relative mt-2.5">
                       <Divider orientation='vertical' size="sm" variant='dashed' spacing='none' className="absolute left-0.5 top-0 bottom-0 bg-foreground-400" />
                       <div className="pl-3">

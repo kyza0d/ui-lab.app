@@ -13,6 +13,11 @@ export interface DocsSourcePage extends DocsSourcePageMetadata {
   body: string;
 }
 
+export interface DocsAdjacentPages {
+  prev: DocsSourcePageMetadata | null;
+  next: DocsSourcePageMetadata | null;
+}
+
 interface DocsSource {
   getPageMetadata(domain: DocsSourceDomain, slug: string): DocsSourcePageMetadata | null;
   getRootPageMetadata(domain: DocsSourceDomain): DocsSourcePageMetadata | null;
@@ -22,6 +27,7 @@ interface DocsSource {
   getPageTree(domain: DocsSourceDomain): DocsSourcePageTree;
   generateParams(domain: DocsSourceDomain): Array<{ slug: string }>;
   getAllPages(domain: DocsSourceDomain): DocsSourcePageMetadata[];
+  getAdjacentPages(domain: DocsSourceDomain, slug?: string): DocsAdjacentPages;
 }
 
 const PAGE_LOOKUPS = Object.fromEntries(
@@ -90,6 +96,21 @@ function getAllPages(domain: DocsSourceDomain): DocsSourcePageMetadata[] {
   return DOCS_MANIFEST[domain].pages;
 }
 
+function getAdjacentPages(domain: DocsSourceDomain, slug?: string): DocsAdjacentPages {
+  const pages = DOCS_MANIFEST[domain].pages.filter((p) => !p.isIndex);
+  if (!slug) {
+    return { prev: null, next: pages[0] ?? null };
+  }
+  const idx = pages.findIndex((p) => p.slug === normalizeSlug(slug));
+  if (idx === -1) {
+    return { prev: null, next: pages[0] ?? null };
+  }
+  return {
+    prev: idx > 0 ? pages[idx - 1] : null,
+    next: idx < pages.length - 1 ? pages[idx + 1] : null,
+  };
+}
+
 export const docsSource: DocsSource = {
   getPageMetadata,
   getRootPageMetadata,
@@ -99,4 +120,5 @@ export const docsSource: DocsSource = {
   getPageTree,
   generateParams,
   getAllPages,
+  getAdjacentPages,
 };

@@ -598,6 +598,302 @@ export const DOCS_MANIFEST: GeneratedDocsManifest = {
         "sectionOrder": 3,
         "publishedOn": null,
         "tags": []
+      },
+      {
+        "domain": "docs",
+        "slug": "agents-mcps-design-skill",
+        "url": "/docs/agents-mcps-design-skill",
+        "title": "Design Skill",
+        "label": "Design Skill",
+        "description": "Five-pillar design audit and holistic design critique system for validating UI quality and providing actionable feedback.",
+        "section": "Agents & MCPs",
+        "toc": [
+          {
+            "id": "core-concept",
+            "title": "Core Concept",
+            "level": 2
+          },
+          {
+            "id": "five-core-pillars",
+            "title": "Five Core Pillars",
+            "level": 2
+          },
+          {
+            "id": "1-design-system-adherence",
+            "title": "1. Design System Adherence",
+            "level": 3
+          },
+          {
+            "id": "2-layout-spacing",
+            "title": "2. Layout & Spacing",
+            "level": 3
+          },
+          {
+            "id": "3-accessibility-usability",
+            "title": "3. Accessibility & Usability",
+            "level": 3
+          },
+          {
+            "id": "4-cognitive-load",
+            "title": "4. Cognitive Load",
+            "level": 3
+          },
+          {
+            "id": "5-visual-consistency",
+            "title": "5. Visual Consistency",
+            "level": 3
+          },
+          {
+            "id": "star-rating-system",
+            "title": "Star Rating System",
+            "level": 2
+          },
+          {
+            "id": "design-audit-workflow",
+            "title": "Design-Audit Workflow",
+            "level": 2
+          },
+          {
+            "id": "input",
+            "title": "Input",
+            "level": 3
+          },
+          {
+            "id": "process",
+            "title": "Process",
+            "level": 3
+          },
+          {
+            "id": "output-format",
+            "title": "Output Format",
+            "level": 3
+          },
+          {
+            "id": "design-audit-report",
+            "title": "DESIGN AUDIT REPORT",
+            "level": 2
+          },
+          {
+            "id": "1-design-system-adherence-2",
+            "title": "1. Design System Adherence",
+            "level": 3
+          },
+          {
+            "id": "2-layout-spacing-2",
+            "title": "2. Layout & Spacing",
+            "level": 3
+          },
+          {
+            "id": "3-accessibility-usability-2",
+            "title": "3. Accessibility & Usability",
+            "level": 3
+          },
+          {
+            "id": "4-cognitive-load-2",
+            "title": "4. Cognitive Load",
+            "level": 3
+          },
+          {
+            "id": "5-visual-consistency-2",
+            "title": "5. Visual Consistency",
+            "level": 3
+          },
+          {
+            "id": "summary",
+            "title": "Summary",
+            "level": 2
+          },
+          {
+            "id": "key-guidelines",
+            "title": "Key Guidelines",
+            "level": 3
+          },
+          {
+            "id": "design-ideate-workflow",
+            "title": "Design-Ideate Workflow",
+            "level": 2
+          },
+          {
+            "id": "input-2",
+            "title": "Input",
+            "level": 3
+          },
+          {
+            "id": "process-2",
+            "title": "Process",
+            "level": 3
+          },
+          {
+            "id": "output-format-2",
+            "title": "Output Format",
+            "level": 3
+          },
+          {
+            "id": "design-brief",
+            "title": "DESIGN BRIEF",
+            "level": 2
+          },
+          {
+            "id": "domain-context",
+            "title": "DOMAIN CONTEXT",
+            "level": 3
+          },
+          {
+            "id": "element-inventory",
+            "title": "ELEMENT INVENTORY",
+            "level": 3
+          },
+          {
+            "id": "gaps",
+            "title": "GAPS",
+            "level": 3
+          },
+          {
+            "id": "top-5-suggestions",
+            "title": "TOP 5 SUGGESTIONS",
+            "level": 3
+          },
+          {
+            "id": "downstream-actions",
+            "title": "DOWNSTREAM ACTIONS",
+            "level": 3
+          },
+          {
+            "id": "references",
+            "title": "References",
+            "level": 2
+          },
+          {
+            "id": "referencescore-pillarsmd",
+            "title": "`references/core-pillars.md`",
+            "level": 3
+          },
+          {
+            "id": "referencesdesign-systemmd",
+            "title": "`references/design-system.md`",
+            "level": 3
+          },
+          {
+            "id": "how-to-trigger-the-skill",
+            "title": "How to Trigger the Skill",
+            "level": 2
+          },
+          {
+            "id": "trigger-design-audit",
+            "title": "Trigger design-audit",
+            "level": 3
+          },
+          {
+            "id": "trigger-design-ideate",
+            "title": "Trigger design-ideate",
+            "level": 3
+          },
+          {
+            "id": "example-audit-report",
+            "title": "Example: Audit Report",
+            "level": 2
+          },
+          {
+            "id": "input-3",
+            "title": "Input",
+            "level": 3
+          },
+          {
+            "id": "output",
+            "title": "Output",
+            "level": 3
+          },
+          {
+            "id": "design-audit-report-2",
+            "title": "DESIGN AUDIT REPORT",
+            "level": 2
+          },
+          {
+            "id": "1-design-system-adherence-3",
+            "title": "1. Design System Adherence",
+            "level": 3
+          },
+          {
+            "id": "2-layout-spacing-3",
+            "title": "2. Layout & Spacing",
+            "level": 3
+          },
+          {
+            "id": "3-accessibility-usability-3",
+            "title": "3. Accessibility & Usability",
+            "level": 3
+          },
+          {
+            "id": "4-cognitive-load-3",
+            "title": "4. Cognitive Load",
+            "level": 3
+          },
+          {
+            "id": "5-visual-consistency-3",
+            "title": "5. Visual Consistency",
+            "level": 3
+          },
+          {
+            "id": "summary-2",
+            "title": "Summary",
+            "level": 2
+          },
+          {
+            "id": "example-design-brief",
+            "title": "Example: Design Brief",
+            "level": 2
+          },
+          {
+            "id": "input-4",
+            "title": "Input",
+            "level": 3
+          },
+          {
+            "id": "output-2",
+            "title": "Output",
+            "level": 3
+          },
+          {
+            "id": "design-brief-2",
+            "title": "DESIGN BRIEF",
+            "level": 2
+          },
+          {
+            "id": "domain-context-2",
+            "title": "DOMAIN CONTEXT",
+            "level": 3
+          },
+          {
+            "id": "element-inventory-2",
+            "title": "ELEMENT INVENTORY",
+            "level": 3
+          },
+          {
+            "id": "gaps-2",
+            "title": "GAPS",
+            "level": 3
+          },
+          {
+            "id": "top-5-suggestions-2",
+            "title": "TOP 5 SUGGESTIONS",
+            "level": 3
+          },
+          {
+            "id": "downstream-actions-2",
+            "title": "DOWNSTREAM ACTIONS",
+            "level": 3
+          },
+          {
+            "id": "next-steps",
+            "title": "Next steps",
+            "level": 2
+          }
+        ],
+        "isIndex": false,
+        "order": 2,
+        "sectionOrder": 3,
+        "publishedOn": null,
+        "tags": []
       }
     ],
     "pageTree": [
@@ -648,6 +944,12 @@ export const DOCS_MANIFEST: GeneratedDocsManifest = {
             "label": "Workflows",
             "slug": "agents-mcps-workflows",
             "url": "/docs/agents-mcps-workflows"
+          },
+          {
+            "id": "agents-mcps-design-skill",
+            "label": "Design Skill",
+            "slug": "agents-mcps-design-skill",
+            "url": "/docs/agents-mcps-design-skill"
           }
         ]
       }

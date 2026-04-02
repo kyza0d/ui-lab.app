@@ -120,10 +120,11 @@
   --border-width-8: 8px;
 
   --header-height: 3.50rem;
-  --page-width: 1450px;
+  --page-width: 1300px;
   --content-width: 755px;
   --logo-width: 250px;
-  --banner-height: 52px;      /* adjust to match your banner content */
+  --banner-height: 52px;
+  /* adjust to match your banner content */
   /* --indent-offset: 3px; */
 }
 
@@ -134,8 +135,14 @@
 }
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0 0 0.6rem 0 ;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 0 0.6rem 0;
     font-weight: var(--font-weight-header-semibold);
     line-height: var(--leading-header);
   }
@@ -148,35 +155,35 @@
   }
 
   h2 {
-    margin: 0rem 0 0.4rem 0 ;
+    margin: 0rem 0 0.4rem 0;
     font-size: var(--header-text-xl);
     letter-spacing: var(--letter-spacing-header-lg);
     font-weight: var(--font-weight-header-bold);
   }
 
   h3 {
-    margin: 0 0 0 0 ;
+    margin: 0 0 0 0;
     font-size: var(--header-text-lg);
     letter-spacing: var(--letter-spacing-header-md);
     font-weight: var(--font-weight-header-semibold);
   }
 
   h4 {
-    margin: 0 0 0 0 ;
+    margin: 0 0 0 0;
     font-size: var(--header-text-md);
     letter-spacing: var(--letter-spacing-header-sm);
     font-weight: var(--font-weight-header-semibold);
   }
 
   h5 {
-    margin: 0 0 0 0 ;
+    margin: 0 0 0 0;
     font-size: var(--header-text-md);
     letter-spacing: var(--letter-spacing-header-sm);
     font-weight: var(--font-weight-header-semibold);
   }
 
   h6 {
-    margin: 0 0 0 0 ;
+    margin: 0 0 0 0;
     font-size: var(--header-text-sm);
     letter-spacing: var(--letter-spacing-header-sm);
     font-weight: var(--font-weight-header-medium);
@@ -410,39 +417,129 @@ pre.shiki .indent::before {
 }
 
 @layer utilities {
-  .text-sm { font-size: var(--text-sm) }
-  .text-sm { font-size: var(--text-sm) }
-  .text-md { font-size: var(--text-md) }
-  .text-lg { font-size: var(--text-lg) }
-  .text-xl { font-size: var(--text-xl) }
-  .text-2xl { font-size: var(--text-2xl) }
-  .text-3xl { font-size: var(--text-3xl) }
-  .text-4xl { font-size: var(--text-4xl) }
-  .text-5xl { font-size: var(--text-5xl) }
-  .text-6xl { font-size: var(--text-5xl) }
-  .text-7xl { font-size: var(--text-5xl) }
-  .text-8xl { font-size: var(--text-5xl) }
-  .text-9xl { font-size: var(--text-5xl) }
+  .text-sm {
+    font-size: var(--text-sm)
+  }
 
-  .text-header-xs { font-size: var(--header-text-sm) }
-  .text-header-sm { font-size: var(--header-text-sm) }
-  .text-header-md { font-size: var(--header-text-md) }
-  .text-header-lg { font-size: var(--header-text-lg) }
-  .text-header-xl { font-size: var(--header-text-xl) }
-  .text-header-2xl { font-size: var(--header-text-2xl) }
-  .text-header-3xl { font-size: var(--header-text-3xl) }
-  .text-header-4xl { font-size: var(--header-text-4xl) }
-  .text-header-5xl { font-size: var(--header-text-5xl) }
+  .text-sm {
+    font-size: var(--text-sm)
+  }
 
-  .text-body-xs { font-size: var(--text-sm) }
-  .text-body-sm { font-size: var(--text-sm) }
-  .text-body-md { font-size: var(--text-md) }
-  .text-body-lg { font-size: var(--text-lg) }
-  .text-body-xl { font-size: var(--text-xl) }
-  .text-body-2xl { font-size: var(--text-2xl) }
-  .text-body-3xl { font-size: var(--text-3xl) }
-  .text-body-4xl { font-size: var(--text-4xl) }
-  .text-body-5xl { font-size: var(--text-5xl) }
+  .text-md {
+    font-size: var(--text-md)
+  }
+
+  .text-lg {
+    font-size: var(--text-lg)
+  }
+
+  .text-xl {
+    font-size: var(--text-xl)
+  }
+
+  .text-2xl {
+    font-size: var(--text-2xl)
+  }
+
+  .text-3xl {
+    font-size: var(--text-3xl)
+  }
+
+  .text-4xl {
+    font-size: var(--text-4xl)
+  }
+
+  .text-5xl {
+    font-size: var(--text-5xl)
+  }
+
+  .text-6xl {
+    font-size: var(--text-5xl)
+  }
+
+  .text-7xl {
+    font-size: var(--text-5xl)
+  }
+
+  .text-8xl {
+    font-size: var(--text-5xl)
+  }
+
+  .text-9xl {
+    font-size: var(--text-5xl)
+  }
+
+  .text-header-xs {
+    font-size: var(--header-text-sm)
+  }
+
+  .text-header-sm {
+    font-size: var(--header-text-sm)
+  }
+
+  .text-header-md {
+    font-size: var(--header-text-md)
+  }
+
+  .text-header-lg {
+    font-size: var(--header-text-lg)
+  }
+
+  .text-header-xl {
+    font-size: var(--header-text-xl)
+  }
+
+  .text-header-2xl {
+    font-size: var(--header-text-2xl)
+  }
+
+  .text-header-3xl {
+    font-size: var(--header-text-3xl)
+  }
+
+  .text-header-4xl {
+    font-size: var(--header-text-4xl)
+  }
+
+  .text-header-5xl {
+    font-size: var(--header-text-5xl)
+  }
+
+  .text-body-xs {
+    font-size: var(--text-sm)
+  }
+
+  .text-body-sm {
+    font-size: var(--text-sm)
+  }
+
+  .text-body-md {
+    font-size: var(--text-md)
+  }
+
+  .text-body-lg {
+    font-size: var(--text-lg)
+  }
+
+  .text-body-xl {
+    font-size: var(--text-xl)
+  }
+
+  .text-body-2xl {
+    font-size: var(--text-2xl)
+  }
+
+  .text-body-3xl {
+    font-size: var(--text-3xl)
+  }
+
+  .text-body-4xl {
+    font-size: var(--text-4xl)
+  }
+
+  .text-body-5xl {
+    font-size: var(--text-5xl)
+  }
 
 }
 
@@ -478,10 +575,10 @@ pre.shiki .indent::before {
   position: absolute;
   inset: 0;
   z-index: -1;
-  
+
   background-color: var(--color-background-500);
-  opacity: 0.30; 
-  
+  opacity: 0.30;
+
   /* Mask Logic */
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='25' height='25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3Epath%7Bstroke:%23ffffff;stroke-width:1;stroke-linecap:square%7D%3C/style%3E%3C/defs%3E%3Cpath d='M21 25h8 M25 21v8' /%3E%3Cg stroke-dasharray='4 4'%3E%3Cpath d='M25 17 V0' /%3E%3Cpath d='M25 33 V50' /%3E%3Cpath d='M17 25 H0' /%3E%3Cpath d='M33 25 H25' /%3E%3C/g%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg width='25' height='25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3Epath%7Bstroke:%23ffffff;stroke-width:1;stroke-linecap:square%7D%3C/style%3E%3C/defs%3E%3Cpath d='M21 25h8 M25 21v8' /%3E%3Cg stroke-dasharray='4 4'%3E%3Cpath d='M25 17 V0' /%3E%3Cpath d='M25 33 V50' /%3E%3Cpath d='M17 25 H0' /%3E%3Cpath d='M33 25 H25' /%3E%3C/g%3E%3C/svg%3E");
@@ -499,5 +596,3 @@ body {
   background: color-mix(in srgb, var(--accent-600) 10%, transparent);
   color: var(--accent-600)
 }
-
-

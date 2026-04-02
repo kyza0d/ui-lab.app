@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Divider, Group } from 'ui-lab-components';
+import { Group } from 'ui-lab-components';
 import { FaCheck, FaFileLines } from 'react-icons/fa6';
 
 export function CopyPage() {
@@ -33,8 +33,8 @@ export function CopyPage() {
   };
 
   return (
-    <Group variant='ghost' className='w-full cursor-pointer'>
-      <div className="flex justify-center items-center pl-3 text-foreground-400 text-sm font-medium">
+    <Group variant="ghost" className="h-12 w-full cursor-pointer">
+      <div className="flex items-center justify-center pl-3 text-foreground-400 text-sm font-medium">
         <FaFileLines />
       </div>
       <div
@@ -43,12 +43,18 @@ export function CopyPage() {
           if (e.key === 'Enter' || e.key === ' ') handleCopy();
         }}
         title="Copy rendered content as Markdown"
-        className="flex text-foreground-300 text-xs font-medium pl-4 h-10 w-55 items-center justify-start"
+        className="flex w-full items-center justify-start pl-4 text-xs font-medium text-foreground-300"
         role="button"
         tabIndex={0}
       >
-
-        {copiedLines !== null ? <>Copied {copiedLines} lines! <FaCheck size={12} className='text-foreground-400 ml-auto mr-3' /></> : <>Copy Markdown</>}
+        {copiedLines !== null ? (
+          <>
+            Copied {copiedLines} lines!
+            <FaCheck size={12} className="ml-auto mr-3 text-foreground-400" />
+          </>
+        ) : (
+          <>Copy Markdown</>
+        )}
       </div>
     </Group>
   );

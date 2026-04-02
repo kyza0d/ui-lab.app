@@ -17,7 +17,7 @@ const tocItems: TableOfContentsItem[] = getCategoriesInOrder().map((category) =>
 export default function ComponentsPageClient() {
   const router = useRouter();
   return (
-    <div className="docs-layout-inner grid grid-cols-1 min-w-0 lg:grid-cols-[4fr_1fr]">
+    <div className="docs-layout-inner grid grid-cols-1 min-w-0 min-h-0 lg:grid-cols-[4fr_1fr]">
       <div className="flex flex-col justify-center min-w-0 mt-(--header-height)">
         <div className="flex items-center w-full min-w-0">
           <main className="py-12 px-4 md:px-6 mx-auto w-full min-w-0">
@@ -57,9 +57,9 @@ export default function ComponentsPageClient() {
                               onClick={() => router.push(href)}
                             >
                               <Gallery.View
-                                className="w-full h-40 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 shrink-0"
+                                className="w-full h-40 duration-200 flex items-center justify-center relative bg-background-950 group-hover:border-background-600 border-b border-background-700 shrink-0"
                               >
-                                <div className='max-w-60 px-4 gap-2 flex items-center justify-center'>
+                                <div className='max-w-50 px-4 gap-2 flex items-center justify-center'>
                                   {previews[component.id] || <div />}
                                 </div>
                                 <div className='absolute top-0 left-0 w-full h-full'>
@@ -126,8 +126,8 @@ export default function ComponentsPageClient() {
           </main>
         </div>
       </div>
-      <div className="docs-toc-rail  sticky top-(--header-height) flex flex-col justify-between h-[calc(100vh-var(--header-height))]">
-        <TableOfContents items={tocItems} mode="static" />
+      <div className="docs-toc sticky top-(--header-height) flex h-[calc(100vh-var(--header-height))] min-h-0 flex-col overflow-hidden">
+        <TableOfContents items={tocItems} mode="static" className="flex-1 min-h-0" />
       </div>
     </div>
   );
