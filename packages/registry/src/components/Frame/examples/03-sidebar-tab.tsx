@@ -3,6 +3,7 @@ export const metadata = {
   description: 'A frame with a tab extending from the side, perfect for active navigation states.'
 };
 
+import React from 'react';
 import { Frame } from 'ui-lab-components';
 
 const TAB_WIDTH = 120;
@@ -25,11 +26,12 @@ const Example3 = () => {
           shapeMode="extend"
           path={TAB_PATH}
           pathWidth={TAB_WIDTH}
-          fill="var(--color-background-900)"
-          style={{ color: "var(--background-700)" }}
-          className="w-80 h-64"
-          padding="large"
-          cornerRadius={16}
+          className="w-80 h-64 p-6"
+          style={{
+            "--frame-fill": "var(--color-background-900)",
+            "--frame-radius": "16px",
+            color: "var(--background-700)",
+          } as React.CSSProperties}
         >
           <div className="h-full flex flex-col justify-center">
             <h2 className="text-2xl font-bold text-foreground-50 mb-4">Settings</h2>

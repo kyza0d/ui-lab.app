@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useId } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Frame.module.css";
@@ -14,60 +13,35 @@ type FrameStylesProp = StylesProp<FrameStyleSlots>;
 
 const resolveFrameBaseStyles = createStylesResolver(['root'] as const);
 
-const frameVariants = cva("relative w-full group isolate", {
-  variants: {
-    variant: {
-      default: "text-zinc-500",
-      accent: "text-emerald-500",
-    },
-    padding: {
-      none: "p-0",
-      small: "p-2",
-      medium: "p-4",
-      large: "p-6",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-    padding: "medium",
-  },
-});
-
-export interface FrameProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-  VariantProps<typeof frameVariants> {
+export interface FrameProps extends React.HTMLAttributes<HTMLDivElement> {
   /** SVG path data for the notch or tab shape cut into the frame border */
   path?: string;
   /** Width of the path shape in pixels */
   pathWidth?: number;
   /** Which side of the frame the path shape appears on */
   side?: "top" | "bottom" | "left" | "right";
-  /** Corner radius of the frame border in pixels */
-  cornerRadius?: number;
-  /** Fill color applied behind the frame content area */
-  fill?: string;
   /** Whether the path shape indents into the frame or extends out from it */
   shapeMode?: "indent" | "extend";
-  /** Stroke width of the frame border in pixels */
-  borderWidth?: number;
-  /** Color of the frame border stroke */
-  borderColor?: string;
-  /** Visual color style of the frame */
-  variant?: "default" | "accent" | null;
-  /** Internal padding preset */
-  padding?: "none" | "small" | "medium" | "large" | null;
+  /** Controls the line style of the frame border and notch stroke */
+  pathStroke?: "solid" | "dashed" | "dotted";
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: FrameStylesProp;
 }
 
 const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
-  ({ children, variant, padding, className, styles, style, path, pathWidth = 0, side = "top", cornerRadius, fill, shapeMode = "indent", borderWidth, borderColor = "var(--frame-stroke-color, var(--background-700))", ...props }, ref) => {
+  ({ children, className, styles, style, path, pathWidth = 0, side = "top", shapeMode = "indent", pathStroke = "solid", ...props }, ref) => {
     const maskId = useId();
     const borderMaskId = `border-${maskId}`;
     const bgMaskId = `bg-${maskId}`;
 
-    const borderStroke = borderWidth ?? 1;
-    const halfStroke = borderStroke / 2;
+    const borderStroke = 1;
+
+    const strokeDashProps: { strokeDasharray?: string; strokeLinecap?: React.SVGAttributes<SVGElement>["strokeLinecap"] } =
+      pathStroke === "dashed"
+        ? { strokeDasharray: "8 4" }
+        : pathStroke === "dotted"
+          ? { strokeDasharray: "2 4", strokeLinecap: "round" }
+          : {};
 
     const positionMap = {
       top: { x: "50%", y: "0", rotate: 0 },
@@ -83,10 +57,8 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
     return (
       <div
         ref={ref}
-        className={cn(frameVariants({ variant, padding }), css.root, className, resolved.root)}
+        className={cn("relative w-full group isolate", css.root, className, resolved.root)}
         style={{
-          ...(cornerRadius !== undefined && { "--frame-radius": `${cornerRadius}px` }),
-          ...(borderWidth !== undefined && { "--frame-stroke-width": `${borderWidth}px` }),
           maskImage: path && shapeMode === "indent" ? `url(#${maskId})` : undefined,
           WebkitMaskImage: path && shapeMode === "indent" ? `url(#${maskId})` : undefined,
           ...style,
@@ -155,7 +127,7 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
             y="-50%"
             width="200%"
             height="200%"
-            fill={fill ?? "var(--frame-fill, transparent)"}
+            fill="var(--frame-fill, transparent)"
             mask={`url(#${bgMaskId})`}
           />
 
@@ -166,23 +138,25 @@ const Frame = React.forwardRef<HTMLDivElement, FrameProps>(
             width="100%"
             height="100%"
             fill="none"
-            stroke={borderColor}
+            stroke="var(--frame-stroke-color, var(--background-700))"
             strokeWidth={borderStroke}
             mask={`url(#${borderMaskId})`}
             className={cn(css.shape, css.stroke)}
+            {...strokeDashProps}
           />
 
           {/* Layer 2: The Notch/Tab Path Stroke */}
           {path && (
             <svg x={x} y={y} overflow="visible">
-              <g transform={`rotate(${rotate}) scale(1.010, 0.990)`}>
+              <g transform={`rotate(${rotate}) scale(1.010, 1)`}>
                 <path
                   d={path}
                   fill="none"
-                  stroke={borderColor}
+                  stroke="var(--frame-stroke-color, var(--background-700))"
                   strokeWidth={borderStroke}
-                  transform={`translate(-${pathWidth / 2}, ${borderStroke / 2})`}
+                  transform={`translate(-${pathWidth / 2}, 0)`}
                   className={css.stroke}
+                  {...strokeDashProps}
                 />
               </g>
             </svg>

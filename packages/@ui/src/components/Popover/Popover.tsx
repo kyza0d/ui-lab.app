@@ -245,9 +245,8 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
                   shapeMode={showArrow ? "extend" : undefined}
                   path={showArrow ? ARROW_PATH : undefined}
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
-                  cornerRadius={8}
-                  padding="none"
                   className={cn('popover', 'frame', css.frame, resolved.content)}
+                  style={{ "--frame-radius": "8px" } as React.CSSProperties}
                 >
                   {content}
                 </Frame>

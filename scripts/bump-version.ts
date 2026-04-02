@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
-// Bumps package versions by appending "1" to the current patch number.
-// e.g. 0.3.4 -> 0.3.41, 0.1.6 -> 0.1.61
+// Bumps package versions by incrementing the patch number by 1.
+// e.g. 0.3.4 -> 0.3.5, 0.3.41 -> 0.3.42
 // Consumes pending changeset files and updates CHANGELOG.md.
 
 import fs from 'fs'
@@ -18,7 +18,7 @@ const PACKAGES = [
 
 function bumpVersion(current: string): string {
   const parts = current.split('.')
-  parts[2] = parts[2] + '1'
+  parts[2] = String(parseInt(parts[2], 10) + 1)
   return parts.join('.')
 }
 

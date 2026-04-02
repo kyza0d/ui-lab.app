@@ -16,5 +16,4 @@ packages/registry/.cache
 .knowledge/
 .agents/
 .playwright-mcp/
-skills/
 .reports/

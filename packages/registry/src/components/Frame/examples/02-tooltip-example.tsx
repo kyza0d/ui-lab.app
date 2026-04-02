@@ -3,6 +3,7 @@ export const metadata = {
   description: 'A frame with a pointer tail on the bottom, typical for tooltips or popovers.'
 };
 
+import React from 'react';
 import { Frame } from 'ui-lab-components';
 
 const TAIL_WIDTH = 48;
@@ -16,10 +17,8 @@ const Example2 = () => {
         shapeMode="extend"
         path={TAIL_PATH}
         pathWidth={TAIL_WIDTH}
-        fill="var(--color-background-900)"
-        // style={{ color: "var(--background-700)" }}
-        className="max-w-sm border-background-700"
-        padding="large"
+        className="max-w-sm border-background-700 p-6"
+        style={{ "--frame-fill": "var(--color-background-900)" } as React.CSSProperties}
       >
         <div className="text-center">
           <h3 className="font-semibold text-lg mb-2 text-foreground-50">Did you know?</h3>

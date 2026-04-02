@@ -2,7 +2,7 @@
 
 @layer components {
   .badge {
-    @apply inline-flex items-center justify-center gap-2 px-3 py-0.5;
+    @apply inline-flex items-center justify-center gap-2;
     height: fit-content;
     width: fit-content;
     background-color: var(--background);
@@ -11,27 +11,13 @@
     border-radius: var(--radius-sm);
   }
 
-  .badge.sm {
-    @apply px-1.5 py-px;
-    gap: 0.25rem;
-    font-size: var(--text-sm);
-  }
-
   .badge.dismissible {
     @apply pr-0.5;
   }
 
-  .badge.md {
-    @apply px-3.5 py-1;
-    font-size: var(--text-sm);
+  .pill {
+    border-radius: 9999px;
   }
-
-  .badge.lg {
-    @apply px-4 py-2.5;
-    font-size: var(--text-sm);
-  }
-
-  .pill { border-radius: 9999px; }
 
   .icon {
     @apply flex items-center shrink-0;

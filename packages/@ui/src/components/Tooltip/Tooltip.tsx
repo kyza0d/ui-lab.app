@@ -335,8 +335,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                   shapeMode={showArrow ? "extend" : undefined}
                   path={showArrow ? ARROW_PATH : undefined}
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
-                  cornerRadius={8}
-                  padding="none"
+                  style={{ "--frame-radius": "8px" } as React.CSSProperties}
                 >
                   <div className={cn('tooltip', 'frame', css.frame, resolved.frame)} data-hint={hint ? "" : undefined}>
                     {content}

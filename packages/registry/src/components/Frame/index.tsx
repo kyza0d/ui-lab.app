@@ -13,36 +13,13 @@ const examplesData = [
   { id: '03-sidebar-tab', Component: Example3, metadata: metadata3 },
 ];
 
-const frameControls: ControlDef[] = [
-  {
-    name: 'variant',
-    label: 'Variant',
-    type: 'select',
-    options: [
-      { label: 'Default', value: 'default' },
-      { label: 'Accent', value: 'accent' },
-    ],
-    defaultValue: 'default',
-  },
-  {
-    name: 'padding',
-    label: 'Padding',
-    type: 'select',
-    options: [
-      { label: 'None', value: 'none' },
-      { label: 'Small', value: 'small' },
-      { label: 'Medium', value: 'medium' },
-      { label: 'Large', value: 'large' },
-    ],
-    defaultValue: 'medium',
-  },
-];
+const frameControls: ControlDef[] = [];
 
 const frameBasicCode = `import { Frame } from "ui-lab-components";
 
 export function Example() {
   return (
-    <Frame variant="default" padding="medium">
+    <Frame>
       <p className="text-foreground-300">Framed content</p>
     </Frame>
   );
@@ -72,13 +49,13 @@ export const frameDetail: ComponentDetail = {
       description: 'Adjust props to customize the component',
       code: frameBasicCode,
       preview: (
-        <Frame variant="default" padding="medium">
+        <Frame>
           <p className="text-sm text-foreground-300">Framed content</p>
         </Frame>
       ),
       controls: frameControls,
-      renderPreview: (props: any) => (
-        <Frame variant={props.variant as any} padding={props.padding as any}>
+      renderPreview: () => (
+        <Frame>
           <p className="text-sm text-foreground-300">Framed content</p>
         </Frame>
       ),
