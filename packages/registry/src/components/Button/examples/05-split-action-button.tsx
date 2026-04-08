@@ -1,41 +1,60 @@
 "use client";
 
 import React, { useState } from 'react'
-import { Button, Divider, Select, Searchable, Flex, Menu } from 'ui-lab-components'
-import { FaSpinner, FaCheck, FaEllipsisVertical, FaHashtag, FaLock } from "react-icons/fa6";
+import { Button, Divider, Select, Badge, Flex } from 'ui-lab-components'
+import { FaBox, FaSpinner, FaCheck, FaEllipsisVertical, FaCopy, FaTags, FaTrash } from "react-icons/fa6";
 
-type Channel = { value: string; label: string; description: string; private?: boolean };
+type BulkAction = "archive" | "duplicate" | "tag" | "delete";
 
-const channels: Channel[] = [
-  { value: "general", label: "general", description: "General team discussion" },
-  { value: "announcements", label: "announcements", description: "Important team updates", private: true },
-  { value: "design", label: "design", description: "Design work and feedback" },
-  { value: "engineering", label: "engineering", description: "Engineering discussions" },
-  { value: "marketing", label: "marketing", description: "Marketing campaigns" },
-  { value: "product", label: "product", description: "Product roadmap and planning" },
-  { value: "random", label: "random", description: "Off-topic conversations" },
-  { value: "releases", label: "releases", description: "Release announcements", private: true },
-];
+const selectedCount = 12;
 
-type PublishAction = "publish" | "draft" | "schedule";
-
-const publishActions: Record<PublishAction, { label: string; variant: "ghost" | "default" | "outline" }> = {
-  publish: { label: "Publish Now", variant: "ghost" },
-  draft: { label: "Save as Draft", variant: "ghost" },
-  schedule: { label: "Schedule for Later", variant: "outline" },
+const bulkActions: Record<BulkAction, {
+  label: string;
+  loadingLabel: string;
+  successLabel: string;
+  variant: "primary" | "outline" | "danger";
+  icon: React.ReactNode;
+}> = {
+  archive: {
+    label: "Archive",
+    loadingLabel: "Archiving...",
+    successLabel: "Archived",
+    variant: "primary",
+    icon: <FaBox />,
+  },
+  duplicate: {
+    label: "Duplicate",
+    loadingLabel: "Duplicating...",
+    successLabel: "Duplicated",
+    variant: "outline",
+    icon: <FaCopy />,
+  },
+  tag: {
+    label: "Add Tags",
+    loadingLabel: "Applying tags...",
+    successLabel: "Tagged",
+    variant: "outline",
+    icon: <FaTags />,
+  },
+  delete: {
+    label: "Delete",
+    loadingLabel: "Deleting...",
+    successLabel: "Deleted",
+    variant: "danger",
+    icon: <FaTrash />,
+  },
 };
 
 export const metadata = {
   title: 'Split Action Button',
-  description: 'A primary action button joined with a Select dropdown that changes what the button does — useful for publish workflows with multiple delivery options.'
+  description: 'A split button for bulk actions with dynamic icons, variants, and async feedback while keeping the primary action easy to repeat.'
 };
 
 export default function Example() {
-  const [action, setAction] = useState<PublishAction>("publish");
+  const [action, setAction] = useState<BulkAction>("archive");
   const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
-  const [channel, setChannel] = useState<string | number | null>("general");
-  const selectedChannel = channels.find((c) => c.value === channel);
-  const cfg = publishActions[action];
+  const cfg = bulkActions[action];
+  const itemsLabel = `${selectedCount} ${selectedCount === 1 ? "item" : "items"}`;
 
   const handleExecute = () => {
     setStatus("loading");
@@ -45,64 +64,33 @@ export default function Example() {
     }, 1500);
   };
 
-  const leftIcon = status === "loading" ? <FaSpinner className="animate-spin" /> : status === "done" ? <FaCheck /> : undefined;
-  const label = status === "loading" ? "Saving..." : status === "done" ? "Done!" : cfg.label;
+  const leftIcon = status === "loading" ? <FaSpinner className="animate-spin" /> : status === "done" ? <FaCheck /> : cfg.icon;
+  const label = status === "loading" ? cfg.loadingLabel : status === "done" ? cfg.successLabel : `${cfg.label} ${itemsLabel}`;
 
   return (
     <Flex gap="xs" className="w-110" align="center">
-      <Select
-        selectedKey={channel}
-        valueLabel={selectedChannel ? `#${selectedChannel.label}` : undefined}
-        onSelectionChange={setChannel}
-        className="flex h-10"
-        isDisabled={status !== "idle"}
-      >
-        <Searchable.Input className="w-50" icon={<FaHashtag />} placeholder="Select channel..." />
-        <Select.Content>
-          <Select.List>
-            {channels.map((c) => (
-              <Select.Item
-                key={c.value}
-                value={c.value}
-                textValue={c.label}
-                icon={c.private ? <FaLock className="h-3 w-3" /> : <FaHashtag className="h-3 w-3" />}
-                description={c.description}
-              >
-                {c.label}
-              </Select.Item>
-            ))}
-          </Select.List>
-        </Select.Content>
-      </Select>
-      <Select className="flex h-10" selectedKey={action} onSelectionChange={(key) => setAction(key as PublishAction)} isDisabled={status !== "idle"}>
+      <Badge variant="secondary">{selectedCount} selected</Badge>
+      <Select className="flex h-10" selectedKey={action} onSelectionChange={(key) => setAction(key as BulkAction)} isDisabled={status !== "idle"}>
         <Button
           onPress={handleExecute}
-          variant="ghost"
+          variant={cfg.variant}
           size="sm"
-          className="w-full"
-          isDisabled={status !== "idle"}
+          className="w-full rounded-none justify-start"
+          isDisabled={status !== "idle" || selectedCount === 0}
           icon={leftIcon}
         >
           {label}
         </Button>
         <Divider orientation="vertical" spacing="none" />
-        <Select.Trigger />
+        <Select.Trigger aria-label="Choose a bulk action" />
         <Select.Content>
-          <Select.Item value="publish" textValue="Publish Now">Publish Now</Select.Item>
-          <Select.Item value="draft" textValue="Save as Draft">Save as Draft</Select.Item>
-          <Select.Item value="schedule" textValue="Schedule for Later">Schedule for Later</Select.Item>
+          <Select.Item value="archive" textValue="Archive" icon={<FaBox className="h-3 w-3" />}>Archive</Select.Item>
+          <Select.Item value="duplicate" textValue="Duplicate" icon={<FaCopy className="h-3 w-3" />}>Duplicate</Select.Item>
+          <Select.Item value="tag" textValue="Add Tags" icon={<FaTags className="h-3 w-3" />}>Add Tags</Select.Item>
+          <Select.Item value="delete" textValue="Delete" icon={<FaTrash className="h-3 w-3" />}>Delete</Select.Item>
         </Select.Content>
       </Select>
-      <Menu type="pop-over">
-        <Menu.Trigger>
-          <Button size="icon" variant="outline" icon={<FaEllipsisVertical />} />
-        </Menu.Trigger>
-        <Menu.Content offset={8} side="bottom" align="end">
-          <Menu.Item>Preview</Menu.Item>
-          <Menu.Item>View History</Menu.Item>
-          <Menu.Item>Discard Changes</Menu.Item>
-        </Menu.Content>
-      </Menu>
+      <Button size="icon" variant="outline" icon={<FaEllipsisVertical />} aria-label="More bulk actions" />
     </Flex>
   );
 }

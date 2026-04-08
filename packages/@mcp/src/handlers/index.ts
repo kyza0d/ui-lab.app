@@ -5,6 +5,7 @@ import { handleSearchPatterns, handleGetPattern } from './patterns.js';
 import { handleSearchElements, handleGetElement } from './elements.js';
 import { handleSearchSections, handleGetSection } from './sections.js';
 import { handleGetInspiration, handleGetVariationCode } from './inspiration.js';
+import { handleSearchStarters, handleGetStarter, handleGetComponentSource } from './starters.js';
 
 export async function handleTool(
   toolName: string,
@@ -15,6 +16,8 @@ export async function handleTool(
       return handleSearchComponents(toolInput as any);
     case 'get_component':
       return handleGetComponent(toolInput as any);
+    case 'get_component_source':
+      return handleGetComponentSource(toolInput as any);
     case 'get_semantic_color':
       return handleGetSemanticColor(toolInput as any);
     case 'get_theme_setup':
@@ -39,6 +42,10 @@ export async function handleTool(
       return handleGetInspiration(toolInput as any);
     case 'get_variation_code':
       return handleGetVariationCode(toolInput as any);
+    case 'search_starters':
+      return handleSearchStarters(toolInput as any);
+    case 'get_starter':
+      return handleGetStarter(toolInput as any);
     default:
       throw new Error(`Unknown tool: ${toolName}`);
   }
