@@ -5,8 +5,8 @@
     @apply flex flex-col border overflow-hidden no-underline cursor-pointer;
 
     background: var(--background);
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-sm, 0.375rem);
 
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     color: inherit;
@@ -16,17 +16,17 @@
     outline: none;
   }
 
-  .item[data-focus-visible] {
-    outline: 2px solid var(--border-focus);
-    outline-offset: 2px;
+  .item[data-focus-visible="true"] {
+    box-shadow: 0 0 0 1.5px var(--focus-visible);
+    outline: none;
   }
 
-  .item[data-hovered] {
-    border-color: var(--border-hover);
+  .item[data-hovered="true"] {
+    border-color: var(--background-hover-border);
   }
 
-  .item[data-pressed] {
-    border-color: var(--border-focus);
+  .item[data-pressed="true"] {
+    border-color: var(--background-pressed-border, var(--background-hover-border, var(--background-border)));
   }
 
   .item[data-orientation="horizontal"] {
@@ -42,7 +42,7 @@
 
     @apply relative overflow-hidden;
     aspect-ratio: var(--aspect-ratio);
-    background: var(--background);
+    background: var(--background, transparent);
   }
 
   .view > img,
@@ -60,12 +60,12 @@
   }
 
   .body > :first-child {
-    font-weight: var(--font-weight-medium);
-    color: var(--title-color);
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--foreground);
   }
 
   .body > :not(:first-child) {
-    font-size: var(--text-sm);
-    color: var(--description-color);
+    font-size: var(--text-sm, 0.875rem);
+    color: var(--foreground-muted, var(--foreground));
   }
 }

@@ -2,6 +2,7 @@ import { Container as ListRoot, Header as ListHeader, ActionGroup as ListActionG
 import { Item } from './List.Item';
 import { Checkbox, CheckboxIndicator, Switch, Input, Select } from './List.Controls';
 import { Media } from './List.Media';
+import { Title } from './List.Title';
 import { Desc } from './List.Desc';
 
 const List = Object.assign(ListRoot, {
@@ -13,6 +14,7 @@ const List = Object.assign(ListRoot, {
   Input,
   Select,
   Media,
+  Title,
   Desc,
   ActionGroup: ListActionGroup,
   Divider: ListDivider,
@@ -29,6 +31,7 @@ export type {
   ListItemProps,
   ListCheckboxProps,
   ListMediaProps,
+  ListTitleProps,
   ListDescProps,
   ListActionGroupProps,
   ListDividerProps,

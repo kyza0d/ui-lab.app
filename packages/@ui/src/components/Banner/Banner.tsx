@@ -11,7 +11,7 @@ type BannerSize = "sm" | "md" | "lg";
 
 interface BannerStyleSlots {
   root?: StyleValue;
-  "icon-container"?: StyleValue;
+  iconContainer?: StyleValue;
   content?: StyleValue;
   dismiss?: StyleValue;
 }
@@ -66,7 +66,7 @@ const sizeMap = {
   lg: css["lg"],
 } as const;
 
-const resolveBannerBaseStyles = createStylesResolver(['root', 'icon-container', 'content', 'dismiss'] as const);
+const resolveBannerBaseStyles = createStylesResolver(['root', 'iconContainer', 'content', 'dismiss'] as const);
 
 /** Heading text for the banner message */
 const BannerTitle = React.forwardRef<HTMLHeadingElement, BannerTitleProps>(
@@ -133,7 +133,7 @@ const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
         data-size={size}
         data-hovered={isHovered ? "true" : "false"}
       >
-        {icon && <div className={cn("icon", css.icon, resolved["icon-container"])}>{icon}</div>}
+        {icon && <div className={cn("icon-container", css.iconContainer, resolved.iconContainer)}>{icon}</div>}
         <div className={cn("content", css.content, resolved.content)}>
           {children}
         </div>

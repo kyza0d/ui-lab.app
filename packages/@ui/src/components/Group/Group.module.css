@@ -2,87 +2,83 @@
 
 @layer components {
   .group {
-    --radius-basis: calc(var(--spacing) * 1.5);
-    --padding: var(--radius-basis);
-    --radius: var(--radius-sm, 0.375rem);
-
-    --group-border-width: var(--border-width-base, 1px);
-    --inner-radius: calc(var(--radius) - var(--group-border-width));
-
-    --text-box-height: calc(0.80em * var(--leading-tight, 1.25));
-    --vertical-spacing: calc(var(--spacing) * 4);
-    --total-border-height: calc(var(--group-border-width) * 2);
-    --total-padding-height: calc(var(--padding) * 2);
-
-    --control-height: calc(
-      var(--text-box-height) + 
-      var(--vertical-spacing) + 
-      var(--total-border-height)
+    --layout-radius-size: calc(var(--spacing) * 1.5);
+    --layout-padding-size: var(--layout-radius-size);
+    --background-radius: var(--radius-sm, 0.375rem);
+    --background-border-width: var(--border-width-base, 1px);
+    --background-inner-radius: calc(var(--background-radius) - var(--background-border-width));
+    --layout-text-height: calc(0.8em * var(--leading-tight, 1.25));
+    --layout-vertical-spacing: calc(var(--spacing) * 4);
+    --layout-border-height: calc(var(--background-border-width) * 2);
+    --layout-padding-height: calc(var(--layout-padding-size) * 2);
+    --layout-control-height: calc(
+      var(--layout-text-height) +
+      var(--layout-vertical-spacing) +
+      var(--layout-border-height)
     );
-
     --item-height: max(
       calc(
-        var(--control-height) - 
-        var(--total-padding-height) - 
-        var(--total-border-height)
-      ), 
+        var(--layout-control-height) -
+        var(--layout-padding-height) -
+        var(--layout-border-height)
+      ),
       0px
     );
-    
+
     @apply flex overflow-hidden shrink-0 box-border;
-    color: var(--foreground);
-    background-color: var(--background);
-    border: var(--group-border-width) solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--padding);
+    color: var(--foreground, currentColor);
+    background-color: var(--background, transparent);
+    border: var(--background-border-width) solid var(--background-border, transparent);
+    border-radius: var(--background-radius);
+    padding: var(--layout-padding-size);
 
     &.horizontal {
       @apply flex-row items-stretch;
-      height: var(--control-height);
+      height: var(--layout-control-height);
 
-      .item.divider { 
-        margin-block: calc(var(--padding) * -1); 
+      .item.divider {
+        margin-block: calc(var(--layout-padding-size) * -1);
       }
-      .item.divider > [role="separator"] { 
-        height: 100%; 
+      .item.divider > [role="separator"] {
+        height: 100%;
       }
     }
 
     &.vertical {
       @apply flex-col;
-      
-      .item .group-item { 
-        @apply w-full; 
+
+      .item .button {
+        @apply w-full;
       }
-      
-      .item.divider { 
-        margin-inline: calc(var(--padding) * -1); 
+
+      .item.divider {
+        margin-inline: calc(var(--layout-padding-size) * -1);
       }
-      .item.divider > [role="separator"] { 
-        width: 100%; 
+      .item.divider > [role="separator"] {
+        width: 100%;
       }
     }
 
     &.none {
-      --padding: 0;
+      --layout-padding-size: 0px;
       @apply gap-0;
     }
-    
+
     &.xs {
-      --radius-basis: calc(var(--spacing) * 0.875);
+      --layout-radius-size: calc(var(--spacing) * 0.875);
       @apply space-x-0.5;
     }
-    
+
     &.sm {
-      --radius-basis: calc(var(--spacing) * 1.25);
+      --layout-radius-size: calc(var(--spacing) * 1.25);
       @apply space-x-1;
     }
 
     &.ghost {
       @apply gap-1 border-none overflow-visible;
-      
-      &.none { 
-        @apply gap-0; 
+
+      &.none {
+        @apply gap-0;
       }
     }
   }
@@ -90,169 +86,164 @@
   .item {
     @apply flex items-stretch;
 
-    &.grow { 
-      flex: 1; 
+    &.grow {
+      flex: 1;
     }
-    
-    &.divider { 
-      @apply p-0 shrink-0 flex-none; 
-      > [role="separator"] { flex: 0 0 auto; }
+
+    &.divider {
+      @apply p-0 shrink-0 flex-none;
+
+      > [role="separator"] {
+        flex: 0 0 auto;
+      }
     }
   }
 
-  :is(.group-item, .group-input-wrapper, .group-select-wrapper) {
+  :is(.button, .input, .select) {
     height: 100%;
     min-height: var(--item-height);
   }
 
-  .group-item {
+  .button {
     @apply flex box-border;
-    width: 100%;
+    width: auto;
 
-    &.active {
+    &[data-selected="true"] {
       @apply relative;
-      background-color: var(--active-background);
-      color: var(--active-foreground);
+      background-color: var(--button-selected-background, var(--background-800));
+      color: var(--button-selected-foreground, var(--foreground-100));
     }
   }
 
-  .group-input-wrapper {
+  .input {
     @apply flex flex-1 items-stretch overflow-visible;
 
-    input { 
-      @apply h-full px-2; 
+    input {
+      @apply h-full px-2;
     }
   }
 
-  .group-select-wrapper {
+  .select {
     @apply flex items-stretch p-0 bg-transparent border-none;
-    
-    .select { 
-      @apply h-full w-full; 
-    }
-  }
-
-  .trigger { 
-    border: none; 
   }
 
   .group:not(.ghost) {
-    .item :is(.group-item, .group-select-wrapper) { 
-      border: none; 
+    .item :is(.button, .select) {
+      border: none;
     }
-    
-    .group-item.active { 
-      font-weight: 500; 
+
+    .button[data-selected="true"] {
+      font-weight: 500;
     }
-    
-    .group-input-wrapper {
-      --input-border-width: 0px;
-      --input-border-color: transparent;
-      --input-active-border-color: transparent;
-      --input-active-box-shadow: none;
+
+    .input {
+      --border-width-base: 0px;
+      --background-border: transparent;
+      --background-focused-border: transparent;
+      --focus-visible: transparent;
     }
 
     &.none {
-      :is(.group-item, .trigger, .group-select-wrapper) { 
-        border-radius: 0; 
-        --radius: 0; 
-        --inner-radius: 0; 
+      :is(.button, .trigger, .select) {
+        border-radius: 0;
+        --background-radius: 0;
+        --background-inner-radius: 0;
       }
-      
-      .group-input-wrapper { 
-        --input-border-radius: 0; 
+
+      .input {
+        --radius-sm: 0;
       }
 
       &.horizontal {
         .item:first-child :is(
-          .group-item, 
-          .trigger, 
-          .group-input-wrapper > *, 
-          .group-select-wrapper > *
+          .button,
+          .trigger,
+          .input > *,
+          .select
         ) {
-          border-top-left-radius: var(--inner-radius);
-          border-bottom-left-radius: var(--inner-radius);
+          border-top-left-radius: var(--background-inner-radius);
+          border-bottom-left-radius: var(--background-inner-radius);
         }
-        
+
         .item:last-child :is(
-          .group-item, 
-          .trigger, 
-          .group-input-wrapper > *, 
-          .group-select-wrapper > *
+          .button,
+          .trigger,
+          .input > *,
+          .select
         ) {
-          border-top-right-radius: var(--inner-radius);
-          border-bottom-right-radius: var(--inner-radius);
+          border-top-right-radius: var(--background-inner-radius);
+          border-bottom-right-radius: var(--background-inner-radius);
         }
       }
-      
+
       &.vertical {
         .item:first-child :is(
-          .group-item, 
-          .trigger, 
-          .group-input-wrapper > *, 
-          .group-select-wrapper > *
+          .button,
+          .trigger,
+          .input > *,
+          .select
         ) {
-          border-top-left-radius: var(--inner-radius);
-          border-top-right-radius: var(--inner-radius);
+          border-top-left-radius: var(--background-inner-radius);
+          border-top-right-radius: var(--background-inner-radius);
         }
-        
+
         .item:last-child :is(
-          .group-item, 
-          .trigger, 
-          .group-input-wrapper > *, 
-          .group-select-wrapper > *
+          .button,
+          .trigger,
+          .input > *,
+          .select
         ) {
-          border-bottom-left-radius: var(--inner-radius);
-          border-bottom-right-radius: var(--inner-radius);
+          border-bottom-left-radius: var(--background-inner-radius);
+          border-bottom-right-radius: var(--background-inner-radius);
         }
       }
     }
 
     &:is(.xs, .sm) {
-      :is(.group-item, .trigger, .group-select-wrapper > *) { 
-        border-radius: var(--inner-radius); 
+      :is(.button, .trigger, .select) {
+        border-radius: var(--background-inner-radius);
       }
-      
-      .group-input-wrapper { 
-        --input-border-radius: var(--inner-radius); 
+
+      .input {
+        --radius-sm: var(--background-inner-radius);
       }
     }
   }
 
   .group.ghost {
-    .group-item.active { 
-      border-radius: var(--inner-radius); 
+    .button[data-selected="true"] {
+      border-radius: var(--background-inner-radius);
     }
-    
-    &:not(.none) .item .group-item:not(.active) {
-      border-radius: var(--inner-radius);
+
+    &:not(.none) .item .button[data-selected="false"] {
+      border-radius: var(--background-inner-radius);
       border: var(--border-width-base) solid transparent;
     }
 
     &.none {
-      :is(.group-item, .group-select-wrapper) { 
-        border: none; 
-        border-radius: 0; 
-        --radius: 0; 
-        --inner-radius: 0; 
+      :is(.button, .select) {
+        border: none;
+        border-radius: 0;
+        --background-radius: 0;
+        --background-inner-radius: 0;
       }
-      
-      .group-input-wrapper { 
-        --input-border-color: transparent; 
-        --input-border-radius: 0; 
+
+      .input {
+        --background-border: transparent;
+        --radius-sm: 0;
       }
     }
   }
 
-  :is(.group-item, .trigger, .group-input-wrapper > [data-focus-visible]):focus-visible {
+  :is(.button[data-focus-visible="true"], .trigger[data-focus-visible="true"], .input > [data-focus-visible="true"]) {
     @apply relative outline-none z-10;
   }
 
-  .group:not(.ghost) :is(.group-item, .trigger, .group-input-wrapper > [data-focus-visible]):focus-visible {
-    box-shadow: inset 0 0 0 1px var(--focus-ring-color);
+  .group:not(.ghost) :is(.button[data-focus-visible="true"], .trigger[data-focus-visible="true"], .input > [data-focus-visible="true"]) {
+    box-shadow: inset 0 0 0 1px var(--focus-visible, var(--accent-500));
   }
 
-  .group.ghost :is(.group-item, .trigger, .group-input-wrapper > [data-focus-visible]):focus-visible {
-    box-shadow: 0 0 0 1px var(--focus-ring-color);
+  .group.ghost :is(.button[data-focus-visible="true"], .trigger[data-focus-visible="true"], .input > [data-focus-visible="true"]) {
+    box-shadow: 0 0 0 1px var(--focus-visible, var(--accent-500));
   }
 }

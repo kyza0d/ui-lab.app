@@ -2,6 +2,11 @@
 
 @layer components {
   .label {
+    --background: transparent;
+    --foreground: var(--foreground-primary);
+    --foreground-disabled: var(--foreground-secondary);
+    --foreground-error: var(--danger-600);
+
     display: block;
     font-family: inherit;
     font-size: var(--text-sm);
@@ -12,13 +17,13 @@
     &[data-size="lg"] { font-size: var(--text-md); }
 
     &[data-disabled] {
-      color: var(--disabled-foreground);
+      color: var(--foreground-disabled);
       opacity: 0.6;
       cursor: not-allowed;
     }
 
     &[data-error] {
-      color: var(--error-foreground);
+      color: var(--foreground-error);
     }
   }
 
@@ -28,14 +33,17 @@
   }
 
   .helper-text {
+    --helper-foreground: var(--foreground-secondary);
+    --helper-foreground-error: var(--danger-600);
+
     display: block;
     font-size: var(--text-sm);
     margin-top: 0.25rem;
     transition: color 150ms ease;
-    color: var(--helper-color);
+    color: var(--helper-foreground);
 
     &[data-error] {
-      color: var(--helper-error-color);
+      color: var(--helper-foreground-error);
     }
   }
 }

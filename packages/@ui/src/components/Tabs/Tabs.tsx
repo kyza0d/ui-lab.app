@@ -36,6 +36,9 @@ interface TabsContextValue {
 const TabsContext = React.createContext<TabsContextValue | null>(null)
 const TABS_INDICATOR_INSET = 4
 const TABS_UNDERLINE_THICKNESS = 2
+const TABS_UNDERLINE_OFFSET = 2
+const TABS_UNDERLINE_GUTTER = TABS_UNDERLINE_THICKNESS + TABS_UNDERLINE_OFFSET
+const TABS_UNDERLINE_FALLBACK_GUTTER = TABS_UNDERLINE_GUTTER + TABS_UNDERLINE_THICKNESS
 
 interface TabsListContextValue {
   indicatorClassName: string
@@ -69,7 +72,7 @@ function getTabsIndicatorClassName(indicator: string, variant?: TabsVariant) {
   )
 }
 
-interface TabsStyleSlots {
+export interface TabsStyleSlots {
   root?: StyleValue
 }
 
@@ -176,7 +179,7 @@ const TabsRoot = React.forwardRef<HTMLDivElement, TabsProps>(
 )
 TabsRoot.displayName = "Tabs"
 
-interface TabsListStyleSlots {
+export interface TabsListStyleSlots {
   root?: StyleValue
   indicator?: StyleValue
 }
@@ -315,7 +318,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         if (variant === "underline") {
           return {
             ...baseStyle,
-            left: 0,
+            left: indicatorPosition.left - TABS_UNDERLINE_GUTTER,
             top: indicatorPosition.top,
             width: TABS_UNDERLINE_THICKNESS,
             height: indicatorPosition.height,
@@ -336,20 +339,18 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         return {
           ...baseStyle,
           left: indicatorPosition.left,
-          top: indicatorPosition.top + indicatorPosition.height - TABS_UNDERLINE_THICKNESS,
+          top: indicatorPosition.top + indicatorPosition.height + TABS_UNDERLINE_OFFSET,
           width: indicatorPosition.width,
           height: TABS_UNDERLINE_THICKNESS,
         }
       }
 
-      const verticalPadding = TABS_INDICATOR_INSET
-      const adjustedHeight = Math.max(0, listDimensions.height - verticalPadding * 2)
       return {
         ...baseStyle,
         left: indicatorPosition.left,
-        top: verticalPadding,
+        top: indicatorPosition.top,
         width: indicatorPosition.width,
-        height: adjustedHeight,
+        height: indicatorPosition.height,
       }
     }, [indicatorPosition, listDimensions, variant, orientation])
 
@@ -389,9 +390,19 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
 )
 TabsList.displayName = "TabsList"
 
-interface TabsTriggerStyleSlots {
+interface TabsTriggerIconStyles {
+  left?: StyleValue
+  right?: StyleValue
+}
+
+interface TabsTriggerIconSlots {
+  left?: React.ReactNode
+  right?: React.ReactNode
+}
+
+export interface TabsTriggerStyleSlots {
   root?: StyleValue
-  icon?: StyleValue
+  icon?: StyleValue | TabsTriggerIconStyles
 }
 
 interface TabsTriggerProps {
@@ -399,8 +410,8 @@ interface TabsTriggerProps {
   value: string
   /** Whether the tab trigger is disabled */
   disabled?: boolean
-  /** Icon element displayed before the tab label */
-  icon?: React.ReactNode
+  /** Icon element(s) rendered inside the trigger. Pass a node for left-only, or { left, right } for both sides. */
+  icon?: React.ReactNode | TabsTriggerIconSlots
   /** Additional CSS class names */
   className?: string
   /** Custom styles for the component slots */
@@ -410,7 +421,37 @@ interface TabsTriggerProps {
   _unregisterDisabled?: (value: string) => void
 }
 
-const resolveTabsTriggerBaseStyles = createStylesResolver(['root', 'icon'] as const);
+const resolveTabsTriggerBaseStyles = createStylesResolver(['root', 'iconLeft', 'iconRight'] as const);
+
+function isTabsTriggerIconSlots(icon: TabsTriggerProps["icon"]): icon is TabsTriggerIconSlots {
+  return typeof icon === "object" && icon !== null && !React.isValidElement(icon) && ('left' in icon || 'right' in icon)
+}
+
+function resolveTabsTriggerIcon(icon: TabsTriggerProps["icon"]): TabsTriggerIconSlots | undefined {
+  if (!icon) return undefined
+  if (isTabsTriggerIconSlots(icon)) return icon
+  return { left: icon }
+}
+
+function resolveTabsTriggerStyles(styles: StylesProp<TabsTriggerStyleSlots> | undefined) {
+  if (!styles || typeof styles === 'string' || Array.isArray(styles)) return resolveTabsTriggerBaseStyles(styles)
+  const { root, icon } = styles
+
+  let iconLeft: StyleValue | undefined
+  let iconRight: StyleValue | undefined
+
+  if (icon) {
+    if (typeof icon === 'string' || Array.isArray(icon)) {
+      iconLeft = icon
+      iconRight = icon
+    } else {
+      iconLeft = icon.left
+      iconRight = icon.right
+    }
+  }
+
+  return resolveTabsTriggerBaseStyles({ root, iconLeft, iconRight })
+}
 
 /** A tab button that activates its associated content panel */
 const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
@@ -429,7 +470,8 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ) => {
     const { selectedValue, setSelectedValue, indicatorReady, orientation, variant } = useTabsContext()
     const tabsListContext = useTabsListContext()
-    const { root, icon: iconStyles } = resolveTabsTriggerBaseStyles(stylesProp)
+    const resolved = resolveTabsTriggerStyles(stylesProp)
+    const resolvedIcon = resolveTabsTriggerIcon(icon)
     const buttonRef = React.useRef<HTMLButtonElement>(null)
     const isSelected = value === selectedValue
     const showIndicatorFallback = isSelected && !indicatorReady && !!tabsListContext
@@ -439,7 +481,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
           return {
             top: 0,
             bottom: 0,
-            left: -TABS_UNDERLINE_THICKNESS,
+            left: -TABS_UNDERLINE_FALLBACK_GUTTER,
             width: TABS_UNDERLINE_THICKNESS,
             height: "100%",
             margin: 0,
@@ -449,7 +491,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         return {
           left: 0,
           right: 0,
-          bottom: -TABS_UNDERLINE_THICKNESS,
+          bottom: -TABS_UNDERLINE_FALLBACK_GUTTER,
           width: "100%",
           height: TABS_UNDERLINE_THICKNESS,
           margin: 0,
@@ -541,7 +583,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         tabIndex={isSelected ? 0 : -1}
         disabled={disabled}
         data-tabs-value={value}
-        className={cn("tabs", "trigger", css.trigger, root, className)}
+        className={cn("tabs", "trigger", css.trigger, resolved.root, className)}
         data-selected={isSelected ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
         data-focus-visible={isFocusVisible ? "true" : undefined}
@@ -557,15 +599,16 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
             style={fallbackIndicatorStyle}
           />
         )}
-        {icon && <span className={cn(css["trigger-icon"], iconStyles)}>{icon}</span>}
+        {resolvedIcon?.left && <span className={cn(css.icon, resolved.iconLeft)}>{resolvedIcon.left}</span>}
         {children}
+        {resolvedIcon?.right && <span className={cn(css.icon, resolved.iconRight)}>{resolvedIcon.right}</span>}
       </button>
     )
   }
 )
 TabsTrigger.displayName = "Tab"
 
-interface TabsContentStyleSlots {
+export interface TabsContentStyleSlots {
   root?: StyleValue
 }
 

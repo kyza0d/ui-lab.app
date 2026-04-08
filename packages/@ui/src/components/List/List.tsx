@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/utils';
+import { cn, type StyleValue } from '@/lib/utils';
+import { type StylesProp, createStylesResolver } from '@/lib/styles';
 import { Divider as FoldDivider } from '@/components/Divider';
 import styles from './List.module.css';
 import { ListContext } from './list.context';
@@ -14,109 +15,177 @@ import {
   FooterComponentProps,
 } from './list.types';
 import { DividerProps } from '@/components/Divider';
+import { scrollItemIntoView } from '@/utils/list-navigation';
+
+export interface ListStyleSlots {
+  root?: StyleValue;
+  header?: StyleValue;
+  item?: StyleValue;
+  checkbox?: StyleValue;
+  control?: StyleValue;
+  media?: StyleValue;
+  desc?: StyleValue;
+  actionGroup?: StyleValue;
+  actions?: StyleValue;
+  action?: StyleValue;
+  footer?: StyleValue;
+}
+
+export type ListStylesProp = StylesProp<ListStyleSlots>;
+
+const resolveListBaseStyles = createStylesResolver([
+  'root',
+  'header',
+  'item',
+  'checkbox',
+  'control',
+  'media',
+  'desc',
+  'actionGroup',
+  'actions',
+  'action',
+  'footer'
+] as const);
 
 // Ref container for keyboard navigation
 const Container = React.forwardRef<ListRef, ListContainerProps>(
-  ({ items = [], variant = 'default', spacing = 'default', onNavigate, children, className, ...props }, ref) => {
-    const [highlightedIndex, setHighlightedIndex] = React.useState<number | null>(null);
-    const [isKeyboardMode, setIsKeyboardMode] = React.useState(false);
-    const itemRefsContainer = React.useRef<(HTMLElement | null)[]>([]);
-    const itemCountRef = React.useRef(0);
-    const prevItemsLengthRef = React.useRef(items.length);
+  ({ items: _items = [], variant = 'default', spacing = 'default', onNavigate, children, className, ...props }, ref) => {
+    const rootRef = React.useRef<HTMLDivElement | null>(null);
+    const [focusedItem, setFocusedItemState] = React.useState<HTMLElement | null>(null);
+    const [isFocusMode, setIsFocusMode] = React.useState(false);
+    const shouldScrollFocusedItemRef = React.useRef(false);
 
-    // Reset counter if items length changes significantly
-    if (items.length !== prevItemsLengthRef.current) {
-      itemCountRef.current = 0;
-      itemRefsContainer.current = [];
-      prevItemsLengthRef.current = items.length;
-    }
+    const getFocusableItems = React.useCallback(() => {
+      if (!rootRef.current) return [];
+
+      return Array.from(rootRef.current.querySelectorAll<HTMLElement>('[role="listitem"]')).filter((item) => (
+        item.isConnected &&
+        item.tabIndex >= 0 &&
+        item.getAttribute('aria-hidden') !== 'true' &&
+        item.getAttribute('aria-disabled') !== 'true' &&
+        item.getAttribute('data-disabled') !== 'true'
+      ));
+    }, []);
+
+    const getFocusedIndex = React.useCallback(() => {
+      if (!focusedItem || !isFocusMode) return null;
+      const itemIndex = getFocusableItems().indexOf(focusedItem);
+      return itemIndex >= 0 ? itemIndex : null;
+    }, [focusedItem, getFocusableItems, isFocusMode]);
+
+    const setFocusedItem = React.useCallback((
+      item: HTMLElement | null,
+      options: { enterFocusMode?: boolean; scroll?: boolean } = {},
+    ) => {
+      if (!item) {
+        shouldScrollFocusedItemRef.current = false;
+        setFocusedItemState(null);
+        setIsFocusMode(false);
+        return;
+      }
+
+      if (options.scroll) {
+        shouldScrollFocusedItemRef.current = true;
+      }
+
+      setFocusedItemState(item);
+      setIsFocusMode(options.enterFocusMode ?? true);
+    }, []);
+
+    const focusItemAtIndex = React.useCallback((index: number, scroll = true) => {
+      const itemsInOrder = getFocusableItems();
+      const target = itemsInOrder[index];
+      if (!target) return false;
+
+      shouldScrollFocusedItemRef.current = scroll;
+      target.focus({ preventScroll: true });
+      return true;
+    }, [getFocusableItems]);
+
+    const focusAdjacentItem = React.useCallback((currentItem: HTMLElement | null, direction: 1 | -1, scroll = true) => {
+      const itemsInOrder = getFocusableItems();
+      if (itemsInOrder.length === 0) return false;
+
+      const currentIndex = currentItem ? itemsInOrder.indexOf(currentItem) : -1;
+      const nextIndex = currentIndex === -1
+        ? (direction === 1 ? 0 : itemsInOrder.length - 1)
+        : Math.min(Math.max(currentIndex + direction, 0), itemsInOrder.length - 1);
+
+      if (currentIndex !== -1 && nextIndex === currentIndex) {
+        return false;
+      }
+
+      return focusItemAtIndex(nextIndex, scroll);
+    }, [focusItemAtIndex, getFocusableItems]);
+
+    const focusBoundaryItem = React.useCallback((position: 'first' | 'last', scroll = true) => {
+      const itemsInOrder = getFocusableItems();
+      if (itemsInOrder.length === 0) return false;
+
+      return focusItemAtIndex(position === 'first' ? 0 : itemsInOrder.length - 1, scroll);
+    }, [focusItemAtIndex, getFocusableItems]);
 
     // Expose ref methods for keyboard navigation
     React.useImperativeHandle(ref, () => ({
       focusNext: () => {
-        setIsKeyboardMode(true);
-        setHighlightedIndex((prev) => {
-          const next = prev === null ? 0 : Math.min(prev + 1, items.length - 1);
-          onNavigate?.down?.();
-          return next;
-        });
+        focusAdjacentItem(focusedItem, 1);
+        onNavigate?.down?.();
       },
       focusPrev: () => {
-        setIsKeyboardMode(true);
-        setHighlightedIndex((prev) => {
-          const next = prev === null ? items.length - 1 : Math.max(prev - 1, 0);
-          onNavigate?.up?.();
-          return next;
-        });
+        focusAdjacentItem(focusedItem, -1);
+        onNavigate?.up?.();
       },
       focusFirst: () => {
-        setIsKeyboardMode(true);
-        setHighlightedIndex(0);
+        focusBoundaryItem('first');
         onNavigate?.down?.();
       },
       focusLast: () => {
-        setIsKeyboardMode(true);
-        setHighlightedIndex(items.length - 1);
+        focusBoundaryItem('last');
         onNavigate?.up?.();
       },
       selectHighlighted: () => {
         onNavigate?.enter?.();
       },
       clearHighlight: () => {
-        setHighlightedIndex(null);
+        setFocusedItem(null, { enterFocusMode: false });
       },
-      getHighlightedIndex: () => highlightedIndex,
-    }), [highlightedIndex, items.length, onNavigate]);
+      getHighlightedIndex: () => getFocusedIndex(),
+    }), [focusAdjacentItem, focusBoundaryItem, focusedItem, getFocusedIndex, onNavigate, setFocusedItem]);
 
     React.useEffect(() => {
-      const el = highlightedIndex !== null ? itemRefsContainer.current[highlightedIndex] : null;
-      if (!el) return;
-      let scroller: HTMLElement | null = el.parentElement;
-      while (scroller && scroller !== document.body && scroller.scrollHeight <= scroller.clientHeight) {
-        scroller = scroller.parentElement;
-      }
-      if (!scroller || scroller === document.body) return;
-      const scrollerRect = scroller.getBoundingClientRect();
-      const itemRect = el.getBoundingClientRect();
-      const buffer = el.offsetHeight * 2;
-      const itemTop = itemRect.top - scrollerRect.top;
-      const itemBottom = itemRect.bottom - scrollerRect.top;
-      if (itemTop < buffer) {
-        scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + itemTop - buffer), behavior: 'smooth' });
-      } else if (itemBottom > scroller.clientHeight - buffer) {
-        scroller.scrollTo({ top: scroller.scrollTop + itemBottom - scroller.clientHeight + buffer, behavior: 'smooth' });
-      }
-    }, [highlightedIndex]);
+      if (!isFocusMode || !focusedItem || !shouldScrollFocusedItemRef.current) return;
+      shouldScrollFocusedItemRef.current = false;
+      scrollItemIntoView(focusedItem);
+    }, [focusedItem, isFocusMode]);
 
-    const registerItem = React.useCallback((ref: HTMLElement | null) => {
-      const index = itemCountRef.current;
-      itemRefsContainer.current[index] = ref;
-      itemCountRef.current++;
-      return index;
-    }, [items.length]);
+    React.useEffect(() => {
+      if (!focusedItem) return;
+      if (focusedItem.isConnected) return;
+      setFocusedItem(null, { enterFocusMode: false });
+    }, [focusedItem, setFocusedItem]);
 
     const contextValue = React.useMemo(
       () => ({
-        highlightedIndex,
-        isKeyboardMode,
-        focusItem: (index: number) => {
-          setIsKeyboardMode(false);
-          setHighlightedIndex(index);
-        },
-        registerItem,
-        itemRefs: itemRefsContainer,
+        focusedItem,
+        isFocusMode,
+        rootRef,
+        setFocusedItem,
+        focusAdjacentItem,
+        focusBoundaryItem,
       }),
-      [highlightedIndex, isKeyboardMode, registerItem]
+      [focusAdjacentItem, focusBoundaryItem, focusedItem, isFocusMode, setFocusedItem]
     );
 
     return (
       <ListContext.Provider value={contextValue}>
         <div
+          ref={rootRef}
           role="list"
           className={cn('list', styles.container, className)}
           data-variant={variant}
           data-spacing={spacing}
-          data-keyboard-mode={isKeyboardMode ? 'true' : undefined}
+          data-focus-mode={isFocusMode ? 'row' : undefined}
+          data-keyboard-mode={isFocusMode ? 'true' : undefined}
           {...(props as React.HTMLAttributes<HTMLDivElement>)}
         >
           {children}

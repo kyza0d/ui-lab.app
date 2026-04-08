@@ -139,6 +139,18 @@ describe('Select.accessibility', () => {
       const focusedItems = document.querySelectorAll('[data-focused="true"]')
       expect(focusedItems.length).toBeGreaterThan(0)
     })
+
+    it('options stay out of the tab order while the popup uses virtual focus', async () => {
+      const items = createMockSelectItems(3)
+      const container = renderSelectWithItems(items)
+      const trigger = getSelectTrigger(container)
+
+      await openSelect(trigger)
+
+      getAllElementsByRole('option').forEach((option) => {
+        expect(option).toHaveAttribute('tabindex', '-1')
+      })
+    })
   })
 
 

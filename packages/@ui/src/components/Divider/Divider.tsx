@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { GroupContext } from "../Group/Group";
+import css from "./Divider.module.css";
 
 type Orientation = "horizontal" | "vertical";
 type Size = "sm" | "md" | "lg" | "auto";
@@ -112,7 +113,7 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       return "none";
     })();
     const getMaskStyles = (): React.CSSProperties => {
-      const baseStyles: React.CSSProperties = { backgroundColor: "var(--color-background-700)" };
+      const baseStyles: React.CSSProperties = { backgroundColor: "var(--divider-background)" };
       if (variant === "solid") return baseStyles
 
       const svgDataUri =
@@ -145,8 +146,10 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
       <div
         ref={ref}
         className={cn(
+          'divider',
+          css.divider,
           dividerVariants({ variant, orientation: resolvedOrientation, size, spacing: resolvedSpacing }),
-          'divider', className, resolved.root,
+          className, resolved.root,
         )}
         style={{ ...getMaskStyles(), ...getAutoSizeStyle(), ...style }}
         role="separator"

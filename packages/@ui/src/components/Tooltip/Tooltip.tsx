@@ -77,23 +77,29 @@ const getInitialTransform = (placement: string): string => {
   }
 };
 
-interface TooltipStyleSlots {
+export interface TooltipStyleSlots {
   root?: StyleValue;
   trigger?: StyleValue;
   content?: StyleValue;
   frame?: StyleValue;
-  hintBadge?: StyleValue;
+  hint?: StyleValue;
 }
 
-type TooltipStylesProp = StylesProp<TooltipStyleSlots>;
+export type TooltipStylesProp = StylesProp<TooltipStyleSlots>;
 
-const resolveTooltipStyles = createStylesResolver([
+const resolveTooltipBaseStyles = createStylesResolver([
   'root',
   'trigger',
   'content',
   'frame',
-  'hintBadge',
+  'hint',
 ] as const);
+
+function resolveTooltipStyles(styles: TooltipStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveTooltipBaseStyles(styles);
+  const { root, trigger, content, frame, hint } = styles;
+  return resolveTooltipBaseStyles({ root, trigger, content, frame, hint });
+}
 
 export interface TooltipProps {
   children: React.ReactNode;
@@ -142,6 +148,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     const [shouldRender, setShouldRender] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [isInstant, setIsInstant] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const [isFocusVisible, setIsFocusVisible] = useState(false);
     const wasOpenRef = useRef(false);
     const [startSwapTimer, clearSwapTimer] = useTimeout();
     const [startUnmountTimer, clearUnmountTimer] = useTimeout();
@@ -243,7 +252,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     const mergedFloatingRef = useCallback((el: HTMLDivElement | null) => {
       (tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
       refs.setFloating(el);
-    }, [refs]);
+      if (typeof _ref === "function") _ref(el);
+      else if (_ref && typeof _ref === "object") _ref.current = el;
+    }, [_ref, refs]);
 
     useLayoutEffect(() => {
       const wrapper = triggerWrapperRef.current;
@@ -261,14 +272,32 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         return;
       }
 
-      const handleMouseEnter = () => state.open();
-      const handleMouseLeave = () => state.close();
-      const handleFocusIn = () => state.open(true);
+      const handleMouseEnter = () => {
+        setIsHovered(true);
+        state.open();
+      };
+      const handleMouseLeave = () => {
+        setIsHovered(false);
+        state.close();
+      };
+      const handleFocusIn = () => {
+        let focusVisible = false;
+        try {
+          focusVisible = trigger.matches(":focus-visible");
+        } catch {
+          focusVisible = true;
+        }
+        setIsFocused(true);
+        setIsFocusVisible(focusVisible);
+        state.open(true);
+      };
       const handleFocusOut = (event: FocusEvent) => {
         if (event.relatedTarget instanceof Node && trigger.contains(event.relatedTarget)) {
           return;
         }
 
+        setIsFocused(false);
+        setIsFocusVisible(false);
         state.close(true);
       };
 
@@ -294,6 +323,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
         <span
           ref={triggerWrapperRef}
           className={cn(css.trigger, className, resolved.trigger)}
+          data-disabled={isDisabled ? "true" : undefined}
+          data-hovered={isHovered ? "true" : "false"}
+          data-focused={isFocused ? "true" : "false"}
+          data-focus-visible={isFocusVisible ? "true" : "false"}
         >
           {child}
         </span>
@@ -303,6 +336,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
           ref={mergedTriggerRef}
           className={cn(css.trigger, className, resolved.trigger)}
           style={{ display: "inline-block" }}
+          data-disabled={isDisabled ? "true" : undefined}
+          data-hovered={isHovered ? "true" : "false"}
+          data-focused={isFocused ? "true" : "false"}
+          data-focus-visible={isFocusVisible ? "true" : "false"}
         >
           {children}
         </span>
@@ -323,8 +360,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
               }}
             >
               <div
-                className={cn('tooltip', 'content', css.content, resolved.content)}
-                data-visible={(isVisible && isTriggerVisible) ? "true" : "false"}
+                className={cn("tooltip", "content", css.content, resolved.content)}
+                data-open={(isVisible && isTriggerVisible) ? "true" : "false"}
                 data-instant={(isInstant || !isTriggerVisible) ? "true" : undefined}
                 style={{
                   transform: (isVisible && isTriggerVisible) ? "scale(1)" : getInitialTransform(placement),
@@ -337,9 +374,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
                   style={{ "--frame-radius": "8px" } as React.CSSProperties}
                 >
-                  <div className={cn('tooltip', 'frame', css.frame, resolved.frame)} data-hint={hint ? "" : undefined}>
+                  <div className={cn("tooltip", "frame", css.frame, resolved.frame)} data-hint={hint ? "true" : undefined}>
                     {content}
-                    {hint && <Badge variant="secondary" size="sm" className={cn(resolved.hintBadge)}>{hint}</Badge>}
+                    {hint && <Badge variant="secondary" size="sm" className={cn(css.hint, resolved.hint)}>{hint}</Badge>}
                   </div>
                 </Frame>
               </div>

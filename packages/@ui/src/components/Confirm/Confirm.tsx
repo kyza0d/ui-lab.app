@@ -1,11 +1,40 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import { Button } from "../Button"
 import { Card } from "../Card"
 import { CircleAlert, TriangleAlert, Info } from "lucide-react"
 import styles from "./Confirm.module.css"
+
+export interface ConfirmStyleSlots {
+  root?: StyleValue;
+  container?: StyleValue;
+  card?: StyleValue;
+  header?: StyleValue;
+  body?: StyleValue;
+  actions?: StyleValue;
+  description?: StyleValue;
+  errorMessage?: StyleValue;
+  warningBox?: StyleValue;
+  input?: StyleValue;
+}
+
+export type ConfirmStylesProp = StylesProp<ConfirmStyleSlots>;
+
+const resolveConfirmBaseStyles = createStylesResolver([
+  'root',
+  'container',
+  'card',
+  'header',
+  'body',
+  'actions',
+  'description',
+  'errorMessage',
+  'warningBox',
+  'input'
+] as const);
 
 export interface ConfirmProps {
   /** Display mode: inline expands in place, dialog shows a modal, auto chooses based on severity */
@@ -40,6 +69,8 @@ export interface ConfirmProps {
   confirmText?: string
   /** Milliseconds after which the inline confirm auto-resets to idle state */
   autoResetAfter?: number
+  /** Classes applied to root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: ConfirmStylesProp
 }
 
 const severityConfig = {
@@ -174,7 +205,7 @@ const Confirm = React.forwardRef<HTMLDivElement, ConfirmProps>(
 
     if (effectiveMode === "inline" && !showDialogMode) {
       return (
-        <div ref={ref} className={styles.container}>
+        <div ref={ref} className={cn(styles.confirm, styles.container)}>
           {!isConfirming ? (
             <Button
               onClick={handleTrigger}
@@ -220,7 +251,7 @@ const Confirm = React.forwardRef<HTMLDivElement, ConfirmProps>(
     // Dialog mode
     if (showDialogMode) {
       return (
-        <div ref={ref}>
+        <div ref={ref} className={styles.confirm}>
           {isConfirming && (
             <div className={styles['dialog-overlay']}>
               <Card className={cn(styles['dialog-card'])}>
@@ -298,7 +329,7 @@ const Confirm = React.forwardRef<HTMLDivElement, ConfirmProps>(
     }
 
     return (
-      <div ref={ref} className={styles.container}>
+      <div ref={ref} className={cn(styles.confirm, styles.container)}>
         <Button
           onClick={handleTrigger}
           isDisabled={disabled || isLoading}

@@ -10,13 +10,31 @@ import type {
   MenuRadioItemStyleSlots,
 } from "./menu.types"
 import styles from "./Menu.module.css"
-import { cn, type StyleValue } from "@/lib/utils"
-import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import { cn } from "@/lib/utils"
+import { createStylesResolver } from "@/lib/styles"
 import { List } from "../List"
 
 const resolveMenuItemBaseStyles = createStylesResolver(['root'] as const);
 const resolveMenuCheckboxItemBaseStyles = createStylesResolver(['root', 'indicator'] as const);
 const resolveMenuRadioItemBaseStyles = createStylesResolver(['root', 'indicator'] as const);
+
+function resolveMenuItemStyles(styles: MenuItemProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuItemBaseStyles(styles)
+  const { root } = styles
+  return resolveMenuItemBaseStyles({ root })
+}
+
+function resolveMenuCheckboxItemStyles(styles: MenuCheckboxItemProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuCheckboxItemBaseStyles(styles)
+  const { root, indicator } = styles
+  return resolveMenuCheckboxItemBaseStyles({ root, indicator })
+}
+
+function resolveMenuRadioItemStyles(styles: MenuRadioItemProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuRadioItemBaseStyles(styles)
+  const { root, indicator } = styles
+  return resolveMenuRadioItemBaseStyles({ root, indicator })
+}
 
 /** A clickable action item that closes the menu on selection */
 const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
@@ -45,19 +63,21 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
       return () => unregisterItem(key)
     }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
-    const resolved = resolveMenuItemBaseStyles(stylesProp);
+    const resolved = resolveMenuItemStyles(stylesProp);
 
     return (
       <List.Item
         ref={ref}
+        focusable={false}
         value={key}
         role="menuitem"
-        tabIndex={disabled ? -1 : 0}
+        tabIndex={-1}
         aria-disabled={disabled || undefined}
         className={cn('menu', 'item', styles.item, className, resolved.root)}
-        data-highlighted={isHighlighted || undefined}
-        data-disabled={disabled || undefined}
-        data-inset={inset || undefined}
+        data-highlighted={isHighlighted ? "true" : "false"}
+        data-focused={isHighlighted ? "true" : "false"}
+        data-disabled={disabled ? "true" : undefined}
+        data-inset={inset ? "true" : undefined}
         onMouseEnter={() => {
           if (!disabled) {
             setFocusedKey(key)
@@ -101,19 +121,21 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
       return () => unregisterItem(key)
     }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
-    const resolved = resolveMenuCheckboxItemBaseStyles(stylesProp);
+    const resolved = resolveMenuCheckboxItemStyles(stylesProp);
 
     return (
       <List.Item
         ref={ref}
+        focusable={false}
         value={key}
         role="menuitemcheckbox"
-        tabIndex={disabled ? -1 : 0}
+        tabIndex={-1}
         aria-checked={checked}
         aria-disabled={disabled || undefined}
         className={cn('menu', 'checkbox-item', styles['checkbox-item'], className, resolved.root)}
-        data-highlighted={isHighlighted || undefined}
-        data-disabled={disabled || undefined}
+        data-highlighted={isHighlighted ? "true" : "false"}
+        data-focused={isHighlighted ? "true" : "false"}
+        data-disabled={disabled ? "true" : undefined}
         data-state={checked ? "checked" : "unchecked"}
         onMouseEnter={() => {
           if (!disabled) {
@@ -163,19 +185,21 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
       return () => unregisterItem(key)
     }, [key, finalTextValue, disabled, registerItem, unregisterItem])
 
-    const resolved = resolveMenuRadioItemBaseStyles(stylesProp);
+    const resolved = resolveMenuRadioItemStyles(stylesProp);
 
     return (
       <List.Item
         ref={ref}
+        focusable={false}
         value={key}
         role="menuitemradio"
-        tabIndex={disabled ? -1 : 0}
+        tabIndex={-1}
         aria-checked={isSelected}
         aria-disabled={disabled || undefined}
         className={cn('menu', 'radio-item', styles['radio-item'], className, resolved.root)}
-        data-highlighted={isHighlighted || undefined}
-        data-disabled={disabled || undefined}
+        data-highlighted={isHighlighted ? "true" : "false"}
+        data-focused={isHighlighted ? "true" : "false"}
+        data-disabled={disabled ? "true" : undefined}
         data-state={isSelected ? "checked" : "unchecked"}
         onMouseEnter={() => {
           if (!disabled) {

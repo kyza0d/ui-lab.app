@@ -41,7 +41,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
         <div
           ref={ref}
           className={cn('card', styles.card, resolvedStyles.root, className)}
-          {...props}
+          {...(props as any)}
         />
       </CardStylesContext.Provider>
     );

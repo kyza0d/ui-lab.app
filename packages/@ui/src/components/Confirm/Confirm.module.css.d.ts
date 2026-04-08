@@ -1,14 +1,14 @@
 export interface Styles {
+  confirm: string;
   container: string;
   card: string;
-  "card-compact": string;
+  body: string;
+  "body-compact": string;
   "dialog-overlay": string;
   "dialog-card": string;
   header: string;
   "header-content": string;
   "header-title": string;
-  body: string;
-  "body-compact": string;
   description: string;
   "error-message": string;
   "warning-box": string;

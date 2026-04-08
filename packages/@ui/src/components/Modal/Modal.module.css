@@ -11,33 +11,34 @@
     backdrop-filter: blur(4px);
   }
 
-  .modal:focus-visible {
-    outline: 2px solid var(--modal-focus-ring);
-    outline-offset: 2px;
-  }
-
   .modal {
     @apply relative flex w-full flex-col overflow-hidden;
     z-index: 1;
     max-height: 90vh;
     margin: 1rem;
-    background-color: var(--modal-background);
-    border: var(--border-width-base) solid var(--modal-border);
-    border-radius: var(--radius-sm);
+    color: var(--foreground);
+    background-color: var(--background);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-sm, 0.375rem);
     pointer-events: auto;
     overflow: hidden;
+
+    &[data-focus-visible="true"] {
+      outline: none;
+      box-shadow: 0 0 0 1.5px var(--focus-visible);
+    }
   }
 
   .header {
     @apply flex shrink-0 items-center justify-between gap-2 px-6 py-4;
-    border-bottom: var(--border-width-base) solid var(--modal-border);
+    border-bottom: var(--border-width-base, 1px) solid var(--background-border);
   }
 
   .title {
     @apply m-0;
     font-size: 1.125rem;
     font-weight: var(--font-weight-semibold);
-    color: var(--modal-title-color);
+    color: var(--title-foreground, var(--foreground));
   }
 
   .spacer {
@@ -48,25 +49,25 @@
     @apply ml-auto flex items-center justify-center cursor-pointer;
     background: none;
     border: none;
-    color: var(--modal-close-color);
+    color: var(--close-foreground, var(--foreground));
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &[data-hovered="true"] {
+      color: var(--close-hover-foreground, var(--close-foreground, var(--foreground)));
+    }
+
+    &[data-pressed="true"] {
+      transform: scale(0.92);
+    }
+
+    &[data-focus-visible="true"] {
+      outline: 2px solid var(--focus-visible);
+      outline-offset: 2px;
+      border-radius: var(--radius-xs, 0.25rem);
+    }
   }
 
-  .close:hover {
-    color: var(--modal-close-hover);
-  }
-
-  .close:active {
-    transform: scale(0.92);
-  }
-
-  .close:focus {
-    outline: 2px solid var(--modal-close-hover);
-    outline-offset: 2px;
-    border-radius: 0.25rem;
-  }
-
-  .closeIcon {
+  .close-icon {
     @apply h-5 w-5;
   }
 
@@ -74,7 +75,7 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    color: var(--modal-text-color);
+    color: var(--foreground);
   }
 
   .content::-webkit-scrollbar {
@@ -86,27 +87,27 @@
   }
 
   .content::-webkit-scrollbar-thumb {
-    background: var(--modal-border);
+    background: var(--scrollbar-thumb-background, var(--background-border));
     border-radius: 3px;
     transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .content::-webkit-scrollbar-thumb:hover {
-    background: var(--modal-close-color);
+    background: var(--scrollbar-thumb-hover-background, var(--close-foreground, var(--foreground)));
   }
 
   .footer {
     @apply flex shrink-0 items-center justify-between gap-4 px-6 py-4;
-    background-color: var(--footer-background);
-    border-top: var(--border-width-base) solid var(--modal-border);
+    background-color: var(--footer-background, var(--background));
+    border-top: var(--border-width-base, 1px) solid var(--background-border);
   }
 
   /* Size variants */
-  .size-fit {
+  .modal[data-size="fit"] {
     width: fit-content;
   }
 
-  .size-auto {
+  .modal[data-size="auto"] {
     max-width: min(90vw, 28rem);
   }
 

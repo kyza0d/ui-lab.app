@@ -13,8 +13,20 @@ import css from "./Input.module.css";
 
 type Variant = "default" | "ghost";
 
+type InputIconStyles = {
+  left?: StyleValue;
+  right?: StyleValue;
+};
+
+type InputControlsStyles = {
+  up?: StyleValue;
+  down?: StyleValue;
+};
+
 export interface InputStyleSlots {
   root?: StyleValue;
+  icon?: StyleValue | InputIconStyles;
+  controls?: StyleValue | InputControlsStyles;
 }
 
 export type InputStylesProp = StylesProp<InputStyleSlots>;
@@ -36,7 +48,39 @@ type InputActionSlots = {
   right?: InputAction[];
 };
 
-const resolveInputStyles = createStylesResolver(['root'] as const);
+const resolveInputBaseStyles = createStylesResolver(['root', 'iconLeft', 'iconRight', 'controlsUp', 'controlsDown'] as const);
+
+function resolveInputStyles(styles: InputStylesProp | undefined) {
+  if (!styles || typeof styles === 'string' || Array.isArray(styles)) return resolveInputBaseStyles(styles);
+  const { root, icon, controls } = styles;
+
+  let iconLeft: StyleValue | undefined;
+  let iconRight: StyleValue | undefined;
+  let controlsUp: StyleValue | undefined;
+  let controlsDown: StyleValue | undefined;
+
+  if (icon) {
+    if (typeof icon === 'string' || Array.isArray(icon)) {
+      iconLeft = icon;
+      iconRight = icon;
+    } else {
+      iconLeft = icon.left;
+      iconRight = icon.right;
+    }
+  }
+
+  if (controls) {
+    if (typeof controls === 'string' || Array.isArray(controls)) {
+      controlsUp = controls;
+      controlsDown = controls;
+    } else {
+      controlsUp = controls.up;
+      controlsDown = controls.down;
+    }
+  }
+
+  return resolveInputBaseStyles({ root, iconLeft, iconRight, controlsUp, controlsDown });
+}
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "size"> {
   /** Controls the visual style of the input */
@@ -159,9 +203,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const resolved = resolveInputStyles(stylesProp);
     const hasEndAdornment = hasSuffix || hasRightActions || hasHint || isNumberType;
+    const adornmentPadding = "var(--adornment-offset)";
     const inputPaddingStyle: React.CSSProperties = {
-      ...(hasStartAdornment ? { paddingLeft: '8px' } : {}),
-      ...(hasEndAdornment ? { paddingRight: '8px' } : {}),
+      ...(hasStartAdornment ? { paddingLeft: adornmentPadding } : {}),
+      ...(hasEndAdornment ? { paddingRight: adornmentPadding } : {}),
     };
 
     const renderAction = (action: InputAction, index: number) => {
@@ -185,8 +230,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div
-        className={cn('input', css.container)}
-        data-active={isFocused ? "true" : undefined}
+        className={cn('input', css.container, resolved.root)}
+        data-focused={isFocused ? "true" : undefined}
         data-focus-visible={isFocusVisible ? "true" : undefined}
         data-disabled={disabled || undefined}
         data-error={error ? "true" : undefined}
@@ -195,7 +240,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {hasStartAdornment && (
           <div className={css['start-adornments']} data-start-adornments>
             {hasPrefix && (
-              <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], css['prefix-icon'])}>
+              <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], resolved.iconLeft)}>
                 {resolvedIcon?.prefix}
               </div>
             )}
@@ -211,15 +256,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           disabled={disabled}
           data-focus-visible={isFocusVisible ? "true" : undefined}
-          data-active={isFocused ? "true" : undefined}
+          data-focused={isFocused ? "true" : undefined}
           data-disabled={disabled || undefined}
           data-error={error ? "true" : undefined}
           data-variant={variant}
           className={cn(
             'input',
             css.input,
-            className,
-            resolved.root
+            className
           )}
           style={inputPaddingStyle}
           {...mergeProps(focusProps, {
@@ -231,7 +275,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {hasEndAdornment && (
           <div className={css['end-adornments']} data-end-adornments>
             {hasSuffix && (
-              <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], css['suffix-icon'])}>
+              <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], resolved.iconRight)}>
                 {resolvedIcon?.suffix}
               </div>
             )}
@@ -240,15 +284,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 {rightActions.map(renderAction)}
               </div>
             )}
-            {hasHint && <span data-hint>{hint}</span>}
+            {hasHint && <span className={css.hint} data-hint>{hint}</span>}
             {isNumberType && (
               <div
-                className={cn(css['number-controls'], disabled && css.disabled)}
+                className={(css as any).controls}
                 data-disabled={disabled || undefined}
               >
                 <button
                   type="button"
-                  className={cn('input', 'spin-button', css['spin-button'])}
+                  className={cn('input', 'spin-button', css['spin-button'], resolved.controlsUp)}
                   onClick={() => handleSpinClick("up")}
                   disabled={disabled}
                   tabIndex={-1}
@@ -258,7 +302,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 </button>
                 <button
                   type="button"
-                  className={cn('input', 'spin-button', css['spin-button'])}
+                  className={cn('input', 'spin-button', css['spin-button'], resolved.controlsDown)}
                   onClick={() => handleSpinClick("down")}
                   disabled={disabled}
                   tabIndex={-1}

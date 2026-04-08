@@ -7,15 +7,58 @@ import css from "./Checkbox.module.css";
 
 type Size = "sm" | "md" | "lg";
 
-interface CheckboxStyleSlots {
-  root?: StyleValue;
-  label?: StyleValue;
-  helperText?: StyleValue;
+interface CheckboxIconStyles {
+  checkmark?: StyleValue;
+  indeterminate?: StyleValue;
 }
 
-type CheckboxStylesProp = StylesProp<CheckboxStyleSlots>;
+export interface CheckboxStyleSlots {
+  root?: StyleValue;
+  checkbox?: StyleValue;
+  "icon-checkmark"?: StyleValue;
+  "icon-indeterminate"?: StyleValue;
+  icon?: StyleValue | CheckboxIconStyles;
+  label?: StyleValue;
+  "helper-text"?: StyleValue;
+}
 
-const resolveCheckboxBaseStyles = createStylesResolver(['root', 'label', 'helperText'] as const);
+export type CheckboxStylesProp = StylesProp<CheckboxStyleSlots>;
+
+const resolveCheckboxBaseStyles = createStylesResolver([
+  "root",
+  "checkbox",
+  "icon-checkmark",
+  "icon-indeterminate",
+  "label",
+  "helper-text",
+] as const);
+
+function resolveCheckboxStyles(styles: CheckboxStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveCheckboxBaseStyles(styles);
+  const { root, checkbox, icon, label } = styles;
+
+  let iconCheckmark: StyleValue | undefined = styles["icon-checkmark"];
+  let iconIndeterminate: StyleValue | undefined = styles["icon-indeterminate"];
+
+  if (icon) {
+    if (typeof icon === "string" || Array.isArray(icon)) {
+      iconCheckmark = cn(icon, iconCheckmark);
+      iconIndeterminate = cn(icon, iconIndeterminate);
+    } else {
+      iconCheckmark = cn(icon.checkmark, iconCheckmark);
+      iconIndeterminate = cn(icon.indeterminate, iconIndeterminate);
+    }
+  }
+
+  return resolveCheckboxBaseStyles({
+    root,
+    checkbox,
+    "icon-checkmark": iconCheckmark,
+    "icon-indeterminate": iconIndeterminate,
+    label,
+    "helper-text": styles["helper-text"],
+  });
+}
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -130,11 +173,11 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     const isControlled = checked !== undefined;
     const displayChecked = isControlled ? checked : internalChecked;
 
-    const resolved = resolveCheckboxBaseStyles(styles);
+    const resolved = resolveCheckboxStyles(styles);
 
     return (
       <div ref={ref} className={cn("checkbox-root", css['checkbox-root'], resolved.root)}>
-        <div className={cn((css as any)['checkbox-container'], sizeMap[size])}>
+        <div className={cn(css.container, sizeMap[size])}>
           <input
             ref={inputRef}
             type="checkbox"
@@ -152,20 +195,21 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             className={cn(
               'checkbox',
               css.checkbox,
-              isIndeterminate && css.indeterminate,
-              className
+              className,
+              resolved.checkbox
             )}
             data-size={size}
             data-selected={displayChecked ? "true" : undefined}
             data-disabled={disabled ? "true" : undefined}
             data-indeterminate={isIndeterminate ? "true" : undefined}
             data-focused={isFocused ? "true" : undefined}
+            data-focus-visible={isFocused ? "true" : undefined}
             data-pressed={isPressed ? "true" : undefined}
             {...domProps}
           />
           {displayChecked && !isIndeterminate && (
             <svg
-              className={cn('checkbox-root', 'checkbox-checkmark', (css as any)['checkbox-checkmark'])}
+              className={cn('checkbox checkmark', css.checkmark, resolved["icon-checkmark"])}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -178,7 +222,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           )}
           {isIndeterminate && (
             <svg
-              className={cn('checkbox-root', 'checkbox-indeterminate', css['checkbox-indeterminate'])}
+              className={cn('checkbox indeterminate', css.indeterminate, resolved["icon-indeterminate"])}
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -192,9 +236,9 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             className={cn(
               css.label,
               labelSizeMap[size],
-              disabled && css["label-disabled"],
               resolved.label
             )}
+            data-disabled={disabled ? "true" : undefined}
           >
             {label}
           </label>
@@ -202,15 +246,10 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         {helperText && (
           <p
             className={cn(
-              'checkbox-root',
-              'helper-text',
               css["helper-text"],
-              helperTextError && 'helper-text-error',
-              helperTextError
-                ? css["helper-text-error"]
-                : css["helper-text-normal"],
-              resolved.helperText
+              resolved["helper-text"]
             )}
+            data-error={helperTextError ? "true" : undefined}
           >
             {helperText}
           </p>

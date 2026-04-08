@@ -89,7 +89,14 @@ export interface MenuTriggerProps extends React.PropsWithChildren {
   asChild?: boolean
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuTriggerStylesProp;
 }
+
+export interface MenuTriggerStyleSlots {
+  root?: StyleValue;
+}
+export type MenuTriggerStylesProp = StylesProp<MenuTriggerStyleSlots>;
 
 export interface MenuPortalProps extends React.PropsWithChildren {
   /** DOM element to portal the menu content into */
@@ -98,6 +105,7 @@ export interface MenuPortalProps extends React.PropsWithChildren {
 
 export interface MenuContentStyleSlots {
   root?: StyleValue;
+  list?: StyleValue;
 }
 
 export type MenuContentStylesProp = StylesProp<MenuContentStyleSlots>;
@@ -199,17 +207,38 @@ export interface MenuLabelProps extends React.PropsWithChildren {
   inset?: boolean
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuLabelStylesProp;
 }
+
+export interface MenuLabelStyleSlots {
+  root?: StyleValue;
+}
+export type MenuLabelStylesProp = StylesProp<MenuLabelStyleSlots>;
 
 export interface MenuSeparatorProps {
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuSeparatorStylesProp;
 }
+
+export interface MenuSeparatorStyleSlots {
+  root?: StyleValue;
+}
+export type MenuSeparatorStylesProp = StylesProp<MenuSeparatorStyleSlots>;
 
 export interface MenuShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Additional CSS class names */
   className?: string
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MenuShortcutStylesProp;
 }
+
+export interface MenuShortcutStyleSlots {
+  root?: StyleValue;
+}
+export type MenuShortcutStylesProp = StylesProp<MenuShortcutStyleSlots>;
 
 export interface MenuSubProps extends React.PropsWithChildren {
   /** Controlled open state of the submenu */
@@ -241,6 +270,7 @@ export interface MenuSubTriggerProps extends React.PropsWithChildren {
 
 export interface MenuSubContentStyleSlots {
   root?: StyleValue;
+  list?: StyleValue;
 }
 export type MenuSubContentStylesProp = StylesProp<MenuSubContentStyleSlots>;
 

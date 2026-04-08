@@ -9,11 +9,13 @@ export type ToastSpawnDirection = 'top' | 'bottom';
 
 export interface ToastStyleSlots {
   root?: StyleValue;
+  iconWrap?: StyleValue;
+  icon?: StyleValue;
   content?: StyleValue;
   title?: StyleValue;
   description?: StyleValue;
-  closeButton?: StyleValue;
-  icon?: StyleValue;
+  close?: StyleValue;
+  closeIcon?: StyleValue;
 }
 
 export type ToastStylesProp = StylesProp<ToastStyleSlots>;

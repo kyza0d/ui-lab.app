@@ -4,13 +4,12 @@ declare const styles: {
   "radio-input": string;
   radio: string;
   "radio-dot": string;
+  "radio-label": string;
+  "radio-description": string;
+  "helper-text": string;
   sm: string;
   md: string;
   lg: string;
-  "radio-label": string;
-  "radio-label-disabled": string;
-  "radio-description": string;
-  "radio-description-error": string;
 };
 
 export default styles;

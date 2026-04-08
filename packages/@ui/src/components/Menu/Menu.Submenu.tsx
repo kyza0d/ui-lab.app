@@ -21,8 +21,8 @@ import type { Key } from "react-aria"
 
 import css from "./Menu.module.css"
 
-import { cn, type StyleValue } from "@/lib/utils"
-import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import { cn } from "@/lib/utils"
+import { createStylesResolver } from "@/lib/styles"
 import { asElementProps } from "@/lib/react-aria"
 import { useListNavigation, useMergedRef, handleListKeyDown, scrollItemIntoView } from "../../utils/list-navigation"
 
@@ -31,7 +31,19 @@ import { Scroll } from "../Scroll"
 import { List } from "../List"
 
 const resolveMenuSubTriggerBaseStyles = createStylesResolver(['root', 'chevron'] as const);
-const resolveMenuSubContentBaseStyles = createStylesResolver(['root'] as const);
+const resolveMenuSubContentBaseStyles = createStylesResolver(['root', 'list'] as const);
+
+function resolveMenuSubTriggerStyles(styles: MenuSubTriggerProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuSubTriggerBaseStyles(styles)
+  const { root, chevron } = styles
+  return resolveMenuSubTriggerBaseStyles({ root, chevron })
+}
+
+function resolveMenuSubContentStyles(styles: MenuSubContentProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuSubContentBaseStyles(styles)
+  const { root, list } = styles
+  return resolveMenuSubContentBaseStyles({ root, list })
+}
 
 /** Context provider that scopes a nested flyout submenu within the menu */
 const MenuSub = ({ children, open: controlledOpen, defaultOpen = false, onOpenChange }: MenuSubProps) => {
@@ -188,7 +200,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
       [ref, submenuContext]
     )
 
-    const resolved = resolveMenuSubTriggerBaseStyles(stylesProp);
+    const resolved = resolveMenuSubTriggerStyles(stylesProp);
 
     return (
       <div
@@ -196,12 +208,14 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         role="menuitem"
         aria-haspopup="menu"
         aria-expanded={submenuContext?.isOpen}
-        tabIndex={disabled ? -1 : 0}
+        tabIndex={-1}
         aria-disabled={disabled || undefined}
         className={cn('menu', 'sub-trigger', css['sub-trigger'], className, resolved.root)}
-        data-highlighted={isHighlighted || isHovered || undefined}
-        data-disabled={disabled || undefined}
-        data-inset={inset || undefined}
+        data-highlighted={isHighlighted || isHovered ? "true" : "false"}
+        data-focused={isHighlighted || isHovered ? "true" : "false"}
+        data-hovered={isHovered ? "true" : "false"}
+        data-disabled={disabled ? "true" : undefined}
+        data-inset={inset ? "true" : undefined}
         data-state={submenuContext?.isOpen ? "open" : "closed"}
         onClick={() => handleSelectRef.current?.()}
         {...asElementProps<"div">(hoverProps)}
@@ -358,7 +372,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
     if (!mounted || !submenuContext) return null
 
     const showContent = submenuContext.isOpen && isPositioned
-    const resolved = resolveMenuSubContentBaseStyles(stylesProp);
+    const resolved = resolveMenuSubContentStyles(stylesProp);
 
     return createPortal(
       <>
@@ -380,7 +394,7 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
             {...asElementProps<"div">(hoverProps)}
           >
             <Scroll
-              className={css.list}
+              className={cn(css.list, resolved.list)}
               direction="vertical"
               fade-y
               hide={false}

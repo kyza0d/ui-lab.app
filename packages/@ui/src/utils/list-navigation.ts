@@ -1,6 +1,8 @@
 import * as React from "react"
 import { type Key } from "@react-types/shared"
 
+const DEFAULT_LIST_POINTER_KEYS = ['ArrowDown', 'ArrowUp', 'Home', 'End']
+
 export interface ItemData {
   key: Key
   textValue: string
@@ -37,6 +39,148 @@ export function scrollItemIntoView(el: HTMLElement, behavior: ScrollBehavior = '
   } else if (itemBottom > scroller.clientHeight - buffer) {
     scroller.scrollTo({ top: scroller.scrollTop + itemBottom - scroller.clientHeight + buffer, behavior })
   }
+}
+
+const TABBABLE_SELECTOR = [
+  'a[href]',
+  'button',
+  'input',
+  'select',
+  'textarea',
+  '[tabindex]',
+  '[contenteditable="true"]',
+].join(', ')
+
+function isElementVisible(el: HTMLElement) {
+  if (el.hidden) return false
+  if (el.getAttribute('aria-hidden') === 'true') return false
+  return el.getClientRects().length > 0
+}
+
+function isElementDisabled(el: HTMLElement) {
+  return (
+    el.hasAttribute('disabled') ||
+    el.getAttribute('aria-disabled') === 'true' ||
+    el.getAttribute('data-disabled') === 'true'
+  )
+}
+
+function isElementTabbable(el: HTMLElement) {
+  if (isElementDisabled(el) || !isElementVisible(el)) return false
+  if (el.getAttribute('tabindex') === '-1') return false
+  return el.tabIndex >= 0
+}
+
+export function focusAdjacentTabStop(
+  from: HTMLElement,
+  direction: 1 | -1,
+  skipWithin?: HTMLElement | null,
+) {
+  const doc = from.ownerDocument
+  const tabbableElements = Array.from(doc.querySelectorAll<HTMLElement>(TABBABLE_SELECTOR)).filter(isElementTabbable)
+  const currentIndex = tabbableElements.indexOf(from)
+
+  if (currentIndex === -1) return false
+
+  for (let index = currentIndex + direction; index >= 0 && index < tabbableElements.length; index += direction) {
+    const candidate = tabbableElements[index]
+    if (!candidate) continue
+    if (skipWithin?.contains(candidate)) continue
+    candidate.focus({ preventScroll: true })
+    return true
+  }
+
+  return false
+}
+
+interface UseListPointerModalityOptions {
+  isOpen: boolean
+  mouseMoveDetectedRef: React.MutableRefObject<boolean>
+  keyboardKeys?: string[]
+}
+
+export function useListPointerModality({
+  isOpen,
+  mouseMoveDetectedRef,
+  keyboardKeys = DEFAULT_LIST_POINTER_KEYS,
+}: UseListPointerModalityOptions) {
+  React.useEffect(() => {
+    if (!isOpen) return
+
+    const handleWindowKeyDown = (e: KeyboardEvent) => {
+      if (keyboardKeys.includes(e.key)) {
+        mouseMoveDetectedRef.current = false
+      }
+    }
+
+    const handleWindowMouseMove = () => {
+      if (!mouseMoveDetectedRef.current) {
+        mouseMoveDetectedRef.current = true
+      }
+    }
+
+    window.addEventListener('keydown', handleWindowKeyDown)
+    window.addEventListener('mousemove', handleWindowMouseMove)
+
+    return () => {
+      window.removeEventListener('keydown', handleWindowKeyDown)
+      window.removeEventListener('mousemove', handleWindowMouseMove)
+    }
+  }, [isOpen, keyboardKeys, mouseMoveDetectedRef])
+}
+
+interface UseListScrollIntoViewOptions {
+  activeKey: Key | null
+  container: HTMLElement | null
+  isOpen: boolean
+  mouseMoveDetectedRef: React.MutableRefObject<boolean>
+  shouldScrollRef?: React.MutableRefObject<boolean>
+  itemSelector?: string
+  initialBehavior?: ScrollBehavior
+  behavior?: ScrollBehavior
+}
+
+export function useListScrollIntoView({
+  activeKey,
+  container,
+  isOpen,
+  mouseMoveDetectedRef,
+  shouldScrollRef,
+  itemSelector = '[data-highlighted="true"], [data-focused="true"]',
+  initialBehavior = 'instant',
+  behavior = 'smooth',
+}: UseListScrollIntoViewOptions) {
+  const justOpenedRef = React.useRef(false)
+
+  React.useEffect(() => {
+    if (isOpen) {
+      justOpenedRef.current = true
+    }
+  }, [isOpen])
+
+  React.useEffect(() => {
+    if (!isOpen || activeKey === null || !container) return
+
+    const el = container.querySelector(itemSelector) as HTMLElement | null
+    if (!el) return
+
+    if (justOpenedRef.current) {
+      justOpenedRef.current = false
+      scrollItemIntoView(el, initialBehavior)
+      if (shouldScrollRef) {
+        shouldScrollRef.current = false
+      }
+      return
+    }
+
+    if (shouldScrollRef && !shouldScrollRef.current) return
+    if (mouseMoveDetectedRef.current) return
+
+    scrollItemIntoView(el, behavior)
+    if (shouldScrollRef) {
+      shouldScrollRef.current = false
+    }
+  }, [activeKey, behavior, container, initialBehavior, isOpen, itemSelector, mouseMoveDetectedRef, shouldScrollRef])
 }
 
 interface ListKeyboardActions {

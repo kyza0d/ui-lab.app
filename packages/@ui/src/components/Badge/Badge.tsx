@@ -15,13 +15,13 @@ import { X } from "lucide-react";
 
 type BadgeSize = "sm" | "md" | "lg";
 
-interface BadgeStyleSlots {
+export interface BadgeStyleSlots {
   root?: StyleValue;
   icon?: StyleValue;
   dismiss?: StyleValue;
 }
 
-type BadgeStylesProp = StylesProp<BadgeStyleSlots>;
+export type BadgeStylesProp = StylesProp<BadgeStyleSlots>;
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual color style of the badge */
@@ -65,7 +65,7 @@ function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
     buttonRef
   );
 
-  const { focusProps, isFocusVisible } = useFocusRing();
+  const { focusProps, isFocused, isFocusVisible } = useFocusRing();
   const { hoverProps, isHovered } = useHover({});
 
   return (
@@ -74,10 +74,11 @@ function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
       ref={buttonRef}
       role="button"
       tabIndex={0}
-      className={cn(css.dismiss, className)}
-      data-pressed={isPressed || undefined}
-      data-hovered={isHovered || undefined}
-      data-focus-visible={isFocusVisible || undefined}
+      className={cn("badge dismiss", css.dismiss, className)}
+      data-pressed={isPressed ? "true" : "false"}
+      data-hovered={isHovered ? "true" : "false"}
+      data-focused={isFocused ? "true" : "false"}
+      data-focus-visible={isFocusVisible ? "true" : "false"}
     >
       <X size={14} />
     </div>
@@ -85,6 +86,12 @@ function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
 }
 
 const resolveBadgeBaseStyles = createStylesResolver(['root', 'icon', 'dismiss'] as const);
+
+function resolveBadgeStyles(styles: BadgeStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveBadgeBaseStyles(styles);
+  const { root, icon, dismiss } = styles;
+  return resolveBadgeBaseStyles({ root, icon, dismiss });
+}
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   (
@@ -103,7 +110,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     },
     ref
   ) => {
-    const resolved = resolveBadgeBaseStyles(styles);
+    const resolved = resolveBadgeStyles(styles);
     return (
       <span
         ref={ref}
@@ -125,7 +132,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {icon && (
-          <span className={cn(css.icon, resolved.icon)} aria-hidden="true">
+          <span className={cn("badge icon", css.icon, resolved.icon)} aria-hidden="true">
             {icon}
           </span>
         )}

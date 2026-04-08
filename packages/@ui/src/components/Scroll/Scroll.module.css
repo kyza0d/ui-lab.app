@@ -3,14 +3,16 @@
 @layer components {
   .root {
     @apply relative;
+    min-height: 0;
   }
 
   .vertical {
     --scrollbar-width: 12px;
-    min-height: 0;
   }
 
-  .horizontal { --scrollbar-height: 12px; }
+  .horizontal {
+    --scrollbar-height: 12px;
+  }
 
   .content {
     @apply h-full w-full;
@@ -45,6 +47,7 @@
   .track {
     @apply absolute;
     z-index: 10;
+    background-color: var(--track-background);
   }
 
   .track[data-hide="true"] {
@@ -57,7 +60,6 @@
     top: var(--scroll-padding-y, 0);
     width: 12px;
     height: calc(100% - 2 * var(--scroll-padding-y, 0));
-    background-color: var(--track-background);
     box-sizing: border-box;
   }
 
@@ -66,21 +68,22 @@
     left: 0;
     height: 12px;
     width: 100%;
-    background-color: var(--track-background);
   }
 
   .thumb {
     position: absolute;
-    border-radius: calc(var(--radius-xs) * 0.80);
+    border-radius: calc(var(--radius-xs, 0.25rem) * 0.80);
     background-color: var(--thumb-background);
     transition-property: background-color, width, height;
     transition-duration: 150ms;
   }
 
-  .thumb:hover { background-color: var(--thumb-hover-background); }
+  .thumb:hover {
+    background-color: var(--thumb-background-hover);
+  }
 
-  .root[data-dragging="true"] .thumb {
-    background-color: var(--thumb-dragging-background);
+  .root[data-pressed] .thumb {
+    background-color: var(--thumb-background-pressed);
   }
 
   .vertical .thumb {
@@ -91,7 +94,7 @@
   }
 
   .vertical .thumb:hover,
-  .vertical[data-dragging="true"] .thumb {
+  .vertical[data-pressed] .thumb {
     width: 8px;
     margin-left: 4px;
   }
@@ -104,7 +107,7 @@
   }
 
   .horizontal .thumb:hover,
-  .horizontal[data-dragging="true"] .thumb {
+  .horizontal[data-pressed] .thumb {
     height: 8px;
     margin-top: 4px;
   }

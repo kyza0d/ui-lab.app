@@ -3,35 +3,36 @@
 @layer components {
   .content,
   .sub-content {
-    --padding: calc(var(--spacing) * 1.5);
-    --radius: var(--radius-sm, 0.375rem);
-    --inner-radius: calc(var(--radius) - var(--border-width-base, 1px));
-    --menu-animation: none;
+    --content-padding: calc(var(--spacing) * 1.5);
+    --content-radius: var(--radius-sm, 0.375rem);
+    --content-inner-radius: calc(var(--content-radius) - var(--border-width-base, 1px));
+    --content-open-animation: slide-in-from-top 0.15s var(--ease-snappy-pop);
+    --content-closed-animation: slide-out-to-top 0.15s var(--ease-snappy-pop);
     --disabled-opacity: 0.5;
 
     @apply absolute min-w-40 max-w-80 overflow-hidden;
     z-index: 50000;
     background-color: var(--background);
-    border: var(--border-width-base, 1px) solid var(--border-color);
-    border-radius: var(--radius);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--content-radius);
   }
 
   .trigger {
-    &[data-type="pop-over"][data-active] {
+    &[data-type="pop-over"][data-pressed="true"] {
       opacity: 1;
-      background-color: var(--active-background);
+      background-color: var(--background-pressed);
       border-radius: var(--radius-sm, 0.375rem);
     }
   }
 
   .content[data-state="open"],
   .sub-content[data-state="open"] {
-    animation: var(--menu-animation, slide-in-from-top 0.15s var(--ease-snappy-pop));
+    animation: var(--content-open-animation);
   }
 
   .content[data-state="closed"],
   .sub-content[data-state="closed"] {
-    animation: var(--menu-animation, slide-out-to-top 0.15s var(--ease-snappy-pop));
+    animation: var(--content-closed-animation);
   }
 
   .list {
@@ -45,18 +46,18 @@
   .radio-item,
   .sub-trigger {
     @apply flex min-w-0 items-center gap-2;
-    padding: var(--padding);
-    border-radius: var(--inner-radius);
+    padding: var(--item-padding, var(--content-padding));
+    border-radius: var(--item-radius, var(--content-inner-radius));
     cursor: default;
     user-select: none;
     outline: none;
     color: var(--foreground);
 
-    &[data-highlighted] {
-      background-color: var(--highlight-background);
+    &[data-focused="true"] {
+      background-color: var(--background-focused, var(--background-hover));
     }
 
-    &[data-disabled] {
+    &[data-disabled="true"] {
       opacity: var(--disabled-opacity);
       pointer-events: none;
     }
@@ -64,41 +65,42 @@
 
   .item,
   .sub-trigger {
-    &[data-inset] {
-      padding-left: calc(var(--padding) * 2.67);
+    &[data-inset="true"] {
+      padding-left: calc(var(--item-padding, var(--content-padding)) * 2.67);
     }
   }
 
   .item-indicator {
     @apply ml-auto flex h-4 w-4 shrink-0 items-center justify-center;
-    color: var(--indicator-color);
+    color: var(--indicator-foreground, var(--foreground));
   }
 
-  .sub-trigger[data-state="open"]:not([data-highlighted]) {
-    background-color: var(--highlight-background);
+  .sub-trigger[data-state="open"]:not([data-focused="true"]) {
+    background-color: var(--background-focused, var(--background-hover));
   }
 
   .sub-trigger-chevron {
     @apply ml-auto h-4 w-4 shrink-0;
+    color: var(--chevron-foreground, currentColor);
   }
 
   .label {
-    padding: var(--padding);
-    color: var(--muted-foreground);
+    padding: var(--content-padding);
+    color: var(--foreground-muted);
 
-    &[data-inset] {
-      padding-left: calc(var(--padding) * 2.67);
+    &[data-inset="true"] {
+      padding-left: calc(var(--content-padding) * 2.67);
     }
   }
 
   .separator {
     @apply -mx-1 my-1 h-px;
-    background-color: var(--border-color);
+    background-color: var(--background-border);
   }
 
   .shortcut {
     margin-left: auto;
-    color: var(--muted-foreground);
+    color: var(--foreground-muted);
   }
 
   @keyframes slide-in-from-top { from { opacity: 0; translate: 0 -2px; } to { opacity: 1; translate: 0 0; } }

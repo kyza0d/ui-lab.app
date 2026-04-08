@@ -22,16 +22,14 @@ import {
   recordScrollRestoreTrace,
 } from "./scripts/restore-scroll.constants";
 
-interface ScrollStyleSlots {
+export interface ScrollStyleSlots {
   root?: StyleValue;
   content?: StyleValue;
   track?: StyleValue;
   thumb?: StyleValue;
-  horizontal?: StyleValue;
-  vertical?: StyleValue;
 }
 
-type ScrollStylesProp = StylesProp<ScrollStyleSlots>;
+export type ScrollStylesProp = StylesProp<ScrollStyleSlots>;
 
 export interface ScrollProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -54,9 +52,13 @@ const resolveScrollBaseStyles = createStylesResolver([
   "content",
   "track",
   "thumb",
-  "horizontal",
-  "vertical",
 ] as const);
+
+function resolveScrollStyles(styles: ScrollStylesProp | undefined) {
+  if (!styles || typeof styles === 'string' || Array.isArray(styles)) return resolveScrollBaseStyles(styles);
+  const { root, content, track, thumb } = styles;
+  return resolveScrollBaseStyles({ root, content, track, thumb });
+}
 
 const SCROLLBAR_VISIBILITY_EPSILON = 1;
 
@@ -148,7 +150,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
     const thumbRef = useRef<HTMLDivElement>(null);
     const mergedRef = useMergedRef(ref, containerRef);
 
-    const resolved = resolveScrollBaseStyles(styles);
+    const resolved = resolveScrollStyles(styles);
 
     const [needsScrollbar, setNeedsScrollbar] = useState(false);
     const [isHoveredRight, setIsHoveredRight] = useState(false);
@@ -488,8 +490,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           css.root,
           isHoriz ? css.horizontal : css.vertical,
           className,
-          resolved.root,
-          isHoriz ? resolved.horizontal : resolved.vertical
+          resolved.root
         )}
         style={{
           [isHoriz ? "width" : "height"]: "100%",
@@ -499,7 +500,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         } as React.CSSProperties}
         onMouseMove={handleContainerMouseMove}
         onMouseLeave={handleContainerMouseLeave}
-        data-dragging={String(isDragging)}
+        data-pressed={isDragging || undefined}
         data-inline={String(inline && needsScrollbar)}
         {...restProps}
       >
@@ -534,7 +535,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         </Mask>
 
         <div
-          className={cn(css.track, resolved.track)}
+          className={cn("scroll", "track", css.track, resolved.track)}
           data-hide={String(hide)}
           style={{
             opacity: showOpacity,
@@ -545,7 +546,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           {needsScrollbar && (
             <div
               ref={thumbRef}
-              className={cn(css.thumb, resolved.thumb)}
+              className={cn("scroll", "thumb", css.thumb, resolved.thumb)}
               style={{
                 [trackSizeKey]: `${thumbSize}px`,
                 [trackPosKey]: `${thumbPosition}px`,

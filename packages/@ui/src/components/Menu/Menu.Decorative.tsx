@@ -4,6 +4,29 @@ import type { MenuGroupProps, MenuRadioGroupProps, MenuLabelProps, MenuSeparator
 import type { Key } from "@react-types/shared"
 import styles from "./Menu.module.css"
 import { cn } from "@/lib/utils"
+import { createStylesResolver } from "@/lib/styles"
+
+const resolveMenuLabelBaseStyles = createStylesResolver(['root'] as const);
+const resolveMenuSeparatorBaseStyles = createStylesResolver(['root'] as const);
+const resolveMenuShortcutBaseStyles = createStylesResolver(['root'] as const);
+
+function resolveMenuLabelStyles(styles: MenuLabelProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuLabelBaseStyles(styles)
+  const { root } = styles
+  return resolveMenuLabelBaseStyles({ root })
+}
+
+function resolveMenuSeparatorStyles(styles: MenuSeparatorProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuSeparatorBaseStyles(styles)
+  const { root } = styles
+  return resolveMenuSeparatorBaseStyles({ root })
+}
+
+function resolveMenuShortcutStyles(styles: MenuShortcutProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuShortcutBaseStyles(styles)
+  const { root } = styles
+  return resolveMenuShortcutBaseStyles({ root })
+}
 
 // ============================================================================
 // Group Component
@@ -54,15 +77,18 @@ MenuRadioGroup.displayName = "MenuRadioGroup"
 
 /** Non-interactive label for a section of menu items */
 const MenuLabel = React.forwardRef<HTMLDivElement, MenuLabelProps>(
-  ({ children, inset, className }, ref) => (
+  ({ children, inset, className, styles: stylesProp }, ref) => {
+    const resolved = resolveMenuLabelStyles(stylesProp)
+    return (
     <div
       ref={ref}
-      className={cn('menu', 'label', styles.label, className)}
-      data-inset={inset || undefined}
+      className={cn('menu', 'label', styles.label, className, resolved.root)}
+      data-inset={inset ? "true" : undefined}
     >
       {children}
     </div>
   )
+  }
 )
 MenuLabel.displayName = "MenuLabel"
 
@@ -72,13 +98,16 @@ MenuLabel.displayName = "MenuLabel"
 
 /** Horizontal rule that visually divides sections of the menu */
 const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
-  ({ className }, ref) => (
+  ({ className, styles: stylesProp }, ref) => {
+    const resolved = resolveMenuSeparatorStyles(stylesProp)
+    return (
     <div
       ref={ref}
       role="separator"
-      className={cn('menu', 'separator', styles.separator, className)}
+      className={cn('menu', 'separator', styles.separator, className, resolved.root)}
     />
   )
+  }
 )
 MenuSeparator.displayName = "MenuSeparator"
 
@@ -87,9 +116,10 @@ MenuSeparator.displayName = "MenuSeparator"
 // ============================================================================
 
 /** Keyboard shortcut hint aligned to the right side of a menu item */
-const MenuShortcut = ({ className, ...props }: MenuShortcutProps) => {
+const MenuShortcut = ({ className, styles: stylesProp, ...props }: MenuShortcutProps) => {
+  const resolved = resolveMenuShortcutStyles(stylesProp)
   return (
-    <span className={cn('menu', 'shortcut', styles.shortcut, className)} {...props} />
+    <span className={cn('menu', 'shortcut', styles.shortcut, className, resolved.root)} {...props} />
   )
 }
 MenuShortcut.displayName = "MenuShortcut"

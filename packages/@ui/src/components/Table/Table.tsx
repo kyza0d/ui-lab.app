@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import css from "./Table.module.css";
 
 export interface Column<T> {
   /** Key of the data row object to display in this column */
@@ -16,6 +18,22 @@ export interface Column<T> {
   render?: (value: any, row: T) => React.ReactNode;
 }
 
+interface TableStyleSlots {
+  root?: StyleValue;
+  container?: StyleValue;
+  filterBar?: StyleValue;
+  table?: StyleValue;
+  thead?: StyleValue;
+  tbody?: StyleValue;
+  headerRow?: StyleValue;
+  headerCell?: StyleValue;
+  bodyRow?: StyleValue;
+  cell?: StyleValue;
+  emptyState?: StyleValue;
+}
+
+type TableStylesProp = StylesProp<TableStyleSlots>;
+
 export interface TableProps<T> {
   /** Array of data rows to display */
   data: T[];
@@ -27,7 +45,14 @@ export interface TableProps<T> {
   onRowClick?: (row: T) => void;
   /** Called when any column filter value changes */
   onFilterChange?: (filters: Record<string, string>) => void;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: TableStylesProp;
 }
+
+const resolveTableBaseStyles = createStylesResolver([
+  'root', 'container', 'filterBar', 'table', 'thead', 'tbody',
+  'headerRow', 'headerCell', 'bodyRow', 'cell', 'emptyState'
+] as const);
 
 export function Table<T extends Record<string, any>>({
   data,
@@ -35,8 +60,10 @@ export function Table<T extends Record<string, any>>({
   showFilters = false,
   onRowClick,
   onFilterChange,
+  styles: stylesProp,
 }: TableProps<T>) {
   const [filters, setFilters] = useState<Record<string, string>>({});
+  const resolved = resolveTableBaseStyles(stylesProp);
 
   const filterableColumns = columns.filter((col) => col.filterable);
 
@@ -55,13 +82,13 @@ export function Table<T extends Record<string, any>>({
   );
 
   return (
-    <div className="w-full">
+    <div className={cn(css.root, resolved.root)}>
       {showFilters && filterableColumns.length > 0 && (
-        <div className="mb-4 p-4 bg-background-900 rounded-sm border border-background-800">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className={cn(css.filterBar, resolved.filterBar)}>
+          <div className={css.filterGrid}>
             {filterableColumns.map((col) => (
               <div key={String(col.key)}>
-                <label className="block text-sm font-medium text-foreground-300 mb-2">
+                <label className={cn(css.filterLabel)}>
                   {col.label}
                 </label>
                 <input
@@ -71,7 +98,7 @@ export function Table<T extends Record<string, any>>({
                     handleFilterChange(String(col.key), e.target.value)
                   }
                   placeholder={`Filter by ${col.label.toLowerCase()}`}
-                  className="w-full px-3 py-2 rounded-md border border-background-700 bg-background-950 text-foreground-50 placeholder-foreground-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-all"
+                  className={css.filterInput}
                 />
               </div>
             ))}
@@ -79,37 +106,37 @@ export function Table<T extends Record<string, any>>({
         </div>
       )}
 
-      <div className="overflow-x-auto border border-background-800 rounded-md">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-background-800 bg-background-900">
+      <div className={cn(css.container, resolved.container)}>
+        <table className={cn(css.table, resolved.table)}>
+          <thead className={cn(css.thead, resolved.thead)}>
+            <tr className={cn(css.headerRow, resolved.headerRow)}>
               {columns.map((col) => (
                 <th
                   key={String(col.key)}
-                  className="px-4 py-3 text-left font-semibold text-foreground-200"
+                  className={cn(css.headerCell, resolved.headerCell)}
                 >
                   {col.label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className={cn(css.tbody, resolved.tbody)}>
             {filteredData.length > 0 ? (
               filteredData.map((row, idx) => (
                 <tr
                   key={idx}
                   onClick={() => onRowClick?.(row)}
                   className={cn(
-                    "border-b border-background-800 last:border-b-0",
-                    onRowClick
-                      ? "cursor-pointer hover:bg-background-900 transition-colors"
-                      : ""
+                    css.bodyRow,
+                    resolved.bodyRow,
+                    onRowClick && css.interactive
                   )}
+                  data-interactive={onRowClick ? true : undefined}
                 >
                   {columns.map((col) => (
                     <td
                       key={String(col.key)}
-                      className="px-4 py-3 text-foreground-300"
+                      className={cn(css.cell, resolved.cell)}
                     >
                       {col.render ? (
                         col.render(row[col.key], row)
@@ -124,7 +151,7 @@ export function Table<T extends Record<string, any>>({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-4 py-8 text-center text-foreground-400"
+                  className={cn(css.emptyState, resolved.emptyState)}
                 >
                   No data available
                 </td>

@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "@react-aria/focus";
 import { asElementProps } from "@/lib/react-aria";
+import { cn } from "@/lib/utils";
 import styles from "./Color.module.css";
 
 interface ColorOpacitySliderProps {
@@ -16,13 +17,16 @@ interface ColorOpacitySliderProps {
   disabled?: boolean;
   /** Size of the opacity slider */
   size?: "sm" | "md" | "lg";
+  className?: string;
+  trackClassName?: string;
+  thumbClassName?: string;
 }
 
 /** Slider for adjusting the alpha/opacity of the selected color */
 export const ColorOpacitySlider = React.forwardRef<
   HTMLDivElement,
   ColorOpacitySliderProps
->(({ value, color, onChange, disabled, size = "md" }, ref) => {
+>(({ value, color, onChange, disabled, size = "md", className, trackClassName, thumbClassName }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -52,7 +56,7 @@ export const ColorOpacitySlider = React.forwardRef<
     onChange?.(opacity);
   };
 
-  const { focusProps, isFocusVisible } = useFocusRing();
+  const { focusProps, isFocused, isFocusVisible } = useFocusRing();
 
   const basePosition = value * 100;
   const thumbWidth = trackRef.current ? (10 / trackRef.current.offsetWidth) * 100 : 4;
@@ -62,9 +66,10 @@ export const ColorOpacitySlider = React.forwardRef<
   return (
     <div
       ref={containerRef}
-      className={styles.opacitySlider}
+      className={cn("color", "opacity-slider", styles["opacity-slider"], className)}
       data-size={size}
       data-disabled={disabled || undefined}
+      data-focused={isFocused ? "true" : undefined}
       data-focus-visible={isFocusVisible || undefined}
       {...asElementProps<"div">(focusProps)}
       tabIndex={disabled ? -1 : 0}
@@ -78,16 +83,17 @@ export const ColorOpacitySlider = React.forwardRef<
       aria-valuenow={Math.round(value * 100)}
     >
       <div
-        className={styles.opacityTrack}
+        className={cn("color", "opacity-track", styles["opacity-track"], trackClassName)}
         ref={trackRef}
         style={{
-          backgroundImage: `linear-gradient(to right, ${gradientColor}00, ${gradientColor}ff)`,
+          backgroundImage: `linear-gradient(to right, ${gradientColor}00, ${gradientColor}ff), repeating-linear-gradient(45deg, var(--checkerboard-dark), var(--checkerboard-dark) 10px, var(--checkerboard-light) 10px, var(--checkerboard-light) 20px)`,
         }}
       >
         <div
-          className={styles.opacityThumb}
+          className={cn("color", "opacity-thumb", styles["opacity-thumb"], thumbClassName)}
           style={{ left: `${thumbPosition}%` }}
           role="presentation"
+          data-focused={isFocused ? "true" : undefined}
           data-focus-visible={isFocusVisible || undefined}
         />
       </div>

@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { codeToHtml } from "shiki";
 import { transformerRenderIndentGuides } from "@shikijs/transformers";
 import { Copy, Check, ChevronDown } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn, type StyleValue } from "../../lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import styles from "./Code.module.css";
 
 const escapeHtml = (s: string) =>
@@ -83,7 +84,20 @@ export interface CodeProps {
   preHighlightedLight?: string;
   /** Pre-highlighted HTML string for dark mode to skip client-side Shiki processing */
   preHighlightedDark?: string;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: CodeStylesProp;
 }
+
+export interface CodeStyleSlots {
+  root?: StyleValue;
+  header?: StyleValue;
+  body?: StyleValue;
+  viewport?: StyleValue;
+}
+
+export type CodeStylesProp = StylesProp<CodeStyleSlots>;
+
+const resolveCodeStyles = createStylesResolver(['root', 'header', 'body', 'viewport'] as const);
 
 const MAX_HEIGHT_LINES = 20;
 
@@ -97,6 +111,7 @@ export function Code({
   colorScheme = 'system',
   preHighlightedLight,
   preHighlightedDark,
+  styles: stylesProp,
 }: CodeProps) {
   const mode = useColorScheme(colorScheme);
 
@@ -192,22 +207,24 @@ export function Code({
   const hiddenCodeLines = totalCodeLines - MAX_HEIGHT_LINES;
   const shouldShowExpandButton = totalCodeLines > MAX_HEIGHT_LINES && hiddenCodeLines >= 30;
 
+  const resolved = resolveCodeStyles(stylesProp);
+
   return (
-    <div className={cn(styles['code'], className)}>
+    <div className={cn(styles['code'], resolved.root, className)}>
       {(filename || heading) && (
-        <div className={styles.header}>
+        <div className={cn(styles.header, resolved.header)}>
           <span>{heading || filename}</span>
           {!heading && <span className={styles['header-lang']}>{language}</span>}
         </div>
       )}
 
-      <div className={styles.body}>
+      <div className={cn(styles.body, resolved.body)}>
         <CopyButton code={children} />
         <div
           ref={viewportRef}
           onScroll={handleScrollViewport}
           onWheel={handleWheel}
-          className={styles.viewport}
+          className={cn(styles.viewport, resolved.viewport)}
           style={{
             overflowY: isExpanded ? 'auto' : 'hidden',
             maskImage: !isExpanded && shouldShowExpandButton

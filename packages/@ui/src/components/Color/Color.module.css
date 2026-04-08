@@ -2,15 +2,16 @@
 
 @layer components {
   .color {
-    --background: color-mix(in srgb, var(--background-800) 30%, transparent);;
-    --border: var(--background-700);
-    --ring-color: var(--accent-500);
+    --background: color-mix(in srgb, var(--background-800) 30%, transparent);
+    --background-border: var(--background-700);
+    --focus-visible: var(--accent-500);
+
     display: flex;
     flex-direction: column;
     gap: 1rem;
     background-color: var(--background);
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-sm, 0.375rem);
     width: 260px;
   }
 
@@ -19,35 +20,33 @@
     pointer-events: none;
   }
 
-  .colorControls {
+  .controls {
     @apply pb-3 px-3 space-y-3;
   }
 
-  /* Input styles */
-  .inputGroup {
+  .input-group {
     width: 100%;
   }
 
-  .inputGroup > div:first-child {
+  .input-group > div:first-child {
     flex: 1;
     min-width: 0;
   }
 
-  .colorInput {
+  .input {
     width: 100%;
   }
 
-  .formatSelect {
+  .format {
     flex-shrink: 0;
     width: 85px;
   }
 
-  .color[data-size="sm"] .formatSelect {
+  .color[data-size="sm"] .format {
     width: 75px;
   }
 
-  /* Canvas Styles */
-  .canvasContainer {
+  .canvas {
     position: relative;
     width: 96%;
     @apply mx-auto mt-2;
@@ -55,57 +54,54 @@
     touch-action: none;
     display: flex;
     flex-direction: column;
+    min-height: 160px;
   }
 
-  .canvasContainer[data-focus-visible="true"] {
-    outline: 2px solid var(--ring-color);
+  .canvas[data-focus-visible="true"] {
+    outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
-  .canvas {
+  .canvas-inner {
     position: relative;
     width: 100%;
     flex: 1;
-    border-radius: none;
-    /* clip-path: inset(0 round var(--radius-sm)); */
     overflow: hidden;
   }
 
-  .canvasGradientHue {
+  .canvas-gradient-hue {
     position: absolute;
     inset: 0;
     overflow: hidden;
-    /* border-radius: var(--radius-sm); */
   }
 
-  .canvasGradientSaturation {
+  .canvas-gradient-saturation {
     position: absolute;
     inset: 0;
     background: linear-gradient(to right, rgb(255, 255, 255), transparent);
-    border-radius: none;
   }
 
-  .canvasGradientLightness {
+  .canvas-gradient-brightness {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgb(0, 0, 0), transparent);
-    border-radius: none
   }
 
-  .canvasPointer {
+  .canvas-pointer {
+    --pointer-border: color-mix(in srgb, var(--foreground-200) 50%, transparent);
+
     position: absolute;
     width: 12px;
     height: 12px;
     border-radius: var(--radius-full);
-    border: 2px solid color-mix(in srgb, var(--foreground-200) 50%, transparent);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--pointer-border);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.3), 0 2px 4px rgb(0 0 0 / 0.3);
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 10;
   }
 
-  /* Hue Slider Styles */
-  .hueSlider {
+  .hue-slider {
     display: flex;
     align-items: center;
     height: 16px;
@@ -116,7 +112,7 @@
     overflow: hidden;
   }
 
-  .hueTrack {
+  .hue-track {
     position: relative;
     width: 100%;
     height: 100%;
@@ -131,37 +127,39 @@
       hsl(300, 100%, 50%),
       hsl(360, 100%, 50%)
     );
-    border: var(--border-width-base) solid var(--border);
+    border: var(--border-width-base, 1px) solid var(--background-border);
   }
 
-  .hueThumb {
+  .hue-thumb {
+    --thumb-border: white;
+    --thumb-background: white;
+
     position: absolute;
     width: 12px;
     height: 12px;
     border-radius: var(--radius-full);
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--thumb-border);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
     top: 50%;
     transform: translateY(-50%) translateX(-50%);
-    background: white;
+    background: var(--thumb-background);
     pointer-events: none;
   }
 
-  .hueSlider[data-focus-visible="true"] .hueThumb {
-    outline: 2px solid var(--ring-color);
+  .hue-slider[data-focus-visible="true"] .hue-thumb {
+    outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
-  .hueThumb:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  .hue-thumb:hover {
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.4);
   }
 
-  .hueThumb:active {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  .hue-thumb:active {
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
   }
 
-  /* Opacity Slider Styles */
-  .opacitySlider {
+  .opacity-slider {
     display: flex;
     align-items: center;
     height: 12px;
@@ -172,119 +170,111 @@
     overflow: hidden;
   }
 
-  .opacityTrack {
+  .opacity-track {
+    --checkerboard-dark: var(--background-800);
+    --checkerboard-light: var(--background-700);
+
     position: relative;
     width: 100%;
     height: 100%;
     border-radius: var(--radius-full);
-    background-image: repeating-linear-gradient(
-      45deg,
-      var(--background-800),
-      var(--background-800) 10px,
-      var(--background-700) 10px,
-      var(--background-700) 20px
-    );
-    border: var(--border-width-base) solid var(--border);
+    border: var(--border-width-base, 1px) solid var(--background-border);
     overflow: hidden;
   }
 
-  .opacityThumb {
+  .opacity-thumb {
+    --thumb-border: white;
+    --thumb-background: white;
+
     position: absolute;
     width: 10px;
     height: 10px;
     border-radius: var(--radius-full);
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--thumb-border);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
     top: 50%;
     transform: translateY(-50%) translateX(-50%);
-    background: white;
+    background: var(--thumb-background);
     pointer-events: none;
   }
 
-  .opacitySlider[data-focus-visible="true"] .opacityThumb {
-    outline: 2px solid var(--ring-color);
+  .opacity-slider[data-focus-visible="true"] .opacity-thumb {
+    outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
-  .opacityThumb:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  .opacity-thumb:hover {
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.4);
   }
 
-  .opacityThumb:active {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  .opacity-thumb:active {
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
   }
 
-  /* Recent Colors Styles */
-  .recentColors {
+  .recent-colors {
     display: flex;
     gap: 0.5rem;
     overflow-x: auto;
     padding-bottom: 0.25rem;
   }
 
-  .recentColorSwatch {
+  .recent-color-swatch {
     flex-shrink: 0;
     width: 32px;
     height: 32px;
     border-radius: var(--radius-sm);
-    border: var(--border-width-base) solid var(--border);
+    border: var(--border-width-base, 1px) solid var(--background-border);
     cursor: pointer;
     background: none;
     padding: 0;
     outline: none;
   }
 
-  .recentColorSwatch:hover {
+  .recent-color-swatch:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 0 2px var(--ring-color);
+    box-shadow: 0 0 0 2px var(--focus-visible);
   }
 
-  .recentColorSwatch:active {
+  .recent-color-swatch:active {
     transform: scale(0.95);
   }
 
-  .recentColorSwatch:focus-visible {
-    outline: 2px solid var(--ring-color);
+  .recent-color-swatch:focus-visible {
+    outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
+  .preview-swatch {
+    --checkerboard-dark: var(--background-700);
+    --checkerboard-light: var(--background-800);
 
-  /* Preview Container - deprecated, use previewSwatch instead */
-  .previewContainer {
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem 0;
-  }
-
-  /* Preview Swatch - inline with input */
-  .previewSwatch {
     position: relative;
     width: 36px;
     height: 36px;
     border-radius: var(--radius-sm);
-    border: var(--border-width-base) solid var(--border);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
     overflow: hidden;
     flex-shrink: 0;
   }
 
-  .previewSwatch::before {
+  .preview-swatch::before {
     content: "";
     position: absolute;
     inset: 0;
     background-image: repeating-linear-gradient(
       45deg,
-      var(--background-700),
-      var(--background-700) 6px,
-      var(--background-800) 6px,
-      var(--background-800) 12px
+      var(--checkerboard-dark),
+      var(--checkerboard-dark) 6px,
+      var(--checkerboard-light) 6px,
+      var(--checkerboard-light) 12px
     );
     border-radius: var(--radius-sm);
     pointer-events: none;
     z-index: 1;
   }
 
-  .previewSwatch::after {
+  .preview-swatch::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -295,12 +285,15 @@
   }
 
   .preview {
+    --checkerboard-dark: var(--background-700);
+    --checkerboard-light: var(--background-800);
+
     position: relative;
     width: 64px;
     height: 64px;
     border-radius: var(--radius-sm);
-    border: var(--border-width-base) solid var(--border);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
     overflow: hidden;
   }
 
@@ -310,17 +303,13 @@
     inset: 0;
     background-image: repeating-linear-gradient(
       45deg,
-      var(--background-700),
-      var(--background-700) 10px,
-      var(--background-800) 10px,
-      var(--background-800) 20px
+      var(--checkerboard-dark),
+      var(--checkerboard-dark) 10px,
+      var(--checkerboard-light) 10px,
+      var(--checkerboard-light) 20px
     );
     border-radius: var(--radius-sm);
     pointer-events: none;
     z-index: 1;
-  }
-
-  .canvasContainer {
-    min-height: 160px;
   }
 }

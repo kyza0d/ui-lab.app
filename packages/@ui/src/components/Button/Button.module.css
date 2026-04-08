@@ -3,7 +3,6 @@
 @layer components {
   .button {
     @apply inline-flex items-center justify-center gap-2 select-none cursor-pointer whitespace-nowrap;
-    /* height: fit-content; */
     background-color: var(--background);
     color: var(--foreground);
     border: var(--border-width-base, 1px) solid var(--background-border);
@@ -14,12 +13,13 @@
     line-height: var(--leading-tight, 1.25);
 
     &:hover:not(:disabled) {
-      background-color: var(--hover-background);
-      border-color: var(--hover-border);
+      background-color: var(--background-hover);
+      border-color: var(--background-hover-border);
     }
 
-    &:active:not(:disabled) {
-      filter: brightness(0.8);
+    &[data-pressed="true"]:not([data-disabled]) {
+      background-color: var(--background-pressed, var(--background-hover, var(--background)));
+      border-color: var(--background-pressed-border, var(--background-hover-border, var(--background-border)));
     }
 
     &:focus-visible {

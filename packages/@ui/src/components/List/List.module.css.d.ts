@@ -9,6 +9,7 @@ declare const styles: {
   readonly checkbox: string;
   readonly control: string;
   readonly media: string;
+  readonly title: string;
   readonly desc: string;
   readonly footer: string;
 };

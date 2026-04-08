@@ -58,7 +58,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build && pnpm run build:css && pnpm run build:postcss",
+    "build": "vite build && pnpm run build:css && pnpm run build:postcss && cp dist/ui-lab-ui.es.js dist/ui-lab-ui.umd.js",
     "build:css": "postcss src/styles.css -o dist/styles.css && (cat dist/style.css >> dist/styles.css 2>/dev/null || true)",
     "build:postcss": "cp src/postcss-ui-lab.ts dist/postcss-ui-lab.mjs",
     "type-check": "tsc --noEmit",

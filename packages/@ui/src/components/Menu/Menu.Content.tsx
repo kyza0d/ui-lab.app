@@ -5,22 +5,41 @@ import { useFloating } from "../../hooks/useFloat/react/useFloating"
 import { flip } from "../../hooks/useFloat/core/middleware/flip"
 import { offset as offsetMiddleware } from "../../hooks/useFloat/core/middleware/offset"
 import { autoUpdate } from "../../hooks/useFloat/dom/autoUpdate"
-import { cn, type StyleValue } from "@/lib/utils"
-import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import { cn } from "@/lib/utils"
+import { createStylesResolver } from "@/lib/styles"
 import css from "./Menu.module.css"
 import { useMenuContext } from "./Menu"
-import type { MenuTriggerProps, MenuContentProps, MenuContentStyleSlots } from "./menu.types"
-import { useMergedRef, handleListKeyDown, scrollItemIntoView } from "../../utils/list-navigation"
+import type { MenuTriggerProps, MenuContentProps } from "./menu.types"
+import {
+  useMergedRef,
+  handleListKeyDown,
+  useListPointerModality,
+  useListScrollIntoView,
+} from "../../utils/list-navigation"
 import { Scroll } from "../Scroll"
 import { List } from "../List"
 import { useScrollLock } from "../../hooks/useScrollLock"
 
-const resolveMenuContentBaseStyles = createStylesResolver(['root'] as const);
+const resolveMenuTriggerBaseStyles = createStylesResolver(['root'] as const);
+const resolveMenuContentBaseStyles = createStylesResolver(['root', 'list'] as const);
+
+function resolveMenuTriggerStyles(styles: MenuTriggerProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuTriggerBaseStyles(styles)
+  const { root } = styles
+  return resolveMenuTriggerBaseStyles({ root })
+}
+
+function resolveMenuContentStyles(styles: MenuContentProps["styles"]) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveMenuContentBaseStyles(styles)
+  const { root, list } = styles
+  return resolveMenuContentBaseStyles({ root, list })
+}
 
 /** Wrapper element that opens the context menu on right-click */
 const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
-  ({ children, disabled = false, className }, ref) => {
+  ({ children, disabled = false, className, styles }, ref) => {
     const { isOpen, setIsOpen, type, clickPositionRef, triggerRef: contextTriggerRef } = useMenuContext()
+    const resolved = resolveMenuTriggerStyles(styles)
 
     const handleContextMenu = React.useCallback((e: React.MouseEvent) => {
       if (disabled || type !== "context-menu") return
@@ -40,8 +59,8 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
     const triggerProps = {
       onContextMenu: handleContextMenu,
       onClickCapture: handleClick,
-      className: cn('menu', 'trigger', css.trigger, className),
-      'data-active': isOpen || undefined,
+      className: cn('menu', 'trigger', css.trigger, className, resolved.root),
+      'data-pressed': isOpen ? "true" : "false",
       'data-type': type,
     }
 
@@ -52,17 +71,18 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
 
       return React.cloneElement(childElement, {
         ...mergeProps(triggerProps, childElement.props),
-        className: cn(
-          childElement.props.className,
-          'menu',
-          'trigger',
-          css.trigger,
-          className,
-        ),
-        ref: mergedRef,
-        'data-active': isOpen || undefined,
-        'data-type': type,
-      } as any)
+          className: cn(
+            childElement.props.className,
+            'menu',
+            'trigger',
+            css.trigger,
+            className,
+            resolved.root,
+          ),
+          ref: mergedRef,
+          'data-pressed': isOpen ? "true" : "false",
+          'data-type': type,
+        } as any)
     }
 
     return (
@@ -98,7 +118,6 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
     useScrollLock(isOpen)
     const [mounted, setMounted] = React.useState(false)
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null)
-    const wasJustOpenedRef = React.useRef(false)
 
     const { refs, floatingStyles, x, y, placement } = useFloating({
       placement: type === "context-menu" ? "bottom-start" : `${side}${align === "center" ? "" : `-${align}`}` as any,
@@ -132,12 +151,6 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
     }, [])
 
     React.useEffect(() => {
-      if (isOpen) {
-        wasJustOpenedRef.current = true
-      }
-    }, [isOpen])
-
-    React.useEffect(() => {
       if (isOpen && floatingElement) {
         requestAnimationFrame(() => {
           floatingElement?.focus({ preventScroll: true })
@@ -145,34 +158,18 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
       }
     }, [isOpen, floatingElement])
 
-    React.useEffect(() => {
-      if (!isOpen) return
-      const handleWindowKeyDown = (e: KeyboardEvent) => {
-        if (["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
-          mouseMoveDetectedRef.current = false
-        }
-      }
-      const handleWindowMouseMove = () => {
-        if (!mouseMoveDetectedRef.current) {
-          mouseMoveDetectedRef.current = true
-        }
-      }
-      window.addEventListener("keydown", handleWindowKeyDown)
-      window.addEventListener("mousemove", handleWindowMouseMove)
-      return () => {
-        window.removeEventListener("keydown", handleWindowKeyDown)
-        window.removeEventListener("mousemove", handleWindowMouseMove)
-      }
-    }, [isOpen, mouseMoveDetectedRef])
+    useListPointerModality({
+      isOpen,
+      mouseMoveDetectedRef,
+    })
 
-    React.useEffect(() => {
-      if (!isOpen || focusedKey === null || !floatingElement) return
-      const shouldScroll = !mouseMoveDetectedRef.current || wasJustOpenedRef.current
-      if (!shouldScroll) return
-      wasJustOpenedRef.current = false
-      const el = floatingElement.querySelector('[data-highlighted="true"]') as HTMLElement
-      if (el) scrollItemIntoView(el)
-    }, [focusedKey, isOpen, floatingElement, mouseMoveDetectedRef])
+    useListScrollIntoView({
+      activeKey: focusedKey,
+      container: floatingElement,
+      isOpen,
+      mouseMoveDetectedRef,
+      itemSelector: '[data-focused="true"], [data-highlighted="true"]',
+    })
 
     const mergedRef = useMergedRef<HTMLDivElement>(refs.setFloating, setFloatingElement, ref)
 
@@ -203,7 +200,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
     }, [navigateToNextItem, navigateToPrevItem, selectFocusedItem, close, items, setFocusedKey, isFocusedItemSubmenu, onEscapeKeyDown])
 
     const showContent = isOpen && isPositioned
-    const resolved = resolveMenuContentBaseStyles(styles);
+    const resolved = resolveMenuContentStyles(styles);
 
     if (!mounted) return null
 
@@ -232,7 +229,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
             }}
           >
             <Scroll
-              className={css.list}
+              className={cn(css.list, resolved.list)}
               direction="vertical"
               fade-y
               hide={false}

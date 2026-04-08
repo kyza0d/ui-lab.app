@@ -21,8 +21,8 @@
   .switch-track {
     @apply absolute inset-0;
     transition: background-color 180ms var(--ease-snappy-pop), border-color 180ms var(--ease-snappy-pop), transform 180ms var(--ease-snappy-pop);
-    background-color: var(--track-background-unchecked);
-    border: var(--border-width-base) solid var(--border);
+    background-color: var(--background);
+    border: var(--border-width-base) solid var(--border-color);
     border-radius: var(--radius);
   }
 
@@ -36,30 +36,30 @@
     width: var(--thumb-size);
     height: var(--thumb-size);
     transition: left 180ms var(--ease-snappy-pop), background-color 180ms var(--ease-snappy-pop);
-    background-color: var(--thumb-background-unchecked);
+    background-color: var(--foreground);
     border-radius: var(--inner-radius);
     z-index: 1;
     pointer-events: none;
   }
 
   .switch[data-selected] .switch-track {
-    background-color: var(--track-background-checked);
-    border-color: var(--border-checked);
+    background-color: var(--background-active);
+    border-color: var(--border-color-active);
   }
 
   .switch[data-selected] .switch-thumb {
-    background-color: var(--thumb-background-checked);
+    background-color: var(--foreground-active);
     left: calc(var(--width) - var(--thumb-size) - var(--thumb-offset));
   }
 
   @media (hover: hover) {
     .switch[data-selected]:not([data-disabled]):hover .switch-track {
-      border-color: var(--border-hover);
+      border-color: var(--border-color-hover);
     }
   }
 
   .switch[data-selected]:not([data-disabled]):active .switch-track {
-    border-color: var(--border-active);
+    border-color: var(--border-color-pressed);
   }
 
   .switch[data-disabled] {
@@ -67,10 +67,8 @@
     cursor: not-allowed;
   }
 
-
-
   .switch[data-focus-visible] {
-    box-shadow: var(--focus-ring);
+    box-shadow: var(--focus-visible);
   }
 
   .switch-sm {

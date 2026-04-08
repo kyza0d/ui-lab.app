@@ -10,18 +10,35 @@
   }
 
   .radio-input {
-    @apply absolute inset-0 w-full h-full opacity-0 cursor-pointer
+    @apply absolute inset-0 h-full w-full cursor-pointer opacity-0;
   }
 
   .radio {
     --disabled-opacity: 0.6;
 
     @apply relative flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center;
-    border: var(--border-width-base) solid;
+    border: var(--border-width-base, 1px) solid var(--background-border);
     border-radius: 9999px;
     transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);
-    background-color: var(--radio-background-unchecked);
-    border-color: var(--radio-border-unchecked);
+    background-color: var(--background);
+
+    &[data-selected="true"] {
+      background-color: var(--background-selected);
+      border-color: var(--background-selected-border);
+    }
+
+    &[data-error="true"] {
+      border-color: var(--background-error-border);
+    }
+
+    &[data-error="true"][data-selected="true"] {
+      border-color: var(--background-selected-border);
+    }
+
+    &[data-focus-visible="true"] {
+      box-shadow: 0 0 0 1.5px var(--focus-visible);
+      outline: none;
+    }
   }
 
   .radio-item:active .radio {
@@ -30,77 +47,69 @@
 
   .radio-dot {
     border-radius: 9999px;
-    background-color: var(--radio-dot-unchecked);
+    background-color: var(--dot-color);
     transform: scale(0);
     transform-origin: center;
-    transition: transform 200ms var(--ease-snappy-pop);
+    transition: transform 200ms var(--ease-snappy-pop), background-color 200ms var(--ease-snappy-pop);
   }
 
-  .radio[data-checked="true"] {
-    --radio-background-unchecked: var(--radio-background-checked);
-    --radio-border-unchecked: var(--radio-border-checked);
-    --radio-dot-unchecked: var(--radio-dot-checked);
-  }
-
-  .radio[data-checked="true"] .radio-dot {
+  .radio[data-selected="true"] .radio-dot {
+    background-color: var(--dot-selected-color);
     transform: scale(1);
   }
 
   @media (hover: hover) {
-    .radio-item:not([data-disabled]):hover .radio {
-      --radio-background-unchecked: var(--radio-hover-background);
-      --radio-border-unchecked: var(--radio-hover-border);
+    .radio-item:not([data-disabled="true"]):hover .radio {
+      background-color: var(--background-hover);
+      border-color: var(--background-hover-border);
       opacity: 0.9;
     }
   }
 
-  .radio-item[data-disabled] .radio {
+  .radio-item[data-disabled="true"] .radio {
     opacity: var(--disabled-opacity);
     cursor: not-allowed;
-    --radio-dot-unchecked: transparent;
-  }
-
-  .radio[data-error="true"] {
-    --radio-border-unchecked: var(--radio-error-border);
-  }
-
-  .radio[data-error="true"][data-checked="true"] {
-    --radio-border-unchecked: var(--radio-border-checked);
-  }
-
-  .radio[data-focus-visible="true"] {
-    outline: 2px solid;
-    outline-color: var(--ring-color);
-    outline-offset: -2px;
   }
 
   .radio-label {
     @apply cursor-pointer;
-    font-weight: var(--font-weight-medium);
-    transition: color 200ms var(--ease-snappy-pop);
-    color: var(--radio-foreground);
+    color: var(--foreground);
     font-size: inherit;
+    font-weight: var(--font-weight-medium, 500);
     line-height: inherit;
-    select: none;
-  }
+    transition: color 200ms var(--ease-snappy-pop);
+    user-select: none;
 
-  .radio-label-disabled {
-    opacity: var(--disabled-opacity);
-    cursor: not-allowed;
-    color: var(--radio-foreground-disabled);
+    &[data-disabled="true"] {
+      color: var(--foreground-disabled, var(--foreground));
+      opacity: var(--disabled-opacity);
+      cursor: not-allowed;
+    }
   }
 
   .radio-description {
-    font-size: 0.875rem;
+    color: var(--foreground);
+    font-size: var(--text-sm, 0.875rem);
     margin-top: 0.125rem;
     transition: color 200ms var(--ease-snappy-pop);
-    color: var(--radio-helper);
+
+    &[data-error="true"] {
+      color: var(--foreground-error, var(--foreground));
+    }
   }
 
-  .radio-description-error {
-    color: var(--radio-helper-error);
+  .helper-text {
+    color: var(--foreground);
+    font-size: var(--text-sm, 0.875rem);
+    margin-top: 0.5rem;
+    margin-left: 2rem;
+    transition: color 200ms var(--ease-snappy-pop);
+
+    &[data-error="true"] {
+      color: var(--foreground-error, var(--foreground));
+    }
   }
-  /* Size variants */
+
   .radio.sm {
     @apply h-4 w-4;
   }

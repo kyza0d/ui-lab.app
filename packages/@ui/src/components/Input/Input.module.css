@@ -2,7 +2,6 @@
 
 @layer components {
   .input {
-    --disabled-opacity: 0.5;
     height: fit-content;
     flex: 1;
     min-width: 0;
@@ -27,6 +26,7 @@
 
     /* Hide default browser spinners for number inputs */
     &[type="number"] {
+
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -43,60 +43,60 @@
 
   .icon-wrapper {
     @apply z-10 flex items-center;
-    color: var(--icon-color);
     pointer-events: none;
   }
 
-  .prefix-icon {
+  .icon-left {
     @apply relative;
   }
 
-  .suffix-icon {
+  .icon-right {
     @apply relative;
   }
 
   .container {
+    --adornment-offset: calc(var(--spacing, 0.25rem) * 1.5);
+
     display: flex;
     align-items: center;
     width: 100%;
     background-color: var(--background);
-    border: var(--input-border-width, var(--border-width-base)) solid var(--input-border-color, var(--border));
-    border-radius: var(--input-border-radius, var(--radius-sm));
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-sm, 0.375rem);
     box-sizing: border-box;
     overflow: hidden;
 
-    &[data-active] {
-      border-color: var(--input-active-border-color, var(--ring-color));
-      box-shadow: var(--input-active-box-shadow, 0 0 0 1px mix(var(--ring-color) 20%, transparent));
+    &[data-focused] {
+      border-color: var(--background-focused-border);
+      box-shadow: 0 0 0 1.5px var(--focus-visible);
     }
 
     &[data-focus-visible] {
       @apply ring-0;
-      border-color: var(--input-active-border-color, var(--ring-color));
+      border-color: var(--background-focused-border);
+      box-shadow: 0 0 0 1.5px var(--focus-visible);
     }
 
     &[data-disabled] {
       background-color: var(--disabled-background);
       cursor: not-allowed;
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     &[data-error] {
-      &[data-active] {
-        border-color: var(--ring-color);
-        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
-      }
-
+      &[data-focused],
       &[data-focus-visible] {
-        border-color: var(--ring-color);
-        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+        border-color: var(--focus-visible);
+        box-shadow: 0 0 0 1.5px var(--focus-visible);
       }
     }
 
     &[data-variant="ghost"] {
       background-color: transparent;
       border-color: transparent;
-      &[data-active], &[data-focus-visible] {
+
+      &[data-focused],
+      &[data-focus-visible] {
         border-color: transparent;
         box-shadow: none;
       }
@@ -116,9 +116,13 @@
   }
 
   .end-adornments {
-    @apply pr-1.5;
+    padding-right: var(--adornment-offset);
 
-    &:has(.number-controls) {
+    &:has(.controls) {
+      padding-right: 0;
+    }
+
+    &:has([data-hint]) {
       padding-right: 0;
     }
   }
@@ -131,23 +135,35 @@
   .action {
     @apply flex items-center justify-center p-2;
     border-radius: 0.25rem;
-    color: var(--action-color);
+    color: var(--action-foreground);
   }
 
   .action:hover {
-    background-color: var(--background-hover);
-    color: var(--action-hover-color);
+    background-color: var(--action-background-hover);
+    color: var(--action-foreground-hover);
   }
 
-  .number-controls {
-    @apply flex w-7.5 flex-col;
-    align-self: stretch;
-    border-left: 1px solid var(--border);
+  .hint {
+    @apply inline-flex items-center justify-center whitespace-nowrap;
+    flex-shrink: 0;
+    margin-inline-start: calc(var(--spacing, 0.25rem) * 0.5);
+    margin-inline-end: var(--adornment-offset);
+    font-size: var(--text-sm);
+    line-height: 1;
+    color: var(--foreground);
+    background-color: var(--background);
     pointer-events: auto;
   }
 
-  .number-controls.disabled {
-    opacity: var(--disabled-opacity);
+  .controls {
+    @apply flex w-7.5 flex-col;
+    align-self: stretch;
+    border-left: 1px solid var(--background-border);
+    pointer-events: auto;
+  }
+
+  .controls[data-disabled] {
+    opacity: 0.5;
     cursor: not-allowed;
   }
 
@@ -156,26 +172,26 @@
     flex: 1;
     background-color: transparent;
     border: none;
-    color: var(--spin-color);
+    color: var(--controls-color);
     transition: color 150ms ease-out, background-color 150ms ease-out;
 
-    & + .spin-button {
-      border-top: 1px solid var(--border);
+    &+.spin-button {
+      border-top: 1px solid var(--background-border);
     }
 
     &:hover:not(:disabled) {
-      background-color: var(--spin-hover-background);
-      color: var(--spin-hover-color);
+      background-color: var(--controls-hover-background);
+      color: var(--controls-hover-color);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--spin-active-background);
-      color: var(--spin-active-color);
+      background-color: var(--controls-active-background);
+      color: var(--controls-active-color);
     }
 
     &:disabled {
       cursor: not-allowed;
-      opacity: var(--disabled-opacity);
+      opacity: 0.5;
     }
   }
 }

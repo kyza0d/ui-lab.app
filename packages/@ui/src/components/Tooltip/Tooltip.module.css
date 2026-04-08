@@ -12,13 +12,13 @@
   }
 
   .content {
-    --frame-fill: var(--tooltip-fill);
-    --frame-stroke-color: var(--tooltip-border-color);
+    --frame-fill: var(--background);
+    --frame-stroke-color: var(--background-border);
     opacity: 0;
     transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   }
 
-  .content[data-visible="true"] {
+  .content[data-open="true"] {
     opacity: 1;
     pointer-events: auto;
   }
@@ -28,11 +28,15 @@
   }
 
   .frame {
-    @apply flex items-center gap-1.5 px-2 py-1 whitespace-nowrap;;
+    @apply flex items-center gap-1.5 px-2 py-1 whitespace-nowrap;
     color: var(--foreground);
   }
 
-  .frame[data-hint] {
+  .frame[data-hint="true"] {
     @apply pr-1;
+  }
+
+  .hint {
+    @apply flex-shrink-0;
   }
 }

@@ -17,8 +17,8 @@
 
     font-size: var(--text-sm);
     line-height: var(--leading-snug);
-    color: var(--trigger-foreground);
-    background-color: var(--trigger-background);
+    color: var(--foreground);
+    background-color: var(--background);
 
     border: none;
     border-radius: var(--radius-sm);
@@ -37,7 +37,7 @@
 
     @media (hover: hover) {
       .trigger:not([data-disabled]):hover & {
-        background-color: var(--trigger-background-hover);
+        background-color: var(--background-hover);
         border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       }
 
@@ -126,10 +126,11 @@
 
     font-weight: var(--font-weight-medium);
     border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    color: inherit;
 
     @media (hover: hover) {
       .trigger:not([data-disabled]):hover & {
-        background-color: var(--trigger-background-hover);
+        background-color: var(--background-hover);
       }
 
       /* When icon is hovered, remove background from title */
@@ -155,8 +156,8 @@
 
   .content-inner {
     @apply min-h-0 overflow-hidden;
-    color: var(--content-foreground);
-    background-color: var(--content-background);
+    color: var(--foreground-content);
+    background-color: var(--background-content);
   }
 
   .expand:has(.trigger[data-disabled]) {

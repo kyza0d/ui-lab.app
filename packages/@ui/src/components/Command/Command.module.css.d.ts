@@ -1,6 +1,5 @@
 export interface Styles {
   overlay: string;
-  backdrop: string;
   content: string;
   inner: string;
   search: string;

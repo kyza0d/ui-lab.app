@@ -1,6 +1,8 @@
 declare const styles: {
   select: string;
+  "select-split": string;
   trigger: string;
+  "trigger-compact": string;
   input: string;
   "search-trigger": string;
   "search-value-section": string;

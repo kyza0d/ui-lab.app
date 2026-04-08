@@ -18,7 +18,7 @@ import styles from './List.module.css';
 /** Interactive checkbox inside a list item */
 const Checkbox = React.forwardRef<React.ElementRef<typeof UICheckbox>, ListCheckboxProps>(
   ({ checked, className, ...props }, ref) => (
-    <div className={cn(styles.control, className)}>
+    <div className={cn(styles.control, className)} data-list-primary-action="true">
       <UICheckbox
         ref={ref}
         checked={checked}
@@ -52,7 +52,7 @@ CheckboxIndicator.displayName = 'List.CheckboxIndicator';
 /** Interactive switch inside a list item */
 const Switch = React.forwardRef<React.ElementRef<typeof UISwitch>, ListSwitchProps>(
   ({ isSelected, isDisabled, className, ...props }, ref) => (
-    <div className={cn(styles.control, className)}>
+    <div className={cn(styles.control, className)} data-list-primary-action="true">
       <UISwitch
         ref={ref}
         isSelected={isSelected}
@@ -80,7 +80,7 @@ Input.displayName = 'List.Input';
 /** Select element wrapper inside a list item */
 const Select = React.forwardRef<React.ElementRef<typeof UISelect>, ListSelectProps>(
   ({ isDisabled, children, className, ...props }, ref) => (
-    <div className={cn(styles.control, className)}>
+    <div className={cn(styles.control, className)} data-list-primary-action="true">
       <UISelect
         ref={ref}
         isDisabled={isDisabled}

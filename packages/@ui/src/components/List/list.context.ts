@@ -2,12 +2,18 @@
 
 import React from 'react';
 
+interface SetFocusedItemOptions {
+  enterFocusMode?: boolean;
+  scroll?: boolean;
+}
+
 interface ListContextValue {
-  highlightedIndex: number | null;
-  isKeyboardMode: boolean;
-  focusItem: (index: number) => void;
-  registerItem: (ref: HTMLElement | null) => number;
-  itemRefs: React.MutableRefObject<(HTMLElement | null)[]>;
+  focusedItem: HTMLElement | null;
+  isFocusMode: boolean;
+  rootRef: React.MutableRefObject<HTMLDivElement | null>;
+  setFocusedItem: (item: HTMLElement | null, options?: SetFocusedItemOptions) => void;
+  focusAdjacentItem: (currentItem: HTMLElement | null, direction: 1 | -1, scroll?: boolean) => boolean;
+  focusBoundaryItem: (position: 'first' | 'last', scroll?: boolean) => boolean;
 }
 
 export const ListContext = React.createContext<ListContextValue | undefined>(undefined);

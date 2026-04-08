@@ -23,21 +23,22 @@
     &[data-variant="underline"] {
       background-color: transparent;
       border-radius: 0;
-      padding: 0;
+      padding: 0 0 4px;
     }
 
     &[data-variant="underline"][data-orientation="vertical"] {
       border-bottom: none;
-      border-left: var(--border-width-base) solid var(--list-border-color);
+      border-left: var(--border-width-base) solid var(--border-color);
       align-items: stretch;
+      padding: 0 0 0 4px;
     }
   }
 
   .indicator {
     @apply absolute;
-    background-color: var(--indicator-background);
+    background-color: var(--background);
     box-sizing: border-box;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-sm);
     z-index: 0;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
@@ -54,45 +55,48 @@
   .trigger {
     @apply relative z-[1] flex shrink-0 items-center justify-center gap-2 rounded-sm px-2 py-1.5 cursor-pointer select-none;
     height: 100%;
-    background-color: transparent;
+    background-color: var(--background);
     border: none;
-    color: var(--trigger-color);
+    color: var(--foreground);
     outline: none;
     transition: color 0.15s ease, background-color 0.15s ease;
 
 
-    &:not([data-disabled]) {
+    &:not([data-disabled]):not([data-selected="true"]) {
       &:hover {
-        color: var(--trigger-hover-color);
+        background-color: var(--background-hover);
+        color: var(--foreground-hover);
       }
 
       &:active {
-        color: var(--trigger-active-color);
+        background-color: var(--background-pressed);
+        color: var(--foreground-pressed);
       }
     }
 
     &[data-selected="true"] {
-      color: var(--trigger-selected-color);
+      background-color: var(--background-selected);
+      color: var(--foreground-selected);
     }
 
     &[data-selected="true"]:not([data-indicator-ready="true"]):not([data-indicator-fallback="true"]) {
       .list & {
-        background-color: var(--trigger-selected-background);
+        background-color: var(--background-selected);
       }
 
       .list[data-variant="underline"] & {
         background-color: transparent;
-        border-bottom-color: var(--trigger-underline-color);
+        border-bottom-color: var(--underline-border);
       }
 
       .list[data-variant="underline"][data-orientation="vertical"] & {
         border-bottom-color: transparent;
-        border-left-color: var(--trigger-underline-color);
+        border-left-color: var(--underline-border);
       }
     }
 
     &[data-focus-visible] {
-      background: var(--trigger-focus-background);
+      background-color: var(--background-focused);
       outline: none;
     }
 
@@ -104,9 +108,26 @@
     }
 
     .list[data-variant="underline"] & {
-      background-color: transparent;
-      border-radius: 0;
+      background-color: var(--background);
+      background-clip: padding-box;
+      border-radius: var(--radius-xs);
       border-bottom: 2px solid transparent;
+    }
+
+    .list[data-variant="underline"] &:not([data-disabled]):not([data-selected="true"]):hover {
+      background-color: var(--background-hover);
+    }
+
+    .list[data-variant="underline"] &:not([data-disabled]):not([data-selected="true"]):active {
+      background-color: var(--background-pressed);
+    }
+
+    .list[data-variant="underline"] &[data-selected="true"] {
+      background-color: var(--background-selected);
+    }
+
+    .list[data-variant="underline"] &[data-focus-visible] {
+      background-color: var(--background-focused);
     }
 
     .list[data-variant="underline"][data-orientation="vertical"] & {
@@ -115,12 +136,12 @@
     }
 
     .list[data-variant="underline"][data-orientation="vertical"] &[data-selected="true"]:not([data-indicator-ready="true"]):not([data-indicator-fallback="true"]) {
-      border-left-color: var(--trigger-underline-color);
+      border-left-color: var(--underline-border);
       border-bottom: none;
     }
   }
 
-  .trigger-icon {
+  .icon {
     @apply flex h-4 w-4 shrink-0 items-center justify-center;
   }
 
@@ -135,7 +156,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--content-outline-color);
+      outline: 2px solid var(--focus-visible);
       outline-offset: 2px;
     }
   }
@@ -145,7 +166,7 @@
       padding: 0.125rem;
 
       &[data-variant="underline"] {
-        padding: 0;
+        padding: 0 0 4px;
       }
     }
 

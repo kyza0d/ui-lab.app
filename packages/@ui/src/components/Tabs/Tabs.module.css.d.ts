@@ -5,7 +5,7 @@ declare const styles: {
   "indicator-fallback": string;
   "indicator-underline": string;
   trigger: string;
-  "trigger-icon": string;
+  icon: string;
   content: string;
 };
 

@@ -12,12 +12,13 @@ import { GroupContext } from "../Group/Group"
 import { Scroll } from "../Scroll"
 import { Input } from "../Input"
 import { List } from "../List"
-import { useMergedRef, scrollItemIntoView } from "./Select.shared"
+import { handleListKeyDown, scrollItemIntoView, useListPointerModality, useMergedRef } from "./Select.shared"
 
 export interface SelectContentStyleSlots {
   root?: StyleValue;
   overlay?: StyleValue;
   searchWrapper?: StyleValue;
+  searchInput?: StyleValue;
   listPaddingWrapper?: StyleValue;
 }
 
@@ -40,8 +41,15 @@ const resolveSelectContentBaseStyles = createStylesResolver([
   'root',
   'overlay',
   'searchWrapper',
+  'searchInput',
   'listPaddingWrapper',
 ] as const);
+
+function resolveSelectContentStyles(styles: SelectContentStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveSelectContentBaseStyles(styles)
+  const { root, overlay, searchWrapper, searchInput, listPaddingWrapper } = styles
+  return resolveSelectContentBaseStyles({ root, overlay, searchWrapper, searchInput, listPaddingWrapper })
+}
 
 /** Floating panel that renders the list of selectable options */
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
@@ -56,11 +64,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       triggerRef,
       maxItems,
       triggerMode,
-      handleHoverIntent,
-      items,
       searchValue,
       setSearchValue,
-      onSelect,
       filteredItems,
       navigateToNextItem,
       navigateToPrevItem,
@@ -68,16 +73,19 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       setFocusedKey,
       focusedKey,
       mouseMoveDetectedRef,
+      keyboardScrollIntentRef,
+      markKeyboardNavigation,
+      moveFocusFromTrigger,
       contentId,
+      restoreFocus,
     } = useSelectContext()
     const groupContext = React.useContext(GroupContext)
     const [mounted, setMounted] = React.useState(false)
     const [contentElement, setContentElement] = React.useState<HTMLDivElement | null>(null)
     const floatingRootRef = React.useRef<HTMLDivElement | null>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
-    const isKeyboardNavRef = React.useRef(false)
-    const justOpenedRef = React.useRef(false)
     const focusFrameRef = React.useRef<number | null>(null)
+    const justOpenedRef = React.useRef(false)
 
     const offsetValue = groupContext?.isInGroup ? 4 : 2
 
@@ -138,7 +146,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     }, [isOpen, searchable])
 
     React.useEffect(() => {
-      const shouldKeepTriggerFocus = triggerType === "input"
+      const shouldKeepTriggerFocus = triggerType === "input" || triggerRef.current?.tagName === "INPUT"
 
       if (isOpen && !searchable && shouldKeepTriggerFocus) {
         focusFrameRef.current = requestAnimationFrame(() => {
@@ -159,26 +167,10 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       }
     }, [isOpen, searchable, contentElement, triggerRef, triggerType])
 
-    React.useEffect(() => {
-      if (!isOpen) return
-      const handleWindowKeyDown = (e: KeyboardEvent) => {
-        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) {
-          isKeyboardNavRef.current = true
-          mouseMoveDetectedRef.current = false
-        }
-      }
-      const handleWindowMouseMove = () => {
-        if (!mouseMoveDetectedRef.current) {
-          mouseMoveDetectedRef.current = true
-        }
-      }
-      window.addEventListener('keydown', handleWindowKeyDown)
-      window.addEventListener('mousemove', handleWindowMouseMove)
-      return () => {
-        window.removeEventListener('keydown', handleWindowKeyDown)
-        window.removeEventListener('mousemove', handleWindowMouseMove)
-      }
-    }, [isOpen, mouseMoveDetectedRef])
+    useListPointerModality({
+      isOpen,
+      mouseMoveDetectedRef,
+    })
 
     React.useEffect(() => {
       if (isOpen) {
@@ -189,19 +181,21 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     React.useEffect(() => {
       if (!isOpen || focusedKey === null || !contentElement) return
 
+      const activeItem = contentElement.querySelector('[role="option"][data-focused="true"], [role="option"][data-highlighted="true"]') as HTMLElement | null
+      if (!activeItem) return
+
       if (justOpenedRef.current) {
         justOpenedRef.current = false
-        const el = contentElement.querySelector('[data-highlighted="true"]') as HTMLElement
-        if (el) scrollItemIntoView(el, 'instant')
+        scrollItemIntoView(activeItem, 'instant')
+        keyboardScrollIntentRef.current = false
         return
       }
 
-      const shouldScroll = !mouseMoveDetectedRef.current
-      if (!shouldScroll) return
-      isKeyboardNavRef.current = false
-      const el = contentElement.querySelector('[data-highlighted="true"]') as HTMLElement
-      if (el) scrollItemIntoView(el)
-    }, [focusedKey, isOpen, contentElement, mouseMoveDetectedRef])
+      if (!keyboardScrollIntentRef.current || mouseMoveDetectedRef.current) return
+
+      scrollItemIntoView(activeItem)
+      keyboardScrollIntentRef.current = false
+    }, [contentElement, focusedKey, isOpen, keyboardScrollIntentRef, mouseMoveDetectedRef])
 
     const mergedContentRef = useMergedRef<HTMLDivElement>(setContentElement, contentRef, ref)
     const mergedFloatingRef = React.useCallback((el: HTMLDivElement | null) => {
@@ -209,65 +203,66 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       refs.setFloating(el)
     }, [refs])
 
-    const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowDown':
-          e.preventDefault()
-          isKeyboardNavRef.current = true
-          navigateToNextItem()
-          break
-        case 'ArrowUp':
-          e.preventDefault()
-          isKeyboardNavRef.current = true
-          navigateToPrevItem()
-          break
-        case 'Home': {
-          e.preventDefault()
-          const first = filteredItems.find(item => !item.isDisabled)
-          if (first) {
-            isKeyboardNavRef.current = true
-            setFocusedKey(first.key)
-          }
-          break
-        }
-        case 'End': {
-          e.preventDefault()
-          const last = [...filteredItems].reverse().find(item => !item.isDisabled)
-          if (last) {
-            isKeyboardNavRef.current = true
-            setFocusedKey(last.key)
-          }
-          break
-        }
-        case 'Enter':
-          e.preventDefault()
-          selectFocusedItem()
-          break
-        case ' ':
-          if (document.activeElement?.tagName !== 'INPUT') {
-            e.preventDefault()
-            selectFocusedItem()
-          }
-          break
-        case 'Escape':
-          e.preventDefault()
-          setIsOpen(false)
-          setSearchValue("")
-          triggerRef.current?.focus()
-          break
+    const closeContent = React.useCallback(() => {
+      setIsOpen(false)
+      setSearchValue("")
+      restoreFocus()
+    }, [restoreFocus, setIsOpen, setSearchValue])
+
+    const handleTabNavigation = React.useCallback((e: React.KeyboardEvent) => {
+      setIsOpen(false)
+      setSearchValue("")
+      const direction = e.shiftKey ? -1 : 1
+      if (moveFocusFromTrigger(direction as 1 | -1)) {
+        e.preventDefault()
       }
-    }, [navigateToNextItem, navigateToPrevItem, selectFocusedItem, filteredItems, setFocusedKey, setIsOpen, setSearchValue, triggerRef])
+    }, [moveFocusFromTrigger, setIsOpen, setSearchValue])
+
+    const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        handleTabNavigation(e)
+        return
+      }
+
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End') {
+        markKeyboardNavigation()
+      }
+
+      const handled = handleListKeyDown(e, {
+        navigateNext: navigateToNextItem,
+        navigatePrev: navigateToPrevItem,
+        confirm: selectFocusedItem,
+        close: closeContent,
+        filteredItems,
+        setFocusedKey,
+      })
+      if (!handled) {
+        keyboardScrollIntentRef.current = false
+      }
+    }, [closeContent, filteredItems, handleTabNavigation, keyboardScrollIntentRef, markKeyboardNavigation, navigateToNextItem, navigateToPrevItem, selectFocusedItem, setFocusedKey])
 
     const handleInputKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End' || e.key === 'Enter') {
-        handleKeyDown(e as any)
-      } else if (e.key === 'Escape') {
-        e.preventDefault()
-        setIsOpen(false)
-        setSearchValue("")
-        triggerRef.current?.focus()
+      if (e.key === 'Tab') {
+        handleTabNavigation(e)
+        return
       }
-    }, [handleKeyDown, setIsOpen, setSearchValue, triggerRef])
+
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End') {
+        markKeyboardNavigation()
+      }
+
+      const handled = handleListKeyDown(e, {
+        navigateNext: navigateToNextItem,
+        navigatePrev: navigateToPrevItem,
+        confirm: selectFocusedItem,
+        close: closeContent,
+        filteredItems,
+        setFocusedKey,
+      })
+      if (!handled) {
+        keyboardScrollIntentRef.current = false
+      }
+    }, [closeContent, filteredItems, handleTabNavigation, keyboardScrollIntentRef, markKeyboardNavigation, navigateToNextItem, navigateToPrevItem, selectFocusedItem, setFocusedKey])
 
     React.useEffect(() => {
       if (!isOpen || triggerMode === 'hover') return
@@ -291,7 +286,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 
     if (!mounted) return null
 
-    const resolved = resolveSelectContentBaseStyles(stylesProp);
+    const resolved = resolveSelectContentStyles(stylesProp);
     const shouldConstrainListHeight = filteredItems.length > maxItems;
     const scrollMaxHeight = shouldConstrainListHeight
       ? `calc(${maxItems} * 36px + 8px)`
@@ -339,7 +334,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
                   onKeyDown={handleInputKeyDown}
                   placeholder={searchPlaceholder}
                   variant="ghost"
-                  className={styles['search-content-input']}
+                  className={cn(styles['search-content-input'], resolved.searchInput)}
                 />
               </div>
             )}

@@ -1,8 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
 import * as React from 'react'
 import { renderSelectWithItems, renderSelectWithChildren, selectItem, openSelect, getSelectTrigger } from './Select.test-utils'
-import { createMockSelectItems, getAllElementsByRole, clickElement, pressArrowDown } from '@/tests/utils'
+import { createMockSelectItems, getAllElementsByRole, clickElement, hoverElement, pressArrowDown } from '@/tests/utils'
 import { Select } from '..'
+import * as SelectShared from '../Select.shared'
 
 describe('Select.edgeCases', () => {
 
@@ -65,6 +66,94 @@ describe('Select.edgeCases', () => {
 
       const focusedItem = document.querySelector('[data-focused="true"]')
       expect(focusedItem).toBeInTheDocument()
+    })
+
+    it('keyboard navigation still scrolls long lists into view', async () => {
+      const items = createMockSelectItems(100)
+      const container = renderSelectWithItems(items, { maxItems: 5 })
+      const trigger = getSelectTrigger(container)
+      const scrollSpy = vi.spyOn(SelectShared, 'scrollItemIntoView')
+
+      try {
+        await openSelect(trigger)
+
+        scrollSpy.mockClear()
+
+        for (let i = 0; i < 12; i++) {
+          await pressArrowDown(trigger)
+        }
+
+        expect(scrollSpy).toHaveBeenCalled()
+      } finally {
+        scrollSpy.mockRestore()
+      }
+    })
+
+    it('hovering after keyboard navigation does not trigger another scroll jump', async () => {
+      const items = createMockSelectItems(100)
+      const container = renderSelectWithItems(items, { maxItems: 5 })
+      const trigger = getSelectTrigger(container)
+      const scrollSpy = vi.spyOn(SelectShared, 'scrollItemIntoView')
+
+      try {
+        await openSelect(trigger)
+
+        for (let i = 0; i < 12; i++) {
+          await pressArrowDown(trigger)
+        }
+
+        scrollSpy.mockClear()
+
+        const visibleItems = Array.from(
+          document.querySelectorAll('[role="option"]:not([aria-hidden="true"])')
+        ) as HTMLElement[]
+
+        expect(visibleItems.length).toBeGreaterThan(0)
+
+        await hoverElement(visibleItems[visibleItems.length - 1]!)
+
+        expect(scrollSpy).not.toHaveBeenCalled()
+      } finally {
+        scrollSpy.mockRestore()
+      }
+    })
+
+    it('searchable content keeps keyboard-scrolled options in view', async () => {
+      const items = createMockSelectItems(100)
+      const container = renderSelectWithChildren(
+        <>
+          <Select.Trigger>
+            <Select.Value placeholder="Select item" />
+          </Select.Trigger>
+          <Select.Content searchable>
+            <Select.List>
+              {items.map((item) => (
+                <Select.Item key={item.key} value={item.key} textValue={item.label}>
+                  {item.label}
+                </Select.Item>
+              ))}
+            </Select.List>
+          </Select.Content>
+        </>,
+        { maxItems: 5 }
+      )
+      const trigger = getSelectTrigger(container)
+      const scrollSpy = vi.spyOn(SelectShared, 'scrollItemIntoView')
+
+      try {
+        await openSelect(trigger)
+        const searchInput = document.querySelector('[role="combobox"]') as HTMLElement
+
+        scrollSpy.mockClear()
+
+        for (let i = 0; i < 8; i++) {
+          await pressArrowDown(searchInput)
+        }
+
+        expect(scrollSpy).toHaveBeenCalled()
+      } finally {
+        scrollSpy.mockRestore()
+      }
     })
 
     it('does not mount scroll chrome when the content is below maxItems', async () => {
@@ -136,6 +225,34 @@ describe('Select.edgeCases', () => {
       expect(wrapperDiv).toBeInTheDocument()
     })
 
+  })
+
+  describe('composed trigger layouts', () => {
+    it('renders a select trigger alongside sibling controls in fit-content layouts', () => {
+      const container = renderSelectWithChildren(
+        React.createElement(
+          React.Fragment,
+          null,
+          React.createElement('button', { type: 'button' }, 'Toggle camera'),
+          React.createElement(Select.Trigger, null, React.createElement(Select.Value, { placeholder: 'Select camera' })),
+          React.createElement(
+            Select.Content,
+            null,
+            React.createElement(
+              Select.List,
+              null,
+              createMockSelectItems(3).map((item) =>
+                React.createElement(Select.Item, { key: item.key, value: item.key }, item.label)
+              )
+            )
+          )
+        ),
+        { className: 'w-fit' }
+      )
+
+      expect(getSelectTrigger(container)).toBeInTheDocument()
+      expect(container.querySelector('button[type="button"]')).toBeInTheDocument()
+    })
   })
 
 

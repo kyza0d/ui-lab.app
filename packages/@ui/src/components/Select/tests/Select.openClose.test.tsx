@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderSelectWithItems, openSelect, closeSelect, getSelectTrigger, getSelectContent } from './Select.test-utils'
-import { createMockSelectItems, clickElement, pressEscape, hoverElement, unhoverElement, waitForOpen, waitForClose, waitForCondition } from '@/tests/utils'
+import { createMockSelectItems, clickElement, pressArrowUp, pressEscape, hoverElement, unhoverElement, waitForOpen, waitForClose, waitForCondition } from '@/tests/utils'
+import { Select, Searchable } from '../'
+import { render as utilRender } from '@/tests/utils'
 
 describe('Select.openClose', () => {
   describe('click trigger mode', () => {
@@ -38,6 +40,17 @@ describe('Select.openClose', () => {
       expect(trigger.getAttribute('aria-expanded')).toBe('false')
     })
 
+    it('opens on ArrowUp when the trigger is focused', async () => {
+      const items = createMockSelectItems(3)
+      const container = renderSelectWithItems(items, { trigger: 'click' })
+      const trigger = getSelectTrigger(container)
+
+      await pressArrowUp(trigger)
+      await waitForCondition(() => trigger.getAttribute('aria-expanded') === 'true')
+
+      expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    })
+
     it('closes when clicking outside dropdown', async () => {
       const items = createMockSelectItems(3)
       const container = renderSelectWithItems(items, { trigger: 'click' })
@@ -52,6 +65,30 @@ describe('Select.openClose', () => {
       // Wait for close with a timeout
       await waitForClose(() => getSelectContent(container))
       expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    })
+  })
+
+  describe('searchable trigger', () => {
+    it('opens on ArrowUp when the input trigger is focused', async () => {
+      const items = createMockSelectItems(3)
+      const { container } = utilRender(
+        <Select>
+          <Searchable.Input placeholder="Search items..." />
+          <Searchable.Content>
+            {items.map((item) => (
+              <Select.Item key={item.key} value={item.key} textValue={item.label}>
+                {item.label}
+              </Select.Item>
+            ))}
+          </Searchable.Content>
+        </Select>
+      )
+      const trigger = getSelectTrigger(container)
+
+      await pressArrowUp(trigger)
+      await waitForCondition(() => trigger.getAttribute('aria-expanded') === 'true')
+
+      expect(trigger.getAttribute('aria-expanded')).toBe('true')
     })
   })
 

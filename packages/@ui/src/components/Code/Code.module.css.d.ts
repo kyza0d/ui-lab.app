@@ -1,5 +1,5 @@
 declare const styles: {
-  readonly "code": string;
+  readonly code: string;
   readonly header: string;
   readonly "header-lang": string;
   readonly body: string;

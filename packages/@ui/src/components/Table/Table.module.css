@@ -1,0 +1,110 @@
+@reference "tailwindcss";
+
+@layer components {
+  .root {
+    @apply w-full;
+  }
+
+  .container {
+    @apply overflow-x-auto rounded-md;
+    border: 1px solid var(--table-border, var(--background-800));
+  }
+
+  .table {
+    @apply w-full text-sm;
+    background-color: var(--table-background, transparent);
+    color: var(--table-foreground, currentColor);
+  }
+
+  .thead {
+    @apply contents;
+  }
+
+  .headerRow {
+    @apply contents;
+  }
+
+  .headerCell {
+    @apply px-4 py-3 text-left font-semibold;
+    background-color: var(--table-header-background, var(--background-900));
+    color: var(--table-header-foreground, var(--foreground-200));
+    border-bottom: 1px solid var(--table-border, var(--background-800));
+  }
+
+  .tbody {
+    @apply contents;
+  }
+
+  .bodyRow {
+    @apply contents;
+
+    &[data-interactive="true"] {
+      @apply cursor-pointer;
+
+      & td {
+        @apply transition-colors;
+      }
+
+      &:hover td {
+        background-color: var(--table-body-background-hover, var(--background-900));
+      }
+    }
+  }
+
+  .interactive {
+    @apply cursor-pointer;
+  }
+
+  .cell {
+    @apply px-4 py-3;
+    background-color: var(--table-cell-background, transparent);
+    color: var(--table-cell-foreground, var(--foreground-300));
+    border-bottom: 1px solid var(--table-border, var(--background-800));
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .emptyState {
+    @apply px-4 py-8 text-center;
+    color: var(--table-empty-foreground, var(--foreground-400));
+    display: table-cell !important;
+  }
+
+  .filterBar {
+    @apply mb-4 rounded-sm border p-4;
+    background-color: var(--table-filter-background, var(--background-900));
+    border-color: var(--table-filter-border, var(--background-800));
+  }
+
+  .filterGrid {
+    @apply grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .filterLabel {
+    @apply mb-2 block text-sm font-medium;
+    color: var(--table-filter-label-color, var(--foreground-300));
+  }
+
+  .filterInput {
+    @apply w-full rounded-md border px-3 py-2 transition-all;
+    background-color: var(--table-filter-input-background, var(--background-950));
+    border-color: var(--table-filter-input-border, var(--background-700));
+    color: var(--table-filter-input-foreground, var(--foreground-50));
+
+    &::placeholder {
+      color: var(--table-filter-input-placeholder, var(--foreground-400));
+    }
+
+    &:hover {
+      border-color: var(--table-filter-input-border-hover, var(--background-600));
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--table-filter-input-border-focus, var(--accent-500));
+      box-shadow: 0 0 0 2px var(--table-filter-input-ring, rgba(99, 102, 241, 0.2));
+    }
+  }
+}

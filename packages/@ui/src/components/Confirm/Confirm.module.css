@@ -1,6 +1,19 @@
 @reference "tailwindcss";
 
 @layer components {
+  .confirm {
+    --overlay-background: mix(var(--background-950) 50%, transparent);
+    --header-foreground: var(--foreground-100);
+    --description-foreground: var(--foreground-300);
+    --error-foreground: var(--foreground-danger);
+    --countdown-foreground: var(--foreground-400);
+    --label-foreground: var(--foreground-300);
+    --input-background: var(--background-800);
+    --input-border-color: var(--background-700);
+    --input-foreground: var(--foreground-100);
+    --input-focus-visible: var(--accent-500);
+  }
+
   .container {
     @apply flex flex-col;
   }
@@ -9,13 +22,17 @@
     @apply max-w-[28rem];
   }
 
-  .card-compact {
-    @apply max-w-[21rem];
+  .body {
+    @apply flex flex-col gap-4;
+  }
+
+  .body-compact {
+    @apply gap-3;
   }
 
   .dialog-overlay {
     @apply fixed inset-0 z-50 flex items-center justify-center;
-    background-color: mix(var(--background-950) 50%, transparent);
+    background-color: var(--overlay-background);
   }
 
   .dialog-card {
@@ -33,77 +50,71 @@
 
   .header-title {
     @apply font-semibold;
-    color: var(--foreground-100);
-  }
-
-  .body {
-    @apply flex flex-col gap-4;
-  }
-
-  .body-compact {
-    @apply gap-3;
+    color: var(--header-foreground);
   }
 
   .description {
     font-size: var(--text-sm);
-    color: var(--foreground-300);
+    color: var(--description-foreground);
   }
 
   .error-message {
     font-size: var(--text-sm);
-    color: var(--foreground-danger);
+    color: var(--error-foreground);
   }
 
   .warning-box {
     @apply p-3 rounded-sm;
-    border: var(--border-width-base) solid;
+    border: var(--border-width-base, 1px) solid var(--warning-border-color);
+    background-color: var(--warning-background);
+    color: var(--warning-foreground);
     font-size: var(--text-sm);
   }
 
   .warning-box-low {
-    background-color: mix(var(--background-info) 20%, transparent);
-    border-color: mix(var(--background-info) 30%, transparent);
-    color: var(--foreground-200);
+    --warning-background: var(--warning-background-low);
+    --warning-border-color: var(--warning-border-color-low);
+    --warning-foreground: var(--warning-foreground-low);
   }
 
   .warning-box-medium {
-    background-color: mix(var(--background-warning) 20%, transparent);
-    border-color: mix(var(--background-warning) 30%, transparent);
-    color: var(--foreground-200);
+    --warning-background: var(--warning-background-medium);
+    --warning-border-color: var(--warning-border-color-medium);
+    --warning-foreground: var(--warning-foreground-medium);
   }
 
   .warning-box-high {
-    background-color: mix(var(--background-warning-dark) 20%, transparent);
-    border-color: mix(var(--background-warning-dark) 30%, transparent);
-    color: var(--foreground-200);
+    --warning-background: var(--warning-background-high);
+    --warning-border-color: var(--warning-border-color-high);
+    --warning-foreground: var(--warning-foreground-high);
   }
 
   .warning-box-critical {
-    background-color: mix(var(--background-danger) 20%, transparent);
-    border-color: mix(var(--background-danger) 30%, transparent);
-    color: var(--foreground-200);
+    --warning-background: var(--warning-background-critical);
+    --warning-border-color: var(--warning-border-color-critical);
+    --warning-foreground: var(--warning-foreground-critical);
   }
 
   .countdown-text {
     font-size: var(--text-sm);
-    color: var(--foreground-400);
+    color: var(--countdown-foreground);
   }
 
   .input-label {
     font-size: var(--text-sm);
     margin-left: 0.25rem;
-    color: var(--foreground-300);
+    color: var(--label-foreground);
   }
 
   .input {
     @apply w-full mt-2 px-3 py-2 rounded-sm transition-all duration-200;
-    background-color: var(--background-800);
-    border: var(--border-width-base) solid var(--background-700);
-    color: var(--foreground-100);
+    background-color: var(--input-background);
+    border: var(--border-width-base, 1px) solid var(--input-border-color);
+    color: var(--input-foreground);
     font-size: var(--text-sm);
 
     &:focus-visible {
-      outline: 2px solid var(--accent-500);
+      outline: 2px solid var(--input-focus-visible);
       outline-offset: 2px;
     }
   }

@@ -3,6 +3,8 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { useDialog } from "react-aria";
+import { useFocusRing } from "@react-aria/focus";
+import { mergeProps } from "@react-aria/utils";
 import { useOverlayTriggerState } from "react-stately";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
@@ -37,7 +39,7 @@ const useModalKeyboard = (
   }, [isOpen, isDismissable, isKeyboardDismissDisabled]);
 };
 
-interface ModalStyleSlots {
+export interface ModalStyleSlots {
   root?: StyleValue;
   overlay?: StyleValue;
   backdrop?: StyleValue;
@@ -50,11 +52,17 @@ interface ModalStyleSlots {
   footer?: StyleValue;
 }
 
-type ModalStylesProp = StylesProp<ModalStyleSlots>;
+export type ModalStylesProp = StylesProp<ModalStyleSlots>;
 
 const resolveModalBaseStyles = createStylesResolver([
   'root', 'overlay', 'backdrop', 'header', 'title', 'spacer', 'close', 'closeIcon', 'content', 'footer'
 ] as const);
+
+function resolveModalStyles(styles: ModalStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveModalBaseStyles(styles);
+  const { root, overlay, backdrop, header, title, spacer, close, closeIcon, content, footer } = styles;
+  return resolveModalBaseStyles({ root, overlay, backdrop, header, title, spacer, close, closeIcon, content, footer });
+}
 
 export interface ModalProps {
   /** Whether the modal is open */
@@ -85,10 +93,6 @@ export interface ModalProps {
   styles?: ModalStylesProp;
 }
 
-const sizeClasses: Record<string, string> = {
-  fit: (css as any)["size-fit"],
-  auto: (css as any)["size-auto"],
-};
 
 /**
  * Modal component that displays content in a centered dialog with a backdrop overlay.
@@ -116,8 +120,12 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
   ) => {
     const modalRef = React.useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = React.useState(false);
+    const [isClosePressed, setIsClosePressed] = React.useState(false);
+    const [isCloseHovered, setIsCloseHovered] = React.useState(false);
+    const [isCloseFocused, setIsCloseFocused] = React.useState(false);
+    const [isCloseFocusVisible, setIsCloseFocusVisible] = React.useState(false);
 
-    const resolved = resolveModalBaseStyles(styles);
+    const resolved = resolveModalStyles(styles);
 
     // Use uncontrolled state management via useOverlayTriggerState
     const state = useOverlayTriggerState({
@@ -144,15 +152,32 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
 
     // useDialog hook provides accessibility attributes and title handling
     const { dialogProps, titleProps } = useDialog({}, modalRef);
+    const { focusProps: modalFocusProps, isFocused: isModalFocused, isFocusVisible: isModalFocusVisible } = useFocusRing();
 
     if (!mounted || !state.isOpen) return null;
 
     const handleClose = () => state.close();
+    const handleCloseMouseDown = () => setIsClosePressed(true);
+    const handleCloseMouseUp = () => setIsClosePressed(false);
+    const handleCloseMouseLeave = () => {
+      setIsClosePressed(false);
+      setIsCloseHovered(false);
+    };
+    const handleCloseMouseEnter = () => setIsCloseHovered(true);
+    const handleCloseFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
+      setIsCloseFocused(true);
+      setIsCloseFocusVisible(event.currentTarget.matches(":focus-visible"));
+    };
+    const handleCloseBlur = () => {
+      setIsCloseFocused(false);
+      setIsCloseFocusVisible(false);
+    };
 
     return createPortal(
       <div
         className={cn(
           "modal",
+          "overlay",
           "fixed inset-0 z-9999 flex items-center justify-center",
           css.overlay,
           overlayClassName,
@@ -161,54 +186,68 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       >
         {/* Backdrop overlay - click outside to dismiss */}
         <div
-          className={cn("backdrop", css.backdrop, resolved.backdrop)}
+          className={cn("modal", "backdrop", css.backdrop, resolved.backdrop)}
           onMouseDown={() => { if (isDismissable) state.close(); }}
         />
 
         {/* Modal content */}
         <div
-          {...asElementProps<"div">(dialogProps)}
+          {...asElementProps<"div">(mergeProps(dialogProps, modalFocusProps))}
           aria-modal="true"
           ref={modalRef}
           className={cn(
+            "modal",
             css.modal,
-            sizeClasses[size],
             className,
             resolved.root
           )}
           onClick={(e) => e.stopPropagation()}
           tabIndex={-1}
           data-open={state.isOpen || undefined}
+          data-size={size}
+          data-focused={isModalFocused ? "true" : "false"}
+          data-focus-visible={isModalFocusVisible ? "true" : "false"}
         >
           {/* Header */}
           {(title || close) && (
-            <div className={cn(css.header, resolved.header)}>
+            <div className={cn("modal", "header", css.header, resolved.header)}>
               {title && (
-                <h4 {...asElementProps<"h4">(titleProps)} className={cn(css.title, resolved.title)}>
+                <h4 {...asElementProps<"h4">(titleProps)} className={cn("modal", "title", css.title, resolved.title)}>
                   {title}
                 </h4>
               )}
-              {!title && close && <div className={cn(css.spacer, resolved.spacer)} />}
+              {!title && close && <div className={cn("modal", "spacer", css.spacer, resolved.spacer)} />}
               {close && (
                 <button
                   onClick={handleClose}
-                  className={cn(css.close, resolved.close)}
+                  onMouseDown={handleCloseMouseDown}
+                  onMouseEnter={handleCloseMouseEnter}
+                  onMouseUp={handleCloseMouseUp}
+                  onMouseLeave={handleCloseMouseLeave}
+                  onFocus={handleCloseFocus}
+                  onBlur={handleCloseBlur}
+                  className={cn("modal", "close", css.close, resolved.close)}
                   aria-label="Close modal"
+                  type="button"
+                  data-pressed={isClosePressed ? "true" : "false"}
+                  data-hovered={isCloseHovered ? "true" : "false"}
+                  data-focused={isCloseFocused ? "true" : "false"}
+                  data-focus-visible={isCloseFocusVisible ? "true" : "false"}
                 >
-                  <X className={cn(css.closeIcon, resolved.closeIcon)} />
+                  <X className={cn("modal", "close-icon", css["close-icon"], resolved.closeIcon)} />
                 </button>
               )}
             </div>
           )}
 
           {/* Body */}
-          <div className={cn(css.content, contentClassName, resolved.content)}>
+          <div className={cn("modal", "content", css.content, contentClassName, resolved.content)}>
             {children}
           </div>
 
           {/* Footer */}
           {footer && (
-            <div className={cn(css.footer, resolved.footer)}>
+            <div className={cn("modal", "footer", css.footer, resolved.footer)}>
               {footer}
             </div>
           )}
@@ -227,8 +266,8 @@ ModalBase.displayName = "Modal";
 const ModalHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
->(({ children, ...props }, ref) => (
-  <div ref={ref} className={css.header} {...props}>
+>(({ children, className, ...props }, ref) => (
+  <div ref={ref} className={cn("modal", "header", css.header, className)} {...props}>
     {children}
   </div>
 ));
@@ -241,8 +280,8 @@ ModalHeader.displayName = "Modal.Header";
 const ModalBody = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
->(({ children, ...props }, ref) => (
-  <div ref={ref} className={css.content} {...props}>
+>(({ children, className, ...props }, ref) => (
+  <div ref={ref} className={cn("modal", "content", css.content, className)} {...props}>
     {children}
   </div>
 ));
@@ -255,8 +294,8 @@ ModalBody.displayName = "Modal.Body";
 const ModalFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
->(({ children, ...props }, ref) => (
-  <div ref={ref} className={cn('footer', css.footer)} {...props}>
+>(({ children, className, ...props }, ref) => (
+  <div ref={ref} className={cn("modal", "footer", css.footer, className)} {...props}>
     {children}
   </div>
 ));

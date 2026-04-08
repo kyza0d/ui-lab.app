@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 import { useFocusRing } from "@react-aria/focus";
 import { asElementProps } from "@/lib/react-aria";
 import { hsvToRgb } from "./color-utils";
@@ -19,6 +20,13 @@ interface ColorCanvasProps {
   disabled?: boolean;
   /** Size of the canvas */
   size?: "sm" | "md" | "lg";
+  /** Additional CSS class names */
+  className?: string;
+  innerClassName?: string;
+  gradientHueClassName?: string;
+  gradientSaturationClassName?: string;
+  gradientBrightnessClassName?: string;
+  pointerClassName?: string;
 }
 
 /** 2D saturation/lightness gradient canvas for picking color values */
@@ -26,7 +34,7 @@ export const ColorCanvas = React.forwardRef<
   HTMLDivElement,
   ColorCanvasProps
 >(
-  ({ hue, saturation, brightness, onChange, disabled, size = "md" }, ref) => {
+  ({ hue, saturation, brightness, onChange, disabled, size = "md", className, innerClassName, gradientHueClassName, gradientSaturationClassName, gradientBrightnessClassName, pointerClassName }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
 
@@ -70,7 +78,7 @@ export const ColorCanvas = React.forwardRef<
       onChange?.(s, b);
     };
 
-    const { focusProps, isFocusVisible } = useFocusRing();
+    const { focusProps, isFocused, isFocusVisible } = useFocusRing();
 
     const gradientStyle = {
       backgroundColor: `hsl(${hue}, 100%, 50%)`,
@@ -86,9 +94,10 @@ export const ColorCanvas = React.forwardRef<
     return (
       <div
         ref={mergedRef}
-        className={styles.canvasContainer}
+        className={cn("color", "canvas", styles["canvas"], className)}
         data-size={size}
         data-disabled={disabled || undefined}
+        data-focused={isFocused ? "true" : undefined}
         data-focus-visible={isFocusVisible || undefined}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -100,12 +109,12 @@ export const ColorCanvas = React.forwardRef<
         aria-label="Color saturation and brightness"
         aria-valuetext={`Saturation: ${saturation.toFixed(0)}%, Brightness: ${brightness.toFixed(0)}%`}
       >
-        <div className={styles.canvas}>
-          <div className={styles.canvasGradientHue} style={gradientStyle} />
-          <div className={styles.canvasGradientSaturation} />
-          <div className={styles.canvasGradientLightness} />
+        <div className={cn("color", "canvas-inner", styles["canvas-inner"], innerClassName)}>
+          <div className={cn("color", "canvas-gradient-hue", styles["canvas-gradient-hue"], gradientHueClassName)} style={gradientStyle} />
+          <div className={cn("color", "canvas-gradient-saturation", styles["canvas-gradient-saturation"], gradientSaturationClassName)} />
+          <div className={cn("color", "canvas-gradient-brightness", styles["canvas-gradient-brightness"], gradientBrightnessClassName)} />
         </div>
-        <div className={styles.canvasPointer} style={positionStyle} />
+        <div className={cn("color", "canvas-pointer", styles["canvas-pointer"], pointerClassName)} style={positionStyle} />
       </div>
     );
   }

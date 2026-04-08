@@ -13,14 +13,65 @@ import css from "./Textarea.module.css";
 type Size = "sm" | "md" | "lg";
 type ResizeAxis = "both" | "x" | "y" | "none";
 
-interface TextAreaStyleSlots {
+type TextAreaResizeHandleStyles = {
+  both?: StyleValue;
+  x?: StyleValue;
+  y?: StyleValue;
+};
+
+export interface TextAreaStyleSlots {
   root?: StyleValue;
+  container?: StyleValue;
+  surface?: StyleValue;
+  scrollWrapper?: StyleValue;
+  resizeHandle?: StyleValue | TextAreaResizeHandleStyles;
   characterCount?: StyleValue;
 }
 
-type TextAreaStylesProp = StylesProp<TextAreaStyleSlots>;
+export type TextAreaStylesProp = StylesProp<TextAreaStyleSlots>;
 
-const resolveTextAreaBaseStyles = createStylesResolver(['root', 'characterCount'] as const);
+const resolveTextAreaBaseStyles = createStylesResolver([
+  "root",
+  "container",
+  "surface",
+  "scrollWrapper",
+  "resizeHandleBoth",
+  "resizeHandleX",
+  "resizeHandleY",
+  "characterCount",
+] as const);
+
+function resolveTextAreaStyles(styles: TextAreaStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveTextAreaBaseStyles(styles);
+  const { root, container, surface, scrollWrapper, resizeHandle, characterCount } = styles;
+
+  let resizeHandleBoth: StyleValue | undefined;
+  let resizeHandleX: StyleValue | undefined;
+  let resizeHandleY: StyleValue | undefined;
+
+  if (resizeHandle) {
+    if (typeof resizeHandle === "string" || Array.isArray(resizeHandle)) {
+      resizeHandleBoth = resizeHandle;
+      resizeHandleX = resizeHandle;
+      resizeHandleY = resizeHandle;
+    } else {
+      resizeHandleBoth = resizeHandle.both;
+      resizeHandleX = resizeHandle.x;
+      resizeHandleY = resizeHandle.y;
+    }
+  }
+
+  return resolveTextAreaBaseStyles({
+    root,
+    container,
+    surface,
+    scrollWrapper,
+    resizeHandleBoth,
+    resizeHandleX,
+    resizeHandleY,
+    characterCount,
+  });
+}
 
 export interface TextAreaProps extends Omit<ComponentPropsWithoutRef<"textarea">, "size"> {
   /** Size of the textarea */
@@ -146,7 +197,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       }
     };
 
-    const resolved = resolveTextAreaBaseStyles(styles);
+    const resolved = resolveTextAreaStyles(styles);
     const resizeAxis = resolveResizeAxis(className, resizable);
     const canResize = resizeAxis !== "none" && !disabled;
     const textareaClassName = stripResizeClasses(className);
@@ -216,12 +267,15 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       ...(maxHeight === undefined && internalHeight !== null ? { height: "100%" } : {}),
     };
 
+    const resizeHandleStyle =
+      resizeAxis === "x" ? resolved.resizeHandleX : resizeAxis === "y" ? resolved.resizeHandleY : resolved.resizeHandleBoth;
+
     const textareaEl = (
       <textarea
         ref={mergedRef}
         disabled={disabled}
-        data-focus-visible={isFocusVisible ? "true" : undefined}
-        data-active={isFocused ? "true" : undefined}
+        data-focus-visible={isFocusVisible ? "true" : "false"}
+        data-focused={isFocused ? "true" : "false"}
         data-disabled={disabled || undefined}
         data-error={error || isOverLimit ? "true" : undefined}
         data-size={size}
@@ -240,19 +294,19 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
 
     return (
-      <div className={css.container}>
+      <div className={cn("textarea", "container", css.container, resolved.container)}>
         <div
           ref={surfaceRef}
-          className={css.surface}
+          className={cn("textarea", "surface", css.surface, resolved.surface)}
           data-resize-axis={resizeAxis}
           style={surfaceStyle}
         >
           {maxHeight ? (
             <div
               ref={scrollWrapperRef}
-              className={cn('textarea', 'scroll-wrapper', css["scroll-wrapper"])}
-              data-focus-visible={isFocusVisible ? "true" : undefined}
-              data-active={isFocused ? "true" : undefined}
+              className={cn("textarea", "scroll-wrapper", css["scroll-wrapper"], resolved.scrollWrapper)}
+              data-focus-visible={isFocusVisible ? "true" : "false"}
+              data-focused={isFocused ? "true" : "false"}
               data-disabled={disabled || undefined}
               data-error={error || isOverLimit ? "true" : undefined}
               data-size={size}
@@ -269,7 +323,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-hidden="true"
               data-axis={resizeAxis}
               data-slot="resize-handle"
-              className={cn('textarea', 'resize-handle', css["resize-handle"])}
+              className={cn("textarea", "resize-handle", css["resize-handle"], resizeHandleStyle)}
               onMouseDown={handleResizeMouseDown}
             />
           )}

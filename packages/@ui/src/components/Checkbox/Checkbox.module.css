@@ -1,55 +1,46 @@
 @reference "tailwindcss";
 
 @layer components {
-  /* Hidden input element positioned behind visual checkbox */
-  .checkbox-input {
-    @apply absolute inset-0 h-full w-full cursor-pointer;
-    opacity: 0;
-  }
-
   .checkbox-root {
     @apply inline-flex items-center justify-center gap-3;
   }
 
-  .checkbox-container {
+  .container {
     @apply relative inline-flex items-center justify-center;
   }
 
-  /* Visual checkbox */
   .checkbox {
-    --disabled-opacity: 0.6;
-
     @apply relative h-5 w-5 cursor-pointer appearance-none;
 
     background-color: var(--background);
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-xs);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-xs, 0.25rem);
     outline: none;
     transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);
-    /* Interactive States */
+
     &:hover:not([data-disabled="true"]) {
-      background-color: var(--hover-background);
-      border-color: var(--hover-border);
+      background-color: var(--background-hover);
+      border-color: var(--background-hover-border);
     }
 
-    &:focus-visible {
+    &[data-focus-visible="true"] {
       outline: 2px solid transparent;
-      box-shadow: 0 0 0 3px var(--ring-color);
+      box-shadow: 0 0 0 3px var(--focus-visible);
     }
 
     &[data-selected="true"] {
-      background-color: var(--background);
-      border-color: var(--border);
+      background-color: var(--background-selected);
+      border-color: var(--background-selected-border);
     }
 
     &[data-indeterminate="true"] {
-      background-color: var(--background);
-      border-color: var(--border);
+      background-color: var(--background-indeterminate);
+      border-color: var(--background-indeterminate-border);
     }
 
     &[data-disabled="true"] {
       cursor: not-allowed;
-      opacity: var(--disabled-opacity);
+      opacity: var(--disabled-opacity, 0.6);
       pointer-events: none;
     }
 
@@ -67,49 +58,48 @@
     }
   }
 
-  /* Checkmark and Indeterminate styles - combined */
-  .checkbox-checkmark,
-  .checkbox-indeterminate {
+  .checkmark,
+  .indeterminate {
     @apply absolute;
     inset: 50%;
     width: 65%;
     height: 65%;
     transform: translate(-50%, -50%);
-    color: var(--checkmark-color);
+    color: var(--icon-foreground);
     pointer-events: none;
   }
-
 
   .label {
     @apply cursor-pointer select-none;
     transition: color 200ms var(--ease-snappy-pop);
+
+    &[data-disabled="true"] {
+      @apply opacity-60 cursor-not-allowed;
+    }
   }
 
   .label-sm {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium)
+    font-size: var(--text-sm, 0.875rem);
+    font-weight: var(--font-weight-medium, 500);
   }
 
   .label-md {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium)
+    font-size: var(--text-sm, 0.875rem);
+    font-weight: var(--font-weight-medium, 500);
   }
 
   .label-lg {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-medium)
-  }
-
-  .label-disabled {
-    @apply opacity-60 cursor-not-allowed;
+    font-size: var(--text-sm, 0.875rem);
+    font-weight: var(--font-weight-medium, 500);
   }
 
   .helper-text {
     @apply text-sm ml-8;
     transition: color 200ms var(--ease-snappy-pop);
+    color: var(--helper-text-foreground);
+
+    &[data-error="true"] {
+      color: var(--helper-text-error-foreground);
+    }
   }
-
-  .helper-text-normal { color: inherit; }
-
-  .helper-text-error { color: var(--error-color); }
 }

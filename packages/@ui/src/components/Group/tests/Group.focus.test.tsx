@@ -7,7 +7,7 @@ import { Group } from '../Group'
 const SearchIcon = () => <svg data-testid="search-icon" />
 
 describe('Group.Input focus ring target', () => {
-  it('sets data-active on the Input container that wraps both the prefix icon and the input element', async () => {
+  it('sets data-focused on the Input container that wraps both the prefix icon and the input element', async () => {
     const user = userEvent.setup()
     render(
       <Group>
@@ -20,18 +20,18 @@ describe('Group.Input focus ring target', () => {
     expect(input).toHaveFocus()
 
     // The Input container wraps both the prefix icon and the input element.
-    // It should receive data-active so CSS can target it for the focus ring.
+    // It should receive data-focused so CSS can target it for the focus ring.
     // Walk up to the container div (parent of start-adornments + input)
     const inputContainer = input.parentElement!
     expect(inputContainer.tagName).toBe('DIV')
-    expect(inputContainer).toHaveAttribute('data-active', 'true')
+    expect(inputContainer).toHaveAttribute('data-focused', 'true')
 
     // The container must contain both the prefix icon and the input
     expect(inputContainer.querySelector('[data-testid="search-icon"]')).toBeInTheDocument()
     expect(inputContainer.contains(input)).toBe(true)
   })
 
-  it('removes data-active from the Input container on blur', async () => {
+  it('removes data-focused from the Input container on blur', async () => {
     const user = userEvent.setup()
     render(
       <Group>
@@ -44,9 +44,9 @@ describe('Group.Input focus ring target', () => {
     expect(input).toHaveFocus()
 
     const inputContainer = input.parentElement!
-    expect(inputContainer).toHaveAttribute('data-active', 'true')
+    expect(inputContainer).toHaveAttribute('data-focused', 'true')
 
     await user.tab()
-    expect(inputContainer).not.toHaveAttribute('data-active')
+    expect(inputContainer).not.toHaveAttribute('data-focused')
   })
 })

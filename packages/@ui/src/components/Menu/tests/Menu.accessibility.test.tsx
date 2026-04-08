@@ -107,6 +107,35 @@ describe('Menu.accessibility', () => {
     })
   })
 
+  describe('Focus management', () => {
+    it('menu items stay out of the tab order while the menu surface owns focus', async () => {
+      const container = renderMenuWithChildren(
+        <Menu>
+          <Menu.Trigger>Trigger</Menu.Trigger>
+          <Menu.Content>
+            <Menu.Item>Item</Menu.Item>
+            <Menu.CheckboxItem checked={false}>Checkbox</Menu.CheckboxItem>
+            <Menu.RadioGroup value="1">
+              <Menu.RadioItem value="1">Radio</Menu.RadioItem>
+            </Menu.RadioGroup>
+          </Menu.Content>
+        </Menu>
+      )
+
+      await openMenu(getMenuTrigger(container))
+
+      const allItems = [
+        ...getAllElementsByRole('menuitem', { hidden: true }),
+        ...getAllElementsByRole('menuitemcheckbox', { hidden: true }),
+        ...getAllElementsByRole('menuitemradio', { hidden: true }),
+      ]
+
+      allItems.forEach((item) => {
+        expect(item).toHaveAttribute('tabindex', '-1')
+      })
+    })
+  })
+
   describe('Decorative elements', () => {
     it('separators have role="separator"', async () => {
       const container = renderMenuWithChildren(

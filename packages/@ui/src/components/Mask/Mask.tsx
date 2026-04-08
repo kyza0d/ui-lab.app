@@ -1,10 +1,20 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import styles from "./Mask.module.css";
+
+interface MaskStyleSlots {
+  root?: StyleValue;
+  gradient?: StyleValue;
+}
+
+type MaskStylesProp = StylesProp<MaskStyleSlots>;
 
 export interface MaskProps extends React.HTMLAttributes<HTMLDivElement> {
   asChild?: boolean;
   children: React.ReactNode;
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: MaskStylesProp;
 }
 
 type MaskFilter =
@@ -18,14 +28,17 @@ type MaskFilter =
       kind: "scroll-fade";
     };
 
+const resolveMaskBaseStyles = createStylesResolver(['root', 'gradient'] as const);
+
 const MaskRoot = React.forwardRef<HTMLDivElement, MaskProps>(
-  ({ asChild = false, className, children, style, ...props }, ref) => {
+  ({ asChild = false, className, children, style, styles: stylesProp, ...props }, ref) => {
     const childArray = React.Children.toArray(children);
     const maskFilters: MaskFilter[] = [];
     let clipPath: string | undefined;
     let hasFixedFade = false;
     let contentChildren: React.ReactNode[] = [];
     const supportsScrollFade = hasScrollFadeVariables(style);
+    const resolved = resolveMaskBaseStyles(stylesProp);
 
     childArray.forEach((child) => {
       if (React.isValidElement(child)) {
@@ -81,7 +94,7 @@ const MaskRoot = React.forwardRef<HTMLDivElement, MaskProps>(
       return React.cloneElement(child, {
         ...props,
         ref: mergeRefs(ref, child.props.ref),
-        className: cn("mask", styles.mask, className, child.props.className),
+        className: cn("mask", styles.mask, resolved.root, className, child.props.className),
         style: {
           ...child.props.style,
           ...maskStyles,
@@ -93,7 +106,7 @@ const MaskRoot = React.forwardRef<HTMLDivElement, MaskProps>(
       <div
         {...props}
         ref={ref}
-        className={cn("mask", styles.mask, className)}
+        className={cn("mask", styles.mask, resolved.root, className)}
         style={maskStyles}
       >
         {contentChildren}
@@ -111,6 +124,7 @@ interface MaskGradientProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const MaskGradient = React.forwardRef<HTMLDivElement, MaskGradientProps>(
   ({ className, gradient, style, children, ...props }, ref) => {
+    const resolved = resolveMaskBaseStyles(undefined);
     const maskStyles = {
       ...style,
       "--mask-gradient": gradient,
@@ -120,7 +134,7 @@ const MaskGradient = React.forwardRef<HTMLDivElement, MaskGradientProps>(
       <div
         {...props}
         ref={ref}
-        className={cn(styles.mask, styles["mask-gradient"], className)}
+        className={cn(styles.mask, styles["mask-gradient"], resolved.gradient, className)}
         style={maskStyles}
       >
         {children}

@@ -39,12 +39,12 @@
     @apply shrink-0 overflow-hidden;
     overflow: hidden;
     transition: width 0.2s ease;
-    border-right: var(--border-width-base) solid var(--background-700);
+    border-right: var(--border-width-base) solid var(--panel-border-color);
   }
 
   .sidebar[data-side="right"] {
     border-right: none;
-    border-left: var(--border-width-base) solid var(--background-700);
+    border-left: var(--border-width-base) solid var(--panel-border-color);
   }
 
   /* Toggle */
@@ -75,7 +75,7 @@
     bottom: 0;
     left: 50%;
     width: 1px;
-    background: var(--background-700, #374151);
+    background: var(--panel-divider-color, #374151);
     transform: translateX(-50%);
     transition: width 0.15s ease;
   }

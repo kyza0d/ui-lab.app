@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef, useReducer } from "react";
+import { cn, type StyleValue } from "@/lib/utils";
+import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import styles from "./Color.module.css";
 import {
-  rgbToHsl,
-  hslToRgb,
   rgbToHsv,
   hsvToRgb,
   formatColorHex,
@@ -18,7 +18,156 @@ import { ColorHueSlider } from "./Color.HueSlider";
 import { ColorOpacitySlider } from "./Color.OpacitySlider";
 import { ColorRecentColors } from "./Color.RecentColors";
 import { ColorInput } from "./Color.Input";
-import { cn } from "@/lib/utils";
+
+type ColorCanvasGradientStyles = {
+  hue?: StyleValue;
+  saturation?: StyleValue;
+  brightness?: StyleValue;
+};
+
+type ColorSliderStyles = {
+  hue?: StyleValue;
+  opacity?: StyleValue;
+};
+
+export interface ColorStyleSlots {
+  root?: StyleValue;
+  controls?: StyleValue;
+  canvas?: StyleValue;
+  canvasInner?: StyleValue;
+  canvasGradient?: StyleValue | ColorCanvasGradientStyles;
+  canvasPointer?: StyleValue;
+  slider?: StyleValue | ColorSliderStyles;
+  sliderTrack?: StyleValue | ColorSliderStyles;
+  sliderThumb?: StyleValue | ColorSliderStyles;
+  recentColors?: StyleValue;
+  recentColorSwatch?: StyleValue;
+  inputGroup?: StyleValue;
+  input?: StyleValue;
+  format?: StyleValue;
+  previewSwatch?: StyleValue;
+}
+
+export type ColorStylesProp = StylesProp<ColorStyleSlots>;
+
+const resolveColorBaseStyles = createStylesResolver([
+  "root",
+  "controls",
+  "canvas",
+  "canvasInner",
+  "canvasGradientHue",
+  "canvasGradientSaturation",
+  "canvasGradientBrightness",
+  "canvasPointer",
+  "sliderHue",
+  "sliderOpacity",
+  "sliderTrackHue",
+  "sliderTrackOpacity",
+  "sliderThumbHue",
+  "sliderThumbOpacity",
+  "recentColors",
+  "recentColorSwatch",
+  "inputGroup",
+  "input",
+  "format",
+  "previewSwatch",
+] as const);
+
+function resolveColorStyles(styles: ColorStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveColorBaseStyles(styles);
+  const {
+    root,
+    controls,
+    canvas,
+    canvasInner,
+    canvasGradient,
+    canvasPointer,
+    slider,
+    sliderTrack,
+    sliderThumb,
+    recentColors,
+    recentColorSwatch,
+    inputGroup,
+    input,
+    format,
+    previewSwatch,
+  } = styles;
+
+  let canvasGradientHue: StyleValue | undefined;
+  let canvasGradientSaturation: StyleValue | undefined;
+  let canvasGradientBrightness: StyleValue | undefined;
+  let sliderHue: StyleValue | undefined;
+  let sliderOpacity: StyleValue | undefined;
+  let sliderTrackHue: StyleValue | undefined;
+  let sliderTrackOpacity: StyleValue | undefined;
+  let sliderThumbHue: StyleValue | undefined;
+  let sliderThumbOpacity: StyleValue | undefined;
+
+  if (canvasGradient) {
+    if (typeof canvasGradient === "string" || Array.isArray(canvasGradient)) {
+      canvasGradientHue = canvasGradient;
+      canvasGradientSaturation = canvasGradient;
+      canvasGradientBrightness = canvasGradient;
+    } else {
+      canvasGradientHue = canvasGradient.hue;
+      canvasGradientSaturation = canvasGradient.saturation;
+      canvasGradientBrightness = canvasGradient.brightness;
+    }
+  }
+
+  if (slider) {
+    if (typeof slider === "string" || Array.isArray(slider)) {
+      sliderHue = slider;
+      sliderOpacity = slider;
+    } else {
+      sliderHue = slider.hue;
+      sliderOpacity = slider.opacity;
+    }
+  }
+
+  if (sliderTrack) {
+    if (typeof sliderTrack === "string" || Array.isArray(sliderTrack)) {
+      sliderTrackHue = sliderTrack;
+      sliderTrackOpacity = sliderTrack;
+    } else {
+      sliderTrackHue = sliderTrack.hue;
+      sliderTrackOpacity = sliderTrack.opacity;
+    }
+  }
+
+  if (sliderThumb) {
+    if (typeof sliderThumb === "string" || Array.isArray(sliderThumb)) {
+      sliderThumbHue = sliderThumb;
+      sliderThumbOpacity = sliderThumb;
+    } else {
+      sliderThumbHue = sliderThumb.hue;
+      sliderThumbOpacity = sliderThumb.opacity;
+    }
+  }
+
+  return resolveColorBaseStyles({
+    root,
+    controls,
+    canvas,
+    canvasInner,
+    canvasGradientHue,
+    canvasGradientSaturation,
+    canvasGradientBrightness,
+    canvasPointer,
+    sliderHue,
+    sliderOpacity,
+    sliderTrackHue,
+    sliderTrackOpacity,
+    sliderThumbHue,
+    sliderThumbOpacity,
+    recentColors,
+    recentColorSwatch,
+    inputGroup,
+    input,
+    format,
+    previewSwatch,
+  });
+}
 
 type CanvasState = { s: number; v: number; h: number; hg: number };
 type CanvasAction =
@@ -51,6 +200,7 @@ export interface ColorProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
+  styles?: ColorStylesProp;
 }
 
 export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
@@ -66,6 +216,7 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       disabled = false,
       size = "md",
       className,
+      styles: stylesProp,
       ...props
     },
     ref
@@ -152,16 +303,6 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       [hue, opacity, format, handleColorChange]
     );
 
-    const handleCanvasChangeComplete = useCallback(() => {
-      setIsDragging(false);
-      const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
-      const newColor = format === "hex"
-        ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
-        : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
-
-      handleChangeComplete(newColor);
-    }, [hue, canvasSaturation, canvasBrightness, opacity, format, handleChangeComplete]);
-
     const handleHueChange = useCallback(
       (newHue: number) => {
         setIsDragging(true);
@@ -178,16 +319,6 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       [canvasSaturation, canvasBrightness, opacity, format, handleColorChange]
     );
 
-    const handleHueChangeComplete = useCallback(() => {
-      setIsDragging(false);
-      const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
-      const newColor = format === "hex"
-        ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
-        : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
-
-      handleChangeComplete(newColor);
-    }, [hue, canvasSaturation, canvasBrightness, opacity, format, handleChangeComplete]);
-
     const handleOpacityChange = useCallback(
       (newOpacity: number) => {
         setIsDragging(true);
@@ -201,16 +332,6 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       },
       [hue, canvasSaturation, canvasBrightness, format, handleColorChange]
     );
-
-    const handleOpacityChangeComplete = useCallback(() => {
-      setIsDragging(false);
-      const { r, g, b } = hsvToRgb(hue, canvasSaturation, canvasBrightness);
-      const newColor = format === "hex"
-        ? formatColorHex(r, g, b, opacity < 1 ? opacity : undefined)
-        : formatColorRgb(r, g, b, opacity < 1 ? opacity : undefined);
-
-      handleChangeComplete(newColor);
-    }, [hue, canvasSaturation, canvasBrightness, opacity, format, handleChangeComplete]);
 
     const handleRecentColorSelect = useCallback(
       (color: string) => {
@@ -249,10 +370,12 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
       []
     );
 
+    const resolved = resolveColorStyles(stylesProp);
+
     return (
       <div
         ref={ref}
-        className={cn(styles.color, className)}
+        className={cn("color", styles.color, resolved.root, className)}
         data-size={size}
         data-disabled={disabled || undefined}
         {...props}
@@ -262,6 +385,8 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
           onSelect={handleRecentColorSelect}
           disabled={disabled}
           size={size}
+          className={resolved.recentColors}
+          swatchClassName={resolved.recentColorSwatch}
         />
 
         {/* Canvas for saturation/brightness (HSV) */}
@@ -272,15 +397,24 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
           onChange={handleCanvasChange}
           disabled={disabled}
           size={size}
+          className={resolved.canvas}
+          innerClassName={resolved.canvasInner}
+          gradientHueClassName={resolved.canvasGradientHue}
+          gradientSaturationClassName={resolved.canvasGradientSaturation}
+          gradientBrightnessClassName={resolved.canvasGradientBrightness}
+          pointerClassName={resolved.canvasPointer}
         />
 
-        <div className={styles.colorControls}>
+        <div className={cn("color", "controls", styles["controls"], resolved.controls)}>
           {/* Hue Slider */}
           <ColorHueSlider
             value={hue}
             onChange={handleHueChange}
             disabled={disabled}
             size={size}
+            className={resolved.sliderHue}
+            trackClassName={resolved.sliderTrackHue}
+            thumbClassName={resolved.sliderThumbHue}
           />
 
           {/* Opacity Slider */}
@@ -291,6 +425,9 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
               onChange={handleOpacityChange}
               disabled={disabled}
               size={size}
+              className={resolved.sliderOpacity}
+              trackClassName={resolved.sliderTrackOpacity}
+              thumbClassName={resolved.sliderThumbOpacity}
             />
           )}
 
@@ -303,6 +440,10 @@ export const Color = React.forwardRef<HTMLDivElement, ColorProps>(
             disabled={disabled}
             size={size}
             showPreview={showPreview}
+            groupClassName={resolved.inputGroup}
+            inputClassName={resolved.input}
+            formatClassName={resolved.format}
+            previewClassName={resolved.previewSwatch}
             previewColor={formatColorRgb(
               displayR,
               displayG,

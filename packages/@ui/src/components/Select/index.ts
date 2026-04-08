@@ -30,26 +30,50 @@ const Multi = Object.assign(SelectRoot, {
   Item: SelectItem,
 })
 
-export type { SelectProps } from "./Select"
+export type {
+  SelectProps,
+  SelectStyleSlots,
+  SelectStylesProp,
+} from "./Select"
 export type {
   SelectContentProps,
   SelectContentStyleSlots,
 } from "./Select.Content"
 export type {
   SelectTriggerProps,
+  SelectTriggerStyleSlots,
+  SelectTriggerStylesProp,
   SearchableTriggerProps,
+  SearchableTriggerStyleSlots,
+  SearchableTriggerStylesProp,
 } from "./Select.Trigger"
-export type { SelectSeparatorProps } from "./Select.Decorative"
+export type {
+  SelectSeparatorProps,
+  SelectSeparatorStyleSlots,
+  SelectSeparatorStylesProp,
+} from "./Select.Decorative"
 export type {
   SelectSubProps,
   SelectSubTriggerProps,
   SelectSubContentProps,
+  SelectSubTriggerStyleSlots,
+  SelectSubTriggerStylesProp,
+  SelectSubContentStyleSlots,
+  SelectSubContentStylesProp,
 } from "./Select.Sub"
 export type {
   SelectGroupProps,
   SelectValueProps,
   SelectItemProps,
   SelectListProps,
+  SelectGroupStyleSlots,
+  SelectGroupStylesProp,
+  SelectValueStyleSlots,
+  SelectValueStylesProp,
+  SelectItemStyleSlots,
+  SelectItemStylesProp,
+  SelectListStyleSlots,
+  SelectListStylesProp,
 } from "./Select.Items"
 
 export {
@@ -58,4 +82,3 @@ export {
   Multi,
   useSelectContext,
 }
-

@@ -4,14 +4,7 @@ export interface Styles {
   md: string;
   lg: string;
   fill: string;
-  default: string;
-  success: string;
-  warning: string;
-  error: string;
-  animated: string;
-  indeterminate: string;
   wrapper: string;
-  hasLabel: string;
   "label-row": string;
   label: string;
   value: string;

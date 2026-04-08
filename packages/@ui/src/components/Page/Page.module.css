@@ -2,6 +2,8 @@
 
 @layer components {
   .page {
+    --padding: var(--page-padding-md, 1rem);
+
     @apply flex flex-col w-full relative;
   }
 
@@ -14,13 +16,13 @@
     margin-right: auto;
   }
 
-  .padding-none { padding: 0; }
+  .padding-none { --padding: 0; padding: 0; }
 
-  .padding-sm { padding: var(--spacing-sm, 0.5rem); }
+  .padding-sm { --padding: var(--page-padding-sm, 0.5rem); padding: var(--padding); }
 
-  .padding-md { padding: var(--spacing-md, 1rem); }
+  .padding-md { --padding: var(--page-padding-md, 1rem); padding: var(--padding); }
 
-  .padding-lg { padding: var(--spacing-lg, 1.5rem); }
+  .padding-lg { --padding: var(--page-padding-lg, 1.5rem); padding: var(--padding); }
 
-  .padding-xl { padding: var(--spacing-xl, 2rem); }
+  .padding-xl { --padding: var(--page-padding-xl, 2rem); padding: var(--padding); }
 }

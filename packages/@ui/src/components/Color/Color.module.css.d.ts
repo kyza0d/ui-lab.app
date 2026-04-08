@@ -1,22 +1,26 @@
-export const color: string;
-export const colorControls: string;
-export const inputGroup: string;
-export const colorInput: string;
-export const formatSelect: string;
-export const canvasContainer: string;
-export const canvas: string;
-export const canvasGradientHue: string;
-export const canvasGradientSaturation: string;
-export const canvasGradientLightness: string;
-export const canvasPointer: string;
-export const hueSlider: string;
-export const hueTrack: string;
-export const hueThumb: string;
-export const opacitySlider: string;
-export const opacityTrack: string;
-export const opacityThumb: string;
-export const recentColors: string;
-export const recentColorSwatch: string;
-export const previewContainer: string;
-export const previewSwatch: string;
-export const preview: string;
+export interface Styles {
+  color: string;
+  controls: string;
+  "input-group": string;
+  input: string;
+  format: string;
+  canvas: string;
+  "canvas-inner": string;
+  "canvas-gradient-hue": string;
+  "canvas-gradient-saturation": string;
+  "canvas-gradient-brightness": string;
+  "canvas-pointer": string;
+  "hue-slider": string;
+  "hue-track": string;
+  "hue-thumb": string;
+  "opacity-slider": string;
+  "opacity-track": string;
+  "opacity-thumb": string;
+  "recent-colors": string;
+  "recent-color-swatch": string;
+  "preview-swatch": string;
+  preview: string;
+}
+
+declare const styles: Styles;
+export default styles;

@@ -23,6 +23,12 @@ export type SliderStylesProp = StylesProp<SliderStyleSlots>;
 
 const resolveSliderBaseStyles = createStylesResolver(['root', 'track', 'range', 'thumb'] as const);
 
+function resolveSliderStyles(styles: SliderStylesProp | undefined) {
+  if (!styles || typeof styles === 'string' || Array.isArray(styles)) return resolveSliderBaseStyles(styles);
+  const { root, track, range, thumb } = styles;
+  return resolveSliderBaseStyles({ root, track, range, thumb });
+}
+
 interface SliderRootProps {
   /** Size of the slider track and thumb */
   size?: SliderSize;
@@ -185,7 +191,7 @@ function SliderThumbInternal({
       className={cn('slider thumb', css.thumb, className)}
       style={{ left: `${percent}%` }}
       data-dragging={isDragging || undefined}
-      data-focus-visible={isFocusVisible || undefined}
+      data-focus-visible={isFocusVisible ? "true" : "false"}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -233,7 +239,7 @@ const Root = React.forwardRef<HTMLDivElement, SliderRootProps>(
     const isControlled = controlledValue !== undefined;
     const values = isControlled ? normalizeValue(controlledValue)! : internalValues;
 
-    const resolved = resolveSliderBaseStyles(styles);
+    const resolved = resolveSliderStyles(styles);
 
     const handleValueChange = React.useCallback((index: number, newValue: number) => {
       const newValues = [...values];

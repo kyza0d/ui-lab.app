@@ -23,7 +23,7 @@ interface SwitchStyleSlots {
 
 type SwitchStylesProp = StylesProp<SwitchStyleSlots>;
 
-const resolveSwitchBaseStyles = createStylesResolver(['root', 'track', 'thumb'] as const);
+const resolveSwitchBaseStyles = createStylesResolver(['root', 'track', 'thumb'] as const) as (stylesProp?: SwitchStylesProp) => SwitchStyleSlots;
 
 export interface SwitchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size" | "onChange" | "checked" | "defaultChecked"> {

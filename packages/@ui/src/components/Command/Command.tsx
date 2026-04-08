@@ -26,6 +26,11 @@ import styles from "./Command.module.css";
 interface CommandStyleSlots {
   root?: StyleValue;
   overlay?: StyleValue;
+  input?: StyleValue;
+  list?: StyleValue;
+  item?: StyleValue;
+  itemContent?: StyleValue;
+  footer?: StyleValue;
 }
 
 type CommandStylesProp = StylesProp<CommandStyleSlots>;
@@ -33,6 +38,11 @@ type CommandStylesProp = StylesProp<CommandStyleSlots>;
 const resolveCommandBaseStyles = createStylesResolver([
   "root",
   "overlay",
+  "input",
+  "list",
+  "item",
+  "itemContent",
+  "footer",
 ] as const);
 
 export interface CommandItem {

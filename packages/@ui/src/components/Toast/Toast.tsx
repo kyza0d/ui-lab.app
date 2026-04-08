@@ -3,32 +3,58 @@
 import React, { forwardRef, useImperativeHandle, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from "@gsap/react";
-import { cn } from '@/lib/utils';
-import { createStylesResolver } from '@/lib/styles';
+import { mergeProps } from "@react-aria/utils";
+import { useHover } from "@react-aria/interactions";
+import { useFocusRing } from "@react-aria/focus";
+import { cn, type StyleValue } from '@/lib/utils';
+import { type StylesProp, createStylesResolver } from '@/lib/styles';
 import css from './Toast.module.css';
 import { ToastProps as ToastData, dispatch } from "./Toast.Store";
 
-import { Info, CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
+import { Info, CircleCheck, TriangleAlert, CircleAlert, type LucideIcon } from "lucide-react";
 
 import { X } from 'lucide-react';
 
 const DRAG_DISMISS_THRESHOLD = 100;
 const DRAG_LEFT_RESISTANCE = 20;
 
+export interface ToastStyleSlots {
+  root?: StyleValue;
+  iconWrap?: StyleValue;
+  icon?: StyleValue;
+  content?: StyleValue;
+  title?: StyleValue;
+  description?: StyleValue;
+  close?: StyleValue;
+  closeIcon?: StyleValue;
+}
+
+export type ToastStylesProp = StylesProp<ToastStyleSlots>;
+
 const resolveToastBaseStyles = createStylesResolver([
   'root',
+  'iconWrap',
+  'icon',
   'content',
   'title',
   'description',
   'close',
-  'icon'
+  'closeIcon'
 ] as const);
 
-const toastIcons = {
-  danger: <TriangleAlert className={css.icon} />,
-  success: <CircleCheck className={css.icon} />,
-  info: <Info className={css.icon} />,
-  warning: <CircleAlert className={css.icon} />,
+function resolveToastStyles(styles: ToastStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveToastBaseStyles(styles);
+
+  const { root, iconWrap, icon, content, title, description, close, closeIcon } = styles;
+
+  return resolveToastBaseStyles({ root, iconWrap, icon, content, title, description, close, closeIcon });
+}
+
+const toastIcons: Record<string, LucideIcon | null> = {
+  danger: TriangleAlert,
+  success: CircleCheck,
+  info: Info,
+  warning: CircleAlert,
   default: null,
 };
 
@@ -62,8 +88,11 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
     styles,
   } = toast;
 
-  const resolved = resolveToastBaseStyles(styles);
+  const resolved = resolveToastStyles(styles);
   const isTop = position.startsWith('top');
+  const { focusProps, isFocused, isFocusVisible } = useFocusRing();
+  const { hoverProps, isHovered } = useHover({});
+  const closeInteractionProps = mergeProps(focusProps, hoverProps) as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
   // Time tracking refs
   const elapsedRef = useRef(0);
@@ -94,7 +123,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
         opacity: 0,
         y: yOffset, // Animates relative to its current layout position
         scale: 0.9,
-        duration: 0.3,
+        duration: 0.35,
+        ease: "expo.out",
         onComplete: () => {
           onDismissEnd?.();
           onDismiss?.();
@@ -116,8 +146,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
     gsap.from(innerRef.current, {
       opacity: 1,
       y: fromY,
-      duration: 0.35,
-      ease: "power3.out",
+      duration: 0.45,
+      ease: "expo.out",
     });
   }, { scope: innerRef });
 
@@ -223,31 +253,39 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
     };
   }, [duration, handleDismiss]);
 
-  const icon = toastIcons[variant as keyof typeof toastIcons];
+  const Icon = toastIcons[variant as keyof typeof toastIcons];
 
   return (
     <div
       ref={innerRef}
-      className={cn('toast', css.toast, variant, resolved.root)}
+      className={cn('toast', css.root, variant, resolved.root)}
       role="alert"
       onPointerDown={handlePointerDown}
     >
-      {icon && <div className={cn("toast-icon", resolved.icon)}>{icon}</div>}
-      <div className={cn('toast-content', css.content, resolved.content)}>
+      {Icon && (
+        <div className={cn("toast icon-wrap", css["icon-wrap"], resolved.iconWrap)}>
+          <Icon className={cn("toast icon", css.icon, resolved.icon)} />
+        </div>
+      )}
+      <div className={cn('toast content', css.content, resolved.content)}>
         {jsx || (
           <>
-            {title && <h4 className={cn('toast-title', css.title, resolved.title)}>{title}</h4>}
-            {description && <p className={cn('toast-description', css.description, resolved.description)}>{description}</p>}
+            {title && <h4 className={cn('toast title', css.title, resolved.title)}>{title}</h4>}
+            {description && <p className={cn('toast description', css.description, resolved.description)}>{description}</p>}
           </>
         )}
         {toast.action}
       </div>
       <button
+        {...closeInteractionProps}
         onClick={handleDismiss}
-        className={cn('toast-close', css.close, resolved.close)}
+        className={cn('toast close', css.close, resolved.close)}
         aria-label="Close"
+        data-hovered={isHovered ? "true" : "false"}
+        data-focused={isFocused ? "true" : "false"}
+        data-focus-visible={isFocusVisible ? "true" : "false"}
       >
-        <X className="w-4 h-4" />
+        <X className={cn("toast close-icon", css["close-icon"], resolved.closeIcon)} />
       </button>
     </div>
   );

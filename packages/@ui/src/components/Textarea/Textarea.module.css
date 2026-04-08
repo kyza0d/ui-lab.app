@@ -2,8 +2,18 @@
 
 @layer components {
   .textarea {
-    --textarea-padding-x: 0.75rem;
-    --textarea-padding-y: 0.5rem;
+    --padding-inline: 0.75rem;
+    --padding-block: 0.5rem;
+    --background: var(--background-950);
+    --background-border: var(--background-700);
+    --background-hover: var(--background-900);
+    --background-focused: var(--background-900);
+    --background-focused-border: var(--accent-500);
+    --background-disabled: var(--background-900);
+    --foreground: var(--foreground-50);
+    --foreground-disabled: var(--foreground-400);
+    --placeholder: var(--foreground-400);
+    --focus-visible: var(--accent-500);
     --disabled-opacity: 0.6;
 
     @apply block w-full px-3 py-2;
@@ -12,51 +22,57 @@
     line-height: var(--leading-snug);
     color: var(--foreground);
     background-color: var(--background);
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-sm, 0.375rem);
     box-sizing: border-box;
     resize: none;
     outline: none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
     &::placeholder {
       color: var(--placeholder);
     }
 
-    &[data-active] {
-      border-color: var(--ring-color);
-      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+    &:hover:not([data-disabled]) {
+      background-color: var(--background-hover);
     }
 
-    &[data-focus-visible] {
+    &[data-focused="true"] {
+      border-color: var(--background-focused-border);
+      background-color: var(--background-focused);
+    }
+
+    &[data-focus-visible="true"] {
       outline: none;
-      border-color: var(--ring-color);
-      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+      border-color: var(--background-focused-border);
+      box-shadow: 0 0 0 1px var(--focus-visible);
+      background-color: var(--background-focused);
     }
 
     &[data-disabled] {
-      background-color: var(--disabled-background);
-      color: var(--disabled-foreground);
+      background-color: var(--background-disabled);
+      color: var(--foreground-disabled);
       cursor: not-allowed;
       opacity: var(--disabled-opacity);
     }
 
     &[data-error] {
-      border-color: var(--border);
+      border-color: var(--background-error-border, var(--background-border));
 
-      &[data-active] {
-        border-color: var(--ring-color);
-        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+      &[data-focused="true"],
+      &[data-focus-visible="true"] {
+        border-color: var(--background-error-focused-border, var(--background-focused-border));
       }
     }
 
     &[data-resize-axis="x"],
     &[data-resize-axis="both"] {
-      padding-inline-end: calc(var(--textarea-padding-x) + 1rem);
+      padding-inline-end: calc(var(--padding-inline) + 1rem);
     }
 
     &[data-resize-axis="y"],
     &[data-resize-axis="both"] {
-      padding-block-end: calc(var(--textarea-padding-y) + 1rem);
+      padding-block-end: calc(var(--padding-block) + 1rem);
     }
 
     &[data-scroll="true"] {
@@ -67,8 +83,8 @@
       border-radius: 0;
       box-shadow: none;
 
-      &[data-active],
-      &[data-focus-visible] {
+      &[data-focused="true"],
+      &[data-focus-visible="true"] {
         border-color: transparent;
         box-shadow: none;
       }
@@ -81,7 +97,8 @@
       &[data-error] {
         border-color: transparent;
 
-        &[data-active] {
+        &[data-focused="true"],
+        &[data-focus-visible="true"] {
           border-color: transparent;
           box-shadow: none;
         }
@@ -94,6 +111,9 @@
   }
 
   .resize-handle {
+    --handle-background: color-mix(in srgb, var(--foreground-400) 72%, transparent);
+    --handle-hover-background: color-mix(in srgb, var(--foreground-200) 90%, transparent);
+
     position: absolute;
     z-index: 1;
     touch-action: none;
@@ -103,7 +123,7 @@
       content: "";
       position: absolute;
       border-radius: var(--radius-full);
-      background-color: var(--resize-handle-color);
+      background-color: var(--handle-background);
       transition: background-color 150ms;
     }
 
@@ -111,13 +131,13 @@
       content: "";
       position: absolute;
       border-radius: var(--radius-full);
-      background-color: var(--resize-handle-color);
+      background-color: var(--handle-background);
       transition: background-color 150ms;
     }
 
     &:hover::before,
     &:hover::after {
-      background-color: var(--resize-handle-color-hover);
+      background-color: var(--handle-hover-background);
     }
 
     &[data-axis="both"] {
@@ -139,7 +159,7 @@
       &::after {
         bottom: 0.6rem;
         right: 0.2rem;
-        width: 1.0rem;
+        width: 1rem;
         height: 0.125rem;
         transform: rotate(-45deg);
         transform-origin: center;
@@ -182,59 +202,71 @@
   }
 
   .scroll-wrapper {
+    --background: var(--background-950);
+    --background-border: var(--background-700);
+    --background-hover: var(--background-900);
+    --background-focused: var(--background-900);
+    --background-focused-border: var(--accent-500);
+    --background-disabled: var(--background-900);
+    --focus-visible: var(--accent-500);
     --disabled-opacity: 0.6;
 
     @apply w-full overflow-hidden;
     background-color: var(--background);
-    border: var(--border-width-base) solid var(--border);
-    border-radius: var(--radius-sm);
+    border: var(--border-width-base, 1px) solid var(--background-border);
+    border-radius: var(--radius-sm, 0.375rem);
 
-    &[data-active] {
-      border-color: var(--ring-color);
-      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+    &:hover:not([data-disabled]) {
+      background-color: var(--background-hover);
     }
 
-    &[data-focus-visible] {
+    &[data-focused="true"] {
+      border-color: var(--background-focused-border);
+      background-color: var(--background-focused);
+    }
+
+    &[data-focus-visible="true"] {
       outline: none;
-      border-color: var(--ring-color);
-      box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+      border-color: var(--background-focused-border);
+      box-shadow: 0 0 0 1px var(--focus-visible);
+      background-color: var(--background-focused);
     }
 
     &[data-disabled] {
-      background-color: var(--disabled-background);
+      background-color: var(--background-disabled);
       opacity: var(--disabled-opacity);
     }
 
     &[data-error] {
-      border-color: var(--border);
+      border-color: var(--background-error-border, var(--background-border));
 
-      &[data-active] {
-        border-color: var(--ring-color);
-        box-shadow: 0 0 0 1px mix(var(--ring-color) 20%, transparent);
+      &[data-focused="true"],
+      &[data-focus-visible="true"] {
+        border-color: var(--background-error-focused-border, var(--background-focused-border));
       }
     }
   }
 
   .textarea[data-size="sm"] {
     min-height: 5rem;
-    --textarea-padding-x: 0.5rem;
-    --textarea-padding-y: 0.25rem;
+    --padding-inline: 0.5rem;
+    --padding-block: 0.25rem;
     font-size: var(--text-sm);
     @apply px-2 py-1;
   }
 
   .textarea[data-size="md"] {
     min-height: 6rem;
-    --textarea-padding-x: 0.75rem;
-    --textarea-padding-y: 0.5rem;
+    --padding-inline: 0.75rem;
+    --padding-block: 0.5rem;
     font-size: var(--text-sm);
     @apply px-3 py-2;
   }
 
   .textarea[data-size="lg"] {
     min-height: 8rem;
-    --textarea-padding-x: 1rem;
-    --textarea-padding-y: 0.75rem;
+    --padding-inline: 1rem;
+    --padding-block: 0.75rem;
     font-size: var(--text-md);
     @apply px-4 py-3;
   }
@@ -244,13 +276,16 @@
   }
 
   .character-count {
+    --count-foreground: var(--foreground-400);
+    --count-over-limit-foreground: var(--danger-600);
+
     font-size: var(--text-sm);
-    color: var(--character-count-color);
+    color: var(--count-foreground);
     @apply mt-1;
     transition: color 0.15s var(--ease-snappy-pop);
   }
 
   .character-count[data-over-limit] {
-    color: var(--character-count-over-limit-color);
+    color: var(--count-over-limit-foreground);
   }
 }

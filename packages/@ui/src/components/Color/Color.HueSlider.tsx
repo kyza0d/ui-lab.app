@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { useFocusRing } from "@react-aria/focus";
 import { asElementProps } from "@/lib/react-aria";
+import { cn } from "@/lib/utils";
 import styles from "./Color.module.css";
 
 interface ColorHueSliderProps {
@@ -14,13 +15,16 @@ interface ColorHueSliderProps {
   disabled?: boolean;
   /** Size of the hue slider */
   size?: "sm" | "md" | "lg";
+  className?: string;
+  trackClassName?: string;
+  thumbClassName?: string;
 }
 
 /** Horizontal slider for selecting the hue component (0–360°) */
 export const ColorHueSlider = React.forwardRef<
   HTMLDivElement,
   ColorHueSliderProps
->(({ value, onChange, disabled, size = "md" }, ref) => {
+>(({ value, onChange, disabled, size = "md", className, trackClassName, thumbClassName }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -50,16 +54,17 @@ export const ColorHueSlider = React.forwardRef<
     onChange?.(hue);
   };
 
-  const { focusProps, isFocusVisible } = useFocusRing();
+  const { focusProps, isFocused, isFocusVisible } = useFocusRing();
 
   const thumbPosition = (value / 360) * 100;
 
   return (
     <div
       ref={containerRef}
-      className={styles.hueSlider}
+      className={cn("color", "hue-slider", styles["hue-slider"], className)}
       data-size={size}
       data-disabled={disabled || undefined}
+      data-focused={isFocused ? "true" : undefined}
       data-focus-visible={isFocusVisible || undefined}
       {...asElementProps<"div">(focusProps)}
       onPointerDown={handlePointerDown}
@@ -71,11 +76,12 @@ export const ColorHueSlider = React.forwardRef<
       aria-valuemax={360}
       aria-valuenow={value}
     >
-      <div className={styles.hueTrack} ref={trackRef}>
+      <div className={cn("color", "hue-track", styles["hue-track"], trackClassName)} ref={trackRef}>
         <div
-          className={styles.hueThumb}
+          className={cn("color", "hue-thumb", styles["hue-thumb"], thumbClassName)}
           style={{ left: `${thumbPosition}%` }}
           role="presentation"
+          data-focused={isFocused ? "true" : undefined}
           data-focus-visible={isFocusVisible || undefined}
         />
       </div>

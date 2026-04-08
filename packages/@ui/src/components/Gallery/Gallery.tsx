@@ -26,7 +26,7 @@ interface GalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   rows?: "1" | "2" | "3" | "4" | "5" | "6" | "auto"
   /** Whether to enable container-query-based responsive columns */
   responsive?: boolean
-  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, or slot object. */
   styles?: GalleryStylesProp
 }
 
@@ -41,24 +41,73 @@ interface GalleryItemProps extends React.HTMLAttributes<HTMLElement> {
   rowSpan?: number
   /** Controls the item's layout orientation */
   orientation?: "vertical" | "horizontal"
-  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
-  styles?: GalleryStylesProp
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: GalleryItemStylesProp
 }
 
 interface GalleryViewProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Aspect ratio of the view area (e.g. "16/9") */
   aspectRatio?: string
+  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: GalleryViewStylesProp
 }
 
-interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface GalleryBodyProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Classes applied to the root slot. Accepts a string, cn()-compatible array, or slot object. */
+  styles?: GalleryBodyStylesProp
+}
 
-interface GalleryStyleSlots {
+export interface GalleryStyleSlots {
+  root?: StyleValue;
+  item?: StyleValue;
+  view?: StyleValue;
+  body?: StyleValue;
+}
+
+export type GalleryStylesProp = StylesProp<GalleryStyleSlots>;
+
+export interface GalleryItemStyleSlots {
   root?: StyleValue;
 }
 
-type GalleryStylesProp = StylesProp<GalleryStyleSlots>;
+export type GalleryItemStylesProp = StylesProp<GalleryItemStyleSlots>;
 
-const resolveGalleryBaseStyles = createStylesResolver(['root'] as const);
+export interface GalleryViewStyleSlots {
+  root?: StyleValue;
+}
+
+export type GalleryViewStylesProp = StylesProp<GalleryViewStyleSlots>;
+
+export interface GalleryBodyStyleSlots {
+  root?: StyleValue;
+}
+
+export type GalleryBodyStylesProp = StylesProp<GalleryBodyStyleSlots>;
+
+const resolveGalleryBaseStyles = createStylesResolver(['root', 'item', 'view', 'body'] as const);
+const resolveGalleryItemBaseStyles = createStylesResolver(['root'] as const);
+const resolveGalleryViewBaseStyles = createStylesResolver(['root'] as const);
+const resolveGalleryBodyBaseStyles = createStylesResolver(['root'] as const);
+
+function resolveGalleryStyles(styles: GalleryStylesProp | undefined) {
+  return resolveGalleryBaseStyles(styles);
+}
+
+function resolveGalleryItemStyles(styles: GalleryItemStylesProp | undefined) {
+  return resolveGalleryItemBaseStyles(styles);
+}
+
+function resolveGalleryViewStyles(styles: GalleryViewStylesProp | undefined) {
+  return resolveGalleryViewBaseStyles(styles);
+}
+
+function resolveGalleryBodyStyles(styles: GalleryBodyStylesProp | undefined) {
+  return resolveGalleryBodyBaseStyles(styles);
+}
+
+type GalleryResolvedStyles = ReturnType<typeof resolveGalleryBaseStyles>;
+
+const GalleryStylesContext = React.createContext<GalleryResolvedStyles | undefined>(undefined);
 
 // Helper to map numeric columns to Grid's column values
 const mapColumnsToGrid = (columns?: GridColumns | ResponsiveColumns): GridColumns | ResponsiveColumns => {
@@ -89,20 +138,22 @@ const GalleryRoot = React.forwardRef<HTMLDivElement, GalleryProps>(
   ({ columns = 3, gap = "md", rows, responsive, className, styles: stylesProp, children, ...props }, ref) => {
     const gridColumns = mapColumnsToGrid(columns)
     const gridGap = mapGapToGrid(gap)
-    const resolved = resolveGalleryBaseStyles(stylesProp);
+    const resolved = resolveGalleryStyles(stylesProp);
 
     return (
-      <Grid
-        ref={ref}
-        columns={gridColumns as GridColumns | ResponsiveColumns}
-        gap={gridGap}
-        rows={rows}
-        responsive={responsive}
-        className={cn(className, resolved.root)}
-        {...props}
-      >
-        {children}
-      </Grid>
+      <GalleryStylesContext.Provider value={resolved}>
+        <Grid
+          ref={ref}
+          columns={gridColumns as GridColumns | ResponsiveColumns}
+          gap={gridGap}
+          rows={rows}
+          responsive={responsive}
+          className={cn("gallery", className, resolved.root)}
+          {...props}
+        >
+          {children}
+        </Grid>
+      </GalleryStylesContext.Provider>
     )
   }
 )
@@ -112,7 +163,8 @@ GalleryRoot.displayName = "Gallery"
 /** A single media or content tile in the gallery grid */
 const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
   ({ href, onPress, columnSpan, rowSpan, orientation = "vertical", className, style, styles: stylesProp, children, ...props }, ref) => {
-    const resolved = resolveGalleryBaseStyles(stylesProp);
+    const inherited = React.useContext(GalleryStylesContext);
+    const resolved = resolveGalleryItemStyles(stylesProp);
     const elementRef = React.useRef<HTMLElement>(null)
     const combinedRef = (node: HTMLElement | null) => {
       (elementRef as React.MutableRefObject<HTMLElement | null>).current = node
@@ -123,7 +175,7 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
       }
     }
 
-    const { focusProps, isFocusVisible } = useFocusRing()
+    const { focusProps, isFocused, isFocusVisible } = useFocusRing()
     const { hoverProps, isHovered } = useHover({})
 
     // Use usePress for button interaction
@@ -146,11 +198,12 @@ const GalleryItem = React.forwardRef<HTMLElement, GalleryItemProps>(
       hoverProps,
       pressProps,
       {
-        className: cn('gallery', 'item', styles.item, className, resolved.root),
+        className: cn('gallery', 'item', styles.item, className, inherited?.item, resolved.root),
         style: spanStyles,
-        "data-focus-visible": isFocusVisible || undefined,
-        "data-hovered": isHovered || undefined,
-        "data-pressed": isPressed || undefined,
+        "data-focused": isFocused ? "true" : "false",
+        "data-focus-visible": isFocusVisible ? "true" : "false",
+        "data-hovered": isHovered ? "true" : "false",
+        "data-pressed": isPressed ? "true" : "false",
         "data-orientation": orientation,
         ...(!hasAccessibleName && { "aria-label": "Gallery item" }),
         ...props,
@@ -174,11 +227,14 @@ GalleryItem.displayName = "Gallery.Item"
 // Gallery View Component
 /** Expanded full-screen view overlay for a selected gallery item */
 const GalleryView = React.forwardRef<HTMLDivElement, GalleryViewProps>(
-  ({ aspectRatio = "16/9", className, style, children, ...props }, ref) => {
+  ({ aspectRatio = "16/9", className, style, styles: stylesProp, children, ...props }, ref) => {
+    const inherited = React.useContext(GalleryStylesContext);
+    const resolved = resolveGalleryViewStyles(stylesProp);
+
     return (
       <div
         ref={ref}
-        className={cn(styles.view, className)}
+        className={cn("gallery", "view", styles.view, className, inherited?.view, resolved.root)}
         style={{
           "--gallery-aspect-ratio": aspectRatio,
           ...style
@@ -195,11 +251,14 @@ GalleryView.displayName = "Gallery.View"
 // Gallery Body Component
 /** Container for the gallery item's visible content */
 const GalleryBody = React.forwardRef<HTMLDivElement, GalleryBodyProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, styles: stylesProp, children, ...props }, ref) => {
+    const inherited = React.useContext(GalleryStylesContext);
+    const resolved = resolveGalleryBodyStyles(stylesProp);
+
     return (
       <div
         ref={ref}
-        className={cn('gallery', 'body', styles.body, className)}
+        className={cn('gallery', 'body', styles.body, className, inherited?.body, resolved.root)}
         {...props}
       >
         {children}

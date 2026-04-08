@@ -4,6 +4,7 @@ import { List } from '../'
 import { hoverElement } from '@/tests/utils'
 import styles from '../List.module.css'
 import { act } from 'react'
+import userEvent from '@testing-library/user-event'
 
 describe('List.core', () => {
   it('renders a basic list of items', () => {
@@ -75,7 +76,7 @@ describe('List.core', () => {
 
     if (item2) {
       await hoverElement(item2)
-      expect(item2).toHaveAttribute('data-highlighted', 'true')
+      expect(item2).toHaveAttribute('data-highlighted', 'false')
     }
   })
 
@@ -124,6 +125,32 @@ describe('List.core', () => {
       </>
     )
     expect(container.querySelector('.custom-divider')).toBeInTheDocument()
+  })
+
+  it('is focusable by default and exposes focus-visible state', async () => {
+    const container = renderListWithItems([{ key: '1', label: 'Item 1', value: '1' }])
+    const item = getListItemByText('Item 1', container)
+    const user = userEvent.setup()
+
+    expect(item).toHaveAttribute('tabindex', '0')
+    expect(item).toHaveAttribute('data-focus-visible', 'false')
+
+    await user.tab()
+
+    expect(document.activeElement).toBe(item)
+    expect(item).toHaveAttribute('data-focused', 'true')
+    expect(item).toHaveAttribute('data-focus-visible', 'true')
+  })
+
+  it('allows consumers to opt out of default focusability', () => {
+    const container = renderList(
+      <List.Item value="1" focusable={false}>
+        Item 1
+      </List.Item>
+    )
+    const item = getListItemByText('Item 1', container)
+
+    expect(item).not.toHaveAttribute('tabindex')
   })
 
   it('reflects checked state on List.CheckboxIndicator', () => {

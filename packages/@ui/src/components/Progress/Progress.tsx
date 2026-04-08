@@ -7,16 +7,16 @@ import css from "./Progress.module.css";
 
 type ProgressSize = "sm" | "md" | "lg";
 
-interface ProgressStyleSlots {
+export interface ProgressStyleSlots {
   root?: StyleValue;
-  ['label-row']?: StyleValue;
+  labelRow?: StyleValue;
   label?: StyleValue;
   value?: StyleValue;
   progress?: StyleValue;
   fill?: StyleValue;
 }
 
-type ProgressStylesProp = StylesProp<ProgressStyleSlots>;
+export type ProgressStylesProp = StylesProp<ProgressStyleSlots>;
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Current progress value */
@@ -47,12 +47,21 @@ const sizeMap = {
 
 const resolveProgressBaseStyles = createStylesResolver([
   'root',
-  'label-row',
+  'labelRow',
   'label',
   'value',
   'progress',
   'fill',
 ] as const);
+
+function resolveProgressStyles(styles: ProgressStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) {
+    return resolveProgressBaseStyles(styles);
+  }
+
+  const { root, labelRow, label, value, progress, fill } = styles;
+  return resolveProgressBaseStyles({ root, labelRow, label, value, progress, fill });
+}
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
   (
@@ -75,14 +84,15 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     const percentage = (clampedValue / max) * 100;
     const hasLabelContent = label || showValue;
 
-    const resolved = resolveProgressBaseStyles(stylesProp);
+    const resolved = resolveProgressStyles(stylesProp);
 
     return (
       <div
-        className={cn(css.wrapper, hasLabelContent && css.hasLabel, resolved.root)}
+        className={cn(css.wrapper, resolved.root)}
+        data-has-label={hasLabelContent ? "true" : "false"}
       >
         {hasLabelContent && (
-          <div className={cn('progress', 'label-row', css['label-row'], resolved['label-row'])}>
+          <div className={cn(css['label-row'], resolved.labelRow)}>
             {label && (
               <span className={cn(css.label, resolved.label)}>
                 {label}
@@ -100,14 +110,16 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuemin={0}
           aria-valuemax={max}
           aria-label={label}
-          className={cn('progress', variant, css.progress, sizeMap[size], className, resolved.progress)}
+          className={cn("progress", variant, css.progress, sizeMap[size], className, resolved.progress)}
           data-variant={variant}
           data-size={size}
-          data-indeterminate={indeterminate || undefined}
+          data-indeterminate={indeterminate ? "true" : "false"}
           {...props}
         >
           <div
-            className={cn('progress', 'fill', variant, css.fill, (animated || indeterminate) && css.animated, indeterminate && css.indeterminate, resolved.fill)}
+            className={cn(css.fill, resolved.fill)}
+            data-animated={animated || indeterminate ? "true" : "false"}
+            data-indeterminate={indeterminate ? "true" : "false"}
             style={indeterminate ? undefined : { width: `${percentage}%` }}
           />
         </div>

@@ -53,7 +53,7 @@ describe('Tabs.styles', () => {
     expect(html).toContain('data-indicator-fallback="true"')
   })
 
-  it('renders the underline fallback flush with the trigger border box in SSR markup', () => {
+  it('renders the underline fallback aligned with the measured indicator in SSR markup', () => {
     const { renderToString } = require('react-dom/server')
     const html = renderToString(
       <Tabs default="portfolio" variant="underline">
@@ -71,8 +71,31 @@ describe('Tabs.styles', () => {
       </Tabs>
     )
 
-    expect(html).toContain('bottom:-2px')
+    expect(html).toContain('bottom:-6px')
     expect(html).toContain('height:2px')
+    expect(html).toContain('data-indicator-fallback="true"')
+  })
+
+  it('renders the vertical underline fallback offset from the trigger border box in SSR markup', () => {
+    const { renderToString } = require('react-dom/server')
+    const html = renderToString(
+      <Tabs default="portfolio" variant="underline" orientation="vertical">
+        <Tabs.List
+          styles={{
+            indicator: 'bg-red-500 border-4 border-background-700 rounded-sm',
+          }}
+          aria-label="Portfolio sections"
+        >
+          <Tabs.Trigger value="portfolio">Portfolio</Tabs.Trigger>
+          <Tabs.Trigger value="activity">Activity</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="portfolio">Portfolio content</Tabs.Content>
+        <Tabs.Content value="activity">Activity content</Tabs.Content>
+      </Tabs>
+    )
+
+    expect(html).toContain('left:-6px')
+    expect(html).toContain('width:2px')
     expect(html).toContain('data-indicator-fallback="true"')
   })
 
@@ -120,5 +143,99 @@ describe('Tabs.styles', () => {
     })
     expect(selectedTrigger).not.toHaveAttribute('data-indicator-fallback')
     expect(selectedTrigger.querySelector('.bg-red-500')).toBeNull()
+  })
+
+  it('hydrates underline tabs with the same offset indicator position used by the SSR fallback', async () => {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      if (this.getAttribute('role') === 'tablist') {
+        return createRect(0, 0, 220, 40)
+      }
+
+      switch (this.getAttribute('data-tabs-value')) {
+        case 'portfolio':
+          return createRect(12, 4, 88, 32)
+        case 'activity':
+          return createRect(112, 4, 76, 32)
+        default:
+          return createRect(0, 0, 0, 0)
+      }
+    })
+
+    render(
+      <Tabs default="portfolio" variant="underline">
+        <Tabs.List
+          styles={{
+            indicator: 'bg-red-500 border-4 border-background-700 rounded-sm',
+          }}
+          aria-label="Portfolio sections"
+        >
+          <Tabs.Trigger value="portfolio">Portfolio</Tabs.Trigger>
+          <Tabs.Trigger value="activity">Activity</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="portfolio">Portfolio content</Tabs.Content>
+        <Tabs.Content value="activity">Activity content</Tabs.Content>
+      </Tabs>
+    )
+
+    const tablist = screen.getByRole('tablist', { name: 'Portfolio sections' })
+
+    await waitFor(() => {
+      expect(tablist.lastElementChild).toHaveClass('bg-red-500')
+    })
+
+    expect(tablist.lastElementChild).toHaveStyle({
+      left: '12px',
+      top: '38px',
+      width: '88px',
+      height: '2px',
+      margin: '0px',
+    })
+  })
+
+  it('hydrates vertical underline tabs with the same offset indicator position used by the SSR fallback', async () => {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      if (this.getAttribute('role') === 'tablist') {
+        return createRect(0, 0, 120, 140)
+      }
+
+      switch (this.getAttribute('data-tabs-value')) {
+        case 'portfolio':
+          return createRect(8, 12, 92, 32)
+        case 'activity':
+          return createRect(8, 56, 92, 32)
+        default:
+          return createRect(0, 0, 0, 0)
+      }
+    })
+
+    render(
+      <Tabs default="portfolio" variant="underline" orientation="vertical">
+        <Tabs.List
+          styles={{
+            indicator: 'bg-red-500 border-4 border-background-700 rounded-sm',
+          }}
+          aria-label="Portfolio sections"
+        >
+          <Tabs.Trigger value="portfolio">Portfolio</Tabs.Trigger>
+          <Tabs.Trigger value="activity">Activity</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="portfolio">Portfolio content</Tabs.Content>
+        <Tabs.Content value="activity">Activity content</Tabs.Content>
+      </Tabs>
+    )
+
+    const tablist = screen.getByRole('tablist', { name: 'Portfolio sections' })
+
+    await waitFor(() => {
+      expect(tablist.lastElementChild).toHaveClass('bg-red-500')
+    })
+
+    expect(tablist.lastElementChild).toHaveStyle({
+      left: '4px',
+      top: '12px',
+      width: '2px',
+      height: '32px',
+      margin: '0px',
+    })
   })
 })

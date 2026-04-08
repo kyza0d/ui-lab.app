@@ -3,8 +3,8 @@
 @layer components {
   .progress {
     @apply relative w-full overflow-hidden;
-    border-radius: var(--radius-full);
-    background-color: var(--track-background);
+    border-radius: var(--radius-full, 9999px);
+    background-color: var(--background);
   }
 
   .progress.sm { height: 0.25rem; }
@@ -13,16 +13,16 @@
 
   .fill {
     @apply h-full;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-full, 9999px);
     background-color: var(--fill-background);
     transition: width 300ms var(--ease-snappy-pop);
   }
 
-  .fill.animated {
+  .fill[data-animated="true"] {
     animation: pulse 2s var(--ease-gentle-ease) infinite;
   }
 
-  .fill.indeterminate {
+  .fill[data-indeterminate="true"] {
     width: 33.333%;
     animation: progress-indeterminate 1.5s var(--ease-gentle-ease) infinite;
   }
@@ -31,7 +31,7 @@
     @apply w-full;
   }
 
-  .wrapper.has-label {
+  .wrapper[data-has-label="true"] {
     @apply space-y-1;
   }
 

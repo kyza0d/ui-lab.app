@@ -60,6 +60,7 @@ interface PopoverStyleSlots {
   root?: StyleValue;
   content?: StyleValue;
   trigger?: StyleValue;
+  frame?: StyleValue;
 }
 
 type PopoverStylesProp = StylesProp<PopoverStyleSlots>;
@@ -89,6 +90,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
       'root',
       'content',
       'trigger',
+      'frame',
     ] as const);
 
     const resolved = resolvePopoverBaseStyles(styles);
@@ -245,8 +247,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
                   shapeMode={showArrow ? "extend" : undefined}
                   path={showArrow ? ARROW_PATH : undefined}
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
-                  className={cn('popover', 'frame', css.frame, resolved.content)}
-                  style={{ "--frame-radius": "8px" } as React.CSSProperties}
+                  className={cn('popover', 'frame', css.frame, resolved.frame)}
                 >
                   {content}
                 </Frame>

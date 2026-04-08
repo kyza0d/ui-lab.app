@@ -9,18 +9,18 @@ import { useButton } from "@react-aria/button";
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import styles from "./Select.module.css"
-import { useListNavigation, useMergedRef, handleListKeyDown, type ItemData } from "./Select.shared"
+import { useListNavigation, useMergedRef, handleListKeyDown, focusAdjacentTabStop, type ItemData } from "./Select.shared"
 
 export type SelectItemData = ItemData
 
 export type SelectTriggerMode = "click" | "hover"
 export type SelectMode = "single" | "multiple"
 
-interface SelectStyleSlots {
+export interface SelectStyleSlots {
   root?: StyleValue;
 }
 
-type SelectStylesProp = StylesProp<SelectStyleSlots>;
+export type SelectStylesProp = StylesProp<SelectStyleSlots>;
 
 export interface SelectContextValue {
   isOpen: boolean
@@ -38,6 +38,7 @@ export interface SelectContextValue {
   wrapperRef: React.MutableRefObject<HTMLElement | null>
   contentRef: React.MutableRefObject<HTMLElement | null>
   triggerProps: any
+  isFocused: boolean
   isFocusVisible: boolean
   isPressed: boolean
   isHovered: boolean
@@ -59,8 +60,13 @@ export interface SelectContextValue {
   triggerMode: SelectTriggerMode
   handleHoverIntent: (isHovering: boolean) => void
   mouseMoveDetectedRef: React.MutableRefObject<boolean>
+  keyboardScrollIntentRef: React.MutableRefObject<boolean>
+  markKeyboardNavigation: () => void
+  moveFocusFromTrigger: (direction: 1 | -1) => boolean
   filter?: (item: any) => boolean
   contentId: string
+  hasExternalValue: boolean
+  restoreFocus: (target?: "auto" | "trigger" | "row") => void
 }
 
 const SelectContext = React.createContext<SelectContextValue | null>(null)
@@ -112,6 +118,12 @@ export interface SelectProps<T = any> extends React.PropsWithChildren {
 
 const resolveSelectBaseStyles = createStylesResolver(['root'] as const);
 
+function resolveSelectStyles(styles: SelectStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveSelectBaseStyles(styles)
+  const { root } = styles
+  return resolveSelectBaseStyles({ root })
+}
+
 const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
   (
     {
@@ -144,6 +156,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
     const [contentPlacement, setContentPlacement] = React.useState<"top" | "bottom">("bottom")
     const contentId = React.useId()
     const hoverTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+    const keyboardScrollIntentRef = React.useRef(false)
 
     const handleHoverIntent = React.useCallback((isHovering: boolean) => {
       if (triggerMode !== "hover" || isDisabled) return
@@ -219,6 +232,31 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       return itemExtrasRef.current.get(nav.focusedKey)?.isSubmenuTrigger ?? false
     }, [nav.focusedKey])
 
+    const markKeyboardNavigation = React.useCallback(() => {
+      mouseMoveDetectedRef.current = false
+      keyboardScrollIntentRef.current = true
+    }, [])
+
+    const moveFocusFromTrigger = React.useCallback((direction: 1 | -1) => {
+      const triggerElement = triggerRef.current
+      if (!triggerElement) return false
+      return focusAdjacentTabStop(triggerElement, direction, wrapperRef.current)
+    }, [])
+
+    const restoreFocus = React.useCallback((target: "auto" | "trigger" | "row" = "auto") => {
+      const triggerElement = triggerRef.current
+      if (!triggerElement) return
+
+      const ownerRow = triggerElement.closest<HTMLElement>('[data-list-focus-owner="true"]')
+      const focusTarget = target === "row"
+        ? ownerRow
+        : target === "trigger"
+          ? triggerElement
+          : ownerRow ?? triggerElement
+
+      focusTarget?.focus({ preventScroll: true })
+    }, [])
+
     const onSelect = React.useCallback((key: Key) => {
       const item = nav.items.find(i => i.key === key)
       if (item) {
@@ -230,7 +268,8 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       onSelectionChange?.(key)
       setIsOpen(false)
       nav.setSearchValue("")
-    }, [controlledSelectedKey, onSelectionChange, nav.items])
+      restoreFocus()
+    }, [controlledSelectedKey, onSelectionChange, nav.items, restoreFocus])
 
     const onToggle = React.useCallback((key: Key) => {
       const newKeys = new Set(selectedKeys)
@@ -300,7 +339,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
         }
       },
     }, triggerRef)
-    const { focusProps, isFocusVisible } = useFocusRing()
+    const { focusProps, isFocused, isFocusVisible } = useFocusRing()
     const { hoverProps, isHovered } = useHover({
       isDisabled,
       onHoverStart: () => handleHoverIntent(true),
@@ -314,11 +353,25 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       'aria-disabled': isDisabled || undefined,
       onKeyDown: (e: React.KeyboardEvent) => {
         if (!isOpen) {
-          if (e.key === 'ArrowDown' || e.key === 'Enter' || (e.key === ' ' && !isDisabled)) {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || (e.key === ' ' && !isDisabled)) {
             e.preventDefault()
             setIsOpen(true)
           }
           return
+        }
+
+        if (e.key === 'Tab') {
+          setIsOpen(false)
+          nav.setSearchValue("")
+          const direction = e.shiftKey ? -1 : 1
+          if (moveFocusFromTrigger(direction as 1 | -1)) {
+            e.preventDefault()
+          }
+          return
+        }
+
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Home' || e.key === 'End') {
+          markKeyboardNavigation()
         }
 
         handleListKeyDown(e, {
@@ -328,7 +381,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           close: () => {
             setIsOpen(false)
             nav.setSearchValue("")
-            triggerRef.current?.focus()
+            restoreFocus()
           },
           filteredItems: nav.filteredItems,
           setFocusedKey: nav.setFocusedKey,
@@ -373,11 +426,14 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
       (child.type as any)?.displayName !== 'SelectContent' &&
       (child.type as any)?.displayName !== 'SearchableContent'
     ))
+    const hasExternalValue = otherContent.some(child => (
+      React.isValidElement(child) && (child.type as any)?.displayName === 'SelectValue'
+    ))
     const triggerType = React.isValidElement(trigger) && (trigger.type as any)?.displayName === 'SearchableTrigger'
       ? 'input'
       : 'button'
 
-    const resolvedStyles = resolveSelectBaseStyles(stylesProp);
+    const resolvedStyles = resolveSelectStyles(stylesProp);
 
     return (
       <SelectContext.Provider
@@ -397,6 +453,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           wrapperRef,
           contentRef,
           triggerProps,
+          isFocused,
           isFocusVisible,
           isPressed,
           isHovered,
@@ -418,8 +475,13 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
           triggerMode,
           handleHoverIntent,
           mouseMoveDetectedRef,
+          keyboardScrollIntentRef,
+          markKeyboardNavigation,
+          moveFocusFromTrigger,
           filter,
           contentId,
+          hasExternalValue,
+          restoreFocus,
         }}
       >
         <div

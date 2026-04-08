@@ -1,15 +1,33 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn, type StyleValue } from "@/lib/utils"
+import { type StylesProp, createStylesResolver } from "@/lib/styles"
 import { Button, type ButtonProps } from "../Button"
 import { Input, type InputProps } from "../Input"
 import { Select, type SelectProps } from "../Select"
-import styles from "./Group.module.css"
+import css from "./Group.module.css"
 
 type Orientation = "horizontal" | "vertical"
 type Spacing = "none" | "xs" | "sm"
 type Variant = "primary" | "secondary" | "outline" | "ghost"
+
+type GroupItemStyles = {
+  first?: StyleValue
+  last?: StyleValue
+  divider?: StyleValue
+  grow?: StyleValue
+}
+
+export interface GroupStyleSlots {
+  root?: StyleValue;
+  item?: StyleValue | GroupItemStyles;
+  button?: StyleValue;
+  input?: StyleValue;
+  select?: StyleValue;
+}
+
+export type GroupStylesProp = StylesProp<GroupStyleSlots>;
 
 export interface GroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Controls the axis that children are arranged along */
@@ -24,6 +42,8 @@ export interface GroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
   value?: string
   /** Called when a button with a value prop is pressed */
   onChange?: (value: string) => void
+  /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
+  styles?: GroupStylesProp
 }
 
 interface GroupContextValue {
@@ -34,6 +54,7 @@ interface GroupContextValue {
   groupIsDisabled: boolean
   groupValue?: string
   groupOnChange?: (value: string) => void
+  groupStyles: ReturnType<typeof resolveGroupStyles>
 }
 
 // Context
@@ -47,23 +68,73 @@ function useGroupContext() {
   return context
 }
 
+const resolveGroupBaseStyles = createStylesResolver([
+  "root",
+  "item",
+  "itemFirst",
+  "itemLast",
+  "itemDivider",
+  "itemGrow",
+  "button",
+  "input",
+  "select",
+] as const)
+
+function resolveGroupStyles(styles: GroupStylesProp | undefined) {
+  if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveGroupBaseStyles(styles)
+  const { root, item, button, input, select } = styles
+
+  let itemResolved: StyleValue | undefined
+  let itemFirst: StyleValue | undefined
+  let itemLast: StyleValue | undefined
+  let itemDivider: StyleValue | undefined
+  let itemGrow: StyleValue | undefined
+
+  if (item) {
+    if (typeof item === "string" || Array.isArray(item)) {
+      itemResolved = item
+      itemFirst = item
+      itemLast = item
+      itemDivider = item
+      itemGrow = item
+    } else {
+      itemFirst = item.first
+      itemLast = item.last
+      itemDivider = item.divider
+      itemGrow = item.grow
+    }
+  }
+
+  return resolveGroupBaseStyles({
+    root,
+    item: itemResolved,
+    itemFirst,
+    itemLast,
+    itemDivider,
+    itemGrow,
+    button,
+    input,
+    select,
+  })
+}
+
 // Variant and orientation maps
 const orientationMap: Record<Orientation, string> = {
-  horizontal: styles.horizontal,
-  vertical: styles.vertical,
+  horizontal: css.horizontal,
+  vertical: css.vertical,
 }
 
 const spacingMap: Record<Spacing, string> = {
-  none: styles.none,
-  xs: styles.xs,
-  sm: styles.sm,
+  none: css.none,
+  xs: css.xs,
+  sm: css.sm,
 }
 
 const variantMap: Record<Variant, string | undefined> = {
   primary: undefined,
   secondary: undefined,
   outline: undefined,
-  ghost: styles.ghost,
+  ghost: css.ghost,
 }
 
 // Detect Divider elements by checking for separator role, orientation prop, or displayName
@@ -87,15 +158,16 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
       isDisabled = false,
       value,
       onChange,
+      styles: stylesProp,
       ...props
     },
     ref
   ) => {
-    const isVertical = orientation === "vertical"
-
     const childrenArray = React.Children.toArray(children).filter(
       (child) => child !== null && child !== undefined
     )
+
+    const resolved = resolveGroupStyles(stylesProp)
 
     const contextValue: GroupContextValue = {
       isInGroup: true,
@@ -105,6 +177,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
       groupIsDisabled: isDisabled,
       groupValue: value,
       groupOnChange: onChange,
+      groupStyles: resolved,
     }
 
     return (
@@ -115,14 +188,16 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
             'group',
             orientation,
             variant,
-            styles.group,
+            css.group,
             orientationMap[orientation],
             spacingMap[spacing],
             variantMap[variant],
+            resolved.root,
             className
           )}
           role="group"
           aria-disabled={isDisabled || undefined}
+          data-disabled={isDisabled ? "true" : undefined}
           {...props}
         >
           {childrenArray.map((child, index) => {
@@ -139,12 +214,14 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
                 key={`item-${index}`}
                 className={cn(
                   'item',
-                  styles.item,
-                  isVertical ? styles.vertical : styles.horizontal,
-                  isFirst && styles.first,
-                  isLast && styles.last,
-                  isDividerChild && styles.divider,
-                  shouldGrow && styles.grow,
+                  css.item,
+                  isFirst && resolved.itemFirst,
+                  isLast && resolved.itemLast,
+                  isDividerChild && css.divider,
+                  isDividerChild && resolved.itemDivider,
+                  shouldGrow && css.grow,
+                  shouldGrow && resolved.itemGrow,
+                  resolved.item,
                 )}
               >
                 {child}
@@ -191,9 +268,12 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
       onPress: handlePress,
       variant: buttonVariant,
       isDisabled,
+      "data-selected": isActive ? "true" : "false",
       className: cn(
-        styles['group-item'],
-        isActive && styles.active,
+        "group",
+        "button",
+        css.button,
+        context.groupStyles.button,
         className
       ),
     }
@@ -215,7 +295,7 @@ const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
     const inputDisabled = disabled ?? context.groupIsDisabled
 
     return (
-      <div className={cn(styles['group-input-wrapper'], className)}>
+      <div className={cn("group", "input", css.input, context.groupStyles.input, className)}>
         <Input
           ref={ref}
           {...props}
@@ -240,7 +320,7 @@ const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperPr
     const inputDisabled = disabled ?? context.groupIsDisabled
 
     return (
-      <div className={cn(styles['group-input-wrapper'], className)}>
+      <div className={cn("group", "input", css.input, context.groupStyles.input, className)}>
         <Input
           ref={ref}
           {...props}
@@ -269,7 +349,7 @@ const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
         ref={ref}
         {...props}
         isDisabled={disabled}
-        className={cn('group-select-wrapper', styles['group-select-wrapper'], className)}
+        className={cn("group", "select", css.select, context.groupStyles.select, className)}
       />
     )
   }

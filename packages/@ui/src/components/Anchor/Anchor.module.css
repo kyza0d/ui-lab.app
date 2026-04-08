@@ -5,18 +5,18 @@
     display: inline
   }
 
-  .trigger {
+  .root {
     @apply inline-block relative cursor-pointer;
-    color: var(--foreground);
+    color: var(--foreground, currentColor);
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover .underline {
-      background: var(--underline-background-hover);
+      background: var(--underline-background-hover, var(--foreground-400));
     }
 
     &:focus-visible {
-      outline: 2px solid var(--focus-ring);
+      outline: 2px solid var(--focus-visible, var(--focus-ring));
       outline-offset: 2px;
       border-radius: 2px;
     }
@@ -24,10 +24,13 @@
 
   .underline {
     @apply absolute left-0 right-0 bottom-0 h-px;
-    background: var(--underline-background);
+    background: var(--underline-background, var(--background-600));
     transform-origin: right;
     transform: scaleX(1);
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+  }
+
+  .preview {
   }
 }

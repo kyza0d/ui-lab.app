@@ -6,13 +6,9 @@ declare const styles: {
   title: string;
   spacer: string;
   close: string;
-  closeIcon: string;
+  "close-icon": string;
   content: string;
   footer: string;
-  "size-sm": string;
-  "size-md": string;
-  "size-lg": string;
-  "size-xl": string;
 };
 
 export default styles;

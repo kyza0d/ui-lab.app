@@ -194,7 +194,7 @@ const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorP
         href={href}
         target={target}
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
-        className={cn("anchor", "trigger", css.trigger, className, resolved.root)}
+        className={cn("anchor", css.root, className, resolved.root)}
         {...props}
       >
         {filteredChildren}
@@ -202,7 +202,7 @@ const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorP
     ) : (
       <span
         ref={ref as React.Ref<HTMLSpanElement>}
-        className={cn("anchor", "trigger", css.trigger, className, resolved.root)}
+        className={cn("anchor", css.root, className, resolved.root)}
         {...props}
       >
         {filteredChildren}

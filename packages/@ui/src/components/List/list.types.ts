@@ -72,6 +72,8 @@ export type ListActionDef = {
 export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Unique value identifier for this item */
   value?: string;
+  /** Whether the item should participate in the tab order by default */
+  focusable?: boolean;
   /** Whether the item responds to hover and keyboard highlight */
   interactive?: boolean;
   /** Whether the item is in a selected state */
@@ -97,6 +99,11 @@ export type ListSelectProps = React.ComponentPropsWithoutRef<typeof UISelect>;
 
 export interface ListMediaProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Child content for the media slot */
+  children: React.ReactNode;
+}
+
+export interface ListTitleProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Primary label text content */
   children: React.ReactNode;
 }
 

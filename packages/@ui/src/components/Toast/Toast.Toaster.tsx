@@ -118,7 +118,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
         gsap.set(el, { y: startY, opacity: 0, scale: scale * 0.9 });
       }
 
-      gsap.to(el, { y, scale, opacity, duration: 0.35, ease: "power3.out", overwrite: "auto" });
+      gsap.to(el, { y, scale, opacity, duration: 0.45, ease: "expo.out", overwrite: "auto" });
       el.style.pointerEvents = pointerEvents;
 
       activeIndex++; // Only increment for active toasts
@@ -139,8 +139,8 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position, toasts }) => 
 
       gsap.to(containerRef.current, {
         height: totalHeight,
-        duration: 0.35,
-        ease: "power3.out",
+        duration: 0.45,
+        ease: "expo.out",
         overwrite: "auto",
       });
     }

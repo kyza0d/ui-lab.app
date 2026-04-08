@@ -2,7 +2,10 @@ export {
   useMergedRef,
   scrollItemIntoView,
   handleListKeyDown,
+  focusAdjacentTabStop,
   useListNavigation,
+  useListPointerModality,
+  useListScrollIntoView,
 } from "../../utils/list-navigation"
 
 export type {
