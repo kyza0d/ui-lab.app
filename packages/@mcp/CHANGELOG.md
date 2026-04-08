@@ -1,5 +1,11 @@
 # ui-lab-mcp
 
+## 0.1.63
+
+### Patch Changes
+
+- Fix package references to properly point to published npm versions instead of workspace references.
+
 ## 0.1.62
 
 ### Patch Changes

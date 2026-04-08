@@ -1,5 +1,11 @@
 # ui-lab-components
 
+## 0.3.43
+
+### Patch Changes
+
+- Fix package references to properly point to published npm versions instead of workspace references.
+
 ## 0.3.42
 
 ### Patch Changes
