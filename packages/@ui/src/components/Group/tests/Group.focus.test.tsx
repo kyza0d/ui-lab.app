@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Group } from '../Group'
+import { Divider } from '../../Divider'
 import { Select } from '../../Select'
 import css from '../Group.module.css'
 import expandCss from '../../Expand/Expand.module.css'
@@ -10,6 +11,94 @@ import expandCss from '../../Expand/Expand.module.css'
 const SearchIcon = () => <svg data-testid="search-icon" />
 
 describe('Group.Input focus ring target', () => {
+  it('applies a custom variant class to the root, item wrappers, and grouped slots', () => {
+    const { container } = render(
+      <Group variant="my-custom-variant">
+        <Group.Button>Action</Group.Button>
+        <Group.Input aria-label="Search" />
+        <Group.Expand title="Filters" />
+      </Group>
+    )
+
+    const groupRoot = container.querySelector('[role="group"]')!
+    const itemWrappers = container.querySelectorAll(`.${css.item}`)
+    const actionButton = screen.getByRole('button', { name: 'Action' })
+    const input = screen.getByRole('textbox', { name: 'Search' })
+    const inputSurface = input.closest(`.${css.input}`)
+    const expandTrigger = screen.getByRole('button', { name: 'Filters' })
+    const expandSurface = expandTrigger.closest(`.${css.expand}`)
+
+    expect(groupRoot).toHaveClass('my-custom-variant')
+    expect(itemWrappers).toHaveLength(3)
+    itemWrappers.forEach((item) => {
+      expect(item).toHaveClass('my-custom-variant')
+    })
+    expect(actionButton).toHaveClass('my-custom-variant')
+    expect(inputSurface).toHaveClass('my-custom-variant')
+    expect(expandSurface).toHaveClass('my-custom-variant')
+  })
+
+  it('preserves root and slot styles while adding the variant class', () => {
+    const { container } = render(
+      <Group
+        variant="secondary"
+        styles={{
+          root: 'root-style',
+          item: 'item-style',
+          button: 'button-style',
+          input: 'input-style',
+          expand: 'expand-style',
+        }}
+      >
+        <Group.Button>Action</Group.Button>
+        <Group.Input aria-label="Search" />
+        <Group.Expand title="Filters" />
+      </Group>
+    )
+
+    const groupRoot = container.querySelector('[role="group"]')!
+    const itemWrappers = container.querySelectorAll(`.${css.item}`)
+    const actionButton = screen.getByRole('button', { name: 'Action' })
+    const inputSurface = screen.getByRole('textbox', { name: 'Search' }).closest(`.${css.input}`)
+    const expandSurface = screen.getByRole('button', { name: 'Filters' }).closest(`.${css.expand}`)
+
+    expect(groupRoot).toHaveClass('secondary', 'root-style')
+    itemWrappers.forEach((item) => {
+      expect(item).toHaveClass('secondary', 'item-style')
+    })
+    expect(actionButton).toHaveClass('secondary', 'button-style')
+    expect(inputSurface).toHaveClass('secondary', 'input-style')
+    expect(expandSurface).toHaveClass('secondary', 'expand-style')
+  })
+
+  it('applies divider wrapper variant class and divider item slot styles', () => {
+    const { container } = render(
+      <Group
+        variant="outline"
+        styles={{
+          item: {
+            divider: 'divider-item-style',
+          },
+          button: 'button-style',
+          input: 'input-style',
+        }}
+      >
+        <Group.Input aria-label="Search" />
+        <Divider />
+        <Group.Button>Go</Group.Button>
+      </Group>
+    )
+
+    const divider = container.querySelector('[role="separator"]')!
+    const dividerItem = divider.closest(`.${css.item}`)!
+    const inputSurface = screen.getByRole('textbox', { name: 'Search' }).closest(`.${css.input}`)
+    const button = screen.getByRole('button', { name: 'Go' })
+
+    expect(dividerItem).toHaveClass('outline', css.divider, 'divider-item-style')
+    expect(inputSurface).toHaveClass('outline', 'input-style')
+    expect(button).toHaveClass('outline', 'button-style')
+  })
+
   it('sets data-focused on the Input container that wraps both the prefix icon and the input element', async () => {
     const user = userEvent.setup()
     const { container } = render(

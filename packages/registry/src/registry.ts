@@ -14,6 +14,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["popover","breadcrumbs"],
     tags: ["navigation","interactive","link"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible with focus visible states","Built on Popover for accessible overlay handling","Screen reader friendly"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Anchor",
@@ -36,6 +37,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: [],
     tags: ["label","status","tag"],
     accessibility: {"hasAriaSupport":false,"notes":["Semantic HTML","Use with proper context"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Badge",
@@ -63,6 +65,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","alert","badge"],
     tags: ["notification","layout","visual","full-width"],
     accessibility: {"hasAriaSupport":true,"notes":["Supports keyboard navigation for dismiss button","Semantic HTML structure","ARIA labels for accessibility","Focus management for interactive elements"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Banner",
@@ -85,6 +88,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["group"],
     tags: ["cta","interactive","primary-action"],
     accessibility: {"hasAriaSupport":true,"notes":["Supports keyboard navigation","Screen reader friendly"]},
+    usage: undefined,
     examples: [
     {
         "title": "Button Variants",
@@ -127,6 +131,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["modal","divider"],
     tags: ["container","grouping","layout"],
     accessibility: {"hasAriaSupport":false,"notes":["Semantic HTML structure","Proper heading hierarchy"]},
+    usage: {"summary":"Use Card as a top-level surface that groups related content into a single visual panel.","whenToUse":["Page sections that need their own surface boundary","Standalone panels such as summaries, settings sections, and detail blocks","Collections of related content that benefit from header/body/footer structure"],"whenNotToUse":["Inside other surfaced overlays like Modal, Popover, Confirm, or Menu","For simple internal spacing inside an existing surfaced component","As a generic replacement for every padded container"],"rules":[{"type":"do","title":"Reserve Card for top-level surfaces","description":"Treat Card as the main boundary for a section or standalone block, not as a default inner wrapper."},{"type":"avoid","title":"Do not nest Card inside overlay surfaces","description":"Avoid putting Card inside Modal, Popover, Confirm, or Menu because it creates double-surface chrome and weakens hierarchy.","relatedComponents":["modal","popover","confirm","menu"]},{"type":"prefer","title":"Prefer layout primitives for internal grouping","description":"When content already sits inside a surfaced component, use Flex, Grid, Group, or the host component's slots to structure it instead of adding another Card.","relatedComponents":["flex","grid","group","modal"]}]},
     examples: [
     {
         "title": "Basic Card",
@@ -149,6 +154,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["radio","switch","label"],
     tags: ["form","selection","boolean"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","Visual focus indicator","Works with labels"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Checkbox",
@@ -177,6 +183,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: [],
     tags: ["code","syntax-highlighting","display"],
     accessibility: {"hasAriaSupport":false,"notes":["Pre-formatted content","Copy button is keyboard accessible"]},
+    usage: undefined,
     examples: [],
   },
 
@@ -194,6 +201,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["input","select"],
     tags: ["color","form","user-input","interactive"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible sliders","ARIA labels for color components","Visual focus indicators","Screen reader announcements for color values"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Color",
@@ -222,6 +230,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["modal","input"],
     tags: ["search","command","navigation"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard shortcuts","Search support","Focus management"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Command Palette",
@@ -244,6 +253,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["modal","button","card"],
     tags: ["dialog","confirm","safety"],
     accessibility: {"hasAriaSupport":true,"notes":["Focus management","Clear action buttons","Alert dialog role"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Confirm",
@@ -266,6 +276,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["input","select"],
     tags: ["date","selection","input","interactive"],
     accessibility: {"hasAriaSupport":true,"notes":["Full keyboard navigation with arrow keys","Enter/Space to select dates","PageUp/PageDown for month navigation","Screen reader friendly with semantic HTML","Focus management with visible focus ring","Disabled dates properly announced"]},
+    usage: undefined,
     examples: [],
   },
 
@@ -282,6 +293,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","modal"],
     tags: ["separator","layout","visual"],
     accessibility: {"hasAriaSupport":false,"notes":["Semantic divider element","Visual separator only"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Divider",
@@ -314,6 +326,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","modal"],
     tags: ["disclosure","accordion","collapsible","expandable"],
     accessibility: {"hasAriaSupport":true,"notes":["Full ARIA disclosure pattern support","Keyboard navigation with Tab and Enter/Space","Proper button and panel roles","Screen reader friendly"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Expand",
@@ -336,6 +349,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","group","divider"],
     tags: ["layout","flex","container-queries","responsive"],
     accessibility: {"hasAriaSupport":false,"notes":["Semantic div element with flexbox layout","No built-in ARIA roles - use for layout purposes","Compose with accessible child components"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Flex",
@@ -358,6 +372,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","modal"],
     tags: ["container","decorative","border","svg","custom-shapes"],
     accessibility: {"hasAriaSupport":false,"notes":["Decorative SVG elements are properly hidden from assistive technology"]},
+    usage: undefined,
     examples: [
     {
         "title": "Featured Card Frame",
@@ -390,6 +405,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","grid"],
     tags: ["gallery","grid","media","images","video","responsive"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses React Aria useFocusRing for keyboard focus indication","Supports both link and button interaction modes","Proper focus order through natural DOM order","Hover and focus states for visual feedback"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Gallery",
@@ -412,6 +428,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["flex","card","divider"],
     tags: ["layout","grid","container-queries","responsive","columns"],
     accessibility: {"hasAriaSupport":false,"notes":["Semantic div element with grid layout","No built-in ARIA roles - use for layout purposes","Compose with accessible child components"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Grid",
@@ -435,6 +452,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["button","input","select","expand"],
     tags: ["composition","grouped","compound","form"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses role=\"group\" for semantic grouping","Propagates disabled state to children","Maintains keyboard navigation for all child components"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Group",
@@ -457,6 +475,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["label","form","group"],
     tags: ["form","text","user-input"],
     accessibility: {"hasAriaSupport":true,"notes":["Works with label elements","Supports placeholder text","Keyboard accessible"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Input",
@@ -484,6 +503,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["input","checkbox","radio","switch"],
     tags: ["form","text","accessibility"],
     accessibility: {"hasAriaSupport":true,"notes":["Associates with form controls","Improves accessibility"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Label",
@@ -507,6 +527,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","table"],
     tags: ["list","items","collections","selection","actions"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses list role for semantic structure","Supports interactive items with keyboard navigation","Proper ARIA labels for selection states"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic List",
@@ -530,6 +551,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card","scroll"],
     tags: ["container","visual","effect","fade"],
     accessibility: {"hasAriaSupport":false,"notes":["Visual effect only, does not affect content semantics"]},
+    usage: undefined,
     examples: [
     {
         "title": "Mask - Read More Effect",
@@ -558,6 +580,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["popover"],
     tags: ["menu","right-click","actions"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","Menu role","Focus management"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Menu",
@@ -585,6 +608,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["button","card"],
     tags: ["dialog","overlay","container"],
     accessibility: {"hasAriaSupport":true,"notes":["Focus trap","Backdrop focus","Keyboard dismissal","ARIA dialog role"]},
+    usage: {"summary":"Use Modal for short, focused dialog tasks that need a dedicated overlay surface and clear dismissal path.","whenToUse":["Interruptive tasks that need focused attention","Short forms, confirmations, or contextual workflows that should not navigate away","Situations where the dialog itself should provide the only surfaced container"],"whenNotToUse":["Long, browse-heavy, or primary page flows","Cases where inline expansion or a dedicated page would be clearer","Layouts that require another nested surface just to hold the content"],"rules":[{"type":"do","title":"Let Modal be the surface","description":"Use the modal shell, title, content area, and footer as the dialog structure instead of wrapping the body in another surface component."},{"type":"avoid","title":"Avoid nested surfaced containers","description":"Do not place Card or other panel-like surfaces inside the modal body unless there is a strong semantic need for a distinct sub-region.","relatedComponents":["card","panel","confirm"]},{"type":"prefer","title":"Prefer direct content plus layout primitives","description":"Arrange modal content with Flex, Grid, Group, and Modal footer slots so the hierarchy stays shallow and the dialog reads as a single unit.","relatedComponents":["flex","grid","group"]}]},
     examples: [
     {
         "title": "Basic Modal",
@@ -613,6 +637,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["flex","card","grid"],
     tags: ["container","layout","page-wrapper","responsive","context"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses semantic main role for page structure","Provides page-level context to child components","Mobile viewport detection for responsive behavior","Flexible padding and max-width constraints"]},
+    usage: undefined,
     examples: [],
   },
 
@@ -630,6 +655,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["page","grid","flex"],
     tags: ["composition","panel","regions","responsive","sticky"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses semantic HTML elements (header, main, footer)","Provides context to child components","Supports responsive viewport detection","Sticky header respects user preferences"]},
+    usage: undefined,
     examples: [],
   },
 
@@ -646,11 +672,12 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: [],
     tags: ["navigation","path","hierarchy","parent-pages"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses nav element with landmark role","Semantic ordered list structure","Current page marked with aria-current","Full keyboard navigation support","Screen reader friendly labels"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Path",
         "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
-        "code": "import { Path, PathItem } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <PathItem href=\"/\">Home</PathItem>\n      <PathItem href=\"/products\">Products</PathItem>\n      <PathItem href=\"/products/electronics\">Electronics</PathItem>\n      <PathItem>Laptop</PathItem>\n    </Path>\n  );\n}"
+        "code": "import { Path } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <Path.Item href=\"/\">Home</Path.Item>\n      <Path.Item href=\"/products\">Products</Path.Item>\n      <Path.Item href=\"/products/electronics\">Electronics</Path.Item>\n      <Path.Item>Laptop</Path.Item>\n    </Path>\n  );\n}"
     }
 ],
   },
@@ -668,6 +695,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["tooltip","modal"],
     tags: ["overlay","content","information"],
     accessibility: {"hasAriaSupport":true,"notes":["Focus management","Dismissible","Keyboard support"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Popover",
@@ -690,6 +718,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["slider"],
     tags: ["feedback","status","progress"],
     accessibility: {"hasAriaSupport":true,"notes":["ARIA progressbar role","aria-valuenow","aria-valuemin","aria-valuemax"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Progress",
@@ -712,6 +741,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["checkbox","switch","label"],
     tags: ["form","selection","single-choice"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","Radio group support","Arrow key navigation"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Radio",
@@ -739,6 +769,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: [],
     tags: ["scroll","overflow","layout","scrollbar"],
     accessibility: {"hasAriaSupport":false,"notes":["Custom scrollbar implementation for visual consistency"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Scroll",
@@ -762,6 +793,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["input","label","form","group"],
     tags: ["form","dropdown","selection"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","Screen reader friendly","ARIA roles included"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Select",
@@ -789,6 +821,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["input","label"],
     tags: ["form","range","numeric"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","ARIA range role","Arrow key support"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Slider",
@@ -811,6 +844,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["checkbox","radio","label"],
     tags: ["form","boolean","toggle"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","ARIA switch role","Visual state indication"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Switch",
@@ -833,6 +867,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card"],
     tags: ["data","table","display"],
     accessibility: {"hasAriaSupport":true,"notes":["Table role","Header associations","Keyboard navigation"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Table",
@@ -855,6 +890,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["card"],
     tags: ["navigation","organization","content-switching"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard navigation","ARIA tab roles","Focus management"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Tabs",
@@ -882,6 +918,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["input","label","form"],
     tags: ["form","text","multi-line"],
     accessibility: {"hasAriaSupport":true,"notes":["Works with label elements","Resizable option available"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic TextArea",
@@ -905,6 +942,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: [],
     tags: ["notification","feedback","temporary"],
     accessibility: {"hasAriaSupport":true,"notes":["ARIA live regions","Role=\"status\"","Auto-dismiss support"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Toast",
@@ -947,6 +985,7 @@ export const componentRegistry: ComponentRegistry = {
     relatedComponents: ["popover"],
     tags: ["information","hover","help-text"],
     accessibility: {"hasAriaSupport":true,"notes":["Keyboard accessible","ARIA labels","Focus management"]},
+    usage: undefined,
     examples: [
     {
         "title": "Basic Tooltip",

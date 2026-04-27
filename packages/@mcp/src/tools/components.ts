@@ -30,9 +30,9 @@ export const getComponentTool: Tool = {
       },
       detail: {
         type: 'string',
-        enum: ['api', 'examples', 'full'],
+        enum: ['api', 'examples', 'usage', 'full'],
         description:
-          '"api" = props+subComponents only (no examples, no design guidelines — use when writing code). "examples" = description+examples only. "full" = complete response with design guidelines (default).',
+          '"api" = props+subComponents only. "examples" = description+examples only. "usage" = composition guidance, when-to-use, and anti-patterns. "full" = complete response with design guidance (default).',
         default: 'full',
       },
     },

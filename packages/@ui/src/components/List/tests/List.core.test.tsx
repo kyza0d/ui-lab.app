@@ -36,7 +36,7 @@ describe('List.core', () => {
           </List.ActionGroup>
         </List.Item>
         <List.Divider />
-        <List.Footer align="flex-start">Footer Text</List.Footer>
+        <List.Footer align="start">Footer Text</List.Footer>
       </>
     )
 
@@ -49,11 +49,11 @@ describe('List.core', () => {
     expect(container.querySelector(`.${styles.checkbox}`)).toBeInTheDocument()
     
     // Use data attribute instead of class if class is flaky
-    expect(container.querySelector('[data-justify="flex-start"]')).toBeInTheDocument()
+    expect(container.querySelector('[data-justify="start"]')).toBeInTheDocument()
     
     const footer = container.querySelector('footer')
     expect(footer).toHaveTextContent('Footer Text')
-    expect(footer).toHaveAttribute('data-align', 'flex-start')
+    expect(footer).toHaveAttribute('data-align', 'start')
   })
 
   it('applies variant and spacing props to container', () => {

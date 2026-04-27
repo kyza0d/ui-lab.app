@@ -1,4 +1,4 @@
-import { Path, PathItem } from 'ui-lab-components';
+import { Path } from 'ui-lab-components';
 
 export const metadata = {
   title: 'Basic Path',
@@ -8,10 +8,10 @@ export const metadata = {
 export default function Example() {
   return (
     <Path>
-      <PathItem href="/">Home</PathItem>
-      <PathItem href="/products">Products</PathItem>
-      <PathItem href="/products/electronics">Electronics</PathItem>
-      <PathItem>Laptop</PathItem>
+      <Path.Item href="/">Home</Path.Item>
+      <Path.Item href="/products">Products</Path.Item>
+      <Path.Item href="/products/electronics">Electronics</Path.Item>
+      <Path.Item>Laptop</Path.Item>
     </Path>
   );
 }

@@ -25,5 +25,45 @@
       "Keyboard dismissal",
       "ARIA dialog role"
     ]
+  },
+  "usage": {
+    "summary": "Use Modal for short, focused dialog tasks that need a dedicated overlay surface and clear dismissal path.",
+    "whenToUse": [
+      "Interruptive tasks that need focused attention",
+      "Short forms, confirmations, or contextual workflows that should not navigate away",
+      "Situations where the dialog itself should provide the only surfaced container"
+    ],
+    "whenNotToUse": [
+      "Long, browse-heavy, or primary page flows",
+      "Cases where inline expansion or a dedicated page would be clearer",
+      "Layouts that require another nested surface just to hold the content"
+    ],
+    "rules": [
+      {
+        "type": "do",
+        "title": "Let Modal be the surface",
+        "description": "Use the modal shell, title, content area, and footer as the dialog structure instead of wrapping the body in another surface component."
+      },
+      {
+        "type": "avoid",
+        "title": "Avoid nested surfaced containers",
+        "description": "Do not place Card or other panel-like surfaces inside the modal body unless there is a strong semantic need for a distinct sub-region.",
+        "relatedComponents": [
+          "card",
+          "panel",
+          "confirm"
+        ]
+      },
+      {
+        "type": "prefer",
+        "title": "Prefer direct content plus layout primitives",
+        "description": "Arrange modal content with Flex, Grid, Group, and Modal footer slots so the hierarchy stays shallow and the dialog reads as a single unit.",
+        "relatedComponents": [
+          "flex",
+          "grid",
+          "group"
+        ]
+      }
+    ]
   }
 }

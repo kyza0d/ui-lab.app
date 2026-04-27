@@ -73,7 +73,7 @@ export default function Example() {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Flex gap="sm" justify="flex-end">
+          <Flex gap="sm" justify="end">
             <Button variant="ghost" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>

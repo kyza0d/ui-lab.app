@@ -41,7 +41,7 @@ export async function handleSearchComponents(input: { query: string }): Promise<
 
 export async function handleGetComponent(input: {
   id: string;
-  detail?: 'api' | 'examples' | 'full';
+  detail?: 'api' | 'examples' | 'usage' | 'full';
 }): Promise<any> {
   const component = registryAdapter.getComponentById(input.id);
   if (!component) {
@@ -78,6 +78,18 @@ export async function handleGetComponent(input: {
         name: component.name,
         description: component.description,
         api: component.api ? { examples: component.api.examples } : undefined,
+      },
+    };
+  }
+
+  if (detail === 'usage') {
+    return {
+      success: true,
+      component: {
+        id: component.id,
+        name: component.name,
+        description: component.description,
+        usage: component.usage,
       },
     };
   }

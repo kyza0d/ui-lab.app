@@ -17,15 +17,23 @@ import styles from './List.module.css';
 
 /** Interactive checkbox inside a list item */
 const Checkbox = React.forwardRef<React.ElementRef<typeof UICheckbox>, ListCheckboxProps>(
-  ({ checked, className, ...props }, ref) => (
-    <div className={cn(styles.control, className)} data-list-primary-action="true">
-      <UICheckbox
-        ref={ref}
-        checked={checked}
-        {...props}
-      />
-    </div>
-  )
+  ({ checked, className, onChange, onCheckedChange, placement = 'end', ...props }, ref) => {
+    const handleChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event);
+      onCheckedChange?.(event.currentTarget.checked, event);
+    }, [onChange, onCheckedChange]);
+
+    return (
+      <div className={cn(styles.control, className)} data-placement={placement} data-list-primary-action="true">
+        <UICheckbox
+          ref={ref}
+          checked={checked}
+          onChange={handleChange}
+          {...props}
+        />
+      </div>
+    );
+  }
 );
 Checkbox.displayName = 'List.Checkbox';
 
@@ -40,7 +48,6 @@ const CheckboxIndicator = React.forwardRef<HTMLDivElement, ListCheckboxIndicator
     >
       <UICheckbox
         checked={checked}
-        size="sm"
         readOnly
         tabIndex={-1}
       />

@@ -77,6 +77,8 @@ export type {
   CategoryDefinition,
   PropDefinition,
   ComponentAPI,
+  ComponentUsage,
+  ComponentUsageRule,
   StyleVariable,
   StyleClass,
   ComponentStyles,

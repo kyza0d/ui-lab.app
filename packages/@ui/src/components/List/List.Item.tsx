@@ -215,6 +215,8 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
         }
       },
       onClick: (event: React.MouseEvent<HTMLDivElement>) => {
+        if (event.target instanceof Node && !event.currentTarget.contains(event.target)) return;
+
         const interactiveTarget = (event.target as HTMLElement).closest(NESTED_INTERACTIVE_SELECTOR);
         if (interactiveTarget && interactiveTarget !== itemRef.current) return;
 

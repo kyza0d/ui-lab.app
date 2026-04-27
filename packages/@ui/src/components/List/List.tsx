@@ -212,7 +212,7 @@ Header.displayName = 'List.Header';
 
 /** Row of action buttons aligned to the right of a list item */
 const ActionGroup = React.forwardRef<HTMLDivElement, ActionGroupComponentProps>(
-  ({ justify = 'flex-start', children, className, ...props }, ref) => (
+  ({ justify = 'start', children, className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(styles.actionGroup, className)}

@@ -32,6 +32,17 @@ interface ComponentMetadata {
     hasAriaSupport: boolean;
     notes?: string[];
   };
+  usage?: {
+    summary: string;
+    whenToUse?: string[];
+    whenNotToUse?: string[];
+    rules?: Array<{
+      type: 'do' | 'avoid' | 'prefer';
+      title: string;
+      description: string;
+      relatedComponents?: string[];
+    }>;
+  };
 }
 
 interface ComponentEntry {
@@ -76,6 +87,7 @@ function generateRegistryContent(components: Record<string, ComponentEntry>): st
     relatedComponents: ${JSON.stringify(metadata.relatedComponents)},
     tags: ${JSON.stringify(metadata.tags)},
     accessibility: ${JSON.stringify(metadata.accessibility)},
+    usage: ${JSON.stringify(metadata.usage)},
     examples: ${examplesArray},
   },`;
     })

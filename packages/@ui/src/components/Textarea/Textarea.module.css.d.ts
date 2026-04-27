@@ -1,4 +1,5 @@
 declare const styles: {
+  scope: string;
   textarea: string;
   "size-sm": string;
   "size-md": string;

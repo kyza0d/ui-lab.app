@@ -11,10 +11,10 @@ export interface FocusIndicatorState {
 }
 
 export interface UseFocusIndicatorOptions {
-  /** Container for absolute positioning context */
-  scopeRef: React.RefObject<HTMLElement | null>;
-  /** Element containing focusable surfaces */
-  containerRef: React.RefObject<HTMLElement | null>;
+  /** Container for absolute positioning context. Required for overlay modes. */
+  scopeRef?: React.RefObject<HTMLElement | null>;
+  /** Element containing focusable surfaces. Required for overlay modes. */
+  containerRef?: React.RefObject<HTMLElement | null>;
   /** CSS selector for focusable surfaces */
   surfaceSelector?: string;
   /** Which element's borderRadius to inherit: the surface itself or closest item wrapper */
@@ -22,8 +22,9 @@ export interface UseFocusIndicatorOptions {
   /** Positioning mode:
    *  - "track" (default): measures the surface with getBoundingClientRect and positions via transform
    *  - "ring": like track but applies inset box-shadow for inner edge focus styling
-   *  - "self": indicator covers the scope itself using pure CSS (no JS measurement), immune to subpixel drift at fractional zoom levels. Use when scope === surface. */
-  mode?: "track" | "ring" | "self";
+   *  - "self": indicator covers the scope itself using pure CSS (no JS measurement), immune to subpixel drift at fractional zoom levels. Use when scope === surface.
+   *  - "target": applies data-ring directly to the focusable target with no wrapper or indicator element. */
+  mode?: "track" | "ring" | "self" | "target";
   /** Additional dependencies to trigger recalculation */
   dependencies?: React.DependencyList;
 }
@@ -42,6 +43,12 @@ export interface UseFocusIndicatorReturn {
     "data-visible": "true" | undefined;
     "aria-hidden": "true";
     style: React.CSSProperties;
+  };
+  /** Props to spread on a focusable element when using target mode */
+  targetProps: {
+    "data-ring": "true";
+    "data-focus-indicator": "target";
+    "data-ring-inset"?: "true";
   };
 }
 
@@ -67,10 +74,15 @@ export function useFocusIndicator({
   const [focusIndicator, setFocusIndicator] = React.useState<FocusIndicatorState>(
     HIDDEN_FOCUS_INDICATOR
   );
+  const usesOverlay = mode !== "target";
 
   const updateFocusIndicator = React.useCallback(() => {
-    const scope = scopeRef.current;
-    const container = containerRef.current;
+    if (!usesOverlay) {
+      return;
+    }
+
+    const scope = scopeRef?.current;
+    const container = containerRef?.current;
     const activeElement = document.activeElement;
 
     if (
@@ -138,7 +150,7 @@ export function useFocusIndicator({
       height: snap(surfaceRect.height),
       radius: surfaceStyles.borderRadius,
     });
-  }, [scopeRef, containerRef, surfaceSelector, radiusSource, mode]);
+  }, [scopeRef, containerRef, surfaceSelector, radiusSource, mode, usesOverlay]);
 
   const scheduleFocusIndicatorUpdate = React.useCallback(() => {
     if (rafRef.current !== null) {
@@ -152,12 +164,15 @@ export function useFocusIndicator({
   }, [updateFocusIndicator]);
 
   React.useEffect(() => {
+    if (!usesOverlay) return;
     scheduleFocusIndicatorUpdate();
-  }, [scheduleFocusIndicatorUpdate, ...dependencies]);
+  }, [usesOverlay, scheduleFocusIndicatorUpdate, ...dependencies]);
 
   React.useEffect(() => {
-    const scope = scopeRef.current;
-    const container = containerRef.current;
+    if (!usesOverlay) return;
+
+    const scope = scopeRef?.current;
+    const container = containerRef?.current;
     if (!scope || !container) return;
 
     const handleFocusChange = () => {
@@ -198,7 +213,7 @@ export function useFocusIndicator({
       window.removeEventListener("resize", handleViewportChange);
       window.removeEventListener("scroll", handleViewportChange, true);
     };
-  }, [scopeRef, containerRef, scheduleFocusIndicatorUpdate]);
+  }, [scopeRef, containerRef, scheduleFocusIndicatorUpdate, usesOverlay]);
 
   const isSelf = mode === "self";
   const isRing = mode === "ring";
@@ -222,6 +237,11 @@ export function useFocusIndicator({
             transform: `translate(${focusIndicator.left}px, ${focusIndicator.top}px)`,
             borderRadius: focusIndicator.radius,
           },
+    },
+    targetProps: {
+      "data-ring": "true",
+      "data-focus-indicator": "target",
+      "data-ring-inset": isRing ? "true" : undefined,
     },
   };
 }

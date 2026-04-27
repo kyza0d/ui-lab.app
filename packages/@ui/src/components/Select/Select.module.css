@@ -9,8 +9,8 @@
 
   .select {
     --disabled-opacity: 0.5;
-    --trigger-padding-inline: calc(var(--spacing) * 2);
-    --trigger-padding-block: calc(var(--spacing) * 1.75);
+    --trigger-padding-inline: calc(var(--spacing) * 1.60);
+    --trigger-padding-block: calc(var(--spacing) * 1.30);
     --background-radius: var(--radius-sm, 0.375rem);
     --background-inner-radius: calc(var(--background-radius) - var(--border-width-base, 1px));
     font-size: var(--foreground-size);
@@ -98,7 +98,7 @@
   }
 
   .value {
-    @apply flex items-center flex-1 min-w-0 gap-2 bg-transparent border-none;
+    @apply px-2 flex items-center flex-1 min-w-0 gap-2 bg-transparent border-none;
     cursor: inherit;
   }
 
@@ -231,7 +231,6 @@
   }
 
   .input {
-    padding: var(--trigger-padding-block) calc(var(--trigger-padding-inline) * 1.5);
     padding-right: calc(var(--trigger-padding-inline) * 2 + 1rem);
     @apply border-none rounded-none shadow-none bg-transparent;
 
@@ -241,7 +240,6 @@
   }
 
   .search-content-input {
-    padding-inline: calc(var(--trigger-padding-inline) * 1.5);
     @apply border-none rounded-none bg-transparent;
   }
 
@@ -254,6 +252,11 @@
   .search-wrapper {
     @apply overflow-hidden;
     border-bottom: var(--border-width-base, 1px) solid var(--background-border);
+  }
+
+  .empty-state {
+    @apply px-3 py-2;
+    color: var(--foreground-muted);
   }
 
   .content[data-placement="top"] .search-wrapper {

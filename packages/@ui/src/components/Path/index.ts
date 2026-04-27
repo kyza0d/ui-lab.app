@@ -1,2 +1,5 @@
-export { Path, PathItem } from "./Path";
-export type { PathProps, PathItemProps } from "./Path";
+import { Path as PathBase, PathItem as PathItemBase } from "./Path";
+
+export const Path = PathBase;
+export const PathItem = PathItemBase;
+export type { PathComponent, PathProps, PathItemProps } from "./Path";

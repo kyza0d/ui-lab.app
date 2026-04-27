@@ -51,10 +51,11 @@ const sizeMap = {
 interface DismissButtonProps {
   onDismiss?: () => void;
   size: BadgeSize;
+  variant: string;
   className?: StyleValue;
 }
 
-function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
+function DismissButton({ onDismiss, size, variant, className }: DismissButtonProps) {
   const buttonRef = React.useRef<HTMLDivElement>(null);
 
   const { buttonProps, isPressed } = useButton(
@@ -74,7 +75,7 @@ function DismissButton({ onDismiss, size, className }: DismissButtonProps) {
       ref={buttonRef}
       role="button"
       tabIndex={0}
-      className={cn("badge dismiss", css.dismiss, className)}
+      className={cn("badge", variant, "dismiss", css.dismiss, className)}
       data-pressed={isPressed ? "true" : "false"}
       data-hovered={isHovered ? "true" : "false"}
       data-focused={isFocused ? "true" : "false"}
@@ -132,12 +133,12 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {...props}
       >
         {icon && (
-          <span className={cn("badge icon", css.icon, resolved.icon)} aria-hidden="true">
+          <span className={cn("badge", variant, "icon", css.icon, resolved.icon)} aria-hidden="true">
             {icon}
           </span>
         )}
         {count !== undefined ? count : children}
-        {dismissible && <DismissButton onDismiss={onDismiss} size={size} className={resolved.dismiss} />}
+        {dismissible && <DismissButton onDismiss={onDismiss} size={size} variant={variant} className={resolved.dismiss} />}
       </span>
     );
   }

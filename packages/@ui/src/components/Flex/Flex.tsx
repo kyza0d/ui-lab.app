@@ -8,15 +8,15 @@ import styles from "./Flex.module.css";
 type FlexDirection = "row" | "column";
 type FlexWrap = "wrap" | "nowrap";
 type FlexJustify =
-  | "flex-start"
-  | "flex-end"
+  | "start"
+  | "end"
   | "center"
-  | "space-between"
-  | "space-around"
-  | "space-evenly";
+  | "between"
+  | "around"
+  | "evenly";
 type FlexAlign =
-  | "flex-start"
-  | "flex-end"
+  | "start"
+  | "end"
   | "center"
   | "stretch"
   | "baseline";
@@ -58,17 +58,17 @@ const wrapMap = {
 } as const;
 
 const justifyMap = {
-  "flex-start": styles["justify-flex-start"],
-  "flex-end": styles["justify-flex-end"],
+  start: styles["justify-start"],
+  end: styles["justify-end"],
   center: styles["justify-center"],
-  "space-between": styles["justify-space-between"],
-  "space-around": styles["justify-space-around"],
-  "space-evenly": styles["justify-space-evenly"],
+  between: styles["justify-between"],
+  around: styles["justify-around"],
+  evenly: styles["justify-evenly"],
 } as const;
 
 const alignMap = {
-  "flex-start": styles["align-flex-start"],
-  "flex-end": styles["align-flex-end"],
+  start: styles["align-start"],
+  end: styles["align-end"],
   center: styles["align-center"],
   stretch: styles["align-stretch"],
   baseline: styles["align-baseline"],

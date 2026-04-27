@@ -25,6 +25,7 @@
   },
   "exports": {
     ".": {
+      "react-server": "./src/index.react-server.tsx",
       "import": "./dist/ui-lab-ui.es.js",
       "require": "./dist/ui-lab-ui.umd.js",
       "types": "./dist/ui-lab-ui.d.ts",
@@ -52,7 +53,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/index.react-server.tsx"
   ],
   "publishConfig": {
     "access": "public"

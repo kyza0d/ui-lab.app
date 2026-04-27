@@ -191,6 +191,17 @@ describe('List.controls', () => {
     expect(onChange).toHaveBeenCalled()
   })
 
+  it('fires onCheckedChange with the next checked state', async () => {
+    const onCheckedChange = vi.fn()
+    renderList(
+      <List.Item value="1">
+        <List.Checkbox checked={false} onCheckedChange={onCheckedChange} />
+      </List.Item>
+    )
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(onCheckedChange).toHaveBeenCalledWith(true, expect.any(Object))
+  })
+
   it('List.Checkbox (interactive) wrapper has the control class', () => {
     const { container } = renderList(
       <List.Item value="1">
@@ -198,6 +209,15 @@ describe('List.controls', () => {
       </List.Item>
     )
     expect(container.querySelector(`.${styles.control}`)).toBeInTheDocument()
+  })
+
+  it('List.Checkbox supports start placement', () => {
+    const { container } = renderList(
+      <List.Item value="1">
+        <List.Checkbox checked={false} placement="start" onChange={() => {}} />
+      </List.Item>
+    )
+    expect(container.querySelector(`.${styles.control}`)).toHaveAttribute('data-placement', 'start')
   })
 
   // ─── List.CheckboxIndicator (renamed from old List.Checkbox) ────────────────

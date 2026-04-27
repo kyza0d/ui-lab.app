@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 import { TextArea } from "../Textarea";
+import css from "../Textarea.module.css";
 
 describe("TextArea", () => {
   it("uses a custom bottom-right handle by default", () => {
@@ -52,5 +53,13 @@ describe("TextArea", () => {
 
     expect(textarea).not.toHaveAttribute("data-textarea-focus-surface", "true");
     expect(scrollWrapper).toHaveClass("scroll-wrapper");
+  });
+
+  it("uses a full-width scope wrapper", () => {
+    const { container } = render(<TextArea aria-label="Wide" />);
+
+    const scope = container.firstElementChild;
+
+    expect(scope).toHaveClass(css.scope);
   });
 });

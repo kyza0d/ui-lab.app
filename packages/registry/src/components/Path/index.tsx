@@ -1,5 +1,5 @@
 import React from 'react';
-import { Path, PathItem } from 'ui-lab-components';
+import { Path } from 'ui-lab-components';
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-path.js';
 import examplesJson from './examples.json' with { type: 'json' };
@@ -9,14 +9,14 @@ const examplesData = [
   { id: '01-basic-path', Component: Example1, metadata: metadata1 },
 ];
 
-const pathBasicCode = `import { Path, PathItem } from "ui-lab-components";
+const pathBasicCode = `import { Path } from "ui-lab-components";
 
 export function Example() {
   return (
     <Path>
-      <PathItem href="/">Home</PathItem>
-      <PathItem href="/products">Products</PathItem>
-      <PathItem>Electronics</PathItem>
+      <Path.Item href="/">Home</Path.Item>
+      <Path.Item href="/products">Products</Path.Item>
+      <Path.Item>Electronics</Path.Item>
     </Path>
   );
 }`;
@@ -43,9 +43,9 @@ export const pathDetail: ComponentDetail = {
       code: pathBasicCode,
       preview: (
         <Path>
-          <PathItem href="/">Home</PathItem>
-          <PathItem href="/products">Products</PathItem>
-          <PathItem>Electronics</PathItem>
+          <Path.Item href="/">Home</Path.Item>
+          <Path.Item href="/products">Products</Path.Item>
+          <Path.Item>Electronics</Path.Item>
         </Path>
       ),
     },
@@ -59,9 +59,9 @@ export const pathDetail: ComponentDetail = {
       code: pathBasicCode,
       preview: (
         <Path>
-          <PathItem href="/">Home</PathItem>
-          <PathItem href="/products">Products</PathItem>
-          <PathItem>Electronics</PathItem>
+          <Path.Item href="/">Home</Path.Item>
+          <Path.Item href="/products">Products</Path.Item>
+          <Path.Item>Electronics</Path.Item>
         </Path>
       ),
     },

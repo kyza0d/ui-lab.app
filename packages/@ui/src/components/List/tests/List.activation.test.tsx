@@ -215,6 +215,52 @@ describe('List.activation', () => {
     expect(document.activeElement).toBe(row)
   })
 
+  it('does not activate a row checkbox when selecting an inline select option', async () => {
+    const user = userEvent.setup()
+
+    function SelectableCheckboxRow() {
+      const [checked, setChecked] = React.useState(true)
+      const [delivery, setDelivery] = React.useState<string | number | null>('email')
+
+      return (
+        <List.Item value="1" onClick={() => setChecked((value) => !value)}>
+          <List.Checkbox
+            aria-label="Enable notifications"
+            placement="start"
+            checked={checked}
+            onCheckedChange={setChecked}
+          />
+          <span>Notifications</span>
+          <List.Select selectedKey={delivery} onSelectionChange={setDelivery}>
+            <Select.Trigger>
+              <Select.Value placeholder="Mode" />
+            </Select.Trigger>
+            <Select.Content>
+              <Select.List>
+                <Select.Item value="email">Email</Select.Item>
+                <Select.Item value="digest">Digest</Select.Item>
+              </Select.List>
+            </Select.Content>
+          </List.Select>
+        </List.Item>
+      )
+    }
+
+    renderList(<SelectableCheckboxRow />)
+
+    const checkbox = screen.getByRole('checkbox')
+    const trigger = screen.getByRole('button')
+
+    expect(checkbox).toBeChecked()
+
+    await user.click(trigger)
+    await user.click(screen.getByRole('option', { name: 'Digest' }))
+
+    await waitForCondition(() => trigger.getAttribute('aria-expanded') === 'false')
+    expect(checkbox).toBeChecked()
+    expect(trigger).toHaveTextContent('Digest')
+  })
+
   it('does not double-trigger when focus is already inside a child control', async () => {
     const user = userEvent.setup()
     const onChange = vi.fn()

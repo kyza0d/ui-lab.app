@@ -23,5 +23,47 @@
       "Semantic HTML structure",
       "Proper heading hierarchy"
     ]
+  },
+  "usage": {
+    "summary": "Use Card as a top-level surface that groups related content into a single visual panel.",
+    "whenToUse": [
+      "Page sections that need their own surface boundary",
+      "Standalone panels such as summaries, settings sections, and detail blocks",
+      "Collections of related content that benefit from header/body/footer structure"
+    ],
+    "whenNotToUse": [
+      "Inside other surfaced overlays like Modal, Popover, Confirm, or Menu",
+      "For simple internal spacing inside an existing surfaced component",
+      "As a generic replacement for every padded container"
+    ],
+    "rules": [
+      {
+        "type": "do",
+        "title": "Reserve Card for top-level surfaces",
+        "description": "Treat Card as the main boundary for a section or standalone block, not as a default inner wrapper."
+      },
+      {
+        "type": "avoid",
+        "title": "Do not nest Card inside overlay surfaces",
+        "description": "Avoid putting Card inside Modal, Popover, Confirm, or Menu because it creates double-surface chrome and weakens hierarchy.",
+        "relatedComponents": [
+          "modal",
+          "popover",
+          "confirm",
+          "menu"
+        ]
+      },
+      {
+        "type": "prefer",
+        "title": "Prefer layout primitives for internal grouping",
+        "description": "When content already sits inside a surfaced component, use Flex, Grid, Group, or the host component's slots to structure it instead of adding another Card.",
+        "relatedComponents": [
+          "flex",
+          "grid",
+          "group",
+          "modal"
+        ]
+      }
+    ]
   }
 }

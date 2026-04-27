@@ -93,6 +93,12 @@ export interface ModalProps {
   styles?: ModalStylesProp;
 }
 
+function getModalChildDisplayName(child: React.ReactNode) {
+  if (!React.isValidElement(child)) return null;
+  const type = child.type as { displayName?: string };
+  return type.displayName ?? null;
+}
+
 
 /**
  * Modal component that displays content in a centered dialog with a backdrop overlay.
@@ -154,9 +160,10 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
     const { dialogProps, titleProps } = useDialog({}, modalRef);
     const { focusProps: modalFocusProps, isFocused: isModalFocused, isFocusVisible: isModalFocusVisible } = useFocusRing();
 
+    const handleClose = () => state.close();
+
     if (!mounted || !state.isOpen) return null;
 
-    const handleClose = () => state.close();
     const handleCloseMouseDown = () => setIsClosePressed(true);
     const handleCloseMouseUp = () => setIsClosePressed(false);
     const handleCloseMouseLeave = () => {
@@ -172,6 +179,73 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       setIsCloseFocused(false);
       setIsCloseFocusVisible(false);
     };
+
+    const childArray = React.Children.toArray(children);
+    const slottedHeader: React.ReactNode[] = [];
+    const slottedBody: React.ReactNode[] = [];
+    const slottedFooter: React.ReactNode[] = [];
+    const unslottedChildren: React.ReactNode[] = [];
+
+    childArray.forEach((child) => {
+      switch (getModalChildDisplayName(child)) {
+        case "Modal.Header":
+          slottedHeader.push(child);
+          break;
+        case "Modal.Body":
+          slottedBody.push(child);
+          break;
+        case "Modal.Footer":
+          slottedFooter.push(child);
+          break;
+        default:
+          unslottedChildren.push(child);
+      }
+    });
+
+    const headerContent =
+      slottedHeader.length > 0 ? (
+        slottedHeader
+      ) : (
+        (title || close) && (
+          <div className={cn("modal", "header", css.header, resolved.header)}>
+            {title && (
+              <h4 {...asElementProps<"h4">(titleProps)} className={cn("modal", "title", css.title, resolved.title)}>
+                {title}
+              </h4>
+            )}
+            {!title && close && <div className={cn("modal", "spacer", css.spacer, resolved.spacer)} />}
+            {close && (
+              <button
+                onClick={handleClose}
+                onMouseDown={handleCloseMouseDown}
+                onMouseEnter={handleCloseMouseEnter}
+                onMouseUp={handleCloseMouseUp}
+                onMouseLeave={handleCloseMouseLeave}
+                onFocus={handleCloseFocus}
+                onBlur={handleCloseBlur}
+                className={cn("modal", "close", css.close, resolved.close)}
+                aria-label="Close modal"
+                type="button"
+                data-pressed={isClosePressed ? "true" : "false"}
+                data-hovered={isCloseHovered ? "true" : "false"}
+                data-focused={isCloseFocused ? "true" : "false"}
+                data-focus-visible={isCloseFocusVisible ? "true" : "false"}
+              >
+                <X className={cn("modal", "close-icon", css["close-icon"], resolved.closeIcon)} />
+              </button>
+            )}
+          </div>
+        )
+      );
+
+    const bodyContent =
+      slottedBody.length > 0 ? (
+        slottedBody
+      ) : (
+        <div className={cn("modal", "content", css.content, contentClassName, resolved.content)}>
+          {unslottedChildren}
+        </div>
+      );
 
     return createPortal(
       <div
@@ -209,44 +283,14 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
           data-focus-visible={isModalFocusVisible ? "true" : "false"}
         >
           {/* Header */}
-          {(title || close) && (
-            <div className={cn("modal", "header", css.header, resolved.header)}>
-              {title && (
-                <h4 {...asElementProps<"h4">(titleProps)} className={cn("modal", "title", css.title, resolved.title)}>
-                  {title}
-                </h4>
-              )}
-              {!title && close && <div className={cn("modal", "spacer", css.spacer, resolved.spacer)} />}
-              {close && (
-                <button
-                  onClick={handleClose}
-                  onMouseDown={handleCloseMouseDown}
-                  onMouseEnter={handleCloseMouseEnter}
-                  onMouseUp={handleCloseMouseUp}
-                  onMouseLeave={handleCloseMouseLeave}
-                  onFocus={handleCloseFocus}
-                  onBlur={handleCloseBlur}
-                  className={cn("modal", "close", css.close, resolved.close)}
-                  aria-label="Close modal"
-                  type="button"
-                  data-pressed={isClosePressed ? "true" : "false"}
-                  data-hovered={isCloseHovered ? "true" : "false"}
-                  data-focused={isCloseFocused ? "true" : "false"}
-                  data-focus-visible={isCloseFocusVisible ? "true" : "false"}
-                >
-                  <X className={cn("modal", "close-icon", css["close-icon"], resolved.closeIcon)} />
-                </button>
-              )}
-            </div>
-          )}
+          {headerContent}
 
           {/* Body */}
-          <div className={cn("modal", "content", css.content, contentClassName, resolved.content)}>
-            {children}
-          </div>
+          {bodyContent}
 
           {/* Footer */}
-          {footer && (
+          {slottedFooter.length > 0 && slottedFooter}
+          {!slottedFooter.length && footer && (
             <div className={cn("modal", "footer", css.footer, resolved.footer)}>
               {footer}
             </div>

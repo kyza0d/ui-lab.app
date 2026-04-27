@@ -178,7 +178,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const { focusProps, isFocusVisible } = useFocusRing();
     const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { indicatorProps } = useFocusIndicator({
       scopeRef,
       containerRef,
       surfaceSelector: '[data-textarea-focus-surface="true"]',
@@ -341,7 +341,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
 
     return (
-      <div ref={scopeRef} className={cn("textarea-scope", scopeProps.className)}>
+      <div ref={scopeRef} className={cn("textarea-scope", css.scope)}>
         <div {...indicatorProps} data-focus-indicator="local" />
         <div
           ref={containerRef}

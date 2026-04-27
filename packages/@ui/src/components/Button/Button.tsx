@@ -98,7 +98,6 @@ function resolveButtonIconSizeClass(size: ButtonSize | undefined) {
 
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ className, styles, variant = "default", size = "md", children, onClick, onPress, isDisabled, disabled, icon, href, target, rel, ...props }, ref) => {
-    const scopeRef = React.useRef<HTMLDivElement>(null);
     const buttonRef = React.useRef<HTMLButtonElement | HTMLAnchorElement>(null);
     const mergedRef = useMergeRefs(ref, buttonRef);
     const isButtonDisabled = isDisabled ?? disabled ?? false;
@@ -140,48 +139,17 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     const iconSizeClassName = resolveButtonIconSizeClass(size);
     const buttonClassName = cn("button", variant, size, css.button, className, resolved.root);
 
-    const { scopeProps, indicatorProps } = useFocusIndicator({
-      scopeRef,
-      containerRef: buttonRef as React.RefObject<HTMLElement>,
-      surfaceSelector: "button, a",
-      radiusSource: "surface",
-    });
+    const { targetProps } = useFocusIndicator({ mode: "target" });
 
     if (isAnchor) {
       return (
-        <div ref={scopeRef} className={cn("button-scope", scopeProps.className)}>
-          <div {...indicatorProps} />
-          <a
-            {...mergeProps(focusProps, hoverProps, props as any)}
-            ref={mergedRef as unknown as React.RefObject<HTMLAnchorElement>}
-            href={href}
-            target={target}
-            rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            className={buttonClassName}
-            data-disabled={isButtonDisabled ? "true" : undefined}
-            data-pressed={isPressed ? "true" : "false"}
-            data-hovered={isHovered ? "true" : "false"}
-            data-focused={isFocused ? "true" : "false"}
-            data-focus-visible={isFocusVisible ? "true" : "false"}
-          >
-            {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
-            {children}
-            {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
-          </a>
-        </div>
-      );
-    }
-
-    return (
-      <div ref={scopeRef} className={cn("button-scope", scopeProps.className)}>
-        <div {...indicatorProps} />
-        <button
-          {...mergeProps(buttonProps, focusProps, hoverProps, props)}
-          disabled={isButtonDisabled}
-          ref={mergedRef as unknown as React.RefObject<HTMLButtonElement>}
+        <a
+          {...mergeProps(focusProps, hoverProps, props as any)}
+          {...targetProps}
+          ref={mergedRef as unknown as React.RefObject<HTMLAnchorElement>}
+          href={href}
+          target={target}
+          rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
@@ -195,8 +163,30 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
           {children}
           {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
-        </button>
-      </div>
+        </a>
+      );
+    }
+
+    return (
+      <button
+        {...mergeProps(buttonProps, focusProps, hoverProps, props)}
+        {...targetProps}
+        disabled={isButtonDisabled}
+        ref={mergedRef as unknown as React.RefObject<HTMLButtonElement>}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        className={buttonClassName}
+        data-disabled={isButtonDisabled ? "true" : undefined}
+        data-pressed={isPressed ? "true" : "false"}
+        data-hovered={isHovered ? "true" : "false"}
+        data-focused={isFocused ? "true" : "false"}
+        data-focus-visible={isFocusVisible ? "true" : "false"}
+      >
+        {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
+        {children}
+        {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
+      </button>
     );
   }
 );

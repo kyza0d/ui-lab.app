@@ -136,8 +136,10 @@ export { scoreCommandRelevance } from "./components/Command";
 export { Confirm } from "./components/Confirm";
 export type { ConfirmProps } from "./components/Confirm";
 
-export { Path, PathItem } from "./components/Path";
-export type { PathProps, PathItemProps } from "./components/Path";
+import { Path as PathBase, PathItem as PathItemBase } from "./components/Path";
+export const Path = PathBase;
+export const PathItem = PathItemBase;
+export type { PathComponent, PathProps, PathItemProps } from "./components/Path";
 
 export { Anchor, AnchorPreview } from "./components/Anchor";
 export type { AnchorProps, AnchorPreviewProps } from "./components/Anchor";

@@ -20,6 +20,7 @@ export interface SelectContentStyleSlots {
   overlay?: StyleValue;
   searchWrapper?: StyleValue;
   searchInput?: StyleValue;
+  emptyState?: StyleValue;
   listPaddingWrapper?: StyleValue;
 }
 
@@ -34,6 +35,8 @@ export interface SelectContentProps extends React.PropsWithChildren {
   searchPlaceholder?: string
   /** Called when the search input value changes */
   onSearch?: (value: string) => void
+  /** Content shown below the search input when no searchable results match */
+  emptyContent?: React.ReactNode
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: SelectContentStylesProp;
 }
@@ -43,18 +46,19 @@ const resolveSelectContentBaseStyles = createStylesResolver([
   'overlay',
   'searchWrapper',
   'searchInput',
+  'emptyState',
   'listPaddingWrapper',
 ] as const);
 
 function resolveSelectContentStyles(styles: SelectContentStylesProp | undefined) {
   if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveSelectContentBaseStyles(styles)
-  const { root, overlay, searchWrapper, searchInput, listPaddingWrapper } = styles
-  return resolveSelectContentBaseStyles({ root, overlay, searchWrapper, searchInput, listPaddingWrapper })
+  const { root, overlay, searchWrapper, searchInput, emptyState, listPaddingWrapper } = styles
+  return resolveSelectContentBaseStyles({ root, overlay, searchWrapper, searchInput, emptyState, listPaddingWrapper })
 }
 
 /** Floating panel that renders the list of selectable options */
 const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
-  ({ children, className, searchable = false, searchPlaceholder = "Search items...", onSearch, styles: stylesProp }, ref) => {
+  ({ children, className, searchable = false, searchPlaceholder = "Search items...", onSearch, emptyContent = "No results found.", styles: stylesProp }, ref) => {
     const {
       isOpen,
       setIsOpen,
@@ -296,6 +300,36 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
     const scrollMaxHeight = shouldConstrainListHeight
       ? `calc(${maxItems} * 36px + 8px)`
       : undefined;
+    const hasResults = filteredItems.length > 0;
+    const shouldShowEmptyState = searchable && !hasResults;
+    const shouldHideEmptySearchTriggerContent = triggerType === "input" && !hasResults;
+
+    const listContent = (
+      <div
+        className={cn(resolved.listPaddingWrapper)}
+        style={{ padding: "0.25rem", display: shouldShowEmptyState ? "none" : undefined }}
+        aria-hidden={shouldShowEmptyState || undefined}
+      >
+        <List items={filteredItems}>
+          {children}
+        </List>
+      </div>
+    )
+
+    const bodyContent = shouldConstrainListHeight ? (
+      <Scroll
+        className="viewport"
+        maxHeight={scrollMaxHeight}
+        direction="vertical"
+        fade-y={!searchable}
+        inline
+        hide={false}
+      >
+        {listContent}
+      </Scroll>
+    ) : (
+      listContent
+    )
 
     return createPortal(
       <>
@@ -306,7 +340,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             ...floatingStyles,
             zIndex: 50000,
             visibility: showContent ? 'visible' : 'hidden',
-            display: isOpen ? 'block' : 'none',
+            display: isOpen && !shouldHideEmptySearchTriggerContent ? 'block' : 'none',
           }}
         >
           <div
@@ -343,28 +377,16 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
                 />
               </div>
             )}
-            {shouldConstrainListHeight ? (
-              <Scroll
-                className="viewport"
-                maxHeight={scrollMaxHeight}
-                direction="vertical"
-                fade-y={!searchable}
-                inline
-                hide={false}
+            {shouldShowEmptyState && (
+              <div
+                className={cn('select', 'empty-state', styles['empty-state'], resolved.emptyState)}
+                role="status"
+                aria-live="polite"
               >
-                <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
-                  <List items={filteredItems}>
-                    {children}
-                  </List>
-                </div>
-              </Scroll>
-            ) : (
-              <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
-                <List items={filteredItems}>
-                  {children}
-                </List>
+                {emptyContent}
               </div>
             )}
+            {bodyContent}
           </div>
         </div>
       </>,

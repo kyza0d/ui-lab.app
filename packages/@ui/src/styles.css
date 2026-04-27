@@ -52,15 +52,21 @@
     position: relative;
     z-index: var(--ring-z, auto);
     outline: none;
+    box-shadow: var(--ring-shadow, none);
+  }
+
+  [data-ring="true"][data-focus-visible="true"]:not([data-focus-indicator="target"]) {
     border-color: var(
       --ring-border-visible,
       var(--ring-border, transparent)
     );
-    box-shadow: var(--ring-shadow, none);
   }
 
   [data-ring="true"][data-focused="true"] {
     outline: none;
+  }
+
+  [data-ring="true"][data-focused="true"]:not([data-focus-indicator="target"]) {
     border-color: var(--ring-border, transparent);
   }
 }

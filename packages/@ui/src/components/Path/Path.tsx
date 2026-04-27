@@ -262,69 +262,79 @@ const PathItem = React.forwardRef<HTMLLIElement, PathItemProps>(
 
 PathItem.displayName = "Path.Item";
 
-const Path = React.forwardRef<HTMLElement, PathProps>(
-  ({ children, className, separator, styles }, ref) => {
-    const scopeRef = React.useRef<HTMLDivElement>(null);
-    const navRef = React.useRef<HTMLElement>(null);
-    const mergedRef = useMergeRefs(ref, navRef);
-    const childArray = React.Children.toArray(children);
-    const childCount = childArray.length;
-    const resolved = resolvePathStyles(styles);
-    const { scopeProps, indicatorProps } = useFocusIndicator({
-      scopeRef,
-      containerRef: navRef,
-      surfaceSelector: '[data-path-item-focus-surface="true"]',
-      radiusSource: "surface",
-      dependencies: [childCount, Boolean(separator)],
-    });
+export interface PathComponent
+  extends React.ForwardRefExoticComponent<PathProps & React.RefAttributes<HTMLElement>> {
+  Item: typeof PathItem;
+}
 
-    return (
-      <div ref={scopeRef} className={cn("path-scope", scopeProps.className)}>
-        <div {...indicatorProps} data-focus-indicator="local" />
-        <nav
-          ref={mergedRef}
-          className={cn("path", css.path, className, resolved.root)}
-          aria-label="Path"
-        >
-          <ol
-            className={cn("path-list", css.list, resolved.list)}
-            data-path-list="true"
-            data-separator={separator ? "custom" : undefined}
+const Path = Object.assign(
+  React.forwardRef<HTMLElement, PathProps>(
+    ({ children, className, separator, styles }, ref) => {
+      const scopeRef = React.useRef<HTMLDivElement>(null);
+      const navRef = React.useRef<HTMLElement>(null);
+      const mergedRef = useMergeRefs(ref, navRef);
+      const childArray = React.Children.toArray(children);
+      const childCount = childArray.length;
+      const resolved = resolvePathStyles(styles);
+      const { scopeProps, indicatorProps } = useFocusIndicator({
+        scopeRef,
+        containerRef: navRef,
+        surfaceSelector: '[data-path-item-focus-surface="true"]',
+        radiusSource: "surface",
+        dependencies: [childCount, Boolean(separator)],
+      });
+
+      return (
+        <div ref={scopeRef} className={cn("path-scope", scopeProps.className)}>
+          <div {...indicatorProps} data-focus-indicator="local" />
+          <nav
+            ref={mergedRef}
+            className={cn("path", css.path, className, resolved.root)}
+            aria-label="Path"
           >
-            {React.Children.map(childArray, (child, index) => {
-              const isLastChild = index === childCount - 1;
+            <ol
+              className={cn("path-list", css.list, resolved.list)}
+              data-path-list="true"
+              data-separator={separator ? "custom" : undefined}
+            >
+              {React.Children.map(childArray, (child, index) => {
+                const isLastChild = index === childCount - 1;
 
-              if (React.isValidElement(child)) {
-                const element = React.cloneElement(
-                  child as React.ReactElement<PathItemProps>,
-                  { isCurrent: isLastChild }
-                );
-
-                if (separator && !isLastChild) {
-                  return (
-                    <React.Fragment key={child.key ?? index}>
-                      {element}
-                      <li
-                        className={cn("path-separator", css.separator, resolved.separator)}
-                        aria-hidden="true"
-                      >
-                        {separator}
-                      </li>
-                    </React.Fragment>
+                if (React.isValidElement(child)) {
+                  const element = React.cloneElement(
+                    child as React.ReactElement<PathItemProps>,
+                    { isCurrent: isLastChild }
                   );
+
+                  if (separator && !isLastChild) {
+                    return (
+                      <React.Fragment key={child.key ?? index}>
+                        {element}
+                        <li
+                          className={cn("path-separator", css.separator, resolved.separator)}
+                          aria-hidden="true"
+                        >
+                          {separator}
+                        </li>
+                      </React.Fragment>
+                    );
+                  }
+
+                  return element;
                 }
 
-                return element;
-              }
-
-              return child;
-            })}
-          </ol>
-        </nav>
-      </div>
-    );
+                return child;
+              })}
+            </ol>
+          </nav>
+        </div>
+      );
+    }
+  ),
+  {
+    Item: PathItem,
   }
-);
+) as PathComponent;
 
 Path.displayName = "Path";
 

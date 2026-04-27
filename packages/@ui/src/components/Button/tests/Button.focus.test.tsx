@@ -3,15 +3,16 @@ import userEvent from "@testing-library/user-event";
 import { Button } from "../Button";
 
 describe("Button focus indicator", () => {
-  it("should render focus scope and indicator elements", () => {
+  it("should attach the focus ring to the native button root", () => {
     const { container } = render(<Button>Click me</Button>);
-    const scope = container.querySelector(".focus-scope");
-    const indicator = container.querySelector(".focus-indicator");
+    const button = screen.getByRole("button");
 
-    expect(scope).toBeInTheDocument();
-    expect(indicator).toBeInTheDocument();
-    expect(indicator).toHaveAttribute("data-ring", "true");
-    expect(indicator).toHaveAttribute("aria-hidden", "true");
+    expect(container.firstElementChild).toBe(button);
+    expect(button).toBeInstanceOf(HTMLButtonElement);
+    expect(button).toHaveAttribute("data-ring", "true");
+    expect(button).toHaveAttribute("data-focus-indicator", "target");
+    expect(container.querySelector(".focus-scope")).not.toBeInTheDocument();
+    expect(container.querySelector(".focus-indicator")).not.toBeInTheDocument();
   });
 
   it("should apply focus-visible data attribute when focused via keyboard", async () => {
@@ -34,14 +35,16 @@ describe("Button focus indicator", () => {
     expect(button).not.toHaveAttribute("data-focus-visible", "true");
   });
 
-  it("should render focus indicator for anchor variant", () => {
+  it("should attach the focus ring to the anchor root", () => {
     const { container } = render(<Button href="/test">Link button</Button>);
-    const scope = container.querySelector(".focus-scope");
-    const indicator = container.querySelector(".focus-indicator");
+    const link = screen.getByRole("link");
 
-    expect(scope).toBeInTheDocument();
-    expect(indicator).toBeInTheDocument();
-    expect(indicator).toHaveAttribute("data-ring", "true");
+    expect(container.firstElementChild).toBe(link);
+    expect(link).toBeInstanceOf(HTMLAnchorElement);
+    expect(link).toHaveAttribute("data-ring", "true");
+    expect(link).toHaveAttribute("data-focus-indicator", "target");
+    expect(container.querySelector(".focus-scope")).not.toBeInTheDocument();
+    expect(container.querySelector(".focus-indicator")).not.toBeInTheDocument();
   });
 
   it("should apply focus-visible to anchor when focused via keyboard", async () => {

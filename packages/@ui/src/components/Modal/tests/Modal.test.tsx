@@ -39,4 +39,25 @@ describe('Modal focus management', () => {
 
     expect(document.activeElement).toBe(textarea)
   })
+
+  it('renders compound footer outside the body content region', () => {
+    render(
+      <Modal isOpen close={false}>
+        <Modal.Body>
+          <div>Body content</div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button type="button">Save</button>
+        </Modal.Footer>
+      </Modal>
+    )
+
+    const bodyContent = screen.getByText('Body content').closest('.content')
+    const footer = screen.getByText('Save').closest('.footer')
+
+    expect(bodyContent).not.toBeNull()
+    expect(footer).not.toBeNull()
+    expect(bodyContent?.contains(footer as Node)).toBe(false)
+    expect(bodyContent?.nextElementSibling).toBe(footer)
+  })
 })

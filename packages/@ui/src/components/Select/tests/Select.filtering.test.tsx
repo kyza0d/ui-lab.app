@@ -1,6 +1,9 @@
+import * as React from 'react'
+import { waitFor } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import { renderSelectWithItems, openSelect, getSelectTrigger } from './Select.test-utils'
-import { createMockSelectItems, getAllElementsByRole, pressArrowDown } from '@/tests/utils'
+import { renderSelectWithItems, renderSelectWithChildren, openSelect, getSelectTrigger } from './Select.test-utils'
+import { createMockSelectItems, getAllElementsByRole, pressArrowDown, typeText } from '@/tests/utils'
+import { Select, Searchable } from '..'
 
 describe('Select.filtering', () => {
   describe('filter prop', () => {
@@ -103,6 +106,59 @@ describe('Select.filtering', () => {
 
       const options = getAllElementsByRole('option')
       expect(options.length).toBe(0)
+    })
+
+    it('shows feedback under the in-panel search input when no searchable results match', async () => {
+      const items = createMockSelectItems(3)
+      const container = renderSelectWithChildren(
+        [
+          React.createElement(Select.Trigger, { key: 'trigger' }, React.createElement(Select.Value, { placeholder: 'Select item' })),
+          React.createElement(
+            Searchable.Content,
+            { key: 'content', searchPlaceholder: 'Search items...', emptyContent: 'No items found.' },
+            items.map(item =>
+              React.createElement(Select.Item, { key: item.key, value: item.key, textValue: item.label }, item.label)
+            )
+          )
+        ]
+      )
+      const trigger = getSelectTrigger(container)
+
+      await openSelect(trigger)
+      const searchInput = document.querySelector('[role="combobox"]') as HTMLElement
+      await typeText(searchInput, 'no-match')
+
+      expect(document.querySelector('[role="status"]')).toHaveTextContent('No items found.')
+      expect(getAllElementsByRole('option')).toHaveLength(0)
+    })
+
+    it('hides search trigger content when no entries are found', async () => {
+      const items = createMockSelectItems(3)
+      renderSelectWithChildren(
+        [
+          React.createElement(Searchable.Input, { key: 'trigger', placeholder: 'Search items...' }),
+          React.createElement(
+            Select.Content,
+            { key: 'content' },
+            React.createElement(
+              Select.List,
+              null,
+              items.map(item =>
+                React.createElement(Select.Item, { key: item.key, value: item.key, textValue: item.label }, item.label)
+              )
+            )
+          )
+        ]
+      )
+
+      const searchInput = document.querySelector('[role="combobox"]') as HTMLElement
+      await typeText(searchInput, 'no-match')
+
+      const content = document.querySelector('[role="listbox"]')
+      await waitFor(() => {
+        expect(content).not.toBeVisible()
+      })
+      expect(document.querySelector('[role="status"]')).not.toBeInTheDocument()
     })
   })
 })

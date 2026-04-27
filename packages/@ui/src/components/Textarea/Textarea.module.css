@@ -94,10 +94,17 @@
   }
 
   .container {
+    min-width: 0;
     @apply w-full;
   }
 
+  .scope {
+    @apply relative flex w-full;
+    overflow: visible;
+  }
+
   .surface {
+    min-width: 0;
     @apply relative w-full;
   }
 

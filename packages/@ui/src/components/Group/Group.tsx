@@ -33,6 +33,8 @@ export interface GroupStyleSlots {
 export type GroupStylesProp = StylesProp<GroupStyleSlots>;
 
 export interface GroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Variant class appended to the root and grouped slots. Accepts any string. */
+  variant?: string
   /** Controls the axis that children are arranged along */
   orientation?: Orientation
   /** Controls the gap between group items */
@@ -54,10 +56,11 @@ interface GroupContextValue {
   groupIsDisabled: boolean
   groupValue?: string
   groupOnChange?: (value: string) => void
+  groupVariant?: string
   groupStyles: ReturnType<typeof resolveGroupStyles>
   registerInput?: (containerRef: React.RefObject<HTMLDivElement | null>, inputRef: React.RefObject<HTMLInputElement | null>) => void
   unregisterInput?: (containerRef: React.RefObject<HTMLDivElement | null>) => void
-  activateInput?: () => void
+  activateInput?: () => boolean
   registerFocusableSurface?: (ref: React.RefObject<HTMLElement | null>) => void
   unregisterFocusableSurface?: (ref: React.RefObject<HTMLElement | null>) => void
 }
@@ -155,6 +158,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
   (
     {
       className,
+      variant,
       orientation = "horizontal",
       spacing = "none",
       children,
@@ -209,8 +213,10 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
             inputContainer.setAttribute('data-focus-visible', 'true')
             inputContainer.setAttribute('data-focused', 'true')
           }
+          return true
         }
       }
+      return false
     }, [])
 
     const registerFocusableSurface = React.useCallback((ref: React.RefObject<HTMLElement | null>) => {
@@ -281,6 +287,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
       groupIsDisabled: isDisabled,
       groupValue: value,
       groupOnChange: onChange,
+      groupVariant: variant,
       groupStyles: resolved,
       registerInput,
       unregisterInput,
@@ -297,6 +304,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
             ref={mergedRef}
             className={cn(
               'group',
+              variant,
               orientation,
               css.group,
               orientationMap[orientation],
@@ -324,6 +332,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
                   key={`item-${index}`}
                   className={cn(
                     'item',
+                    variant,
                     css.item,
                     isFirst && resolved.itemFirst,
                     isLast && resolved.itemLast,
@@ -356,7 +365,7 @@ interface GroupButtonProps extends ButtonProps {
 
 /** Button styled to merge seamlessly with adjacent group items */
 const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
-  ({ active, value, variant, className, onPress, onPointerDown, ...restProps }, ref) => {
+  ({ active, value, variant, className, onPress, onPointerDown, onMouseDown, ...restProps }, ref) => {
     const context = useGroupContext()
     const buttonRef = React.useRef<HTMLButtonElement>(null)
     const mergedRef = useMergeRefs(buttonRef, ref)
@@ -374,12 +383,19 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
 
     // Activate input on pointer down to avoid focus ring flicker
     const handlePointerDown = React.useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
-      if (!isDisabled) {
+      if (!isDisabled && e.pointerType !== "mouse") {
         // Pre-activate the input before button loses focus
         context.activateInput?.()
       }
       onPointerDown?.(e)
     }, [context, isDisabled, onPointerDown])
+
+    const handleMouseDown = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!isDisabled && context.activateInput?.()) {
+        e.preventDefault()
+      }
+      onMouseDown?.(e)
+    }, [context, isDisabled, onMouseDown])
 
     React.useEffect(() => {
       context.registerFocusableSurface?.(buttonRef)
@@ -388,12 +404,13 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
       }
     }, [context])
 
-    const buttonVariant = variant ?? "ghost"
+    const buttonVariant = variant ?? context.groupVariant ?? "ghost"
 
     const buttonProps = {
       ...restProps,
       onPress: handlePress,
       onPointerDown: handlePointerDown,
+      onMouseDown: handleMouseDown,
       variant: buttonVariant,
       isDisabled,
       "data-focus-surface": "true",
@@ -401,6 +418,7 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
       className: cn(
         "group",
         "button",
+        buttonVariant,
         css.button,
         context.groupStyles.button,
         className
@@ -444,7 +462,7 @@ const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
     return (
       <div
         ref={containerRef}
-        className={cn("group", "input", css.input, context.groupStyles.input, className)}
+        className={cn("group", "input", context.groupVariant, css.input, context.groupStyles.input, className)}
         data-focus-surface="true"
       >
         <Input
@@ -491,7 +509,7 @@ const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperPr
     return (
       <div
         ref={containerRef}
-        className={cn("group", "input", css.input, context.groupStyles.input, className)}
+        className={cn("group", "input", context.groupVariant, css.input, context.groupStyles.input, className)}
         data-focus-surface="true"
       >
         <Input
@@ -532,7 +550,7 @@ const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
         {...props}
         isDisabled={disabled}
         data-focus-surface="true"
-        className={cn("group", "select", css.select, context.groupStyles.select, className)}
+        className={cn("group", "select", context.groupVariant, css.select, context.groupStyles.select, className)}
       />
     )
   }
@@ -562,7 +580,7 @@ const GroupExpand = React.forwardRef<HTMLDivElement, GroupExpandProps>(
       <div
         ref={surfaceRef}
         data-focus-surface="true"
-        className={cn("group", "expand", css.expand, context.groupStyles.expand, surfaceStyles)}
+        className={cn("group", "expand", context.groupVariant, css.expand, context.groupStyles.expand, surfaceStyles)}
       >
         <Expand
           ref={ref}

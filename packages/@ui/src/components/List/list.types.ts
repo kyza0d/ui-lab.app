@@ -84,7 +84,12 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export type ListCheckboxProps = React.ComponentPropsWithoutRef<typeof UICheckbox>;
+export interface ListCheckboxProps extends React.ComponentPropsWithoutRef<typeof UICheckbox> {
+  /** Controls whether the checkbox is placed before or after row content. */
+  placement?: 'start' | 'end';
+  /** Called with the next checked value when the checkbox changes. */
+  onCheckedChange?: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 export interface ListCheckboxIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Whether the indicator is in a checked state */
@@ -114,7 +119,7 @@ export interface ListDescProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export interface ActionGroupComponentProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Controls the horizontal alignment of action group items */
-  justify?: 'flex-start' | 'space-between' | 'flex-end';
+  justify?: 'start' | 'between' | 'end';
 }
 
 export interface ListActionGroupProps extends ActionGroupComponentProps {
@@ -125,7 +130,7 @@ export interface ListDividerProps extends DividerProps {}
 
 export interface FooterComponentProps extends React.HTMLAttributes<HTMLElement> {
   /** Controls the horizontal alignment of footer content */
-  align?: 'center' | 'flex-start' | 'flex-end';
+  align?: 'center' | 'start' | 'end';
 }
 
 export interface ListFooterProps extends FooterComponentProps {

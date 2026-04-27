@@ -7,7 +7,6 @@ declare const styles: {
   none: string;
   xs: string;
   sm: string;
-  ghost: string;
   item: string;
   grow: string;
   divider: string;

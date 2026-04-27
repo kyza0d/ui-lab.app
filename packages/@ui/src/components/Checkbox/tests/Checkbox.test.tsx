@@ -20,15 +20,11 @@ describe('Checkbox - Accessibility', () => {
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 
-  it('is accessible with all size variants', async () => {
-    const sizes = ['sm', 'md', 'lg']
-    for (const size of sizes) {
-      const { container, unmount } = render(
-        <Checkbox size={size as any} aria-label="Test" />
-      )
-      await auditA11y(container)
-      unmount()
-    }
+  it('is accessible with a label and helper text', async () => {
+    const { container } = render(
+      <Checkbox label="Test" helper="Additional context" />
+    )
+    await auditA11y(container)
   })
 })
 
@@ -110,8 +106,17 @@ describe('Checkbox - Focus', () => {
 
   it('supports indeterminate state', () => {
     render(<Checkbox isIndeterminate aria-label="Indeterminate" />)
-    const checkbox = screen.getByRole('checkbox')
+    const checkbox = screen.getByRole('checkbox') as HTMLInputElement
     expect(checkbox).toHaveAttribute('data-indeterminate', 'true')
+    expect(checkbox.indeterminate).toBe(true)
+    expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
+  })
+
+  it('supports indeterminate alias', () => {
+    render(<Checkbox indeterminate aria-label="Indeterminate" />)
+    const checkbox = screen.getByRole('checkbox') as HTMLInputElement
+    expect(checkbox.indeterminate).toBe(true)
+    expect(checkbox).toHaveAttribute('aria-checked', 'mixed')
   })
 })
 
@@ -138,9 +143,33 @@ describe('Checkbox - Component Specific', () => {
     expect(checkbox).toBeInTheDocument()
   })
 
-  it('renders helper text', () => {
+  it('toggles when label is clicked', async () => {
+    const user = userEvent.setup()
+    const onChange = vi.fn()
+    render(<Checkbox label="Accept Terms" onChange={onChange} />)
+
+    const checkbox = screen.getByRole('checkbox', { name: /accept terms/i })
+    await user.click(screen.getByText('Accept Terms'))
+
+    expect(checkbox).toBeChecked()
+    expect(onChange).toHaveBeenCalledOnce()
+  })
+
+  it('renders helper text through helperText compatibility alias', () => {
     render(<Checkbox label="Label" helperText="Helper text" />)
+    const checkbox = screen.getByRole('checkbox', { name: /label/i })
+    const helper = screen.getByText('Helper text')
+
+    expect(helper).toBeInTheDocument()
+    expect(checkbox).toHaveAccessibleDescription('Helper text')
+  })
+
+  it('renders helper text through helper', () => {
+    render(<Checkbox label="Label" helper="Helper text" />)
+    const checkbox = screen.getByRole('checkbox', { name: /label/i })
+
     expect(screen.getByText('Helper text')).toBeInTheDocument()
+    expect(checkbox).toHaveAccessibleDescription('Helper text')
   })
 
   it('renders error helper text', () => {
@@ -152,7 +181,55 @@ describe('Checkbox - Component Specific', () => {
       />
     )
     const helper = screen.getByText('Error text')
+    const checkbox = screen.getByRole('checkbox', { name: /label/i })
     expect(helper).toBeInTheDocument()
+    expect(helper).toHaveAttribute('data-error', 'true')
+    expect(checkbox).toHaveAttribute('aria-invalid', 'true')
+    expect(checkbox).toHaveAttribute('data-invalid', 'true')
+    expect(checkbox.parentElement?.parentElement).toHaveAttribute('data-invalid', 'true')
+  })
+
+  it('marks invalid through error and isInvalid props', () => {
+    const { rerender } = render(<Checkbox label="Error" error />)
+    const checkbox = screen.getByRole('checkbox', { name: /error/i })
+
+    expect(checkbox).toHaveAttribute('aria-invalid', 'true')
+    expect(checkbox).toHaveAttribute('data-invalid', 'true')
+
+    rerender(<Checkbox label="Error" isInvalid />)
+    expect(checkbox).toHaveAttribute('aria-invalid', 'true')
+    expect(checkbox).toHaveAttribute('data-invalid', 'true')
+  })
+
+  it('preserves native form behavior for indeterminate checkboxes', () => {
+    const { rerender } = render(
+      <form data-testid="form">
+        <Checkbox key="unchecked" name="feature" value="on" indeterminate aria-label="Feature" />
+      </form>
+    )
+
+    const uncheckedFormData = new FormData(screen.getByTestId('form') as HTMLFormElement)
+    expect(uncheckedFormData.has('feature')).toBe(false)
+
+    rerender(
+      <form data-testid="form">
+        <Checkbox key="checked" name="feature" value="on" checked indeterminate onChange={() => {}} aria-label="Feature" />
+      </form>
+    )
+
+    const checkedFormData = new FormData(screen.getByTestId('form') as HTMLFormElement)
+    expect(checkedFormData.get('feature')).toBe('on')
+  })
+
+  it('provides inputRef while keeping forwarded ref on the wrapper', () => {
+    const rootRef = React.createRef<HTMLDivElement>()
+    const inputRef = React.createRef<HTMLInputElement>()
+
+    render(<Checkbox ref={rootRef} inputRef={inputRef} aria-label="Refs" />)
+
+    expect(rootRef.current).toBeInstanceOf(HTMLDivElement)
+    expect(inputRef.current).toBeInstanceOf(HTMLInputElement)
+    expect(rootRef.current?.querySelector('input')).toBe(inputRef.current)
   })
 
   it('applies data attributes for styling', async () => {
@@ -181,5 +258,42 @@ describe('Checkbox - Component Specific', () => {
     render(<Checkbox ref={ref} aria-label="Ref Test" />)
     expect(ref.current).toBeInstanceOf(HTMLDivElement)
     expect(ref.current?.querySelector('input[type="checkbox"]')).toBeInTheDocument()
+  })
+
+  it('applies style slots to the correct elements', () => {
+    render(
+      <Checkbox
+        label="Styled slots"
+        helper="Slot helper"
+        defaultChecked
+        styles={{
+          root: 'custom-root',
+          checkbox: 'custom-checkbox',
+          'icon-checkmark': 'custom-checkmark',
+          'icon-indeterminate': 'custom-indeterminate',
+          label: 'custom-label',
+          'helper-text': 'custom-helper',
+        }}
+      />
+    )
+
+    const checkbox = screen.getByRole('checkbox', { name: /styled slots/i })
+    expect(checkbox.parentElement?.parentElement).toHaveClass('custom-root')
+    expect(checkbox).toHaveClass('custom-checkbox')
+    expect(document.querySelector('.custom-checkmark')).toBeInTheDocument()
+    expect(screen.getByText('Styled slots')).toHaveClass('custom-label')
+    expect(screen.getByText('Slot helper')).toHaveClass('custom-helper')
+  })
+
+  it('applies indeterminate icon slot', () => {
+    render(
+      <Checkbox
+        aria-label="Styled indeterminate"
+        indeterminate
+        styles={{ 'icon-indeterminate': 'custom-indeterminate' }}
+      />
+    )
+
+    expect(document.querySelector('.custom-indeterminate')).toBeInTheDocument()
   })
 })

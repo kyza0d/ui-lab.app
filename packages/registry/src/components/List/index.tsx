@@ -141,7 +141,7 @@ export function Example() {
       </List.Header>
       <List.Item interactive>
         <p>Item with actions</p>
-        <List.ActionGroup justify="space-between">
+        <List.ActionGroup justify="between">
           <button>👍 Like</button>
           <button>💬 Reply</button>
         </List.ActionGroup>
@@ -156,7 +156,7 @@ export function Example() {
           </List.Header>
           <List.Item interactive>
             <p className="text-sm text-foreground-300">Item with actions</p>
-            <List.ActionGroup justify="space-between">
+            <List.ActionGroup justify="between">
               <button className="text-sm text-foreground-300 hover:text-foreground-100 transition-colors">👍 Like</button>
               <button className="text-sm text-foreground-300 hover:text-foreground-100 transition-colors">💬 Reply</button>
             </List.ActionGroup>

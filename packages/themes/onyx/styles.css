@@ -1,6 +1,103 @@
 /* Onyx Theme - Button Styles */
 
+:root {
+  .primary {
+    --background: var(--foreground-100);
+    --foreground: var(--background-900);
+    --background-border: var(--foreground-200);
+    --background-hover: color-mix(in srgb, var(--foreground-100) 90%, var(--background-600));
+    --background-hover-border: color-mix(in srgb, var(--foreground-100) 90%, var(--background-600));
+    --background-pressed: color-mix(in srgb, var(--foreground-100) 85%, var(--background-600));
+    --background-pressed-border: color-mix(in srgb, var(--foreground-100) 85%, var(--background-600));
+  }
+
+  .secondary {
+    --background: var(--background-900);
+    --foreground: var(--foreground-200);
+    --background-border: var(--background-700);
+    --background-hover: color-mix(in srgb, var(--background-700) 50%, var(--background-950));
+    --background-hover-border: var(--background-700);
+    --background-pressed: color-mix(in srgb, var(--background-700) 60%, var(--background-950));
+    --background-pressed-border: var(--background-700);
+  }
+
+  .outline {
+    --background: transparent;
+    --foreground: var(--foreground-300);
+    --background-border: var(--background-700);
+    --background-hover: color-mix(in srgb, var(--background-950) 90%, var(--background-500));
+    --background-hover-border: var(--background-600);
+    --background-pressed: color-mix(in srgb, var(--background-900) 90%, var(--background-500));
+    --background-pressed-border: var(--background-600);
+    outline: unset !important /* override tailwindcss */
+  }
+
+  .danger {
+    --background: color-mix(in srgb, var(--danger-500) 15%, transparent);
+    --foreground: var(--danger-600);
+    --background-border: transparent;
+    --focus-visible: var(--danger-400);
+    --background-hover: color-mix(in srgb, var(--danger-500) 25%, transparent);
+    --background-hover-border: transparent;
+    --background-pressed: color-mix(in srgb, var(--danger-500) 30%, transparent);
+    --background-pressed-border: transparent;
+  }
+
+  .ghost {
+    --background: transparent;
+    --foreground: var(--foreground-300);
+    --background-border: transparent;
+    --background-hover: var(--background-800);
+    --background-hover-border: transparent;
+  }
+
+  .default {
+    --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
+    --foreground: var(--foreground-200);
+    --background-border: var(--background-700);
+    --background-hover: color-mix(in srgb, var(--background-500) 20%, var(--background-900));
+    --background-hover-border: var(--background-600);
+    --background-pressed: color-mix(in srgb, var(--background-500) 30%, var(--background-900));
+    --background-pressed-border: var(--background-600);
+    --focus-visible: var(--accent-400);
+  }
+
+  .success {
+    --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
+    --foreground: var(--success-600);
+    --background-border: color-mix(in srgb, var(--success-600) 20%, var(--background-900));
+    --background-hover: color-mix(in srgb, var(--success-600) 15%, var(--background-900));
+    --background-hover-border: color-mix(in srgb, var(--success-600) 30%, var(--background-900));
+    --background-pressed: color-mix(in srgb, var(--success-600) 20%, var(--background-900));
+    --background-pressed-border: color-mix(in srgb, var(--success-600) 30%, var(--background-900));
+    --focus-visible: var(--success-400);
+  }
+
+  .warning {
+    --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
+    --foreground: var(--warning-600);
+    --background-border: color-mix(in srgb, var(--warning-600) 20%, var(--background-900));
+    --background-hover: color-mix(in srgb, var(--warning-600) 15%, var(--background-900));
+    --background-hover-border: color-mix(in srgb, var(--warning-600) 30%, var(--background-900));
+    --background-pressed: color-mix(in srgb, var(--warning-600) 20%, var(--background-900));
+    --background-pressed-border: color-mix(in srgb, var(--warning-600) 30%, var(--background-900));
+    --focus-visible: var(--warning-400);
+  }
+
+  .info {
+    --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
+    --foreground: var(--info-600);
+    --background-border: color-mix(in srgb, var(--info-600) 20%, var(--background-900));
+    --background-hover: color-mix(in srgb, var(--info-600) 15%, var(--background-900));
+    --background-hover-border: color-mix(in srgb, var(--info-600) 30%, var(--background-900));
+    --background-pressed: color-mix(in srgb, var(--info-600) 20%, var(--background-900));
+    --background-pressed-border: color-mix(in srgb, var(--info-600) 30%, var(--background-900));
+    --focus-visible: var(--info-400);
+  }
+}
+
 @layer components {
+  /* Universal variants (token presets) */
   [data-ring="true"] {
     --ring: #0f74c5;
     --ring-width: 2px;
@@ -23,62 +120,9 @@
   }
 
   .button.icon { @apply aspect-square }
-  .button.sm { @apply px-2 py-1.5 text-xs font-semibold }
+  .button.sm { @apply px-2.5 py-1.5 text-xs font-semibold }
   .button.md { @apply px-3 py-1.5 }
   .button.lg { @apply px-10 py-2 }
-
-  .button.primary {
-    --background: var(--foreground-100);
-    --foreground: var(--background-900);
-    --background-border: var(--foreground-200);
-    --background-hover: color-mix(in srgb, var(--foreground-100) 90%, var(--background-600));
-    --background-hover-border: color-mix(in srgb, var(--foreground-100) 90%, var(--background-600));
-    --background-pressed: color-mix(in srgb, var(--foreground-100) 85%, var(--background-600));
-    --background-pressed-border: color-mix(in srgb, var(--foreground-100) 85%, var(--background-600));
-  }
-
-  .button.secondary {
-    --background: var(--background-900);
-    --foreground: var(--foreground-200);
-    --background-border: var(--background-700);
-    --background-hover: color-mix(in srgb, var(--background-700) 50%, var(--background-950));
-    --background-hover-border: var(--background-700);
-    --background-pressed: color-mix(in srgb, var(--background-700) 60%, var(--background-950));
-    --background-pressed-border: var(--background-700);
-  }
-
-  .button.outline {
-    --background: transparent;
-    --foreground: var(--foreground-300);
-    --background-border: var(--background-700);
-    --background-hover: color-mix(in srgb, var(--background-950) 90%, var(--background-500));
-    --background-hover-border: var(--background-600);
-    --background-pressed: color-mix(in srgb, var(--background-900) 90%, var(--background-500));
-    --background-pressed-border: var(--background-600);
-    /* Override tailwind *outline* class */
-    outline-style: unset !important;
-  }
-
-  .button.danger {
-    --background: color-mix(in srgb, var(--danger-500) 15%, transparent);
-    --foreground: var(--danger-600);
-    --background-border: transparent;
-    --focus-visible: var(--danger-400);
-    --background-hover: color-mix(in srgb, var(--danger-500) 25%, transparent);
-    --background-hover-border: transparent;
-    --background-pressed: color-mix(in srgb, var(--danger-500) 30%, transparent);
-    --background-pressed-border: transparent;
-  }
-
-  .button.ghost {
-    --background: transparent;
-    --foreground: var(--foreground-300);
-    --background-border: transparent;
-    --background-hover: var(--background-800);
-    --background-hover-border: transparent;
-  }
-
-  /* Gallery Styles */
 
   .gallery.item,
   [data-focus-surface="true"] {
@@ -111,18 +155,19 @@
   /* Card Styles */
 
   .card {
-    --background: var(--background-800);
-    --border: var(--background-700);
-    --focus-ring: var(--accent-400);
+    --background: var(--background-900);
+    --foreground: var(--foreground-200);
+    --background-border: var(--background-700);
+    --focus-visible: var(--accent-400);
   }
 
   .card.header {
-    --border: var(--background-700);
+    --background-border: var(--background-700);
   }
 
   .card.footer {
     --background: color-mix(in srgb, var(--background-900) 50%, transparent);
-    --border: var(--background-700);
+    --background-border: var(--background-700);
   }
 
   /* List Styles */
@@ -147,15 +192,28 @@
   .group {
     --background: var(--background-950);
     --background-border: var(--background-700);
+    --group-background: var(--background);
+    --group-foreground: var(--foreground);
+    --group-border: var(--background-border);
+    --group-hover: var(--background-hover, var(--group-background));
+    --group-pressed: var(--background-pressed, var(--group-hover));
+    --group-divider-background: var(--group-border);
+    --group-input-background: var(--group-background);
+    --group-input-foreground: var(--group-foreground);
+    --group-input-border-width: 0px;
+    --group-input-border: transparent;
+    --group-input-hover-border: var(--group-input-border);
+    --group-input-focused-border: var(--group-input-border);
+  }
+
+  .group.outline {
+    --group-divider-background: var(--background-border);
+    --group-input-background: transparent;
   }
 
   .group.button {
     --button-selected-background: var(--background-800);
     --button-selected-foreground: var(--foreground-100);
-  }
-
-  .group.ghost {
-    --background: transparent;
   }
 
   /* Command Styles */
@@ -231,33 +289,33 @@
   .checkbox {
     --background: var(--background-900);
     --background-border: var(--background-700);
-    --background-hover: color-mix(in srgb, var(--background-500) 10%, transparent);
+    --background-hover: color-mix(in srgb, var(--background-500) 10%, var(--background-900));
     --background-hover-border: var(--background-600);
     --ring: var(--accent-500);
   }
 
   .checkbox[data-selected="true"] {
-    --background-selected: var(--accent-500);
-    --background-selected-border: var(--accent-500);
-    --background-hover: var(--accent-600);
-    --background-hover-border: var(--accent-400);
+    --background-selected: var(--foreground-200);
+    --background-selected-border: var(--foreground-200);
+    --background-hover: var(--foreground-300);
+    --background-hover-border: var(--foreground-300);
   }
 
   .checkbox[data-indeterminate="true"] {
-    --background-indeterminate: var(--accent-600);
-    --background-indeterminate-border: var(--accent-600);
-    --background-hover: var(--accent-500);
-    --background-hover-border: var(--accent-400);
+    --background-indeterminate: var(--foreground-200);
+    --background-indeterminate-border: var(--foreground-200);
+    --background-hover: var(--foreground-300);
+    --background-hover-border: var(--foreground-300);
   }
 
   .checkbox.checkmark,
   .checkbox.indeterminate {
-    --icon-foreground: white;
+    --icon-foreground: color-mix(in srgb, var(--accent-500) 20%, var(--background-950));
   }
 
-  .checkbox-root.helper-text {
-    --helper-text-foreground: currentColor;
-    --helper-text-error-foreground: white;
+  .checkbox-root {
+    --helper-foreground: var(--foreground-400);
+    --helper-error-foreground: var(--danger-600);
   }
 
   /* Color Styles */
@@ -445,6 +503,10 @@
     --foreground-muted: var(--foreground-400);
   }
 
+  .select.empty-state {
+    font-size: var(--text-xs);
+  }
+
   .select.search-trigger {
     --focus-visible: var(--accent-500);
   }
@@ -592,42 +654,6 @@
     --dismiss-hover-background: color-mix(in srgb, var(--background-700) 80%, var(--background-900));
     --dismiss-pressed-background: var(--background-700);
     --dismiss-focus-visible: var(--accent-400);
-  }
-
-  .badge.default {
-    --background: color-mix(in srgb, var(--background-600) 10%, var(--background-900));
-    --foreground: var(--foreground-200);
-    --background-border: var(--background-700);
-  }
-
-  .badge.secondary {
-    --background: color-mix(in srgb, var(--background-900) 90%, var(--background-600));
-    --foreground: var(--foreground-300);
-    --background-border: color-mix(in srgb, var(--background-600) 40%, transparent);
-  }
-
-  .badge.success {
-    --background: color-mix(in srgb, var(--success-600) 10%, var(--background-900));
-    --foreground: var(--success-600);
-    --background-border: color-mix(in srgb, var(--success-600) 20%, var(--background-900));
-  }
-
-  .badge.warning {
-    --background: color-mix(in srgb, var(--warning-600) 10%, var(--background-900));
-    --foreground: var(--warning-600);
-    --background-border: color-mix(in srgb, var(--warning-600) 20%, var(--background-900));
-  }
-
-  .badge.danger {
-    --background: color-mix(in srgb, var(--danger-600) 10%, var(--background-900));
-    --foreground: var(--danger-600);
-    --background-border: color-mix(in srgb, var(--danger-600) 20%, var(--background-900));
-  }
-
-  .badge.info {
-    --background: color-mix(in srgb, var(--info-600) 10%, var(--background-900));
-    --foreground: var(--info-600);
-    --background-border: color-mix(in srgb, var(--info-600) 20%, var(--background-900));
   }
 
   /* Popover Styles */

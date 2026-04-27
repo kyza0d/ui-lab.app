@@ -2,6 +2,6 @@
   "01-basic-path": {
     "title": "Basic Path",
     "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
-    "code": "import { Path, PathItem } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <PathItem href=\"/\">Home</PathItem>\n      <PathItem href=\"/products\">Products</PathItem>\n      <PathItem href=\"/products/electronics\">Electronics</PathItem>\n      <PathItem>Laptop</PathItem>\n    </Path>\n  );\n}"
+    "code": "import { Path } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <Path.Item href=\"/\">Home</Path.Item>\n      <Path.Item href=\"/products\">Products</Path.Item>\n      <Path.Item href=\"/products/electronics\">Electronics</Path.Item>\n      <Path.Item>Laptop</Path.Item>\n    </Path>\n  );\n}"
   }
 }

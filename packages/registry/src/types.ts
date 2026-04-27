@@ -35,6 +35,20 @@ export interface ComponentAPI {
   examples?: ComponentExample[];
 }
 
+export interface ComponentUsageRule {
+  type: 'do' | 'avoid' | 'prefer';
+  title: string;
+  description: string;
+  relatedComponents?: string[];
+}
+
+export interface ComponentUsage {
+  summary: string;
+  whenToUse?: string[];
+  whenNotToUse?: string[];
+  rules?: ComponentUsageRule[];
+}
+
 export interface StyleVariable {
   name: string;
   defaultValue?: string;
@@ -240,6 +254,7 @@ export interface ComponentMetadata {
   };
   reactAriaUrl?: string;
   api?: ComponentAPI;
+  usage?: ComponentUsage;
   styles?: ComponentStyles;
   examples?: ComponentExample[];
   example?: Example;

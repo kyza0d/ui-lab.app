@@ -10,6 +10,7 @@ declare const styles: {
   "search-content-input": string;
   "search-icon-section": string;
   "search-wrapper": string;
+  "empty-state": string;
   "value-section": string;
   "icon-section": string;
   icon: string;

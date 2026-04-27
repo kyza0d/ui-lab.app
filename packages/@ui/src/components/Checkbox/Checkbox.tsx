@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useId, useState } from "react";
 import { useFocusRing } from "@react-aria/focus";
 import { mergeProps } from "@react-aria/utils";
 import { cn, type StyleValue } from "@/lib/utils";
@@ -8,8 +8,6 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { useFocusIndicator } from "@/hooks/useFocusIndicator";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import css from "./Checkbox.module.css";
-
-type Size = "sm" | "md" | "lg";
 
 interface CheckboxIconStyles {
   checkmark?: StyleValue;
@@ -66,46 +64,46 @@ function resolveCheckboxStyles(styles: CheckboxStylesProp | undefined) {
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
-  /** Size of the checkbox */
-  size?: Size;
   /** Label text or element displayed next to the checkbox */
   label?: React.ReactNode;
-  /** Helper text shown below the checkbox */
+  /** Helper text shown below the checkbox. Prefer `helper`; `helperText` is kept as a compatibility alias. */
+  helper?: React.ReactNode;
+  /** Compatibility alias for `helper`. */
   helperText?: React.ReactNode;
-  /** Whether to style the helper text as an error */
+  /** Whether to style the helper text as an error and mark the checkbox invalid. */
   helperTextError?: boolean;
-  /** Whether to show an indeterminate (partial selection) state */
+  /** Whether the checkbox is invalid. Prefer `error`; `isInvalid` is an alias for form libraries. */
+  error?: boolean;
+  /** Alias for `error`. */
+  isInvalid?: boolean;
+  /** Whether to show an indeterminate (partial selection) state. Prefer `indeterminate`; `isIndeterminate` is kept as an alias. */
   isIndeterminate?: boolean;
+  /** Whether to show an indeterminate (partial selection) state. */
+  indeterminate?: boolean;
+  /** Ref for the underlying input. The forwarded ref remains attached to the wrapper element. */
+  inputRef?: React.Ref<HTMLInputElement>;
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: CheckboxStylesProp;
 }
-
-const sizeMap: Record<Size, string> = {
-  sm: css["size-sm"],
-  md: css["size-md"],
-  lg: css["size-lg"],
-};
-
-const labelSizeMap: Record<Size, string> = {
-  sm: css["label-sm"],
-  md: css["label-md"],
-  lg: css["label-lg"],
-};
 
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
   (
     {
       className,
-      size = "md",
       label,
+      helper,
       helperText,
       helperTextError = false,
+      error = false,
+      isInvalid = false,
       id,
       disabled = false,
       checked,
       defaultChecked,
       onChange,
       isIndeterminate = false,
+      indeterminate = false,
+      inputRef: forwardedInputRef,
       styles,
       ...props
     },
@@ -113,6 +111,11 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const rootRef = React.useRef<HTMLDivElement>(null);
+    const generatedId = useId();
+    const inputId = id ?? `checkbox-${generatedId}`;
+    const helperId = `${inputId}-helper`;
+    const resolvedHelper = helper ?? helperText;
+    const resolvedIndeterminate = indeterminate || isIndeterminate;
     // Track pressed state for tactile feedback animation (data-pressed attribute)
     const [isPressed, setIsPressed] = useState(false);
     const [internalChecked, setInternalChecked] = useState(() =>
@@ -165,6 +168,12 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       }
     }, [checked]);
 
+    React.useEffect(() => {
+      if (inputRef.current) {
+        inputRef.current.indeterminate = resolvedIndeterminate;
+      }
+    }, [resolvedIndeterminate]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       // Update internal state (needed for uncontrolled mode)
       setInternalChecked(e.target.checked);
@@ -172,12 +181,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       onChange?.(e);
     };
 
-    // Filter out boolean props to avoid DOM attribute warnings
-    const domProps = Object.fromEntries(
-      Object.entries(props).filter(([, value]) => typeof value !== 'boolean')
-    );
-
-    const inputProps = mergeProps(domProps, focusProps, {
+    const inputProps = mergeProps(props, focusProps, {
       onChange: handleChange,
       onMouseDown: handleMouseDown,
       onMouseUp: handleMouseUp,
@@ -189,18 +193,36 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     // Determine if this is a controlled component
     const isControlled = checked !== undefined;
     const displayChecked = isControlled ? checked : internalChecked;
+    const propAriaInvalid = props["aria-invalid"];
+    const resolvedInvalid =
+      error ||
+      isInvalid ||
+      helperTextError ||
+      propAriaInvalid === true ||
+      propAriaInvalid === "true";
+    const describedBy = [props["aria-describedby"], resolvedHelper ? helperId : undefined]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
     const resolved = resolveCheckboxStyles(styles);
     const mergedRootRef = useMergeRefs(rootRef, ref);
+    const mergedInputRef = useMergeRefs(inputRef, forwardedInputRef);
 
     return (
-      <div ref={mergedRootRef} className={cn("checkbox-root", scopeProps.className, css['checkbox-root'], resolved.root)}>
+      <div
+        ref={mergedRootRef}
+        className={cn("checkbox-root", scopeProps.className, css['checkbox-root'], resolved.root)}
+        data-disabled={disabled ? "true" : undefined}
+        data-invalid={resolvedInvalid ? "true" : undefined}
+        data-indeterminate={resolvedIndeterminate ? "true" : undefined}
+      >
         <div {...indicatorProps} data-focus-indicator="local" />
-        <div className={cn(css.container, sizeMap[size])}>
+        <div className={cn(css.container)}>
           <input
-            ref={inputRef}
+            {...inputProps}
+            ref={mergedInputRef}
             type="checkbox"
-            id={id}
+            id={inputId}
             disabled={disabled}
             {...(isControlled ? { checked } : { defaultChecked: internalChecked })}
             className={cn(
@@ -209,17 +231,20 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
               className,
               resolved.checkbox
             )}
-            data-size={size}
             data-selected={displayChecked ? "true" : undefined}
             data-disabled={disabled ? "true" : undefined}
-            data-indeterminate={isIndeterminate ? "true" : undefined}
+            data-invalid={resolvedInvalid ? "true" : undefined}
+            data-error={resolvedInvalid ? "true" : undefined}
+            data-indeterminate={resolvedIndeterminate ? "true" : undefined}
             data-focused={isFocused ? "true" : undefined}
             data-focus-visible={isFocusVisible ? "true" : undefined}
             data-pressed={isPressed ? "true" : undefined}
             data-checkbox-focus-surface="true"
-            {...inputProps}
+            aria-invalid={resolvedInvalid || undefined}
+            aria-checked={resolvedIndeterminate ? "mixed" : props["aria-checked"]}
+            aria-describedby={describedBy}
           />
-          {displayChecked && !isIndeterminate && (
+          {displayChecked && !resolvedIndeterminate && (
             <svg
               className={cn('checkbox checkmark', css.checkmark, resolved["icon-checkmark"])}
               viewBox="0 0 24 24"
@@ -232,7 +257,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           )}
-          {isIndeterminate && (
+          {resolvedIndeterminate && (
             <svg
               className={cn('checkbox indeterminate', css.indeterminate, resolved["icon-indeterminate"])}
               viewBox="0 0 24 24"
@@ -244,10 +269,10 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         </div>
         {label && (
           <label
-            htmlFor={id}
+            htmlFor={inputId}
             className={cn(
               css.label,
-              labelSizeMap[size],
+              css["label-md"],
               resolved.label
             )}
             data-disabled={disabled ? "true" : undefined}
@@ -255,15 +280,16 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             {label}
           </label>
         )}
-        {helperText && (
+        {resolvedHelper && (
           <p
+            id={helperId}
             className={cn(
               css["helper-text"],
               resolved["helper-text"]
             )}
-            data-error={helperTextError ? "true" : undefined}
+            data-error={resolvedInvalid ? "true" : undefined}
           >
-            {helperText}
+            {resolvedHelper}
           </p>
         )}
       </div>
