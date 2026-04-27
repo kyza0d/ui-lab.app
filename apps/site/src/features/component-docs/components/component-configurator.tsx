@@ -128,7 +128,7 @@ export function ComponentConfigurator({
     <Scroll styles={{ track: "pr-6 " }} inline maxHeight="24rem">
       <div
         className={cn(
-          resizable ? "w-full p-10" : "mx-auto w-fit min-w-xs px-10 py-20",
+          resizable ? "w-full" : "w-fit min-w-xs px-10 py-20",
           previewLayout === "center" ? "flex items-center justify-center" : "flex flex-col"
         )}
         style={{ "--button-easing": EASING_FUNCTIONS[selectedEasing].cssVar } as React.CSSProperties}

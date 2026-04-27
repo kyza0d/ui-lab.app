@@ -142,7 +142,7 @@ export function ComponentClient({ componentId, api, styles, reactAriaUrl, source
               </ComponentConfigurator>
             </div>
             <Tabs variant="underline" value={activeTab} onValueChange={(tab) => { setActiveTab(tab); setVisitedTabs((prev) => new Set(prev).add(tab)); }} className="min-h-[calc(100vh-var(--header-height))]">
-              <Flex direction="row" justify="space-between" className="border-b border-background-700">
+              <Flex direction="row" justify="between" className="border-b border-background-700">
                 <Tabs.List className="grid w-fit grid-cols-3">
                   <Tabs.Trigger value="examples">Examples</Tabs.Trigger>
                   <Tabs.Trigger value="api">API</Tabs.Trigger>

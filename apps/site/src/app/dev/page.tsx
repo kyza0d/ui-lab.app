@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { generateMetadata as buildMetadata } from "@/shared/lib/metadata";
 import { Metadata } from "next";
+import { Card } from "ui-lab-components";
 
 export const metadata: Metadata = buildMetadata({
   pathname: "/dev",
@@ -29,6 +30,14 @@ export default function DevIndexPage() {
           </li>
         ))}
       </ul>
+      <Card>
+        <Card.Header>
+          Header
+        </Card.Header>
+        <Card.Body>
+          Body
+        </Card.Body>
+      </Card>
     </div>
   );
 }

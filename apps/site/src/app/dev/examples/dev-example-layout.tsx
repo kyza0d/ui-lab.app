@@ -80,8 +80,10 @@ export function DevExampleLayout({ title, description, examples, backHref = "/de
                   <h2 className="text-md font-semibold text-foreground-100">{example.title}</h2>
                   <p className="text-sm text-foreground-400">{example.description}</p>
                 </div>
-                <div className="min-h-40 flex items-center justify-center w-full border border-background-700 rounded-sm">
-                  {example.preview}
+                <div className="mx-auto py-8 border border-background-700">
+                  <div className="w-120 mx-auto flex justify-center items-center min-h-40 rounded-sm">
+                    {example.preview}
+                  </div>
                 </div>
               </div>
             );

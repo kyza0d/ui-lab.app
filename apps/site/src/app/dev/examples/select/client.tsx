@@ -26,34 +26,32 @@ function LanguageSelectPreview() {
   const Icon = selected?.icon;
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground-300" htmlFor="primary-language-select">Primary Language</label>
-        <Select
-          selectedKey={language}
-          valueLabel={selected?.label}
-          onSelectionChange={setLanguage}
-          className="w-72"
-        >
-          <Select.Trigger>
-            <Select.Value
-              placeholder="Choose a language..."
-              icon={Icon && <Icon style={{ color: selected.color }} className="h-4 w-4" />}
-            />
-          </Select.Trigger>
-          <Searchable.Content searchPlaceholder="Search languages...">
-            {languages.map((lang) => {
-              const LangIcon = lang.icon;
-              return (
-                <Select.Item key={lang.value} value={lang.value} textValue={lang.label} icon={<LangIcon style={{ color: lang.color }} />}>
-                  {lang.label}
-                </Select.Item>
-              );
-            })}
-          </Searchable.Content>
-        </Select>
-      </div>
-    </div>
+    <Select
+      selectedKey={language}
+      valueLabel={selected?.label}
+      onSelectionChange={setLanguage}
+      className="w-72"
+    >
+      <Select.Trigger>
+        <Select.Value
+          placeholder="Choose a language..."
+          icon={Icon && <Icon style={{ color: selected.color }} className="h-4 w-4" />}
+        />
+      </Select.Trigger>
+      <Searchable.Content
+        searchPlaceholder="Search languages..."
+        emptyContent="No languages found."
+      >
+        {languages.map((lang) => {
+          const LangIcon = lang.icon;
+          return (
+            <Select.Item key={lang.value} value={lang.value} textValue={lang.label} icon={<LangIcon style={{ color: lang.color }} />}>
+              {lang.label}
+            </Select.Item>
+          );
+        })}
+      </Searchable.Content>
+    </Select>
   );
 }
 
@@ -71,7 +69,6 @@ function SourceControlPreview() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground-300" htmlFor="repository-provider-select">Repository Provider</label>
         <Select selectedKey={provider} valueLabel={sourceControlProviders.find(p => p.value === provider)?.label} onSelectionChange={setProvider} className="w-80">
           <Select.Trigger>
             <Select.Value placeholder="Select provider" icon={Icon && <Icon className="w-4 h-4" />} />
@@ -122,7 +119,6 @@ function CountrySelectPreview() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground-300" htmlFor="country-select">Country</label>
         <Select
           selectedKey={country}
           valueLabel={selected?.label}
@@ -176,7 +172,6 @@ function SearchTriggerTemplatePreview() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground-300" htmlFor="starter-template-select">Starter Template</label>
         <Select
           selectedKey={template}
           valueLabel={selected?.label}
@@ -215,7 +210,6 @@ function MultiSelectPreview() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground-300" htmlFor="tech-stack-select">Tech Stack</label>
         <Select mode="multiple" selectedKeys={selected} onSelectionChange={(keys) => setSelected(keys as (string | number)[])} className="w-full">
           <Select.Trigger>
             {selectedItems.length === 0 ? (
@@ -227,10 +221,10 @@ function MultiSelectPreview() {
                   return (
                     <Badge
                       key={item.value}
+                      dismissible
                       variant="default"
                       size="sm"
                       icon={<ItemIcon style={{ color: item.color }} className="w-3 h-3" />}
-                      dismissible
                       onDismiss={() => setSelected(selected.filter(s => s !== item.value))}
                     >
                       {item.label}
@@ -270,7 +264,6 @@ function SubmenuSelectPreview() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground-300" htmlFor="insert-block-select">Insert Block</label>
         <Select selectedKey={selected} onSelectionChange={setSelected} className="w-64">
           <Select.Trigger>
             <Select.Value placeholder="Select block type..." />

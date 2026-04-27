@@ -17,6 +17,10 @@ import { cn } from "@/shared";
 import {
   FaCodeBranch,
   FaBars,
+  FaArrowRight,
+  FaChevronRight,
+  FaChevronDown,
+  FaChevronLeft,
 } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
 import { HiX } from "react-icons/hi";
@@ -33,7 +37,7 @@ const TabItem = memo(({ tab }: { tab: TabConfig }) => {
     <Tabs.Trigger
       value={tab.id}
       disabled={tab.isPlaceholder}
-      className="text-xs py-[9px]"
+      className="font-medium text-xs py-[9px]"
     >
       {tab.label}
     </Tabs.Trigger>
@@ -198,11 +202,14 @@ export default function Header({
                   Source
                 </Button>
               </a>
+
+              <Button icon={{ right: <FaChevronRight size={12} /> }}>New Project</Button>
               <Divider size='auto' orientation="vertical" />
             </div>
 
             <SettingsPanel />
             <ThemeToggle />
+
 
             <Tooltip showArrow content="Toggle Theme" position="bottom" hint="d">
               <Button

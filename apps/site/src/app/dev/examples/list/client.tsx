@@ -1,267 +1,119 @@
 "use client";
 
-import { useState } from "react";
-import { List, Badge, Select, Expand } from "ui-lab-components";
-import type { ListActionDef } from "ui-lab-components";
-import {
-  FaBell,
-  FaGear,
-  FaGlobe,
-  FaMoon,
-  FaPen,
-  FaTrash,
-  FaInbox,
-  FaFile,
-  FaPaperPlane,
-  FaBox,
-  FaCode,
-  FaPalette,
-  FaServer,
-  FaLayerGroup,
-  FaBolt,
-  FaDatabase,
-  FaChevronRight,
-} from "react-icons/fa6";
+import { useMemo, useState } from "react";
+import { List, Select } from "ui-lab-components";
 
 import { DevExampleLayout, type DevExample } from "../dev-example-layout";
 
-// ─── 1. Basic ───────────────────────────────────────────────────────────────
-
-const basicItems = [
-  { label: "Inbox", count: 12, icon: <FaInbox className="h-3.5 w-3.5" /> },
-  { label: "Drafts", count: 3, icon: <FaFile className="h-3.5 w-3.5" /> },
-  { label: "Sent", count: 0, icon: <FaPaperPlane className="h-3.5 w-3.5" /> },
-  { label: "Archive", count: 0, icon: <FaBox className="h-3.5 w-3.5" /> },
-  { label: "Trash", count: 1, icon: <FaTrash className="h-3.5 w-3.5" /> },
+const reviewItems = [
+  { id: "legal", title: "Legal review", desc: "Updated retention language" },
+  { id: "security", title: "Security review", desc: "New access scopes" },
+  { id: "billing", title: "Billing review", desc: "Invoice copy changes" },
 ];
 
-function BasicPreview() {
-  const [selected, setSelected] = useState("Inbox");
-
-  const actions: ListActionDef[] = [
-    { icon: <FaPen className="h-3 w-3" />, title: "Rename" },
-    { icon: <FaTrash className="h-3 w-3" />, title: "Delete" },
-  ];
-
-  return (
-    <List items={basicItems}>
-      {basicItems.map((item) => (
-        <List.Item
-          key={item.label}
-          value={item.label}
-          interactive
-          actions={actions}
-          selected={selected === item.label}
-          onClick={() => setSelected(item.label)}
-        >
-          <div className="h-7 w-7 rounded-md bg-background-600 flex items-center justify-center text-foreground-400 flex-shrink-0">
-            {item.icon}
-          </div>
-          <span className="text-sm text-foreground-100 flex-1">{item.label}</span>
-          {item.count > 0 && (
-            <Badge size="sm" className="ml-auto">{item.count}</Badge>
-          )}
-        </List.Item>
-      ))}
-    </List>
-  );
-}
-
-// ─── 2. With Media & Description ────────────────────────────────────────────
-
-const people = [
-  {
-    name: "Olivia Chen",
-    role: "Engineering Lead",
-    icon: <FaCode className="h-3.5 w-3.5" />,
-    color: "bg-blue-500/15 text-blue-400",
-  },
-  {
-    name: "Marcus Webb",
-    role: "Product Designer",
-    icon: <FaPalette className="h-3.5 w-3.5" />,
-    color: "bg-purple-500/15 text-purple-400",
-  },
-  {
-    name: "Priya Sharma",
-    role: "Backend Engineer",
-    icon: <FaServer className="h-3.5 w-3.5" />,
-    color: "bg-emerald-500/15 text-emerald-400",
-  },
+const notificationItems = [
+  { id: "comments", title: "Comments", desc: "Replies and mentions" },
+  { id: "deployments", title: "Deployments", desc: "Preview and production updates" },
+  { id: "incidents", title: "Incidents", desc: "Status changes and postmortems" },
 ];
 
-function MediaDescPreview() {
-  return (
-    <List items={people}>
-      {people.map((p) => (
-        <List.Item key={p.name} value={p.name} interactive>
-          <List.Media>
-            <div className={`h-8 w-8 rounded-full flex items-center justify-center ${p.color}`}>
-              {p.icon}
-            </div>
-          </List.Media>
-          <div className="flex flex-col min-w-0">
-            <List.Title>{p.name}</List.Title>
-            <List.Desc>{p.role}</List.Desc>
-          </div>
-        </List.Item>
-      ))}
-    </List>
-  );
-}
-
-// ─── 3. Checkbox ────────────────────────────────────────────────────────────
-
-const initialTasks = [
-  { id: "t1", label: "Set up CI pipeline", done: true },
-  { id: "t2", label: "Write integration tests", done: true },
-  { id: "t3", label: "Review pull request #87", done: false },
-  { id: "t4", label: "Update documentation", done: false },
+const quotaItems = [
+  { id: "seats", title: "Seats", desc: "Maximum workspace members" },
+  { id: "projects", title: "Projects", desc: "Active projects per workspace" },
+  { id: "tokens", title: "Tokens", desc: "Monthly API token budget" },
 ];
 
-function CheckboxPreview() {
-  const [tasks, setTasks] = useState(initialTasks);
+const permissionItems = [
+  { id: "members", title: "Members", desc: "Invite and remove workspace members" },
+  { id: "billing", title: "Billing", desc: "Update plan, seats, and invoices" },
+  { id: "tokens", title: "Tokens", desc: "Issue scoped API credentials" },
+];
 
-  const toggle = (id: string) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+function useCheckedSet(initial: string[]) {
+  const [checked, setChecked] = useState(() => new Set(initial));
+
+  const setItem = (id: string, value: boolean) => {
+    setChecked((current) => {
+      const next = new Set(current);
+      value ? next.add(id) : next.delete(id);
+      return next;
+    });
   };
 
-  const done = tasks.filter((t) => t.done).length;
+  const toggleItem = (id: string) => {
+    setChecked((current) => {
+      const next = new Set(current);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
 
-  return (
-    <List items={tasks}>
-      <List.Header>
-        <span>Tasks</span>
-        <span className="text-sm tabular-nums">{done}/{tasks.length}</span>
-      </List.Header>
-      {tasks.map((t) => (
-        <List.Item key={t.id} value={t.id} interactive onClick={() => toggle(t.id)}>
-          <List.CheckboxIndicator checked={t.done} />
-          <span className={`text-sm ${t.done ? "line-through text-foreground-500" : "text-foreground-100"}`}>
-            {t.label}
-          </span>
-        </List.Item>
-      ))}
-    </List>
-  );
+  return { checked, setItem, toggleItem };
 }
 
-// ─── 4. Switch ──────────────────────────────────────────────────────────────
-
-function SwitchPreview() {
-  const [darkMode, setDarkMode] = useState(true);
-  const [notifications, setNotifications] = useState(true);
-  const [publicProfile, setPublicProfile] = useState(false);
-
-  const settings = [
-    {
-      label: "Dark mode",
-      desc: "Use dark theme across the app",
-      icon: <FaMoon className="h-3.5 w-3.5" />,
-      color: "bg-purple-500/15 text-purple-400",
-      value: darkMode,
-      onChange: setDarkMode,
-    },
-    {
-      label: "Notifications",
-      desc: "Receive push notifications",
-      icon: <FaBell className="h-3.5 w-3.5" />,
-      color: "bg-amber-500/15 text-amber-400",
-      value: notifications,
-      onChange: setNotifications,
-    },
-    {
-      label: "Public profile",
-      desc: "Allow others to see your profile",
-      icon: <FaGlobe className="h-3.5 w-3.5" />,
-      color: "bg-blue-500/15 text-blue-400",
-      value: publicProfile,
-      onChange: setPublicProfile,
-    },
-  ];
+function ReviewQueuePreview() {
+  const { checked, setItem, toggleItem } = useCheckedSet(["legal"]);
 
   return (
-    <List items={settings}>
-      {settings.map((s) => (
-        <List.Item key={s.label} value={s.label} interactive>
-          <List.Media>
-            <div className={`h-8 w-8 rounded-md flex items-center justify-center ${s.color}`}>
-              {s.icon}
-            </div>
-          </List.Media>
-          <div className="flex flex-col min-w-0">
-            <List.Title>{s.label}</List.Title>
-            <List.Desc>{s.desc}</List.Desc>
+    <List items={reviewItems} spacing="sm" style={{ width: 320 }}>
+      {reviewItems.map((item) => (
+        <List.Item key={item.id} value={item.id} interactive onClick={() => toggleItem(item.id)}>
+          <List.Checkbox
+            aria-label={`Mark ${item.title} reviewed`}
+            placement="start"
+            checked={checked.has(item.id)}
+            onCheckedChange={(value) => setItem(item.id, value)}
+          />
+          <div className="min-w-0 flex-1">
+            <List.Title>{item.title}</List.Title>
+            <List.Desc>{item.desc}</List.Desc>
           </div>
-          <List.Switch isSelected={s.value} onChange={s.onChange} />
         </List.Item>
       ))}
     </List>
   );
 }
 
-// ─── 5. Select ──────────────────────────────────────────────────────────────
+function NotificationRulesPreview() {
+  const { checked, setItem, toggleItem } = useCheckedSet(["comments", "incidents"]);
+  const [delivery, setDelivery] = useState<Record<string, string | number | null>>({
+    comments: "digest",
+    deployments: "email",
+    incidents: "push",
+  });
 
-function SelectPreview() {
-  const [timezone, setTimezone] = useState<string | number | null>("utc");
-  const [language, setLanguage] = useState<string | number | null>("en");
-  const [theme, setTheme] = useState<string | number | null>("system");
-
-  const rows = [
-    {
-      label: "Timezone",
-      value: timezone,
-      onChange: setTimezone,
-      options: [
-        { value: "utc", label: "UTC" },
-        { value: "est", label: "EST" },
-        { value: "pst", label: "PST" },
-        { value: "cet", label: "CET" },
-      ],
-    },
-    {
-      label: "Language",
-      value: language,
-      onChange: setLanguage,
-      options: [
-        { value: "en", label: "English" },
-        { value: "es", label: "Spanish" },
-        { value: "fr", label: "French" },
-        { value: "de", label: "German" },
-      ],
-    },
-    {
-      label: "Theme",
-      value: theme,
-      onChange: setTheme,
-      options: [
-        { value: "system", label: "System" },
-        { value: "light", label: "Light" },
-        { value: "dark", label: "Dark" },
-      ],
-    },
-  ];
+  const setDeliveryMode = (id: string, value: string | number | null) => {
+    setDelivery((current) => ({ ...current, [id]: value }));
+  };
 
   return (
-    <List items={rows}>
-      <List.Header>
-        <span>Preferences</span>
-        <FaGear className="h-4 w-4" />
-      </List.Header>
-      {rows.map((r) => (
-        <List.Item key={r.label} value={r.label}>
-          <span className="text-sm text-foreground-100">{r.label}</span>
-          <List.Select selectedKey={r.value} onSelectionChange={r.onChange}>
+    <List items={notificationItems} spacing="sm" style={{ width: 400 }}>
+      {notificationItems.map((item) => (
+        <List.Item key={item.id} value={item.id} interactive onClick={() => toggleItem(item.id)}>
+          <List.Checkbox
+            aria-label={`Enable ${item.title.toLowerCase()} notifications`}
+            placement="start"
+            checked={checked.has(item.id)}
+            onCheckedChange={(value) => setItem(item.id, value)}
+          />
+          <div className="min-w-0 flex-1">
+            <List.Title>{item.title}</List.Title>
+            <List.Desc>{item.desc}</List.Desc>
+          </div>
+          <List.Select
+            selectedKey={delivery[item.id]}
+            valueLabel={String(delivery[item.id] ?? "")}
+            isDisabled={!checked.has(item.id)}
+            onSelectionChange={(value) => setDeliveryMode(item.id, value)}
+          >
             <Select.Trigger>
-              <Select.Value placeholder="Select..." />
+              <Select.Value placeholder="Mode" />
             </Select.Trigger>
             <Select.Content>
               <Select.List>
-                {r.options.map((o) => (
-                  <Select.Item key={o.value} value={o.value} textValue={o.label}>
-                    {o.label}
-                  </Select.Item>
-                ))}
+                <Select.Item value="email">Email</Select.Item>
+                <Select.Item value="digest">Digest</Select.Item>
+                <Select.Item value="push">Push</Select.Item>
               </Select.List>
             </Select.Content>
           </List.Select>
@@ -271,154 +123,138 @@ function SelectPreview() {
   );
 }
 
-// ─── 6. Input ───────────────────────────────────────────────────────────────
+function QuotaEditorPreview() {
+  const { checked, setItem, toggleItem } = useCheckedSet(["seats", "projects"]);
+  const [limits, setLimits] = useState<Record<string, string>>({
+    seats: "24",
+    projects: "12",
+    tokens: "50000",
+  });
 
-function InputPreview() {
-  const [displayName, setDisplayName] = useState("Olivia Chen");
-  const [email, setEmail] = useState("olivia@example.com");
-  const [apiKey, setApiKey] = useState("sk-****");
-
-  const fields = [
-    { label: "Display name", value: displayName, onChange: setDisplayName },
-    { label: "Email", value: email, onChange: setEmail },
-    { label: "API key", value: apiKey, onChange: setApiKey },
-  ];
+  const setLimit = (id: string, value: string) => {
+    setLimits((current) => ({ ...current, [id]: value }));
+  };
 
   return (
-    <List items={fields}>
-      <List.Header>
-        <span>Profile</span>
-      </List.Header>
-      {fields.map((f) => (
-        <List.Item key={f.label} value={f.label}>
-          <span className="text-sm text-foreground-400 min-w-24">{f.label}</span>
-          <List.Input value={f.value} onChange={(e) => f.onChange(e.target.value)} variant="ghost" />
+    <List items={quotaItems} spacing="sm" style={{ width: 396 }}>
+      {quotaItems.map((item) => (
+        <List.Item key={item.id} value={item.id} interactive onClick={() => toggleItem(item.id)}>
+          <List.Checkbox
+            aria-label={`Enable ${item.title.toLowerCase()} limit`}
+            placement="start"
+            checked={checked.has(item.id)}
+            onCheckedChange={(value) => setItem(item.id, value)}
+          />
+          <div className="min-w-0 flex-1">
+            <List.Title>{item.title}</List.Title>
+            <List.Desc>{item.desc}</List.Desc>
+          </div>
+          <List.Input
+            aria-label={`${item.title} limit`}
+            type="number"
+            value={limits[item.id]}
+            disabled={!checked.has(item.id)}
+            onChange={(event) => setLimit(item.id, event.currentTarget.value)}
+            className="w-24"
+          />
         </List.Item>
       ))}
     </List>
   );
 }
 
-// ─── 7. Expand ──────────────────────────────────────────────────────────────
+function PermissionsMatrixPreview() {
+  const rows = useMemo(() => [{ id: "all", title: "All permissions" }, ...permissionItems], []);
+  const { checked, setItem, toggleItem } = useCheckedSet(["members", "tokens"]);
+  const [level, setLevel] = useState<Record<string, string | number | null>>({
+    members: "edit",
+    billing: "view",
+    tokens: "edit",
+  });
+  const allChecked = checked.size === permissionItems.length;
+  const isIndeterminate = checked.size > 0 && !allChecked;
 
-const groups = [
-  {
-    id: "design",
-    label: "Design System",
-    desc: "Tokens, components, and guidelines",
-    icon: <FaPalette className="h-3.5 w-3.5" />,
-    color: "bg-purple-500/15 text-purple-400",
-    items: ["Typography", "Color tokens", "Spacing scale", "Icon library"],
-  },
-  {
-    id: "infra",
-    label: "Infrastructure",
-    desc: "Hosting, storage, and networking",
-    icon: <FaDatabase className="h-3.5 w-3.5" />,
-    color: "bg-blue-500/15 text-blue-400",
-    items: ["CDN config", "Database", "Edge functions"],
-  },
-  {
-    id: "platform",
-    label: "Platform",
-    desc: "Core product services",
-    icon: <FaBolt className="h-3.5 w-3.5" />,
-    color: "bg-amber-500/15 text-amber-400",
-    items: ["Auth", "Billing", "Analytics", "Notifications"],
-  },
-];
+  const setAll = (value: boolean) => {
+    permissionItems.forEach((item) => setItem(item.id, value));
+  };
 
-function ExpandPreview() {
-  const [expanded, setExpanded] = useState<string | null>("design");
-
-  const toggle = (id: string) =>
-    setExpanded((prev) => (prev === id ? null : id));
+  const setPermissionLevel = (id: string, value: string | number | null) => {
+    setLevel((current) => ({ ...current, [id]: value }));
+  };
 
   return (
-    <List items={groups}>
-      <List.Header>
-        <span>Workspace</span>
-        <FaLayerGroup className="h-4 w-4" />
-      </List.Header>
-      {groups.map((g) => (
-        <div key={g.id}>
-          <List.Item value={g.id} interactive onClick={() => toggle(g.id)}>
-            <List.Media>
-              <div className={`h-8 w-8 rounded-md flex items-center justify-center ${g.color}`}>
-                {g.icon}
-              </div>
-            </List.Media>
-            <div className="flex flex-col min-w-0 flex-1">
-              <List.Title>{g.label}</List.Title>
-              <List.Desc>{g.desc}</List.Desc>
-            </div>
-            <FaChevronRight
-              className="h-3 w-3 text-foreground-500 transition-transform duration-200 flex-shrink-0"
-              style={{ transform: expanded === g.id ? "rotate(90deg)" : "rotate(0deg)" }}
-            />
-          </List.Item>
-          <Expand isExpanded={expanded === g.id}>
-            <Expand.Content>
-              <div className="pb-1">
-                {g.items.map((item) => (
-                  <List.Item key={item} value={item} interactive>
-                    <div className="w-7 flex-shrink-0" />
-                    <span className="text-sm text-foreground-300">{item}</span>
-                  </List.Item>
-                ))}
-              </div>
-            </Expand.Content>
-          </Expand>
-        </div>
+    <List items={rows} spacing="sm" style={{ width: 420 }}>
+      <List.Item value="all" interactive onClick={() => setAll(!allChecked)}>
+        <List.Checkbox
+          aria-label="Toggle all permissions"
+          placement="start"
+          checked={allChecked}
+          isIndeterminate={isIndeterminate}
+          onCheckedChange={setAll}
+        />
+        <List.Title>All permissions</List.Title>
+      </List.Item>
+      <List.Divider />
+      {permissionItems.map((item) => (
+        <List.Item key={item.id} value={item.id} interactive onClick={() => toggleItem(item.id)}>
+          <div className="w-5 flex-shrink-0" />
+          <List.Checkbox
+            aria-label={`Allow ${item.title.toLowerCase()}`}
+            placement="start"
+            checked={checked.has(item.id)}
+            onCheckedChange={(value) => setItem(item.id, value)}
+          />
+          <div className="min-w-0 flex-1">
+            <List.Title>{item.title}</List.Title>
+            <List.Desc>{item.desc}</List.Desc>
+          </div>
+          <List.Select
+            selectedKey={level[item.id]}
+            valueLabel={String(level[item.id] ?? "")}
+            isDisabled={!checked.has(item.id)}
+            onSelectionChange={(value) => setPermissionLevel(item.id, value)}
+          >
+            <Select.Trigger>
+              <Select.Value placeholder="Access" />
+            </Select.Trigger>
+            <Select.Content>
+              <Select.List>
+                <Select.Item value="view">View</Select.Item>
+                <Select.Item value="edit">Edit</Select.Item>
+                <Select.Item value="admin">Admin</Select.Item>
+              </Select.List>
+            </Select.Content>
+          </List.Select>
+        </List.Item>
       ))}
     </List>
   );
 }
 
-// ─── Examples Array ─────────────────────────────────────────────────────────
-
 const examples: DevExample[] = [
   {
-    id: "basic",
-    title: "Basic",
-    description: "Minimal interactive list items with icons and action buttons.",
-    preview: <BasicPreview />,
+    id: "review-queue",
+    title: "Review Queue",
+    description: "A compact checklist for work that can be completed directly from each row.",
+    preview: <ReviewQueuePreview />,
   },
   {
-    id: "media-desc",
-    title: "Media & Description",
-    description: "Items with colored icon avatars and secondary description text.",
-    preview: <MediaDescPreview />,
+    id: "notification-rules",
+    title: "Notification Rules",
+    description: "Rows can combine a leading checkbox with a trailing Select action.",
+    preview: <NotificationRulesPreview />,
   },
   {
-    id: "checkbox",
-    title: "Checkbox",
-    description: "Clickable items with checkbox indicators for multi-select.",
-    preview: <CheckboxPreview />,
+    id: "quota-editor",
+    title: "Quota Editor",
+    description: "Inline inputs work as row actions without taking over the List primitive.",
+    preview: <QuotaEditorPreview />,
   },
   {
-    id: "switch",
-    title: "Switch",
-    description: "Items with toggle switches and colored icon badges.",
-    preview: <SwitchPreview />,
-  },
-  {
-    id: "select",
-    title: "Select",
-    description: "Items with inline select dropdowns for choosing from options.",
-    preview: <SelectPreview />,
-  },
-  {
-    id: "input",
-    title: "Input",
-    description: "Items with inline text inputs for editable fields.",
-    preview: <InputPreview />,
-  },
-  {
-    id: "expand",
-    title: "Expand",
-    description: "List items as custom expand triggers with animated content reveal.",
-    preview: <ExpandPreview />,
+    id: "permissions-matrix",
+    title: "Permissions Matrix",
+    description: "A parent checkbox can summarize rows that also expose per-row Select controls.",
+    preview: <PermissionsMatrixPreview />,
   },
 ];
 
@@ -426,7 +262,7 @@ export default function ListExamplesPage() {
   return (
     <DevExampleLayout
       title="List Examples"
-      description="Primitive examples showcasing each List sub-component and variant."
+      description="Minimal List patterns for checkbox selection, inline row actions, and mixed controls."
       examples={examples}
       backHref="/dev/examples"
       backLabel="Examples"

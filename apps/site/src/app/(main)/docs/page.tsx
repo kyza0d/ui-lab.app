@@ -32,7 +32,7 @@ export default async function DocsPage() {
       afterBody={
         <>
           <section id="requirements" className="my-12">
-            <h2 className="text-md pb-8 font-semibold text-foreground-50">Dependencies & compatibility</h2>
+            <h2 className="text-sm pb-8 font-semibold text-foreground-50">Dependencies & compatibility</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { Icon: SiTailwindcss, name: 'Tailwind CSS', version: 'v4.1', href: 'https://tailwindcss.com/' },
@@ -51,7 +51,7 @@ export default async function DocsPage() {
                     <Icon className="w-6 h-6 text-foreground-400" />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-foreground-200">{name}</div>
+                    <div className="text-xs font-medium text-foreground-200">{name}</div>
                     <div className="text-sm text-foreground-400">{version}</div>
                   </div>
                 </a>

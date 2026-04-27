@@ -1,12 +1,15 @@
 import ElementDetailClient from './client';
-import { elementRegistry, getElementsInPackage } from 'ui-lab-registry';
+import { elementRegistry, getAllPackages, getElementsInPackage } from 'ui-lab-registry';
 import { generateMetadata as generateSiteMetadata } from '@/shared';
 import { extractElementMetadata } from '@/shared/lib/metadata-extractors';
 
 export function generateStaticParams() {
-  const packageId = 'foundation';
-  const elementIds = getElementsInPackage(packageId);
-  return elementIds.map((elementId) => ({ id: packageId, elementId }));
+  const packages = getAllPackages();
+
+  return packages.flatMap((pkg) => {
+    const elementIds = getElementsInPackage(pkg.id);
+    return elementIds.map((elementId) => ({ id: pkg.id, elementId }));
+  });
 }
 
 export async function generateMetadata({

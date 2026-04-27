@@ -179,21 +179,21 @@ function getDirection(value: unknown): FlexDirection {
 function getJustify(value: unknown): FlexJustify {
   if (
     value === "center"
-    || value === "flex-end"
-    || value === "space-between"
-    || value === "space-around"
-    || value === "space-evenly"
+    || value === "end"
+    || value === "between"
+    || value === "around"
+    || value === "evenly"
   ) {
     return value;
   }
-  return "flex-start";
+  return "start";
 }
 
 function getAlign(value: unknown): FlexAlign {
   if (
-    value === "flex-start"
+    value === "start"
     || value === "center"
-    || value === "flex-end"
+    || value === "end"
     || value === "baseline"
   ) {
     return value;
