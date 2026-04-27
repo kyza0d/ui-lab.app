@@ -10,11 +10,13 @@ React component library and design system for building accessible, themeable int
 | Package | npm name | Purpose |
 |---------|----------|---------|
 | `packages/@ui` | `ui-lab-components` | React component library — 39 accessible, themeable components |
-| `packages/registry` | `ui-lab-registry` | Typed registry: component metadata, patterns, elements, sections, design tokens |
+| `packages/registry` | `ui-lab-registry` | Public registry for the existing public site ecosystem |
 | `packages/@mcp` | `ui-lab-mcp` | MCP server — exposes library to AI assistants (Claude, Cursor) |
-| `apps/site` | — | Next.js documentation site with live previews and theme config tool |
+| `apps/site` | — | Next.js documentation site with live previews and public metadata |
 
 ---
+
+The private authoring workspace lives in the sibling `dev/` repo in this checkout and houses `@ui-lab-core/elements`.
 
 ## Component Library
 
@@ -100,6 +102,20 @@ The Next.js site at `apps/site` provides:
 - **MDX documentation** — getting started, customization, AI integration guides
 - **Interactive theme configurator** — real-time component preview, full control over colors (OKLCH), typography, spacing, radius; exports a ready-to-use CSS file
 - **Dark/light mode** — with FOUC prevention and device preference detection
+
+---
+
+## Private Package Pipeline
+
+The private elements pipeline is site-only:
+
+- `@ui-lab-core/elements` is installed only in `app/apps/site`.
+- `app/apps/site/src/**` may render the package only from server components, route handlers, or other server-only code paths.
+- Convex is the entitlement boundary and decides whether a request is allowed to see locked source.
+- `@ui-lab-core/elements/server` may be used after entitlement is confirmed on the server.
+- GitHub Packages tokens are build-time only and must never be exposed to browser code.
+
+The first implementation should keep rendering on the Next.js server and use Convex to answer "is this user entitled?" before the server imports or reads the locked source payloads.
 
 ---
 
