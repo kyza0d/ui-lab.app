@@ -47,6 +47,18 @@ Chromatic Tailwind is allowed as intentional decoration (brand, file-type indica
 
 `bg-background-{<600}` used as a surface fill is a depth inversion.
 
+### Borders
+
+Borders use `border-background-*`, not `border-foreground-*`. `foreground` tokens are for text and icons only.
+
+| Role | Token |
+|---|---|
+| Default divider / table row / card edge | `border-background-700` |
+| Subtle separator | `border-background-800` |
+| Emphasis / input focus ring | `border-background-600` |
+
+`border-foreground-*` is a [CRITICAL] violation — `foreground` tokens carry no border semantic and will render incorrectly across themes.
+
 ## Styling prohibitions
 
 Never use:
