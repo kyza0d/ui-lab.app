@@ -21,6 +21,9 @@ import {
   FaChevronRight,
   FaChevronDown,
   FaChevronLeft,
+  FaGithub,
+  FaPlus,
+  FaPeopleGroup,
 } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
 import { HiX } from "react-icons/hi";
@@ -187,23 +190,31 @@ export default function Header({
               <Button variant="ghost" size="sm" aria-label="Feedback">
                 Feedback
               </Button>
-              <a
-                href="https://github.com/kyza0d/ui-lab.app"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              {/*
                 <Button
-                  variant="ghost"
-                  aria-label="GitHub repository"
-                  className="hover:text-foreground-300 transition-colors text-foreground-300 p-2"
-                  size="sm"
+                variant="ghost"
+                aria-label="GitHub repository"
+                target="_blank"
+                href="https://github.com/kyza0d/ui-lab.app"
+                className="hover:text-foreground-300 transition-colors text-foreground-300 p-2"
+                size="sm"
                 >
-                  <FaCodeBranch className="mr-1" size={16} />
-                  Source
+                <FaCodeBranch className="mr-1" size={16} />
+                Source
                 </Button>
-              </a>
+              */}
 
-              <Button icon={{ right: <FaChevronRight size={12} /> }}>New Project</Button>
+              <Button icon={<FaPlus size={12} />}>New Project</Button>
+              <Button
+                variant="ghost"
+                aria-label="GitHub repository"
+                target="_blank"
+                href="https://github.com/kyza0d/ui-lab.app"
+                icon={<FaGithub size={16} />}
+                className="p-2"
+                size="icon"
+              >
+              </Button>
               <Divider size='auto' orientation="vertical" />
             </div>
 

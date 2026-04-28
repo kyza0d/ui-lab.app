@@ -7,6 +7,9 @@ import {
   FaRocket,
   FaArrowRightLong,
   FaCube,
+  FaCubes,
+  FaArrowRight,
+  FaChevronRight,
 } from "react-icons/fa6";
 import { Button, Input } from "ui-lab-components";
 
@@ -31,7 +34,7 @@ function HeroSection() {
                 Documentation
               </Button>
               <Button
-                variant="secondary" styles="w-full" size="sm" href="/components">
+                variant="secondary" icon={{ right: <FaChevronRight className="text-foreground-300" /> }} styles="w-full" size="sm" href="/components">
                 View Components
               </Button>
             </div>

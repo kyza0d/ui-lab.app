@@ -37,7 +37,7 @@ function VerticalTabsPreview() {
 
   return (
     <Tabs value={selected} onValueChange={setSelected} orientation="vertical" className="flex w-fit gap-4">
-      <Tabs.List aria-label="Tab options" className="flex flex-col w-32">
+      <Tabs.List aria-label="Tab options" className="flex flex-col w-fit">
         <Tabs.Trigger value="tab1">Account</Tabs.Trigger>
         <Tabs.Trigger value="tab2">Settings</Tabs.Trigger>
         <Tabs.Trigger value="tab3">Security</Tabs.Trigger>
@@ -51,7 +51,7 @@ function VerticalUnderlineTabsPreview() {
 
   return (
     <Tabs value={selected} onValueChange={setSelected} variant="underline" orientation="vertical" className="flex w-fit gap-4">
-      <Tabs.List aria-label="Tab options" className="flex flex-col w-32">
+      <Tabs.List aria-label="Tab options" className="flex flex-col w-fit">
         <Tabs.Trigger value="tab1">Profile</Tabs.Trigger>
         <Tabs.Trigger value="tab2">Billing</Tabs.Trigger>
         <Tabs.Trigger value="tab3">Team</Tabs.Trigger>
