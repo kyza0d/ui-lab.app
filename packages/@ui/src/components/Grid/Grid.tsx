@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import { resolveGapStep, type GapSize } from "@/lib/gap";
 import css from "./Grid.module.css";
 
 interface GridStyleSlots {
@@ -15,7 +16,6 @@ const resolveGridBaseStyles = createStylesResolver(['root'] as const);
 
 type GridColumns = number | "auto-fit" | "auto-fill";
 type GridRows = "1" | "2" | "3" | "4" | "5" | "6" | "auto" | "masonry";
-type GridGap = "xs" | "sm" | "md" | "lg" | "xl";
 type GridJustifyItems = "start" | "end" | "center" | "stretch";
 type GridAlignItems = "start" | "end" | "center" | "stretch" | "baseline";
 type GridJustifyContent = "start" | "end" | "center" | "stretch" | "space-between" | "space-around" | "space-evenly";
@@ -31,11 +31,11 @@ export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of grid rows, or responsive object per breakpoint */
   rows?: GridRows | ResponsiveValue<GridRows>;
   /** Gap between all grid cells, or responsive object per breakpoint */
-  gap?: GridGap | ResponsiveValue<GridGap>;
+  gap?: GapSize | ResponsiveValue<GapSize>;
   /** Override gap between rows only */
-  rowGap?: GridGap;
+  rowGap?: GapSize;
   /** Override gap between columns only */
-  columnGap?: GridGap;
+  columnGap?: GapSize;
   /** Horizontal alignment of items within their cells */
   justifyItems?: GridJustifyItems;
   /** Vertical alignment of items within their cells */
@@ -65,14 +65,6 @@ const colsToTpl = (c: GridTemplateColumns): string => {
 const rowsToTpl = (r: GridRows): string => {
   if (r === "masonry" || r === "auto") return r;
   return `repeat(${r}, auto)`;
-};
-
-const gapVal: Record<GridGap, string> = {
-  xs: "calc(var(--spacing, 0.25rem) * 1)",
-  sm: "calc(var(--spacing, 0.25rem) * 2)",
-  md: "calc(var(--spacing, 0.25rem) * 4)",
-  lg: "calc(var(--spacing, 0.25rem) * 6)",
-  xl: "calc(var(--spacing, 0.25rem) * 8)",
 };
 
 const flowVal: Record<GridAutoFlow, string> = {
@@ -107,7 +99,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     const resolved = resolveGridBaseStyles(styles);
     const responsiveCols = isResponsive<GridTemplateColumns>(columns);
     const responsiveRows = isResponsive<GridRows>(rows);
-    const responsiveGap = isResponsive<GridGap>(gap);
+    const responsiveGap = isResponsive<GapSize>(gap);
     const needsContainer = responsiveCols || responsiveRows || responsiveGap || responsive;
 
     const vars: Record<string, string> = {};
@@ -133,17 +125,17 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     }
 
     if (responsiveGap) {
-      const rg = gap as ResponsiveValue<GridGap>;
-      if (rg.sm) vars["--grid-gap-sm"] = gapVal[rg.sm];
-      if (rg.md) vars["--grid-gap-md"] = gapVal[rg.md];
-      if (rg.lg) vars["--grid-gap-lg"] = gapVal[rg.lg];
-      if (rg.xl) vars["--grid-gap-xl"] = gapVal[rg.xl];
+      const rg = gap as ResponsiveValue<GapSize>;
+      if (rg.sm) vars["--grid-gap-step-sm"] = String(resolveGapStep(rg.sm));
+      if (rg.md) vars["--grid-gap-step-md"] = String(resolveGapStep(rg.md));
+      if (rg.lg) vars["--grid-gap-step-lg"] = String(resolveGapStep(rg.lg));
+      if (rg.xl) vars["--grid-gap-step-xl"] = String(resolveGapStep(rg.xl));
     } else {
-      vars["--grid-gap"] = gapVal[gap as GridGap];
+      vars["--grid-gap-step"] = String(resolveGapStep(gap as GapSize));
     }
 
-    if (rowGap) vars["--grid-row-gap"] = gapVal[rowGap];
-    if (columnGap) vars["--grid-col-gap"] = gapVal[columnGap];
+    if (rowGap) vars["--grid-row-gap-step"] = String(resolveGapStep(rowGap));
+    if (columnGap) vars["--grid-col-gap-step"] = String(resolveGapStep(columnGap));
 
     vars["--grid-ji"] = justifyItems;
     vars["--grid-ai"] = alignItems;
@@ -179,7 +171,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
       <div
         ref={ref}
         className={cn(gridClasses, className, resolved.root)}
-        style={{ ...vars, ...style } as React.CSSProperties}
+        style={{ ...style, ...vars } as React.CSSProperties}
         {...props}
       >
         {children}

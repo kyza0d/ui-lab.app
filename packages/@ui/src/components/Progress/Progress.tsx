@@ -5,8 +5,6 @@ import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Progress.module.css";
 
-type ProgressSize = "sm" | "md" | "lg";
-
 export interface ProgressStyleSlots {
   root?: StyleValue;
   labelRow?: StyleValue;
@@ -25,8 +23,6 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   max?: number;
   /** Visual color variant indicating progress state */
   variant?: string;
-  /** Size of the progress bar */
-  size?: ProgressSize;
   /** Whether to show an infinite loading animation instead of a fixed value */
   indeterminate?: boolean;
   /** Accessible label describing what is progressing */
@@ -38,12 +34,6 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Classes applied to the root or named slots. Accepts a string, cn()-compatible array, slot object, or array of any of those. */
   styles?: ProgressStylesProp;
 }
-
-const sizeMap = {
-  sm: css.sm,
-  md: css.md,
-  lg: css.lg,
-} as const;
 
 const resolveProgressBaseStyles = createStylesResolver([
   'root',
@@ -70,7 +60,6 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       value = 0,
       max = 100,
       variant = "default",
-      size = "md",
       indeterminate = false,
       label,
       showValue = false,
@@ -110,9 +99,8 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuemin={0}
           aria-valuemax={max}
           aria-label={label}
-          className={cn("progress", variant, css.progress, sizeMap[size], className, resolved.progress)}
+          className={cn("progress", variant, css.progress, className, resolved.progress)}
           data-variant={variant}
-          data-size={size}
           data-indeterminate={indeterminate ? "true" : "false"}
           {...props}
         >

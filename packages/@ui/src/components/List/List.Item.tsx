@@ -144,7 +144,7 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
     },
     ref
   ) => {
-    const { focusedItem, isFocusMode, rootRef, setFocusedItem, focusAdjacentItem, focusBoundaryItem } = useListContext();
+    const { focusedItem, isFocusMode, orientation, rootRef, styles: listStyles, setFocusedItem, focusAdjacentItem, focusBoundaryItem } = useListContext();
     const itemRef = React.useRef<HTMLDivElement>(null);
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
     const isHighlighted = isFocusMode && focusedItem === itemRef.current;
@@ -234,10 +234,22 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
 
         switch (event.key) {
           case 'ArrowDown':
+            if (orientation !== 'vertical') return;
             event.preventDefault();
             focusAdjacentItem(event.currentTarget, 1);
             return;
           case 'ArrowUp':
+            if (orientation !== 'vertical') return;
+            event.preventDefault();
+            focusAdjacentItem(event.currentTarget, -1);
+            return;
+          case 'ArrowRight':
+            if (orientation !== 'horizontal') return;
+            event.preventDefault();
+            focusAdjacentItem(event.currentTarget, 1);
+            return;
+          case 'ArrowLeft':
+            if (orientation !== 'horizontal') return;
             event.preventDefault();
             focusAdjacentItem(event.currentTarget, -1);
             return;
@@ -291,7 +303,7 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
         ref={itemRef}
         role="listitem"
         tabIndex={tabIndex}
-        className={cn(styles.item, 'group', className, resolvedStyles.root)}
+        className={cn(styles.item, listStyles.item, 'group', className, resolvedStyles.root)}
         data-list-focus-owner="true"
         data-focused={dataFocused ?? (isFocused ? 'true' : 'false')}
         data-focus-visible={dataFocusVisible ?? (isFocusVisible ? 'true' : 'false')}
@@ -303,7 +315,7 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
       >
         {children}
         {actions && actions.length > 0 && (
-          <div className={styles.actions} data-actions>
+          <div className={cn(styles.actions, listStyles.actions)} data-actions>
             {actions.map((action, i) => {
               const key = React.isValidElement(action) ? i : ((action as ListActionDef).title || i);
               return React.isValidElement(action) ? (
@@ -312,7 +324,7 @@ const Item = React.forwardRef<HTMLDivElement, ListItemProps>(
                 <Tooltip key={key} content={(action as ListActionDef).title} position="top">
                   <button
                     type="button"
-                    className={styles.action}
+                    className={cn(styles.action, listStyles.action)}
                     aria-label={(action as ListActionDef).title}
                     onClick={(action as ListActionDef).onClick}
                   >

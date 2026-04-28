@@ -15,7 +15,7 @@ describe('Grid.core', () => {
     expect(grid).toHaveStyle({
       '--grid-tpl': 'repeat(3, 1fr)',
       '--grid-rows': 'auto',
-      '--grid-gap': 'calc(var(--spacing, 0.25rem) * 4)',
+      '--grid-gap-step': '4',
       '--grid-ji': 'stretch',
       '--grid-ai': 'stretch',
       '--grid-jc': 'start',
@@ -42,9 +42,9 @@ describe('Grid.core', () => {
     expect(grid).toHaveStyle({
       '--grid-tpl': 'repeat(auto-fit, minmax(200px, 1fr))',
       '--grid-rows': 'repeat(6, auto)',
-      '--grid-gap': 'calc(var(--spacing, 0.25rem) * 6)',
-      '--grid-row-gap': 'calc(var(--spacing, 0.25rem) * 1)',
-      '--grid-col-gap': 'calc(var(--spacing, 0.25rem) * 8)',
+      '--grid-gap-step': '6',
+      '--grid-row-gap-step': '1',
+      '--grid-col-gap-step': '8',
       '--grid-ji': 'center',
       '--grid-ai': 'baseline',
       '--grid-jc': 'space-between',
@@ -81,7 +81,6 @@ describe('Grid.core', () => {
       style: { marginTop: '12px' },
       styles: { root: 'slot-root' },
       id: 'grid-id',
-      'data-testid': 'grid-root',
       title: 'Grid title',
     })
     const grid = getGridRoot(container)
@@ -90,7 +89,6 @@ describe('Grid.core', () => {
     expect(grid).toHaveClass('custom-grid')
     expect(grid).toHaveClass('slot-root')
     expect(grid).toHaveAttribute('id', 'grid-id')
-    expect(grid).toHaveAttribute('data-testid', 'grid-root')
     expect(grid).toHaveAttribute('title', 'Grid title')
     expect(grid).toHaveStyle({ marginTop: '12px' })
   })

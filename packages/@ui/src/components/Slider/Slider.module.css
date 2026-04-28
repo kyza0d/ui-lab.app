@@ -38,6 +38,7 @@
     border-radius: var(--radius-full, 9999px);
     outline: none;
     background-color: var(--background);
+    border: 1px solid var(--background-border);
     transition:
       background-color 200ms var(--ease-snappy-pop),
       transform 200ms var(--ease-snappy-pop);
@@ -50,7 +51,6 @@
 
   .slider[data-orientation="vertical"] {
     justify-content: center;
-    min-height: 10rem;
     min-inline-size: auto;
     width: fit-content;
   }

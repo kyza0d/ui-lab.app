@@ -19,7 +19,7 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 
 const ARROW_PATH = "M 0 0 L 6 -12 L 12 0";
 const ARROW_WIDTH = 12;
-const POPOVER_GAP = 8;
+const POPOVER_GAP = 2;
 const ARROW_POSITIONING_SIZE = 6;
 
 type PopoverPosition = "top" | "right" | "bottom" | "left";
@@ -234,9 +234,10 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
                   shapeMode={showArrow ? "extend" : undefined}
                   path={showArrow ? ARROW_PATH : undefined}
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
-                  className={cn('popover', 'frame', css.frame, resolved.frame)}
                 >
-                  {content}
+                  <div className={cn('popover', 'frame', css.frame, resolved.frame)}>
+                    {content}
+                  </div>
                 </Frame>
               </div>
             </div>,

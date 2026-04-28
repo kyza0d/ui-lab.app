@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
+import { resolveGapStep, type GapSize } from "@/lib/gap";
 import styles from "./Flex.module.css";
 
 type FlexDirection = "row" | "column";
@@ -20,8 +21,6 @@ type FlexAlign =
   | "center"
   | "stretch"
   | "baseline";
-type FlexGap = "xs" | "sm" | "md" | "lg" | "xl";
-
 interface FlexStyleSlots {
   root?: StyleValue;
 }
@@ -36,7 +35,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Whether items wrap to the next line when they overflow */
   wrap?: FlexWrap;
   /** Gap between flex items */
-  gap?: FlexGap;
+  gap?: GapSize;
   /** Alignment of items along the main axis */
   justify?: FlexJustify;
   /** Alignment of items along the cross axis */
@@ -74,18 +73,11 @@ const alignMap = {
   baseline: styles["align-baseline"],
 } as const;
 
-const gapMap = {
-  xs: styles["gap-xs"],
-  sm: styles["gap-sm"],
-  md: styles["gap-md"],
-  lg: styles["gap-lg"],
-  xl: styles["gap-xl"],
-} as const;
-
 const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
   (
     {
       className,
+      style,
       styles: stylesProp,
       direction,
       wrap,
@@ -99,11 +91,15 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
     ref
   ) => {
     const resolved = resolveFlexBaseStyles(stylesProp);
+    const layoutStyle = gap
+      ? ({ "--flex-gap-step": resolveGapStep(gap) } as React.CSSProperties)
+      : undefined;
     if (containerQueryResponsive) {
       return (
         <div
           ref={ref}
           className={cn(styles["container-query-parent"], className, resolved.root)}
+          style={style}
           data-container-responsive="true"
           {...props}
         >
@@ -112,16 +108,16 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
               styles.flex,
               direction && directionMap[direction],
               wrap && wrapMap[wrap],
-              gap && gapMap[gap],
               justify && justifyMap[justify],
               align && alignMap[align],
               styles["container-responsive"]
             )}
-            data-direction={direction}
-            data-wrap={wrap}
-            data-gap={gap}
-            data-justify={justify}
-            data-align={align}
+            style={layoutStyle}
+            data-direction={direction ?? "row"}
+            data-wrap={wrap ?? "nowrap"}
+            data-gap={gap ?? "md"}
+            data-justify={justify ?? "start"}
+            data-align={align ?? "stretch"}
           >
             {children}
           </div>
@@ -136,17 +132,17 @@ const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
           styles.flex,
           direction && directionMap[direction],
           wrap && wrapMap[wrap],
-          gap && gapMap[gap],
           justify && justifyMap[justify],
           align && alignMap[align],
           className,
           resolved.root
         )}
-        data-direction={direction}
-        data-wrap={wrap}
-        data-gap={gap}
-        data-justify={justify}
-        data-align={align}
+        style={layoutStyle ? { ...style, ...layoutStyle } : style}
+        data-direction={direction ?? "row"}
+        data-wrap={wrap ?? "nowrap"}
+        data-gap={gap ?? "md"}
+        data-justify={justify ?? "start"}
+        data-align={align ?? "stretch"}
         data-container-responsive={containerQueryResponsive || undefined}
         {...props}
       >

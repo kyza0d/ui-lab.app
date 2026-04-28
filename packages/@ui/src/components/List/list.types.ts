@@ -2,16 +2,42 @@ import React from 'react';
 import { DividerProps } from '@/components/Divider';
 import { type StyleValue } from '@/lib/utils';
 import { type StylesProp } from '@/lib/styles';
+import type { GapSize } from '@/lib/gap';
 import { Checkbox as UICheckbox } from '../Checkbox';
 import { Switch as UISwitch } from '../Switch';
 import { Input as UIInput } from '../Input';
 import { Select as UISelect } from '../Select';
 
 export interface ListStyleSlots {
+  /** Outer list container */
   root?: StyleValue;
+  /** Sticky or section header row */
+  header?: StyleValue;
+  /** Clickable or focusable list row */
+  item?: StyleValue;
+  /** Non-interactive checkbox indicator wrapper */
+  checkbox?: StyleValue;
+  /** Embedded interactive control wrapper */
+  control?: StyleValue;
+  /** Leading icon or media area */
+  media?: StyleValue;
+  /** Primary text label */
+  title?: StyleValue;
+  /** Secondary description text */
+  desc?: StyleValue;
+  /** Trailing actions container */
+  actions?: StyleValue;
+  /** Individual action button */
+  action?: StyleValue;
+  /** Bottom footer row */
+  footer?: StyleValue;
 }
 
 export type ListStylesProp = StylesProp<ListStyleSlots>;
+export type ListStyleSlot = keyof ListStyleSlots;
+
+export type ListOrientation = 'vertical' | 'horizontal';
+export type ListGap = GapSize;
 
 // Ref API for List
 export interface ListRef {
@@ -49,10 +75,16 @@ export interface ListContainerProps extends Omit<React.HTMLAttributes<HTMLDivEle
   items?: unknown[];
   /** Controls the visual style of the list */
   variant?: 'default' | 'feed';
+  /** Controls whether list items are stacked vertically or laid out horizontally */
+  orientation?: ListOrientation;
+  /** Controls the gap between list items */
+  gap?: ListGap;
   /** Controls the spacing between list items */
   spacing?: 'default' | 'sm';
   /** Keyboard navigation event callbacks */
   onNavigate?: ListNavigateCallbacks;
+  /** Classes applied to the root or named slots. */
+  styles?: ListStylesProp;
   children: React.ReactNode;
 }
 

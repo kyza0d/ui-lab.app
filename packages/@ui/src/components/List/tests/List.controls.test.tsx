@@ -101,7 +101,7 @@ describe('List.controls', () => {
       </List.Item>
     )
     const wrapper = container.querySelector(`.${styles.control}`)
-    expect(wrapper).toHaveClass('w-32')
+    expect(wrapper).toHaveClass('w-48')
   })
 
   // ─── List.Select ────────────────────────────────────────────────────────────

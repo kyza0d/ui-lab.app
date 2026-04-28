@@ -10,15 +10,16 @@ describe('Popover', () => {
         content={<div>Popover content</div>}
         isOpen
         className="custom-trigger"
-        styles={{ root: 'slot-root', trigger: 'slot-trigger', content: 'slot-content' }}
+        styles={{ root: 'slot-root', trigger: 'slot-trigger', content: 'slot-content', frame: 'slot-frame' }}
       >
         <button type="button">Open popover</button>
       </Popover>
     )
 
     const trigger = screen.getByRole('button', { name: 'Open popover' })
-    const content = screen.getByText('Popover content').closest('.popover.frame')
-    const root = content?.parentElement?.parentElement
+    const frame = screen.getByText('Popover content').closest('.popover.frame')
+    const content = frame?.closest('.popover.content')
+    const root = content?.parentElement
 
     expect(trigger).toHaveClass(styles.trigger)
     expect(trigger).toHaveClass('custom-trigger')
@@ -26,5 +27,6 @@ describe('Popover', () => {
     expect(root).toHaveClass(styles.root)
     expect(root).toHaveClass('slot-root')
     expect(content).toHaveClass('slot-content')
+    expect(frame).toHaveClass('slot-frame')
   })
 })

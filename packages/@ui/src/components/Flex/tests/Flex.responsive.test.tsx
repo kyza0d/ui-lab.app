@@ -32,7 +32,7 @@ describe('Flex.responsive', () => {
     expect(flex).toHaveAttribute('data-direction', 'row')
     expect(flex).toHaveAttribute('data-wrap', 'nowrap')
     expect(flex).toHaveAttribute('data-gap', 'md')
-    expect(flex).toHaveAttribute('data-justify', 'flex-start')
+    expect(flex).toHaveAttribute('data-justify', 'start')
     expect(flex).toHaveAttribute('data-align', 'stretch')
   })
 
@@ -42,7 +42,7 @@ describe('Flex.responsive', () => {
       direction: 'column',
       wrap: 'wrap',
       gap: 'lg',
-      justify: 'space-around',
+      justify: 'around',
       align: 'center',
     })
     const wrapper = getFlexContainer(container)
@@ -52,13 +52,13 @@ describe('Flex.responsive', () => {
     expect(flex).toHaveAttribute('data-direction', 'column')
     expect(flex).toHaveAttribute('data-wrap', 'wrap')
     expect(flex).toHaveAttribute('data-gap', 'lg')
-    expect(flex).toHaveAttribute('data-justify', 'space-around')
+    expect(flex).toHaveAttribute('data-justify', 'around')
     expect(flex).toHaveAttribute('data-align', 'center')
     expect(flex).toHaveClass(styles.column)
     expect(flex).toHaveClass(styles.wrap)
-    expect(flex).toHaveClass(styles['gap-lg'])
-    expect(flex).toHaveClass(styles['justify-space-around'])
+    expect(flex).toHaveClass(styles['justify-around'])
     expect(flex).toHaveClass(styles['align-center'])
+    expect(flex).toHaveStyle({ '--flex-gap-step': '6' })
   })
 
   it('forwards the ref to the outer wrapper in responsive mode', () => {

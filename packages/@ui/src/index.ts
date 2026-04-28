@@ -124,7 +124,8 @@ export type { SwitchProps } from "./components/Switch";
 export { Progress } from "./components/Progress";
 export type { ProgressProps } from "./components/Progress";
 
-export * as Slider from "./components/Slider";
+export { Slider } from "./components/Slider";
+export type { SliderProps } from "./components/Slider";
 
 export { Divider, dividerVariants } from "./components/Divider";
 export type { DividerProps } from "./components/Divider";
@@ -165,6 +166,7 @@ export type { CodeProps } from "./components/Code";
 export { List } from "./components/List";
 export type {
   ListRef,
+  ListOrientation,
   ListNavigateCallbacks,
   ListContainerProps,
   ListHeaderProps,

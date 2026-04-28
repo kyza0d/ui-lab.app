@@ -2,7 +2,15 @@
 
 @layer components {
   .container {
+    --gap-scale: 0.75;
+
     color: var(--foreground);
+    @apply flex flex-col;
+    gap: calc(var(--spacing, 0.25rem) * var(--list-gap-step, 4) * var(--gap-scale, 1));
+  }
+
+  .container[data-orientation="horizontal"] {
+    @apply flex-row flex-wrap;
   }
 
   .header {
@@ -97,7 +105,7 @@
     gap: 0.25rem;
     margin-left: auto;
     flex-shrink: 0;
-    @apply p-1.5 hidden group-hover:flex group-focus-within:flex;
+    @apply flex p-1.5 opacity-70 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100;
   }
 
   .action {

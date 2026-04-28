@@ -24,9 +24,14 @@ const List = Object.assign(ListRoot, {
 export { List };
 export type { ListActionDef } from './list.types';
 export type {
+  ListStyleSlots,
+  ListStyleSlot,
+  ListOrientation,
+  ListGap,
   ListRef,
   ListNavigateCallbacks,
   ListContainerProps,
+  ListStylesProp,
   ListHeaderProps,
   ListItemProps,
   ListCheckboxProps,

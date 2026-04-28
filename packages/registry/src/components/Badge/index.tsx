@@ -25,17 +25,6 @@ const badgeControls: ControlDef[] = [
     defaultValue: 'default',
   },
   {
-    name: 'size',
-    label: 'Size',
-    type: 'select',
-    options: [
-      { label: 'Small', value: 'sm' },
-      { label: 'Medium', value: 'md' },
-      { label: 'Large', value: 'lg' },
-    ],
-    defaultValue: 'md',
-  },
-  {
     name: 'dismissible',
     label: 'Dismissible',
     type: 'toggle',
@@ -56,7 +45,7 @@ export const badgeDetail: ComponentDetail = {
   overview: (
     <div className="space-y-4 text-foreground-300">
       <p>
-        Badge components are compact elements used to display status indicators, tags, labels, and other small pieces of information. They support multiple variants for different semantic meanings, multiple sizes for different contexts, and optional icons and dismissal functionality.
+        Badge components are compact elements used to display status indicators, tags, labels, and other small pieces of information. They support multiple variants for different semantic meanings, optional icons, and dismissal functionality.
       </p>
       <p>
         Use badges to highlight key information, indicate status changes, or tag content categories.
@@ -74,7 +63,6 @@ export const badgeDetail: ComponentDetail = {
       renderPreview: (props: any) => (
         <Badge
           variant={props.variant as any}
-          size={props.size as any}
           dismissible={props.dismissible}
         >
           Badge Text

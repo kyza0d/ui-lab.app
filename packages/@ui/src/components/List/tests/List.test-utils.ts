@@ -28,10 +28,10 @@ function createMockListItems(count: number = 3): MockListItem[] {
  */
 export function renderList(
   children: React.ReactNode,
-  props: React.ComponentProps<typeof List> & { ref?: React.Ref<any> } = {}
+  props: Omit<React.ComponentProps<typeof List>, 'children'> & { ref?: React.Ref<any> } = {}
 ): any {
   const result = utilRender(
-    React.createElement(List, props, children)
+    React.createElement(List as any, props as any, children)
   )
   return Object.assign(result.container, result)
 }
@@ -41,11 +41,11 @@ export function renderList(
  */
 export function renderListWithItems(
   items = createMockListItems(3),
-  props: Partial<React.ComponentProps<typeof List>> & { ref?: React.Ref<any> } = {}
+  props: Partial<Omit<React.ComponentProps<typeof List>, 'children'>> & { ref?: React.Ref<any> } = {}
 ): any {
   const children = items.map((item) =>
     React.createElement(
-      List.Item,
+      List.Item as any,
       {
         key: item.key,
         value: item.value,

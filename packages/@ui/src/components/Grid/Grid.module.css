@@ -2,6 +2,8 @@
 
 @layer components {
   .grid {
+    --gap-scale: 1;
+
     --background: transparent;
     --foreground: inherit;
 
@@ -10,7 +12,9 @@
     color: var(--foreground);
     grid-template-columns: var(--grid-tpl, repeat(3, 1fr));
     grid-template-rows: var(--grid-rows, auto);
-    gap: var(--grid-gap, calc(var(--spacing, 0.25rem) * 4));
+    gap: calc(var(--spacing, 0.25rem) * var(--grid-gap-step, 4) * var(--gap-scale, 1));
+    row-gap: calc(var(--spacing, 0.25rem) * var(--grid-row-gap-step, var(--grid-gap-step, 4)) * var(--gap-scale, 1));
+    column-gap: calc(var(--spacing, 0.25rem) * var(--grid-col-gap-step, var(--grid-gap-step, 4)) * var(--gap-scale, 1));
     justify-items: var(--grid-ji, stretch);
     align-items: var(--grid-ai, stretch);
     justify-content: var(--grid-jc, start);
@@ -46,24 +50,24 @@
   }
 
   .grid.responsive-gap {
-    gap: var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 2));
+    --grid-gap-step: var(--grid-gap-step-sm, 2);
   }
 
   @media (min-width: 640px) {
     .grid.responsive-gap {
-      gap: var(--grid-gap-md, var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 4)));
+      --grid-gap-step: var(--grid-gap-step-md, var(--grid-gap-step-sm, 4));
     }
   }
 
   @media (min-width: 1024px) {
     .grid.responsive-gap {
-      gap: var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 4))));
+      --grid-gap-step: var(--grid-gap-step-lg, var(--grid-gap-step-md, var(--grid-gap-step-sm, 4)));
     }
   }
 
   @media (min-width: 1280px) {
     .grid.responsive-gap {
-      gap: var(--grid-gap-xl, var(--grid-gap-lg, var(--grid-gap-md, var(--grid-gap-sm, calc(var(--spacing, 0.25rem) * 4)))));
+      --grid-gap-step: var(--grid-gap-step-xl, var(--grid-gap-step-lg, var(--grid-gap-step-md, var(--grid-gap-step-sm, 4))));
     }
   }
 
@@ -89,13 +93,18 @@
     }
   }
 
-  .grid.has-row-gap { row-gap: var(--grid-row-gap); }
-  .grid.has-col-gap { column-gap: var(--grid-col-gap); }
+  .grid.has-row-gap {
+    row-gap: calc(var(--spacing, 0.25rem) * var(--grid-row-gap-step, var(--grid-gap-step, 4)) * var(--gap-scale, 1));
+  }
+
+  .grid.has-col-gap {
+    column-gap: calc(var(--spacing, 0.25rem) * var(--grid-col-gap-step, var(--grid-gap-step, 4)) * var(--gap-scale, 1));
+  }
 
   @container grid-ctx (width < 400px) {
     .container .grid {
       grid-template-columns: 1fr;
-      gap: calc(var(--spacing, 0.25rem) * 2);
+      --grid-gap-step: 2;
     }
   }
 }

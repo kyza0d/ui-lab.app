@@ -435,6 +435,8 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
 Slider.displayName = "Slider";
 
-const Root = Slider;
+const SliderComponent = Object.assign(Slider, {
+  Root: Slider,
+});
 
-export { Root, Slider };
+export { SliderComponent as Slider };

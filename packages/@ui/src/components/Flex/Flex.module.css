@@ -2,7 +2,10 @@
 
 @layer components {
   .flex {
+    --gap-scale: 0.5;
+
     @apply flex w-full;
+    gap: calc(var(--spacing, 0.25rem) * var(--flex-gap-step, 4) * var(--gap-scale, 1));
   }
 
   /* Direction variants */
@@ -12,13 +15,6 @@
   /* Wrap variants */
   .flex.wrap { flex-wrap: wrap; }
   .flex.nowrap { flex-wrap: nowrap; }
-
-  /* Gap variants */
-  .flex.gap-xs { gap: var(--spacing-xs); }
-  .flex.gap-sm { gap: var(--spacing-sm); }
-  .flex.gap-md { gap: var(--spacing-md); }
-  .flex.gap-lg { gap: var(--spacing-lg); }
-  .flex.gap-xl { gap: var(--spacing-xl); }
 
   /* Justify-content variants */
   .flex.justify-start { justify-content: flex-start; }
@@ -48,26 +44,26 @@
       flex-direction: column;
       flex-wrap: wrap;
       justify-content: flex-start;
-      gap: var(--spacing-sm);
+      --flex-gap-step: 2;
     }
   }
 
   @container flex-parent (400px <= width < 500px) {
     .flex.container-responsive {
       flex-wrap: wrap;
-      gap: var(--spacing-sm);
+      --flex-gap-step: 2;
     }
   }
 
   @container flex-parent (500px <= width < 900px) {
     .flex.container-responsive {
-      gap: var(--spacing-md);
+      --flex-gap-step: 4;
     }
   }
 
   @container flex-parent (width >= 900px) {
     .flex.container-responsive {
-      gap: var(--spacing-lg);
+      --flex-gap-step: 6;
     }
   }
 }

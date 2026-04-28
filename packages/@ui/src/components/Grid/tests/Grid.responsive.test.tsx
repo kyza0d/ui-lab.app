@@ -6,7 +6,7 @@ import styles from '../Grid.module.css'
 describe('Grid.responsive', () => {
   it('wraps the grid in a container when responsive columns are provided', () => {
     const container = renderGrid({
-      columns: { sm: '1', md: '2', lg: '4', xl: 'auto-fill' },
+      columns: { sm: 1, md: 2, lg: 4, xl: 'auto-fill' },
       className: 'outer-grid',
       styles: { root: 'slot-root' },
       style: { marginTop: '24px' },
@@ -37,6 +37,7 @@ describe('Grid.responsive', () => {
     const container = renderGrid({
       rows: { sm: '1', md: 'auto', lg: 'masonry' },
       gap: { sm: 'xs', md: 'md', xl: 'xl' },
+      responsive: true,
     })
     const wrapper = getGridContainer(container)
     const grid = getGridRoot(container)
@@ -48,14 +49,14 @@ describe('Grid.responsive', () => {
       '--grid-rows-sm': 'repeat(1, auto)',
       '--grid-rows-md': 'auto',
       '--grid-rows-lg': 'masonry',
-      '--grid-gap-sm': 'calc(var(--spacing, 0.25rem) * 1)',
-      '--grid-gap-md': 'calc(var(--spacing, 0.25rem) * 4)',
-      '--grid-gap-xl': 'calc(var(--spacing, 0.25rem) * 8)',
+      '--grid-gap-step-sm': '1',
+      '--grid-gap-step-md': '4',
+      '--grid-gap-step-xl': '8',
     })
   })
 
   it('wraps the grid when containerQueryResponsive is enabled even without responsive props', () => {
-    const container = renderGrid({ containerQueryResponsive: true })
+    const container = renderGrid({ responsive: true })
 
     expect(getGridContainer(container)).toBeInTheDocument()
     expect(getGridRoot(container)).toBeInTheDocument()

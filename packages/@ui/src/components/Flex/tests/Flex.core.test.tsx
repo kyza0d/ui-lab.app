@@ -15,7 +15,7 @@ describe('Flex.core', () => {
     expect(flex).toHaveAttribute('data-direction', 'row')
     expect(flex).toHaveAttribute('data-wrap', 'nowrap')
     expect(flex).toHaveAttribute('data-gap', 'md')
-    expect(flex).toHaveAttribute('data-justify', 'flex-start')
+    expect(flex).toHaveAttribute('data-justify', 'start')
     expect(flex).toHaveAttribute('data-align', 'stretch')
     expect(flex).not.toHaveAttribute('data-container-responsive')
   })
@@ -25,7 +25,7 @@ describe('Flex.core', () => {
       direction: 'column',
       wrap: 'wrap',
       gap: 'xl',
-      justify: 'space-between',
+      justify: 'between',
       align: 'baseline',
     })
     const flex = getFlexRoot(container)
@@ -33,13 +33,13 @@ describe('Flex.core', () => {
     expect(flex).toHaveAttribute('data-direction', 'column')
     expect(flex).toHaveAttribute('data-wrap', 'wrap')
     expect(flex).toHaveAttribute('data-gap', 'xl')
-    expect(flex).toHaveAttribute('data-justify', 'space-between')
+    expect(flex).toHaveAttribute('data-justify', 'between')
     expect(flex).toHaveAttribute('data-align', 'baseline')
     expect(flex).toHaveClass(styles.column)
     expect(flex).toHaveClass(styles.wrap)
-    expect(flex).toHaveClass(styles['gap-xl'])
-    expect(flex).toHaveClass(styles['justify-space-between'])
+    expect(flex).toHaveClass(styles['justify-between'])
     expect(flex).toHaveClass(styles['align-baseline'])
+    expect(flex).toHaveStyle({ '--flex-gap-step': '8' })
   })
 
   it('applies className, inline style, styles.root, and native HTML attributes to the root flex element', () => {
@@ -48,7 +48,6 @@ describe('Flex.core', () => {
       style: { marginTop: '12px' },
       styles: { root: 'slot-root' },
       id: 'flex-id',
-      'data-testid': 'flex-root',
       title: 'Flex title',
     })
     const flex = getFlexRoot(container)
@@ -57,7 +56,6 @@ describe('Flex.core', () => {
     expect(flex).toHaveClass('custom-flex')
     expect(flex).toHaveClass('slot-root')
     expect(flex).toHaveAttribute('id', 'flex-id')
-    expect(flex).toHaveAttribute('data-testid', 'flex-root')
     expect(flex).toHaveAttribute('title', 'Flex title')
     expect(flex).toHaveStyle({ marginTop: '12px' })
   })

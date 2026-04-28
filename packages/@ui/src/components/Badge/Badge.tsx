@@ -13,11 +13,21 @@ import css from "./Badge.module.css";
 
 import { X } from "lucide-react";
 
-type BadgeSize = "sm" | "md" | "lg";
+type BadgeIconSlots = {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+};
+
+interface BadgeIconStyles {
+  left?: StyleValue;
+  right?: StyleValue;
+}
 
 export interface BadgeStyleSlots {
   root?: StyleValue;
-  icon?: StyleValue;
+  icon?: StyleValue | BadgeIconStyles;
+  iconLeft?: StyleValue;
+  iconRight?: StyleValue;
   dismiss?: StyleValue;
 }
 
@@ -26,10 +36,8 @@ export type BadgeStylesProp = StylesProp<BadgeStyleSlots>;
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Visual color style of the badge */
   variant?: string;
-  /** Size of the badge */
-  size?: BadgeSize;
-  /** Icon element displayed before the badge label */
-  icon?: React.ReactNode;
+  /** Icon slots rendered before (left) or after (right) the badge label */
+  icon?: React.ReactNode | BadgeIconSlots;
   /** Whether to show a dismiss button */
   dismissible?: boolean;
   /** Called when the dismiss button is clicked */
@@ -42,20 +50,13 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   styles?: BadgeStylesProp;
 }
 
-const sizeMap = {
-  sm: css["sm"],
-  md: css["md"],
-  lg: css["lg"],
-} as const;
-
 interface DismissButtonProps {
   onDismiss?: () => void;
-  size: BadgeSize;
   variant: string;
   className?: StyleValue;
 }
 
-function DismissButton({ onDismiss, size, variant, className }: DismissButtonProps) {
+function DismissButton({ onDismiss, variant, className }: DismissButtonProps) {
   const buttonRef = React.useRef<HTMLDivElement>(null);
 
   const { buttonProps, isPressed } = useButton(
@@ -86,19 +87,43 @@ function DismissButton({ onDismiss, size, variant, className }: DismissButtonPro
   );
 }
 
-const resolveBadgeBaseStyles = createStylesResolver(['root', 'icon', 'dismiss'] as const);
+const resolveBadgeBaseStyles = createStylesResolver(['root', 'icon', 'iconLeft', 'iconRight', 'dismiss'] as const);
 
 function resolveBadgeStyles(styles: BadgeStylesProp | undefined) {
   if (!styles || typeof styles === "string" || Array.isArray(styles)) return resolveBadgeBaseStyles(styles);
-  const { root, icon, dismiss } = styles;
-  return resolveBadgeBaseStyles({ root, icon, dismiss });
+  const { root, icon, iconLeft, iconRight, dismiss } = styles;
+  if (!icon || typeof icon === "string" || Array.isArray(icon)) {
+    return resolveBadgeBaseStyles({ root, icon: icon as StyleValue | undefined, iconLeft, iconRight, dismiss });
+  }
+
+  return resolveBadgeBaseStyles({
+    root,
+    iconLeft: icon.left ?? iconLeft,
+    iconRight: icon.right ?? iconRight,
+    dismiss,
+  });
+}
+
+function isBadgeIconSlots(icon: BadgeProps["icon"]): icon is BadgeIconSlots {
+  return typeof icon === "object" && icon !== null && !React.isValidElement(icon) && ("left" in icon || "right" in icon);
+}
+
+function resolveBadgeIcon(icon: BadgeProps["icon"]) {
+  if (!icon) {
+    return undefined;
+  }
+
+  if (isBadgeIconSlots(icon)) {
+    return icon;
+  }
+
+  return { left: icon };
 }
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   (
     {
       variant = "default",
-      size = "sm",
       icon,
       dismissible = false,
       onDismiss,
@@ -112,33 +137,36 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     ref
   ) => {
     const resolved = resolveBadgeStyles(styles);
+    const resolvedIcon = resolveBadgeIcon(icon);
     return (
       <span
         ref={ref}
         className={cn(
           "badge",
           variant,
-          size,
           css.badge,
-          sizeMap[size],
           pill && css.pill,
           dismissible && css.dismissible,
           className,
           resolved.root
         )}
         data-variant={variant}
-        data-size={size}
         data-pill={pill ? "true" : undefined}
         data-dismissible={dismissible || undefined}
         {...props}
       >
-        {icon && (
-          <span className={cn("badge", variant, "icon", css.icon, resolved.icon)} aria-hidden="true">
-            {icon}
+        {resolvedIcon?.left && (
+          <span className={cn("badge", variant, "icon", css.icon, resolved.icon, resolved.iconLeft)} aria-hidden="true">
+            {resolvedIcon.left}
           </span>
         )}
         {count !== undefined ? count : children}
-        {dismissible && <DismissButton onDismiss={onDismiss} size={size} variant={variant} className={resolved.dismiss} />}
+        {resolvedIcon?.right && (
+          <span className={cn("badge", variant, "icon", css.icon, resolved.icon, resolved.iconRight)} aria-hidden="true">
+            {resolvedIcon.right}
+          </span>
+        )}
+        {dismissible && <DismissButton onDismiss={onDismiss} variant={variant} className={resolved.dismiss} />}
       </span>
     );
   }

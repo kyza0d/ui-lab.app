@@ -56,12 +56,88 @@ describe('List.core', () => {
     expect(footer).toHaveAttribute('data-align', 'start')
   })
 
-  it('applies variant and spacing props to container', () => {
-    const container = renderListWithItems([], { variant: 'feed', spacing: 'sm' })
+  it('applies variant, gap, and spacing props to container', () => {
+    const container = renderListWithItems([], { variant: 'feed', gap: 'lg', spacing: 'sm' })
     const list = container.querySelector('[role="list"]')
 
     expect(list).toHaveAttribute('data-variant', 'feed')
+    expect(list).toHaveAttribute('data-gap', 'lg')
     expect(list).toHaveAttribute('data-spacing', 'sm')
+    expect(list).toHaveStyle({ '--list-gap-step': '6' })
+  })
+
+  it('applies custom styles to the list root', () => {
+    const container = renderList(
+      <List.Item value="1">Item 1</List.Item>,
+      {
+        styles: { root: 'custom-list-root' },
+      }
+    )
+
+    const list = container.querySelector('[role="list"]')
+
+    expect(list).toHaveClass('custom-list-root')
+    expect(list).not.toHaveAttribute('styles')
+  })
+
+  it('applies named styles to supported internal list slots', () => {
+    const container = renderList(
+      <>
+        <List.Header>Header Text</List.Header>
+        <List.Item
+          value="1"
+          actions={[{ icon: <span>Action</span>, title: 'Action label' }]}
+        >
+          <List.Media>Media</List.Media>
+          <List.Title>Title</List.Title>
+          <List.Desc>Description</List.Desc>
+          <List.Checkbox checked={false} onChange={() => {}} />
+          <List.CheckboxIndicator checked />
+        </List.Item>
+        <List.Footer>Footer Text</List.Footer>
+      </>,
+      {
+        styles: {
+          root: 'root-slot',
+          header: 'header-slot',
+          item: 'item-slot',
+          media: 'media-slot',
+          title: 'title-slot',
+          desc: 'desc-slot',
+          control: 'control-slot',
+          checkbox: 'checkbox-slot',
+          actions: 'actions-slot',
+          action: 'action-slot',
+          footer: 'footer-slot',
+        },
+      }
+    )
+
+    expect(container.querySelector('[role="list"]')).toHaveClass('root-slot')
+    expect(container.querySelector('header')).toHaveClass('header-slot')
+    expect(container.querySelector('[role="listitem"]')).toHaveClass('item-slot')
+    expect(container.querySelector(`.${styles.media}`)).toHaveClass('media-slot')
+    expect(container.querySelector(`.${styles.title}`)).toHaveClass('title-slot')
+    expect(container.querySelector(`.${styles.desc}`)).toHaveClass('desc-slot')
+    expect(container.querySelector(`.${styles.control}`)).toHaveClass('control-slot')
+    expect(container.querySelector(`.${styles.checkbox}`)).toHaveClass('checkbox-slot')
+    expect(container.querySelector('[data-actions]')).toHaveClass('actions-slot')
+    expect(container.querySelector('[data-actions] button')).toHaveClass('action-slot')
+    expect(container.querySelector('footer')).toHaveClass('footer-slot')
+  })
+
+  it('defaults to vertical orientation', () => {
+    const container = renderListWithItems([])
+    const list = container.querySelector('[role="list"]')
+
+    expect(list).toHaveAttribute('data-orientation', 'vertical')
+  })
+
+  it('supports horizontal orientation when specified', () => {
+    const container = renderListWithItems([], { orientation: 'horizontal' })
+    const list = container.querySelector('[role="list"]')
+
+    expect(list).toHaveAttribute('data-orientation', 'horizontal')
   })
 
   it('highlights item on mouse enter', async () => {

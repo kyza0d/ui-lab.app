@@ -157,6 +157,26 @@ describe('List.navigation', () => {
     expect(document.activeElement).toBe(listItems[1])
   })
 
+  it('horizontal orientation uses left and right arrow navigation', async () => {
+    const container = renderListWithItems([
+      { key: '1', label: 'Item 1', value: '1' },
+      { key: '2', label: 'Item 2', value: '2' },
+      { key: '3', label: 'Item 3', value: '3' },
+    ], { orientation: 'horizontal' })
+    const user = userEvent.setup()
+    const listItems = getListItems(container)
+
+    await user.click(listItems[0]!)
+    await user.keyboard('{ArrowRight}')
+    expect(document.activeElement).toBe(listItems[1])
+
+    await user.keyboard('{ArrowRight}')
+    expect(document.activeElement).toBe(listItems[2])
+
+    await user.keyboard('{ArrowLeft}')
+    expect(document.activeElement).toBe(listItems[1])
+  })
+
   it('Tab moves row focus through siblings instead of dropping into embedded controls', async () => {
     const user = userEvent.setup()
     const { container } = utilRender(

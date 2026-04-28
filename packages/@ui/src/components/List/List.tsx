@@ -1,37 +1,22 @@
 'use client';
 
 import React from 'react';
-import { cn, type StyleValue } from '@/lib/utils';
-import { type StylesProp, createStylesResolver } from '@/lib/styles';
+import { cn } from '@/lib/utils';
+import { createStylesResolver } from '@/lib/styles';
+import { resolveGapStep, type GapSize } from '@/lib/gap';
 import { Divider as FoldDivider } from '@/components/Divider';
 import styles from './List.module.css';
-import { ListContext } from './list.context';
+import { ListContext, useListContext } from './list.context';
 import {
+  ListStyleSlot,
   ListContainerProps,
   ListHeaderProps,
-  ListNavigateCallbacks,
   ListRef,
   ActionGroupComponentProps,
   FooterComponentProps,
 } from './list.types';
 import { DividerProps } from '@/components/Divider';
 import { scrollItemIntoView } from '@/utils/list-navigation';
-
-export interface ListStyleSlots {
-  root?: StyleValue;
-  header?: StyleValue;
-  item?: StyleValue;
-  checkbox?: StyleValue;
-  control?: StyleValue;
-  media?: StyleValue;
-  desc?: StyleValue;
-  actionGroup?: StyleValue;
-  actions?: StyleValue;
-  action?: StyleValue;
-  footer?: StyleValue;
-}
-
-export type ListStylesProp = StylesProp<ListStyleSlots>;
 
 const resolveListBaseStyles = createStylesResolver([
   'root',
@@ -40,20 +25,36 @@ const resolveListBaseStyles = createStylesResolver([
   'checkbox',
   'control',
   'media',
+  'title',
   'desc',
-  'actionGroup',
   'actions',
   'action',
-  'footer'
+  'footer',
 ] as const);
 
 // Ref container for keyboard navigation
 const Container = React.forwardRef<ListRef, ListContainerProps>(
-  ({ items: _items = [], variant = 'default', spacing = 'default', onNavigate, children, className, ...props }, ref) => {
+  (
+    {
+      items: _items = [],
+      variant = 'default',
+      orientation = 'vertical',
+      gap,
+      spacing = 'default',
+      onNavigate,
+      children,
+      className,
+      styles: stylesProp,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const rootRef = React.useRef<HTMLDivElement | null>(null);
     const [focusedItem, setFocusedItemState] = React.useState<HTMLElement | null>(null);
     const [isFocusMode, setIsFocusMode] = React.useState(false);
     const shouldScrollFocusedItemRef = React.useRef(false);
+    const resolvedStyles = resolveListBaseStyles(stylesProp) as Record<ListStyleSlot, string>;
 
     const getFocusableItems = React.useCallback(() => {
       if (!rootRef.current) return [];
@@ -168,12 +169,14 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
       () => ({
         focusedItem,
         isFocusMode,
+        orientation,
         rootRef,
+        styles: resolvedStyles,
         setFocusedItem,
         focusAdjacentItem,
         focusBoundaryItem,
       }),
-      [focusAdjacentItem, focusBoundaryItem, focusedItem, isFocusMode, setFocusedItem]
+      [focusAdjacentItem, focusBoundaryItem, focusedItem, isFocusMode, orientation, resolvedStyles, setFocusedItem]
     );
 
     return (
@@ -181,8 +184,19 @@ const Container = React.forwardRef<ListRef, ListContainerProps>(
         <div
           ref={rootRef}
           role="list"
-          className={cn('list', styles.container, className)}
+          className={cn(
+            'list',
+            styles.container,
+            className,
+            resolvedStyles.root,
+          )}
+          style={{
+            ...style,
+            ...(gap ? { "--list-gap-step": resolveGapStep(gap as GapSize) } : null),
+          } as React.CSSProperties}
           data-variant={variant}
+          data-orientation={orientation}
+          data-gap={gap}
           data-spacing={spacing}
           data-focus-mode={isFocusMode ? 'row' : undefined}
           data-keyboard-mode={isFocusMode ? 'true' : undefined}
@@ -198,15 +212,19 @@ Container.displayName = 'List';
 
 /** Sticky heading row above a section of list items */
 const Header = React.forwardRef<HTMLElement, ListHeaderProps>(
-  ({ sticky, children, className, ...props }, ref) => (
-    <header
-      ref={ref}
-      className={cn(styles.header, sticky && styles.sticky, className)}
-      {...props}
-    >
-      {children}
-    </header>
-  )
+  ({ sticky, children, className, ...props }, ref) => {
+    const { styles: listStyles } = useListContext();
+
+    return (
+      <header
+        ref={ref}
+        className={cn(styles.header, listStyles.header, sticky && styles.sticky, className)}
+        {...props}
+      >
+        {children}
+      </header>
+    );
+  }
 );
 Header.displayName = 'List.Header';
 
@@ -239,16 +257,20 @@ Divider.displayName = 'List.Divider';
 
 /** Fixed bottom row beneath the list body */
 const Footer = React.forwardRef<HTMLElement, FooterComponentProps>(
-  ({ align = 'center', children, className, ...props }, ref) => (
-    <footer
-      ref={ref}
-      className={cn(styles.footer, className)}
-      data-align={align}
-      {...props}
-    >
-      {children}
-    </footer>
-  )
+  ({ align = 'center', children, className, ...props }, ref) => {
+    const { styles: listStyles } = useListContext();
+
+    return (
+      <footer
+        ref={ref}
+        className={cn(styles.footer, listStyles.footer, className)}
+        data-align={align}
+        {...props}
+      >
+        {children}
+      </footer>
+    );
+  }
 );
 Footer.displayName = 'List.Footer';
 

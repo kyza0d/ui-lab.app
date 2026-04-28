@@ -49,6 +49,41 @@ describe('Badge - Variants', () => {
   })
 })
 
+describe('Badge - Icons', () => {
+  it('accepts a React node shorthand for a left icon', () => {
+    render(
+      <Badge icon={<span data-testid="badge-left-icon" />}>
+        Badge
+      </Badge>
+    )
+
+    const root = screen.getByText('Badge').closest('span') as HTMLElement
+    const [icon] = root.querySelectorAll('.icon')
+
+    expect(icon).toContainElement(screen.getByTestId('badge-left-icon'))
+  })
+
+  it('renders icon slots on both sides when provided', () => {
+    render(
+      <Badge
+        icon={{
+          left: <span data-testid="badge-left-icon" />,
+          right: <span data-testid="badge-right-icon" />,
+        }}
+      >
+        Badge
+      </Badge>
+    )
+
+    const root = screen.getByText('Badge').closest('span') as HTMLElement
+    const icons = root.querySelectorAll('.icon')
+
+    expect(icons).toHaveLength(2)
+    expect(icons[0]).toContainElement(screen.getByTestId('badge-left-icon'))
+    expect(icons[1]).toContainElement(screen.getByTestId('badge-right-icon'))
+  })
+})
+
 describe('Badge - Styling', () => {
   it('preserves styles prop behavior across the root and slots', () => {
     const { container } = render(
@@ -77,5 +112,30 @@ describe('Badge - Styling', () => {
     expect(icon).toHaveClass('custom-icon')
     expect(dismiss).toHaveClass('ghost')
     expect(dismiss).toHaveClass('custom-dismiss')
+  })
+
+  it('supports icon slot styles for left and right positions', () => {
+    render(
+      <Badge
+        icon={{
+          left: <span data-testid="badge-left-icon" />,
+          right: <span data-testid="badge-right-icon" />,
+        }}
+        styles={{
+          icon: 'custom-icon',
+          iconLeft: 'custom-icon-left',
+          iconRight: 'custom-icon-right',
+        }}
+      >
+        Badge
+      </Badge>
+    )
+
+    const root = screen.getByText('Badge').closest('span') as HTMLElement
+    const icons = root.querySelectorAll('.icon')
+
+    expect(icons[0]).toHaveClass('custom-icon')
+    expect(icons[0]).toHaveClass('custom-icon-left')
+    expect(icons[1]).toHaveClass('custom-icon-right')
   })
 })

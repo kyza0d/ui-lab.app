@@ -7,9 +7,7 @@
     background-color: var(--background);
   }
 
-  .progress.sm { height: 0.25rem; }
-  .progress.md { height: 0.5rem; }
-  .progress.lg { height: 0.75rem; }
+  .progress { height: 0.5rem; }
 
   .fill {
     @apply h-full;

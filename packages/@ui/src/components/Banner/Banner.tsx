@@ -7,8 +7,6 @@ import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import css from "./Banner.module.css";
 import { Info, CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
 
-type BannerSize = "sm" | "md" | "lg";
-
 interface BannerStyleSlots {
   root?: StyleValue;
   iconContainer?: StyleValue;
@@ -21,8 +19,6 @@ type BannerStylesProp = StylesProp<BannerStyleSlots>;
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Variant class appended to the root element. Accepts any string. */
   variant?: string;
-  /** Controls the padding and font size of the banner */
-  size?: BannerSize;
   /** When true, renders a dismiss button that hides the banner on click */
   isDismissible?: boolean;
   /** Called when the dismiss button is clicked */
@@ -60,12 +56,6 @@ const getBannerIcon = (variant: string) => {
   return <Icon className={css.icon} />;
 };
 
-const sizeMap = {
-  sm: css["sm"],
-  md: css["md"],
-  lg: css["lg"],
-} as const;
-
 const resolveBannerBaseStyles = createStylesResolver(['root', 'iconContainer', 'content', 'dismiss'] as const);
 
 /** Heading text for the banner message */
@@ -101,7 +91,6 @@ const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
       className,
       styles,
       variant = "note",
-      size = "md",
       isDismissible = false,
       onDismiss,
       children,
@@ -128,9 +117,8 @@ const BannerRoot = React.forwardRef<HTMLDivElement, BannerProps>(
       <div
         {...mergeProps(hoverProps, props)}
         ref={ref}
-        className={cn("banner", variant, css.banner, sizeMap[size], className, resolved.root)}
+        className={cn("banner", variant, css.banner, className, resolved.root)}
         data-variant={variant}
-        data-size={size}
         data-hovered={isHovered ? "true" : "false"}
       >
         {icon && <div className={cn("icon-container", css.iconContainer, resolved.iconContainer)}>{icon}</div>}

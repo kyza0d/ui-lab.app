@@ -15,9 +15,10 @@
 
     &[data-orientation="vertical"] {
       flex-direction: column;
-      width: auto;
-      min-width: 120px;
-      height: 100%;
+      width: fit-content;
+      min-width: 0;
+      height: auto;
+      align-self: flex-start;
     }
 
     &[data-variant="underline"] {
@@ -54,7 +55,7 @@
 
   .trigger {
     @apply relative z-[1] flex shrink-0 items-center justify-center gap-2 px-2 py-1.5 cursor-pointer select-none;
-    height: 100%;
+    height: auto;
     background-color: var(--background);
     border: none;
     color: var(--foreground);

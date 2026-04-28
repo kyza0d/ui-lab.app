@@ -2,7 +2,7 @@
 
 @layer components {
   .badge {
-    @apply inline-flex items-center justify-center gap-2 select-none whitespace-nowrap;
+    @apply inline-flex items-center justify-center gap-2 select-none whitespace-nowrap px-1.5;
     height: fit-content;
     width: fit-content;
     background-color: var(--background, var(--background-800));

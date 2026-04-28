@@ -4,11 +4,6 @@ declare const styles: {
   column: string;
   wrap: string;
   nowrap: string;
-  "gap-xs": string;
-  "gap-sm": string;
-  "gap-md": string;
-  "gap-lg": string;
-  "gap-xl": string;
   "justify-start": string;
   "justify-end": string;
   "justify-center": string;

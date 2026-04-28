@@ -35,10 +35,9 @@
   }
 
   .frame {
-    @apply flex items-center gap-1.5 px-2 py-1;
+    @apply flex items-center gap-1.5 p-2.5;
     color: var(--foreground);
     font-weight: var(--font-weight-medium);
     font-size: var(--text-sm);
-    @apply whitespace-nowrap;
   }
 }
