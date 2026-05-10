@@ -25,6 +25,7 @@
   .container {
     container-type: inline-size;
     container-name: grid-ctx;
+    @apply w-full;
   }
 
   .grid.responsive-cols {

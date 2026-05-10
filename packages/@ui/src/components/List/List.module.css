@@ -6,7 +6,7 @@
 
     color: var(--foreground);
     @apply flex flex-col;
-    gap: calc(var(--spacing, 0.25rem) * var(--list-gap-step, 4) * var(--gap-scale, 1));
+    gap: calc(var(--spacing, 0.25rem) * var(--list-gap-step, 0) * var(--gap-scale, 1));
   }
 
   .container[data-orientation="horizontal"] {
@@ -41,6 +41,8 @@
   .item {
     @apply flex gap-3 px-2 py-1 cursor-pointer;
     background-color: var(--item-background, transparent);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .item[data-focus-visible="true"] {
@@ -52,6 +54,7 @@
   }
 
   .item:hover {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     background-color: var(--item-background-hover, var(--background-hover, var(--highlight-background, transparent)));
   }
 
@@ -113,9 +116,13 @@
     border-radius: 0.25rem;
     color: var(--action-foreground);
     @apply p-2;
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .action:hover {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     background-color: var(--action-background-hover, var(--item-background-hover, var(--background-hover, transparent)));
     color: var(--action-foreground-hover, var(--action-color, inherit));
   }

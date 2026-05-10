@@ -1,11 +1,27 @@
-import React from 'react';
+"use client";
+
+import { useState } from 'react';
 import { Switch } from 'ui-lab-components';
 
 export const metadata = {
-  title: 'Basic Switch',
-  description: 'A simple toggle switch component. Use for binary on/off states like enabling features or toggling settings.'
+  title: 'Inline Form Field',
+  description: 'Switch paired with a label in a horizontal form row.'
 };
 
 export default function Example() {
-  return <Switch />;
+  const [enabled, setEnabled] = useState(false);
+
+  return (
+    <div className="flex items-center justify-between gap-4 w-64">
+      <label htmlFor="marketing" className="text-sm">
+        Marketing emails
+      </label>
+      <Switch
+        id="marketing"
+        aria-label="Marketing emails"
+        isSelected={enabled}
+        onChange={setEnabled}
+      />
+    </div>
+  );
 }

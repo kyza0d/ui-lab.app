@@ -26,7 +26,11 @@
     @apply relative flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center;
     border: var(--border-width-base, 1px) solid var(--background-border);
     border-radius: 9999px;
-    transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      opacity var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      transform var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     background-color: var(--background);
 
     &[data-selected="true"] {
@@ -66,6 +70,7 @@
 
   @media (hover: hover) {
     .radio-item:not([data-disabled="true"]):hover .radio {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       background-color: var(--background-hover);
       border-color: var(--background-hover-border);
       opacity: 0.9;

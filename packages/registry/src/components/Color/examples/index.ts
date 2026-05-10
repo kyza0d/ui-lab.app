@@ -1,3 +1,11 @@
-export { default as BasicColor } from './01-basic-color.js';
-export { default as OpacitySlider } from './02-opacity-slider.js';
-export { default as FormatSwitching } from './03-format-switching.js';
+export { default as Example1 } from './01-basic-color-picker.js';
+export { metadata as metadata1 } from './01-basic-color-picker.js';
+
+export { default as Example2 } from './02-color-picker-opacity.js';
+export { metadata as metadata2 } from './02-color-picker-opacity.js';
+
+export { default as Example3 } from './03-color-picker-preview.js';
+export { metadata as metadata3 } from './03-color-picker-preview.js';
+
+export { default as Example4 } from './04-color-slider-primitive.js';
+export { metadata as metadata4 } from './04-color-slider-primitive.js';

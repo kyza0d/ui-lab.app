@@ -3,5 +3,40 @@
     "title": "Basic Group",
     "description": "A simple group container that arranges multiple elements together. Use this to organize related UI elements in a consistent layout.",
     "code": "import { Group } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Group>\n      <Group.Button>First</Group.Button>\n      <Group.Button>Second</Group.Button>\n      <Group.Button>Third</Group.Button>\n    </Group>\n  );\n}"
+  },
+  "02-create-project": {
+    "title": "Create Project",
+    "description": "A primary grouped action for creating a named item.",
+    "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaPlus } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"primary\" orientation=\"horizontal\" spacing=\"xs\">\n      <Group.Input aria-label=\"Project name\" placeholder=\"Untitled project\" className=\"w-56\" />\n      <Divider orientation=\"vertical\" />\n      <Group.Button>\n        <FaPlus className=\"mr-1.5\" /> Create\n      </Group.Button>\n    </Group>\n  );\n}"
+  },
+  "03-filter-bar": {
+    "title": "Filter Bar with Selects",
+    "description": "Horizontal group combining Select dropdowns with action buttons for filtering interfaces.",
+    "code": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Divider, Group, Select } from \"ui-lab-components\";\nimport { FaMagnifyingGlass, FaFilter } from \"react-icons/fa6\";\n\nexport default function Example() {\n  const [status, setStatus] = useState<string | number | null>(\"active\");\n\n  return (\n    <Group variant=\"default\" orientation=\"horizontal\">\n      <Group.Input icon={<FaMagnifyingGlass />} placeholder=\"Search...\">\n      </Group.Input>\n      <Divider />\n      <Group.Select selectedKey={status} onSelectionChange={setStatus} className=\"w-36\">\n        <Select.Trigger><Select.Value placeholder=\"Status\" /></Select.Trigger>\n        <Select.Content>\n          <Select.List>\n            <Select.Item value=\"active\" textValue=\"Active\">Active</Select.Item>\n            <Select.Item value=\"inactive\" textValue=\"Inactive\">Inactive</Select.Item>\n            <Select.Item value=\"pending\" textValue=\"Pending\">Pending</Select.Item>\n          </Select.List>\n        </Select.Content>\n      </Group.Select>\n      <Divider />\n      <Group.Button size=\"md\"><FaFilter className=\"mr-1.5\" /> Apply</Group.Button>\n    </Group>\n  );\n}"
+  },
+  "04-documentation-search": {
+    "title": "Documentation Search",
+    "description": "A search input with an icon prefix and joined submit button.",
+    "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaMagnifyingGlass } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"secondary\">\n      <div className=\"bg-background-800 flex items-center px-3 text-foreground-400\">\n        <FaMagnifyingGlass />\n      </div>\n      <Divider />\n      <Group.Input placeholder=\"Search documentation...\" className=\"w-64\" />\n      <Divider />\n      <Group.Button className=\"w-full\">Search</Group.Button>\n    </Group>\n  );\n}"
+  },
+  "05-email-signup": {
+    "title": "Email Signup",
+    "description": "An email input with a joined subscription action.",
+    "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaEnvelope } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"outline\">\n      <div className=\"bg-background-800 flex items-center px-3 text-foreground-400\">\n        <FaEnvelope />\n      </div>\n      <Divider />\n      <Group.Input placeholder=\"you@example.com\" type=\"email\" className=\"w-64\" />\n      <Divider />\n      <Group.Button>Subscribe</Group.Button>\n    </Group>\n  );\n}"
+  },
+  "06-copy-command": {
+    "title": "Copy Command",
+    "description": "A read-only command field with a joined copy action.",
+    "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaCopy } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group>\n      <Group.Input defaultValue=\"npm install ui-lab\" readOnly className=\"w-full font-mono text-sm\" />\n      <Divider />\n      <Group.Button icon={{ left: <FaCopy className=\"mr-1.5 text-foreground-400\" /> }} />\n    </Group>\n  );\n}"
+  },
+  "07-delete-confirmation": {
+    "title": "Delete Confirmation",
+    "description": "A danger variant group for destructive confirmation flows.",
+    "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaTrash } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"danger\">\n      <Group.Input aria-label=\"Confirmation\" placeholder=\"Type DELETE\" className=\"w-48\" />\n      <Divider />\n      <Group.Button>\n        <FaTrash className=\"mr-1.5\" /> Delete\n      </Group.Button>\n    </Group>\n  );\n}"
+  },
+  "08-slider-integration": {
+    "title": "Slider with Input Group",
+    "description": "Numeric input synced with a slider for precise value selection.",
+    "code": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Group, Slider } from \"ui-lab-components\";\nimport { FaPercent } from \"react-icons/fa6\";\n\nexport default function Example() {\n  const [sliderValue, setSliderValue] = useState<number[]>([45]);\n  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    const val = parseInt(e.target.value);\n    if (!isNaN(val)) setSliderValue([Math.min(Math.max(val, 0), 100)]);\n  };\n\n  return (\n    <div className=\"space-y-4 w-64\">\n      <Group>\n        <Group.Input type=\"number\" min={0} max={100} value={sliderValue[0]} onChange={handleInputChange} className=\"w-full\" />\n        <div className=\"bg-background-800 flex items-center px-3 text-foreground-400 text-sm font-medium\">\n          <FaPercent />\n        </div>\n      </Group>\n      <Slider.Root value={sliderValue} onValueChange={setSliderValue} max={100} step={1} />\n    </div>\n  );\n}"
   }
 }

@@ -149,7 +149,7 @@ export { Gallery, GalleryItem, GalleryView, GalleryBody } from "./components/Gal
 export type { GalleryProps, GalleryItemProps, GalleryViewProps, GalleryBodyProps } from "./components/Gallery";
 
 export { Color } from "./components/Color";
-export type { ColorProps } from "./components/Color";
+export type { ColorAreaProps, ColorProps, ColorSliderProps, ColorTriggerProps } from "./components/Color";
 
 export { Page, PageContext, usePageContext } from "./components/Page";
 export type { PageProps, PageContextValue, PagePadding } from "./components/Page";

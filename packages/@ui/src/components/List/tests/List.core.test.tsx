@@ -66,6 +66,15 @@ describe('List.core', () => {
     expect(list).toHaveStyle({ '--list-gap-step': '6' })
   })
 
+  it('defaults to no gap when gap is omitted', () => {
+    const container = renderListWithItems([])
+    const list = container.querySelector('[role="list"]')
+
+    expect(list).toBeInTheDocument()
+    expect(list).not.toHaveAttribute('data-gap')
+    expect(list?.style.getPropertyValue('--list-gap-step')).toBe('')
+  })
+
   it('applies custom styles to the list root', () => {
     const container = renderList(
       <List.Item value="1">Item 1</List.Item>,

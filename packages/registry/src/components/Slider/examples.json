@@ -1,7 +1,32 @@
 {
   "01-basic-slider": {
-    "title": "Basic Slider",
-    "description": "A simple range slider with a default value. Perfect for adjusting values within a range like volume or brightness.",
-    "code": "import React from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Slider.Root min={0} max={100} defaultValue={[50]} />;\n}"
+    "title": "Volume Control",
+    "description": "Horizontal slider with a label and live numeric readout.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  const [volume, setVolume] = useState(60);\n\n  return (\n    <div className=\"flex items-center gap-4 w-72\">\n      <span className=\"text-sm text-muted-foreground w-16\">Volume</span>\n      <Slider\n        aria-label=\"Volume\"\n        value={volume}\n        onValueChange={([v]) => setVolume(v)}\n        className=\"flex-1\"\n      />\n      <span className=\"text-sm tabular-nums w-8 text-right\">{volume}</span>\n    </div>\n  );\n}"
+  },
+  "02-settings-panel": {
+    "title": "Settings Panel",
+    "description": "Multiple sliders in a settings list with dividers.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  const [brightness, setBrightness] = useState(80);\n  const [contrast, setContrast] = useState(50);\n  const [saturation, setSaturation] = useState(40);\n\n  const settings = [\n    { id: \"brightness\", label: \"Brightness\", value: brightness, onChange: (v: number[]) => setBrightness(v[0]) },\n    { id: \"contrast\", label: \"Contrast\", value: contrast, onChange: (v: number[]) => setContrast(v[0]) },\n    { id: \"saturation\", label: \"Saturation\", value: saturation, onChange: (v: number[]) => setSaturation(v[0]) },\n  ];\n\n  return (\n    <div className=\"w-80 divide-y divide-border divide-background-700\">\n      {settings.map(({ id, label, value, onChange }) => (\n        <div key={id} className=\"flex items-center gap-4 py-3\">\n          <span className=\"text-sm w-24 shrink-0\">{label}</span>\n          <Slider aria-label={label} value={value} onValueChange={onChange} className=\"flex-1\" />\n          <span className=\"text-sm tabular-nums w-8 text-right text-muted-foreground\">{value}</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  "03-price-range": {
+    "title": "Price Range",
+    "description": "Range slider with two thumbs for min/max filtering.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  const [range, setRange] = useState([200, 800]);\n\n  return (\n    <div className=\"w-80 flex flex-col gap-4\">\n      <div className=\"flex justify-between text-sm text-muted-foreground\">\n        <span>Price range</span>\n        <span>${range[0]} – ${range[1]}</span>\n      </div>\n      <Slider\n        aria-label=\"Price range\"\n        value={range}\n        min={0}\n        max={1000}\n        step={10}\n        onValueChange={setRange}\n      />\n      <div className=\"flex justify-between text-xs text-muted-foreground\">\n        <span>$0</span>\n        <span>$1,000</span>\n      </div>\n    </div>\n  );\n}"
+  },
+  "04-step-slider": {
+    "title": "Step Slider",
+    "description": "Slider constrained to discrete steps with tick labels.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  const [rating, setRating] = useState(3);\n\n  return (\n    <div className=\"flex flex-col gap-3 w-64\">\n      <div className=\"flex justify-between items-center\">\n        <label className=\"text-sm\">Quality rating</label>\n        <span className=\"text-sm font-medium\">{rating} / 5</span>\n      </div>\n      <Slider\n        aria-label=\"Quality rating\"\n        value={rating}\n        min={1}\n        max={5}\n        step={1}\n        onValueChange={([v]) => setRating(v)}\n      />\n      <div className=\"flex justify-between text-xs text-muted-foreground\">\n        {[1, 2, 3, 4, 5].map((n) => (\n          <span key={n}>{n}</span>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  },
+  "05-disabled-state": {
+    "title": "Disabled State",
+    "description": "Active and disabled sliders side by side.",
+    "code": "import { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"flex flex-col gap-4 w-64\">\n      <div className=\"flex items-center gap-4\">\n        <span className=\"text-sm text-muted-foreground w-20\">Active</span>\n        <Slider aria-label=\"Active slider\" defaultValue={40} className=\"flex-1\" />\n      </div>\n      <div className=\"flex items-center gap-4\">\n        <span className=\"text-sm text-muted-foreground w-20\">Disabled</span>\n        <Slider aria-label=\"Disabled slider\" defaultValue={40} disabled className=\"flex-1\" />\n      </div>\n    </div>\n  );\n}"
+  },
+  "06-vertical-mixer": {
+    "title": "Vertical Mixer",
+    "description": "Vertical orientation for audio-style channel controls.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Slider } from 'ui-lab-components';\n\nexport default function Example() {\n  const [channels, setChannels] = useState([70, 50, 80, 40]);\n\n  return (\n    <div className=\"flex items-end gap-6 h-40\">\n      {[\"CH1\", \"CH2\", \"CH3\", \"CH4\"].map((label, i) => (\n        <div key={label} className=\"flex flex-col items-center gap-2\">\n          <Slider\n            aria-label={label}\n            value={channels[i]}\n            orientation=\"vertical\"\n            onValueChange={([v]) => {\n              const next = [...channels];\n              next[i] = v;\n              setChannels(next);\n            }}\n            style={{ height: 120 }}\n          />\n          <span className=\"text-xs text-muted-foreground\">{label}</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
   }
 }

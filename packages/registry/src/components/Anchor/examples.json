@@ -1,7 +1,22 @@
 {
-  "01-basic-anchor": {
-    "title": "Basic Anchor",
-    "description": "A simple anchor component with custom underline. Hover to see the popover preview.",
-    "code": "import React from 'react';\nimport { Anchor } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Anchor>\n      Learn more about this topic\n      <Anchor.Preview>\n        <div className=\"text-sm\">Preview content</div>\n      </Anchor.Preview>\n    </Anchor>\n  );\n}"
+  "01-inline-text": {
+    "title": "Inline Text",
+    "description": "Anchor used inline within a paragraph — the primary use case for navigational links.",
+    "code": "import { Anchor } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <p className=\"text-sm text-foreground max-w-prose leading-relaxed\">\n      Read the{\" \"}\n      <Anchor href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a\">\n        MDN documentation\n      </Anchor>{\" \"}\n      for a full reference on anchor semantics, or check the{\" \"}\n      <Anchor href=\"https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html\">\n        WCAG link purpose guidelines\n      </Anchor>{\" \"}\n      for accessibility requirements.\n    </p>\n  );\n}"
+  },
+  "02-underline-variants": {
+    "title": "Underline Variants",
+    "description": "Three underline styles available via Anchor.Underline: solid (default), dashed, and dotted.",
+    "code": "import { Anchor, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex gap=\"lg\" align=\"center\">\n      <Anchor href=\"#\">\n        Solid\n      </Anchor>\n      <Anchor href=\"#\">\n        <Anchor.Underline variant=\"dashed\" />\n        Dashed\n      </Anchor>\n      <Anchor href=\"#\">\n        <Anchor.Underline variant=\"dotted\" />\n        Dotted\n      </Anchor>\n    </Flex>\n  );\n}"
+  },
+  "03-preview-tooltip": {
+    "title": "Preview Tooltip",
+    "description": "Hover over the links to see a tooltip preview — composed via the preview prop or Anchor.Preview.",
+    "code": "import { Anchor, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex gap=\"lg\" align=\"center\">\n      <Anchor\n        href=\"https://github.com\"\n        preview={\n          <span className=\"text-xs text-foreground-400\">github.com</span>\n        }\n      >\n        GitHub\n      </Anchor>\n      <Anchor href=\"https://vercel.com\">\n        <Anchor.Preview>\n          <span className=\"text-xs text-foreground-400\">vercel.com</span>\n        </Anchor.Preview>\n        Vercel\n      </Anchor>\n    </Flex>\n  );\n}"
+  },
+  "04-breadcrumb": {
+    "title": "Breadcrumb",
+    "description": "Anchor used as navigational crumbs — the last segment is non-interactive text.",
+    "code": "import { Anchor, Flex } from 'ui-lab-components';\n\nconst crumbs = [\n  { label: 'Home', href: '/' },\n  { label: 'Projects', href: '/projects' },\n  { label: 'ui-lab', href: '/projects/ui-lab' },\n];\n\nexport default function Example() {\n  return (\n    <Flex gap=\"xs\" align=\"center\" className=\"text-sm\">\n      {crumbs.map((crumb, i) => (\n        <span key={crumb.href} className=\"flex items-center gap-xs\">\n          {i > 0 && <span className=\"text-foreground-400 mx-1\">/</span>}\n          {i < crumbs.length - 1 ? (\n            <Anchor href={crumb.href}>{crumb.label}</Anchor>\n          ) : (\n            <span className=\"text-foreground-400\">{crumb.label}</span>\n          )}\n        </span>\n      ))}\n    </Flex>\n  );\n}"
   }
 }

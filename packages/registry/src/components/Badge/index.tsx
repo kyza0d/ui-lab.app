@@ -2,12 +2,20 @@ import React from 'react';
 import { Badge } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaInfo } from 'react-icons/fa6';
-import Example1, { metadata as metadata1 } from './examples/01-basic-badge.js';
+import Example1, { metadata as metadata1 } from './examples/01-status-badges.js';
+import Example2, { metadata as metadata2 } from './examples/02-icon-position.js';
+import Example3, { metadata as metadata3 } from './examples/03-selectable-tags.js';
+import Example4, { metadata as metadata4 } from './examples/04-dismissible.js';
+import Example5, { metadata as metadata5 } from './examples/05-semantic-colors.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
-  { id: '01-basic-badge', Component: Example1, metadata: metadata1 },
+  { id: '01-status-badges', Component: Example1, metadata: metadata1 },
+  { id: '02-icon-position', Component: Example2, metadata: metadata2 },
+  { id: '03-selectable-tags', Component: Example3, metadata: metadata3 },
+  { id: '04-dismissible', Component: Example4, metadata: metadata4 },
+  { id: '05-semantic-colors', Component: Example5, metadata: metadata5 },
 ];
 
 const badgeControls: ControlDef[] = [

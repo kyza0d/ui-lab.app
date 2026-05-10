@@ -2,16 +2,16 @@
 
 @layer components {
   .item-scope {
-    @apply block min-w-0;
+    @apply block min-w-0 h-full;
   }
 
   .item {
     --border-width: var(--border-width-base, 1px);
     --radius: var(--radius-sm, 0.375rem);
-    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     --view-width: 200px;
 
-    @apply flex flex-col overflow-hidden no-underline cursor-pointer w-full;
+    @apply flex flex-col overflow-hidden no-underline cursor-pointer w-full h-full;
 
     color: inherit;
     background: var(--background);
@@ -33,6 +33,7 @@
   }
 
   .item[data-hovered="true"] {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     border-color: var(--background-hover-border);
   }
 

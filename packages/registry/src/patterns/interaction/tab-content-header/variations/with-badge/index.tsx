@@ -6,7 +6,7 @@ function TabContentHeaderWithBadge({ title, count, actionLabel, onAction }: { ti
     <div className="flex items-center justify-between gap-4 pb-4 border-b border-background-800">
       <div className="flex items-center gap-2">
         <h3 className="text-sm font-semibold text-foreground-100">{title}</h3>
-        <Badge size="sm">{count}</Badge>
+        <Badge>{count}</Badge>
       </div>
       {actionLabel && (
         <Button size="sm" variant="secondary" onPress={onAction}>{actionLabel}</Button>

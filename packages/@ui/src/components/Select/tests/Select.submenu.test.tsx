@@ -64,6 +64,9 @@ describe('Select.submenu', () => {
     expect(subContent).not.toBeNull()
     expect(subContent).toHaveClass('sub-content')
 
+    const subList = subContent!.querySelector('[role="list"][data-gap="xs"]')
+    expect(subList).toBeInTheDocument()
+
     const subItem = Array.from(subContent!.querySelectorAll('[role="option"]')).find(option => option.textContent?.includes('Nested item')) as HTMLElement | undefined
     expect(subItem).toBeDefined()
   })

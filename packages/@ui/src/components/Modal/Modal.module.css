@@ -50,9 +50,12 @@
     background: none;
     border: none;
     color: var(--close-foreground, var(--foreground));
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      transform var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &[data-hovered="true"] {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       color: var(--close-hover-foreground, var(--close-foreground, var(--foreground)));
     }
 
@@ -87,13 +90,15 @@
   }
 
   .content::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb-background, var(--background-border));
+    background-color: var(--scrollbar-thumb-background, var(--background-border));
     border-radius: 3px;
-    transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .content::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover-background, var(--close-foreground, var(--foreground)));
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    background-color: var(--scrollbar-thumb-hover-background, var(--close-foreground, var(--foreground)));
   }
 
   .footer {

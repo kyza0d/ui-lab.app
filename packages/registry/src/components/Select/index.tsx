@@ -3,6 +3,7 @@ import { Select, Searchable } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-select.js';
 import Example2, { metadata as metadata2 } from './examples/02-searchable-select.js';
+import Example3, { metadata as metadata3 } from './examples/03-country-select.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaChevronDown } from 'react-icons/fa6';
@@ -10,6 +11,7 @@ import { FaChevronDown } from 'react-icons/fa6';
 const examplesData = [
   { id: '01-basic-select', Component: Example1, metadata: metadata1 },
   { id: '02-searchable-select', Component: Example2, metadata: metadata2 },
+  { id: '03-country-select', Component: Example3, metadata: metadata3 },
 ];
 
 const selectControls: ControlDef[] = [

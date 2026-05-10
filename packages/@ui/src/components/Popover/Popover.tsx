@@ -221,7 +221,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
               }}
             >
               <div
-                className={cn('popover', 'content', css.content)}
+                className={cn('popover', 'content', css.content, resolved.content)}
                 style={{
                   opacity: isAnimating ? 1 : 0,
                   transform: isAnimating ? "scale(1)" : getInitialTransform(placement),

@@ -12,7 +12,7 @@ function DataTableRow({ primary, secondary, status, timestamp }: { primary: stri
       </div>
       <div className="flex items-center gap-2 flex-shrink-0">
         <span className="text-sm text-foreground-400">{timestamp}</span>
-        <Badge size="sm" variant={statusVariant[status] ?? 'default'}>{status}</Badge>
+        <Badge variant={statusVariant[status] ?? 'default'}>{status}</Badge>
       </div>
     </div>
   );

@@ -1,7 +1,27 @@
 {
   "01-basic-textarea": {
-    "title": "Basic TextArea",
-    "description": "A simple multi-line text input field. Use this for collecting longer text input like comments or descriptions.",
-    "code": "import React from 'react';\nimport { TextArea } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <TextArea\n      placeholder=\"Enter your comments here...\"\n      rows={4}\n    />\n  );\n}"
+    "title": "Feedback Form",
+    "description": "TextArea with a character limit and submit button — disabled until the user types.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { TextArea, Flex, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [value, setValue] = useState(\"\");\n\n  return (\n    <Flex direction=\"column\" gap=\"sm\" style={{ width: 380 }}>\n      <TextArea\n        placeholder=\"Tell us what you think...\"\n        value={value}\n        onChange={(e) => setValue(e.target.value)}\n        showCharacterCount\n        maxCharacters={300}\n        rows={4}\n      />\n      <Button variant=\"primary\" disabled={value.trim().length === 0} className=\"self-end\">\n        Submit\n      </Button>\n    </Flex>\n  );\n}"
+  },
+  "02-bio-settings": {
+    "title": "Profile Bio",
+    "description": "Fixed-height settings textarea with a 160-character cap and save/clear actions.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { TextArea, Flex, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [bio, setBio] = useState(\"UI designer & developer building minimal tools.\");\n\n  return (\n    <Flex direction=\"column\" gap=\"sm\" style={{ width: 380 }}>\n      <TextArea\n        value={bio}\n        onChange={(e) => setBio(e.target.value)}\n        showCharacterCount\n        maxCharacters={160}\n        rows={3}\n        resizable={false}\n      />\n      <Flex justify=\"end\" gap=\"sm\">\n        <Button size=\"sm\" variant=\"ghost\" onClick={() => setBio(\"\")}>Clear</Button>\n        <Button size=\"sm\" variant=\"primary\">Save</Button>\n      </Flex>\n    </Flex>\n  );\n}"
+  },
+  "03-error-state": {
+    "title": "Validation Error",
+    "description": "Error styling triggered when the input is non-empty but below a minimum length.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { TextArea, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  const [value, setValue] = useState(\"\");\n  const hasError = value.trim().length > 0 && value.trim().length < 20;\n\n  return (\n    <Flex direction=\"column\" gap=\"sm\" style={{ width: 380 }}>\n      <TextArea\n        placeholder=\"Describe the issue in detail...\"\n        value={value}\n        onChange={(e) => setValue(e.target.value)}\n        error={hasError}\n        rows={4}\n      />\n      {hasError && (\n        <span style={{ fontSize: \"0.75rem\", color: \"var(--color-destructive)\" }}>\n          Description must be at least 20 characters.\n        </span>\n      )}\n    </Flex>\n  );\n}"
+  },
+  "04-disabled-readonly": {
+    "title": "Disabled & Read-only",
+    "description": "Side-by-side disabled and read-only states to compare their visual treatment.",
+    "code": "import { TextArea, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 380 }}>\n      <TextArea\n        value=\"This field is disabled and cannot be edited.\"\n        disabled\n        rows={2}\n        resizable={false}\n      />\n      <TextArea\n        value=\"This is a read-only note visible to all team members.\"\n        readOnly\n        rows={2}\n        resizable={false}\n      />\n    </Flex>\n  );\n}"
+  },
+  "05-scrolling": {
+    "title": "Scrollable with maxHeight",
+    "description": "TextArea bounded by a max height — content scrolls once it overflows.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { TextArea, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  const [value, setValue] = useState(\n    \"Line 1\\nLine 2\\nLine 3\\nLine 4\\nLine 5\\nLine 6\\nLine 7\\nLine 8\"\n  );\n\n  return (\n    <Flex direction=\"column\" gap=\"sm\" style={{ width: 380 }}>\n      <TextArea\n        value={value}\n        onChange={(e) => setValue(e.target.value)}\n        maxHeight=\"120px\"\n        resizable={false}\n      />\n    </Flex>\n  );\n}"
   }
 }

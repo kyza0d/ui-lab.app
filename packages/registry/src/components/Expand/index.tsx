@@ -1,14 +1,26 @@
 import React from 'react';
 import { Expand } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-expand.js';
+import Example1, { metadata as metadata1 } from './examples/01-basic.js';
+import Example2, { metadata as metadata2 } from './examples/02-accordion.js';
+import Example3, { metadata as metadata3 } from './examples/03-custom-trigger.js';
+import Example4, { metadata as metadata4 } from './examples/04-directions.js';
+import Example5, { metadata as metadata5 } from './examples/05-settings-panel.js';
+import Example6, { metadata as metadata6 } from './examples/06-disabled.js';
+import Example7, { metadata as metadata7 } from './examples/07-inline-info.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaChevronDown } from 'react-icons/fa6';
 
 // Define examplesData locally
 const examplesData = [
-  { id: '01-basic-expand', Component: Example1, metadata: metadata1 },
+  { id: '01-basic', Component: Example1, metadata: metadata1 },
+  { id: '02-accordion', Component: Example2, metadata: metadata2 },
+  { id: '03-custom-trigger', Component: Example3, metadata: metadata3 },
+  { id: '04-directions', Component: Example4, metadata: metadata4 },
+  { id: '05-settings-panel', Component: Example5, metadata: metadata5 },
+  { id: '06-disabled', Component: Example6, metadata: metadata6 },
+  { id: '07-inline-info', Component: Example7, metadata: metadata7 },
 ];
 
 const expandControls: ControlDef[] = [

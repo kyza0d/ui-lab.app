@@ -17,7 +17,7 @@ function DataTableRowExpandable({ primary, secondary, status, timestamp, details
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className="text-sm text-foreground-400">{timestamp}</span>
-          <Badge size="sm" variant={statusVariant[status] ?? 'default'}>{status}</Badge>
+          <Badge variant={statusVariant[status] ?? 'default'}>{status}</Badge>
           <Button variant="ghost" size="sm" onPress={() => setExpanded(!expanded)} aria-label="Toggle details">
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" className={`transition-transform ${expanded ? 'rotate-180' : ''}`}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

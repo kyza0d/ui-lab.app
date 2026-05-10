@@ -235,7 +235,7 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
               hide={false}
             >
               <div style={{ padding: "0.25rem" }}>
-                <List items={items}>
+                <List items={items} gap="xs">
                   {children}
                 </List>
               </div>

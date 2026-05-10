@@ -11,7 +11,7 @@ function SplitRow({ title, description, timestamp, status }: { title: string; de
       </div>
       <div className="flex items-center gap-3 flex-shrink-0">
         <span className="text-sm text-foreground-400">{timestamp}</span>
-        <Badge size="sm" variant={variant as 'success' | 'warning' | 'default'}>{status}</Badge>
+        <Badge variant={variant as 'success' | 'warning' | 'default'}>{status}</Badge>
       </div>
     </div>
   );

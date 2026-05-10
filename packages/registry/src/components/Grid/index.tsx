@@ -2,11 +2,17 @@ import React from 'react';
 import { Divider, Grid } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-grid.js';
+import Example2, { metadata as metadata2, controls as controls2, renderPreview as renderPreview2, previewLayout as previewLayout2, resizable as resizable2 } from './examples/02-track-placement.js';
+import Example3, { metadata as metadata3, controls as controls3, renderPreview as renderPreview3, previewLayout as previewLayout3, resizable as resizable3 } from './examples/03-editorial-spans.js';
+import Example4, { metadata as metadata4, controls as controls4, renderPreview as renderPreview4, previewLayout as previewLayout4, resizable as resizable4 } from './examples/04-responsive-card-rail.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-grid', Component: Example1, metadata: metadata1 },
+  { id: '02-track-placement', Component: Example2, metadata: metadata2, controls: controls2, renderPreview: renderPreview2, previewLayout: previewLayout2, resizable: resizable2 },
+  { id: '03-editorial-spans', Component: Example3, metadata: metadata3, controls: controls3, renderPreview: renderPreview3, previewLayout: previewLayout3, resizable: resizable3 },
+  { id: '04-responsive-card-rail', Component: Example4, metadata: metadata4, controls: controls4, renderPreview: renderPreview4, previewLayout: previewLayout4, resizable: resizable4 },
 ];
 
 const gridControls: ControlDef[] = [

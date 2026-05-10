@@ -1,13 +1,21 @@
 import React from 'react';
 import { Banner } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-banner.js';
+import Example1, { metadata as metadata1 } from './examples/01-variants.js';
+import Example2, { metadata as metadata2 } from './examples/02-dismissible.js';
+import Example3, { metadata as metadata3 } from './examples/03-form-feedback.js';
+import Example4, { metadata as metadata4 } from './examples/04-settings-panel.js';
+import Example5, { metadata as metadata5 } from './examples/05-body-only.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaInfoCircle } from 'react-icons/fa';
 
 const examplesData = [
-  { id: '01-basic-banner', Component: Example1, metadata: metadata1 },
+  { id: '01-variants', Component: Example1, metadata: metadata1 },
+  { id: '02-dismissible', Component: Example2, metadata: metadata2 },
+  { id: '03-form-feedback', Component: Example3, metadata: metadata3 },
+  { id: '04-settings-panel', Component: Example4, metadata: metadata4 },
+  { id: '05-body-only', Component: Example5, metadata: metadata5 },
 ];
 
 const bannerControls: ControlDef[] = [
@@ -25,17 +33,6 @@ const bannerControls: ControlDef[] = [
     defaultValue: 'note',
   },
   {
-    name: 'size',
-    label: 'Size',
-    type: 'select',
-    options: [
-      { label: 'Small', value: 'sm' },
-      { label: 'Medium', value: 'md' },
-      { label: 'Large', value: 'lg' },
-    ],
-    defaultValue: 'md',
-  },
-  {
     name: 'dismissible',
     label: 'Dismissible',
     type: 'toggle',
@@ -47,7 +44,7 @@ const bannerBasicCode = `import { Banner } from "ui-lab-components";
 
 export function Example() {
   return (
-    <Banner variant="note" size="md">
+    <Banner variant="note">
       This is an informational banner.
     </Banner>
   );
@@ -76,7 +73,7 @@ export const bannerDetail: ComponentDetail = {
       description: 'Adjust props to customize the banner',
       code: bannerBasicCode,
       preview: (
-        <Banner variant="note" size="md">
+        <Banner variant="note">
           This is an informational banner.
         </Banner>
       ),
@@ -84,7 +81,6 @@ export const bannerDetail: ComponentDetail = {
       renderPreview: (props: any) => (
         <Banner
           variant={props.variant as any}
-          size={props.size as any}
           isDismissible={props.dismissible}
         >
           This is a {props.variant} banner.

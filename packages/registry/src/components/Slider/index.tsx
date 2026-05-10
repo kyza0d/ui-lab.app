@@ -2,11 +2,21 @@ import React from 'react';
 import { Slider } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-slider.js';
+import Example2, { metadata as metadata2 } from './examples/02-settings-panel.js';
+import Example3, { metadata as metadata3 } from './examples/03-price-range.js';
+import Example4, { metadata as metadata4 } from './examples/04-step-slider.js';
+import Example5, { metadata as metadata5 } from './examples/05-disabled-state.js';
+import Example6, { metadata as metadata6 } from './examples/06-vertical-mixer.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-slider', Component: Example1, metadata: metadata1 },
+  { id: '02-settings-panel', Component: Example2, metadata: metadata2 },
+  { id: '03-price-range', Component: Example3, metadata: metadata3 },
+  { id: '04-step-slider', Component: Example4, metadata: metadata4 },
+  { id: '05-disabled-state', Component: Example5, metadata: metadata5 },
+  { id: '06-vertical-mixer', Component: Example6, metadata: metadata6 },
 ];
 
 const sliderControls: ControlDef[] = [

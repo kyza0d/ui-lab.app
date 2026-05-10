@@ -1,12 +1,18 @@
 import React from 'react';
 import { Anchor, Divider } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-anchor.js';
+import Example1, { metadata as metadata1 } from './examples/01-inline-text.js';
+import Example2, { metadata as metadata2 } from './examples/02-underline-variants.js';
+import Example3, { metadata as metadata3 } from './examples/03-preview-tooltip.js';
+import Example4, { metadata as metadata4 } from './examples/04-breadcrumb.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
-  { id: '01-basic-anchor', Component: Example1, metadata: metadata1 },
+  { id: '01-inline-text', Component: Example1, metadata: metadata1 },
+  { id: '02-underline-variants', Component: Example2, metadata: metadata2 },
+  { id: '03-preview-tooltip', Component: Example3, metadata: metadata3 },
+  { id: '04-breadcrumb', Component: Example4, metadata: metadata4 },
 ];
 
 const anchorControls: ControlDef[] = [];

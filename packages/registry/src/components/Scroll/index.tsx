@@ -3,11 +3,15 @@ import { Divider, Scroll } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaComputerMouse } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-scroll.js';
+import Example2, { metadata as metadata2 } from './examples/02-settings-panel.js';
+import Example3, { metadata as metadata3 } from './examples/03-horizontal-tags.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-scroll', Component: Example1, metadata: metadata1 },
+  { id: '02-settings-panel', Component: Example2, metadata: metadata2 },
+  { id: '03-horizontal-tags', Component: Example3, metadata: metadata3 },
 ];
 
 

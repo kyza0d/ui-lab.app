@@ -77,7 +77,9 @@
     width: 1px;
     background: var(--panel-divider-color, #374151);
     transform: translateX(-50%);
-    transition: width 0.15s ease;
+    transition:
+      width var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      height var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .resize[data-direction="vertical"] {
@@ -96,10 +98,14 @@
   }
 
   .resize:hover::before,
-  .resize[data-resizing="true"]::before { width: 2px; }
+  .resize[data-resizing="true"]::before {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    width: 2px;
+  }
 
   .resize[data-direction="vertical"]:hover::before,
   .resize[data-direction="vertical"][data-resizing="true"]::before {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     width: auto;
     height: 2px;
   }

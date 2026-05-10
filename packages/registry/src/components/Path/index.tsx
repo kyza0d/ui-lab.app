@@ -2,11 +2,15 @@ import React from 'react';
 import { Path } from 'ui-lab-components';
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-path.js';
+import Example2, { metadata as metadata2 } from './examples/02-custom-separator.js';
+import Example3, { metadata as metadata3 } from './examples/03-collapsed-breadcrumb.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-path', Component: Example1, metadata: metadata1 },
+  { id: '02-custom-separator', Component: Example2, metadata: metadata2 },
+  { id: '03-collapsed-breadcrumb', Component: Example3, metadata: metadata3 },
 ];
 
 const pathBasicCode = `import { Path } from "ui-lab-components";

@@ -1,5 +1,9 @@
 export interface Styles {
+  "color-provider": string;
   color: string;
+  "color-trigger": string;
+  "color-trigger-swatch": string;
+  "color-trigger-value": string;
   controls: string;
   "input-group": string;
   input: string;

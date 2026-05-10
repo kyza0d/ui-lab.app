@@ -11,8 +11,14 @@
     font-weight: var(--font-weight-medium, 500);
     font-size: var(--text-sm, 0.875rem);
     line-height: var(--leading-tight, 1.25);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &[data-hovered="true"]:not([data-disabled="true"]) {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       background-color: var(--background-hover);
       border-color: var(--background-hover-border);
     }

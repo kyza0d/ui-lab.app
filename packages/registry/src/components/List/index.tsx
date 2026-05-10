@@ -2,11 +2,19 @@ import React from 'react';
 import { List, Button } from 'ui-lab-components';
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic.js';
+import Example2, { metadata as metadata2 } from './examples/02-review-queue.js';
+import Example3, { metadata as metadata3 } from './examples/03-notification-rules.js';
+import Example4, { metadata as metadata4 } from './examples/04-quota-editor.js';
+import Example5, { metadata as metadata5 } from './examples/05-permissions-matrix.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic', Component: Example1, metadata: metadata1 },
+  { id: '02-review-queue', Component: Example2, metadata: metadata2 },
+  { id: '03-notification-rules', Component: Example3, metadata: metadata3 },
+  { id: '04-quota-editor', Component: Example4, metadata: metadata4 },
+  { id: '05-permissions-matrix', Component: Example5, metadata: metadata5 },
 ];
 
 const basicListCode = `import { List, Button } from "ui-lab-components";

@@ -1,7 +1,27 @@
 {
   "01-basic-switch": {
-    "title": "Basic Switch",
-    "description": "A simple toggle switch component. Use for binary on/off states like enabling features or toggling settings.",
-    "code": "import React from 'react';\nimport { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Switch />;\n}"
+    "title": "Inline Form Field",
+    "description": "Switch paired with a label in a horizontal form row.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  const [enabled, setEnabled] = useState(false);\n\n  return (\n    <div className=\"flex items-center justify-between gap-4 w-64\">\n      <label htmlFor=\"marketing\" className=\"text-sm\">\n        Marketing emails\n      </label>\n      <Switch\n        id=\"marketing\"\n        aria-label=\"Marketing emails\"\n        isSelected={enabled}\n        onChange={setEnabled}\n      />\n    </div>\n  );\n}"
+  },
+  "02-settings-panel": {
+    "title": "Settings Panel",
+    "description": "A list of toggleable settings with dividers.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  const [notifications, setNotifications] = useState(true);\n  const [sounds, setSounds] = useState(false);\n  const [badge, setBadge] = useState(true);\n\n  const settings = [\n    { id: \"notifications\", label: \"Push notifications\", value: notifications, onChange: setNotifications },\n    { id: \"sounds\", label: \"Sound effects\", value: sounds, onChange: setSounds },\n    { id: \"badge\", label: \"App badge\", value: badge, onChange: setBadge },\n  ];\n\n  return (\n    <div className=\"w-72 divide-y divide-border\">\n      {settings.map(({ id, label, value, onChange }) => (\n        <div key={id} className=\"flex items-center justify-between py-3\">\n          <span className=\"text-sm\">{label}</span>\n          <Switch aria-label={label} isSelected={value} onChange={onChange} />\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  "03-disabled-state": {
+    "title": "Disabled State",
+    "description": "Switch in both on and off disabled states.",
+    "code": "import { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <div className=\"flex items-center gap-3\">\n        <Switch aria-label=\"Off disabled\" isDisabled defaultSelected={false} />\n        <span className=\"text-sm text-muted-foreground\">Disabled off</span>\n      </div>\n      <div className=\"flex items-center gap-3\">\n        <Switch aria-label=\"On disabled\" isDisabled defaultSelected={true} />\n        <span className=\"text-sm text-muted-foreground\">Disabled on</span>\n      </div>\n    </div>\n  );\n}"
+  },
+  "04-small-size": {
+    "title": "Small Size",
+    "description": "Compact switch for dense UIs.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  const [dense, setDense] = useState(false);\n\n  return (\n    <div className=\"flex items-center gap-2\">\n      <Switch\n        size=\"sm\"\n        aria-label=\"Dense mode\"\n        isSelected={dense}\n        onChange={setDense}\n      />\n      <span className=\"text-sm text-muted-foreground\">Dense mode</span>\n    </div>\n  );\n}"
+  },
+  "05-controlled-toggle": {
+    "title": "Controlled Toggle",
+    "description": "Fully controlled switch with external state and reset.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Switch } from 'ui-lab-components';\n\nexport default function Example() {\n  const [active, setActive] = useState(false);\n\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Switch\n        aria-label=\"Feature flag\"\n        isSelected={active}\n        onChange={setActive}\n      />\n      <p className=\"text-xs text-muted-foreground\">\n        Feature is <strong>{active ? \"enabled\" : \"disabled\"}</strong>\n      </p>\n      <button\n        className=\"text-xs underline text-muted-foreground\"\n        onClick={() => setActive(false)}\n      >\n        Reset\n      </button>\n    </div>\n  );\n}"
   }
 }

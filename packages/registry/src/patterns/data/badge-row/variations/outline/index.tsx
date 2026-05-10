@@ -4,7 +4,7 @@ import { Badge } from 'ui-lab-components';
 function BadgeRowOutline({ tags }: { tags: string[] }) {
   return (
     <div className="flex flex-wrap gap-1.5">
-      {tags.map((tag) => <Badge key={tag} size="sm" variant="default">{tag}</Badge>)}
+      {tags.map((tag) => <Badge key={tag} variant="default">{tag}</Badge>)}
     </div>
   );
 }

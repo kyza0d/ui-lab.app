@@ -1,62 +1,28 @@
 import React from 'react'
-import { Button } from 'ui-lab-components'
+import { Button, Flex } from 'ui-lab-components'
+
+const buttonVariants = [
+  { label: "Primary", variant: "primary" },
+  { label: "Default", variant: "default" },
+  { label: "Secondary", variant: "secondary" },
+  { label: "Outline", variant: "outline" },
+  { label: "Ghost", variant: "ghost" },
+  { label: "Danger", variant: "danger" },
+] as const;
 
 export const metadata = {
   title: 'Button Variants',
-  description: 'All available button variants including primary, default, secondary, outline, and ghost styles.'
+  description: 'All available button variants side by side in a single row.'
 };
 
 export default function Example() {
   return (
-    <div className="p-4 space-y-8">
-      <div>
-        <h3 className="text-sm font-semibold text-foreground-200 mb-3">Primary Variant</h3>
-        <div className="flex gap-2 flex-wrap">
-          <Button variant="primary">Primary Button</Button>
-          <Button variant="primary" disabled>Disabled</Button>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-foreground-200 mb-3">Default Variant</h3>
-        <div className="flex gap-2 flex-wrap">
-          <Button variant="default">Default Button</Button>
-          <Button variant="default" disabled>Disabled</Button>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-foreground-200 mb-3">Secondary Variant</h3>
-        <div className="flex gap-2 flex-wrap">
-          <Button variant="secondary">Secondary Button</Button>
-          <Button variant="secondary" disabled>Disabled</Button>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-foreground-200 mb-3">Outline Variant</h3>
-        <div className="flex gap-2 flex-wrap">
-          <Button variant="outline">Outline Button</Button>
-          <Button variant="outline" disabled>Disabled</Button>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-foreground-200 mb-3">Ghost Variant</h3>
-        <div className="flex gap-2 flex-wrap">
-          <Button variant="ghost">Ghost Button</Button>
-          <Button variant="ghost" disabled>Disabled</Button>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-foreground-200 mb-3">Sizes</h3>
-        <div className="flex gap-2 flex-wrap items-center">
-          <Button size="sm">Small</Button>
-          <Button size="md">Medium</Button>
-          <Button size="lg">Large</Button>
-        </div>
-      </div>
-    </div>
+    <Flex gap="xs" align="center" justify="center" wrap="nowrap">
+      {buttonVariants.map((button) => (
+        <Button key={button.variant} variant={button.variant}>
+          {button.label}
+        </Button>
+      ))}
+    </Flex>
   )
 }

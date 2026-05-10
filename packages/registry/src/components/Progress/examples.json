@@ -1,7 +1,27 @@
 {
   "01-basic-progress": {
-    "title": "Basic Progress",
-    "description": "A simple progress bar showing completion at 65%. Use this to display task or loading progress in your interface.",
-    "code": "import React from 'react';\nimport { Progress } from 'ui-lab-components';\n\nexport default function Example() {\n  return <Progress value={65} />;\n}"
+    "title": "File Upload",
+    "description": "Simulated upload progress with a label and live percentage — starts on button click.",
+    "code": "\"use client\";\n\nimport { useState, useEffect } from 'react';\nimport { Progress, Flex, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [progress, setProgress] = useState(0);\n  const [running, setRunning] = useState(false);\n\n  useEffect(() => {\n    if (!running) return;\n    if (progress >= 100) { setRunning(false); return; }\n    const t = setTimeout(() => setProgress((p) => Math.min(p + Math.random() * 12, 100)), 200);\n    return () => clearTimeout(t);\n  }, [running, progress]);\n\n  const reset = () => { setProgress(0); setRunning(false); };\n\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 340 }}>\n      <Flex direction=\"column\" gap=\"xs\">\n        <span style={{ fontSize: \"var(--text-sm)\", color: \"var(--foreground-muted)\" }}>\n          report-q4-2025.pdf\n        </span>\n        <Progress value={progress} label=\"Uploading\" showValue />\n      </Flex>\n      <Flex gap=\"sm\">\n        <Button variant=\"primary\" onClick={() => setRunning(true)} disabled={running || progress === 100}>\n          {progress === 100 ? \"Done\" : \"Upload\"}\n        </Button>\n        <Button variant=\"ghost\" onClick={reset}>Reset</Button>\n      </Flex>\n    </Flex>\n  );\n}"
+  },
+  "02-storage-quota": {
+    "title": "Storage Quota",
+    "description": "Fixed progress bar showing disk usage relative to a custom max value.",
+    "code": "import { Progress, Flex } from 'ui-lab-components';\n\nconst used = 7.4;\nconst total = 10;\n\nexport default function Example() {\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 300 }}>\n      <Flex direction=\"column\" gap=\"xs\">\n        <Progress value={used} max={total} label=\"Storage\" showValue />\n        <span style={{ fontSize: \"var(--text-xs)\", color: \"var(--foreground-muted)\" }}>\n          {used} GB of {total} GB used\n        </span>\n      </Flex>\n    </Flex>\n  );\n}"
+  },
+  "03-onboarding-steps": {
+    "title": "Onboarding Steps",
+    "description": "Step tracker using value/max to represent wizard completion.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Progress, Flex, Button } from 'ui-lab-components';\n\nconst steps = [\"Profile\", \"Preferences\", \"Integrations\", \"Invite team\"];\n\nexport default function Example() {\n  const [step, setStep] = useState(1);\n\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 340 }}>\n      <Flex direction=\"column\" gap=\"xs\">\n        <Progress value={step} max={steps.length} />\n        <span style={{ fontSize: \"var(--text-sm)\", color: \"var(--foreground-muted)\" }}>\n          Step {step} of {steps.length} — {steps[step - 1]}\n        </span>\n      </Flex>\n      <Flex gap=\"sm\">\n        <Button variant=\"ghost\" onClick={() => setStep((s) => Math.max(1, s - 1))} disabled={step === 1}>\n          Back\n        </Button>\n        <Button variant=\"primary\" onClick={() => setStep((s) => Math.min(steps.length, s + 1))} disabled={step === steps.length}>\n          Next\n        </Button>\n      </Flex>\n    </Flex>\n  );\n}"
+  },
+  "04-indeterminate": {
+    "title": "Indeterminate Loading",
+    "description": "Animated bar for unknown-duration operations — switches to complete when done.",
+    "code": "\"use client\";\n\nimport { useState, useEffect } from 'react';\nimport { Progress, Flex, Button } from 'ui-lab-components';\n\nexport default function Example() {\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    if (!loading) return;\n    const t = setTimeout(() => setLoading(false), 3000);\n    return () => clearTimeout(t);\n  }, [loading]);\n\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 320 }}>\n      <Flex direction=\"column\" gap=\"xs\">\n        <span style={{ fontSize: \"var(--text-sm)\", color: \"var(--foreground-muted)\" }}>\n          {loading ? \"Fetching results…\" : \"Results loaded\"}\n        </span>\n        <Progress indeterminate={loading} value={loading ? 0 : 100} />\n      </Flex>\n      <Button variant=\"ghost\" onClick={() => setLoading(true)} disabled={loading}>\n        Reload\n      </Button>\n    </Flex>\n  );\n}"
+  },
+  "05-skill-levels": {
+    "title": "Skill Levels",
+    "description": "Stacked progress bars in a profile or stats context with labels and values.",
+    "code": "import { Progress, Flex } from 'ui-lab-components';\n\nconst skills = [\n  { name: \"TypeScript\", value: 92 },\n  { name: \"Rust\", value: 54 },\n  { name: \"Go\", value: 38 },\n];\n\nexport default function Example() {\n  return (\n    <Flex direction=\"column\" gap=\"sm\" style={{ width: 300 }}>\n      {skills.map((s) => (\n        <Progress key={s.name} value={s.value} label={s.name} showValue />\n      ))}\n    </Flex>\n  );\n}"
   }
 }

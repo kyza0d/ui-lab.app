@@ -2,6 +2,10 @@ import React from 'react';
 import { Button, Frame, Popover } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-popover.js';
+import Example2, { metadata as metadata2 } from './examples/02-toggleable-options.js';
+import Example3, { metadata as metadata3 } from './examples/03-table-row-actions.js';
+import Example4, { metadata as metadata4 } from './examples/04-input-form.js';
+import Example5, { metadata as metadata5 } from './examples/05-arrow-positions.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaQuestion } from 'react-icons/fa6';
@@ -11,6 +15,10 @@ const TAIL_PATH = "M 0.00 0.00 C 3.00 0.00 7.50 -6.00 9.00 -6.00 C 10.50 -6.00 1
 
 const examplesData = [
   { id: '01-basic-popover', Component: Example1, metadata: metadata1 },
+  { id: '02-toggleable-options', Component: Example2, metadata: metadata2 },
+  { id: '03-table-row-actions', Component: Example3, metadata: metadata3 },
+  { id: '04-input-form', Component: Example4, metadata: metadata4 },
+  { id: '05-arrow-positions', Component: Example5, metadata: metadata5 },
 ];
 
 const popoverControls: ControlDef[] = [

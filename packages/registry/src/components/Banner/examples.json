@@ -1,7 +1,27 @@
 {
-  "01-basic-banner": {
-    "title": "Basic Banner",
-    "description": "A neutral note banner using background shades instead of semantic colors. The default banner variant for general-purpose messaging.",
-    "code": "import React from 'react';\nimport { Banner } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Banner variant=\"note\" size=\"md\">\n      This is a note banner. Use it for general-purpose messages and information without semantic intent.\n    </Banner>\n  );\n}"
+  "01-variants": {
+    "title": "Variants",
+    "description": "All five semantic variants: note, info, success, warning, and danger.",
+    "code": "import { Banner, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 480 }}>\n      <Banner variant=\"note\">\n        <Banner.Title>Note</Banner.Title>\n        <Banner.Body>This is a general note with supplementary context.</Banner.Body>\n      </Banner>\n      <Banner variant=\"info\">\n        <Banner.Title>Info</Banner.Title>\n        <Banner.Body>Your workspace is on the free plan. Upgrade to unlock more seats.</Banner.Body>\n      </Banner>\n      <Banner variant=\"success\">\n        <Banner.Title>Success</Banner.Title>\n        <Banner.Body>Your changes have been saved and are now live.</Banner.Body>\n      </Banner>\n      <Banner variant=\"warning\">\n        <Banner.Title>Warning</Banner.Title>\n        <Banner.Body>This action cannot be undone. Proceed with caution.</Banner.Body>\n      </Banner>\n      <Banner variant=\"danger\">\n        <Banner.Title>Danger</Banner.Title>\n        <Banner.Body>Your account has exceeded its storage limit.</Banner.Body>\n      </Banner>\n    </Flex>\n  );\n}"
+  },
+  "02-dismissible": {
+    "title": "Dismissible",
+    "description": "A banner with a dismiss button. The caller controls what happens after dismissal.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Banner, Button, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  const [dismissed, setDismissed] = useState(false);\n\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 480 }}>\n      {!dismissed ? (\n        <Banner variant=\"info\" isDismissible onDismiss={() => setDismissed(true)}>\n          <Banner.Title>Scheduled maintenance</Banner.Title>\n          <Banner.Body>The system will be unavailable on Saturday from 2–4 AM UTC.</Banner.Body>\n        </Banner>\n      ) : (\n        <Flex gap=\"sm\" style={{ alignItems: 'center' }}>\n          <span className=\"text-sm text-foreground-400\">Banner dismissed.</span>\n          <Button variant=\"ghost\" onClick={() => setDismissed(false)}>\n            Restore\n          </Button>\n        </Flex>\n      )}\n    </Flex>\n  );\n}"
+  },
+  "03-form-feedback": {
+    "title": "Form Feedback",
+    "description": "Banners shown conditionally after a form action to relay success or failure.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Banner, Button, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  const [submitted, setSubmitted] = useState(false);\n  const [error, setError] = useState(false);\n\n  const handleSubmit = () => {\n    if (!submitted) {\n      setError(true);\n      return;\n    }\n    setError(false);\n  };\n\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 400 }}>\n      {error && (\n        <Banner variant=\"danger\" isDismissible onDismiss={() => setError(false)}>\n          <Banner.Title>Submission failed</Banner.Title>\n          <Banner.Body>Please review the form and correct any errors before retrying.</Banner.Body>\n        </Banner>\n      )}\n      {submitted && !error && (\n        <Banner variant=\"success\">\n          <Banner.Title>Profile updated</Banner.Title>\n          <Banner.Body>Your changes have been saved successfully.</Banner.Body>\n        </Banner>\n      )}\n      <Flex gap=\"sm\">\n        <Button variant=\"primary\" onClick={() => { setSubmitted(true); setError(false); }}>\n          Save changes\n        </Button>\n        <Button variant=\"secondary\" onClick={() => { setSubmitted(false); handleSubmit(); }}>\n          Trigger error\n        </Button>\n      </Flex>\n    </Flex>\n  );\n}"
+  },
+  "04-settings-panel": {
+    "title": "Settings Panel",
+    "description": "A small warning banner inline with a destructive settings action.",
+    "code": "import { Banner, Button, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 420 }}>\n      <div>\n        <p className=\"text-sm font-semibold text-foreground-100\">API Access</p>\n        <p className=\"text-xs text-foreground-400\">Manage keys for external integrations.</p>\n      </div>\n      <Banner variant=\"warning\">\n        <Banner.Body>Regenerating your key will revoke all existing integrations immediately.</Banner.Body>\n      </Banner>\n      <Button variant=\"secondary\">Regenerate API key</Button>\n    </Flex>\n  );\n}"
+  },
+  "05-body-only": {
+    "title": "Body Only",
+    "description": "Single-line banners without a title for compact inline notifications.",
+    "code": "import { Banner, Flex } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Flex direction=\"column\" gap=\"md\" style={{ width: 480 }}>\n      <Banner variant=\"info\" isDismissible>\n        <Banner.Body>\n          Two-factor authentication is not enabled on your account.{' '}\n          <a href=\"#\" className=\"underline\">Enable now</a>\n        </Banner.Body>\n      </Banner>\n      <Banner variant=\"success\" isDismissible>\n        <Banner.Body>Deployment #142 completed in 38 seconds.</Banner.Body>\n      </Banner>\n    </Flex>\n  );\n}"
   }
 }

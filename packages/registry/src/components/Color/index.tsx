@@ -1,15 +1,19 @@
 import React from 'react';
 import { Color } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-color.js';
-import Example2, { metadata as metadata2 } from './examples/02-opacity-slider.js';
+import Example1, { metadata as metadata1 } from './examples/01-basic-color-picker.js';
+import Example2, { metadata as metadata2 } from './examples/02-color-picker-opacity.js';
+import Example3, { metadata as metadata3 } from './examples/03-color-picker-preview.js';
+import Example4, { metadata as metadata4 } from './examples/04-color-slider-primitive.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 // Define examplesData locally
 const examplesData = [
-  { id: '01-basic-color', Component: Example1, metadata: metadata1 },
-  { id: '02-opacity-slider', Component: Example2, metadata: metadata2 },
+  { id: '01-basic-color-picker', Component: Example1, metadata: metadata1 },
+  { id: '02-color-picker-opacity', Component: Example2, metadata: metadata2 },
+  { id: '03-color-picker-preview', Component: Example3, metadata: metadata3 },
+  { id: '04-color-slider-primitive', Component: Example4, metadata: metadata4 },
 ];
 
 const colorControls: ControlDef[] = [

@@ -1,6 +1,13 @@
 import React from 'react'
 import { Panel } from 'ui-lab-components'
 import { ControlDef, ComponentDetail } from '@/types'
+import Example1, { metadata as metadata1 } from './examples/01-sidebar-toggle.js';
+import examplesJson from './examples.json' with { type: 'json' };
+import { loadComponentExamples } from '../../utils/load-component-examples.js';
+
+const examplesData = [
+  { id: '01-sidebar-toggle', Component: Example1, metadata: metadata1 },
+];
 
 const panelControls: ControlDef[] = [
   {
@@ -140,7 +147,9 @@ export const panelDetail: ComponentDetail = {
         </div>
       ),
     },
+    ...loadComponentExamples(examplesData, examplesJson),
   ],
 }
 
 export { panelControls }
+export * from './examples/index.js';

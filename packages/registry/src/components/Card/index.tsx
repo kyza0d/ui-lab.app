@@ -1,12 +1,16 @@
 import React from 'react';
 import { Card } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-card.js';
+import Example1, { metadata as metadata1 } from './examples/01-notification.js';
+import Example2, { metadata as metadata2 } from './examples/02-settings-panel.js';
+import Example3, { metadata as metadata3 } from './examples/03-task-progress.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
-  { id: '01-basic-card', Component: Example1, metadata: metadata1 },
+  { id: '01-notification', Component: Example1, metadata: metadata1 },
+  { id: '02-settings-panel', Component: Example2, metadata: metadata2 },
+  { id: '03-task-progress', Component: Example3, metadata: metadata3 },
 ];
 
 const cardControls: ControlDef[] = [];

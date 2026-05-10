@@ -21,7 +21,7 @@ export default function Example() {
       <Input
         placeholder="Search..."
         icon={<LuSearch />}
-        hint={<Badge size="sm" variant="secondary" >Ctrl+K</Badge>}
+        hint={<Badge variant="secondary" >Ctrl+K</Badge>}
       />
       <Button size="sm" icon={{ right: <FaPlus size={12} /> }} >Upload</Button>
     </Flex>

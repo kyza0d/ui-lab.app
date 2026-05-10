@@ -3,11 +3,19 @@ import { Modal, Button } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaWindowRestore, FaX } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-modal.js';
+import Example2, { metadata as metadata2 } from './examples/02-form-modal.js';
+import Example3, { metadata as metadata3 } from './examples/03-delete-confirmation.js';
+import Example4, { metadata as metadata4 } from './examples/04-create-api-key.js';
+import Example5, { metadata as metadata5 } from './examples/05-notification-settings.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-modal', Component: Example1, metadata: metadata1 },
+  { id: '02-form-modal', Component: Example2, metadata: metadata2 },
+  { id: '03-delete-confirmation', Component: Example3, metadata: metadata3 },
+  { id: '04-create-api-key', Component: Example4, metadata: metadata4 },
+  { id: '05-notification-settings', Component: Example5, metadata: metadata5 },
 ];
 
 const modalControls: ControlDef[] = [

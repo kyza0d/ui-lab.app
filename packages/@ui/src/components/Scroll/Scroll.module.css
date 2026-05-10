@@ -52,7 +52,8 @@
 
   .track[data-hide="true"] {
     transition-property: opacity;
-    transition-duration: 200ms;
+    transition-duration: var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms));
+    transition-timing-function: var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .vertical .track {
@@ -75,10 +76,12 @@
     border-radius: calc(var(--radius-xs, 0.25rem) * 0.80);
     background-color: var(--thumb-background);
     transition-property: background-color, width, height;
-    transition-duration: 150ms;
+    transition-duration: var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms));
+    transition-timing-function: var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .thumb:hover {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     background-color: var(--thumb-background-hover);
   }
 
@@ -90,11 +93,13 @@
     width: 6px;
     margin-left: 6px;
     transition-property: background-color, width, margin-left;
-    transition-duration: 150ms;
+    transition-duration: var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms));
+    transition-timing-function: var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .vertical .thumb:hover,
   .vertical[data-pressed] .thumb {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     width: 8px;
     margin-left: 4px;
   }
@@ -103,11 +108,13 @@
     height: 6px;
     margin-top: 6px;
     transition-property: background-color, height, margin-top;
-    transition-duration: 150ms;
+    transition-duration: var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms));
+    transition-timing-function: var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .horizontal .thumb:hover,
   .horizontal[data-pressed] .thumb {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     height: 8px;
     margin-top: 4px;
   }

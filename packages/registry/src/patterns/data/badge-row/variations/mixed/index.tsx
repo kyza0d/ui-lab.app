@@ -12,7 +12,7 @@ function BadgeRowMixed({ items }: { items: { label: string; status: keyof typeof
   return (
     <div className="flex flex-wrap gap-1.5">
       {items.map((item) => (
-        <Badge key={item.label} size="sm" variant={statusVariant[item.status] ?? 'default'}>{item.label}</Badge>
+        <Badge key={item.label} variant={statusVariant[item.status] ?? 'default'}>{item.label}</Badge>
       ))}
     </div>
   );

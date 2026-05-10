@@ -3,5 +3,15 @@
     "title": "Basic Path",
     "description": "A simple path navigation showing the current page location. Use this to help users understand their position in the site hierarchy.",
     "code": "import { Path } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Path>\n      <Path.Item href=\"/\">Home</Path.Item>\n      <Path.Item href=\"/products\">Products</Path.Item>\n      <Path.Item href=\"/products/electronics\">Electronics</Path.Item>\n      <Path.Item>Laptop</Path.Item>\n    </Path>\n  );\n}"
+  },
+  "02-custom-separator": {
+    "title": "Custom Separator",
+    "description": "Pass any node via the separator prop to replace the default slash.",
+    "code": "import { Path } from \"ui-lab-components\";\nimport { FaChevronRight } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Path separator={<FaChevronRight className=\"w-3 h-3 text-foreground-400\" />}>\n      <Path.Item href=\"/projects\">Projects</Path.Item>\n      <Path.Item href=\"/projects/ui-lab\">ui-lab</Path.Item>\n      <Path.Item>components</Path.Item>\n    </Path>\n  );\n}"
+  },
+  "03-collapsed-breadcrumb": {
+    "title": "Collapsed Breadcrumb",
+    "description": "Deep paths collapse intermediate crumbs into an ellipsis menu — Path.Item wraps the Menu trigger directly.",
+    "code": "import { Path, Menu, Button } from \"ui-lab-components\";\nimport { FaEllipsis } from \"react-icons/fa6\";\n\nconst collapsed = [\n  { label: \"Projects\", href: \"/projects\" },\n  { label: \"ui-lab\", href: \"/projects/ui-lab\" },\n  { label: \"packages\", href: \"/projects/ui-lab/packages\" },\n];\n\nexport default function Example() {\n  return (\n    <Path>\n      <Path.Item href=\"/\">Home</Path.Item>\n      <Path.Item>\n        <Menu type=\"pop-over\">\n          <Menu.Trigger>\n            <Button icon={<FaEllipsis />} styles=\"p-2\" size=\"icon\" variant=\"ghost\" aria-label=\"Show collapsed path\" />\n          </Menu.Trigger>\n          <Menu.Content align=\"start\">\n            {collapsed.map((crumb) => (\n              <Menu.Item key={crumb.href} onSelect={() => {}}>\n                {crumb.label}\n              </Menu.Item>\n            ))}\n          </Menu.Content>\n        </Menu>\n      </Path.Item>\n      <Path.Item href=\"/projects/ui-lab/packages/@ui\">@ui</Path.Item>\n      <Path.Item>Path.tsx</Path.Item>\n    </Path>\n  );\n}"
   }
 }

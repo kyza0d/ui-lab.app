@@ -42,10 +42,13 @@
       @apply cursor-pointer;
 
       & td {
-        @apply transition-colors;
+        transition:
+          background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+          color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
       }
 
       &:hover td {
+        --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
         background-color: var(--table-body-background-hover, var(--background-900));
       }
     }
@@ -88,16 +91,20 @@
   }
 
   .filterInput {
-    @apply w-full rounded-md border px-3 py-2 transition-all;
+    @apply w-full rounded-md border px-3 py-2;
     background-color: var(--table-filter-input-background, var(--background-950));
     border-color: var(--table-filter-input-border, var(--background-700));
     color: var(--table-filter-input-foreground, var(--foreground-50));
+    transition:
+      border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      box-shadow var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &::placeholder {
       color: var(--table-filter-input-placeholder, var(--foreground-400));
     }
 
     &:hover {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       border-color: var(--table-filter-input-border-hover, var(--background-600));
     }
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table } from "ui-lab-components";
 import { ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-table.js';

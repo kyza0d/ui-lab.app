@@ -310,7 +310,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
         style={{ padding: "0.25rem", display: shouldShowEmptyState ? "none" : undefined }}
         aria-hidden={shouldShowEmptyState || undefined}
       >
-        <List items={filteredItems}>
+        <List items={filteredItems} gap="xs">
           {children}
         </List>
       </div>

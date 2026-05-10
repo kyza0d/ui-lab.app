@@ -2,12 +2,16 @@ import React from 'react';
 import { Gallery } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import { FaImage } from 'react-icons/fa6';
-import Example1, { metadata as metadata1 } from './examples/01-basic-gallery.js';
+import Example1, { metadata as metadata1, controls as controls1, renderPreview as renderPreview1, previewLayout as previewLayout1, resizable as resizable1 } from './examples/01-grid-composition.js';
+import Example2, { metadata as metadata2, controls as controls2, renderPreview as renderPreview2, previewLayout as previewLayout2, resizable as resizable2 } from './examples/02-item-orientation.js';
+import Example3, { metadata as metadata3, controls as controls3, renderPreview as renderPreview3, previewLayout as previewLayout3, resizable as resizable3 } from './examples/03-span-layout.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
-  { id: '01-basic-gallery', Component: Example1, metadata: metadata1 },
+  { id: '01-grid-composition', Component: Example1, metadata: metadata1, controls: controls1, renderPreview: renderPreview1, previewLayout: previewLayout1, resizable: resizable1 },
+  { id: '02-item-orientation', Component: Example2, metadata: metadata2, controls: controls2, renderPreview: renderPreview2, previewLayout: previewLayout2, resizable: resizable2 },
+  { id: '03-span-layout', Component: Example3, metadata: metadata3, controls: controls3, renderPreview: renderPreview3, previewLayout: previewLayout3, resizable: resizable3 },
 ];
 
 const galleryControls: ControlDef[] = [

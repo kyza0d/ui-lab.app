@@ -3,12 +3,24 @@ import { Input } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-input.js';
 import Example2, { metadata as metadata2 } from './examples/02-validation.js';
+import Example3, { metadata as metadata3 } from './examples/03-sign-in.js';
+import Example4, { metadata as metadata4 } from './examples/04-search.js';
+import Example5, { metadata as metadata5 } from './examples/05-user-handle.js';
+import Example6, { metadata as metadata6 } from './examples/06-api-key.js';
+import Example7, { metadata as metadata7 } from './examples/07-url-validation.js';
+import Example8, { metadata as metadata8 } from './examples/08-quantity.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
   { id: '01-basic-input', Component: Example1, metadata: metadata1 },
   { id: '02-validation', Component: Example2, metadata: metadata2 },
+  { id: '03-sign-in', Component: Example3, metadata: metadata3 },
+  { id: '04-search', Component: Example4, metadata: metadata4 },
+  { id: '05-user-handle', Component: Example5, metadata: metadata5 },
+  { id: '06-api-key', Component: Example6, metadata: metadata6 },
+  { id: '07-url-validation', Component: Example7, metadata: metadata7 },
+  { id: '08-quantity', Component: Example8, metadata: metadata8 },
 ];
 
 

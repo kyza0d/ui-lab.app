@@ -3,6 +3,10 @@ import { Menu } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
 import Example1, { metadata as metadata1 } from './examples/01-basic-menu.js';
 import Example2, { metadata as metadata2 } from './examples/02-nested-menu.js';
+import Example3, { metadata as metadata3 } from './examples/03-toolbar-dropdown.js';
+import Example4, { metadata as metadata4 } from './examples/04-table-row-actions.js';
+import Example5, { metadata as metadata5 } from './examples/05-context-menu.js';
+import Example6, { metadata as metadata6 } from './examples/06-view-options.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 import { FaArrowsRotate, FaStar, FaTrash } from 'react-icons/fa6';
@@ -10,6 +14,10 @@ import { FaArrowsRotate, FaStar, FaTrash } from 'react-icons/fa6';
 const examplesData = [
   { id: '01-basic-menu', Component: Example1, metadata: metadata1 },
   { id: '02-nested-menu', Component: Example2, metadata: metadata2 },
+  { id: '03-toolbar-dropdown', Component: Example3, metadata: metadata3 },
+  { id: '04-table-row-actions', Component: Example4, metadata: metadata4 },
+  { id: '05-context-menu', Component: Example5, metadata: metadata5 },
+  { id: '06-view-options', Component: Example6, metadata: metadata6 },
 ];
 
 const menuControls: ControlDef[] = [];

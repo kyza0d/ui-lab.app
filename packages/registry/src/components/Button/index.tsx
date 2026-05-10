@@ -6,6 +6,9 @@ import Example2, { metadata as metadata2 } from './examples/02-multi-actions.js'
 import Example3, { metadata as metadata3 } from './examples/03-joined-toggle.js';
 import Example4, { metadata as metadata4 } from './examples/04-sub-stack-actions.js';
 import Example5, { metadata as metadata5 } from './examples/05-split-action-button.js';
+import Example6, { metadata as metadata6 } from './examples/06-icons.js';
+import Example7, { metadata as metadata7 } from './examples/07-split-button.js';
+import Example8, { metadata as metadata8 } from './examples/08-button-group.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
@@ -16,6 +19,9 @@ const examplesData = [
   { id: '03-joined-toggle', Component: Example3, metadata: metadata3 },
   { id: '04-sub-stack-actions', Component: Example4, metadata: metadata4 },
   { id: '05-split-action-button', Component: Example5, metadata: metadata5 },
+  { id: '06-icons', Component: Example6, metadata: metadata6 },
+  { id: '07-split-button', Component: Example7, metadata: metadata7 },
+  { id: '08-button-group', Component: Example8, metadata: metadata8 },
 ];
 
 const buttonControls: ControlDef[] = [

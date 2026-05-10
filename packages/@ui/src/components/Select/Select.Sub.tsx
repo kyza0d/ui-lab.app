@@ -521,7 +521,7 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
               >
                 <div className={cn(resolved.listPaddingWrapper)} style={{ padding: "0.25rem" }}>
                   <SelectContext.Provider value={overriddenContextValue}>
-                    <List items={submenuContext.items}>
+                    <List items={submenuContext.items} gap="xs">
                       {children}
                     </List>
                   </SelectContext.Provider>

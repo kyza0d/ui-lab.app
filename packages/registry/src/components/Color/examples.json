@@ -1,12 +1,22 @@
 {
-  "01-basic-color": {
-    "title": "Basic Color",
-    "description": "A simple color component with default configuration showing hex format.",
-    "code": "import React, { useState } from 'react';\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('#FF6B6B');\n\n  return (\n    <div className=\"p-4 space-y-4\">\n      <div>\n        <p className=\"text-sm text-foreground-300 mb-3\">Selected color: <code className=\"text-accent-500 font-mono\">{color}</code></p>\n        <Color\n          value={color}\n          onChange={setColor}\n          format=\"hex\"\n          defaultValue=\"#FF6B6B\"\n        />\n      </div>\n    </div>\n  );\n}"
+  "01-basic-color-picker": {
+    "title": "Color Trigger",
+    "description": "An uncontrolled color picker using Color as the provider and Color.Trigger to open the picker area in a popover.",
+    "code": "\"use client\";\n\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <div className=\"flex items-center justify-center\">\n      <Color defaultValue=\"#3b82f6\" size=\"md\">\n        <Color.Trigger aria-label=\"Choose color\" />\n      </Color>\n    </div>\n  );\n}"
   },
-  "02-opacity-slider": {
-    "title": "Opacity Slider",
-    "description": "Color picker with opacity/alpha slider enabled for transparent color selection.",
-    "code": "import React, { useState } from 'react';\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('rgba(106, 90, 205, 0.75)');\n\n  return (\n    <div className=\"p-4 space-y-4\">\n      <div>\n        <p className=\"text-sm text-foreground-300 mb-3\">Selected color: <code className=\"text-accent-500 font-mono\">{color}</code></p>\n        <Color\n          value={color}\n          onChange={setColor}\n          showOpacity\n          format=\"rgb\"\n          defaultValue=\"rgba(106, 90, 205, 0.75)\"\n        />\n      </div>\n    </div>\n  );\n}"
+  "02-color-picker-opacity": {
+    "title": "Controlled Color Trigger",
+    "description": "A controlled color picker with alpha support, using Color.Trigger to keep the picker area in a popover.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('#ef4444');\n\n  return (\n    <div className=\"flex flex-col gap-4 items-center\">\n      <Color\n        value={color}\n        onChange={setColor}\n        showOpacity={true}\n        size=\"md\"\n      >\n        <Color.Trigger aria-label=\"Choose accent color\" />\n      </Color>\n      <div className=\"text-sm text-foreground-400\">\n        Selected: {color}\n      </div>\n    </div>\n  );\n}"
+  },
+  "03-color-picker-preview": {
+    "title": "Inline Color Area",
+    "description": "Color.Area can be composed directly inside Color when the picker should stay visible.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  const [color, setColor] = useState('#8b5cf6');\n\n  return (\n    <div className=\"flex flex-col gap-4 items-center\">\n      <Color\n        value={color}\n        onChange={setColor}\n        showPreview={true}\n        format=\"hex\"\n        size=\"md\"\n      >\n        <Color.Area />\n      </Color>\n    </div>\n  );\n}"
+  },
+  "04-color-slider-primitive": {
+    "title": "Standalone Color Slider",
+    "description": "Color.Slider can be used on its own for hue and opacity control without rendering the full color picker.",
+    "code": "\"use client\";\n\nimport { useState } from 'react';\nimport { Color } from 'ui-lab-components';\n\nexport default function Example() {\n  const [hue, setHue] = useState(215);\n  const [opacity, setOpacity] = useState(0.72);\n\n  const baseColor = `hsl(${hue} 100% 50%)`;\n  const previewColor = `hsl(${hue} 100% 50% / ${opacity})`;\n\n  return (\n    <div className=\"w-72 space-y-4\">\n      <div className=\"flex items-center gap-3\">\n        <div\n          className=\"h-10 w-10 rounded-sm border border-background-700\"\n          style={{ backgroundColor: previewColor }}\n          aria-hidden=\"true\"\n        />\n        <div className=\"min-w-0 flex-1 text-sm text-foreground-300\">\n          <div>Hue {Math.round(hue)} deg</div>\n          <div>Opacity {Math.round(opacity * 100)}%</div>\n        </div>\n      </div>\n\n      <Color.Slider\n        aria-label=\"Accent hue\"\n        value={hue}\n        onChange={setHue}\n      />\n\n      <Color.Slider\n        type=\"opacity\"\n        aria-label=\"Accent opacity\"\n        value={opacity}\n        onChange={setOpacity}\n        color={baseColor}\n      />\n    </div>\n  );\n}"
   }
 }

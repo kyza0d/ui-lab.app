@@ -121,9 +121,13 @@
     @apply flex items-center justify-center p-2;
     border-radius: 0.25rem;
     color: var(--action-foreground);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .action:hover {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     background-color: var(--action-background-hover);
     color: var(--action-foreground-hover);
   }
@@ -158,13 +162,16 @@
     background-color: transparent;
     border: none;
     color: var(--controls-color);
-    transition: color 150ms ease-out, background-color 150ms ease-out;
+    transition:
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &+.spin-button {
       border-top: 1px solid var(--input-border-color, var(--background-border));
     }
 
     &:hover:not(:disabled) {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       background-color: var(--controls-hover-background);
       color: var(--controls-hover-color);
     }

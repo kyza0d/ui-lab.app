@@ -61,11 +61,14 @@
     color: var(--foreground);
     outline: none;
     box-shadow: none;
-    transition: color 0.15s ease, background-color 0.15s ease;
+    transition:
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
 
     &:not([data-disabled]):not([data-selected="true"]) {
       &:hover {
+        --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
         background-color: var(--background-hover);
         color: var(--foreground-hover);
       }
@@ -118,6 +121,7 @@
     }
 
     .list[data-variant="underline"] &:not([data-disabled]):not([data-selected="true"]):hover {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       background-color: var(--background-hover);
     }
 

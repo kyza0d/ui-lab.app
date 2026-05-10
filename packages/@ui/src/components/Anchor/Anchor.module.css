@@ -10,10 +10,10 @@
     display: inline-block;
     color: var(--foreground, currentColor);
     text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover .underline {
-      background: var(--underline-background-hover, var(--foreground-400));
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+      background-color: var(--underline-background-hover, var(--foreground-400));
     }
 
     &[data-focus-visible="true"] {
@@ -25,10 +25,12 @@
 
   .underline {
     @apply absolute left-0 right-0 bottom-0 h-px;
-    background: var(--underline-background, var(--background-600));
+    background-color: var(--underline-background, var(--background-600));
     transform-origin: right;
     transform: scaleX(1);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      transform var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     pointer-events: none;
   }
 

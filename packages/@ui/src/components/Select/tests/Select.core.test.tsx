@@ -1,10 +1,21 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import { renderSelectWithItems, selectItem, getSelectTrigger, getSelectedItems } from './Select.test-utils'
+import { renderSelectWithItems, selectItem, openSelect, getSelectTrigger, getSelectedItems } from './Select.test-utils'
 import { createMockSelectItems, createSelectionCallback } from '@/tests/utils'
 
 describe('Select.core', () => {
   describe('single selection', () => {
+    it('uses extra-small list spacing in the dropdown', async () => {
+      const items = createMockSelectItems(3)
+      const container = renderSelectWithItems(items)
+      const trigger = getSelectTrigger(container)
+
+      await openSelect(trigger)
+
+      const list = document.querySelector('[role="list"][data-gap="xs"]')
+      expect(list).toBeInTheDocument()
+    })
+
     it('controlled: selectedKey prop controls selection', async () => {
       const items = createMockSelectItems(3)
       const container = renderSelectWithItems(items, { selectedKey: items[0].key })

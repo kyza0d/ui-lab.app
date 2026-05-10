@@ -44,8 +44,8 @@
     line-height: var(--leading-normal, 1.5);
     text-decoration: none;
     transition:
-      color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-      background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     outline: none;
   }
 
@@ -59,6 +59,7 @@
   }
 
   .link[data-hovered="true"]:not([data-disabled="true"]):not([data-selected="true"]) {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     background-color: var(--background-hover);
     color: var(--foreground-hover);
   }

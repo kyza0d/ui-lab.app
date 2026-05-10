@@ -81,8 +81,9 @@ interface SliderThumbProps {
   step: number;
   disabled?: boolean;
   orientation: SliderOrientation;
-  trackRef: React.RefObject<HTMLDivElement | null>;
   onValueChange: (index: number, value: number) => void;
+  onThumbRef: (index: number, element: HTMLDivElement | null) => void;
+  isDragging?: boolean;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   className?: string;
@@ -93,8 +94,14 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 function snapToStep(value: number, min: number, max: number, step: number): number {
-  const snapped = Math.round((value - min) / step) * step + min;
-  return clamp(snapped, min, max);
+  const effectiveStep = Number.isFinite(step) && step > 0 ? step : 1;
+  const snapped = Math.round((value - min) / effectiveStep) * effectiveStep + min;
+  const precision = Math.min(
+    Math.max(getDecimalPrecision(effectiveStep), getDecimalPrecision(min), getDecimalPrecision(max)),
+    12
+  );
+
+  return clamp(Number(snapped.toFixed(precision)), min, max);
 }
 
 function normalizeValue(value: number | number[] | undefined): number[] | undefined {
@@ -107,6 +114,44 @@ function getValuePercent(value: number, min: number, max: number): number {
   return ((value - min) / (max - min)) * 100;
 }
 
+function getDecimalPrecision(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+
+  const valueString = value.toString();
+  const exponentMatch = valueString.match(/e-(\d+)$/);
+
+  if (exponentMatch) {
+    return Number(exponentMatch[1]);
+  }
+
+  return valueString.split(".")[1]?.length ?? 0;
+}
+
+function getClosestValueIndex(values: number[], targetValue: number): number {
+  let closestIndex = 0;
+  let closestDistance = Math.abs(values[0] - targetValue);
+
+  for (let index = 1; index < values.length; index += 1) {
+    const distance = Math.abs(values[index] - targetValue);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  }
+
+  return closestIndex;
+}
+
+function getThumbIndexFromTarget(target: EventTarget | null): number | undefined {
+  if (!(target instanceof Element)) return undefined;
+
+  const thumb = target.closest<HTMLElement>("[data-slider-thumb-index]");
+  if (!thumb) return undefined;
+
+  const index = Number(thumb.dataset.sliderThumbIndex);
+  return Number.isInteger(index) ? index : undefined;
+}
+
 function getValueFromPointer(
   clientX: number,
   clientY: number,
@@ -117,6 +162,9 @@ function getValueFromPointer(
   step: number
 ) {
   const rect = track.getBoundingClientRect();
+  const size = orientation === "vertical" ? rect.height : rect.width;
+
+  if (size <= 0) return min;
 
   const percent =
     orientation === "vertical"
@@ -135,17 +183,24 @@ function SliderThumb({
   step,
   disabled,
   orientation,
-  trackRef,
   onValueChange,
+  onThumbRef,
+  isDragging,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   className,
 }: SliderThumbProps) {
   const thumbRef = React.useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = React.useState(false);
   const [isPressed, setIsPressed] = React.useState(false);
   const { focusProps, isFocused, isFocusVisible } = useFocusRing();
   const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
+  const handleThumbRef = React.useCallback(
+    (element: HTMLDivElement | null) => {
+      onThumbRef(index, element);
+    },
+    [index, onThumbRef]
+  );
+  const mergedRef = useMergeRefs<HTMLDivElement>(thumbRef, handleThumbRef);
   const { scopeProps, indicatorProps } = useFocusIndicator({
     scopeRef: thumbRef,
     containerRef: thumbRef,
@@ -157,72 +212,32 @@ function SliderThumb({
 
   const percent = getValuePercent(value, min, max);
 
-  const updateValueFromPointer = React.useCallback(
-    (clientX: number, clientY: number) => {
-      const track = trackRef.current;
-      if (!track) return;
-
-      const newValue = getValueFromPointer(clientX, clientY, track, orientation, min, max, step);
-      if (newValue !== value) {
-        onValueChange(index, newValue);
-      }
-    },
-    [index, max, min, onValueChange, orientation, step, trackRef, value]
-  );
-
-  const handlePointerDown = React.useCallback(
-    (event: React.PointerEvent<HTMLDivElement>) => {
-      if (disabled) return;
-
-      event.preventDefault();
-      setIsDragging(true);
-      setIsPressed(true);
-      thumbRef.current?.setPointerCapture(event.pointerId);
-      thumbRef.current?.focus();
-      updateValueFromPointer(event.clientX, event.clientY);
-    },
-    [disabled, updateValueFromPointer]
-  );
-
-  const handlePointerMove = React.useCallback(
-    (event: React.PointerEvent<HTMLDivElement>) => {
-      if (!isDragging || disabled) return;
-      updateValueFromPointer(event.clientX, event.clientY);
-    },
-    [disabled, isDragging, updateValueFromPointer]
-  );
-
-  const handlePointerEnd = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    setIsDragging(false);
-    setIsPressed(false);
-    thumbRef.current?.releasePointerCapture(event.pointerId);
-  }, []);
-
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (disabled) return;
 
       let newValue = value;
       const largeStep = step * 10;
+      const incrementValue = (amount: number) => snapToStep(value + amount, min, max, step);
 
       switch (event.key) {
         case "ArrowRight":
-          newValue = orientation === "horizontal" ? clamp(value + step, min, max) : value;
+          newValue = orientation === "horizontal" ? incrementValue(step) : value;
           break;
         case "ArrowUp":
-          newValue = clamp(value + step, min, max);
+          newValue = incrementValue(step);
           break;
         case "ArrowLeft":
-          newValue = orientation === "horizontal" ? clamp(value - step, min, max) : value;
+          newValue = orientation === "horizontal" ? incrementValue(-step) : value;
           break;
         case "ArrowDown":
-          newValue = clamp(value - step, min, max);
+          newValue = incrementValue(-step);
           break;
         case "PageUp":
-          newValue = clamp(value + largeStep, min, max);
+          newValue = incrementValue(largeStep);
           break;
         case "PageDown":
-          newValue = clamp(value - largeStep, min, max);
+          newValue = incrementValue(-largeStep);
           break;
         case "Home":
           newValue = min;
@@ -255,7 +270,7 @@ function SliderThumb({
 
   return (
     <div
-      ref={thumbRef}
+      ref={mergedRef}
       role="slider"
       tabIndex={disabled ? -1 : 0}
       aria-orientation={orientation}
@@ -267,17 +282,15 @@ function SliderThumb({
       aria-labelledby={ariaLabelledBy}
       className={cn("thumb", scopeProps.className, css.thumb, className)}
       style={positionStyle}
+      data-slider-thumb="true"
+      data-slider-thumb-index={index}
       data-disabled={disabled ? "true" : undefined}
       data-focused={isFocused ? "true" : undefined}
       data-focus-visible={isFocusVisible ? "true" : undefined}
       data-hovered={isHovered ? "true" : undefined}
-      data-pressed={isPressed ? "true" : undefined}
+      data-pressed={isPressed || isDragging ? "true" : undefined}
       data-dragging={isDragging ? "true" : undefined}
       data-slider-focus-surface="true"
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerEnd}
-      onPointerCancel={handlePointerEnd}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
       {...asElementProps<"div">(mergeProps(focusProps, hoverProps))}
@@ -303,27 +316,42 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       orientation = "horizontal",
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
+      onPointerDown,
+      onPointerMove,
+      onPointerUp,
+      onPointerCancel,
+      onLostPointerCapture,
       ...props
     },
     ref
   ) => {
     const rootRef = React.useRef<HTMLDivElement>(null);
     const trackRef = React.useRef<HTMLDivElement>(null);
+    const thumbRefs = React.useRef<Array<HTMLDivElement | null>>([]);
+    const activeDragRef = React.useRef<{ pointerId: number; thumbIndex: number } | null>(null);
+    const [draggingThumbIndex, setDraggingThumbIndex] = React.useState<number | null>(null);
 
     const [internalValues, setInternalValues] = React.useState<number[]>(
       () => normalizeValue(defaultValue) ?? normalizeValue(controlledValue) ?? [min]
     );
 
     const isControlled = controlledValue !== undefined;
-    const values = isControlled
+    const normalizedValues = isControlled
       ? normalizeValue(controlledValue) ?? [min]
       : internalValues;
+    const values = normalizedValues.length > 0 ? normalizedValues : [min];
 
     const mergedRef = useMergeRefs(ref, rootRef);
     const resolved = resolveSliderStyles(styles);
 
+    const setThumbRef = React.useCallback((index: number, element: HTMLDivElement | null) => {
+      thumbRefs.current[index] = element;
+    }, []);
+
     const handleValueChange = React.useCallback(
       (index: number, newValue: number) => {
+        if (values[index] === newValue) return;
+
         const nextValues = [...values];
         nextValues[index] = newValue;
 
@@ -336,14 +364,55 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       [isControlled, onValueChange, values]
     );
 
-    const handleTrackPointerDown = React.useCallback(
-      (event: React.PointerEvent<HTMLDivElement>) => {
-        if (disabled || event.target !== trackRef.current) return;
-
+    const updateValueFromPointer = React.useCallback(
+      (thumbIndex: number, clientX: number, clientY: number) => {
         const track = trackRef.current;
-        if (!track) return;
+        if (!track) return undefined;
 
         const newValue = getValueFromPointer(
+          clientX,
+          clientY,
+          track,
+          orientation,
+          min,
+          max,
+          step
+        );
+
+        handleValueChange(thumbIndex, newValue);
+        return newValue;
+      },
+      [handleValueChange, max, min, orientation, step]
+    );
+
+    const stopPointerDrag = React.useCallback((pointerId: number, releaseCapture = true) => {
+      const activeDrag = activeDragRef.current;
+      if (!activeDrag || activeDrag.pointerId !== pointerId) return;
+
+      const root = rootRef.current;
+      if (releaseCapture && root?.releasePointerCapture) {
+        try {
+          if (!root.hasPointerCapture || root.hasPointerCapture(pointerId)) {
+            root.releasePointerCapture(pointerId);
+          }
+        } catch {
+          // Pointer capture can already be gone after browser-level cancellation.
+        }
+      }
+
+      activeDragRef.current = null;
+      setDraggingThumbIndex(null);
+    }, []);
+
+    const startPointerDrag = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>, requestedThumbIndex?: number) => {
+        if (disabled || event.button !== 0 || event.isPrimary === false) return;
+
+        const track = trackRef.current;
+        const root = rootRef.current ?? event.currentTarget;
+        if (!track || !root) return;
+
+        const nextValue = getValueFromPointer(
           event.clientX,
           event.clientY,
           track,
@@ -352,22 +421,84 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           max,
           step
         );
+        const thumbIndex =
+          requestedThumbIndex !== undefined && requestedThumbIndex >= 0 && requestedThumbIndex < values.length
+            ? requestedThumbIndex
+            : getClosestValueIndex(values, nextValue);
 
-        let closestIndex = 0;
-        let closestDistance = Math.abs(values[0] - newValue);
+        event.preventDefault();
 
-        for (let index = 1; index < values.length; index += 1) {
-          const distance = Math.abs(values[index] - newValue);
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = index;
+        activeDragRef.current = { pointerId: event.pointerId, thumbIndex };
+        setDraggingThumbIndex(thumbIndex);
+
+        if (root.setPointerCapture) {
+          try {
+            root.setPointerCapture(event.pointerId);
+          } catch {
+            // Some test and embedded environments expose the API without active pointer capture support.
           }
         }
 
-        handleValueChange(closestIndex, newValue);
+        thumbRefs.current[thumbIndex]?.focus({ preventScroll: true });
+        handleValueChange(thumbIndex, nextValue);
       },
       [disabled, handleValueChange, max, min, orientation, step, values]
     );
+
+    const handleRootPointerDown = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>) => {
+        onPointerDown?.(event);
+        if (event.defaultPrevented) return;
+
+        startPointerDrag(event, getThumbIndexFromTarget(event.target));
+      },
+      [onPointerDown, startPointerDrag]
+    );
+
+    const handleRootPointerMove = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>) => {
+        onPointerMove?.(event);
+        if (event.defaultPrevented || disabled) return;
+
+        const activeDrag = activeDragRef.current;
+        if (!activeDrag || activeDrag.pointerId !== event.pointerId) return;
+
+        event.preventDefault();
+        updateValueFromPointer(activeDrag.thumbIndex, event.clientX, event.clientY);
+      },
+      [disabled, onPointerMove, updateValueFromPointer]
+    );
+
+    const handleRootPointerEnd = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>) => {
+        onPointerUp?.(event);
+        stopPointerDrag(event.pointerId);
+      },
+      [onPointerUp, stopPointerDrag]
+    );
+
+    const handleRootPointerCancel = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>) => {
+        onPointerCancel?.(event);
+        stopPointerDrag(event.pointerId);
+      },
+      [onPointerCancel, stopPointerDrag]
+    );
+
+    const handleRootLostPointerCapture = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>) => {
+        onLostPointerCapture?.(event);
+        stopPointerDrag(event.pointerId, false);
+      },
+      [onLostPointerCapture, stopPointerDrag]
+    );
+
+    React.useEffect(() => {
+      const activeDrag = activeDragRef.current;
+      if (disabled && activeDrag) {
+        stopPointerDrag(activeDrag.pointerId);
+      }
+    }, [disabled, stopPointerDrag]);
 
     const rangeStartPercent =
       values.length > 1 ? getValuePercent(values[0], min, max) : 0;
@@ -396,17 +527,23 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           className,
           resolved.root
         )}
+        onPointerDown={handleRootPointerDown}
+        onPointerMove={handleRootPointerMove}
+        onPointerUp={handleRootPointerEnd}
+        onPointerCancel={handleRootPointerCancel}
+        onLostPointerCapture={handleRootLostPointerCapture}
         {...props}
       >
         <div
           ref={trackRef}
           className={cn("track", css.track, resolved.track)}
+          data-slider-track="true"
           data-disabled={disabled ? "true" : undefined}
           data-orientation={orientation}
-          onPointerDown={handleTrackPointerDown}
         >
           <div
             className={cn("range", css.range, resolved.range)}
+            data-slider-range="true"
             data-disabled={disabled ? "true" : undefined}
             style={rangeStyle}
           />
@@ -420,8 +557,9 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
               step={step}
               disabled={disabled}
               orientation={orientation}
-              trackRef={trackRef}
               onValueChange={handleValueChange}
+              onThumbRef={setThumbRef}
+              isDragging={draggingThumbIndex === index}
               aria-label={ariaLabel}
               aria-labelledby={ariaLabelledBy}
               className={resolved.thumb}

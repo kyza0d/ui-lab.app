@@ -50,12 +50,15 @@
   }
 
   .viewport::-webkit-scrollbar-thumb {
-    background: var(--background-700);
+    background-color: var(--background-700);
     border-radius: 9999px;
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .viewport::-webkit-scrollbar-thumb:hover {
-    background: var(--background-600);
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    background-color: var(--background-600);
   }
 
   .scroll-track {
@@ -71,7 +74,8 @@
     color: var(--foreground-300);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
-    transition: background-color 0.15s ease-out;
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     border-top: 1px solid var(--border-color);
     background: transparent;
     border-left: none;
@@ -80,7 +84,10 @@
     font-family: inherit;
   }
 
-  .expand-button:hover { background-color: var(--background-800); }
+  .expand-button:hover {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    background-color: var(--background-800);
+  }
 
   .expand-icon { @apply shrink-0; color: var(--foreground-400); }
 
@@ -89,13 +96,24 @@
     border-radius: var(--radius-sm);
     color: var(--foreground-400);
     opacity: 0;
-    transition: opacity 0.15s ease-out, background-color 0.15s ease-out, color 0.15s ease-out;
+    transition:
+      opacity var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     background: transparent;
     border: none;
     z-index: 1;
   }
 
-  .copy-button:hover { background-color: var(--background-800); color: var(--foreground-300); }
+  .copy-button:hover {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    background-color: var(--background-800);
+    color: var(--foreground-300);
+  }
 
-  .copy-button:focus, .body:hover .copy-button { opacity: 1; }
+  .copy-button:focus,
+  .body:hover .copy-button {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    opacity: 1;
+  }
 }

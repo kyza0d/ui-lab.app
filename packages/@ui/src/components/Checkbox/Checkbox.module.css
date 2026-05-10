@@ -18,9 +18,14 @@
     border: var(--border-width-base, 1px) solid var(--background-border);
     border-radius: var(--radius-xs, 0.25rem);
     outline: none;
-    transition: all 200ms var(--ease-snappy-pop), transform 200ms var(--ease-snappy-pop);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      opacity var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      transform var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &:hover:not([data-disabled="true"]) {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
       background-color: var(--background-hover);
       border-color: var(--background-hover-border);
     }
