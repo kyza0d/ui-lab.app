@@ -1,0 +1,390 @@
+import { generateColorPaletteVariables } from "../colors/generator";
+import { generateFontWeightCSS } from "../font-weight/generator";
+import { type SimpleThemeColors } from "../../constants/themes";
+import { getFontConfig, type FontKey } from "../../constants/font-config";
+import { DEFAULT_FONT_CONFIG } from "../../lib/default-theme-config";
+import { generateRadiusScaleCSS, generateRadiusRootCSS, applyRadiusScalesToDOM } from "../radius/generator";
+import { generateBorderWidthScaleCSS, applyBorderWidthScalesToDOM } from "../border-width/generator";
+import { generateFluidSpacingCSS } from "../spacing/generator";
+import { generateMaxWidthVariablesCSS, generateMaxWidthScaleCSS } from "../max-width/generator";
+import { SEMANTIC_HTML_STYLES } from "../shared/constants";
+import { generateLineHeightCSS, generateTypographyCSS } from "../typography/generator";
+
+interface GeneratedThemeSetupFiles {
+  themeCss: string
+  globalsCss: string
+  layoutTsx: string
+  themeToggleTsx: string
+  themeToggleModuleCss: string
+  fullBundle: string
+}
+
+interface ThemeFontSelections {
+  bodyFont: FontKey
+  headerFont: FontKey
+  monoFont: FontKey
+}
+
+function renderCssVariables(variables: Record<string, string>): string {
+  return Object.entries(variables)
+    .map(([name, value]) => `  ${name}: ${value};`)
+    .join("\n");
+}
+
+function resolveFontFamily(
+  fontName: FontKey,
+  category: "body" | "header" | "mono",
+): string {
+  const fallback =
+    category === "body"
+      ? DEFAULT_FONT_CONFIG.bodyFont
+      : category === "header"
+        ? DEFAULT_FONT_CONFIG.headerFont
+        : DEFAULT_FONT_CONFIG.monoFont;
+
+  return (
+    getFontConfig(fontName, category)?.family ??
+    getFontConfig(fallback, category)?.family ??
+    "system-ui, sans-serif"
+  );
+}
+
+function generateFontFamilyCSS(fonts?: ThemeFontSelections): string {
+  const resolvedFonts = { ...DEFAULT_FONT_CONFIG, ...(fonts || {}) };
+  const bodyFontFamily = resolveFontFamily(resolvedFonts.bodyFont, "body");
+  const headerFontFamily = resolveFontFamily(resolvedFonts.headerFont, "header");
+  const monoFontFamily = resolveFontFamily(resolvedFonts.monoFont, "mono");
+
+  return `  --font-body: ${bodyFontFamily};
+  --font-header: ${headerFontFamily};
+  --font-mono: ${monoFontFamily};
+  /* Keep font-sans compatibility while body/header are configured explicitly. */
+  --font-sans: var(--font-body);`;
+}
+
+/**
+ * Generates a complete @theme block with scaled radius and border-width values
+ * @param radius - Base radius in rem (0 - 1.5)
+ * @param borderWidth - Base border width in px (0 - 4)
+ * @returns Formatted CSS string ready to copy/paste
+ */
+function generateThemeConfig(
+  radius: number,
+  borderWidth: number,
+): string {
+  const radiusLines = generateRadiusScaleCSS(radius).split("\n");
+  const borderLines = generateBorderWidthScaleCSS(borderWidth).split("\n");
+
+  const css = `@theme {\n  /* Border Radius - customize as needed */\n${radiusLines.map((line) => line).join("\n")}\n\n  /* Border Width - customize as needed */\n${borderLines.map((line) => line).join("\n")}\n}`;
+
+  return css;
+}
+
+/**
+ * Applies dynamic theme scales to the DOM for radius and border-width only
+ * Updates CSS variables for layout-related properties
+ * @param radius - Base radius in rem (0 - 1.5)
+ * @param borderWidth - Base border width in px (0 - 4)
+ */
+export function applyDynamicThemeScales(
+  radius: number,
+  borderWidth: number,
+): void {
+  applyRadiusScalesToDOM(radius);
+  applyBorderWidthScalesToDOM(borderWidth);
+}
+
+/**
+ * Generates a user-friendly message with instructions
+ */
+function generateConfigMessage(
+  radius: number,
+  borderWidth: number,
+): string {
+  const config = generateThemeConfig(radius, borderWidth);
+
+  return `${config}\n\n/* Usage Instructions:\n * 1. Copy the above configuration\n * 2. Open your project's src/app/globals.css\n * 3. Paste this @theme block (replacing or adding to your existing one)\n * 4. Use standard Tailwind utilities in your components:\n *    - rounded-md, rounded-md, rounded-full, etc.\n *    - border, border-2, border-4, etc.\n * All utilities will automatically respect your custom values.\n */`;
+}
+
+export function generateThemeSetupFiles(
+  colors: SimpleThemeColors,
+  mode: "light" | "dark",
+  typeSizeRatio: number,
+  fontSizeScale: number,
+  fontWeightScale: number,
+  headerFontWeightScale?: number,
+  bodyFontWeightScale?: number,
+  headerLineHeight?: number,
+  bodyLineHeight?: number,
+  radius?: number,
+  borderWidth?: number,
+  spacingScale?: number,
+  maxWidthScale?: number,
+  fonts?: ThemeFontSelections,
+): GeneratedThemeSetupFiles {
+  const typographyCSS = generateTypographyCSS(typeSizeRatio, fontSizeScale);
+  const leadingCSS = renderCssVariables(
+    generateLineHeightCSS(headerLineHeight ?? 1.5, bodyLineHeight ?? 1.3),
+  );
+  const headerScale = headerFontWeightScale ?? fontWeightScale ?? 1;
+  const bodyScale = bodyFontWeightScale ?? fontWeightScale ?? 1;
+  const fontWeightCSS = generateFontWeightCSS(headerScale, bodyScale);
+  const radiusCSS = generateRadiusScaleCSS(radius ?? 0.2);
+  const radiusRootCSS = generateRadiusRootCSS(radius ?? 0.2);
+  const borderWidthCSS = generateBorderWidthScaleCSS(borderWidth ?? 1);
+  const spacingCSS = generateFluidSpacingCSS(spacingScale ?? 1);
+  const maxWidthVariablesCSS = generateMaxWidthVariablesCSS(maxWidthScale ?? 1);
+  const maxWidthUtilitiesCSS = generateMaxWidthScaleCSS(maxWidthScale ?? 1);
+  const fontFamilyCSS = generateFontFamilyCSS(fonts);
+  const lightColorVariables = generateColorPaletteVariables(colors, "light");
+  const darkColorVariables = generateColorPaletteVariables(colors, "dark");
+  const tokenNames = Array.from(
+    new Set(
+      [...Object.keys(lightColorVariables), ...Object.keys(darkColorVariables)]
+        .map((name) => name.replace(/^--/, "")),
+    ),
+  );
+
+  const themeInlineMapping = tokenNames
+    .map((tokenName) => `  --color-${tokenName}: var(--${tokenName});`)
+    .join("\n");
+
+  const themeCss = `/* Your app owns this token layer. UI Lab does not need to ship a theme.css for you. */
+/* Generated from a ${mode} preview, but both light and dark tokens are included here. */
+:root {
+  color-scheme: light;
+
+${renderCssVariables(lightColorVariables)}
+}
+
+/* Leave system mode unstamped so prefers-color-scheme handles first paint. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+${renderCssVariables(darkColorVariables)}
+  }
+}
+
+/* Explicit overrides come from the server-stamped html[data-theme]. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+${renderCssVariables(lightColorVariables)}
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+${renderCssVariables(darkColorVariables)}
+}
+
+/* Tailwind color utilities always point at the active tokens. */
+@theme inline {
+${themeInlineMapping}
+}`;
+
+  const globalsCss = `${radiusRootCSS}
+@import "tailwindcss";
+@import "./theme.css";
+@import "ui-lab-components/styles.css";
+
+@theme {
+${fontFamilyCSS}
+
+${typographyCSS}
+${leadingCSS}
+
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-snug: -0.01em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.05em;
+
+${fontWeightCSS}
+
+${spacingCSS}
+
+${maxWidthVariablesCSS}
+
+${radiusCSS}
+
+${borderWidthCSS}
+}
+
+${maxWidthUtilitiesCSS}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-header);
+  }
+${SEMANTIC_HTML_STYLES}
+}`;
+
+  const layoutTsx = `import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { parseThemeCookie, resolveThemeRootState } from "ui-lab-components/theme-server";
+
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "My App",
+  description: "My app description",
+};
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const cookieStore = await cookies();
+  const theme = parseThemeCookie(cookieStore.get("ui-lab-theme")?.value);
+  const rootTheme = resolveThemeRootState(theme);
+
+  return (
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={rootTheme.className}
+      data-theme={rootTheme.dataTheme}
+      style={rootTheme.colorScheme ? { colorScheme: rootTheme.colorScheme } : undefined}
+    >
+      <body>{children}</body>
+    </html>
+  );
+}`;
+
+  const themeToggleTsx = `"use client";
+
+import { FaMoon, FaSun } from "react-icons/fa6";
+import { Button, useColorMode } from "ui-lab-components";
+
+import styles from "./theme-toggle.module.css";
+
+function ThemeToggleIcon() {
+  return (
+    <span aria-hidden="true" className={styles.icon}>
+      <span className={\`\${styles.glyph} \${styles.moon}\`}>
+        <FaMoon size={14} />
+      </span>
+      <span className={\`\${styles.glyph} \${styles.sun}\`}>
+        <FaSun size={14} />
+      </span>
+    </span>
+  );
+}
+
+export default function ThemeToggle() {
+  const { toggleThemeMode } = useColorMode();
+
+  return (
+    <Button
+      aria-label="Toggle color mode"
+      onPress={toggleThemeMode}
+      variant="ghost"
+      icon={{
+        left: <ThemeToggleIcon />,
+      }}
+      styles={{
+        root: "p-2",
+        icon: "text-current",
+      }}
+    />
+  );
+}`;
+
+  const themeToggleModuleCss = `.icon {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.glyph {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.moon {
+  display: inline-flex;
+}
+
+.sun {
+  display: none;
+}
+
+:global(:root[data-theme="dark"]) .moon {
+  display: none;
+}
+
+:global(:root[data-theme="dark"]) .sun {
+  display: inline-flex;
+}`;
+
+  const fullBundle = `/* === app/theme.css === */
+${themeCss}
+
+/* === app/globals.css === */
+${globalsCss}
+
+/* === app/layout.tsx === */
+${layoutTsx}
+
+/* === components/theme-toggle/index.tsx === */
+${themeToggleTsx}
+
+/* === components/theme-toggle/theme-toggle.module.css === */
+${themeToggleModuleCss}`;
+
+  return {
+    themeCss,
+    globalsCss,
+    layoutTsx,
+    themeToggleTsx,
+    themeToggleModuleCss,
+    fullBundle,
+  };
+}
+
+/**
+ * Generates a single bundled export containing every file required for the
+ * current recommended theme setup.
+ */
+function generateFullThemeConfig(
+  colors: SimpleThemeColors,
+  mode: "light" | "dark",
+  typeSizeRatio: number,
+  fontSizeScale: number,
+  fontWeightScale: number,
+  headerFontWeightScale?: number,
+  bodyFontWeightScale?: number,
+  headerLineHeight?: number,
+  bodyLineHeight?: number,
+  radius?: number,
+  borderWidth?: number,
+  spacingScale?: number,
+  maxWidthScale?: number,
+  fonts?: ThemeFontSelections,
+): string {
+  return generateThemeSetupFiles(
+    colors,
+    mode,
+    typeSizeRatio,
+    fontSizeScale,
+    fontWeightScale,
+    headerFontWeightScale,
+    bodyFontWeightScale,
+    headerLineHeight,
+    bodyLineHeight,
+    radius,
+    borderWidth,
+    spacingScale,
+    maxWidthScale,
+    fonts,
+  ).fullBundle
+}

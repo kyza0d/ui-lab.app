@@ -1,0 +1,165 @@
+---
+title: Theming
+description: How UI Lab's token system works — color families, shade ranges, dark mode inversion, and dynamic accent customization.
+category: Customization
+publishedOn: "2026-02-25"
+tags: ["theming", "tokens", "colors", "dark-mode", "css-variables"]
+---
+
+# Theming
+
+UI Lab is built on a semantic token system backed by OKLCH — a perceptually-uniform color space. Every color decision routes through CSS custom properties, so swapping themes or customizing the accent is a one-line change.
+
+Consumers usually own the token layer in their app's `theme.css`. With Tailwind v4, the normal setup is:
+
+```css
+@import "tailwindcss";
+@import "./theme.css";
+@import "ui-lab-components/styles.css";
+```
+
+`theme.css` defines your app tokens and mode rules. `ui-lab-components/styles.css` consumes those active `--color-*` tokens. You do not need a `tailwind.config.ts` content extension step for this integration.
+
+---
+
+## How the token pipeline works
+
+---
+
+## Color families
+
+Each family has a bounded shade range:
+
+| Family | Shade range | Direction | Use for |
+|---|---|---|---|
+| `background` | 500–950 | 500 = lightest surface | Page, card, container backgrounds |
+| `foreground` | 50–400 | 50 = lightest text | Text, borders, icons, labels |
+| `accent` | 50–600 | 600 = strongest | Primary actions, CTAs, links |
+| `success` | 50–600 | 600 = strongest | Confirmations, positive states |
+| `danger` | 50–600 | 600 = strongest | Errors, destructive actions |
+| `warning` | 50–600 | 600 = strongest | Cautions, pending states |
+| `info` | 50–600 | 600 = strongest | Neutral information |
+
+---
+
+## Dark mode inversion
+
+There is no `dark:` prefix in UI Lab. Shades invert automatically when the theme switches:
+
+```css
+/* Same class works in both modes */
+.card {
+  background-color: var(--background-700);
+  color: var(--foreground-300);
+}
+/* Dark:  background-700 → deep dark surface,  foreground-300 → light text  */
+/* Light: background-700 → mid-light surface,  foreground-300 → medium text */
+```
+
+```tsx
+{/* No dark: variant needed — shade inversion handles it */}
+<div className="bg-background-700 text-foreground-300 border border-foreground-100">
+  Works in both light and dark mode
+</div>
+```
+
+---
+
+## Applying tokens
+
+To make Tailwind utilities point at your live token values, map them in `@theme inline` inside your app-owned `theme.css`:
+
+```css
+:root {
+  --background-700: oklch(21% 0.005 51.4);
+  --foreground-300: oklch(73% 0.02 51.4);
+}
+
+@theme inline {
+  --color-background-700: var(--background-700);
+  --color-foreground-300: var(--foreground-300);
+}
+```
+
+### Tailwind classes
+
+```tsx
+{/* Surfaces */}
+<div className="bg-background-600">Page background</div>
+<div className="bg-background-700">Card surface</div>
+<div className="bg-background-800">Elevated / hover state</div>
+
+{/* Text */}
+<p className="text-foreground-300">Body text</p>
+<p className="text-foreground-200">Secondary text</p>
+<p className="text-foreground-100">Muted / caption</p>
+
+{/* Primary actions */}
+<button className="bg-accent-600 text-foreground-50 hover:bg-accent-500">
+  Primary button
+</button>
+
+{/* Semantic states */}
+<div className="bg-success-50 border border-success-200 text-success-600">
+  Success message
+</div>
+<div className="bg-danger-50 border border-danger-200 text-danger-600">
+  Error message
+</div>
+```
+
+### CSS variables
+
+```css
+.my-component {
+  background: var(--background-700);
+  color: var(--foreground-300);
+  border: 1px solid var(--foreground-100);
+}
+
+.my-component:hover {
+  background: var(--background-800);
+}
+```
+
+---
+
+## Customizing the accent color
+
+The accent family is designed for dynamic customization. Override it in your app-owned `theme.css`:
+
+```css
+:root {
+  --accent-50:  oklch(97% 0.012 262);
+  --accent-100: oklch(93% 0.030 262);
+  --accent-200: oklch(86% 0.065 262);
+  --accent-300: oklch(74% 0.110 262);
+  --accent-400: oklch(62% 0.145 262);
+  --accent-500: oklch(52% 0.170 262);
+  --accent-600: oklch(44% 0.190 262);
+}
+```
+
+All components that use `accent-*` tokens pick up the change automatically — no component code changes needed.
+
+---
+
+## Common mistakes
+
+| Wrong | Correct |
+|---|---|
+| `bg-white` | `bg-background-500` |
+| `text-gray-900` | `text-foreground-400` |
+| `bg-zinc-100` | `bg-background-600` |
+| `bg-background-50` | `bg-background-500` — min shade is 500 |
+| `text-foreground-500` | `text-foreground-400` — max shade is 400 |
+| `bg-accent-700` | `bg-accent-600` — max shade is 600 |
+| `border-red-500` | `border-danger-500` |
+
+---
+
+## Further reading
+
+- [Colors](/design-system/colors) — full OKLCH palette reference with all shade values
+- [Design Tokens](/design-system/tokens) — complete token reference for spacing, typography, and motion
+- [Variables](/design-system/variables) — all CSS custom properties and their defaults
