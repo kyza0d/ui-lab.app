@@ -8,6 +8,10 @@ interface ExampleData {
     title: string;
     description: string;
   };
+  controls?: SiteComponentExample['controls'];
+  renderPreview?: SiteComponentExample['renderPreview'];
+  previewLayout?: SiteComponentExample['previewLayout'];
+  resizable?: boolean;
 }
 
 interface ExamplesJsonEntry {
@@ -16,13 +20,6 @@ interface ExamplesJsonEntry {
   code: string;
 }
 
-/**
- * Loads component examples by merging examplesData with code from examples.json
- *
- * @param examplesData - Array of example data with id, Component, and metadata
- * @param examplesJson - Object with example codes keyed by example id
- * @returns Array of SiteComponentExample objects ready for rendering
- */
 export function loadComponentExamples(
   examplesData: ExampleData[],
   examplesJson: Record<string, ExamplesJsonEntry>
@@ -35,6 +32,10 @@ export function loadComponentExamples(
       description: example.metadata.description,
       code: jsonEntry?.code || '',
       preview: React.createElement(example.Component),
+      controls: example.controls,
+      renderPreview: example.renderPreview,
+      previewLayout: example.previewLayout,
+      resizable: example.resizable,
     };
   });
 }

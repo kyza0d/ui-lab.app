@@ -304,9 +304,12 @@ export interface ControlOption {
 export interface ControlDef {
   name: string;
   label: string;
-  type: 'select' | 'toggle' | 'text';
+  type: 'select' | 'toggle' | 'text' | 'stepper';
   options?: ControlOption[];
   defaultValue?: string | number | boolean;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 // Component Detail for Site
@@ -333,6 +336,7 @@ export interface SiteComponentExample {
   controls?: ControlDef[];
   renderPreview?: (props: Record<string, any>) => React.ReactNode;
   previewLayout?: 'center' | 'start';
+  resizable?: boolean;
 }
 
 export interface ComponentDetail {
