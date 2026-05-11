@@ -3,7 +3,7 @@
 import * as React from "react"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
-import { useFocusIndicator } from "@/hooks/useFocusIndicator"
+import { useFocus } from "@/hooks/useFocus"
 import { useMergeRefs } from "@/hooks/useMergeRefs"
 import { Button, type ButtonProps } from "../Button"
 import { Expand, type ExpandProps } from "../Expand"
@@ -182,7 +182,7 @@ const GroupRoot = React.forwardRef<HTMLDivElement, GroupProps>(
     const resolved = resolveGroupStyles(stylesProp)
     const mergedRef = useMergeRefs<HTMLDivElement>(ref, groupRef)
 
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef,
       containerRef: groupRef,
       surfaceSelector: '[data-focus-surface="true"]',
@@ -416,7 +416,6 @@ const GroupButton = React.forwardRef<HTMLButtonElement, GroupButtonProps>(
       "data-focus-surface": "true",
       "data-selected": isActive ? "true" : "false",
       className: cn(
-        "group",
         "button",
         buttonVariant,
         css.button,
@@ -462,7 +461,7 @@ const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
     return (
       <div
         ref={containerRef}
-        className={cn("group", "input", context.groupVariant, css.input, context.groupStyles.input, className)}
+        className={cn("input", context.groupVariant, css.input, context.groupStyles.input, className)}
         data-focus-surface="true"
       >
         <Input
@@ -509,7 +508,7 @@ const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperPr
     return (
       <div
         ref={containerRef}
-        className={cn("group", "input", context.groupVariant, css.input, context.groupStyles.input, className)}
+        className={cn("input", context.groupVariant, css.input, context.groupStyles.input, className)}
         data-focus-surface="true"
       >
         <Input
@@ -550,7 +549,7 @@ const GroupSelect = React.forwardRef<HTMLDivElement, GroupSelectProps>(
         {...props}
         isDisabled={disabled}
         data-focus-surface="true"
-        className={cn("group", "select", context.groupVariant, css.select, context.groupStyles.select, className)}
+        className={cn("select", context.groupVariant, css.select, context.groupStyles.select, className)}
       />
     )
   }
@@ -580,7 +579,7 @@ const GroupExpand = React.forwardRef<HTMLDivElement, GroupExpandProps>(
       <div
         ref={surfaceRef}
         data-focus-surface="true"
-        className={cn("group", "expand", context.groupVariant, css.expand, context.groupStyles.expand, surfaceStyles)}
+        className={cn("expand", context.groupVariant, css.expand, context.groupStyles.expand, surfaceStyles)}
       >
         <Expand
           ref={ref}

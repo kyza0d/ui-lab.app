@@ -29,13 +29,18 @@ describe('Group.Input focus ring target', () => {
     const expandSurface = expandTrigger.closest(`.${css.expand}`)
 
     expect(groupRoot).toHaveClass('my-custom-variant')
+    expect(groupRoot).toHaveClass(css.group)
     expect(itemWrappers).toHaveLength(3)
     itemWrappers.forEach((item) => {
       expect(item).toHaveClass('my-custom-variant')
+      expect(item).not.toHaveClass(css.group)
     })
     expect(actionButton).toHaveClass('my-custom-variant')
+    expect(actionButton).not.toHaveClass(css.group)
     expect(inputSurface).toHaveClass('my-custom-variant')
+    expect(inputSurface).not.toHaveClass(css.group)
     expect(expandSurface).toHaveClass('my-custom-variant')
+    expect(expandSurface).not.toHaveClass(css.group)
   })
 
   it('preserves root and slot styles while adding the variant class', () => {

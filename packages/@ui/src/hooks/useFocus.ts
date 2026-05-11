@@ -1,7 +1,7 @@
 import * as React from "react";
-import css from "./useFocusIndicator.module.css";
+import css from "./useFocus.module.css";
 
-export interface FocusIndicatorState {
+export interface FocusState {
   visible: boolean;
   left: number;
   top: number;
@@ -10,7 +10,7 @@ export interface FocusIndicatorState {
   radius: string;
 }
 
-export interface UseFocusIndicatorOptions {
+export interface UseFocusOptions {
   /** Container for absolute positioning context. Required for overlay modes. */
   scopeRef?: React.RefObject<HTMLElement | null>;
   /** Element containing focusable surfaces. Required for overlay modes. */
@@ -29,7 +29,7 @@ export interface UseFocusIndicatorOptions {
   dependencies?: React.DependencyList;
 }
 
-export interface UseFocusIndicatorReturn {
+export interface UseFocusReturn {
   /** Props to spread on the scope wrapper element */
   scopeProps: {
     className: string;
@@ -52,7 +52,7 @@ export interface UseFocusIndicatorReturn {
   };
 }
 
-const HIDDEN_FOCUS_INDICATOR: FocusIndicatorState = {
+const HIDDEN_FOCUS: FocusState = {
   visible: false,
   left: 0,
   top: 0,
@@ -61,22 +61,20 @@ const HIDDEN_FOCUS_INDICATOR: FocusIndicatorState = {
   radius: "0px",
 };
 
-export function useFocusIndicator({
+export function useFocus({
   scopeRef,
   containerRef,
   surfaceSelector = '[data-focus-surface="true"]',
   radiusSource = "item",
   mode = "track",
   dependencies = [],
-}: UseFocusIndicatorOptions): UseFocusIndicatorReturn {
+}: UseFocusOptions): UseFocusReturn {
   const focusSurfaceRef = React.useRef<HTMLElement | null>(null);
   const rafRef = React.useRef<number | null>(null);
-  const [focusIndicator, setFocusIndicator] = React.useState<FocusIndicatorState>(
-    HIDDEN_FOCUS_INDICATOR
-  );
+  const [focus, setFocus] = React.useState<FocusState>(HIDDEN_FOCUS);
   const usesOverlay = mode !== "target";
 
-  const updateFocusIndicator = React.useCallback(() => {
+  const updateFocus = React.useCallback(() => {
     if (!usesOverlay) {
       return;
     }
@@ -92,14 +90,14 @@ export function useFocusIndicator({
       !container.contains(activeElement)
     ) {
       focusSurfaceRef.current = null;
-      setFocusIndicator(HIDDEN_FOCUS_INDICATOR);
+      setFocus(HIDDEN_FOCUS);
       return;
     }
 
     const surface = activeElement.closest(surfaceSelector);
     if (!(surface instanceof HTMLElement) || !container.contains(surface)) {
       focusSurfaceRef.current = null;
-      setFocusIndicator(HIDDEN_FOCUS_INDICATOR);
+      setFocus(HIDDEN_FOCUS);
       return;
     }
 
@@ -109,7 +107,7 @@ export function useFocusIndicator({
 
     if (!focusVisibleNode) {
       focusSurfaceRef.current = surface;
-      setFocusIndicator(HIDDEN_FOCUS_INDICATOR);
+      setFocus(HIDDEN_FOCUS);
       return;
     }
 
@@ -117,10 +115,10 @@ export function useFocusIndicator({
 
     if (mode === "self") {
       const radius = window.getComputedStyle(scope).borderRadius;
-      setFocusIndicator((prev) =>
+      setFocus((prev) =>
         prev.visible && prev.radius === radius
           ? prev
-          : { ...HIDDEN_FOCUS_INDICATOR, visible: true, radius }
+          : { ...HIDDEN_FOCUS, visible: true, radius }
       );
       return;
     }
@@ -142,7 +140,7 @@ export function useFocusIndicator({
     const surfaceRect = radiusElement.getBoundingClientRect();
     const surfaceStyles = window.getComputedStyle(radiusElement);
 
-    setFocusIndicator({
+    setFocus({
       visible: true,
       left: snap(surfaceRect.left - scopePaddingBoxLeft),
       top: snap(surfaceRect.top - scopePaddingBoxTop),
@@ -152,21 +150,21 @@ export function useFocusIndicator({
     });
   }, [scopeRef, containerRef, surfaceSelector, radiusSource, mode, usesOverlay]);
 
-  const scheduleFocusIndicatorUpdate = React.useCallback(() => {
+  const scheduleFocusUpdate = React.useCallback(() => {
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
     }
 
     rafRef.current = window.requestAnimationFrame(() => {
       rafRef.current = null;
-      updateFocusIndicator();
+      updateFocus();
     });
-  }, [updateFocusIndicator]);
+  }, [updateFocus]);
 
   React.useEffect(() => {
     if (!usesOverlay) return;
-    scheduleFocusIndicatorUpdate();
-  }, [usesOverlay, scheduleFocusIndicatorUpdate, ...dependencies]);
+    scheduleFocusUpdate();
+  }, [usesOverlay, scheduleFocusUpdate, ...dependencies]);
 
   React.useEffect(() => {
     if (!usesOverlay) return;
@@ -176,12 +174,12 @@ export function useFocusIndicator({
     if (!scope || !container) return;
 
     const handleFocusChange = () => {
-      scheduleFocusIndicatorUpdate();
+      scheduleFocusUpdate();
     };
 
     const handleViewportChange = () => {
       if (focusSurfaceRef.current) {
-        scheduleFocusIndicatorUpdate();
+        scheduleFocusUpdate();
       }
     };
 
@@ -189,7 +187,7 @@ export function useFocusIndicator({
       typeof ResizeObserver !== "undefined"
         ? new ResizeObserver(() => {
             if (focusSurfaceRef.current) {
-              scheduleFocusIndicatorUpdate();
+              scheduleFocusUpdate();
             }
           })
         : null;
@@ -213,7 +211,7 @@ export function useFocusIndicator({
       window.removeEventListener("resize", handleViewportChange);
       window.removeEventListener("scroll", handleViewportChange, true);
     };
-  }, [scopeRef, containerRef, scheduleFocusIndicatorUpdate, usesOverlay]);
+  }, [scopeRef, containerRef, scheduleFocusUpdate, usesOverlay]);
 
   const isSelf = mode === "self";
   const isRing = mode === "ring";
@@ -227,15 +225,15 @@ export function useFocusIndicator({
       "data-ring": "true",
       "data-self-target": isSelf ? "true" : undefined,
       "data-ring-inset": isRing ? "true" : undefined,
-      "data-visible": focusIndicator.visible ? "true" : undefined,
+      "data-visible": focus.visible ? "true" : undefined,
       "aria-hidden": "true",
       style: isSelf
-        ? { borderRadius: focusIndicator.radius }
+        ? { borderRadius: focus.radius }
         : {
-            width: `${focusIndicator.width}px`,
-            height: `${focusIndicator.height}px`,
-            transform: `translate(${focusIndicator.left}px, ${focusIndicator.top}px)`,
-            borderRadius: focusIndicator.radius,
+            width: `${focus.width}px`,
+            height: `${focus.height}px`,
+            transform: `translate(${focus.left}px, ${focus.top}px)`,
+            borderRadius: focus.radius,
           },
     },
     targetProps: {
