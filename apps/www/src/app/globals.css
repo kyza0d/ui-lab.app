@@ -6,7 +6,7 @@
 
 :root {
   /* Border Radius Scale */
-  --radius-xs: 0.05rem;
+  --radius-xs: 0.06rem;
   --radius-sm: 0.1rem;
   --radius-base: 0.2rem;
   --radius-md: 0.3rem;
@@ -617,6 +617,12 @@ body[data-config-full-bleed="true"] {
   margin: 0;
   width: 100%;
   overflow-x: hidden;
+}
+
+.config-route-shell {
+  width: 100%;
+  max-width: none;
+  overflow-x: clip;
 }
 
 ::selection {

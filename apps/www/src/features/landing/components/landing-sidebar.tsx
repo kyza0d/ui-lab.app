@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { memo } from 'react';
-import { Badge, Scroll, Tooltip } from 'ui-lab-components';
+import { Scroll, Tooltip } from 'ui-lab-components';
 import { cn } from '@/shared';
 import { usePrefetchOnHover } from '@/shared/hooks/use-prefetch-on-hover';
 import { useLandingSidebarToggle } from '@/features/layout/hooks/landing-sidebar-context';

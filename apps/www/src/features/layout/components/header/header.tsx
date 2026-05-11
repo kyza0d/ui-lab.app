@@ -72,6 +72,7 @@ export default function Header({
   };
 
   const hasRevealCollapse = shouldApplyRevealCollapse(pathname);
+  const isConfigRoute = pathname === "/config" || pathname.startsWith("/config/");
   const tabGroup = useMemo(() => getTabGroupForPathname(pathname), [pathname]);
   const activeTabId = useMemo(() => getActiveTabForPathname(pathname), [pathname]);
 
@@ -100,7 +101,13 @@ export default function Header({
   return (
     <>
       <header className="fixed left-0 -mr-2 top-0 z-50 w-full border-b border-background-700/40 bg-background-950 h-[58px]">
-        <div className={cn("relative h-full max-w-(--page-width) flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300", isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto")}>
+        <div
+          className={cn(
+            "relative h-full flex items-center justify-between px-3 w-full overflow-hidden transition-[margin] duration-300",
+            isConfigRoute ? "max-w-none" : "max-w-(--page-width)",
+            isChatOpen ? "mx-auto lg:ml-0 lg:mr-[28vw] xl:mr-[22vw] 2xl:mr-[18vw]" : "mx-auto",
+          )}
+        >
 
           {/* LEFT SECTION: Logo & Tabs - Added shrink-0 to prevent it being crushed */}
           <div className="flex items-center shrink-0">

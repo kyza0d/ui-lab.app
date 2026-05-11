@@ -1,10 +1,10 @@
 ---
-name: design
-description: Build, audit, ideate, explore, or overhaul UI with UI Lab's component library. Routes to ideate (holistic feedback), audit (5-pillar validation), or overhaul (mechanical UI swap to UI Lab components without changing product logic or redesigning). Requires ui-lab-mcp server.
+name: ui-lab
+description: Audit, ideate, overhaul UI with UI Lab's component library. Routes to ideate (holistic feedback), audit (6-pillar validation), or overhaul (mechanical UI swap to UI Lab components without changing product logic or redesigning). Requires ui-lab-mcp server.
 ---
 
 <objective>
-Route UI Lab tasks to specialized agents. ideate produces design briefs. audit validates against 5 core pillars (Design System Adherence, Layout & Spacing, Accessibility & Usability, Cognitive Load, Visual Consistency) and produces star-rated reports. overhaul performs a mechanical UI swap to UI Lab components while preserving product logic (no redesign).
+Route UI Lab tasks to specialized agents. ideate produces design briefs. audit validates against 6 core pillars (Design System Adherence, Layout & Spacing, Accessibility & Usability, Cognitive Load, Visual Consistency, Slop Avoidance) and produces star-rated reports. overhaul performs a mechanical UI swap to UI Lab components while preserving product logic (no redesign).
 </objective>
 
 <quick_start>
@@ -72,7 +72,7 @@ When trigger words match `overhaul` and anything else:
 - Components validated against registry via `search_components` → `get_component(detail="api")`
 - Native HTML elements checked first (`<button>`, `<a>`, `<input>`, `<select>`, `<div className="...">`, etc.) — any found are CRITICAL violations in the Adherence pillar
 - Vibe-coded anti-patterns from `references/design-system.md` explicitly checked, including arbitrary typography utilities, over-specified text rhythm, and transition noise
-- Each of the 5 pillars has been independently evaluated
+- Each of the 6 pillars has been independently evaluated
 - Star rating assigned based on violation severity and count (5 stars = no violations, 1 star = critical failures)
 - Violations listed with specific element/component reference and actionable recommendation
 - Summary provided with overall assessment and priority focus areas

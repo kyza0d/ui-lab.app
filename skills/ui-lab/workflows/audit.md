@@ -36,7 +36,7 @@ For each UI Lab component referenced in code:
 For each pillar:
 1. Apply the Check / Flag lists from `core-pillars.md`
 2. For Adherence, also apply `design-system.md` rules
-3. For Slop Avoidance, apply the pattern table in `Slop Avoidance pillar specifics`
+3. For Slop Avoidance, also apply `references/slop-patterns.md`
 4. Classify each violation by severity (below)
 5. Assign star rating (below)
 
@@ -140,21 +140,9 @@ Then apply `design-system.md` rules: token usage (no hex/rgba), semantic tokens 
 
 ## Slop Avoidance pillar specifics
 
-Scan for AI-generated filler and decorative noise. Severities:
+Scan for AI-generated filler, decorative noise, and structural cliches using `references/slop-patterns.md`, especially badge-led section scaffolds that repeat the same title/description/badge rhythm in different forms.
 
-| Pattern | Description | Severity |
-|---|---|---|
-| Decorative dots / dividers | `•`, `·`, `···`, horizontal rules with no section boundary purpose | WARNING |
-| Gratuitous gradients | `bg-gradient-*` or inline gradient styles on non-data surfaces | WARNING |
-| Gratuitous drop shadows | `shadow-*` utilities on cards, panels, or text with no elevation intent | WARNING |
-| Reflexive Header + Description | Every card/section opens with a bold title and a one-sentence description that restates it — remove description when title is self-explanatory | WARNING |
-| Over-labeled empty states | Empty state has icon + heading + subtext + CTA button — strip to only what disambiguates the state | WARNING |
-| Generic icon + generic heading pairs | Icon semantically unrelated to or merely decorative beside the heading | SUGGESTION |
-| Placeholder chrome | Lorem ipsum, `TODO`, `Coming soon`, or stub badges shipped in non-dev surfaces | CRITICAL |
-| Badge stacking | Three or more badges on a single element with no information hierarchy | WARNING |
-| Unnecessary nesting depth | Card-in-card or Group-in-Card-in-Card with no layout or semantic reason | WARNING |
-
-Flag each instance with the element, the pattern name, and a concrete removal or simplification instruction. Do not flag intentional section separators, data-driven badges, or elevation shadows that communicate layering.
+Flag each instance with the element, the pattern name, and a concrete removal or simplification instruction.
 
 ## Examples
 

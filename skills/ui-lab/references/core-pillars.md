@@ -114,27 +114,31 @@ See `design-system.md` for the full component mapping table and token rules.
 
 ---
 
-## 6. Affordance & Layout Efficiency
+## 6. Slop Avoidance
 
-**Measures:** Element sizing appropriateness, layout density, space utilization, disclosure opportunities, removable content.
+**Measures:** AI-generated filler, decorative noise, structural cliches, and low-intent UI chrome.
 
 **Check:**
-- Elements sized to content without excess padding or dimensions
-- Layout density appropriate to use case (information-rich vs. simple)
-- Secondary or advanced features hidden behind disclosures (dropdowns, popovers, modals)
-- No unnecessary elements; every component serves a purpose
-- Whitespace used intentionally, not filling space passively
-- Layout collapses or condenses responsively, not just reflows
-- Interactive targets sized appropriately (not oversized for simple actions)
+- Decorative separators have a real section-boundary purpose
+- Gradients and shadows communicate data, depth, or state rather than decoration
+- Card and section copy avoids badge-led title/description scaffolds and other repeated metadata-first patterns
+- Empty states include only the icon, heading, copy, and actions needed to disambiguate the state
+- Icons add semantic value instead of merely decorating headings
+- Badges communicate hierarchy and status rather than accumulating labels
+- Surfaces avoid unnecessary nesting depth
+- No placeholder chrome ships in non-dev surfaces
 
 **Flag:**
-- Oversized elements or containers with wasted internal space
-- All content presented at once when some could be progressive disclosure
-- Redundant elements or duplicate controls
-- Layout maintains fixed dimensions when density could be reduced
-- Interaction affordances (buttons, controls) larger than their function requires
-- Content that could be hidden, collapsed, or condensed but isn't
-- Empty space used as filler rather than reinforcing hierarchy
+- Decorative dots, repeated dividers, or separators without structural purpose
+- Gratuitous gradients or shadows on non-data surfaces
+- Badge-led section stacks and reflexive header + description patterns
+- Over-labeled empty states
+- Generic icon + generic heading pairs
+- Lorem ipsum, `TODO`, `Coming soon`, or stub badges on production surfaces
+- Badge stacking with no information hierarchy
+- Card-in-card or Group-in-Card-in-Card without semantic or layout purpose
+
+See `slop-patterns.md` for the canonical pattern list, severity levels, and reporting guidance.
 
 ---
 
@@ -162,4 +166,4 @@ Each pillar scored 0–5:
 5. Group violations by severity: CRITICAL / WARNING / SUGGESTION
 6. Tie each finding back to the pillar it came from
 
-For Adherence specifics, defer to `design-system.md`.
+For Adherence specifics, defer to `design-system.md`. For Slop Avoidance specifics, defer to `slop-patterns.md`.

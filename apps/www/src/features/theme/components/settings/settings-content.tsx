@@ -205,7 +205,13 @@ function useSettingsHandlers(
   return { handleGlobalAdjustmentChange, handleColorChange, handleChromaLimitChange, handleBodyFontChange, handleHeaderFontChange, handleMonoFontChange, updateTypography };
 }
 
-export const SettingsContent = () => {
+interface SettingsContentProps {
+  showFooterLink?: boolean;
+}
+
+export const SettingsContent = ({
+  showFooterLink = true,
+}: SettingsContentProps) => {
   const {
     currentThemeColors,
     setCurrentThemeColors,
@@ -433,13 +439,13 @@ export const SettingsContent = () => {
         </Scroll>
       </div>
 
-      <div className="bg-background-900/90 p-1.5 border-t border-background-700">
-        <Link href="/config" className="ml-auto m-2" >
-          <Button size="sm">
-            Configuration
-          </Button>
-        </Link>
-      </div>
+      {showFooterLink ? (
+        <div className="flex justify-end border-t border-background-700 bg-background-900/90 p-1.5">
+          <Link href="/config" className="m-2">
+            <Button size="sm">Configuration</Button>
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 };
