@@ -148,7 +148,7 @@ export const componentRegistry: ComponentRegistry = {
     {
         "title": "Multiple Actions",
         "description": "A primary action button grouped with secondary actions and an options menu.",
-        "code": "\"use client\";\n\nimport React, { useState } from 'react'\nimport { Button, Flex } from 'ui-lab-components'\nimport { FaEllipsisVertical } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Flex gap=\"xs\" className=\"w-110 *:not-last:flex-1\">\n      <Button size=\"sm\" variant=\"primary\" >Subscribe</Button>\n      <Button size=\"sm\" >Message</Button>\n      <Button size=\"icon\" variant=\"outline\" icon={<FaEllipsisVertical />} />\n    </Flex>\n  );\n}"
+        "code": "\"use client\";\n\nimport { Button, Flex } from 'ui-lab-components'\nimport { FaEllipsisVertical } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Flex gap=\"xs\" className=\"w-110 *:not-last:flex-1\">\n      <Button size=\"sm\" variant=\"primary\" >Subscribe</Button>\n      <Button size=\"sm\" >Message</Button>\n      <Button size=\"icon\" variant=\"outline\" icon={<FaEllipsisVertical />} />\n    </Flex>\n  );\n}"
     },
     {
         "title": "Joined Toggle Buttons",
