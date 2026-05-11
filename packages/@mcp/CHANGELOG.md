@@ -1,5 +1,11 @@
 # ui-lab-mcp
 
+## 0.1.65
+
+### Patch Changes
+
+- Enhanced component styling, accessibility, and focus management. Overhauled Badge, Banner, Flex, Grid, List, Popover, Progress, Slider, and Tabs components with improved styles and introduced new useFocus hook.
+
 ## 0.1.64
 
 ### Patch Changes

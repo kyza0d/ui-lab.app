@@ -1,5 +1,11 @@
 # ui-lab-registry
 
+## 0.3.45
+
+### Patch Changes
+
+- Enhanced component styling, accessibility, and focus management. Overhauled Badge, Banner, Flex, Grid, List, Popover, Progress, Slider, and Tabs components with improved styles and introduced new useFocus hook.
+
 ## 0.3.44
 
 ### Patch Changes
