@@ -61,7 +61,7 @@ function SearchPreview() {
         placeholder="Search components..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        hint={!query ? <Badge size="sm">⌘K</Badge> : undefined}
+        hint={!query ? <Badge>⌘K</Badge> : undefined}
         actions={
           query
             ? [{ icon: <FaXmark className="w-3.5 h-3.5" />, title: "Clear", onClick: () => setQuery("") }]

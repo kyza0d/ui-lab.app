@@ -223,7 +223,6 @@ function MultiSelectPreview() {
                       key={item.value}
                       dismissible
                       variant="default"
-                      size="sm"
                       icon={<ItemIcon style={{ color: item.color }} className="w-3 h-3" />}
                       onDismiss={() => setSelected(selected.filter(s => s !== item.value))}
                     >

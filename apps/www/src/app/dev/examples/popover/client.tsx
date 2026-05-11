@@ -35,7 +35,7 @@ const toggleableItems = [
   { id: "notifications", label: "Notifications", desc: "Push and email alerts" },
   { id: "autoSave", label: "Auto-save", desc: "Save changes automatically" },
   { id: "darkMode", label: "Dark mode", desc: "Use dark color scheme" },
-] as const;
+];
 
 function ToggleableOptionsPreview() {
   const [enabled, setEnabled] = useState<Set<string>>(
