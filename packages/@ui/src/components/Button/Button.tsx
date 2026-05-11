@@ -9,7 +9,7 @@ import { useButton } from "@react-aria/button";
 
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import css from "./Button.module.css";
 
@@ -137,9 +137,10 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
     const resolved = resolveButtonStyles(styles);
     const resolvedIcon = resolveButtonIcon(icon);
     const iconSizeClassName = resolveButtonIconSizeClass(size);
+    const iconSlotClassName = size === "icon" ? "icon" : undefined;
     const buttonClassName = cn("button", variant, size, css.button, className, resolved.root);
 
-    const { targetProps } = useFocusIndicator({ mode: "target" });
+    const { targetProps } = useFocus({ mode: "target" });
 
     if (isAnchor) {
       return (
@@ -160,9 +161,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
           data-focused={isFocused ? "true" : "false"}
           data-focus-visible={isFocusVisible ? "true" : "false"}
         >
-          {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
+          {resolvedIcon?.left && <span className={cn(iconSlotClassName, iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
           {children}
-          {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
+          {resolvedIcon?.right && <span className={cn(iconSlotClassName, iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
         </a>
       );
     }
@@ -183,9 +184,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         data-focused={isFocused ? "true" : "false"}
         data-focus-visible={isFocusVisible ? "true" : "false"}
       >
-        {resolvedIcon?.left && <span className={cn(iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
+        {resolvedIcon?.left && <span className={cn(iconSlotClassName, iconSizeClassName, resolved.iconLeft)}>{resolvedIcon.left}</span>}
         {children}
-        {resolvedIcon?.right && <span className={cn(iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
+        {resolvedIcon?.right && <span className={cn(iconSlotClassName, iconSizeClassName, resolved.iconRight)}>{resolvedIcon.right}</span>}
       </button>
     );
   }

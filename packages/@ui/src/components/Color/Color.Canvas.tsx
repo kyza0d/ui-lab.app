@@ -88,7 +88,7 @@ export const ColorCanvas = React.forwardRef<
     return (
       <div
         ref={mergedRef}
-        className={cn("color", "canvas", styles["canvas"], className)}
+        className={cn("canvas", styles["canvas"], className)}
         data-size={size}
         data-disabled={disabled || undefined}
         data-focused={isFocused ? "true" : undefined}
@@ -103,12 +103,12 @@ export const ColorCanvas = React.forwardRef<
         aria-label="Color saturation and brightness"
         aria-valuetext={`Saturation: ${saturation.toFixed(0)}%, Brightness: ${brightness.toFixed(0)}%`}
       >
-        <div className={cn("color", "canvas-inner", styles["canvas-inner"], innerClassName)}>
-          <div className={cn("color", "canvas-gradient-hue", styles["canvas-gradient-hue"], gradientHueClassName)} style={gradientStyle} />
-          <div className={cn("color", "canvas-gradient-saturation", styles["canvas-gradient-saturation"], gradientSaturationClassName)} />
-          <div className={cn("color", "canvas-gradient-brightness", styles["canvas-gradient-brightness"], gradientBrightnessClassName)} />
+        <div className={cn("canvas-inner", styles["canvas-inner"], innerClassName)}>
+          <div className={cn("canvas-gradient-hue", styles["canvas-gradient-hue"], gradientHueClassName)} style={gradientStyle} />
+          <div className={cn("canvas-gradient-saturation", styles["canvas-gradient-saturation"], gradientSaturationClassName)} />
+          <div className={cn("canvas-gradient-brightness", styles["canvas-gradient-brightness"], gradientBrightnessClassName)} />
         </div>
-        <div className={cn("color", "canvas-pointer", styles["canvas-pointer"], pointerClassName)} style={positionStyle} />
+        <div className={cn("canvas-pointer", styles["canvas-pointer"], pointerClassName)} style={positionStyle} />
       </div>
     );
   }

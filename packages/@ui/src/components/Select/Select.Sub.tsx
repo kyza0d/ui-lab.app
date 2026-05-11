@@ -287,7 +287,7 @@ const SelectSubTrigger = React.forwardRef<HTMLDivElement, SelectSubTriggerProps>
         aria-expanded={submenuContext?.isOpen}
         tabIndex={-1}
         aria-disabled={disabled || undefined}
-        className={cn('select', 'sub-trigger', styles["sub-trigger"], className, resolved.root)}
+        className={cn('sub-trigger', styles["sub-trigger"], className, resolved.root)}
         data-highlighted={isHighlighted ? "true" : "false"}
         data-focused={isHighlighted ? "true" : "false"}
         data-disabled={disabled || undefined}
@@ -492,7 +492,7 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
         {showContent && (
           <div
             ref={mergedFloatingRef}
-            className={cn(styles["sub-content-root"], resolved.overlay)}
+            className={cn('select', styles["sub-content-root"], resolved.overlay)}
             style={{
               ...floatingStyles,
               zIndex: 50001 + (submenuContext.submenuLevel ?? 0),
@@ -503,7 +503,7 @@ const SelectSubContent = React.forwardRef<HTMLDivElement, SelectSubContentProps>
               ref={mergedContentRef}
               role="listbox"
               tabIndex={-1}
-              className={cn('select', 'sub-content', styles["sub-content"], className, resolved.root)}
+              className={cn('sub-content', styles["sub-content"], className, resolved.root)}
               data-state={showContent ? "open" : "closed"}
               data-placement={placement.split("-")[0]}
               data-select-submenu-content="true"

@@ -31,7 +31,7 @@
     width: fit-content;
   }
 
-  .color-trigger {
+  .color-provider .color-trigger {
     --trigger-background: color-mix(in srgb, var(--background-800) 35%, transparent);
     --trigger-background-hover: color-mix(in srgb, var(--background-700) 45%, transparent);
     --trigger-border: var(--background-700);
@@ -60,36 +60,36 @@
       border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
-  .color-trigger:hover {
+  .color-provider .color-trigger:hover {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     background: var(--trigger-background-hover);
   }
 
-  .color-trigger:focus-visible {
+  .color-provider .color-trigger:focus-visible {
     outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
-  .color-trigger[data-disabled="true"] {
+  .color-provider .color-trigger[data-disabled="true"] {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
-  .color-trigger[data-size="sm"] {
+  .color-provider .color-trigger[data-size="sm"] {
     min-width: 150px;
     height: 34px;
     padding: 0 0.625rem;
     font-size: 0.8125rem;
   }
 
-  .color-trigger[data-size="lg"] {
+  .color-provider .color-trigger[data-size="lg"] {
     min-width: 190px;
     height: 46px;
     padding: 0 0.875rem;
     font-size: 0.9375rem;
   }
 
-  .color-trigger-swatch {
+  .color-provider .color-trigger-swatch {
     position: relative;
     width: 20px;
     height: 20px;
@@ -99,7 +99,7 @@
     overflow: hidden;
   }
 
-  .color-trigger-swatch::before {
+  .color-provider .color-trigger-swatch::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -112,21 +112,21 @@
     );
   }
 
-  .color-trigger-swatch::after {
+  .color-provider .color-trigger-swatch::after {
     content: "";
     position: absolute;
     inset: 0;
     background-color: var(--preview-color, transparent);
   }
 
-  .color-trigger-value {
+  .color-provider .color-trigger-value {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .controls {
+  .color .controls {
     @apply pb-3 px-3 space-y-3;
   }
 
@@ -139,11 +139,11 @@
     min-width: 0;
   }
 
-  .input {
+  .input-group .input {
     width: 100%;
   }
 
-  .format {
+  .input-group .format {
     flex-shrink: 0;
     width: 85px;
   }
@@ -168,32 +168,32 @@
     outline-offset: 2px;
   }
 
-  .canvas-inner {
+  .canvas .canvas-inner {
     position: relative;
     width: 100%;
     flex: 1;
     overflow: hidden;
   }
 
-  .canvas-gradient-hue {
+  .canvas .canvas-gradient-hue {
     position: absolute;
     inset: 0;
     overflow: hidden;
   }
 
-  .canvas-gradient-saturation {
+  .canvas .canvas-gradient-saturation {
     position: absolute;
     inset: 0;
     background: linear-gradient(to right, rgb(255, 255, 255), transparent);
   }
 
-  .canvas-gradient-brightness {
+  .canvas .canvas-gradient-brightness {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgb(0, 0, 0), transparent);
   }
 
-  .canvas-pointer {
+  .canvas .canvas-pointer {
     --pointer-border: color-mix(in srgb, var(--foreground-200) 50%, transparent);
 
     position: absolute;
@@ -231,12 +231,12 @@
     border-radius: var(--radius-full);
   }
 
-  .hue-track {
+  .hue-slider .hue-track {
     position: relative;
     width: 100%;
   }
 
-  .hue-thumb {
+  .hue-slider .hue-thumb {
     --thumb-border: white;
     --thumb-background: white;
     --slider-thumb-background: var(--thumb-background);
@@ -248,17 +248,17 @@
     border-radius: var(--radius-full);
   }
 
-  .hue-thumb[data-focus-visible="true"] {
+  .hue-slider .hue-thumb[data-focus-visible="true"] {
     outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
-  .hue-thumb[data-hovered="true"] {
+  .hue-slider .hue-thumb[data-hovered="true"] {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     box-shadow: var(--slider-thumb-shadow-hover);
   }
 
-  .hue-thumb[data-pressed="true"] {
+  .hue-slider .hue-thumb[data-pressed="true"] {
     box-shadow: var(--slider-thumb-shadow-active);
   }
 
@@ -287,13 +287,13 @@
     border-radius: var(--radius-full);
   }
 
-  .opacity-track {
+  .opacity-slider .opacity-track {
     position: relative;
     width: 100%;
     overflow: hidden;
   }
 
-  .opacity-thumb {
+  .opacity-slider .opacity-thumb {
     --thumb-border: white;
     --thumb-background: white;
     --slider-thumb-background: var(--thumb-background);
@@ -305,17 +305,17 @@
     border-radius: var(--radius-full);
   }
 
-  .opacity-thumb[data-focus-visible="true"] {
+  .opacity-slider .opacity-thumb[data-focus-visible="true"] {
     outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }
 
-  .opacity-thumb[data-hovered="true"] {
+  .opacity-slider .opacity-thumb[data-hovered="true"] {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     box-shadow: var(--slider-thumb-shadow-hover);
   }
 
-  .opacity-thumb[data-pressed="true"] {
+  .opacity-slider .opacity-thumb[data-pressed="true"] {
     box-shadow: var(--slider-thumb-shadow-active);
   }
 
@@ -326,7 +326,7 @@
     padding-bottom: 0.25rem;
   }
 
-  .recent-color-swatch {
+  .recent-colors .recent-color-swatch {
     flex-shrink: 0;
     width: 32px;
     height: 32px;
@@ -341,17 +341,17 @@
       transform var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
-  .recent-color-swatch:hover {
+  .recent-colors .recent-color-swatch:hover {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     transform: scale(1.1);
     box-shadow: 0 0 0 2px var(--focus-visible);
   }
 
-  .recent-color-swatch:active {
+  .recent-colors .recent-color-swatch:active {
     transform: scale(0.95);
   }
 
-  .recent-color-swatch:focus-visible {
+  .recent-colors .recent-color-swatch:focus-visible {
     outline: 2px solid var(--focus-visible);
     outline-offset: 2px;
   }

@@ -10,7 +10,7 @@ import { useSwitch } from "@react-aria/switch";
 import { useToggleState } from "react-stately";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 
 import styles from "./Switch.module.css";
 
@@ -81,7 +81,7 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
     const { hoverProps, isHovered } = useHover({ isDisabled });
 
-    const { indicatorProps } = useFocusIndicator({
+    const { indicatorProps } = useFocus({
       scopeRef: rootRef,
       containerRef: rootRef,
       surfaceSelector: '[data-switch-focus-surface="true"]',

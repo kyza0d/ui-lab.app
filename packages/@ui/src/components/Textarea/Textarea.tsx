@@ -8,7 +8,7 @@ import { mergeProps } from "@react-aria/utils";
 
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import { Scroll } from "@/components/Scroll";
 import css from "./Textarea.module.css";
@@ -178,7 +178,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const { focusProps, isFocusVisible } = useFocusRing();
     const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
-    const { indicatorProps } = useFocusIndicator({
+    const { indicatorProps } = useFocus({
       scopeRef,
       containerRef,
       surfaceSelector: '[data-textarea-focus-surface="true"]',
@@ -345,11 +345,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <div {...indicatorProps} data-focus-indicator="local" />
         <div
           ref={containerRef}
-          className={cn("textarea", "container", css.container, resolved.container)}
+          className={cn("container", css.container, resolved.container)}
         >
           <div
             ref={surfaceRef}
-            className={cn("textarea", "surface", css.surface, resolved.surface)}
+            className={cn("surface", css.surface, resolved.surface)}
             data-disabled={disabled ? "true" : undefined}
             data-error={error || isOverLimit ? "true" : undefined}
             data-focused={isFocused ? "true" : undefined}

@@ -36,7 +36,7 @@ export const ColorRecentColors = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("color", "recent-colors", styles["recent-colors"], className)}
+      className={cn("recent-colors", styles["recent-colors"], className)}
       data-size={size}
       role="group"
       aria-label="Recent colors"
@@ -44,7 +44,7 @@ export const ColorRecentColors = React.forwardRef<
       {recentColors.map((color, index) => (
         <button
           key={`${color}-${index}`}
-          className={cn("color", "recent-color-swatch", styles["recent-color-swatch"], swatchClassName)}
+          className={cn("recent-color-swatch", styles["recent-color-swatch"], swatchClassName)}
           style={{ backgroundColor: color }}
           onClick={() => onSelect?.(color)}
           disabled={disabled}

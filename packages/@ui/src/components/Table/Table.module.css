@@ -6,52 +6,87 @@
   }
 
   .container {
-    @apply overflow-x-auto rounded-md;
-    border: 1px solid var(--table-border, var(--background-800));
+    @apply w-full overflow-x-auto rounded-md;
+    border: var(--border-width-base) solid var(--border, var(--background-border));
+    background-color: var(--container-background, var(--background));
+  }
+
+  .container {
+    display: block;
+    max-width: none;
   }
 
   .table {
     @apply w-full text-sm;
-    background-color: var(--table-background, transparent);
-    color: var(--table-foreground, currentColor);
+    display: table;
+    border-collapse: collapse;
+    min-width: max-content;
+    background-color: var(--background, transparent);
+    color: var(--foreground);
+    font-size: var(--font-size, var(--text-sm));
   }
 
-  .thead {
-    @apply contents;
+  .header {
+    display: table-header-group;
+    background-color: var(--header-background, var(--background));
+  }
+
+  .body {
+    display: table-row-group;
+    background-color: var(--body-background, var(--background));
   }
 
   .headerRow {
-    @apply contents;
+    display: table-row;
+    background-color: var(--header-background, var(--background));
   }
 
   .headerCell {
-    @apply px-4 py-3 text-left font-semibold;
-    background-color: var(--table-header-background, var(--background-900));
-    color: var(--table-header-foreground, var(--foreground-200));
-    border-bottom: 1px solid var(--table-border, var(--background-800));
+    @apply px-4 py-3 text-left;
+    display: table-cell;
+    background-color: var(--header-background, var(--background));
+    color: var(--header-foreground, var(--foreground));
+    font-weight: var(--header-font-weight, var(--font-weight-semibold));
+    white-space: nowrap;
+    border-bottom: var(--border-width-base) solid var(--border, var(--background-border));
   }
 
-  .tbody {
-    @apply contents;
+  .headerCell:first-child {
+    border-top-left-radius: var(--radius-sm);
   }
 
-  .bodyRow {
-    @apply contents;
+  .headerCell:last-child {
+    border-top-right-radius: var(--radius-sm);
+  }
 
-    &[data-interactive="true"] {
-      @apply cursor-pointer;
+  .row {
+    display: table-row;
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
+  }
 
-      & td {
-        transition:
-          background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
-          color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
-      }
+  .row[data-interactive="true"] {
+    @apply cursor-pointer;
+  }
 
-      &:hover td {
-        --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-        background-color: var(--table-body-background-hover, var(--background-900));
-      }
-    }
+  .row[data-interactive="true"]:hover .cell {
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+    background-color: var(--body-background-hover, var(--background-hover, var(--background)));
+  }
+
+  .row[data-selected="true"] .cell {
+    background-color: var(--row-selected-background, var(--background-selected, var(--background-hover, var(--background))));
+  }
+
+  .row[data-disabled="true"] {
+    cursor: not-allowed;
+    opacity: var(--disabled-opacity, 0.5);
+  }
+
+  .row:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
   }
 
   .interactive {
@@ -59,59 +94,81 @@
   }
 
   .cell {
-    @apply px-4 py-3;
-    background-color: var(--table-cell-background, transparent);
-    color: var(--table-cell-foreground, var(--foreground-300));
-    border-bottom: 1px solid var(--table-border, var(--background-800));
+    @apply px-4 py-3 align-middle;
+    display: table-cell;
+    background-color: var(--cell-background, transparent);
+    color: var(--cell-foreground, var(--foreground));
+    border-bottom: var(--border-width-base) solid var(--border, var(--background-border));
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
+  }
 
-    &:last-child {
-      border-bottom: none;
-    }
+  .row:last-child .cell {
+    border-bottom: none;
+  }
+
+  .row:last-child .cell:first-child {
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .row:last-child .cell:last-child {
+    border-bottom-right-radius: var(--radius-sm);
+  }
+
+  .emptyRow {
+    border-bottom: none;
+  }
+
+  .emptyRow {
+    display: table-row;
   }
 
   .emptyState {
     @apply px-4 py-8 text-center;
-    color: var(--table-empty-foreground, var(--foreground-400));
-    display: table-cell !important;
+    background-color: var(--empty-background, var(--body-background, var(--background)));
+    color: var(--empty-foreground, var(--foreground));
+  }
+
+  .emptyState {
+    display: table-cell;
   }
 
   .filterBar {
     @apply mb-4 rounded-sm border p-4;
-    background-color: var(--table-filter-background, var(--background-900));
-    border-color: var(--table-filter-border, var(--background-800));
+    border: var(--border-width-base) solid var(--filter-border, var(--background-border));
+    background-color: var(--filter-background, var(--background));
+  }
+
+  .filterBar {
+    display: block;
   }
 
   .filterGrid {
     @apply grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3;
+    background-color: var(--filter-grid-background, var(--filter-background, var(--body-background, var(--background))));
+  }
+
+  .filterGrid {
+    display: grid;
+  }
+
+  .filterField {
+    @apply min-w-0;
   }
 
   .filterLabel {
-    @apply mb-2 block text-sm font-medium;
-    color: var(--table-filter-label-color, var(--foreground-300));
+    @apply mb-2 block;
+    color: var(--filter-label-foreground, var(--foreground));
+    font-size: var(--filter-label-font-size, var(--text-xs));
+    font-weight: var(--filter-label-font-weight, var(--font-weight-medium));
+  }
+
+  .filterLabel {
+    display: block;
   }
 
   .filterInput {
-    @apply w-full rounded-md border px-3 py-2;
-    background-color: var(--table-filter-input-background, var(--background-950));
-    border-color: var(--table-filter-input-border, var(--background-700));
-    color: var(--table-filter-input-foreground, var(--foreground-50));
-    transition:
-      border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
-      box-shadow var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
-
-    &::placeholder {
-      color: var(--table-filter-input-placeholder, var(--foreground-400));
-    }
-
-    &:hover {
-      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      border-color: var(--table-filter-input-border-hover, var(--background-600));
-    }
-
-    &:focus {
-      outline: none;
-      border-color: var(--table-filter-input-border-focus, var(--accent-500));
-      box-shadow: 0 0 0 2px var(--table-filter-input-ring, rgba(99, 102, 241, 0.2));
-    }
+    @apply w-full;
   }
 }

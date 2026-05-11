@@ -10,6 +10,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { type StyleValue, cn } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
+import { asElementProps } from "@/lib/react-aria"
+import { useFocus } from "@/hooks/useFocus";
+import { useMergeRefs } from "@/hooks/useMergeRefs";
 
 import dateModuleStyles from "./Date.module.css"
 
@@ -354,6 +357,10 @@ interface DateHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
   ({ className, ...props }, ref) => {
     const { currentMonth, navigateMonth } = useDateContext()
+    const { focusProps: prevFocusProps, isFocused: isPrevFocused, isFocusVisible: isPrevFocusVisible } = useFocusRing()
+    const { focusProps: nextFocusProps, isFocused: isNextFocused, isFocusVisible: isNextFocusVisible } = useFocusRing()
+    const { targetProps: prevTargetProps } = useFocus({ mode: "target" })
+    const { targetProps: nextTargetProps } = useFocus({ mode: "target" })
 
     const monthYear = currentMonth
       ? currentMonth.toLocaleDateString("en-US", {
@@ -365,7 +372,7 @@ const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn("date", "date-header", dateModuleStyles.header, className)}
+        className={cn("date-header", dateModuleStyles.header, className)}
         {...props}
       >
         <div className={cn("date-month-year", dateModuleStyles["month-year"])}>
@@ -373,16 +380,22 @@ const DateHeader = React.forwardRef<HTMLDivElement, DateHeaderProps>(
         </div>
         <div>
           <button
+            {...asElementProps<"button">(mergeProps(prevFocusProps, prevTargetProps))}
             onClick={() => navigateMonth(-1)}
-            className={cn("date", "date-nav-button", "date-prev-button", dateModuleStyles["nav-button"])}
+            className={cn("date-nav-button", "date-prev-button", dateModuleStyles["nav-button"])}
             aria-label="Previous month"
+            data-focused={isPrevFocused ? "true" : undefined}
+            data-focus-visible={isPrevFocusVisible ? "true" : undefined}
           >
             <ChevronLeft size={16} />
           </button>
           <button
+            {...asElementProps<"button">(mergeProps(nextFocusProps, nextTargetProps))}
             onClick={() => navigateMonth(1)}
-            className={cn("date", "date-nav-button", "date-next-button", dateModuleStyles["nav-button"])}
+            className={cn("date-nav-button", "date-next-button", dateModuleStyles["nav-button"])}
             aria-label="Next month"
+            data-focused={isNextFocused ? "true" : undefined}
+            data-focus-visible={isNextFocusVisible ? "true" : undefined}
           >
             <ChevronRight size={16} />
           </button>
@@ -408,13 +421,13 @@ const DateDayHeaders = React.forwardRef<HTMLDivElement, DateDayHeadersProps>(
     return (
       <div
         ref={ref}
-        className={cn("date", "date-day-headers", dateModuleStyles["day-headers"], className)}
+        className={cn("date-day-headers", dateModuleStyles["day-headers"], className)}
         {...props}
       >
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className={cn("date", "date-day-header", dateModuleStyles["day-header"])}
+            className={cn("date-day-header", dateModuleStyles["day-header"])}
           >
             {day}
           </div>
@@ -442,7 +455,7 @@ const DateGrid = React.forwardRef<HTMLDivElement, DateGridProps>(
     return (
       <div
         ref={ref}
-        className={cn("date", "date-grid", dateModuleStyles.grid, className)}
+        className={cn("date-grid", dateModuleStyles.grid, className)}
         role="grid"
         {...props}
       >
@@ -499,8 +512,10 @@ const DateDay = React.forwardRef<HTMLButtonElement, DateDayProps>(
     const isDisabled = isDateDisabled(date)
 
     const buttonRef = React.useRef<HTMLButtonElement>(null)
-    const { focusProps, isFocusVisible } = useFocusRing()
+    const mergedRef = useMergeRefs(ref, buttonRef)
+    const { focusProps, isFocused: isFocusRingFocused, isFocusVisible } = useFocusRing()
     const { hoverProps } = useHover({ isDisabled })
+    const { targetProps } = useFocus({ mode: "target" })
 
     const isSelected = selectedDate ? isSameDay(date, selectedDate) : false
     const isFocused = focusedDate ? isSameDay(date, focusedDate) : false
@@ -527,10 +542,14 @@ const DateDay = React.forwardRef<HTMLButtonElement, DateDayProps>(
 
     return (
       <button
-        ref={buttonRef}
+        ref={mergedRef}
         onClick={handleClick}
         onFocus={handleFocus}
-        className={cn("date", "date-day", dateModuleStyles["day-cell"], className)}
+        className={cn("date-day", dateModuleStyles["day-cell"], className)}
+        data-ring={targetProps["data-ring"]}
+        data-focus-indicator={targetProps["data-focus-indicator"]}
+        data-ring-inset={targetProps["data-ring-inset"]}
+        data-focused={isFocusRingFocused ? "true" : undefined}
         data-selected={isSelected ? "true" : undefined}
         data-today={isCurrentToday ? "true" : undefined}
         data-disabled={isDisabled ? "true" : undefined}

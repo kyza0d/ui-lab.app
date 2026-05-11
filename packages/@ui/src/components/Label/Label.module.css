@@ -6,7 +6,9 @@
     --foreground: var(--foreground-primary);
     --foreground-disabled: var(--foreground-secondary);
     --foreground-error: var(--danger-600);
+  }
 
+  .label > label {
     display: block;
     font-family: inherit;
     font-size: var(--text-sm);
@@ -27,12 +29,12 @@
     }
   }
 
-  .required-indicator {
+  .label > .required-indicator {
     margin-left: 0.25rem;
     color: var(--required-color);
   }
 
-  .helper-text {
+  .label > .helper-text {
     --helper-foreground: var(--foreground-secondary);
     --helper-foreground-error: var(--danger-600);
 

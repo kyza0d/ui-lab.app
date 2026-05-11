@@ -59,7 +59,7 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
     const triggerProps = {
       onContextMenu: handleContextMenu,
       onClickCapture: handleClick,
-      className: cn('menu', 'trigger', css.trigger, className, resolved.root),
+      className: cn('trigger', css.trigger, className, resolved.root),
       'data-pressed': isOpen ? "true" : "false",
       'data-type': type,
     }
@@ -69,28 +69,33 @@ const MenuTrigger = React.forwardRef<HTMLElement, MenuTriggerProps>(
     if (React.isValidElement(child) && child.type !== React.Fragment) {
       const childElement = child as React.ReactElement<any>
 
-      return React.cloneElement(childElement, {
-        ...mergeProps(triggerProps, childElement.props),
-          className: cn(
-            childElement.props.className,
-            'menu',
-            'trigger',
-            css.trigger,
-            className,
-            resolved.root,
-          ),
-          ref: mergedRef,
-          'data-pressed': isOpen ? "true" : "false",
-          'data-type': type,
-        } as any)
+      return (
+        <div className="menu">
+          {React.cloneElement(childElement, {
+            ...mergeProps(triggerProps, childElement.props),
+            className: cn(
+              childElement.props.className,
+              'trigger',
+              css.trigger,
+              className,
+              resolved.root,
+            ),
+            ref: mergedRef,
+            'data-pressed': isOpen ? "true" : "false",
+            'data-type': type,
+          } as any)}
+        </div>
+      )
     }
 
     return (
-      <div
-        ref={mergedRef as React.Ref<HTMLDivElement>}
-        {...triggerProps}
-      >
-        {children}
+      <div className="menu">
+        <div
+          ref={mergedRef as React.Ref<HTMLDivElement>}
+          {...triggerProps}
+        >
+          {children}
+        </div>
       </div>
     )
   }
@@ -213,33 +218,35 @@ const MenuContent = React.forwardRef<HTMLDivElement, MenuContentProps>(
           />
         )}
         {isOpen && (
-          <div
-            ref={mergedRef}
-            role="menu"
-            tabIndex={-1}
-            className={cn('menu', 'content', css.content, className, resolved.root)}
-            data-state={showContent ? "open" : "closed"}
-            data-placement={placement.split("-")[0]}
-            onKeyDown={handleKeyDown}
-            style={{
-              ...floatingStyles,
-              zIndex: 50000,
-              visibility: isPositioned ? "visible" : "hidden",
-              outline: "none",
-            }}
-          >
-            <Scroll
-              className={cn(css.list, resolved.list)}
-              direction="vertical"
-              fade-y
-              hide={false}
+          <div className="menu">
+            <div
+              ref={mergedRef}
+              role="menu"
+              tabIndex={-1}
+              className={cn('content', css.content, className, resolved.root)}
+              data-state={showContent ? "open" : "closed"}
+              data-placement={placement.split("-")[0]}
+              onKeyDown={handleKeyDown}
+              style={{
+                ...floatingStyles,
+                zIndex: 50000,
+                visibility: isPositioned ? "visible" : "hidden",
+                outline: "none",
+              }}
             >
-              <div style={{ padding: "0.25rem" }}>
-                <List items={items} gap="xs">
-                  {children}
-                </List>
-              </div>
-            </Scroll>
+              <Scroll
+                className={cn(css.list, resolved.list)}
+                direction="vertical"
+                fade-y
+                hide={false}
+              >
+                <div style={{ padding: "0.25rem" }}>
+                  <List items={items} gap="xs">
+                    {children}
+                  </List>
+                </div>
+              </Scroll>
+            </div>
           </div>
         )}
       </>,

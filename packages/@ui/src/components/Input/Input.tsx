@@ -9,7 +9,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { Tooltip } from "@/components/Tooltip";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import { GroupContext } from "@/components/Group/Group";
 import css from "./Input.module.css";
@@ -21,7 +21,7 @@ type InputIconStyles = {
   right?: StyleValue;
 };
 
-type InputControlsStyles = {
+type InputStepperStyles = {
   up?: StyleValue;
   down?: StyleValue;
 };
@@ -29,7 +29,7 @@ type InputControlsStyles = {
 export interface InputStyleSlots {
   root?: StyleValue;
   icon?: StyleValue | InputIconStyles;
-  controls?: StyleValue | InputControlsStyles;
+  stepper?: StyleValue | InputStepperStyles;
 }
 
 export type InputStylesProp = StylesProp<InputStyleSlots>;
@@ -51,16 +51,16 @@ type InputActionSlots = {
   right?: InputAction[];
 };
 
-const resolveInputBaseStyles = createStylesResolver(['root', 'iconLeft', 'iconRight', 'controlsUp', 'controlsDown'] as const);
+const resolveInputBaseStyles = createStylesResolver(['root', 'iconLeft', 'iconRight', 'stepperUp', 'stepperDown'] as const);
 
 function resolveInputStyles(styles: InputStylesProp | undefined) {
   if (!styles || typeof styles === 'string' || Array.isArray(styles)) return resolveInputBaseStyles(styles);
-  const { root, icon, controls } = styles;
+  const { root, icon, stepper } = styles;
 
   let iconLeft: StyleValue | undefined;
   let iconRight: StyleValue | undefined;
-  let controlsUp: StyleValue | undefined;
-  let controlsDown: StyleValue | undefined;
+  let stepperUp: StyleValue | undefined;
+  let stepperDown: StyleValue | undefined;
 
   if (icon) {
     if (typeof icon === 'string' || Array.isArray(icon)) {
@@ -72,17 +72,17 @@ function resolveInputStyles(styles: InputStylesProp | undefined) {
     }
   }
 
-  if (controls) {
-    if (typeof controls === 'string' || Array.isArray(controls)) {
-      controlsUp = controls;
-      controlsDown = controls;
+  if (stepper) {
+    if (typeof stepper === 'string' || Array.isArray(stepper)) {
+      stepperUp = stepper;
+      stepperDown = stepper;
     } else {
-      controlsUp = controls.up;
-      controlsDown = controls.down;
+      stepperUp = stepper.up;
+      stepperDown = stepper.down;
     }
   }
 
-  return resolveInputBaseStyles({ root, iconLeft, iconRight, controlsUp, controlsDown });
+  return resolveInputBaseStyles({ root, iconLeft, iconRight, stepperUp, stepperDown });
 }
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<"input">, "size"> {
@@ -173,7 +173,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const mergedRef = useMergeRefs(ref, inputRef);
 
     const { focusProps, isFocusVisible } = useFocusRing();
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef,
       containerRef,
       surfaceSelector: '[data-input-focus-surface="true"]',
@@ -248,8 +248,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {hasStartAdornment && (
           <div className={css['start-adornments']} data-start-adornments>
             {hasPrefix && (
-              <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], resolved.iconLeft)}>
-                {resolvedIcon?.prefix}
+              <div className={cn('icon-wrapper', css['icon-wrapper'], resolved.iconLeft)}>
+                <span className={css.icon}>
+                  {resolvedIcon?.prefix}
+                </span>
               </div>
             )}
             {hasLeftActions && (
@@ -268,11 +270,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-disabled={disabled || undefined}
           data-error={error ? "true" : undefined}
           data-variant={variant}
-          className={cn(
-            'input',
-            css.input,
-            className
-          )}
+          className={cn(css.field, className)}
           style={inputPaddingStyle}
           {...mergeProps(focusProps, {
             onFocus: handleFocus,
@@ -283,8 +281,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {hasEndAdornment && (
           <div className={css['end-adornments']} data-end-adornments>
             {hasSuffix && (
-              <div className={cn('input', 'icon-wrapper', css['icon-wrapper'], resolved.iconRight)}>
-                {resolvedIcon?.suffix}
+              <div className={cn('icon-wrapper', css['icon-wrapper'], resolved.iconRight)}>
+                <span className={css.icon}>
+                  {resolvedIcon?.suffix}
+                </span>
               </div>
             )}
             {hasRightActions && (
@@ -300,7 +300,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               >
                 <button
                   type="button"
-                  className={cn('input', 'spin-button', css['spin-button'], resolved.controlsUp)}
+                  className={cn('stepper', css.stepper, resolved.stepperUp)}
                   onClick={() => handleSpinClick("up")}
                   disabled={disabled}
                   tabIndex={-1}
@@ -310,7 +310,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 </button>
                 <button
                   type="button"
-                  className={cn('input', 'spin-button', css['spin-button'], resolved.controlsDown)}
+                  className={cn('stepper', css.stepper, resolved.stepperDown)}
                   onClick={() => handleSpinClick("down")}
                   disabled={disabled}
                   tabIndex={-1}

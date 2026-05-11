@@ -4,7 +4,7 @@ import { useHover } from "@react-aria/interactions";
 import { mergeProps } from "@react-aria/utils";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import { Tooltip } from "@/components/Tooltip";
 import css from "./Anchor.module.css";
@@ -167,7 +167,7 @@ const AnchorRoot = React.forwardRef<HTMLAnchorElement | HTMLSpanElement, AnchorP
     const rootRef = React.useRef<HTMLAnchorElement | HTMLSpanElement>(null);
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
     const { hoverProps, isHovered } = useHover({});
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef: rootRef,
       containerRef: rootRef,
       surfaceSelector: '[data-anchor-focus-surface="true"]',

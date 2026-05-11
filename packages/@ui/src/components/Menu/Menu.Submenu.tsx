@@ -209,7 +209,7 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, MenuSubTriggerProps>(
         aria-expanded={submenuContext?.isOpen}
         tabIndex={-1}
         aria-disabled={disabled || undefined}
-        className={cn('menu', 'sub-trigger', css['sub-trigger'], className, resolved.root)}
+        className={cn('sub-trigger', css['sub-trigger'], className, resolved.root)}
         data-highlighted={isHighlighted || isHovered ? "true" : "false"}
         data-focused={isHighlighted || isHovered ? "true" : "false"}
         data-hovered={isHovered ? "true" : "false"}
@@ -376,34 +376,36 @@ const MenuSubContent = React.forwardRef<HTMLDivElement, MenuSubContentProps>(
     return createPortal(
       <>
         {showContent && (
-          <div
-            ref={mergedRef}
-            role="menu"
-            tabIndex={-1}
-            className={cn('menu', 'sub-content', css['sub-content'], className, resolved.root)}
-            data-state={showContent ? "open" : "closed"}
-            data-placement={placement.split("-")[0]}
-            onKeyDown={handleKeyDown}
-            style={{
-              ...floatingStyles,
-              zIndex: 50001 + (submenuContext.submenuLevel ?? 0),
-              visibility: isPositioned ? "visible" : "hidden",
-              outline: "none",
-            }}
-            {...asElementProps<"div">(hoverProps)}
-          >
-            <Scroll
-              className={cn(css.list, resolved.list)}
-              direction="vertical"
-              fade-y
-              hide={false}
+          <div className="menu">
+            <div
+              ref={mergedRef}
+              role="menu"
+              tabIndex={-1}
+              className={cn('sub-content', css['sub-content'], className, resolved.root)}
+              data-state={showContent ? "open" : "closed"}
+              data-placement={placement.split("-")[0]}
+              onKeyDown={handleKeyDown}
+              style={{
+                ...floatingStyles,
+                zIndex: 50001 + (submenuContext.submenuLevel ?? 0),
+                visibility: isPositioned ? "visible" : "hidden",
+                outline: "none",
+              }}
+              {...asElementProps<"div">(hoverProps)}
             >
-              <div style={{ padding: "0.25rem" }}>
-                <List items={submenuContext.items} gap="xs">
-                  {children}
-                </List>
-              </div>
-            </Scroll>
+              <Scroll
+                className={cn(css.list, resolved.list)}
+                direction="vertical"
+                fade-y
+                hide={false}
+              >
+                <div style={{ padding: "0.25rem" }}>
+                  <List items={submenuContext.items} gap="xs">
+                    {children}
+                  </List>
+                </div>
+              </Scroll>
+            </div>
           </div>
         )}
       </>,

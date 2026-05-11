@@ -704,7 +704,7 @@ const ColorArea = React.forwardRef<HTMLDivElement, ColorAreaProps>(
           pointerClassName={resolved.canvasPointer}
         />
 
-        <div className={cn("color", "controls", styles["controls"], resolved.controls)}>
+        <div className={cn("controls", styles["controls"], resolved.controls)}>
           <ColorSlider
             type="hue"
             value={hue}

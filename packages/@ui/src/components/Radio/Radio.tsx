@@ -11,7 +11,7 @@ import { useRadioGroup, useRadio } from "@react-aria/radio";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { asElementProps } from "@/lib/react-aria";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import css from "./Radio.module.css";
 
@@ -144,23 +144,21 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
 
     return (
       <RadioGroupContext.Provider value={{ state, disabled, size }}>
-        <div ref={ref} className={cn(className, resolved.root)} role="group">
+        <div ref={ref} className={cn("radio-group", className, resolved.root)} role="group">
           {label && (
             <label
-              className={cn("radio", "radio-label", css["radio-label"], resolved.label)}
+              className={cn("radio-label", css["radio-label"], resolved.label)}
               data-disabled={disabled ? "true" : undefined}
             >
               {label}
             </label>
           )}
           {description && (
-            <p
-              className={cn("radio", "radio-description", css["radio-description"], resolved.description)}
-            >
+            <p className={cn("radio-description", css["radio-description"], resolved.description)}>
               {description}
             </p>
           )}
-          <div className={cn(css["radio-group"], resolved.group)}>{children}</div>
+          <div className={cn(css["radio-items"], resolved.group)}>{children}</div>
         </div>
       </RadioGroupContext.Provider>
     );
@@ -239,7 +237,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
 
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
     const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef: rootRef,
       containerRef: rootRef,
       surfaceSelector: '[data-radio-focus-surface="true"]',
@@ -285,7 +283,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
             {label && (
               <label
                 htmlFor={radioId}
-                className={cn("radio", "radio-label", css["radio-label"], resolved.label)}
+                className={cn("radio-label", css["radio-label"], resolved.label)}
                 data-disabled={disabled ? "true" : undefined}
                 suppressHydrationWarning
               >
@@ -294,12 +292,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
             )}
             {description && (
               <p
-                className={cn(
-                  "radio",
-                  "radio-description",
-                  css["radio-description"],
-                  resolved.description
-                )}
+                className={cn("radio-description", css["radio-description"], resolved.description)}
                 data-error={error ? "true" : undefined}
               >
                 {description}
@@ -309,7 +302,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
         )}
         {helperText && (
           <p
-            className={cn("radio", "helper-text", css["helper-text"], resolved.helperText)}
+            className={cn("helper-text", css["helper-text"], resolved.helperText)}
             data-error={helperTextError ? "true" : undefined}
           >
             {helperText}
@@ -380,7 +373,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
     const inputRef = React.useRef<HTMLInputElement>(null);
     const rootRef = React.useRef<HTMLDivElement>(null);
     const mergedRef = useMergeRefs(ref, inputRef);
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef: rootRef,
       containerRef: rootRef,
       surfaceSelector: '[data-radio-focus-surface="true"]',
@@ -430,7 +423,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
             {label && (
               <label
                 htmlFor={radioId}
-                className={cn("radio", "radio-label", css["radio-label"], resolved.label)}
+                className={cn("radio-label", css["radio-label"], resolved.label)}
                 data-disabled={disabled ? "true" : undefined}
                 suppressHydrationWarning
               >
@@ -439,12 +432,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
             )}
             {description && (
               <p
-                className={cn(
-                  "radio",
-                  "radio-description",
-                  css["radio-description"],
-                  resolved.description
-                )}
+                className={cn("radio-description", css["radio-description"], resolved.description)}
                 data-error={error ? "true" : undefined}
               >
                 {description}
@@ -454,7 +442,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
         )}
         {helperText && (
           <p
-            className={cn("radio", "helper-text", css["helper-text"], resolved.helperText)}
+            className={cn("helper-text", css["helper-text"], resolved.helperText)}
             data-error={helperTextError ? "true" : undefined}
           >
             {helperText}

@@ -82,7 +82,7 @@ const MenuLabel = React.forwardRef<HTMLDivElement, MenuLabelProps>(
     return (
     <div
       ref={ref}
-      className={cn('menu', 'label', styles.label, className, resolved.root)}
+      className={cn('label', styles.label, className, resolved.root)}
       data-inset={inset ? "true" : undefined}
     >
       {children}
@@ -104,7 +104,7 @@ const MenuSeparator = React.forwardRef<HTMLDivElement, MenuSeparatorProps>(
     <div
       ref={ref}
       role="separator"
-      className={cn('menu', 'separator', styles.separator, className, resolved.root)}
+      className={cn('separator', styles.separator, className, resolved.root)}
     />
   )
   }
@@ -119,7 +119,7 @@ MenuSeparator.displayName = "MenuSeparator"
 const MenuShortcut = ({ className, styles: stylesProp, ...props }: MenuShortcutProps) => {
   const resolved = resolveMenuShortcutStyles(stylesProp)
   return (
-    <span className={cn('menu', 'shortcut', styles.shortcut, className, resolved.root)} {...props} />
+    <span className={cn('shortcut', styles.shortcut, className, resolved.root)} {...props} />
   )
 }
 MenuShortcut.displayName = "MenuShortcut"

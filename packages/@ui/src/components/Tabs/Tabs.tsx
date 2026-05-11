@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { StyleValue } from "@/lib/utils"
 import { asElementProps } from "@/lib/react-aria"
 import { StylesProp, createStylesResolver } from "@/lib/styles"
-import { useFocusIndicator } from "@/hooks/useFocusIndicator"
+import { useFocus } from "@/hooks/useFocus"
 import { useMergeRefs } from "@/hooks/useMergeRefs"
 import css from "./Tabs.module.css"
 
@@ -206,7 +206,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
     const { root, indicator } = resolveTabsListBaseStyles(stylesProp)
     const scopeRef = React.useRef<HTMLDivElement>(null)
     const listRef = React.useRef<HTMLDivElement>(null)
-    const { scopeProps: focusScopeProps, indicatorProps: focusIndicatorProps } = useFocusIndicator({
+    const { scopeProps: focusScopeProps, indicatorProps: focusProps } = useFocus({
       scopeRef,
       containerRef: listRef,
       surfaceSelector: '[data-focus-surface="true"]',
@@ -371,7 +371,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
     return (
       <TabsListContext.Provider value={tabsListContext}>
         <div ref={scopeRef} className={cn("tabs-scope", focusScopeProps.className)}>
-          <div {...focusIndicatorProps} />
+          <div {...focusProps} />
           <div
             ref={mergedRef}
             role="tablist"

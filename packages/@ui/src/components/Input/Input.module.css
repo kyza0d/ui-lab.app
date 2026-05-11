@@ -7,7 +7,7 @@
     overflow: visible;
   }
 
-  .input {
+  .field {
     height: fit-content;
     flex: 1;
     min-width: 0;
@@ -50,6 +50,11 @@
   .icon-wrapper {
     @apply z-10 flex items-center;
     pointer-events: none;
+  }
+
+  .icon {
+    @apply flex items-center shrink-0;
+    color: var(--foreground, currentColor);
   }
 
   .icon-left {
@@ -156,29 +161,29 @@
     cursor: not-allowed;
   }
 
-  .spin-button {
+  .stepper {
     @apply flex w-full flex-1 items-center justify-center p-0 cursor-pointer;
     flex: 1;
     background-color: transparent;
     border: none;
-    color: var(--controls-color);
+    color: var(--foreground);
     transition:
       color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
-    &+.spin-button {
+    &+.stepper {
       border-top: 1px solid var(--input-border-color, var(--background-border));
     }
 
     &:hover:not(:disabled) {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--controls-hover-background);
-      color: var(--controls-hover-color);
+      background-color: var(--hover-background);
+      color: var(--hover-color);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--controls-active-background);
-      color: var(--controls-active-color);
+      background-color: var(--active-background);
+      color: var(--active-color);
     }
 
     &:disabled {

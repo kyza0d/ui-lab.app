@@ -536,7 +536,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
         </Mask>
 
         <div
-          className={cn("scroll", "track", css.track, resolved.track)}
+          className={cn("track", css.track, resolved.track)}
           data-hide={String(hide)}
           style={{
             opacity: showOpacity,
@@ -547,7 +547,7 @@ const Scroll = React.forwardRef<HTMLDivElement, ScrollProps>(
           {needsScrollbar && (
             <div
               ref={thumbRef}
-              className={cn("scroll", "thumb", css.thumb, resolved.thumb)}
+              className={cn("thumb", css.thumb, resolved.thumb)}
               style={{
                 [trackSizeKey]: `${thumbSize}px`,
                 [trackPosKey]: `${thumbPosition}px`,

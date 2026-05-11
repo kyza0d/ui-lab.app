@@ -1,9 +1,7 @@
 'use client';
 
-import React from 'react';
 import { Button, toast, Toaster } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import { FaBell, FaX } from 'react-icons/fa6';
 import Example1, { metadata as metadata1 } from './examples/01-basic-toast.js';
 import Example2, { metadata as metadata2 } from './examples/02-success-toast.js';
 import Example3, { metadata as metadata3 } from './examples/03-danger-toast.js';
@@ -11,7 +9,6 @@ import Example4, { metadata as metadata4 } from './examples/04-info-toast.js';
 import Example5, { metadata as metadata5 } from './examples/05-warning-toast.js';
 import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
-import { FaInfoCircle } from 'react-icons/fa';
 
 // Define examplesData locally
 const examplesData = [
@@ -30,7 +27,7 @@ const toastControls: ControlDef[] = [
     options: [
       { label: 'Default', value: 'default' },
       { label: 'Success', value: 'success' },
-      { label: 'danger', value: 'danger' },
+      { label: 'Danger', value: 'danger' },
       { label: 'Info', value: 'info' },
       { label: 'Warning', value: 'warning' },
     ],

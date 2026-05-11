@@ -46,7 +46,7 @@ export const ColorInput = React.forwardRef<
       ref={ref}
       isDisabled={disabled}
       data-size={size}
-      className={cn("color", "input-group", styles["input-group"], groupClassName)}
+      className={cn("input-group", styles["input-group"], groupClassName)}
     >
       <Group.Input
         value={inputValue}
@@ -54,7 +54,7 @@ export const ColorInput = React.forwardRef<
         disabled={disabled}
         placeholder={format === "hex" ? "#000000" : "rgb(0, 0, 0)"}
         aria-label="Color input"
-        className={cn("color", "input", styles["input"], inputClassName)}
+        className={cn("input", styles["input"], inputClassName)}
       />
       <Divider />
       <Group.Select
@@ -66,7 +66,7 @@ export const ColorInput = React.forwardRef<
           }
         }}
         isDisabled={disabled}
-        className={cn("color", "format", styles["format"], formatClassName)}
+        className={cn("format", styles["format"], formatClassName)}
       >
         <Select.Trigger aria-label="Color format">
           <Select.Value placeholder="Format" />
@@ -84,7 +84,7 @@ export const ColorInput = React.forwardRef<
       </Group.Select>
       {showPreview && (
         <div
-          className={cn("color", "preview-swatch", styles["preview-swatch"], previewClassName)}
+          className={cn("preview-swatch", styles["preview-swatch"], previewClassName)}
           data-size={size}
           data-disabled={disabled || undefined}
           style={{

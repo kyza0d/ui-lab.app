@@ -66,7 +66,7 @@ export const ColorOpacitySlider = React.forwardRef<
   return (
     <div
       ref={containerRef}
-      className={cn("color", "opacity-slider", styles["opacity-slider"], className)}
+      className={cn("opacity-slider", styles["opacity-slider"], className)}
       data-size={size}
       data-disabled={disabled || undefined}
       data-focused={isFocused ? "true" : undefined}
@@ -83,14 +83,14 @@ export const ColorOpacitySlider = React.forwardRef<
       aria-valuenow={Math.round(value * 100)}
     >
       <div
-        className={cn("color", "opacity-track", styles["opacity-track"], trackClassName)}
+        className={cn("opacity-track", styles["opacity-track"], trackClassName)}
         ref={trackRef}
         style={{
           backgroundImage: `linear-gradient(to right, ${gradientColor}00, ${gradientColor}ff), repeating-linear-gradient(45deg, var(--checkerboard-dark), var(--checkerboard-dark) 10px, var(--checkerboard-light) 10px, var(--checkerboard-light) 20px)`,
         }}
       >
         <div
-          className={cn("color", "opacity-thumb", styles["opacity-thumb"], thumbClassName)}
+          className={cn("opacity-thumb", styles["opacity-thumb"], thumbClassName)}
           style={{ left: `${thumbPosition}%` }}
           role="presentation"
           data-focused={isFocused ? "true" : undefined}

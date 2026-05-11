@@ -202,7 +202,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         value={String(value)}
         role="option"
         aria-selected={isSelected}
-        className={cn('select', 'item', styles.item, hasDescription && styles['item-with-description'], className, resolved.root)}
+        className={cn('item', styles.item, hasDescription && styles['item-with-description'], className, resolved.root)}
         onClick={handleClick}
         onMouseEnter={() => {
           if (isDisabled) return

@@ -44,9 +44,8 @@ const Label = ({
 }: LabelProps) => {
   const resolved = resolveLabelBaseStyles(styles);
   return (
-    <div className="w-full">
+    <div className={cn('label', css.label, 'w-full', className, resolved.root)}>
       <label
-        className={cn('label', css.label, className, resolved.root)}
         data-size={size ?? 'md'}
         data-disabled={disabled || undefined}
         data-error={error || undefined}
@@ -54,14 +53,14 @@ const Label = ({
       >
         {children}
         {required && (
-          <span className={cn('label', 'required-indicator', css['required-indicator'], resolved.requiredIndicator)} aria-label="required">
+          <span className={cn('required-indicator', css['required-indicator'], resolved.requiredIndicator)} aria-label="required">
             *
           </span>
         )}
       </label>
       {helperText && (
         <p
-          className={cn('label', 'helper-text', css['helper-text'], resolved.helperText)}
+          className={cn('helper-text', css['helper-text'], resolved.helperText)}
           data-error={helperTextError || undefined}
         >
           {helperText}

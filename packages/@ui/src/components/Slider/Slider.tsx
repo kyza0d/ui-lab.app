@@ -9,7 +9,7 @@ import { mergeProps } from "@react-aria/utils";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { asElementProps } from "@/lib/react-aria";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 
 import css from "./Slider.module.css";
@@ -201,7 +201,7 @@ function SliderThumb({
     [index, onThumbRef]
   );
   const mergedRef = useMergeRefs<HTMLDivElement>(thumbRef, handleThumbRef);
-  const { scopeProps, indicatorProps } = useFocusIndicator({
+  const { scopeProps, indicatorProps } = useFocus({
     scopeRef: thumbRef,
     containerRef: thumbRef,
     surfaceSelector: '[data-slider-focus-surface="true"]',

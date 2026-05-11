@@ -8,7 +8,7 @@ import { useButton } from "@react-aria/button";
 
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import styles from "./Select.module.css"
 import { useListNavigation, handleListKeyDown, focusAdjacentTabStop, type ItemData } from "./Select.shared"
@@ -436,7 +436,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(
 
     const resolvedStyles = resolveSelectStyles(stylesProp);
     const mergedRootRef = useMergeRefs<HTMLDivElement>(scopeRef, wrapperRef, ref)
-    const { indicatorProps } = useFocusIndicator({
+    const { indicatorProps } = useFocus({
       scopeRef,
       containerRef: wrapperRef,
       surfaceSelector: '[data-select-focus-surface="true"]',

@@ -1,13 +1,13 @@
 @reference "tailwindcss";
 
 @layer components {
-  .progress {
+  .bar {
     @apply relative w-full overflow-hidden;
     border-radius: var(--radius-full, 9999px);
     background-color: var(--background);
   }
 
-  .progress { height: 0.5rem; }
+  .bar { height: 0.5rem; }
 
   .fill {
     @apply h-full;

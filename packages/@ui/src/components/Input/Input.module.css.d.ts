@@ -1,7 +1,8 @@
 declare const styles: {
   scope: string;
-  input: string;
+  field: string;
   "icon-wrapper": string;
+  icon: string;
   "prefix-icon": string;
   "suffix-icon": string;
   container: string;
@@ -12,7 +13,7 @@ declare const styles: {
   action: string;
   "number-controls": string;
   disabled: string;
-  "spin-button": string;
+  stepper: string;
 };
 
 export default styles;

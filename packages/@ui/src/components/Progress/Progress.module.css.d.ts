@@ -1,5 +1,5 @@
 export interface Styles {
-  progress: string;
+  bar: string;
   sm: string;
   md: string;
   lg: string;

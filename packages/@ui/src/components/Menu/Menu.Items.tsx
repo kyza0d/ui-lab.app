@@ -73,7 +73,7 @@ const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
         role="menuitem"
         tabIndex={-1}
         aria-disabled={disabled || undefined}
-        className={cn('menu', 'item', styles.item, className, resolved.root)}
+        className={cn('item', styles.item, className, resolved.root)}
         data-highlighted={isHighlighted ? "true" : "false"}
         data-focused={isHighlighted ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
@@ -132,7 +132,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
         tabIndex={-1}
         aria-checked={checked}
         aria-disabled={disabled || undefined}
-        className={cn('menu', 'checkbox-item', styles['checkbox-item'], className, resolved.root)}
+        className={cn('checkbox-item', styles['checkbox-item'], className, resolved.root)}
         data-highlighted={isHighlighted ? "true" : "false"}
         data-focused={isHighlighted ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
@@ -145,7 +145,7 @@ const MenuCheckboxItem = React.forwardRef<HTMLDivElement, MenuCheckboxItemProps>
         }}
         onClick={() => handleSelectRef.current?.()}
       >
-        <span className={cn('menu', 'item-indicator', styles['item-indicator'], resolved.indicator)}>
+        <span className={cn('item-indicator', styles['item-indicator'], resolved.indicator)}>
           {checked && <Check className="h-3 w-3" />}
         </span>
         {children}
@@ -196,7 +196,7 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
         tabIndex={-1}
         aria-checked={isSelected}
         aria-disabled={disabled || undefined}
-        className={cn('menu', 'radio-item', styles['radio-item'], className, resolved.root)}
+        className={cn('radio-item', styles['radio-item'], className, resolved.root)}
         data-highlighted={isHighlighted ? "true" : "false"}
         data-focused={isHighlighted ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
@@ -209,7 +209,7 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, MenuRadioItemProps>(
         }}
         onClick={() => handleSelectRef.current?.()}
       >
-        <span className={cn('menu', 'item-indicator', styles['item-indicator'], resolved.indicator)}>
+        <span className={cn('item-indicator', styles['item-indicator'], resolved.indicator)}>
           {isSelected && <Circle className="h-2 w-2 fill-current" />}
         </span>
         {children}

@@ -373,7 +373,7 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
 
 Command.displayName = "Command";
 
-interface CommandInputProps extends InputProps {}
+interface CommandInputProps extends InputProps { }
 
 const CommandInput = React.forwardRef<HTMLInputElement, CommandInputProps>(
   ({ value: externalValue, onChange: externalOnChange, icon, actions, placeholder = "Search...", ...props }, ref) => {
@@ -490,7 +490,7 @@ const CommandItem = React.forwardRef<HTMLDivElement, CommandItemProps>(
       >
         <div className={styles["item-content"]}>{children}</div>
         {hint && (
-          <Badge variant="secondary" size="sm" className={styles["hint-wrapper"]}>
+          <Badge variant="secondary" className={styles["hint-wrapper"]}>
             {hint}
           </Badge>
         )}

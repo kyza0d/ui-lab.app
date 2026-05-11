@@ -77,7 +77,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
 
     return (
       <div
-        className={cn(css.wrapper, resolved.root)}
+        className={cn("progress", css.wrapper, resolved.root)}
         data-has-label={hasLabelContent ? "true" : "false"}
       >
         {hasLabelContent && (
@@ -99,7 +99,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuemin={0}
           aria-valuemax={max}
           aria-label={label}
-          className={cn("progress", variant, css.progress, className, resolved.progress)}
+          className={cn("bar", variant, css.bar, className, resolved.progress)}
           data-variant={variant}
           data-indeterminate={indeterminate ? "true" : "false"}
           {...props}

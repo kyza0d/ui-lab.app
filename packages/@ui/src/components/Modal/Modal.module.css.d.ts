@@ -1,7 +1,6 @@
 declare const styles: {
-  overlay: string;
   backdrop: string;
-  modal: string;
+  panel: string;
   header: string;
   title: string;
   spacer: string;

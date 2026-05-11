@@ -29,7 +29,7 @@
 
     &[data-variant="underline"][data-orientation="vertical"] {
       border-bottom: none;
-      border-left: var(--border-width-base) solid var(--border-color);
+      border-left: var(--border-width-base) solid var(--border);
       align-items: stretch;
       padding: 0 0 0 4px;
     }

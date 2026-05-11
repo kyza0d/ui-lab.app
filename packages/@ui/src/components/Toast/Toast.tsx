@@ -263,15 +263,15 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
       onPointerDown={handlePointerDown}
     >
       {Icon && (
-        <div className={cn("toast icon-wrap", css["icon-wrap"], resolved.iconWrap)}>
-          <Icon className={cn("toast icon", css.icon, resolved.icon)} />
+        <div className={cn("icon-wrap", css["icon-wrap"], resolved.iconWrap)}>
+          <Icon className={cn("icon", css.icon, resolved.icon)} />
         </div>
       )}
-      <div className={cn('toast content', css.content, resolved.content)}>
+      <div className={cn('content', css.content, resolved.content)}>
         {jsx || (
           <>
-            {title && <h4 className={cn('toast title', css.title, resolved.title)}>{title}</h4>}
-            {description && <p className={cn('toast description', css.description, resolved.description)}>{description}</p>}
+            {title && <h4 className={cn('title', css.title, resolved.title)}>{title}</h4>}
+            {description && <p className={cn('description', css.description, resolved.description)}>{description}</p>}
           </>
         )}
         {toast.action}
@@ -279,13 +279,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
       <button
         {...closeInteractionProps}
         onClick={handleDismiss}
-        className={cn('toast close', css.close, resolved.close)}
+        className={cn('close', css.close, resolved.close)}
         aria-label="Close"
         data-hovered={isHovered ? "true" : "false"}
         data-focused={isFocused ? "true" : "false"}
         data-focus-visible={isFocusVisible ? "true" : "false"}
       >
-        <X className={cn("toast close-icon", css["close-icon"], resolved.closeIcon)} />
+        <X className={cn("close-icon", css["close-icon"], resolved.closeIcon)} />
       </button>
     </div>
   );

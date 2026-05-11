@@ -23,7 +23,7 @@
 
   .inner {
     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    border-top: var(--border-width-base) solid var(--border-color);
+    border-top: var(--border-width-base) solid var(--border);
     @apply overflow-hidden;
   }
 
@@ -125,7 +125,7 @@
   .footer {
     @apply flex w-full items-center gap-2 px-1.5 py-2;
     background-color: var(--background-footer);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
     justify-content: flex-between;
   }
 

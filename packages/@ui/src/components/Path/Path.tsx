@@ -6,7 +6,7 @@ import { useHover } from "@react-aria/interactions";
 import { mergeProps } from "@react-aria/utils";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import css from "./Path.module.css";
 
@@ -276,7 +276,7 @@ const Path = Object.assign(
       const childArray = React.Children.toArray(children);
       const childCount = childArray.length;
       const resolved = resolvePathStyles(styles);
-      const { scopeProps, indicatorProps } = useFocusIndicator({
+      const { scopeProps, indicatorProps } = useFocus({
         scopeRef,
         containerRef: navRef,
         surfaceSelector: '[data-path-item-focus-surface="true"]',

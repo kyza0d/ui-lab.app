@@ -1,17 +1,13 @@
 @reference "tailwindcss";
 
 @layer components {
-  .overlay {
-    --disabled-opacity: 0.5;
-  }
-
   .backdrop {
     @apply absolute inset-0 cursor-pointer;
     background-color: var(--backdrop-background);
     backdrop-filter: blur(4px);
   }
 
-  .modal {
+  .panel {
     @apply relative flex w-full flex-col overflow-hidden;
     z-index: 1;
     max-height: 90vh;
@@ -108,17 +104,17 @@
   }
 
   /* Size variants */
-  .modal[data-size="fit"] {
+  .panel[data-size="fit"] {
     width: fit-content;
   }
 
-  .modal[data-size="auto"] {
+  .panel[data-size="auto"] {
     max-width: min(90vw, 28rem);
   }
 
   /* Media queries for smaller screens */
   @media (max-width: 640px) {
-    .modal {
+    .panel {
       margin: 1rem;
     }
 

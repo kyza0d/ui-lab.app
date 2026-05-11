@@ -207,13 +207,13 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
         slottedHeader
       ) : (
         (title || close) && (
-          <div className={cn("modal", "header", css.header, resolved.header)}>
+          <div className={cn("header", css.header, resolved.header)}>
             {title && (
-              <h4 {...asElementProps<"h4">(titleProps)} className={cn("modal", "title", css.title, resolved.title)}>
+              <h4 {...asElementProps<"h4">(titleProps)} className={cn("title", css.title, resolved.title)}>
                 {title}
               </h4>
             )}
-            {!title && close && <div className={cn("modal", "spacer", css.spacer, resolved.spacer)} />}
+            {!title && close && <div className={cn("spacer", css.spacer, resolved.spacer)} />}
             {close && (
               <button
                 onClick={handleClose}
@@ -223,7 +223,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
                 onMouseLeave={handleCloseMouseLeave}
                 onFocus={handleCloseFocus}
                 onBlur={handleCloseBlur}
-                className={cn("modal", "close", css.close, resolved.close)}
+                className={cn("close", css.close, resolved.close)}
                 aria-label="Close modal"
                 type="button"
                 data-pressed={isClosePressed ? "true" : "false"}
@@ -231,7 +231,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
                 data-focused={isCloseFocused ? "true" : "false"}
                 data-focus-visible={isCloseFocusVisible ? "true" : "false"}
               >
-                <X className={cn("modal", "close-icon", css["close-icon"], resolved.closeIcon)} />
+                <X className={cn("close-icon", css["close-icon"], resolved.closeIcon)} />
               </button>
             )}
           </div>
@@ -242,7 +242,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       slottedBody.length > 0 ? (
         slottedBody
       ) : (
-        <div className={cn("modal", "content", css.content, contentClassName, resolved.content)}>
+        <div className={cn("content", css.content, contentClassName, resolved.content)}>
           {unslottedChildren}
         </div>
       );
@@ -251,16 +251,14 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
       <div
         className={cn(
           "modal",
-          "overlay",
           "fixed inset-0 z-9999 flex items-center justify-center",
-          css.overlay,
           overlayClassName,
           resolved.overlay
         )}
       >
         {/* Backdrop overlay - click outside to dismiss */}
         <div
-          className={cn("modal", "backdrop", css.backdrop, resolved.backdrop)}
+          className={cn("backdrop", css.backdrop, resolved.backdrop)}
           onMouseDown={() => { if (isDismissable) state.close(); }}
         />
 
@@ -270,8 +268,8 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
           aria-modal="true"
           ref={modalRef}
           className={cn(
-            "modal",
-            css.modal,
+            "panel",
+            css.panel,
             className,
             resolved.root
           )}
@@ -291,7 +289,7 @@ const ModalBase = React.forwardRef<HTMLDivElement, ModalProps>(
           {/* Footer */}
           {slottedFooter.length > 0 && slottedFooter}
           {!slottedFooter.length && footer && (
-            <div className={cn("modal", "footer", css.footer, resolved.footer)}>
+            <div className={cn("footer", css.footer, resolved.footer)}>
               {footer}
             </div>
           )}
@@ -311,7 +309,7 @@ const ModalHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, className, ...props }, ref) => (
-  <div ref={ref} className={cn("modal", "header", css.header, className)} {...props}>
+  <div ref={ref} className={cn("header", css.header, className)} {...props}>
     {children}
   </div>
 ));
@@ -325,7 +323,7 @@ const ModalBody = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, className, ...props }, ref) => (
-  <div ref={ref} className={cn("modal", "content", css.content, className)} {...props}>
+  <div ref={ref} className={cn("content", css.content, className)} {...props}>
     {children}
   </div>
 ));
@@ -339,7 +337,7 @@ const ModalFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }
 >(({ children, className, ...props }, ref) => (
-  <div ref={ref} className={cn("modal", "footer", css.footer, className)} {...props}>
+  <div ref={ref} className={cn("footer", css.footer, className)} {...props}>
     {children}
   </div>
 ));

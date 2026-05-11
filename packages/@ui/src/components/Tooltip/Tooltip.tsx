@@ -347,13 +347,13 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
             <div
               ref={mergedFloatingRef}
               {...asElementProps<"div">(mergeProps(ariaTooltipProps))}
-              className={cn(css.root, resolved.root)}
+              className={cn("tooltip", css.root, resolved.root)}
               style={{
                 ...floatingStyles,
               }}
             >
               <div
-                className={cn("tooltip", "content", css.content, resolved.content)}
+                className={cn("content", css.content, resolved.content)}
                 data-open={(isVisible && isTriggerVisible) ? "true" : "false"}
                 data-instant={(isInstant || !isTriggerVisible) ? "true" : undefined}
                 style={{
@@ -367,9 +367,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
                   pathWidth={showArrow ? ARROW_WIDTH : undefined}
                   style={{ "--frame-radius": "8px" } as React.CSSProperties}
                 >
-                  <div className={cn("tooltip", "frame", css.frame, resolved.frame)} data-hint={hint ? "true" : undefined}>
+                  <div className={cn("frame", css.frame, resolved.frame)} data-hint={hint ? "true" : undefined}>
                     {content}
-                    {hint && <Badge variant="secondary" size="sm" className={cn(css.hint, resolved.hint)}>{hint}</Badge>}
+                    {hint && <Badge variant="secondary" className={cn(css.hint, resolved.hint)}>{hint}</Badge>}
                   </div>
                 </Frame>
               </div>

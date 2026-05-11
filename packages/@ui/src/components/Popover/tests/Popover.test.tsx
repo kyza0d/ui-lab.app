@@ -17,8 +17,8 @@ describe('Popover', () => {
     )
 
     const trigger = screen.getByRole('button', { name: 'Open popover' })
-    const frame = screen.getByText('Popover content').closest('.popover.frame')
-    const content = frame?.closest('.popover.content')
+    const frame = screen.getByText('Popover content').closest('.frame')
+    const content = frame?.closest('.content')
     const root = content?.parentElement
 
     expect(trigger).toHaveClass(styles.trigger)

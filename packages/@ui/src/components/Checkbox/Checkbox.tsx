@@ -5,7 +5,7 @@ import { useFocusRing } from "@react-aria/focus";
 import { mergeProps } from "@react-aria/utils";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import css from "./Checkbox.module.css";
 
@@ -122,7 +122,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       checked !== undefined ? checked : (defaultChecked ?? false)
     );
     const { focusProps, isFocused, isFocusVisible } = useFocusRing();
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef: rootRef,
       containerRef: rootRef,
       surfaceSelector: '[data-checkbox-focus-surface="true"]',
@@ -246,7 +246,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           />
           {displayChecked && !resolvedIndeterminate && (
             <svg
-              className={cn('checkbox checkmark', css.checkmark, resolved["icon-checkmark"])}
+              className={cn('checkmark', css.checkmark, resolved["icon-checkmark"])}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -259,7 +259,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           )}
           {resolvedIndeterminate && (
             <svg
-              className={cn('checkbox indeterminate', css.indeterminate, resolved["icon-indeterminate"])}
+              className={cn('indeterminate', css.indeterminate, resolved["icon-indeterminate"])}
               viewBox="0 0 24 24"
               fill="currentColor"
             >

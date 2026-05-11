@@ -12,7 +12,7 @@ import { ChevronDown } from "lucide-react";
 import { cn, type StyleValue } from "@/lib/utils";
 import { type StylesProp, createStylesResolver } from "@/lib/styles";
 import { Divider, type DividerProps } from "@/components/Divider";
-import { useFocusIndicator } from "@/hooks/useFocusIndicator";
+import { useFocus } from "@/hooks/useFocus";
 import { useMergeRefs } from "@/hooks/useMergeRefs";
 import styles from "./Expand.module.css";
 
@@ -303,7 +303,7 @@ const ExpandRoot = React.forwardRef<HTMLDivElement, ExpandProps>(
     const mergedRootRef = useMergeRefs(rootRef, ref);
     const childrenArray = React.Children.toArray(children);
 
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef,
       containerRef: rootRef,
       surfaceSelector: '[data-expand-focus-surface="true"]',

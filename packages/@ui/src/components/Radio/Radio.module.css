@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 
 @layer components {
-  .radio-group {
+  .radio-items {
     @apply flex flex-col gap-3;
   }
 
@@ -22,7 +22,6 @@
 
   .radio {
     --disabled-opacity: 0.6;
-
     @apply relative flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center;
     border: var(--border-width-base, 1px) solid var(--background-border);
     border-radius: 9999px;
@@ -34,7 +33,6 @@
     background-color: var(--background);
 
     &[data-selected="true"] {
-      background-color: var(--background-selected);
       border-color: var(--background-selected-border);
     }
 
@@ -135,8 +133,8 @@
   }
 
   .radio.md .radio-dot {
-    width: 0.625rem;
-    height: 0.625rem;
+    width: 0.5rem;
+    height: 0.5rem;
   }
 
   .radio.lg {
@@ -144,7 +142,7 @@
   }
 
   .radio.lg .radio-dot {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.625rem;
+    height: 0.625rem;
   }
 }

@@ -4,7 +4,7 @@ import * as React from "react"
 import { mergeProps, useFocusRing, useHover, usePress } from "react-aria"
 import { cn, type StyleValue } from "@/lib/utils"
 import { type StylesProp, createStylesResolver } from "@/lib/styles"
-import { useFocusIndicator } from "@/hooks/useFocusIndicator"
+import { useFocus } from "@/hooks/useFocus"
 import { useMergeRefs } from "@/hooks/useMergeRefs"
 import { Grid } from "../Grid"
 import css from "./Gallery.module.css"
@@ -231,7 +231,7 @@ const GalleryItem = React.forwardRef<HTMLDivElement, GalleryItemProps>(
     const { pressProps, isPressed } = usePress({
       onPress: () => onPress?.(href),
     })
-    const { scopeProps, indicatorProps } = useFocusIndicator({
+    const { scopeProps, indicatorProps } = useFocus({
       scopeRef,
       containerRef: scopeRef,
       surfaceSelector: '[data-focus-surface="true"]',

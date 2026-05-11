@@ -335,7 +335,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       <>
         <div
           ref={mergedFloatingRef}
-          className={cn(styles['content-root'], resolved.overlay)}
+          className={cn('select', styles['content-root'], resolved.overlay)}
           style={{
             ...floatingStyles,
             zIndex: 50000,
@@ -347,7 +347,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             ref={mergedContentRef}
             id={contentId}
             role="listbox"
-            className={cn('select', 'content', styles.content, className, resolved.root)}
+            className={cn('content', styles.content, className, resolved.root)}
             data-state={showContent ? "open" : "closed"}
             data-placement={placement.split('-')[0]}
             tabIndex={-1}
@@ -379,7 +379,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             )}
             {shouldShowEmptyState && (
               <div
-                className={cn('select', 'empty-state', styles['empty-state'], resolved.emptyState)}
+                className={cn('empty-state', styles['empty-state'], resolved.emptyState)}
                 role="status"
                 aria-live="polite"
               >
