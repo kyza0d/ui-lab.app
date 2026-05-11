@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "pnpm --filter ui-lab-components build && pnpm --filter ui-lab-registry build",
     "dev": "npm run generate:docs && next dev",
     "build": "npm run generate:docs && next build",
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
-    "generate:docs": "tsx scripts/generate-docs.mts"
+    "generate:docs": "node --import tsx scripts/generate-docs.mts"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",

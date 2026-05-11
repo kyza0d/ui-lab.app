@@ -104,9 +104,9 @@
   "scripts": {
     "build": "pnpm generate && tsc",
     "type-check": "tsc --noEmit",
-    "generate": "tsx scripts/generate-examples-json.ts && tsx scripts/generate-registry-from-components.ts && tsx scripts/generate-registry-data.ts && tsx scripts/generate-element-variations.ts && tsx scripts/generate-element-registry.ts && tsx scripts/generate-manifest.ts && tsx scripts/generate-demo-registry.ts && tsx scripts/validate-element-structure.ts",
-    "validate": "tsx scripts/validate-registry.ts",
-    "validate:elements": "tsx scripts/validate-element-registry.ts"
+    "generate": "node --import tsx scripts/generate-examples-json.ts && node --import tsx scripts/generate-registry-from-components.ts && node --import tsx scripts/generate-registry-data.ts && node --import tsx scripts/generate-element-variations.ts && node --import tsx scripts/generate-element-registry.ts && node --import tsx scripts/generate-manifest.ts && node --import tsx scripts/generate-demo-registry.ts && node --import tsx scripts/validate-element-structure.ts",
+    "validate": "node --import tsx scripts/validate-registry.ts",
+    "validate:elements": "node --import tsx scripts/validate-element-registry.ts"
   },
   "dependencies": {
     "lucide-react": "^0.562.0",
