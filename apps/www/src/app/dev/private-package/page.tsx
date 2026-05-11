@@ -1,7 +1,7 @@
 import { generateMetadata as buildMetadata } from "@/shared/lib/metadata";
 import { Metadata } from "next";
-import { listPackages } from "@ui-lab-core/library";
 import { PrivatePackagePlayground } from "../private-package-playground";
+import { listPackages } from "./library";
 
 const primaryPackage = listPackages()[0];
 

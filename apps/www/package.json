@@ -20,7 +20,6 @@
     "@fontsource/geist-sans": "^5.2.5",
     "@fontsource/karla": "^5.2.8",
     "@shikijs/transformers": "^3.20.0",
-    "@ui-lab-core/library": "file:../../../dev/packages/library/ui-lab-core-library-0.1.0.tgz",
     "beautiful-mermaid": "^1.0.2",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",

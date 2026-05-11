@@ -5,7 +5,7 @@ import {
   listElements,
   listPackages,
   type ElementSourceEntry,
-} from "@ui-lab-core/library";
+} from "./private-package/library";
 import { Card } from "ui-lab-components";
 
 function ElementCard({ element }: { element: ElementSourceEntry }) {
