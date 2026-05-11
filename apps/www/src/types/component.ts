@@ -7,6 +7,7 @@ export interface ComponentExample {
   controls?: any[]; // ControlDef[]
   renderPreview?: (props: Record<string, any>) => React.ReactNode;
   previewLayout?: "center" | "start";
+  resizable?: boolean;
 }
 
 export interface ComponentVariant {

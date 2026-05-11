@@ -152,7 +152,7 @@ export function InstallationFlow() {
                 </div>
               </Card>
               {["vite", "remix", "tauri"].includes(key) && (
-                <Badge size="sm" className="absolute top-2 right-2">
+                <Badge className="absolute top-2 right-2">
                   Coming soon
                 </Badge>
               )}

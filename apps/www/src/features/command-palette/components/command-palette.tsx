@@ -57,19 +57,19 @@ function CommandPaletteContent({ itemCount }: { itemCount: number }) {
           <>
             <div>
               <span>Navigate</span>
-              <Badge size="sm" variant="default">
+              <Badge variant="default">
                 ↑↓
               </Badge>
             </div>
             <div>
               <span>Select</span>
-              <Badge size="sm" variant="default">
+              <Badge variant="default">
                 ↵
               </Badge>
             </div>
             <div>
               <span>Close</span>
-              <Badge size="sm" variant="default">
+              <Badge variant="default">
                 Esc
               </Badge>
             </div>

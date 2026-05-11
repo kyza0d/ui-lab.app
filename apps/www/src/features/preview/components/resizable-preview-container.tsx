@@ -124,7 +124,6 @@ export function PreviewContainer({
       >
         {showWidthLabel && (
           <Badge
-            size="sm"
             variant="secondary"
             className="pointer-events-none absolute top-3 right-3 z-999"
           >

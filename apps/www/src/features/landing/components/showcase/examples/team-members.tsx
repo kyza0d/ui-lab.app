@@ -181,7 +181,7 @@ export function MemberRolePanel() {
             <span className="text-sm text-foreground-400 truncate block">{PENDING_INVITE.email}</span>
             <List.Desc>Invite sent {PENDING_INVITE.sentAt}</List.Desc>
           </div>
-          <Badge size="sm" variant="default">Pending</Badge>
+          <Badge variant="default">Pending</Badge>
         </List.Item>
       </List>
 
