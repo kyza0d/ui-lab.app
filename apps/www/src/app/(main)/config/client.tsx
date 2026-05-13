@@ -32,10 +32,10 @@ import {
   Table,
   Tabs,
   TextArea,
+  Scroll,
 } from "ui-lab-components";
 import {
   Download,
-  Github,
   Megaphone,
   MoreHorizontal,
   PlugZap,
@@ -44,6 +44,7 @@ import {
   ShieldCheck,
   UserPlus,
 } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 
 const SETUP_INSTALL = `pnpm add ui-lab-components`;
 
@@ -97,10 +98,10 @@ function PreviewCanvas() {
   ];
 
   return (
-    <Grid columns={{ sm: 1, md: 2, xl: 3 }} rows="masonry" alignItems="start" gap="md">
+    <Grid styles="p-4" columns={{ sm: 1, md: 2, xl: 3 }} rows="masonry" alignItems="start" gap="md">
       <ExampleCard>
         <Flex direction="column" className="gap-3">
-          <Input placeholder="you@example.com" icon={<Github size={14} />} />
+          <Input placeholder="you@example.com" icon={<SiGithub size={14} />} />
           <Input placeholder="Password" type="password" />
           <Button className="justify-center">Get started</Button>
         </Flex>
@@ -491,7 +492,7 @@ export default function ConfigPage() {
       fullscreen
       styles="bg-background-950 text-foreground-100 space-y-6"
     >
-      <div className="grid w-full pt-4 xl:grid-cols-[27rem_minmax(0,1fr)]">
+      <div className="grid w-full xl:grid-cols-[27rem_minmax(0,1fr)]">
         <SettingsSidebar
           footer={
             <Button
@@ -505,8 +506,10 @@ export default function ConfigPage() {
           }
         />
 
-        <section className="px-6 min-w-0 space-y-6 xl:pt-0">
-          <PreviewCanvas />
+        <section className="p-4 max-h-[calc(100vh-var(--header-height))] min-w-0 space-y-6">
+          <Scroll maxHeight="100%" className="rounded-sm border border-background-700" fade-y>
+            <PreviewCanvas />
+          </Scroll>
         </section>
       </div>
       <Modal

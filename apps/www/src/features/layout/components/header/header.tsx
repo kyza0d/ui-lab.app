@@ -15,15 +15,9 @@ import { useApp } from "@/features/theme";
 import { useChat } from "@/features/chat";
 import { cn } from "@/shared";
 import {
-  FaCodeBranch,
   FaBars,
-  FaArrowRight,
-  FaChevronRight,
-  FaChevronDown,
-  FaChevronLeft,
   FaGithub,
   FaPlus,
-  FaPeopleGroup,
 } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
 import { HiX } from "react-icons/hi";
