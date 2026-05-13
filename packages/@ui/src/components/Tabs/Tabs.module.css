@@ -66,31 +66,16 @@
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
 
-    &:not([data-disabled]):not([data-selected="true"]) {
-      &:hover {
-        --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-        background-color: var(--background-hover);
-        color: var(--foreground-hover);
-      }
-
-      &:active {
-        background-color: var(--background-pressed);
-        color: var(--foreground-pressed);
-      }
+    &[data-hovered="true"]:not([data-disabled="true"]):not([data-selected="true"]) {
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     }
 
     &[data-selected="true"] {
-      background-color: var(--background-selected);
-      color: var(--foreground-selected);
+      cursor: pointer;
     }
 
     &[data-selected="true"]:not([data-indicator-ready="true"]):not([data-indicator-fallback="true"]) {
-      .list & {
-        background-color: var(--background-selected);
-      }
-
       .list[data-variant="underline"] & {
-        background-color: transparent;
         border-bottom-color: var(--underline-border);
       }
 
@@ -118,19 +103,6 @@
       background-clip: padding-box;
       border-radius: var(--radius-sm);
       border-bottom: 2px solid transparent;
-    }
-
-    .list[data-variant="underline"] &:not([data-disabled]):not([data-selected="true"]):hover {
-      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--background-hover);
-    }
-
-    .list[data-variant="underline"] &:not([data-disabled]):not([data-selected="true"]):active {
-      background-color: var(--background-pressed);
-    }
-
-    .list[data-variant="underline"] &[data-selected="true"] {
-      background-color: var(--background-selected);
     }
 
     .list[data-variant="underline"] &:focus,

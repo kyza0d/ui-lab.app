@@ -57,7 +57,7 @@
     font-weight: var(--font-weight-medium);
     border-radius: 0;
     color: inherit;
-    background-color: transparent;
+    background-color: var(--background);
     transition:
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-smooth-settle, ease-out));
   }
@@ -71,6 +71,7 @@
 
     padding: var(--expand-trigger-padding-y) var(--expand-trigger-padding-x);
     color: inherit;
+    background-color: var(--background);
     border-radius: 0;
     transition:
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-smooth-settle, ease-out));
@@ -80,7 +81,6 @@
     .trigger:not([data-disabled="true"]):hover .title,
     .trigger:not([data-disabled="true"]):hover .icon {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--background-hover);
     }
 
     .trigger:not([data-disabled="true"]):has(.icon:hover) .title {
@@ -171,8 +171,8 @@
     @apply min-h-0 overflow-hidden;
 
     min-width: 0;
-    color: var(--foreground-content);
-    background-color: var(--background-content);
+    color: var(--foreground);
+    background-color: var(--background);
   }
 
   .divider {

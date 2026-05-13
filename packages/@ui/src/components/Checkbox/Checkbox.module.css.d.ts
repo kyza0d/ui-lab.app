@@ -2,6 +2,7 @@ declare const styles: {
   "checkbox-root": string;
   container: string;
   checkbox: string;
+  box: string;
   checkmark: string;
   indeterminate: string;
   label: string;

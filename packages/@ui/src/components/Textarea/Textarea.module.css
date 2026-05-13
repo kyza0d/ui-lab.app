@@ -13,7 +13,7 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: inherit;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     line-height: var(--leading-snug);
     outline: none;
     transition:
@@ -25,21 +25,14 @@
       color: var(--placeholder);
     }
 
-    &:hover:not([data-disabled]),
-    &[data-hovered="true"]:not([data-disabled]) {
+    &:hover:not([data-disabled="true"]),
+    &[data-hovered="true"]:not([data-disabled="true"]) {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--background-hover);
     }
 
     &[data-disabled="true"] {
-      background-color: var(--background-disabled);
-      color: var(--foreground-disabled);
       cursor: not-allowed;
       opacity: var(--disabled-opacity);
-    }
-
-    &[data-error="true"] {
-      border-color: var(--background-error-border);
     }
 
     &[data-resize-axis="x"],
@@ -60,12 +53,7 @@
       overflow: hidden;
 
       &[data-disabled="true"] {
-        background-color: transparent;
         opacity: 1;
-      }
-
-      &[data-error="true"] {
-        border-color: transparent;
       }
     }
   }
@@ -121,16 +109,10 @@
     &:hover:not([data-disabled="true"]),
     &[data-hovered="true"]:not([data-disabled="true"]) {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--background-hover);
     }
 
     &[data-disabled="true"] {
-      background-color: var(--background-disabled);
       opacity: var(--disabled-opacity);
-    }
-
-    &[data-error="true"] {
-      border-color: var(--background-error-border);
     }
   }
 
@@ -145,7 +127,7 @@
       content: "";
       position: absolute;
       border-radius: var(--radius-full);
-      background-color: var(--handle-background);
+      background-color: var(--background);
       transition:
         background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
     }
@@ -153,7 +135,6 @@
     &:hover::before,
     &:hover::after {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--handle-hover-background);
     }
   }
 
@@ -227,12 +208,12 @@
 
   .character-count {
     @apply mt-1;
-    color: var(--count-foreground);
+    color: var(--foreground);
     font-size: var(--text-sm);
     transition: color 0.15s var(--ease-snappy-pop);
   }
 
   .character-count[data-over-limit="true"] {
-    color: var(--count-over-limit-foreground);
+    color: var(--foreground-error);
   }
 }

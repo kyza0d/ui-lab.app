@@ -6,7 +6,7 @@
   }
 
   .container {
-    @apply w-full overflow-x-auto rounded-md;
+    @apply w-full overflow-x-auto rounded-sm;
     border: var(--border-width-base) solid var(--border, var(--background-border));
     background-color: var(--container-background, var(--background));
   }
@@ -17,46 +17,46 @@
   }
 
   .table {
-    @apply w-full text-sm;
+    @apply w-full;
     display: table;
     border-collapse: collapse;
     min-width: max-content;
     background-color: var(--background, transparent);
     color: var(--foreground);
-    font-size: var(--font-size, var(--text-sm));
+    font-size: var(--text-xs);
   }
 
   .header {
     display: table-header-group;
-    background-color: var(--header-background, var(--background));
+    background-color: var(--background);
   }
 
   .body {
     display: table-row-group;
-    background-color: var(--body-background, var(--background));
+    background-color: var(--background);
   }
 
   .headerRow {
     display: table-row;
-    background-color: var(--header-background, var(--background));
+    background-color: var(--background);
   }
 
   .headerCell {
     @apply px-4 py-3 text-left;
     display: table-cell;
-    background-color: var(--header-background, var(--background));
-    color: var(--header-foreground, var(--foreground));
+    background-color: var(--background);
+    color: var(--foreground);
     font-weight: var(--header-font-weight, var(--font-weight-semibold));
     white-space: nowrap;
     border-bottom: var(--border-width-base) solid var(--border, var(--background-border));
   }
 
   .headerCell:first-child {
-    border-top-left-radius: var(--radius-sm);
+    border-top-left-radius: var(--radius-xs);
   }
 
   .headerCell:last-child {
-    border-top-right-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-xs);
   }
 
   .row {
@@ -72,11 +72,6 @@
 
   .row[data-interactive="true"]:hover .cell {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    background-color: var(--body-background-hover, var(--background-hover, var(--background)));
-  }
-
-  .row[data-selected="true"] .cell {
-    background-color: var(--row-selected-background, var(--background-selected, var(--background-hover, var(--background))));
   }
 
   .row[data-disabled="true"] {
@@ -96,8 +91,8 @@
   .cell {
     @apply px-4 py-3 align-middle;
     display: table-cell;
-    background-color: var(--cell-background, transparent);
-    color: var(--cell-foreground, var(--foreground));
+    background-color: var(--background, transparent);
+    color: var(--foreground);
     border-bottom: var(--border-width-base) solid var(--border, var(--background-border));
     transition:
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
@@ -109,11 +104,11 @@
   }
 
   .row:last-child .cell:first-child {
-    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-xs);
   }
 
   .row:last-child .cell:last-child {
-    border-bottom-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-xs);
   }
 
   .emptyRow {
@@ -126,8 +121,8 @@
 
   .emptyState {
     @apply px-4 py-8 text-center;
-    background-color: var(--empty-background, var(--body-background, var(--background)));
-    color: var(--empty-foreground, var(--foreground));
+    background-color: var(--background);
+    color: var(--foreground);
   }
 
   .emptyState {
@@ -135,9 +130,9 @@
   }
 
   .filterBar {
-    @apply mb-4 rounded-sm border p-4;
-    border: var(--border-width-base) solid var(--filter-border, var(--background-border));
-    background-color: var(--filter-background, var(--background));
+    @apply mb-4 rounded-xs border p-4;
+    border: var(--border-width-base) solid var(--background-border);
+    background-color: var(--background);
   }
 
   .filterBar {
@@ -146,7 +141,7 @@
 
   .filterGrid {
     @apply grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3;
-    background-color: var(--filter-grid-background, var(--filter-background, var(--body-background, var(--background))));
+    background-color: var(--background);
   }
 
   .filterGrid {
@@ -159,7 +154,7 @@
 
   .filterLabel {
     @apply mb-2 block;
-    color: var(--filter-label-foreground, var(--foreground));
+    color: var(--foreground);
     font-size: var(--filter-label-font-size, var(--text-xs));
     font-weight: var(--filter-label-font-weight, var(--font-weight-medium));
   }

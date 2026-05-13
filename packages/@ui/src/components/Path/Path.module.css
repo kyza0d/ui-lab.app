@@ -21,7 +21,7 @@
   .item:not(:last-child)::after {
     content: "/";
     margin-inline-start: 0.5rem;
-    color: var(--separator-foreground);
+    color: var(--foreground);
     pointer-events: none;
     user-select: none;
   }
@@ -29,7 +29,7 @@
   .separator {
     @apply m-0 flex items-center p-0;
     list-style: none;
-    color: var(--separator-foreground);
+    color: var(--foreground);
     pointer-events: none;
     user-select: none;
   }
@@ -37,7 +37,7 @@
   .link {
     @apply relative cursor-pointer px-2 py-1;
     border: 0;
-    background-color: transparent;
+    background-color: var(--background);
     color: var(--foreground);
     font-size: var(--text-sm, 0.875rem);
     font-weight: var(--font-weight-medium, 500);
@@ -60,30 +60,14 @@
 
   .link[data-hovered="true"]:not([data-disabled="true"]):not([data-selected="true"]) {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    background-color: var(--background-hover);
-    color: var(--foreground-hover);
-  }
-
-  .link[data-pressed="true"]:not([data-disabled="true"]):not([data-selected="true"]) {
-    background-color: var(--background-pressed);
   }
 
   .link[data-selected="true"] {
-    color: var(--foreground-selected);
     cursor: default;
   }
 
-  .link[data-selected="true"][data-hovered="true"] {
-    background-color: transparent;
-  }
-
   .link[data-disabled="true"] {
-    color: var(--foreground-disabled);
     cursor: not-allowed;
     opacity: var(--disabled-opacity);
-  }
-
-  .link[data-disabled="true"][data-hovered="true"] {
-    background-color: transparent;
   }
 }

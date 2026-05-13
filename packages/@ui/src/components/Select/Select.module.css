@@ -155,10 +155,14 @@
   .item,
   .sub-trigger {
     @apply flex items-center gap-2 outline-none cursor-default select-none;
+    background-color: var(--background);
     border-radius: var(--background-inner-radius);
     font-size: var(--foreground-size);
     font-weight: var(--font-weight-medium);
     color: var(--foreground);
+    transition:
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &[data-disabled] {
       opacity: var(--disabled-opacity, 0.5);
@@ -178,7 +182,7 @@
     }
 
     &[data-highlighted="true"] {
-      background-color: var(--background-highlighted);
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     }
   }
 
@@ -282,7 +286,7 @@
 
     &[data-highlighted="true"],
     &[data-open="true"]:not([data-highlighted="true"]) {
-      background-color: var(--background-highlighted);
+      --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
     }
   }
 

@@ -211,10 +211,11 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     return (
       <div
         ref={mergedRootRef}
-        className={cn("checkbox-root", scopeProps.className, css['checkbox-root'], resolved.root)}
+        className={cn("checkbox", scopeProps.className, css.checkbox, resolved.root)}
         data-disabled={disabled ? "true" : undefined}
         data-invalid={resolvedInvalid ? "true" : undefined}
         data-indeterminate={resolvedIndeterminate ? "true" : undefined}
+        data-selected={displayChecked ? "true" : undefined}
       >
         <div {...indicatorProps} data-focus-indicator="local" />
         <div className={cn(css.container)}>
@@ -226,8 +227,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
             disabled={disabled}
             {...(isControlled ? { checked } : { defaultChecked: internalChecked })}
             className={cn(
-              'checkbox',
-              css.checkbox,
+              css.box,
               className,
               resolved.checkbox
             )}

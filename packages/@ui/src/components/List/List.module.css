@@ -39,10 +39,14 @@
   }
 
   .item {
+    --background: transparent;
+
     @apply flex gap-3 px-2 py-1 cursor-pointer;
-    background-color: var(--item-background, transparent);
+    background-color: var(--background);
+    color: var(--foreground);
     transition:
-      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
+      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
+      color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
   }
 
   .item[data-focus-visible="true"] {
@@ -55,11 +59,16 @@
 
   .item:hover {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    background-color: var(--item-background-hover, var(--background-hover, var(--highlight-background, transparent)));
   }
 
   .container[data-keyboard-mode="true"] .item[data-highlighted="true"] {
-    background-color: var(--item-background-highlighted, var(--background-highlighted, var(--highlight-background, transparent)));
+    --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
+  }
+
+  .item[data-disabled="true"] {
+    cursor: not-allowed;
+    opacity: var(--disabled-opacity, 0.6);
+    pointer-events: none;
   }
 
   .checkbox,
@@ -112,9 +121,12 @@
   }
 
   .action {
+    --background: transparent;
+
     @apply flex items-center justify-center;
     border-radius: 0.25rem;
-    color: var(--action-foreground);
+    background-color: var(--background);
+    color: var(--foreground);
     @apply p-2;
     transition:
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
@@ -123,8 +135,6 @@
 
   .action:hover {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    background-color: var(--action-background-hover, var(--item-background-hover, var(--background-hover, transparent)));
-    color: var(--action-foreground-hover, var(--action-color, inherit));
   }
 
   .footer {

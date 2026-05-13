@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 
 @layer components {
-  .checkbox-root {
+  .checkbox {
     @apply inline-grid gap-x-3;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
@@ -11,7 +11,7 @@
     @apply relative inline-flex items-center justify-center;
   }
 
-  .checkbox {
+  .box {
     @apply relative h-5 w-5 cursor-pointer appearance-none;
 
     background-color: var(--background);
@@ -26,18 +26,6 @@
 
     &:hover:not([data-disabled="true"]) {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--background-hover);
-      border-color: var(--background-hover-border);
-    }
-
-    &[data-selected="true"] {
-      background-color: var(--background-selected);
-      border-color: var(--background-selected-border);
-    }
-
-    &[data-indeterminate="true"] {
-      background-color: var(--background-indeterminate);
-      border-color: var(--background-indeterminate-border);
     }
 
     &[data-invalid="true"] {
@@ -46,7 +34,7 @@
 
     &[data-invalid="true"][data-selected="true"],
     &[data-invalid="true"][data-indeterminate="true"] {
-      border-color: var(--background-selected-border);
+      border-color: var(--background-border);
     }
 
     &[data-disabled="true"] {
@@ -63,7 +51,7 @@
     width: 65%;
     height: 65%;
     transform: translate(-50%, -50%);
-    color: var(--icon-foreground);
+    color: var(--foreground);
     pointer-events: none;
   }
 

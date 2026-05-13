@@ -33,7 +33,7 @@
     line-height: 1;
     border-radius: var(--radius-xs, 0.25rem);
     background-color: var(--dismiss-background, var(--background, transparent));
-    color: var(--dismiss-foreground, var(--foreground, var(--foreground-400)));
+    color: var(--foreground, var(--foreground-400));
     border: none;
     transition:
       opacity var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
@@ -49,21 +49,18 @@
 
   .dismiss[data-hovered="true"] {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    background-color: var(
-      --dismiss-hover-background,
-      var(--background-hover, var(--dismiss-background, transparent))
-    );
+    background-color: var(--background-hover, var(--dismiss-background, transparent));
   }
 
   .dismiss[data-pressed="true"] {
     background-color: var(
-      --dismiss-pressed-background,
-      var(--background-pressed, var(--background-hover, var(--dismiss-background, transparent)))
+      --background-pressed,
+      var(--background-hover, var(--dismiss-background, transparent))
     );
     transform: scale(0.95);
   }
 
   .dismiss[data-focus-visible="true"] {
-    box-shadow: 0 0 0 1.5px var(--dismiss-focus-visible, var(--focus-visible, var(--foreground)));
+    box-shadow: 0 0 0 1.5px var(--focus-visible, var(--foreground));
   }
 }

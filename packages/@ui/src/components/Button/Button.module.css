@@ -16,16 +16,8 @@
       border-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
       color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
-    &:hover:not(:disabled),
     &[data-hovered="true"]:not([data-disabled="true"]) {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--background-hover);
-      border-color: var(--background-hover-border);
-    }
-
-    &[data-pressed="true"]:not([data-disabled]) {
-      background-color: var(--background-pressed, var(--background-hover, var(--background)));
-      border-color: var(--background-pressed-border, var(--background-hover-border, var(--background-border)));
     }
 
     &:focus-visible {

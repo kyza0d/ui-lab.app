@@ -20,7 +20,7 @@ describe("Date focus indicator", () => {
     await user.tab();
     await user.tab();
 
-    expect(container.querySelector('.day-cell[data-focus-visible="true"]')).toBeInTheDocument();
+    expect(container.querySelector('.day[data-focus-visible="true"]')).toBeInTheDocument();
   });
 
   it("attaches the shared focus indicator to month navigation buttons", () => {

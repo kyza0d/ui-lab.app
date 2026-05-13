@@ -11,14 +11,6 @@
     --layout-vertical-spacing: calc(var(--spacing) * 4);
     --layout-border-height: calc(var(--background-border-width) * 2);
     --layout-padding-height: calc(var(--layout-padding-size) * 2);
-    --group-background: var(--background, transparent);
-    --group-foreground: var(--foreground, currentColor);
-    --group-border: var(--background-border, transparent);
-    --group-hover: var(--background-hover, var(--group-background));
-    --group-pressed: var(--background-pressed, var(--group-hover));
-    --group-divider-background: var(--group-border);
-    --group-input-background: var(--group-background);
-    --group-input-foreground: var(--group-foreground);
     --group-input-border-width: 0px;
     --group-input-border: transparent;
     --group-input-hover-border: var(--group-input-border);
@@ -179,8 +171,6 @@
     }
 
     .input {
-      --background: var(--group-input-background);
-      --foreground: var(--group-input-foreground);
       --input-border-width: var(--group-input-border-width);
       --input-border-color: var(--group-input-border);
       --background-border: var(--group-input-border);
@@ -189,7 +179,7 @@
     }
 
     .item.divider > [role="separator"] {
-      --divider-background: var(--group-divider-background);
+      --divider-background: var(--background);
     }
 
     &.none {

@@ -13,7 +13,7 @@
     min-width: 0;
     @apply py-1.5 px-3;
     font-family: inherit;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     line-height: var(--leading-snug);
     color: var(--foreground);
     background-color: transparent;

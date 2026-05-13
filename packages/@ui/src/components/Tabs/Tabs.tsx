@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { useFocusRing } from "react-aria"
-import { useInteractionModality } from "@react-aria/interactions"
+import { mergeProps, useFocusRing, usePress } from "react-aria"
+import { useHover, useInteractionModality } from "@react-aria/interactions"
 import { cn } from "@/lib/utils"
 import { StyleValue } from "@/lib/utils"
 import { asElementProps } from "@/lib/react-aria"
@@ -41,7 +41,7 @@ const TABS_INDICATOR_INSET = 4
 const TABS_UNDERLINE_THICKNESS = 2
 const TABS_UNDERLINE_OFFSET = 2
 const TABS_UNDERLINE_GUTTER = TABS_UNDERLINE_THICKNESS + TABS_UNDERLINE_OFFSET
-const TABS_UNDERLINE_FALLBACK_GUTTER = TABS_UNDERLINE_GUTTER + TABS_UNDERLINE_THICKNESS
+const TABS_UNDERLINE_FALLBACK_GUTTER = TABS_UNDERLINE_GUTTER
 
 interface TabsListContextValue {
   indicatorClassName: string
@@ -524,7 +524,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
       }
     }, [disabled, value, _registerDisabled, _unregisterDisabled])
 
-    const handleClick = React.useCallback(() => {
+    const handlePress = React.useCallback(() => {
       if (!disabled) {
         setSelectedValue(value)
       }
@@ -585,10 +585,21 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
     )
 
     const mergedRef = useMergeRefs(buttonRef, ref)
+    const { hoverProps, isHovered } = useHover({ isDisabled: disabled })
+    const { pressProps, isPressed } = usePress({
+      isDisabled: disabled,
+      onPress: handlePress,
+    })
+    const triggerProps = mergeProps(
+      asElementProps<"button">(focusProps),
+      hoverProps,
+      pressProps,
+      { onKeyDown: handleKeyDown }
+    )
 
     return (
         <button
-        {...asElementProps<"button">(focusProps)}
+        {...triggerProps}
         ref={mergedRef}
         id={`${value}-trigger`}
         role="tab"
@@ -601,11 +612,11 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         className={cn("tabs", "trigger", css.trigger, resolved.root, className)}
         data-selected={isSelected ? "true" : "false"}
         data-disabled={disabled ? "true" : undefined}
+        data-hovered={isHovered ? "true" : "false"}
+        data-pressed={isPressed ? "true" : "false"}
         data-focus-visible={showFocusVisible ? "true" : "false"}
         data-indicator-ready={isSelected && indicatorReady ? "true" : undefined}
         data-indicator-fallback={showIndicatorFallback ? "true" : undefined}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
       >
         {showIndicatorFallback && tabsListContext && (
           <span

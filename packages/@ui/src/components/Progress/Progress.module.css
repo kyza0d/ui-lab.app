@@ -12,7 +12,7 @@
   .fill {
     @apply h-full;
     border-radius: var(--radius-full, 9999px);
-    background-color: var(--fill-background);
+    background-color: var(--background);
     transition: width 300ms var(--ease-snappy-pop);
   }
 

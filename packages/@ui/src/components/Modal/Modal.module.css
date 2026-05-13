@@ -45,14 +45,13 @@
     @apply ml-auto flex items-center justify-center cursor-pointer;
     background: none;
     border: none;
-    color: var(--close-foreground, var(--foreground));
+    color: var(--foreground);
     transition:
       color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
       transform var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &[data-hovered="true"] {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      color: var(--close-hover-foreground, var(--close-foreground, var(--foreground)));
     }
 
     &[data-pressed="true"] {
@@ -86,7 +85,7 @@
   }
 
   .content::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-background, var(--background-border));
+    background-color: var(--background);
     border-radius: 3px;
     transition:
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
@@ -94,7 +93,6 @@
 
   .content::-webkit-scrollbar-thumb:hover {
     --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    background-color: var(--scrollbar-thumb-hover-background, var(--close-foreground, var(--foreground)));
   }
 
   .footer {

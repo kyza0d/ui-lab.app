@@ -11,9 +11,8 @@
     color: var(--foreground, currentColor);
     text-decoration: none;
 
-    &:hover .underline {
+    &[data-hovered="true"]:not([data-disabled="true"]) .underline {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-      background-color: var(--underline-background-hover, var(--foreground-400));
     }
 
     &[data-focus-visible="true"] {

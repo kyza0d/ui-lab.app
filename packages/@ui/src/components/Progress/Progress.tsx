@@ -105,7 +105,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           {...props}
         >
           <div
-            className={cn(css.fill, resolved.fill)}
+            className={cn("fill", css.fill, resolved.fill)}
             data-animated={animated || indeterminate ? "true" : "false"}
             data-indeterminate={indeterminate ? "true" : "false"}
             style={indeterminate ? undefined : { width: `${percentage}%` }}
