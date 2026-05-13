@@ -1,7 +1,6 @@
 import React from 'react';
-import { Divider, Grid } from 'ui-lab-components';
+import { Divider, Frame, Grid } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-grid.js';
 import Example2, { metadata as metadata2, controls as controls2, renderPreview as renderPreview2, previewLayout as previewLayout2, resizable as resizable2 } from './examples/02-track-placement.js';
 import Example3, { metadata as metadata3, controls as controls3, renderPreview as renderPreview3, previewLayout as previewLayout3, resizable as resizable3 } from './examples/03-editorial-spans.js';
 import Example4, { metadata as metadata4, controls as controls4, renderPreview as renderPreview4, previewLayout as previewLayout4, resizable as resizable4 } from './examples/04-responsive-card-rail.js';
@@ -9,11 +8,15 @@ import examplesJson from './examples.json' with { type: 'json' };
 import { loadComponentExamples } from '../../utils/load-component-examples.js';
 
 const examplesData = [
-  { id: '01-basic-grid', Component: Example1, metadata: metadata1 },
   { id: '02-track-placement', Component: Example2, metadata: metadata2, controls: controls2, renderPreview: renderPreview2, previewLayout: previewLayout2, resizable: resizable2 },
   { id: '03-editorial-spans', Component: Example3, metadata: metadata3, controls: controls3, renderPreview: renderPreview3, previewLayout: previewLayout3, resizable: resizable3 },
   { id: '04-responsive-card-rail', Component: Example4, metadata: metadata4, controls: controls4, renderPreview: renderPreview4, previewLayout: previewLayout4, resizable: resizable4 },
 ];
+
+const BASE_FRAME_STYLE = {
+  '--frame-fill': 'var(--background-900)',
+  '--frame-stroke-color': 'var(--background-600)',
+} as React.CSSProperties;
 
 const gridControls: ControlDef[] = [
   {
@@ -84,20 +87,51 @@ const gridControls: ControlDef[] = [
   },
 ];
 
-const gridBasicCode = `import { Grid } from "ui-lab-components";
+const gridBasicCode = `import { Grid, Frame } from "ui-lab-components";
 
 export function Example() {
   return (
     <Grid columns={3} gap="md">
-      <div className="h-20 bg-accent-500/20 rounded border border-accent-500/50 flex items-center justify-center">1</div>
-      <div className="h-20 bg-accent-500/20 rounded border border-accent-500/50 flex items-center justify-center">2</div>
-      <div className="h-20 bg-accent-500/20 rounded border border-accent-500/50 flex items-center justify-center">3</div>
-      <div className="h-20 bg-accent-500/20 rounded border border-accent-500/50 flex items-center justify-center">4</div>
-      <div className="h-20 bg-accent-500/20 rounded border border-accent-500/50 flex items-center justify-center">5</div>
-      <div className="h-20 bg-accent-500/20 rounded border border-accent-500/50 flex items-center justify-center">6</div>
+      <Frame pathStroke="dashed" style={{ width: "100%", minHeight: "9rem", gridRow: "span 2" }} />
+      <Frame pathStroke="dashed" style={{ width: "100%", minHeight: "5rem", gridColumn: "span 2" }} />
+      <Frame pathStroke="dashed" style={{ width: "100%", minHeight: "3rem" }} />
+      <Frame pathStroke="dashed" style={{ width: "100%", minHeight: "3rem" }} />
+      <Frame pathStroke="dashed" style={{ width: "100%", minHeight: "6rem", gridColumn: "span 2" }} />
+      <Frame pathStroke="dashed" style={{ width: "100%", minHeight: "4rem" }} />
     </Grid>
   );
 }`;
+
+function GridFrame({ style }: { style: React.CSSProperties }) {
+  return (
+    <Frame pathStroke="dashed" style={{ ...BASE_FRAME_STYLE, ...style }} className="w-full h-full">
+      <div className="size-full" />
+    </Frame>
+  );
+}
+
+function getPreviewSpecs(columns: number | 'auto-fit' | 'auto-fill') {
+  const trackCount = typeof columns === 'number' ? columns : 4;
+  if (trackCount <= 2) {
+    return [
+      { width: '100%', minHeight: '4rem' },
+      { width: '100%', minHeight: '8rem' },
+      { width: '100%', minHeight: '3rem' },
+      { width: '100%', minHeight: '5rem' },
+      { width: '100%', minHeight: '4rem' },
+      { width: '100%', minHeight: '3rem' },
+    ] as React.CSSProperties[];
+  }
+
+  return [
+    { width: '100%', minHeight: '9rem', gridRow: 'span 2' },
+    { width: '100%', minHeight: '5rem', gridColumn: `span ${Math.max(1, trackCount - 1)}` },
+    { width: '100%', minHeight: '3rem' },
+    { width: '100%', minHeight: '3rem' },
+    { width: '100%', minHeight: '6rem', gridColumn: `span ${Math.min(2, trackCount)}` },
+    { width: '100%', minHeight: '4rem' },
+  ] as React.CSSProperties[];
+}
 
 export const gridDetail: ComponentDetail = {
   id: 'grid',
@@ -119,24 +153,22 @@ export const gridDetail: ComponentDetail = {
       title: 'Preview',
       description: 'Adjust props to customize the component',
       code: gridBasicCode,
-      previewLayout: 'center',
+      previewLayout: 'start',
       renderPreview: (props: any) => {
-        const GridCell = ({ children }: { children?: React.ReactNode }) => (
-          <div className="bg-accent-500/10 border border-accent-500/10 rounded flex items-center justify-center text-accent-500 text-sm font-medium h-20">
-            {children}
-          </div>
-        );
+        const columns = props.columns === 'auto-fit' || props.columns === 'auto-fill' ? props.columns : Number(props.columns ?? 3);
+        const specs = getPreviewSpecs(columns);
+
         return (
           <Grid
-            columns={props.columns}
+            columns={columns}
             gap={props.gap}
             justifyItems={props.justifyItems}
             alignItems={props.alignItems}
             autoFlow={props.autoFlow}
             className="w-full"
           >
-            {Array.from({ length: 12 }).map((_, i) => (
-              <GridCell key={i}>{i + 1}</GridCell>
+            {specs.map((style, index) => (
+              <GridFrame key={index} style={style} />
             ))}
           </Grid>
         );
