@@ -121,8 +121,13 @@ export function generateThemeSetupFiles(
   spacingScale?: number,
   maxWidthScale?: number,
   fonts?: ThemeFontSelections,
+  globalMinFontSizePx?: number,
 ): GeneratedThemeSetupFiles {
-  const typographyCSS = generateTypographyCSS(typeSizeRatio, fontSizeScale);
+  const typographyCSS = generateTypographyCSS(
+    typeSizeRatio,
+    fontSizeScale,
+    globalMinFontSizePx,
+  );
   const leadingCSS = renderCssVariables(
     generateLineHeightCSS(headerLineHeight ?? 1.5, bodyLineHeight ?? 1.3),
   );
@@ -184,10 +189,11 @@ ${renderCssVariables(darkColorVariables)}
 ${themeInlineMapping}
 }`;
 
-  const globalsCss = `${radiusRootCSS}
-@import "tailwindcss";
+  const globalsCss = `@import "tailwindcss";
 @import "./theme.css";
 @import "ui-lab-components/styles.css";
+
+${radiusRootCSS}
 
 @theme {
 ${fontFamilyCSS}
@@ -209,6 +215,13 @@ ${maxWidthVariablesCSS}
 ${radiusCSS}
 
 ${borderWidthCSS}
+}
+
+:root {
+${fontFamilyCSS}
+
+${typographyCSS}
+${leadingCSS}
 }
 
 ${maxWidthUtilitiesCSS}

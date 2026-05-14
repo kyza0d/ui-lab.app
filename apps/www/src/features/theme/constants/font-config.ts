@@ -6,6 +6,17 @@ export interface FontMetrics {
   fontSizeScale: number;
   fontWeightScale: number;
   typeSizeRatio: number;
+  baseline?: number;
+  capHeight?: number;
+  xHeight?: number;
+  ascender?: number;
+  descender?: number;
+  stem?: number;
+  bowlCounter?: number;
+  tracking?: number;
+  leading?: number;
+  pointSize?: number;
+  alignment?: "left" | "center" | "right" | "justify";
   headerLetterSpacingScale?: number;
   headerLineHeight?: number;
   bodyLetterSpacingScale?: number;

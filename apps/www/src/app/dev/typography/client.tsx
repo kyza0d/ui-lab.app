@@ -1,7 +1,7 @@
 "use client";
 
 
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { TypographyPanel } from "@/features/theme/components/settings/typography-panel";
 import {
   getFontConfig,
@@ -23,7 +23,7 @@ import {
   DEFAULT_GLOBAL_MIN_FONT_SIZE_PX,
   type TypographyConfig,
 } from "@/features/theme/lib/typography-config";
-import { Button, Divider } from "ui-lab-components";
+import { Button, Divider, Switch, Slider, Select, Label } from "ui-lab-components";
 
 const defaultBodyFont = getDefaultBodyFont();
 const defaultHeaderFont = getDefaultHeaderFont();
@@ -46,6 +46,76 @@ const FONT_WEIGHT_DEFS = [
 
 type PreviewTypographyState = TypographyConfig;
 type BodyTypographyState = Record<string, PreviewTypographyState>;
+type TextAlignment = "left" | "center" | "right" | "justify";
+
+interface FontTuningState {
+  tracking: number;
+  leading: number;
+  pointSize: number;
+  alignment: TextAlignment;
+}
+
+type FontTuningByFont = Record<string, FontTuningState>;
+
+const SAMPLE_GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&@!?$%";
+const KERNING_PAIRS = ["AV", "VA", "To", "Wa", "Yo", "Ta", "LT", "FA"] as const;
+const CONTEXT_PARAGRAPHS = [
+  "Interface typography needs to stay readable while labels, values, and nested actions compete for attention.",
+  "Dense tools reward fonts with clear counters, sturdy stems, reliable spacing, and numerals that scan cleanly in tables.",
+];
+
+const DEFAULT_FONT_TUNING: FontTuningState = {
+  tracking: 0,
+  leading: 1.5,
+  pointSize: 18,
+  alignment: "left",
+};
+
+const SPACING_CONTROLS = [
+  { key: "tracking", label: "Tracking", min: -0.08, max: 0.16, step: 0.005, unit: "em" },
+  { key: "leading", label: "Leading", min: 1, max: 2.2, step: 0.01, unit: "" },
+  { key: "pointSize", label: "Point size", min: 10, max: 56, step: 1, unit: "px" },
+] as const satisfies ReadonlyArray<{
+  key: keyof Pick<FontTuningState, "tracking" | "leading" | "pointSize">;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+}>;
+
+interface GlyphMeasurement {
+  character: string;
+  width: number;
+  actualLeft: number;
+  actualRight: number;
+  actualAscent: number;
+  actualDescent: number;
+  fontAscent: number;
+  fontDescent: number;
+  capHeightRatio: number;
+  xHeightRatio: number;
+}
+
+interface KerningMeasurement {
+  pair: string;
+  width: number;
+  sumWidth: number;
+  delta: number;
+}
+
+interface RenderedFontMetrics {
+  selected: GlyphMeasurement;
+  capHeight: number;
+  xHeight: number;
+  ascender: number;
+  descender: number;
+  stem: number;
+  bowlWidth: number;
+  counterProxy: number;
+  kerningPairs: KerningMeasurement[];
+  loaded: boolean;
+}
 
 function clampFontWeight(value: number) {
   return Math.max(100, Math.min(900, Math.round(value)));
@@ -73,6 +143,104 @@ function buildInitialBodyTypographyState(): BodyTypographyState {
   return Object.fromEntries(
     BODY_FONTS.map((font) => [font.name, getFontPreviewState(font)]),
   );
+}
+
+function getFontTuningState(fontConfig?: FontConfig): FontTuningState {
+  const metrics = fontConfig?.metrics;
+
+  return {
+    tracking: metrics?.tracking ?? DEFAULT_FONT_TUNING.tracking,
+    leading: metrics?.leading ?? metrics?.bodyLineHeight ?? DEFAULT_FONT_TUNING.leading,
+    pointSize: metrics?.pointSize ?? DEFAULT_FONT_TUNING.pointSize,
+    alignment: metrics?.alignment ?? DEFAULT_FONT_TUNING.alignment,
+  };
+}
+
+function buildInitialFontTuningState(): FontTuningByFont {
+  return Object.fromEntries(
+    BODY_FONTS.map((font) => [font.name, getFontTuningState(font)]),
+  );
+}
+
+function roundMetric(value: number, decimals = 3) {
+  if (!Number.isFinite(value)) return 0;
+  return Number(value.toFixed(decimals));
+}
+
+function measureGlyph(
+  context: CanvasRenderingContext2D,
+  character: string,
+  pointSize: number,
+): GlyphMeasurement {
+  const metrics = context.measureText(character);
+  const actualAscent = metrics.actualBoundingBoxAscent || 0;
+  const actualDescent = metrics.actualBoundingBoxDescent || 0;
+
+  return {
+    character,
+    width: roundMetric(metrics.width),
+    actualLeft: roundMetric(metrics.actualBoundingBoxLeft || 0),
+    actualRight: roundMetric(metrics.actualBoundingBoxRight || metrics.width),
+    actualAscent: roundMetric(actualAscent),
+    actualDescent: roundMetric(actualDescent),
+    fontAscent: roundMetric(metrics.fontBoundingBoxAscent || actualAscent),
+    fontDescent: roundMetric(metrics.fontBoundingBoxDescent || actualDescent),
+    capHeightRatio: roundMetric(actualAscent / pointSize),
+    xHeightRatio: roundMetric(actualAscent / pointSize),
+  };
+}
+
+function measureRenderedFontMetrics(
+  fontFamily: string,
+  pointSize: number,
+  character: string,
+): RenderedFontMetrics | null {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  if (!context) return null;
+
+  context.font = `400 ${pointSize}px ${fontFamily}`;
+  context.textBaseline = "alphabetic";
+  (context as CanvasRenderingContext2D & { fontKerning?: string }).fontKerning = "normal";
+
+  const selected = measureGlyph(context, character, pointSize);
+  const cap = measureGlyph(context, "H", pointSize);
+  const x = measureGlyph(context, "x", pointSize);
+  const asc = measureGlyph(context, "h", pointSize);
+  const desc = measureGlyph(context, "p", pointSize);
+  const stem = measureGlyph(context, "I", pointSize);
+  const bowl = measureGlyph(context, "O", pointSize);
+  const counter = measureGlyph(context, "o", pointSize);
+
+  return {
+    selected: {
+      ...selected,
+      capHeightRatio: roundMetric(cap.actualAscent / pointSize),
+      xHeightRatio: roundMetric(x.actualAscent / pointSize),
+    },
+    capHeight: roundMetric(cap.actualAscent / pointSize),
+    xHeight: roundMetric(x.actualAscent / pointSize),
+    ascender: roundMetric(Math.max(asc.actualAscent, selected.fontAscent) / pointSize),
+    descender: roundMetric(Math.max(desc.actualDescent, selected.fontDescent) / pointSize),
+    stem: roundMetric(stem.width / pointSize),
+    bowlWidth: roundMetric(bowl.width / pointSize),
+    counterProxy: roundMetric(counter.width / Math.max(bowl.width, 1)),
+    kerningPairs: KERNING_PAIRS.map((pair) => {
+      const [first, second] = Array.from(pair);
+      const firstWidth = context.measureText(first).width;
+      const secondWidth = context.measureText(second).width;
+      const pairWidth = context.measureText(pair).width;
+
+      return {
+        pair,
+        width: roundMetric(pairWidth),
+        sumWidth: roundMetric(firstWidth + secondWidth),
+        delta: roundMetric(pairWidth - firstWidth - secondWidth),
+      };
+    }),
+    loaded: true,
+  };
 }
 
 function buildPreviewVars(
@@ -142,16 +310,70 @@ function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) 
   const [copied, setCopied] = useState(false);
 
   return (
-    <button
-      onClick={() => {
+    <Button
+      onPress={() => {
         navigator.clipboard.writeText(text);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }}
-      className="rounded border border-background-600 bg-background-800 px-3 py-1.5 text-sm text-foreground-300 transition-colors hover:bg-background-700"
+      variant="outline"
+      size="sm"
     >
       {copied ? "Copied!" : label}
-    </button>
+    </Button>
+  );
+}
+
+function TuningSlider({
+  label,
+  value,
+  min,
+  max,
+  step,
+  unit,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <div className="block space-y-2">
+      <div className="flex items-center justify-between gap-3 text-sm">
+        <Label className="font-medium text-foreground-400">{label}</Label>
+        <span className="rounded border border-background-700 bg-background-900 px-1.5 py-0.5 text-foreground-300 tabular-nums">
+          {value.toFixed(step < 0.01 ? 3 : 2)}
+          {unit}
+        </span>
+      </div>
+      <Slider
+        min={min}
+        max={max}
+        step={step}
+        value={[value]}
+        onValueChange={(values) => onChange(values[0])}
+        aria-label={label}
+      />
+    </div>
+  );
+}
+
+function MetricsGroup({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="space-y-3 rounded border border-background-700 bg-background-900/40 p-4">
+      <h3 className="text-sm font-semibold text-foreground-100">{title}</h3>
+      {children}
+    </section>
   );
 }
 
@@ -205,6 +427,204 @@ function PreviewSurface({
   );
 }
 
+function buildTuningStyle(fontFamily: string, tuning: FontTuningState): CSSProperties {
+  return {
+    fontFamily,
+    fontKerning: "normal",
+    letterSpacing: `${tuning.tracking}em`,
+    lineHeight: tuning.leading,
+    fontSize: tuning.pointSize,
+    textAlign: tuning.alignment,
+  };
+}
+
+function MetricGuide({
+  baselineY,
+  displayFontSize,
+  metrics,
+}: {
+  baselineY: number;
+  displayFontSize: number;
+  metrics: RenderedFontMetrics | null;
+}) {
+  const capHeight = metrics?.capHeight ?? 0;
+  const xHeight = metrics?.xHeight ?? 0;
+  const ascender = metrics?.ascender ?? 0;
+  const descender = metrics?.descender ?? 0;
+  const guideLines = [
+    { label: "Asc", y: baselineY - ascender * displayFontSize, color: "bg-info-500" },
+    { label: "Cap", y: baselineY - capHeight * displayFontSize, color: "bg-success-500" },
+    { label: "X", y: baselineY - xHeight * displayFontSize, color: "bg-warning-500" },
+    { label: "Base", y: baselineY, color: "bg-foreground-300" },
+    { label: "Desc", y: baselineY + descender * displayFontSize, color: "bg-danger-500" },
+  ];
+
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden>
+      {guideLines.map((line) => (
+        <div key={line.label} className="absolute left-0 right-0" style={{ top: line.y }}>
+          <span className={`absolute left-0 top-0 h-px w-full ${line.color} opacity-55`} />
+          <span className="absolute -top-2 right-0 bg-background-900 pl-2 text-[10px] font-medium text-foreground-500">
+            {line.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GlyphInspector({
+  character,
+  fontName,
+  metrics,
+  style,
+}: {
+  character: string;
+  fontName: string;
+  metrics: RenderedFontMetrics | null;
+  style: CSSProperties;
+}) {
+  const displayFontSize = 180;
+  const baselineY = 200;
+
+  return (
+    <div className="relative min-h-[330px] overflow-hidden rounded border border-background-700 bg-background-900 p-6">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <div className="text-sm font-medium text-foreground-400">Selected glyph</div>
+          <div className="text-xs text-foreground-500">{fontName}</div>
+        </div>
+        <div className="rounded border border-background-700 bg-background-950 px-2 py-1 font-mono text-sm text-foreground-300">
+          U+{character.codePointAt(0)?.toString(16).toUpperCase().padStart(4, "0")}
+        </div>
+      </div>
+      <div className="relative h-[260px]">
+        <MetricGuide
+          baselineY={baselineY}
+          displayFontSize={displayFontSize}
+          metrics={metrics}
+        />
+        <svg className="absolute inset-0 h-full w-full overflow-visible" role="img" aria-label={`${fontName} glyph ${character}`}>
+          <text
+            x="50%"
+            y={baselineY}
+            textAnchor="middle"
+            className="fill-foreground-50"
+            style={{
+              fontFamily: style.fontFamily,
+              fontKerning: "normal",
+              fontSize: displayFontSize,
+              letterSpacing: style.letterSpacing,
+            }}
+          >
+            {character}
+          </text>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+function GlyphGrid({
+  selectedCharacter,
+  onSelectCharacter,
+  style,
+}: {
+  selectedCharacter: string;
+  onSelectCharacter: (character: string) => void;
+  style: CSSProperties;
+}) {
+  return (
+    <div className="grid grid-cols-6 gap-2 sm:grid-cols-8 md:grid-cols-10 xl:grid-cols-12">
+      {Array.from(SAMPLE_GLYPHS).map((character) => {
+        const isSelected = character === selectedCharacter;
+
+        return (
+          <button
+            key={character}
+            type="button"
+            onClick={() => onSelectCharacter(character)}
+            className={`aspect-square rounded border text-center text-3xl leading-none transition-colors ${
+              isSelected
+                ? "border-foreground-200 bg-background-700 text-foreground-50"
+                : "border-background-700 bg-background-900 text-foreground-200 hover:border-background-500 hover:bg-background-800"
+            }`}
+            style={{ ...style, fontSize: 30, lineHeight: 1 }}
+          >
+            {character}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ContextPreview({
+  style,
+  headerStyle,
+}: {
+  style: CSSProperties;
+  headerStyle: CSSProperties;
+}) {
+  return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <h2 className="text-header-lg font-bold text-foreground-50" style={headerStyle}>
+          Component settings and usage rhythm
+        </h2>
+        {CONTEXT_PARAGRAPHS.map((paragraph) => (
+          <p key={paragraph} className="max-w-3xl text-foreground-200" style={style}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="rounded border border-background-700 bg-background-900 p-4">
+          <div className="mb-3 text-sm font-medium text-foreground-400">Header / body stack</div>
+          <h3 className="mb-2 text-header-md font-semibold text-foreground-50" style={headerStyle}>
+            Quarterly usage report
+          </h3>
+          <p className="text-foreground-200" style={style}>
+            Net retention improved by 8.4% after the team simplified labels and grouped related
+            controls into smaller repeated blocks.
+          </p>
+        </div>
+        <div className="rounded border border-background-700 bg-background-900 p-4">
+          <div className="mb-3 text-sm font-medium text-foreground-400">Numeric scan</div>
+          <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 text-foreground-200" style={style}>
+            <span>Active sessions</span>
+            <span className="tabular-nums">12,480</span>
+            <span>Latency p95</span>
+            <span className="tabular-nums">184 ms</span>
+            <span>Success rate</span>
+            <span className="tabular-nums">99.92%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MetricReadout({
+  label,
+  value,
+  unit = "",
+}: {
+  label: string;
+  value: number | string | undefined;
+  unit?: string;
+}) {
+  const displayValue =
+    typeof value === "number" ? `${roundMetric(value)}${unit}` : value ?? "Measuring";
+
+  return (
+    <>
+      <dt className="text-foreground-500">{label}</dt>
+      <dd className="text-right font-mono text-foreground-200">{displayValue}</dd>
+    </>
+  );
+}
+
 export default function TypographyDevPage() {
   const [selectedBodyFont, setSelectedBodyFont] = useState<string>(defaultBodyFont.name);
   const [selectedHeaderFont, setSelectedHeaderFont] = useState<string>(defaultHeaderFont.name);
@@ -212,9 +632,17 @@ export default function TypographyDevPage() {
   const [bodyTypographyByFont, setBodyTypographyByFont] = useState<BodyTypographyState>(
     buildInitialBodyTypographyState,
   );
+  const [fontTuningByFont, setFontTuningByFont] = useState<FontTuningByFont>(
+    buildInitialFontTuningState,
+  );
+  const [selectedCharacter, setSelectedCharacter] = useState("A");
+  const [useBaseline, setUseBaseline] = useState(true);
+  const [renderedMetrics, setRenderedMetrics] = useState<RenderedFontMetrics | null>(null);
 
   const activeBodyTypography =
     bodyTypographyByFont[selectedBodyFont] ?? getFontPreviewState(defaultBodyFont);
+  const activeFontTuning =
+    fontTuningByFont[selectedBodyFont] ?? getFontTuningState(defaultBodyFont);
   const {
     headerTypeSizeRatio,
     headerFontSizeScale,
@@ -241,12 +669,74 @@ export default function TypographyDevPage() {
     });
   };
 
-  const isKarlaSelected = selectedBodyFont === "Karla" && selectedHeaderFont === "Karla";
+  const updateSelectedFontTuning = (updates: Partial<FontTuningState>) => {
+    setFontTuningByFont((current) => {
+      const currentTuning = current[selectedBodyFont] ?? getFontTuningState(defaultBodyFont);
 
-  const bodyFontMetrics: Record<string, number> = {
+      return {
+        ...current,
+        [selectedBodyFont]: { ...currentTuning, ...updates },
+      };
+    });
+  };
+
+  const isKarlaSelected = selectedBodyFont === "Karla" && selectedHeaderFont === "Karla";
+  const bodyFontConfig = getFontConfig(selectedBodyFont as FontKey, "body");
+  const headerFontConfig = getFontConfig(selectedHeaderFont as FontKey, "header");
+  const monoFontConfig = getFontConfig(selectedMonoFont as FontKey, "mono");
+  const bodyFamily = bodyFontConfig?.family ?? KARLA_BODY_FAMILY;
+  const headerFamily = headerFontConfig?.family ?? KARLA_HEADER_FAMILY;
+  const tuningStyle = buildTuningStyle(bodyFamily, activeFontTuning);
+  const headerTuningStyle = {
+    ...buildTuningStyle(headerFamily, activeFontTuning),
+    fontSize: Math.round(activeFontTuning.pointSize * 1.75),
+    lineHeight: Math.max(1.05, activeFontTuning.leading - 0.18),
+  };
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    async function measureFont() {
+      setRenderedMetrics(null);
+
+      if (typeof document === "undefined") return;
+
+      try {
+        await document.fonts.load(`400 ${activeFontTuning.pointSize}px ${bodyFamily}`, SAMPLE_GLYPHS);
+        await document.fonts.ready;
+      } catch {
+        // Canvas still gives us the rendered fallback metrics if a font load check fails.
+      }
+
+      if (isCancelled) return;
+
+      setRenderedMetrics(
+        measureRenderedFontMetrics(bodyFamily, activeFontTuning.pointSize, selectedCharacter),
+      );
+    }
+
+    measureFont();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [activeFontTuning.pointSize, bodyFamily, selectedCharacter]);
+
+  const bodyFontMetrics: Record<string, number | string> = {
     fontSizeScale: bodyFontSizeScale,
     fontWeightScale: bodyFontWeightScale,
     typeSizeRatio: bodyTypeSizeRatio,
+    baseline: 0,
+    capHeight: renderedMetrics?.capHeight ?? 0,
+    xHeight: renderedMetrics?.xHeight ?? 0,
+    ascender: renderedMetrics?.ascender ?? 0,
+    descender: renderedMetrics?.descender ?? 0,
+    stem: renderedMetrics?.stem ?? 0,
+    bowlCounter: renderedMetrics?.counterProxy ?? 0,
+    tracking: activeFontTuning.tracking,
+    leading: activeFontTuning.leading,
+    pointSize: activeFontTuning.pointSize,
+    alignment: activeFontTuning.alignment,
   };
   const headerFontMetrics: Record<string, number> = {
     fontSizeScale: headerFontSizeScale,
@@ -258,13 +748,9 @@ export default function TypographyDevPage() {
   if (bodyLineHeight !== DEFAULT_BODY_LINE_HEIGHT) bodyFontMetrics.bodyLineHeight = bodyLineHeight;
   if (headerLetterSpacingScale !== 0) headerFontMetrics.headerLetterSpacingScale = headerLetterSpacingScale;
   if (headerLineHeight !== DEFAULT_HEADER_LINE_HEIGHT) headerFontMetrics.headerLineHeight = headerLineHeight;
-
-  const bodyFontConfig = getFontConfig(selectedBodyFont as FontKey, "body");
-  const headerFontConfig = getFontConfig(selectedHeaderFont as FontKey, "header");
-  const monoFontConfig = getFontConfig(selectedMonoFont as FontKey, "mono");
   const activeBodyPreviewStyle = buildPreviewVars(
-    bodyFontConfig?.family ?? KARLA_BODY_FAMILY,
-    headerFontConfig?.family ?? KARLA_HEADER_FAMILY,
+    bodyFamily,
+    headerFamily,
     {
       headerTypeSizeRatio,
       headerFontSizeScale,
@@ -334,6 +820,9 @@ export default function TypographyDevPage() {
     setSelectedHeaderFont(defaultHeaderFont.name);
     setSelectedMonoFont(defaultMonoFont.name);
     setBodyTypographyByFont(buildInitialBodyTypographyState());
+    setFontTuningByFont(buildInitialFontTuningState());
+    setSelectedCharacter("A");
+    setUseBaseline(true);
   };
 
   return (
@@ -350,8 +839,8 @@ export default function TypographyDevPage() {
             Reset all to defaults
           </Button>
         </div>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="space-y-6 lg:col-span-2">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <div className="space-y-6">
             <div className="space-y-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -363,27 +852,67 @@ export default function TypographyDevPage() {
                   </p>
                 </div>
                 {!isKarlaSelected && (
-                  <div className="flex items-center gap-4 text-sm text-foreground-500">
-                    <span className="flex items-center gap-1.5">
-                      <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground-300 opacity-20" />
-                      Karla default
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground-100" />
-                      Active fonts
-                    </span>
-                  </div>
+                  <label className="flex items-center gap-3 text-sm font-medium text-foreground-400">
+                    <span>Use baseline</span>
+                    <Switch
+                      aria-label="Use Karla baseline overlay"
+                      size="sm"
+                      isSelected={useBaseline}
+                      onChange={setUseBaseline}
+                    />
+                  </label>
                 )}
               </div>
 
               <PreviewSurface
                 activeStyle={activeBodyPreviewStyle}
-                reference={!isKarlaSelected ? <BodyPreviewContent /> : undefined}
-                referenceStyle={!isKarlaSelected ? KARLA_VARS : undefined}
+                reference={!isKarlaSelected && useBaseline ? <BodyPreviewContent /> : undefined}
+                referenceStyle={!isKarlaSelected && useBaseline ? KARLA_VARS : undefined}
               >
                 <BodyPreviewContent />
               </PreviewSurface>
             </div>
+
+            <Divider size="sm" variant="dashed" className="my-12" />
+
+            <section className="space-y-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <div className="text-sm font-medium text-foreground-400">Glyph Lab</div>
+                  <p className="mt-1 text-sm text-foreground-500">
+                    Inspect individual characters against Canvas-measured glyph metrics.
+                  </p>
+                </div>
+                <div className="rounded border border-background-700 bg-background-900 px-2 py-1 font-mono text-sm text-foreground-300">
+                  {activeFontTuning.pointSize}px / {activeFontTuning.leading.toFixed(2)} leading
+                </div>
+              </div>
+              <div className="grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)]">
+                <GlyphInspector
+                  character={selectedCharacter}
+                  fontName={selectedBodyFont}
+                  metrics={renderedMetrics}
+                  style={tuningStyle}
+                />
+                <GlyphGrid
+                  selectedCharacter={selectedCharacter}
+                  onSelectCharacter={setSelectedCharacter}
+                  style={tuningStyle}
+                />
+              </div>
+            </section>
+
+            <Divider size="sm" variant="dashed" className="my-12" />
+
+            <section className="space-y-4">
+              <div>
+                <div className="text-sm font-medium text-foreground-400">Context Lab</div>
+                <p className="mt-1 text-sm text-foreground-500">
+                  Review paragraph rhythm, heading/body pairing, numeric scanning, and alignment.
+                </p>
+              </div>
+              <ContextPreview style={tuningStyle} headerStyle={headerTuningStyle} />
+            </section>
 
             <Divider size="sm" variant="dashed" className="my-12" />
 
@@ -472,18 +1001,115 @@ function example() {
             </div>
           </div>
 
-          <div className="sticky top-8 h-fit">
-            <h2 className="mb-4 text-lg font-semibold text-foreground-100">Controls</h2>
-            <TypographyPanel
-              selectedBodyFont={selectedBodyFont}
-              selectedHeaderFont={selectedHeaderFont}
-              selectedMonoFont={selectedMonoFont}
-              typography={activeBodyTypography}
-              onBodyFontChange={applyBodyFontPreset}
-              onHeaderFontChange={applyHeaderFontPreset}
-              onMonoFontChange={(fontName) => setSelectedMonoFont(fontName as FontKey)}
-              onTypographyChange={updateSelectedBodyTypography}
-            />
+          <div className="sticky top-8 h-fit max-h-[calc(100vh-4rem)] space-y-5 overflow-y-auto pr-1">
+            <div>
+              <h2 className="mb-4 text-lg font-semibold text-foreground-100">Controls</h2>
+              <TypographyPanel
+                selectedBodyFont={selectedBodyFont}
+                selectedHeaderFont={selectedHeaderFont}
+                selectedMonoFont={selectedMonoFont}
+                typography={activeBodyTypography}
+                onBodyFontChange={applyBodyFontPreset}
+                onHeaderFontChange={applyHeaderFontPreset}
+                onMonoFontChange={(fontName) => setSelectedMonoFont(fontName as FontKey)}
+                onTypographyChange={updateSelectedBodyTypography}
+              />
+            </div>
+
+            <MetricsGroup title="Measured Anatomy">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <MetricReadout label="Baseline" value={0} unit="px" />
+                <MetricReadout label="Cap Height" value={renderedMetrics?.capHeight} unit="em" />
+                <MetricReadout label="X-height" value={renderedMetrics?.xHeight} unit="em" />
+                <MetricReadout label="Ascender" value={renderedMetrics?.ascender} unit="em" />
+                <MetricReadout label="Descender" value={renderedMetrics?.descender} unit="em" />
+                <MetricReadout label="Stem" value={renderedMetrics?.stem} unit="em" />
+                <MetricReadout label="Bowl Width" value={renderedMetrics?.bowlWidth} unit="em" />
+                <MetricReadout label="Counter Proxy" value={renderedMetrics?.counterProxy} />
+              </dl>
+            </MetricsGroup>
+
+            <MetricsGroup title="Spacing and Measurement">
+              <div className="space-y-4">
+                {SPACING_CONTROLS.map((control) => (
+                  <TuningSlider
+                    key={control.key}
+                    label={control.label}
+                    value={activeFontTuning[control.key]}
+                    min={control.min}
+                    max={control.max}
+                    step={control.step}
+                    unit={control.unit}
+                    onChange={(value) => updateSelectedFontTuning({ [control.key]: value })}
+                  />
+                ))}
+                <div className="block space-y-2">
+                  <Label className="text-sm font-medium text-foreground-400">Alignment</Label>
+                  <Select
+                    selectedKey={activeFontTuning.alignment}
+                    onSelectionChange={(key) =>
+                      updateSelectedFontTuning({
+                        alignment: key as TextAlignment,
+                      })
+                    }
+                  >
+                    <Select.Trigger>
+                      <Select.Value placeholder="Select alignment" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      <Select.Item value="left" textValue="Left">Left</Select.Item>
+                      <Select.Item value="center" textValue="Center">Center</Select.Item>
+                      <Select.Item value="right" textValue="Right">Right</Select.Item>
+                      <Select.Item value="justify" textValue="Justify">Justify</Select.Item>
+                    </Select.Content>
+                  </Select>
+                </div>
+              </div>
+            </MetricsGroup>
+
+            <MetricsGroup title="Selected Font Metrics">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <dt className="text-foreground-500">Font</dt>
+                <dd className="text-right text-foreground-200">{selectedBodyFont}</dd>
+                <dt className="text-foreground-500">Glyph</dt>
+                <dd className="text-right font-mono text-foreground-200">{selectedCharacter}</dd>
+                <dt className="text-foreground-500">Cap / X</dt>
+                <dd className="text-right text-foreground-200">
+                  {renderedMetrics
+                    ? `${renderedMetrics.capHeight.toFixed(2)} / ${renderedMetrics.xHeight.toFixed(2)}`
+                    : "Measuring"}
+                </dd>
+                <dt className="text-foreground-500">Tracking Override</dt>
+                <dd className="text-right text-foreground-200">
+                  {activeFontTuning.tracking.toFixed(3)}em
+                </dd>
+              </dl>
+            </MetricsGroup>
+
+            <MetricsGroup title="Selected Glyph Bounds">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <MetricReadout label="Width" value={renderedMetrics?.selected.width} unit="px" />
+                <MetricReadout label="Left" value={renderedMetrics?.selected.actualLeft} unit="px" />
+                <MetricReadout label="Right" value={renderedMetrics?.selected.actualRight} unit="px" />
+                <MetricReadout label="Ascent" value={renderedMetrics?.selected.actualAscent} unit="px" />
+                <MetricReadout label="Descent" value={renderedMetrics?.selected.actualDescent} unit="px" />
+                <MetricReadout label="Font Asc" value={renderedMetrics?.selected.fontAscent} unit="px" />
+                <MetricReadout label="Font Desc" value={renderedMetrics?.selected.fontDescent} unit="px" />
+              </dl>
+            </MetricsGroup>
+
+            <MetricsGroup title="Measured Kerning Pairs">
+              <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+                {renderedMetrics?.kerningPairs.map((pair) => (
+                  <MetricReadout
+                    key={pair.pair}
+                    label={pair.pair}
+                    value={pair.delta}
+                    unit="px"
+                  />
+                )) ?? <MetricReadout label="Pairs" value="Measuring" />}
+              </dl>
+            </MetricsGroup>
           </div>
         </div>
       </div>

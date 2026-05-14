@@ -18,7 +18,9 @@
       { "name": "next" }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@private": ["../../../private/packages/library/src/index.ts"],
+      "@private/*": ["../../../private/packages/library/src/*"]
     }
   },
   "include": [
