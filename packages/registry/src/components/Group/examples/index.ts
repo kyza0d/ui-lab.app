@@ -1,16 +1,1 @@
-export { default as Example1 } from './01-basic-group.js';
-export { metadata as metadata1 } from './01-basic-group.js';
-export { default as Example2 } from './02-create-project.js';
-export { metadata as metadata2 } from './02-create-project.js';
-export { default as Example3 } from './03-filter-bar.js';
-export { metadata as metadata3 } from './03-filter-bar.js';
-export { default as Example4 } from './04-documentation-search.js';
-export { metadata as metadata4 } from './04-documentation-search.js';
-export { default as Example5 } from './05-email-signup.js';
-export { metadata as metadata5 } from './05-email-signup.js';
-export { default as Example6 } from './06-copy-command.js';
-export { metadata as metadata6 } from './06-copy-command.js';
-export { default as Example7 } from './07-delete-confirmation.js';
-export { metadata as metadata7 } from './07-delete-confirmation.js';
-export { default as Example8 } from './08-slider-integration.js';
-export { metadata as metadata8 } from './08-slider-integration.js';
+// Group examples are served from @ui-lab-core/library (private registry)

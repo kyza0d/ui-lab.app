@@ -139,48 +139,7 @@ export const componentRegistry: ComponentRegistry = {
     tags: ["cta","interactive","primary-action"],
     accessibility: {"hasAriaSupport":true,"notes":["Supports keyboard navigation","Screen reader friendly"]},
     usage: undefined,
-    examples: [
-    {
-        "title": "Button Variants",
-        "description": "All available button variants side by side in a single row.",
-        "code": "import React from 'react'\nimport { Button, Flex } from 'ui-lab-components'\n\nconst buttonVariants = [\n  { label: \"Primary\", variant: \"primary\" },\n  { label: \"Default\", variant: \"default\" },\n  { label: \"Secondary\", variant: \"secondary\" },\n  { label: \"Outline\", variant: \"outline\" },\n  { label: \"Ghost\", variant: \"ghost\" },\n  { label: \"Danger\", variant: \"danger\" },\n] as const;\n\nexport default function Example() {\n  return (\n    <Flex gap=\"xs\" align=\"center\" justify=\"center\" wrap=\"nowrap\">\n      {buttonVariants.map((button) => (\n        <Button key={button.variant} variant={button.variant}>\n          {button.label}\n        </Button>\n      ))}\n    </Flex>\n  )\n}"
-    },
-    {
-        "title": "Multiple Actions",
-        "description": "A primary action button grouped with secondary actions and an options menu.",
-        "code": "\"use client\";\n\nimport { Button, Flex } from 'ui-lab-components'\nimport { FaEllipsisVertical } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Flex gap=\"xs\" className=\"w-110 *:not-last:flex-1\">\n      <Button size=\"sm\" variant=\"primary\" >Subscribe</Button>\n      <Button size=\"sm\" >Message</Button>\n      <Button size=\"icon\" variant=\"outline\" icon={<FaEllipsisVertical />} />\n    </Flex>\n  );\n}"
-    },
-    {
-        "title": "Joined Toggle Buttons",
-        "description": "Multiple buttons grouped together for view/mode selection with active state indication.",
-        "code": "\"use client\";\n\nimport React, { useState } from 'react'\nimport { Button, Group, Divider, Input, Flex } from 'ui-lab-components'\nimport { FaList, FaGrip, FaTable, FaPlus } from \"react-icons/fa6\";\nimport { LuSearch } from \"react-icons/lu\";\n\nexport default function Example() {\n  const [viewMode, setViewMode] = useState(\"list\");\n  return (\n    <Flex className=\"w-110\" gap=\"xs\" align=\"center\">\n      <Input\n        placeholder=\"Search items...\"\n        icon={<LuSearch />}\n        className=\"w-full\"\n      />\n      <Group orientation=\"horizontal\" value={viewMode} onChange={setViewMode}>\n        <Group.Button size=\"icon\" value=\"list\"><FaList /></Group.Button>\n        <Divider orientation=\"vertical\" />\n        <Group.Button size=\"icon\" value=\"grid\"><FaGrip /></Group.Button>\n        <Divider orientation=\"vertical\" />\n        <Group.Button size=\"icon\" value=\"table\"><FaTable /></Group.Button>\n      </Group>\n      <Button size=\"sm\" icon={{ left: <FaPlus size={12} /> }} >New</Button>\n    </Flex>\n  );\n}"
-    },
-    {
-        "title": "Sub Stack Actions",
-        "description": "A collection of buttons and inputs arranged horizontally for grouped actions and filtering.",
-        "code": "\"use client\";\n\nimport React, { useState } from 'react'\nimport { Button, Group, Input, Badge, Flex } from 'ui-lab-components'\nimport { FaList, FaGrip, FaPlus } from \"react-icons/fa6\";\nimport { LuSearch } from \"react-icons/lu\";\n\nexport default function Example() {\n  const [viewMode, setViewMode] = useState(\"list\");\n  return (\n    <Flex align=\"center\" gap=\"xs\" className=\"w-110\">\n      <Group orientation=\"horizontal\" spacing=\"xs\" value={viewMode} onChange={setViewMode}>\n        <Group.Button size=\"icon\" value=\"list\"><FaList /></Group.Button>\n        <Group.Button size=\"icon\" value=\"grid\"><FaGrip /></Group.Button>\n      </Group>\n      <Input\n        placeholder=\"Search...\"\n        icon={<LuSearch />}\n        hint={<Badge variant=\"secondary\" >Ctrl+K</Badge>}\n      />\n      <Button size=\"sm\" icon={{ right: <FaPlus size={12} /> }} >Upload</Button>\n    </Flex>\n  );\n}"
-    },
-    {
-        "title": "Split Action Button",
-        "description": "A split button for bulk actions with dynamic icons, variants, and async feedback while keeping the primary action easy to repeat.",
-        "code": "\"use client\";\n\nimport React, { useState } from 'react'\nimport { Button, Divider, Select, Badge, Flex } from 'ui-lab-components'\nimport { FaBox, FaSpinner, FaCheck, FaEllipsisVertical, FaCopy, FaTags, FaTrash } from \"react-icons/fa6\";\n\ntype BulkAction = \"archive\" | \"duplicate\" | \"tag\" | \"delete\";\n\nconst selectedCount: number = 12;\n\nconst bulkActions: Record<BulkAction, {\n  label: string;\n  loadingLabel: string;\n  successLabel: string;\n  variant: \"primary\" | \"outline\" | \"danger\";\n  icon: React.ReactNode;\n}> = {\n  archive: {\n    label: \"Archive\",\n    loadingLabel: \"Archiving...\",\n    successLabel: \"Archived\",\n    variant: \"primary\",\n    icon: <FaBox />,\n  },\n  duplicate: {\n    label: \"Duplicate\",\n    loadingLabel: \"Duplicating...\",\n    successLabel: \"Duplicated\",\n    variant: \"outline\",\n    icon: <FaCopy />,\n  },\n  tag: {\n    label: \"Add Tags\",\n    loadingLabel: \"Applying tags...\",\n    successLabel: \"Tagged\",\n    variant: \"outline\",\n    icon: <FaTags />,\n  },\n  delete: {\n    label: \"Delete\",\n    loadingLabel: \"Deleting...\",\n    successLabel: \"Deleted\",\n    variant: \"danger\",\n    icon: <FaTrash />,\n  },\n};\n\nexport default function Example() {\n  const [action, setAction] = useState<BulkAction>(\"archive\");\n  const [status, setStatus] = useState<\"idle\" | \"loading\" | \"done\">(\"idle\");\n  const cfg = bulkActions[action];\n  const itemsLabel = `${selectedCount} ${selectedCount === 1 ? \"item\" : \"items\"}`;\n\n  const handleExecute = () => {\n    setStatus(\"loading\");\n    setTimeout(() => {\n      setStatus(\"done\");\n      setTimeout(() => setStatus(\"idle\"), 2000);\n    }, 1500);\n  };\n\n  const leftIcon = status === \"loading\" ? <FaSpinner className=\"animate-spin\" /> : status === \"done\" ? <FaCheck /> : cfg.icon;\n  const label = status === \"loading\" ? cfg.loadingLabel : status === \"done\" ? cfg.successLabel : `${cfg.label} ${itemsLabel}`;\n\n  return (\n    <Flex gap=\"xs\" className=\"w-110\" align=\"center\">\n      <Badge variant=\"secondary\">{selectedCount} selected</Badge>\n      <Select className=\"flex h-10\" selectedKey={action} onSelectionChange={(key) => setAction(key as BulkAction)} isDisabled={status !== \"idle\"}>\n        <Button\n          onPress={handleExecute}\n          variant={cfg.variant}\n          size=\"sm\"\n          className=\"w-full rounded-none justify-start\"\n          isDisabled={status !== \"idle\" || selectedCount === 0}\n          icon={leftIcon}\n        >\n          {label}\n        </Button>\n        <Divider orientation=\"vertical\" spacing=\"none\" />\n        <Select.Trigger aria-label=\"Choose a bulk action\" />\n        <Select.Content>\n          <Select.Item value=\"archive\" textValue=\"Archive\" icon={<FaBox className=\"h-3 w-3\" />}>Archive</Select.Item>\n          <Select.Item value=\"duplicate\" textValue=\"Duplicate\" icon={<FaCopy className=\"h-3 w-3\" />}>Duplicate</Select.Item>\n          <Select.Item value=\"tag\" textValue=\"Add Tags\" icon={<FaTags className=\"h-3 w-3\" />}>Add Tags</Select.Item>\n          <Select.Item value=\"delete\" textValue=\"Delete\" icon={<FaTrash className=\"h-3 w-3\" />}>Delete</Select.Item>\n        </Select.Content>\n      </Select>\n      <Button size=\"icon\" variant=\"outline\" icon={<FaEllipsisVertical />} aria-label=\"More bulk actions\" />\n    </Flex>\n  );\n}"
-    },
-    {
-        "title": "Icons",
-        "description": "Left, right, and icon-only button patterns.",
-        "code": "import React from 'react'\nimport { Button, Flex } from 'ui-lab-components'\nimport { FaArrowRight, FaDownload, FaEllipsisVertical, FaPlus } from 'react-icons/fa6'\n\nexport default function Example() {\n  return (\n    <Flex gap=\"xs\" align=\"center\" justify=\"center\" wrap=\"wrap\">\n      <Button variant=\"primary\" icon={{ left: <FaPlus /> }}>\n        New Project\n      </Button>\n      <Button variant=\"outline\" icon={{ right: <FaArrowRight /> }}>\n        Continue\n      </Button>\n      <Button variant=\"secondary\" icon={<FaDownload />}>\n        Download\n      </Button>\n      <Button size=\"icon\" variant=\"ghost\" aria-label=\"More actions\" icon={<FaEllipsisVertical />} />\n    </Flex>\n  )\n}"
-    },
-    {
-        "title": "Split Button",
-        "description": "Group + Select primitives for a classic split button with a primary action and a separate menu trigger.",
-        "code": "\"use client\";\n\nimport React, { useState } from 'react'\nimport { Button, Divider, Flex, Group, Select } from 'ui-lab-components'\nimport { FaChevronDown } from 'react-icons/fa6'\n\nconst splitActions = [\n  { value: \"publish\", label: \"Publish now\" },\n  { value: \"schedule\", label: \"Schedule publish\" },\n  { value: \"save\", label: \"Save draft\" },\n] as const;\n\nexport default function Example() {\n  const [action, setAction] = useState<string | number | null>(splitActions[0].value);\n  const selectedAction = splitActions.find((item) => item.value === action) ?? splitActions[0];\n\n  return (\n    <Flex direction=\"column\" gap=\"sm\" align=\"center\">\n      <Group orientation=\"horizontal\">\n        <Group.Select className=\"w-full\" selectedKey={action} onSelectionChange={setAction}>\n          <Select.Value>\n            <Button variant=\"primary\">{selectedAction.label}</Button>\n          </Select.Value>\n          <Divider />\n          <Select.Trigger\n            chevron={<FaChevronDown className=\"h-3.5 w-3.5\" />}\n            aria-label=\"Choose split action\"\n          />\n          <Select.Content>\n            <Select.List>\n              {splitActions.map((item) => (\n                <Select.Item key={item.value} value={item.value} textValue={item.label}>\n                  {item.label}\n                </Select.Item>\n              ))}\n            </Select.List>\n          </Select.Content>\n        </Group.Select>\n      </Group>\n    </Flex>\n  )\n}"
-    },
-    {
-        "title": "Button Group",
-        "description": "Joined view switcher using the Group compound component with active state.",
-        "code": "\"use client\";\n\nimport React, { useState } from 'react'\nimport { Button, Divider, Group } from 'ui-lab-components'\nimport { FaGrip, FaList, FaTable } from 'react-icons/fa6'\n\nexport default function Example() {\n  const [viewMode, setViewMode] = useState(\"list\");\n\n  return (\n    <Group orientation=\"horizontal\" spacing=\"xs\">\n      <Group.Button active={viewMode === \"list\"} onPress={() => setViewMode(\"list\")}>\n        <FaList className=\"mr-1.5 text-foreground-400\" /> List\n      </Group.Button>\n      <Divider orientation=\"vertical\" />\n      <Group.Button active={viewMode === \"grid\"} onPress={() => setViewMode(\"grid\")}>\n        <FaGrip className=\"mr-1.5 text-foreground-400\" /> Grid\n      </Group.Button>\n      <Divider orientation=\"vertical\" />\n      <Group.Button active={viewMode === \"table\"} onPress={() => setViewMode(\"table\")}>\n        <FaTable className=\"mr-1.5 text-foreground-400\" /> Table\n      </Group.Button>\n    </Group>\n  )\n}"
-    }
-],
+    examples: [],
   },
 
   card: {
@@ -618,48 +577,7 @@ export const componentRegistry: ComponentRegistry = {
     tags: ["composition","grouped","compound","form"],
     accessibility: {"hasAriaSupport":true,"notes":["Uses role=\"group\" for semantic grouping","Propagates disabled state to children","Maintains keyboard navigation for all child components"]},
     usage: undefined,
-    examples: [
-    {
-        "title": "Basic Group",
-        "description": "A simple group container that arranges multiple elements together. Use this to organize related UI elements in a consistent layout.",
-        "code": "import { Group } from 'ui-lab-components';\n\nexport default function Example() {\n  return (\n    <Group>\n      <Group.Button>First</Group.Button>\n      <Group.Button>Second</Group.Button>\n      <Group.Button>Third</Group.Button>\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Create Project",
-        "description": "A primary grouped action for creating a named item.",
-        "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaPlus } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"primary\" orientation=\"horizontal\" spacing=\"xs\">\n      <Group.Input aria-label=\"Project name\" placeholder=\"Untitled project\" className=\"w-56\" />\n      <Divider orientation=\"vertical\" />\n      <Group.Button>\n        <FaPlus className=\"mr-1.5\" /> Create\n      </Group.Button>\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Filter Bar with Selects",
-        "description": "Horizontal group combining Select dropdowns with action buttons for filtering interfaces.",
-        "code": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Divider, Group, Select } from \"ui-lab-components\";\nimport { FaMagnifyingGlass, FaFilter } from \"react-icons/fa6\";\n\nexport default function Example() {\n  const [status, setStatus] = useState<string | number | null>(\"active\");\n\n  return (\n    <Group variant=\"default\" orientation=\"horizontal\">\n      <Group.Input icon={<FaMagnifyingGlass />} placeholder=\"Search...\">\n      </Group.Input>\n      <Divider />\n      <Group.Select selectedKey={status} onSelectionChange={setStatus} className=\"w-36\">\n        <Select.Trigger><Select.Value placeholder=\"Status\" /></Select.Trigger>\n        <Select.Content>\n          <Select.List>\n            <Select.Item value=\"active\" textValue=\"Active\">Active</Select.Item>\n            <Select.Item value=\"inactive\" textValue=\"Inactive\">Inactive</Select.Item>\n            <Select.Item value=\"pending\" textValue=\"Pending\">Pending</Select.Item>\n          </Select.List>\n        </Select.Content>\n      </Group.Select>\n      <Divider />\n      <Group.Button size=\"md\"><FaFilter className=\"mr-1.5\" /> Apply</Group.Button>\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Documentation Search",
-        "description": "A search input with an icon prefix and joined submit button.",
-        "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaMagnifyingGlass } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"secondary\">\n      <div className=\"bg-background-800 flex items-center px-3 text-foreground-400\">\n        <FaMagnifyingGlass />\n      </div>\n      <Divider />\n      <Group.Input placeholder=\"Search documentation...\" className=\"w-64\" />\n      <Divider />\n      <Group.Button className=\"w-full\">Search</Group.Button>\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Email Signup",
-        "description": "An email input with a joined subscription action.",
-        "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaEnvelope } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"outline\">\n      <div className=\"bg-background-800 flex items-center px-3 text-foreground-400\">\n        <FaEnvelope />\n      </div>\n      <Divider />\n      <Group.Input placeholder=\"you@example.com\" type=\"email\" className=\"w-64\" />\n      <Divider />\n      <Group.Button>Subscribe</Group.Button>\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Copy Command",
-        "description": "A read-only command field with a joined copy action.",
-        "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaCopy } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group>\n      <Group.Input defaultValue=\"npm install ui-lab\" readOnly className=\"w-full font-mono text-sm\" />\n      <Divider />\n      <Group.Button icon={{ left: <FaCopy className=\"mr-1.5 text-foreground-400\" /> }} />\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Delete Confirmation",
-        "description": "A danger variant group for destructive confirmation flows.",
-        "code": "import { Divider, Group } from \"ui-lab-components\";\nimport { FaTrash } from \"react-icons/fa6\";\n\nexport default function Example() {\n  return (\n    <Group variant=\"danger\">\n      <Group.Input aria-label=\"Confirmation\" placeholder=\"Type DELETE\" className=\"w-48\" />\n      <Divider />\n      <Group.Button>\n        <FaTrash className=\"mr-1.5\" /> Delete\n      </Group.Button>\n    </Group>\n  );\n}"
-    },
-    {
-        "title": "Slider with Input Group",
-        "description": "Numeric input synced with a slider for precise value selection.",
-        "code": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Group, Slider } from \"ui-lab-components\";\nimport { FaPercent } from \"react-icons/fa6\";\n\nexport default function Example() {\n  const [sliderValue, setSliderValue] = useState<number[]>([45]);\n  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    const val = parseInt(e.target.value);\n    if (!isNaN(val)) setSliderValue([Math.min(Math.max(val, 0), 100)]);\n  };\n\n  return (\n    <div className=\"space-y-4 w-64\">\n      <Group>\n        <Group.Input type=\"number\" min={0} max={100} value={sliderValue[0]} onChange={handleInputChange} className=\"w-full\" />\n        <div className=\"bg-background-800 flex items-center px-3 text-foreground-400 text-sm font-medium\">\n          <FaPercent />\n        </div>\n      </Group>\n      <Slider.Root value={sliderValue} onValueChange={setSliderValue} max={100} step={1} />\n    </div>\n  );\n}"
-    }
-],
+    examples: [],
   },
 
   input: {

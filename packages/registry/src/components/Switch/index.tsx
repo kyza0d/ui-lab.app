@@ -1,21 +1,6 @@
 import React from 'react';
 import { Switch } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-switch.js';
-import Example2, { metadata as metadata2 } from './examples/02-settings-panel.js';
-import Example3, { metadata as metadata3 } from './examples/03-disabled-state.js';
-import Example4, { metadata as metadata4 } from './examples/04-small-size.js';
-import Example5, { metadata as metadata5 } from './examples/05-controlled-toggle.js';
-import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples.js';
-
-const examplesData = [
-  { id: '01-basic-switch', Component: Example1, metadata: metadata1 },
-  { id: '02-settings-panel', Component: Example2, metadata: metadata2 },
-  { id: '03-disabled-state', Component: Example3, metadata: metadata3 },
-  { id: '04-small-size', Component: Example4, metadata: metadata4 },
-  { id: '05-controlled-toggle', Component: Example5, metadata: metadata5 },
-];
 
 const switchControls: ControlDef[] = [
   {
@@ -80,7 +65,6 @@ export const switchDetail: ComponentDetail = {
         />
       ),
     },
-    ...loadComponentExamples(examplesData, examplesJson),
   ],
   variants: [
     {
@@ -101,4 +85,3 @@ export const switchDetail: ComponentDetail = {
 };
 
 export { switchControls };
-export * from './examples/index.js';

@@ -1,28 +1,6 @@
 import React from 'react';
-import { Divider, Group } from 'ui-lab-components';
+import { Group } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-group.js';
-import Example2, { metadata as metadata2 } from './examples/02-create-project.js';
-import Example3, { metadata as metadata3 } from './examples/03-filter-bar.js';
-import Example4, { metadata as metadata4 } from './examples/04-documentation-search.js';
-import Example5, { metadata as metadata5 } from './examples/05-email-signup.js';
-import Example6, { metadata as metadata6 } from './examples/06-copy-command.js';
-import Example7, { metadata as metadata7 } from './examples/07-delete-confirmation.js';
-import Example8, { metadata as metadata8 } from './examples/08-slider-integration.js';
-import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples.js';
-
-const examplesData = [
-  { id: '01-basic-group', Component: Example1, metadata: metadata1 },
-  { id: '02-create-project', Component: Example2, metadata: metadata2 },
-  { id: '03-filter-bar', Component: Example3, metadata: metadata3 },
-  { id: '04-documentation-search', Component: Example4, metadata: metadata4 },
-  { id: '05-email-signup', Component: Example5, metadata: metadata5 },
-  { id: '06-copy-command', Component: Example6, metadata: metadata6 },
-  { id: '07-delete-confirmation', Component: Example7, metadata: metadata7 },
-  { id: '08-slider-integration', Component: Example8, metadata: metadata8 },
-];
-
 
 const groupControls: ControlDef[] = [
   {
@@ -112,7 +90,6 @@ export const groupDetail: ComponentDetail = {
         </Group>
       ),
     },
-    ...loadComponentExamples(examplesData, examplesJson),
   ],
 
   variants: [
@@ -146,4 +123,3 @@ export const groupDetail: ComponentDetail = {
 };
 
 export { groupControls };
-export * from './examples/index.js';

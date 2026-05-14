@@ -1,22 +1,6 @@
 import React from 'react';
 import { Progress } from 'ui-lab-components';
 import { ControlDef, ComponentDetail } from '@/types';
-import Example1, { metadata as metadata1 } from './examples/01-basic-progress.js';
-import Example2, { metadata as metadata2 } from './examples/02-storage-quota.js';
-import Example3, { metadata as metadata3 } from './examples/03-onboarding-steps.js';
-import Example4, { metadata as metadata4 } from './examples/04-indeterminate.js';
-import Example5, { metadata as metadata5 } from './examples/05-skill-levels.js';
-import examplesJson from './examples.json' with { type: 'json' };
-import { loadComponentExamples } from '../../utils/load-component-examples.js';
-
-const examplesData = [
-  { id: '01-basic-progress', Component: Example1, metadata: metadata1 },
-  { id: '02-storage-quota', Component: Example2, metadata: metadata2 },
-  { id: '03-onboarding-steps', Component: Example3, metadata: metadata3 },
-  { id: '04-indeterminate', Component: Example4, metadata: metadata4 },
-  { id: '05-skill-levels', Component: Example5, metadata: metadata5 },
-];
-
 
 const progressControls: ControlDef[] = [
   {
@@ -97,7 +81,6 @@ export const progressDetail: ComponentDetail = {
         />
       ),
     },
-    ...loadComponentExamples(examplesData, examplesJson),
   ],
 
   variants: [
@@ -119,4 +102,3 @@ export const progressDetail: ComponentDetail = {
 };
 
 export { progressControls };
-export * from './examples/index.js';
