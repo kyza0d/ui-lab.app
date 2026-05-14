@@ -270,7 +270,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           data-disabled={disabled || undefined}
           data-error={error ? "true" : undefined}
           data-variant={variant}
-          className={cn(css.field, className)}
+          className={cn(css.input, className)}
           style={inputPaddingStyle}
           {...mergeProps(focusProps, {
             onFocus: handleFocus,
@@ -295,7 +295,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {hasHint && <span className={css.hint} data-hint>{hint}</span>}
             {showControls && (
               <div
-                className={(css as any).controls}
+                className={css.controls}
                 data-disabled={disabled || undefined}
               >
                 <button

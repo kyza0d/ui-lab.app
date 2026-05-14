@@ -20,7 +20,10 @@
     overflow: visible;
     border-radius: var(--slider-track-radius, var(--radius-xs, 0.25rem));
     border: var(--slider-track-border, 0);
-    background: var(--slider-track-background, var(--background));
+    background: var(
+      --slider-track-background,
+      var(--background, var(--background-800, transparent))
+    );
   }
 
   .range {

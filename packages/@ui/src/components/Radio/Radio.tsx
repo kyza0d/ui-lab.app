@@ -266,7 +266,7 @@ const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
             data-hovered={isHovered ? "true" : "false"}
             role="presentation"
           >
-            <div className={cn(css["radio-dot"], css[size], resolved.dot)} />
+            <div className={cn("dot", css.dot, resolved.dot)} />
           </div>
           <input
             {...asElementProps<"input">(mergeProps(inputProps, focusProps, hoverProps))}
@@ -402,7 +402,7 @@ const RadioBase = React.forwardRef<HTMLInputElement, RadioProps>(
             data-hovered={isHovered ? "true" : "false"}
             role="presentation"
           >
-            <div className={cn(css["radio-dot"], css[size], resolved.dot)} />
+            <div className={cn("dot", css.dot, resolved.dot)} />
           </div>
           <input
             {...asElementProps<"input">(mergeProps(focusProps, hoverProps))}

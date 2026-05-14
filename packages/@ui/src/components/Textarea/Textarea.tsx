@@ -3,7 +3,6 @@
 import React, { forwardRef, useState, type ComponentPropsWithoutRef } from "react";
 
 import { useFocusRing } from "@react-aria/focus";
-import { useHover } from "@react-aria/interactions";
 import { mergeProps } from "@react-aria/utils";
 
 import { cn, type StyleValue } from "@/lib/utils";
@@ -86,7 +85,7 @@ export interface TextareaProps extends Omit<ComponentPropsWithoutRef<"textarea">
   size?: TextareaSize;
   /** Whether to apply error styling. */
   error?: boolean;
-  /** Whether the textarea can be manually resized by the user. When enabled, `className` may include Tailwind `resize`, `resize-x`, `resize-y`, or `resize-none` to select the resize axis. */
+  /** Whether the textarea can be manually resized by the user. When enabled, `className` may include Tailwind `resize`, `resize-x`, `resize-y`, or `resize-none` to select the resize axis. Defaults to vertical resizing. */
   resizable?: boolean;
   /** Whether to display a character count below the textarea. */
   showCharacterCount?: boolean;
@@ -101,7 +100,7 @@ export interface TextareaProps extends Omit<ComponentPropsWithoutRef<"textarea">
 export type TextAreaProps = TextareaProps;
 
 const resizeClassMap: Record<string, ResizeAxis> = {
-  resize: "both",
+  resize: "y",
   "resize-x": "x",
   "resize-y": "y",
   "resize-none": "none",
@@ -128,7 +127,7 @@ function resolveResizeAxis(className: string | undefined, resizable: boolean): R
     if (nextAxis) axis = nextAxis;
   }
 
-  return axis ?? "both";
+  return axis ?? "y";
 }
 
 function stripResizeClasses(className: string | undefined) {
@@ -177,7 +176,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const mergedRef = useMergeRefs(ref, textareaRef);
 
     const { focusProps, isFocusVisible } = useFocusRing();
-    const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
     const { indicatorProps } = useFocus({
       scopeRef,
       containerRef,
@@ -320,7 +318,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         data-error={error || isOverLimit ? "true" : undefined}
         data-focused={isFocused ? "true" : undefined}
         data-focus-visible={isFocusVisible ? "true" : undefined}
-        data-hovered={isHovered ? "true" : undefined}
         data-textarea-focus-surface={hasScrollSurface ? undefined : "true"}
         className={cn(
           "textarea",
@@ -331,7 +328,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         style={textareaStyle}
         value={currentValue}
-        {...mergeProps(focusProps, hoverProps, {
+        {...mergeProps(focusProps, {
           onFocus: handleFocus,
           onBlur: handleBlur,
           onChange: handleChange,
@@ -354,7 +351,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             data-error={error || isOverLimit ? "true" : undefined}
             data-focused={isFocused ? "true" : undefined}
             data-focus-visible={isFocusVisible ? "true" : undefined}
-            data-hovered={isHovered ? "true" : undefined}
             data-resize-axis={resizeAxis}
             style={surfaceStyle}
           >
@@ -366,7 +362,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 data-error={error || isOverLimit ? "true" : undefined}
                 data-focused={isFocused ? "true" : undefined}
                 data-focus-visible={isFocusVisible ? "true" : undefined}
-                data-hovered={isHovered ? "true" : undefined}
                 className={cn(
                   "textarea",
                   "scroll-wrapper",

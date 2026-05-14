@@ -3,8 +3,6 @@ declare const styles: {
   content: string
   list: string
   item: string
-  'checkbox-item': string
-  'radio-item': string
   'item-indicator': string
   'sub-trigger': string
   'sub-trigger-chevron': string

@@ -5,15 +5,15 @@ import { TextArea } from "../Textarea";
 import css from "../Textarea.module.css";
 
 describe("TextArea", () => {
-  it("uses a custom bottom-right handle by default", () => {
+  it("uses a custom bottom handle by default", () => {
     const { container } = render(<TextArea aria-label="Notes" />);
 
     const textarea = screen.getByRole("textbox", { name: "Notes" });
     const handle = container.querySelector('[data-slot="resize-handle"]');
 
-    expect(textarea).toHaveAttribute("data-resize-axis", "both");
+    expect(textarea).toHaveAttribute("data-resize-axis", "y");
     expect(textarea).toHaveStyle({ resize: "none" });
-    expect(handle).toHaveAttribute("data-axis", "both");
+    expect(handle).toHaveAttribute("data-axis", "y");
   });
 
   it("uses a right-side handle when resize-x is passed", () => {

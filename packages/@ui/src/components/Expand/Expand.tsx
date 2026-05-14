@@ -255,6 +255,45 @@ const ExpandDivider = React.forwardRef<HTMLDivElement, DividerProps>(
 );
 ExpandDivider.displayName = "Expand.Divider";
 
+function isExpandDivider(child: React.ReactNode): child is React.ReactElement<DividerProps> {
+  return React.isValidElement(child) && child.type === ExpandDivider;
+}
+
+function isExpandContent(child: React.ReactNode): child is React.ReactElement<ExpandContentProps> {
+  return React.isValidElement(child) && child.type === ExpandContent;
+}
+
+function prependContentChildren(
+  content: React.ReactElement<ExpandContentProps>,
+  prefix: React.ReactNode,
+) {
+  return React.cloneElement(content, undefined, (
+    <>
+      {prefix}
+      {content.props.children}
+    </>
+  ));
+}
+
+function moveDividersIntoContent(childrenArray: React.ReactNode[]) {
+  const normalizedChildren: React.ReactNode[] = [];
+
+  for (let index = 0; index < childrenArray.length; index += 1) {
+    const child = childrenArray[index];
+    const nextChild = childrenArray[index + 1];
+
+    if (isExpandDivider(child) && isExpandContent(nextChild)) {
+      normalizedChildren.push(prependContentChildren(nextChild, child));
+      index += 1;
+      continue;
+    }
+
+    normalizedChildren.push(child);
+  }
+
+  return normalizedChildren;
+}
+
 export interface ExpandProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "onChange"> {
   /** Header content rendered in preset mode */
@@ -335,19 +374,13 @@ const ExpandRoot = React.forwardRef<HTMLDivElement, ExpandProps>(
             {title !== undefined ? (
               <>
                 <ExpandTrigger>{title}</ExpandTrigger>
-                {childrenArray.find(
-                  (child) =>
-                    React.isValidElement(child) && child.type === ExpandDivider,
-                ) ?? <ExpandDivider />}
                 <ExpandContent>
-                  {childrenArray.filter(
-                    (child) =>
-                      !(React.isValidElement(child) && child.type === ExpandDivider),
-                  )}
+                  {childrenArray.find(isExpandDivider) ?? <ExpandDivider />}
+                  {childrenArray.filter((child) => !isExpandDivider(child))}
                 </ExpandContent>
               </>
             ) : (
-              children
+              moveDividersIntoContent(childrenArray)
             )}
           </div>
         </div>

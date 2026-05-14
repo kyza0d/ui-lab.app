@@ -72,4 +72,33 @@ describe('Expand', () => {
     expect(contentInner).toHaveClass(styles['content-inner'])
     expect(contentInner).toHaveClass('slot-content-inner')
   })
+
+  it('renders dividers inside the collapsing content region', () => {
+    render(
+      <>
+        <Expand title="Preset details">
+          <p>Preset content</p>
+        </Expand>
+        <Expand>
+          <Expand.Trigger>Compound details</Expand.Trigger>
+          <Expand.Divider />
+          <Expand.Content>
+            <p>Compound content</p>
+          </Expand.Content>
+        </Expand>
+      </>
+    )
+
+    const presetDivider = screen
+      .getByText('Preset content')
+      .closest(`.${styles.content}`)
+      ?.querySelector(`.${styles.divider}`)
+    const compoundDivider = screen
+      .getByText('Compound content')
+      .closest(`.${styles.content}`)
+      ?.querySelector(`.${styles.divider}`)
+
+    expect(presetDivider).toBeInTheDocument()
+    expect(compoundDivider).toBeInTheDocument()
+  })
 })

@@ -4,7 +4,7 @@ declare const styles: {
   "radio-surface": string;
   "radio-input": string;
   radio: string;
-  "radio-dot": string;
+  dot: string;
   "radio-label": string;
   "radio-description": string;
   "helper-text": string;

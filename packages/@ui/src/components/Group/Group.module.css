@@ -11,11 +11,6 @@
     --layout-vertical-spacing: calc(var(--spacing) * 4);
     --layout-border-height: calc(var(--background-border-width) * 2);
     --layout-padding-height: calc(var(--layout-padding-size) * 2);
-    --group-input-border-width: 0px;
-    --group-input-border: transparent;
-    --group-input-hover-border: var(--group-input-border);
-    --group-input-focused-border: var(--group-input-border);
-
     --layout-control-height: calc(
       var(--layout-text-height) +
       var(--layout-vertical-spacing) +
@@ -128,10 +123,6 @@
     > [data-ring="true"] {
       border-radius: inherit;
     }
-
-    input {
-      @apply h-full px-2;
-    }
   }
 
   .select {
@@ -166,16 +157,12 @@
       border: none;
     }
 
-    .button[data-selected="true"] {
-      font-weight: 500;
+    .input > [data-input-focus-surface="true"] {
+      border: none;
     }
 
-    .input {
-      --input-border-width: var(--group-input-border-width);
-      --input-border-color: var(--group-input-border);
-      --background-border: var(--group-input-border);
-      --background-hover-border: var(--group-input-hover-border);
-      --background-focused-border: var(--group-input-focused-border);
+    .button[data-selected="true"] {
+      font-weight: 500;
     }
 
     .item.divider > [role="separator"] {

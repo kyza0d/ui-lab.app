@@ -16,7 +16,6 @@
 
 
 @layer components {
-  /* Universal variants (token presets) */
   [data-ring="true"] {
     --ring: #0f74c5;
     --ring-width: 2px;
@@ -25,8 +24,6 @@
     --ring-shadow: 0 0 0 var(--ring-width) var(--ring);
     --ring-z: 10;
   }
-
-  /* Button Styles */
 
   .button {
     --background: var(--background-800);
@@ -69,24 +66,20 @@
     --foreground-muted: var(--foreground-300);
   }
 
-  /* Expand Styles */
-
-  .expand .trigger {
+  .expand > .trigger {
     --background: transparent;
     --foreground: var(--foreground-50);
   }
 
-  .expand .trigger[data-hovered="true"]:not([data-disabled="true"]),
-  .expand .trigger:hover:not([data-disabled="true"]) {
+  .expand > .trigger[data-hovered="true"]:not([data-disabled="true"]),
+  .expand > .trigger:hover:not([data-disabled="true"]) {
     --background: var(--background-900);
   }
 
-  .expand .content {
+  .expand > .content {
     --background: transparent;
     --foreground: var(--foreground-300);
   }
-
-  /* Card Styles */
 
   .card {
     --background: var(--background-900);
@@ -104,8 +97,6 @@
     --background-border: var(--background-700);
   }
 
-  /* List Styles */
-
   .list {
     --foreground: var(--foreground-50);
     --header-title-foreground: var(--foreground-50);
@@ -113,68 +104,65 @@
     --desc-foreground: var(--foreground-400);
   }
 
-  .list [role="listitem"] {
+  .list > [role="listitem"] {
     --background: transparent;
     --foreground: var(--foreground-50);
   }
 
-  .list [role="listitem"]:hover:not([data-disabled="true"]) {
+  .list > [role="listitem"]:hover:not([data-disabled="true"]) {
     --background: color-mix(in srgb, var(--background-500) 6%, transparent);
   }
 
-  .list[data-keyboard-mode="true"] [role="listitem"][data-highlighted="true"] {
+  .list[data-keyboard-mode="true"] > [role="listitem"][data-highlighted="true"] {
     --background: color-mix(in srgb, var(--background-500) 6%, transparent);
   }
 
-  .list [role="listitem"][data-selected="true"] {
+  .list > [role="listitem"][data-selected="true"] {
     --background: color-mix(in srgb, var(--background-500) 10%, transparent);
   }
 
-  .list [role="listitem"][data-selected="true"]:hover:not([data-disabled="true"]),
-  .list[data-keyboard-mode="true"] [role="listitem"][data-selected="true"][data-highlighted="true"] {
+  .list > [role="listitem"][data-selected="true"]:hover:not([data-disabled="true"]),
+  .list[data-keyboard-mode="true"] > [role="listitem"][data-selected="true"][data-highlighted="true"] {
     --background: color-mix(in srgb, var(--background-500) 14%, transparent);
   }
 
-  .list [data-actions] button {
+  .list > [role="listitem"] > [data-actions] button {
     --background: transparent;
     --foreground: var(--foreground-400);
   }
 
-  .list [data-actions] button:hover:not([data-disabled="true"]) {
+  .list > [role="listitem"] > [data-actions] button:hover:not([data-disabled="true"]) {
     --background: color-mix(in srgb, var(--background-500) 6%, transparent);
     --foreground: var(--foreground-50);
   }
-
-  /* Group Styles */
 
   .group {
     --background: var(--background-950);
     --background-border: var(--background-700);
   }
 
-  .group .input {
+  .group > .input {
     --background: var(--background-950);
-    --background-border: transparent;
+    --background-border: var(--background-700);
   }
 
-  .group .divider {
+  .group > .divider {
     --background: var(--background-border);
   }
 
-  .group.outline .divider {
+  .group.outline > .divider {
     --background: var(--background-border);
   }
 
-  .group.outline .input {
+  .group.outline > .input {
     --background: transparent;
   }
 
-  .group .button {
+  .group > .button {
     --button-selected-background: var(--background-800);
     --button-selected-foreground: var(--foreground-100);
   }
 
-  /* Command Styles */
   .command {
     --background: var(--background-900);
     --background-list: var(--background-950);
@@ -187,18 +175,19 @@
     --shadow: 0 20px 25px -5px rgb(0 0 0 / 0.35);
   }
 
-  .command .item {
+  .command > .content .scroll [role="listbox"] > .item,
+  .command > .content .scroll [role="listbox"] > div > div > .item {
     --background: transparent;
     --foreground: var(--foreground-300);
   }
 
-  .command .item:hover,
-  .command .item[data-highlighted="true"] {
+  .command > .content .scroll [role="listbox"] > .item:hover,
+  .command > .content .scroll [role="listbox"] > .item[data-highlighted="true"],
+  .command > .content .scroll [role="listbox"] > div > div > .item:hover,
+  .command > .content .scroll [role="listbox"] > div > div > .item[data-highlighted="true"] {
     --background: var(--background-800);
   }
 
-
-  /* Date Styles */
 
   .date {
     --background: var(--background-950);
@@ -206,63 +195,62 @@
     --focus-ring: var(--foreground-300);
   }
 
-  .date .header {
+  .date > .header {
     --foreground: var(--foreground-300);
   }
 
-  .date .day-headers {
+  .date > .day-headers {
     --background: var(--background-900);
   }
 
-  .date .day-header {
+  .date > .day-headers > .day-header,
+  .date > .grid > .day-header {
     --foreground: var(--foreground-400);
   }
 
-  .date .nav-button {
+  .date > .header > div > .nav-button {
     --background: transparent;
     --foreground: var(--foreground-400);
   }
 
-  .date .nav-button:hover:not([data-disabled="true"]) {
+  .date > .header > div > .nav-button:hover:not([data-disabled="true"]) {
     --background: var(--background-800);
   }
 
-  .date .grid {
+  .date > .grid {
     --background: var(--background-900);
   }
 
-  .date .day {
+  .date > .grid > .day {
     --background: transparent;
     --foreground: var(--foreground-300);
   }
 
-  .date .day[data-selected="true"] {
+  .date > .grid > .day[data-selected="true"] {
     --background: var(--background-800);
     --foreground: var(--foreground-50);
   }
 
-  .date .day[data-today="true"] {
+  .date > .grid > .day[data-today="true"] {
     --background: var(--background-800);
     --foreground: var(--foreground-50);
   }
 
-  .date .day[data-disabled="true"],
-  .date .day[data-out-of-range="true"] {
+  .date > .grid > .day[data-disabled="true"],
+  .date > .grid > .day[data-out-of-range="true"] {
     --foreground: var(--foreground-400);
   }
 
-  .date .day[data-hovered="true"]:not([data-disabled="true"]):not([data-out-of-range="true"]),
-  .date .day:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
+  .date > .grid > .day[data-hovered="true"]:not([data-disabled="true"]):not([data-out-of-range="true"]),
+  .date > .grid > .day:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
     --background: var(--background-800);
   }
 
-  .date .day[data-selected="true"][data-hovered="true"]:not([data-disabled="true"]):not([data-out-of-range="true"]),
-  .date .day[data-selected="true"]:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
+  .date > .grid > .day[data-selected="true"][data-hovered="true"]:not([data-disabled="true"]):not([data-out-of-range="true"]),
+  .date > .grid > .day[data-selected="true"]:hover:not([data-disabled="true"]):not([data-out-of-range="true"]) {
     --background: var(--background-800);
     --foreground: var(--foreground-50);
   }
-
-  /* Table Styles */
 
   .table {
     --background: var(--background-950);
@@ -271,51 +259,49 @@
     --focus-ring: var(--foreground-300);
   }
 
-  .table .header,
-  .table .header-cell {
+  .table > .container > .element > .header,
+  .table > .container > .element > .header > .header-row > .header-cell {
     --background: var(--background-900);
     --foreground: var(--foreground-400);
   }
 
-  .table .body,
-  .table .element {
+  .table > .container > .element > .body,
+  .table > .container > .element {
     --background: var(--background-900);
   }
 
-  .table .cell {
+  .table > .container > .element > .body > .row > .cell {
     --background: transparent;
     --foreground: var(--foreground-300);
   }
 
-  .table .row:hover:not([data-disabled="true"]) .cell {
+  .table > .container > .element > .body > .row:hover:not([data-disabled="true"]) > .cell {
     --background: var(--background-800);
   }
 
-  .table .row[data-selected="true"] .cell {
+  .table > .container > .element > .body > .row[data-selected="true"] > .cell {
     --background: var(--background-800);
   }
 
-  .table .row[data-selected="true"]:hover:not([data-disabled="true"]) .cell {
+  .table > .container > .element > .body > .row[data-selected="true"]:hover:not([data-disabled="true"]) > .cell {
     --background: var(--background-800);
   }
 
-  .table .filter-bar {
+  .table > .filter-bar {
     --background: var(--background-900);
   }
 
-  .table .filter-grid {
+  .table > .filter-bar > .filter-grid {
     --background: var(--background-900);
   }
 
-  .table .filter-label {
+  .table > .filter-bar > .filter-grid > div > .filter-label {
     --foreground: var(--foreground-400);
   }
 
-  .table .empty-state {
+  .table > .container > .element > .body > .empty-row > .empty-state {
     --foreground: var(--foreground-400);
   }
-
-  /* Checkbox Styles */
 
   .checkbox {
     --background: var(--background-900);
@@ -350,12 +336,10 @@
     --background-border: var(--foreground-300);
   }
 
-  .checkbox .checkmark,
-  .checkbox .indeterminate {
+  .checkbox > div > .checkmark,
+  .checkbox > div > .indeterminate {
     --foreground: var(--foreground-300)
   }
-
-  /* Color Styles */
 
   .color {
     --background: color-mix(in srgb, var(--background-800) 30%, transparent);
@@ -363,28 +347,26 @@
     --focus-visible: var(--accent-500);
   }
 
-  .color .canvas-pointer {
+  .color > .canvas > .canvas-pointer {
     --pointer-border: color-mix(in srgb, var(--foreground-200) 50%, transparent);
   }
 
-  .color .hue-thumb,
-  .color .opacity-thumb {
+  .color > .controls > .hue-slider > .hue-track > .hue-thumb,
+  .color > .controls > .opacity-slider > .opacity-track > .opacity-thumb {
     --thumb-border: white;
     --thumb-background: white;
   }
 
-  .color .opacity-track {
+  .color > .controls > .opacity-slider > .opacity-track {
     --checkerboard-dark: var(--background-800);
     --checkerboard-light: var(--background-700);
   }
 
-  .color .preview-swatch,
-  .color .preview {
+  .color > .controls > .group-scope > .group > .preview-swatch,
+  .color > .controls > .group-scope > .group > .preview {
     --checkerboard-dark: var(--background-700);
     --checkerboard-light: var(--background-800);
   }
-
-  /* Label Styles */
 
   .label {
     --foreground: var(--foreground-300);
@@ -392,19 +374,17 @@
     --error-foreground: var(--danger-600);
   }
 
-  .label .required-indicator {
+  .label > label > .required-indicator {
     --required-color: var(--danger-600);
   }
 
-  .label .helper-text {
+  .label > .helper-text {
     --helper-color: var(--foreground-400);
   }
 
-  .label .helper-text[data-error] {
+  .label > .helper-text[data-error] {
     --helper-error-color: var(--danger-600);
   }
-
-  /* Input Styles */
 
   .input {
     --background: var(--background-950);
@@ -418,42 +398,6 @@
     --disabled-foreground: var(--foreground-400);
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium)
-  }
-
-  .input input {
-    height: fit-content;
-    flex: 1;
-    min-width: 0;
-    @apply py-1.5 px-3;
-    font-family: inherit;
-    font-size: var(--text-xs);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--leading-snug);
-    color: var(--foreground);
-    background-color: transparent;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-  }
-
-  .input input::placeholder {
-    color: var(--placeholder);
-  }
-
-  .input input[data-disabled] {
-    color: var(--disabled-foreground);
-    cursor: not-allowed;
-  }
-
-  .input input[type="number"]::-webkit-outer-spin-button,
-  .input input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    display: none;
-  }
-
-  .input input[type="number"] {
-    -moz-appearance: textfield;
   }
 
   .input[data-error] {
@@ -471,28 +415,27 @@
     box-shadow: none;
   }
 
-  .input .icon {
+  .input > [data-start-adornments] > .icon-wrapper > .icon,
+  .input > [data-end-adornments] > .icon-wrapper > .icon {
     --foreground: var(--foreground-400);
   }
 
-  .input .stepper {
+  .input > [data-end-adornments] > div > .stepper {
     --foreground: var(--foreground-400);
     --hover-background: var(--background-800);
     --hover-color: var(--foreground-200);
     --active-background: var(--background-700);
-    --active-color: var(--accent-500);
+    --active-color: var(--foreground-100);
   }
 
-  /* Radio Styles */
-
   .radio {
-    --background: var(--background-800);
+    --background: var(--background-900);
     --background-border: var(--background-700);
     --focus-visible: rgb(59, 130, 246);
   }
 
   .radio.secondary {
-    --background: var(--background-800);
+    --background: var(--background-900);
     --background-border: var(--background-700);
   }
 
@@ -503,13 +446,13 @@
 
   .radio[data-hovered="true"]:not([data-disabled="true"]),
   .radio:hover:not([data-disabled="true"]) {
-    --background: var(--background-700);
+    --background: color-mix(in srgb, var(--background-500) 10%, var(--background-900));
     --background-border: var(--background-600);
   }
 
   .radio[data-selected="true"] {
-    --background: var(--background-600);
-    --background-border: var(--background-600);
+    --background: var(--background-900);
+    --background-border: var(--background-700);
   }
 
   .radio.outline[data-selected="true"] {
@@ -519,7 +462,7 @@
 
   .radio[data-selected="true"][data-hovered="true"]:not([data-disabled="true"]),
   .radio[data-selected="true"]:hover:not([data-disabled="true"]) {
-    --background: var(--background-700);
+    --background: var(--background-800);
     --background-border: var(--background-600);
   }
 
@@ -531,47 +474,45 @@
     --background-border: var(--background-600);
   }
 
-  .radio .radio-dot {
-    --background: transparent;
+  .radio > .dot {
+    --background: var(--foreground-300);
   }
 
-  .radio[data-selected="true"] .radio-dot {
+  .radio[data-selected="true"] > .dot {
     --background: var(--foreground-400);
   }
 
-  .radio-group .radio-label,
-  .radio-item .radio-label {
+  .radio-group > .radio-label,
+  .radio-item > div > .radio-label {
     --foreground: var(--foreground-300);
   }
 
-  .radio-group .radio-label[data-disabled="true"],
-  .radio-item .radio-label[data-disabled="true"] {
+  .radio-group > .radio-label[data-disabled="true"],
+  .radio-item > div > .radio-label[data-disabled="true"] {
     --foreground: var(--foreground-400);
   }
 
-  .radio-group .radio-description,
-  .radio-item .radio-description {
+  .radio-group > .radio-description,
+  .radio-item > div > .radio-description {
     --foreground: var(--foreground-400);
   }
 
-  .radio-group .radio-description[data-error="true"],
-  .radio-item .radio-description[data-error="true"] {
+  .radio-group > .radio-description[data-error="true"],
+  .radio-item > div > .radio-description[data-error="true"] {
     --foreground: var(--danger-500);
   }
 
-  .radio-item .helper-text {
+  .radio-item > .helper-text {
     --foreground: var(--foreground-400);
   }
 
-  .radio-item .helper-text[data-error="true"] {
+  .radio-item > .helper-text[data-error="true"] {
     --foreground: var(--danger-500);
   }
 
-  .radio.outline[data-selected="true"] .radio-dot {
+  .radio.outline[data-selected="true"] > .dot {
     --background: var(--accent-500);
   }
-
-  /* Select Styles */
 
   .select {
     --background: color-mix(in srgb, var(--background-800) 50%, transparent);
@@ -584,21 +525,24 @@
     --foreground-size: var(--text-xs)
   }
 
-  .select .ghost {
+  .select.ghost,
+  .select > .ghost {
     --background: transparent;
     --background-border: transparent;
     --background-hover: color-mix(in srgb, var(--background-700) 50%, transparent);
     --background-pressed: color-mix(in srgb, var(--background-700) 50%, transparent);
   }
 
-  .select .content,
-  .select .sub-content {
+  .select > .content,
+  .select > .sub-content {
     --background: var(--background-900);
     --background-border: var(--background-700);
   }
 
-  .select .item,
-  .select .sub-trigger {
+  .select > .content [role="option"].item,
+  .select > .content [role="option"].sub-trigger,
+  .select > .sub-content [role="option"].item,
+  .select > .sub-content [role="option"].sub-trigger {
     --background: transparent;
     --foreground: var(--foreground-300);
     --foreground-muted: var(--foreground-400);
@@ -606,44 +550,44 @@
     --indicator-foreground: var(--accent-300);
   }
 
-  .select .item[data-highlighted="true"],
-  .select .sub-trigger[data-highlighted="true"],
-  .select .sub-trigger[data-open="true"]:not([data-highlighted="true"]) {
+  .select > .content [role="option"].item[data-highlighted="true"],
+  .select > .content [role="option"].sub-trigger[data-highlighted="true"],
+  .select > .sub-content [role="option"].item[data-highlighted="true"],
+  .select > .sub-content [role="option"].sub-trigger[data-highlighted="true"],
+  .select > .content [role="option"].sub-trigger[data-open="true"]:not([data-highlighted="true"]),
+  .select > .sub-content [role="option"].sub-trigger[data-open="true"]:not([data-highlighted="true"]) {
     --background: color-mix(in srgb, var(--background-700) 50%, transparent);
   }
 
-  .select .placeholder {
+  .select > .placeholder {
     --foreground-muted: var(--foreground-400);
   }
 
-  .select .empty-state {
+  .select > .content > .empty-state {
     font-size: var(--text-xs);
   }
 
-  .select .search-trigger {
+  .select.search-trigger {
     --focus-visible: var(--accent-500);
   }
 
-  /* Slider Styles */
-
-  .slider .track {
+  .slider > .track {
     --background: var(--background-800);
   }
 
-  .slider .range {
+  .slider > .track > .range {
     --background: color-mix(in srgb, var(--accent-500) 60%, transparent);
     --background-disabled: var(--background-600);
   }
 
-  .slider .thumb {
+  .slider > .track > .thumb {
     --background: white;
-    --background-border: color-mix(in srgb, var(--background-500) 40%, transparent);;
+    --background-border: color-mix(in srgb, var(--background-500) 40%, transparent);
     --background-focused: var(--accent-400);
     --background-disabled: var(--background-500);
     --focus-visible: color-mix(in srgb, var(--accent-500) 40%, transparent);
   }
 
-  /* Switch Styles */
   .switch {
     --background: var(--background-700);
     --foreground: var(--background-500);
@@ -652,24 +596,22 @@
   }
 
   .switch[data-selected="true"] {
-    --background: var(--accent-600);
-    --background-border: var(--accent-600);
-    --foreground: color-mix(in srgb, var(--accent-500) 10%, var(--background-950));
+    --background: color-mix(in srgb, var(--background-500) 90%, transparent);
+    --background-border: color-mix(in srgb, var(--background-500) 20%, transparent);
+    --foreground: color-mix(in srgb, var(--foreground-400) 20%, white);
   }
 
   .switch[data-selected="true"][data-hovered="true"]:not([data-disabled="true"]) {
-    --background-border: var(--background-600);
+    --background-border: color-mix(in srgb, var(--background-500) 30%, transparent);
   }
 
   .switch:active:not([data-disabled="true"]) {
-    --background-border: var(--background-500);
+    --background-border: color-mix(in srgb, var(--background-500) 30%, transparent);
   }
 
   .switch[data-selected="true"]:active:not([data-disabled="true"]) {
-    --background: var(--accent-600);
+    --background: var(--background-600);
   }
-
-  /* Textarea Styles */
 
   .textarea {
     --background: var(--background-950);
@@ -677,11 +619,6 @@
     --placeholder: var(--foreground-400);
     --background-border: var(--background-700);
     --disabled-opacity: 0.6;
-  }
-
-  .textarea:hover:not([data-disabled="true"]),
-  .textarea[data-hovered="true"]:not([data-disabled="true"]) {
-    --background: var(--background-900);
   }
 
   .textarea[data-disabled="true"] {
@@ -693,34 +630,30 @@
     --background-border: var(--danger-600);
   }
 
-  .textarea-scope .scroll-wrapper {
+  .textarea-scope > .container > .surface > .scroll-wrapper {
     --background: var(--background-950);
     --background-border: var(--background-700);
     --disabled-opacity: 0.6;
   }
 
-  .textarea-scope .resize-handle {
+  .textarea-scope > .container > .surface > .resize-handle {
     --background: color-mix(in srgb, var(--foreground-400) 72%, transparent);
   }
 
-  .textarea-scope .resize-handle:hover {
+  .textarea-scope > .container > .surface > .resize-handle:hover {
     --background: color-mix(in srgb, var(--foreground-200) 90%, transparent);
   }
 
-  .textarea-scope .character-count {
+  .textarea-scope > .container > .character-count {
     --foreground: var(--foreground-400);
     --foreground-error: var(--danger-600);
   }
-
-  /* Banner Styles */
 
   .banner {
     --background: var(--background-900);
     --foreground: var(--info-50);
     --border: var(--info-600);
   }
-
-  /* Badge Styles */
 
   .badge.sm {
     @apply px-1.5 py-0.5 font-semibold
@@ -742,28 +675,24 @@
     font-size: var(--text-xs)
   }
 
-  .badge .dismiss {
+  .badge > .dismiss {
     --foreground: var(--foreground-400);
     --background-hover: color-mix(in srgb, var(--background-700) 80%, var(--background-900));
     --background-pressed: var(--background-700);
     --focus-visible: var(--accent-400);
   }
 
-  /* Popover Styles */
-
-  .popover .content {
+  .popover > .content {
     --background: var(--background-900);
     --background-hover: var(--background-900);
     --background-border: var(--background-700);
   }
 
-  .popover .frame {
+  .popover > .content > div > div > .frame {
     --foreground: var(--foreground-200);
   }
 
-  /* Tooltip Styles */
-
-  .tooltip .content {
+  .tooltip > .content {
     --background: var(--background-900);
     --background-hover: var(--background-900);
     --background-border: var(--background-700);
@@ -771,41 +700,37 @@
     font-weight: var(--font-weight-medium);
   }
 
-  .tooltip .frame {
+  .tooltip > .content > div > div > .frame {
     --foreground: var(--foreground-200);
   }
-
-  /* Progress Styles */
 
   .progress {
     --background: var(--background-700);
   }
 
-  .progress .fill {
+  .progress > .fill {
     --background: color-mix(in srgb, var(--accent-600) 60%, var(--background-500));
   }
 
-  .progress .label-row {
+  .progress > .label-row {
     --foreground: var(--foreground-400);
   }
 
-  .progress .bar[data-variant="default"] .fill {
+  .progress > .bar[data-variant="default"] > .fill {
     --background: var(--accent-500);
   }
 
-  .progress .bar[data-variant="success"] .fill {
+  .progress > .bar[data-variant="success"] > .fill {
     --background: var(--success-500);
   }
 
-  .progress .bar[data-variant="warning"] .fill {
+  .progress > .bar[data-variant="warning"] > .fill {
     --background: var(--warning-500);
   }
 
-  .progress .bar[data-variant="error"] .fill {
+  .progress > .bar[data-variant="error"] > .fill {
     --background: var(--danger-500);
   }
-
-  /* Toast Styles */
 
   .toast {
     --background: var(--background-900);
@@ -820,80 +745,78 @@
     --background-border: var(--background-600);
   }
 
-  .toast .icon {
+  .toast > .icon-wrap > .icon {
     --foreground: currentColor;
   }
 
-  .toast .title {
+  .toast > .content > .title {
     --foreground: var(--foreground-100);
   }
 
-  .toast .description {
+  .toast > .content > .description {
     --foreground: var(--foreground-300);
   }
 
-  .toast.danger .icon {
+  .toast.danger > .icon-wrap > .icon {
     --foreground: var(--danger-600);
   }
 
-  .toast.success .icon {
+  .toast.success > .icon-wrap > .icon {
     --foreground: var(--success-600);
   }
 
-  .toast.info .icon {
+  .toast.info > .icon-wrap > .icon {
     --foreground: var(--info-600);
   }
 
-  .toast.warning .icon {
+  .toast.warning > .icon-wrap > .icon {
     --foreground: var(--warning-600);
   }
 
-  .toast .close {
+  .toast > .close {
     --background: transparent;
     --foreground: currentColor;
     --focus-visible: var(--accent-400);
   }
 
-  .toast.danger .close {
+  .toast.danger > .close {
     --foreground: color-mix(in srgb, var(--danger-600) 60%, var(--foreground-50));
     --focus-visible: var(--danger-400);
   }
 
-  .toast.danger .close[data-hovered="true"]:not([data-disabled="true"]) {
+  .toast.danger > .close[data-hovered="true"]:not([data-disabled="true"]) {
     --background: color-mix(in srgb, var(--danger-500) 20%, var(--background-900));
   }
 
-  .toast.success .close {
+  .toast.success > .close {
     --foreground: color-mix(in srgb, var(--success-600) 60%, var(--foreground-50));
     --focus-visible: var(--success-400);
   }
 
-  .toast.success .close[data-hovered="true"]:not([data-disabled="true"]) {
+  .toast.success > .close[data-hovered="true"]:not([data-disabled="true"]) {
     --background: color-mix(in srgb, var(--success-500) 20%, var(--background-900));
   }
 
-  .toast.info .close {
+  .toast.info > .close {
     --foreground: color-mix(in srgb, var(--info-600) 60%, var(--foreground-50));
     --focus-visible: var(--info-400);
   }
 
-  .toast.info .close[data-hovered="true"]:not([data-disabled="true"]) {
+  .toast.info > .close[data-hovered="true"]:not([data-disabled="true"]) {
     --background: color-mix(in srgb, var(--info-500) 20%, var(--background-900));
   }
 
-  .toast.warning .close {
+  .toast.warning > .close {
     --foreground: color-mix(in srgb, var(--warning-600) 60%, var(--foreground-50));
     --focus-visible: var(--warning-400);
   }
 
-  .toast.warning .close[data-hovered="true"]:not([data-disabled="true"]) {
+  .toast.warning > .close[data-hovered="true"]:not([data-disabled="true"]) {
     --background: color-mix(in srgb, var(--warning-500) 20%, var(--background-900));
   }
 
-  /* Menu Styles */
-
-  .menu .content,
-  .menu .sub-content {
+  .menu > .content,
+  .menu > .sub-content {
     --background: var(--background-900);
     --background-border: var(--background-700);
     --open-animation: slide-in-from-top 0.15s var(--ease-snappy-pop);
@@ -901,28 +824,23 @@
     font-size: var(--text-xs)
   }
 
-  .menu .trigger {
+  .menu.trigger {
     --background-pressed: var(--background-700);
   }
 
-  .menu .item,
-  .menu .checkbox-item,
-  .menu .radio-item,
-  .menu .sub-trigger {
+  .menu > :is(.content, .sub-content) .item {
+    --background: transparent;
     --foreground: var(--foreground-300);
     --background-focused: color-mix(in srgb, var(--background-700) 50%, transparent);
   }
 
-  .menu .item-indicator {
+  .menu > :is(.content, .sub-content) .item-indicator {
     --foreground: var(--accent-300);
   }
 
-  .menu .label,
-  .menu .shortcut {
+  .menu > :is(.content, .sub-content) :is(.label, .shortcut) {
     --foreground-muted: var(--foreground-400);
   }
-
-  /* Path Styles */
 
   .path-link {
     --background: transparent;
@@ -961,8 +879,6 @@
   .path-item {
     --foreground: var(--background-700);
   }
-
-  /* Tabs Styles */
 
   .tabs.indicator {
     --background: color-mix(in srgb, var(--background-700) 50%, transparent);
@@ -1007,8 +923,6 @@
     --focus-visible: var(--accent-500);
   }
 
-  /* Anchor Styles */
-
   .anchor,
   .anchor.trigger {
     --foreground: var(--foreground-200);
@@ -1021,8 +935,6 @@
     --underline-background: var(--foreground-400);
   }
 
-  /* Modal Styles */
-
   .modal {
     --background: var(--background-900);
     --background-border: var(--background-700);
@@ -1030,32 +942,32 @@
     --focus-visible: var(--accent-500);
   }
 
-  .modal .title {
+  .modal > .panel > .header > .title {
     --title-foreground: var(--foreground-100);
   }
 
-  .modal .close {
+  .modal > .panel > .header > .close {
     --foreground: var(--foreground-400);
     --focus-visible: var(--accent-500);
   }
 
-  .modal .close[data-hovered="true"] {
+  .modal > .panel > .header > .close[data-hovered="true"] {
     --foreground: var(--foreground-200);
   }
 
-  .modal .content::-webkit-scrollbar-thumb {
+  .modal > .panel > .content::-webkit-scrollbar-thumb {
     --background: var(--background-700);
   }
 
-  .modal .content::-webkit-scrollbar-thumb:hover {
+  .modal > .panel > .content::-webkit-scrollbar-thumb:hover {
     --background: var(--foreground-400);
   }
 
-  .modal .footer {
+  .modal > .panel > .footer {
     --footer-background: var(--background-900);
   }
 
-  .modal .backdrop {
+  .modal > .backdrop {
     --backdrop-background: rgb(0 0 0 / 50%);
   }
 
@@ -1064,19 +976,19 @@
   }
 
   /* Scroll Component */
-  .scroll .track {
+  .scroll > .track {
     --background: transparent;
   }
 
-  .scroll .thumb {
+  .scroll > .track > .thumb {
     --background: var(--background-700);
   }
 
-  .scroll .thumb:hover {
+  .scroll > .track > .thumb:hover {
     --background: var(--background-600);
   }
 
-  .scroll[data-pressed="true"] .thumb {
+  .scroll[data-pressed="true"] > .track > .thumb {
     --background: color-mix(in srgb, var(--background-500) 40%, var(--background-900));
   }
 }

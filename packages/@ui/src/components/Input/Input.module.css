@@ -7,7 +7,7 @@
     overflow: visible;
   }
 
-  .field {
+  .input {
     height: fit-content;
     flex: 1;
     min-width: 0;
@@ -72,7 +72,7 @@
     align-items: center;
     width: 100%;
     background-color: var(--background);
-    border: var(--input-border-width, var(--border-width-base, 1px)) solid var(--input-border-color, var(--background-border));
+    border: var(--border-width-base, 1px) solid var(--background-border);
     border-radius: var(--radius-sm, 0.375rem);
     box-sizing: border-box;
     overflow: hidden;
@@ -152,7 +152,8 @@
   .controls {
     @apply flex w-7.5 flex-col;
     align-self: stretch;
-    border-left: 1px solid var(--input-border-color, var(--background-border));
+    min-height: 100%;
+    border-left: var(--border-width-base, 1px) solid var(--background-border);
     pointer-events: auto;
   }
 
@@ -167,12 +168,14 @@
     background-color: transparent;
     border: none;
     color: var(--foreground);
+    --active-background: var(--background-700);
+    --active-color: var(--foreground-100);
     transition:
       color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out)),
       background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-snappy-pop, ease-out));
 
     &+.stepper {
-      border-top: 1px solid var(--input-border-color, var(--background-border));
+      border-top: var(--border-width-base, 1px) solid var(--background-border);
     }
 
     &:hover:not(:disabled) {

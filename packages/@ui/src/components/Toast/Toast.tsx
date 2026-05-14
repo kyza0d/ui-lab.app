@@ -17,6 +17,19 @@ import { X } from 'lucide-react';
 
 const DRAG_DISMISS_THRESHOLD = 100;
 const DRAG_LEFT_RESISTANCE = 20;
+const VIEWPORT_SPAWN_OFFSET = 24;
+
+function getViewportSpawnY(element: HTMLElement, direction: 'top' | 'bottom') {
+  if (typeof window === 'undefined') return direction === 'top' ? -80 : 80;
+
+  const rect = element.getBoundingClientRect();
+
+  if (direction === 'top') {
+    return -(rect.bottom + VIEWPORT_SPAWN_OFFSET);
+  }
+
+  return window.innerHeight - rect.top + VIEWPORT_SPAWN_OFFSET;
+}
 
 export interface ToastStyleSlots {
   root?: StyleValue;
@@ -138,16 +151,23 @@ export const Toast = forwardRef<HTMLDivElement, ToastComponentProps>(function To
   }, [id, isTop, onDismiss]);
 
   useGSAP(() => {
-    if (!innerRef.current) return;
+    const element = innerRef.current;
+    if (!element) return;
 
-    const spawnDir = toast.spawnDirection || 'bottom';
-    const fromY = spawnDir === 'top' ? (isTop ? 25 : -25) : (isTop ? -25 : 25);
+    const spawnDir = toast.spawnDirection ?? (isTop ? 'top' : 'bottom');
+    const fromY = getViewportSpawnY(element, spawnDir);
 
-    gsap.from(innerRef.current, {
-      opacity: 1,
+    gsap.fromTo(element, {
+      opacity: 0,
       y: fromY,
+      scale: 0.96,
+    }, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
       duration: 0.45,
       ease: "expo.out",
+      overwrite: "auto",
     });
   }, { scope: innerRef });
 

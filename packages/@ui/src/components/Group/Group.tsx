@@ -468,7 +468,7 @@ const GroupInput = React.forwardRef<HTMLInputElement, GroupInputProps>(
           ref={mergedRef}
           {...props}
           disabled={inputDisabled}
-          className="w-full"
+          className="h-full w-full px-2"
         />
       </div>
     )
@@ -515,7 +515,7 @@ const GroupInputWrapper = React.forwardRef<HTMLInputElement, GroupInputWrapperPr
           ref={mergedRef}
           {...props}
           disabled={inputDisabled}
-          className="w-full"
+          className="h-full w-full px-2"
         />
       </div>
     )

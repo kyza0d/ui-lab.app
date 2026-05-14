@@ -11,7 +11,6 @@
     --expand-disabled-opacity: 0.6;
     --expand-trigger-padding-x: 0.75rem;
     --expand-trigger-padding-y: 0.5rem;
-    --expand-divider-spacing: 0.5rem;
 
     @apply flex w-full flex-col;
   }
@@ -57,12 +56,6 @@
     font-weight: var(--font-weight-medium);
     border-radius: 0;
     color: inherit;
-    background-color: var(--background);
-    transition:
-      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-smooth-settle, ease-out));
-  }
-
-  .trigger:not([data-disabled="true"]):has(.icon:hover) .title {
     background-color: transparent;
   }
 
@@ -71,20 +64,13 @@
 
     padding: var(--expand-trigger-padding-y) var(--expand-trigger-padding-x);
     color: inherit;
-    background-color: var(--background);
+    background-color: transparent;
     border-radius: 0;
-    transition:
-      background-color var(--hover-transition-duration, var(--hover-transition-leave-duration, 300ms)) var(--hover-transition-timing-function, var(--ease-smooth-settle, ease-out));
   }
 
   @media (hover: hover) {
-    .trigger:not([data-disabled="true"]):hover .title,
-    .trigger:not([data-disabled="true"]):hover .icon {
+    .trigger:not([data-disabled="true"]):hover {
       --hover-transition-duration: var(--hover-transition-enter-duration, 0ms);
-    }
-
-    .trigger:not([data-disabled="true"]):has(.icon:hover) .title {
-      background-color: transparent;
     }
 
     .trigger:not([data-disabled="true"]) .icon:hover {
@@ -176,6 +162,6 @@
   }
 
   .divider {
-    margin-top: var(--expand-divider-spacing);
+    margin: 0;
   }
 }

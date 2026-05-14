@@ -51,8 +51,20 @@
     width: 65%;
     height: 65%;
     transform: translate(-50%, -50%);
+    transform-origin: center;
+    animation: checkbox-icon-pop 200ms var(--ease-snappy-pop, ease-out);
     color: var(--foreground);
     pointer-events: none;
+  }
+
+  @keyframes checkbox-icon-pop {
+    from {
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    to {
+      transform: translate(-50%, -50%) scale(1);
+    }
   }
 
   .label {

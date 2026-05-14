@@ -44,14 +44,11 @@
       overflow-y: auto;
     }
 
-    .item,
-    .checkbox-item,
-    .radio-item,
-    .sub-trigger {
+    .item {
       @apply flex min-w-0 items-center gap-2;
       padding: var(--item-padding, var(--content-padding));
       border-radius: var(--item-radius, var(--content-inner-radius));
-      cursor: default;
+      cursor: pointer;
       user-select: none;
       outline: none;
       color: var(--foreground);
@@ -66,8 +63,7 @@
       }
     }
 
-    .item,
-    .sub-trigger {
+    .item {
       &[data-inset="true"] {
         padding-left: calc(var(--item-padding, var(--content-padding)) * 2.67);
       }
