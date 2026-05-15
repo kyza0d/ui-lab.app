@@ -17,10 +17,10 @@
     "plugins": [
       { "name": "next" }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@private": ["../../../private/packages/library/src/index.ts"],
-      "@private/*": ["../../../private/packages/library/src/*"]
+      "@private": ["node_modules/@ui-lab-core/library"]
     }
   },
   "include": [

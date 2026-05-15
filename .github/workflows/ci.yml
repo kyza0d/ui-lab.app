@@ -20,5 +20,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+        env:
+          GPR_TOKEN: ${{ secrets.GPR_TOKEN }}
 
       - run: pnpm run type-check

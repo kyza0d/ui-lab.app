@@ -5,13 +5,14 @@
   "scripts": {
     "prebuild": "pnpm --filter ui-lab-components build && pnpm --filter ui-lab-registry build",
     "dev": "npm run generate:docs && next dev",
-    "build": "npm run generate:docs && next build",
+    "build": "npm run generate:docs && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
     "generate:docs": "node --import tsx scripts/generate-docs.mts"
   },
   "dependencies": {
+    "@ui-lab-core/library": "^0.1.0",
     "@fontsource-variable/geist": "^5.2.8",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
