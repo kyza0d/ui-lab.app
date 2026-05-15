@@ -70,8 +70,8 @@ importers:
         specifier: ^3.20.0
         version: 3.20.0
       '@ui-lab-core/library':
-        specifier: ^0.1.0
-        version: 0.1.0(lucide-react@0.555.0(react@19.2.4))(next@16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-icons@5.5.0(react@19.2.4))(react@19.2.4)(ui-lab-components@packages+@ui)
+        specifier: 0.1.1
+        version: 0.1.1(lucide-react@0.555.0(react@19.2.4))(next@16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-icons@5.5.0(react@19.2.4))(react@19.2.4)(ui-lab-components@packages+@ui)
       beautiful-mermaid:
         specifier: ^1.0.2
         version: 1.0.2
@@ -2847,8 +2847,8 @@ packages:
     resolution: {integrity: sha512-mM/JRQOzhVN1ykejrvwnBRV3+7yTKK8tVANVN3o1O0t0v7o+jqdVu9crPy5Y9dov15TJk/FTIgoUGHrTOVL3Zg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ui-lab-core/library@0.1.0':
-    resolution: {integrity: sha512-6wDKh0EoprzpxzDe27QvIbfKfxje0Hw5JFC4OsnuA6TbCNUqb4iYHO/JbD8VPnZw+CQyEJurJr0GO90XUhYLlQ==, tarball: https://npm.pkg.github.com/download/@ui-lab-core/library/0.1.0/71ca28b1a12219cb95b0fb435fb78a663f1b7f3f}
+  '@ui-lab-core/library@0.1.1':
+    resolution: {integrity: sha512-TnsaX2p9hLojBMdW0bmopny+n4qQIowTlpn/wPxtFQX2JyA5o5EDcnOOVr1Lqd4XsmyWCK7Bg9brUTkn+NRkyw==, tarball: https://npm.pkg.github.com/download/@ui-lab-core/library/0.1.1/201a21ce61da9c63e0f7626dcb63104bd9369f01}
     peerDependencies:
       lucide-react: ^0.577.0
       next: ^16.2.0
@@ -10301,7 +10301,7 @@ snapshots:
       '@typescript-eslint/types': 8.51.0
       eslint-visitor-keys: 4.2.1
 
-  '@ui-lab-core/library@0.1.0(lucide-react@0.555.0(react@19.2.4))(next@16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-icons@5.5.0(react@19.2.4))(react@19.2.4)(ui-lab-components@packages+@ui)':
+  '@ui-lab-core/library@0.1.1(lucide-react@0.555.0(react@19.2.4))(next@16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-icons@5.5.0(react@19.2.4))(react@19.2.4)(ui-lab-components@packages+@ui)':
     dependencies:
       lucide-react: 0.555.0(react@19.2.4)
       next: 16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
