@@ -69,6 +69,14 @@ interface ComponentMetadata extends RegistryMetadata {
 
 type ExamplesJson = Record<string, { title: string; description: string; code: string }>;
 
+function getPrivateExampleCode(entry: ElementSourceEntry): string {
+  if ("code" in entry && typeof entry.code === "string") {
+    return entry.code;
+  }
+
+  return "";
+}
+
 function getPrivateComponentExamples(componentId: string): ExamplesJson {
   const componentExamples =
     (privateElementRegistry as Record<string, Record<string, ElementSourceEntry>>).components ?? {};
@@ -82,7 +90,7 @@ function getPrivateComponentExamples(componentId: string): ExamplesJson {
         {
           title: entry.displayName,
           description: entry.description ?? "",
-          code: "",
+          code: getPrivateExampleCode(entry),
         },
       ]),
   );
