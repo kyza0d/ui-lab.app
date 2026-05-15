@@ -1,12 +1,8 @@
 "use client";
 
 import React from "react";
-import { getElementPreview } from "@private";
-import buttonExamplesJson from "ui-lab-registry/components/Button/examples.json";
-import switchExamplesJson from "ui-lab-registry/components/Switch/examples.json";
-import checkboxExamplesJson from "ui-lab-registry/components/Checkbox/examples.json";
-import groupExamplesJson from "ui-lab-registry/components/Group/examples.json";
-import progressExamplesJson from "ui-lab-registry/components/Progress/examples.json";
+import { elementRegistry as privateElementRegistry, getElementPreview } from "@private";
+import type { ElementSourceEntry } from "@private";
 import { buttonDetail as _buttonDetail } from "ui-lab-registry/components/Button";
 import { dateDetail } from "ui-lab-registry/components/Date";
 import { anchorDetail } from "ui-lab-registry/components/Anchor";
@@ -72,6 +68,25 @@ interface ComponentMetadata extends RegistryMetadata {
 }
 
 type ExamplesJson = Record<string, { title: string; description: string; code: string }>;
+
+function getPrivateComponentExamples(componentId: string): ExamplesJson {
+  const componentExamples =
+    (privateElementRegistry as Record<string, Record<string, ElementSourceEntry>>).components ?? {};
+
+  return Object.fromEntries(
+    Object.entries(componentExamples)
+      .filter(([, entry]) => entry.groupPath[0] === componentId && entry.previewable)
+      .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+      .map(([id, entry]) => [
+        id,
+        {
+          title: entry.displayName,
+          description: entry.description ?? "",
+          code: "",
+        },
+      ]),
+  );
+}
 
 function withPrivateExamples(detail: ComponentDetail, examplesJson: ExamplesJson): ComponentDetail {
   const privateExamples = Object.entries(examplesJson).flatMap(([id, json], i) => {
@@ -145,11 +160,11 @@ export const getComponentsInCategoryOrder =
       .filter((c): c is ComponentMetadata => c !== undefined);
   };
 
-const buttonDetail = withPrivateExamples(_buttonDetail, buttonExamplesJson as ExamplesJson);
-const switchDetail = withPrivateExamples(_switchDetail, switchExamplesJson as ExamplesJson);
-const checkboxDetail = withPrivateExamples(_checkboxDetail, checkboxExamplesJson as ExamplesJson);
-const groupDetail = withPrivateExamples(_groupDetail, groupExamplesJson as ExamplesJson);
-const progressDetail = withPrivateExamples(_progressDetail, progressExamplesJson as ExamplesJson);
+const buttonDetail = withPrivateExamples(_buttonDetail, getPrivateComponentExamples("button"));
+const switchDetail = withPrivateExamples(_switchDetail, getPrivateComponentExamples("switch"));
+const checkboxDetail = withPrivateExamples(_checkboxDetail, getPrivateComponentExamples("checkbox"));
+const groupDetail = withPrivateExamples(_groupDetail, getPrivateComponentExamples("group"));
+const progressDetail = withPrivateExamples(_progressDetail, getPrivateComponentExamples("progress"));
 
 const componentDetails: Record<string, ComponentDetail> = {
   button: buttonDetail,
